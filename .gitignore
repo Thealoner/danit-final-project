@@ -23,6 +23,7 @@
 hs_err_pid*
 
 
+
 # Idea
 .idea/
 
@@ -56,3 +57,6 @@ hs_err_pid*
 # .idea/modules.xml
 # .idea/*.iml
 # .idea/modules
+=======
+.idea/
+
