@@ -1,0 +1,10 @@
+{
+  "parser": "babel-eslint",
+  "extends": ["standard", "react-app"],
+  "rules": {
+    "no-trailing-spaces": ["error", { "skipBlankLines": true } ],
+    "no-return-assign": 0,
+    "eol-last": 0,
+    "semi": [2, "always"]
+  }
+}
