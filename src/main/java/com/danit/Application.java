@@ -1,4 +1,4 @@
-package com.danit.starter;
+package com.danit;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
