@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
 
-    @RequestMapping("/test")
-    String testRestService() {
-        return "success";
-    }
+  @RequestMapping("/test")
+  String testRestService() {
+    return "success";
+  }
 }

@@ -18,12 +18,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class TestControllerTest {
 
-    @Autowired
-    private MockMvc mvc;
+  @Autowired
+  private MockMvc mvc;
 
-    @Test
-    public void testRestServiceTest() throws Exception {
-        this.mvc.perform(get("/test")).andExpect(status().isOk())
-                .andExpect(content().string("success"));
-    }
+  @Test
+  public void testRestServiceTest() throws Exception {
+    this.mvc.perform(get("/test")).andExpect(status().isOk())
+        .andExpect(content().string("success"));
+  }
 }
