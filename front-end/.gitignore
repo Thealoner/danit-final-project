@@ -9,6 +9,8 @@
 # production
 /build
 .idea/
+.stylelintcache
+*.css
 
 # misc
 .DS_Store
