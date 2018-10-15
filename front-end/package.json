@@ -5,7 +5,7 @@
   "watch": {
     "stylelint-dev": {
       "patterns": [
-        "/src/*.scss"
+        "/src/**/*.scss"
       ],
       "extensions": "scss"
     }
@@ -37,8 +37,8 @@
     "start-js": "react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "stylelint-dev": "stylelint src/*.scss || true --cache --cache-location './.stylelintcache'; exit 0",
-    "stylelint-build": "stylelint 'src/*.scss'",
+    "stylelint-dev": "stylelint src/**/*.scss || true --cache --cache-location './.stylelintcache'; exit 0",
+    "stylelint-build": "stylelint 'src/**/*.scss'",
     "watch-styles-sass": "npm-watch"
   },
   "eslintConfig": {
