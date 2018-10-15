@@ -16,11 +16,11 @@ before_script:
   - npm install --prefix front-end/
 
 script:
-  - mvn clean test jacoco:report sonar:sonar
+  - mvn clean test jacoco:report coveralls:report
   - npm run build --prefix front-end/
 
 after_success:
-  - mvn coveralls:report
+  - sonar-scanner
 
 addons:
   sonarcloud:
