@@ -12,14 +12,18 @@ cache:
    - $HOME/.sonar
    - $HOME/.sonarscanner
 
+install:
+  - mvn test-compile -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
 before_script:
   - npm install --prefix front-end/
 
 script:
-  - mvn clean test jacoco:report coveralls:report
+  - mvn clean test jacoco:report
   - npm run build --prefix front-end/
 
 after_success:
+  - coveralls:report
   - sonar-scanner
 
 addons:
