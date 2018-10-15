@@ -7,18 +7,18 @@ jdk:
 
 cache:
   directories:
-   - $HOME/.m2
-   - ./front-end/node_modules/
-   - $HOME/.sonar
-   - $HOME/.sonarscanner
+    - $HOME/.m2
+    - ./front-end/node_modules/
+    - $HOME/.sonar
+    - $HOME/.sonarscanner
 
 before_script:
-   - npm install --prefix front-end/
+  - npm install --prefix front-end/
 
 script:
-   - mvn clean test jacoco:report coveralls:report
-   - npm run build --prefix front-end/
-   - sonar-scanner
+  - mvn clean test jacoco:report coveralls:report
+  - npm run build --prefix front-end/
+  - sonar-scanner
 
 addons:
   sonarcloud:
