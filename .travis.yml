@@ -2,15 +2,14 @@ dist: trusty
 
 language: java
 
+addons:
+  sonarcloud:
+    organization: "final-project-group"
+    token:
+      secure: "c773938d0197c6e36399ac09299d1cb1b7272312"
+
 jdk:
   - oraclejdk8
-
-cache:
-  directories:
-   - $HOME/.m2
-   - ./front-end/node_modules/
-   - $HOME/.sonar
-   - $HOME/.sonarscanner
 
 install:
   - mvn test-compile -DskipTests=true -Dmaven.javadoc.skip=true -B -V
@@ -19,14 +18,17 @@ before_script:
   - npm install --prefix front-end/
 
 script:
-  - mvn clean test jacoco:report
   - npm run build --prefix front-end/
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
+
+cache:
+  directories:
+   - $HOME/.m2
+   - ./front-end/node_modules/
+   - $HOME/.sonar
+   - $HOME/.sonarscanner
 
 after_success:
-  - mvn coveralls:report
-  - sonar-scanner
+  - mvn clean test jacoco:report coveralls:report
 
-addons:
-  sonarcloud:
-    organization: "final-project-group"
-    token: c773938d0197c6e36399ac09299d1cb1b7272312
+
