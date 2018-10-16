@@ -20,7 +20,7 @@ before_script:
 script:
   - npm run build --prefix front-end/
   - mvn test jacoco:report
-#  - sonar-scanner
+  - sonar-scanner
 
 cache:
   directories:
