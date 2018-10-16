@@ -19,8 +19,9 @@ before_script:
 
 script:
   - npm run build --prefix front-end/
-  - mvn clean test jacoco:report coveralls:report
-  - sonar-scanner
+  - mvn clean install
+  - mvn org.jacoco:jacoco-maven-plugin:prepare-agent install
+  - mvn sonar:sonar
 
 cache:
   directories:
@@ -29,5 +30,6 @@ cache:
    - $HOME/.sonar
    - $HOME/.sonarscanner
 
-
+after_success:
+  - mvn test jacoco:report coveralls:report
 
