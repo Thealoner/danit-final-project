@@ -21,7 +21,7 @@ script:
   - npm run build --prefix front-end/
   - mvn clean install
   - mvn org.jacoco:jacoco-maven-plugin:prepare-agent install
-  - mvn sonar:sonar
+  - sonar-scaner
 
 cache:
   directories:
