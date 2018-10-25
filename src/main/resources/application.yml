@@ -1,2 +1,9 @@
 server:
   port: 9000
+
+  #DB properties:
+  db.driver=com.mysql.jdbc.Driver
+  db.url=jdbc:mysql://localhost:3306/danit_final_project
+  db.username=root
+  db.password=20963520aA
+
