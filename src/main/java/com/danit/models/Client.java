@@ -1,18 +1,21 @@
 package com.danit.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Date;
 
 
 @Entity
 @Table(name="clients")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Client {
 
     @Id
     @GeneratedValue
     @Column(name="id")
-    private int id;
+    private Long id;
 
     @Column(name="first_name")
     private String firstName;
@@ -38,7 +41,7 @@ public class Client {
     public Client() {
     }
 
-    public Client(int id, String firstName, String lastName, String gender, Date birthDate, String phoneNumber, String cardId, String email) {
+    public Client(Long id, String firstName, String lastName, String gender, Date birthDate, String phoneNumber, String cardId, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -49,11 +52,11 @@ public class Client {
         this.email = email;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

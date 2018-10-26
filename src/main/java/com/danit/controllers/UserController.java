@@ -1,32 +1,47 @@
 package com.danit.controllers;
 
-import com.danit.models.ApplicationUser;
-import com.danit.repositories.ApplicationUserRepository;
+import com.danit.models.Role;
+import com.danit.models.User;
+import com.danit.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.List;
 
 
 @RestController
-@RequestMapping("/users")
 public class UserController {
 
+    @Autowired
+    private UserService userService;
 
-  private ApplicationUserRepository applicationUserRepository;
-  private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
-  public UserController(ApplicationUserRepository applicationUserRepository,
-                        BCryptPasswordEncoder bCryptPasswordEncoder) {
-    this.applicationUserRepository = applicationUserRepository;
-    this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-  }
+    @PostMapping("/api/users/signup")
+    public void signUp(@RequestBody User user) {
+        userService.saveUser(user);
+    }
 
-  @PostMapping("/sign-up")
-  public void signUp(@RequestBody ApplicationUser user) {
-    user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-    applicationUserRepository.save(user);
-  }
+    @GetMapping("/api/users/adduser")
+    public void addUser(@RequestParam(value = "username") String userName,
+                        @RequestParam(value = "password") String password,
+                        @RequestParam(value = "role") String role) {
+        User user = new User(userName, bCryptPasswordEncoder.encode(password), Arrays.asList(
+                new Role(role)));
+        userService.saveUser(user);
+    }
+
+    @GetMapping("/api/users/getallusers")
+    List<User> getAllUsers() {
+        return userService.getAllUsers();
+    }
+
+   @GetMapping("/api/user/get/{id}")
+    User getUserById(@PathVariable(name = "id") long id) {
+        return userService.getUserById(id);
+    }
 }
