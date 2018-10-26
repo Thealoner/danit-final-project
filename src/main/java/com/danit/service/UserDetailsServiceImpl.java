@@ -1,7 +1,7 @@
 package com.danit.service;
 
-import com.danit.model.ApplicationUser;
-import com.danit.repository.ApplicationUserRepository;
+import com.danit.models.ApplicationUser;
+import com.danit.repositories.ApplicationUserRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

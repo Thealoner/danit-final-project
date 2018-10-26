@@ -1,9 +1,7 @@
 package com.danit.controllers;
 
-import com.danit.model.ApplicationUser;
-import com.danit.repository.ApplicationUserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import com.danit.models.ApplicationUser;
+import com.danit.repositories.ApplicationUserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

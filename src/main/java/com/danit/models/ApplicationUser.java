@@ -1,4 +1,4 @@
-package com.danit.model;
+package com.danit.models;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

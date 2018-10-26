@@ -1,7 +1,7 @@
 package com.danit.security;
 
 import com.auth0.jwt.JWT;
-import com.danit.model.ApplicationUser;
+import com.danit.models.ApplicationUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.authentication.AuthenticationManager;
