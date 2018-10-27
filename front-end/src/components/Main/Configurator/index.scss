@@ -1,0 +1,15 @@
+.configurator {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-column-gap: 5px;
+  height: 100%;
+
+  &__left {
+    background-color: whitesmoke;
+  }
+
+  &__right {
+    overflow-y: scroll;
+    background-color: whitesmoke;
+  }
+}

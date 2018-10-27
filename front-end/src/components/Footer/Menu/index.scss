@@ -1,0 +1,9 @@
+.menu {
+  display: flex;
+  justify-content: space-between;
+
+  &__link {
+    margin-right: 10px;
+    color: black;
+  }
+}
