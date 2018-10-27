@@ -7,7 +7,14 @@ class Login extends Component {
       $('.login__close').on('click', function () {
         $('.login').fadeOut();
       });
+      $('.login__forgotPass').on('click', function () {
+          $('.forgot').fadeIn(0);
+          $('.login').fadeOut(0);
+
+      });
     };
+
+
 
     render () {
       return (
@@ -21,7 +28,11 @@ class Login extends Component {
                 <label htmlFor="password">Password</label>
                 <input type="password" name="" id="password" placeholder="password"/>
                 <input type="submit" name="" value="Sign In"/>
-                <span>Forgot Password</span>
+                <div className="login__spans">
+                   <span className="login__forgotPass">Forgot Password</span>
+                   <span className="login__register">Register</span>
+                </div>
+
               </form>
             </div>
           </div>
