@@ -86,7 +86,7 @@ public class Card implements Serializable {
     return clientId;
   }
 
-  public void setClientID(UUID clientID) {
+  public void setClientID(UUID clientId) {
     this.clientId = clientId;
   }
 
