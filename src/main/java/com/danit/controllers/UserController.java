@@ -5,6 +5,7 @@ import com.danit.models.User;
 import com.danit.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,6 +33,7 @@ public class UserController {
     userService.saveUser(user);
   }
 
+  @CrossOrigin(origins = "http://localhost:9000")
   @GetMapping("/api/users/adduser")
   public void addUser(@RequestParam(value = "username") String userName,
                       @RequestParam(value = "password") String password,
@@ -41,12 +43,14 @@ public class UserController {
     userService.saveUser(user);
   }
 
+  @CrossOrigin(origins = "http://localhost:9000")
   @GetMapping("/api/users/getallusers")
   List<User> getAllUsers() {
     return userService.getAllUsers();
   }
 
-  @GetMapping("/api/user/get/{id}")
+  @CrossOrigin(origins = "http://localhost:9000")
+  @GetMapping("/api/users/get/{id}")
   Optional<User> getUserById(@PathVariable(name = "id") long id) {
     return userService.getUserById(id);
   }
