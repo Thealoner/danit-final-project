@@ -5,7 +5,6 @@ import Header from './components/Header';
 import Main from './components/Main';
 import Footer from './components/Footer';
 import Login from './components/Login';
-import {Route} from 'react-router-dom';
 
 class App extends Component {
   render () {

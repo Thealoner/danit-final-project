@@ -87,10 +87,11 @@
       }
     }
 
-    & a {
+    & span {
       color: #808080;
       font-size: 12px;
       border-bottom: 1px solid;
+      cursor: pointer;
     }
   }
 }

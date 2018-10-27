@@ -12,7 +12,7 @@ class Header extends Component {
     render () {
       return (
         <header className="header">
-          <a className="header__link">Авторизация</a>
+          <span className="header__link">Авторизация</span>
         </header>
       );
     }
