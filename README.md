@@ -19,4 +19,4 @@
 [REST Endpoints CRUD](https://docs.google.com/spreadsheets/d/1W4uVHA4M-hm6gk6EuAv9KGKNYZm3y8ulNHFUZ0n4wNg/edit#gid=0)
 
 
-[DB Structure](https://app.sqldbm.com/MySQL/Share/yTnDJx55q_KT0bnEGQaPdEGFrngIE8md_DYjF4jNYw0)
+[DB Structure](https://app.sqldbm.com/MySQL/Edit/p42191/)
