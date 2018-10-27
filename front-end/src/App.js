@@ -1,27 +1,23 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import PreLoader from './components/PreLoader';
-import './Reset.scss';
 import './App.scss';
-import Home from './components/Home';
-import Menu from './components/Menu';
-import Packages from './components/Packages';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import Header from './components/Header';
+import Main from './components/Main';
+import Footer from './components/Footer';
+import Login from './components/Login';
 
 class App extends Component {
   render () {
     return (
-      <Router>
-        <div className="App">
-          <div className="App-preloader" ref="preloader"><PreLoader fullScreen={false}/></div>
-          <div className="App__leftpanel">
-            <Menu />
-          </div>
-          <div className="App__rightpanel">
-            <Route exact path="/" component={Home} />
-            <Route path="/packages" component={Packages} />
-          </div>
+      <Fragment>
+        <div className="preloader" ref="preloader"><PreLoader fullScreen={false}/></div>
+        <div className="app">
+          <Header/>
+          <Login/>
+          <Main/>
+          <Footer/>
         </div>
-      </Router>
+      </Fragment>
     );
   }
 

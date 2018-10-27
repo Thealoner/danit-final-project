@@ -1,28 +1,4 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  animation: App-logo-spin infinite 10s linear;
-}
-
-.App-header {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  color: white;
-  font-size: calc(10px + 2vmin);
-  background-color: #282c34;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-.App-preloader {
+.preloader {
   position: fixed;
   top: 0;
   left: 0;
@@ -32,6 +8,15 @@
   visibility: visible;
   opacity: 1;
   transition: all 1s;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 7fr 1fr;
+  grid-gap: 5px;
+  height: 100vh;
+  font-family: 'Lato', sans-serif;
 }
 
 @keyframes App-logo-spin {
