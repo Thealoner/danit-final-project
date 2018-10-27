@@ -31,7 +31,6 @@
     "stylelint-order": "^0.7.0"
   },
   "devDependencies": {
-    "eslint-config-react-app": "^3.0.4",
     "standard": "^10.0.3"
   },
   "scripts": {
