@@ -1,7 +1,9 @@
 package com.danit.models;
 
 
+import com.danit.utils.CustomDateAndTimeDeserialize;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -27,6 +29,7 @@ public class Client {
   private String gender;
 
   @Column(name = "birth_date")
+  @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
   private Date birthDate;
 
   @Column(name = "phone_number")
