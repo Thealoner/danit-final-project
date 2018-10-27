@@ -31,6 +31,9 @@
     "stylelint-order": "^0.7.0"
   },
   "devDependencies": {
+    "babel-eslint": "^9.0.0",
+    "eslint": "^5.8.0",
+    "eslint-config-react-app": "^3.0.4",
     "standard": "^10.0.3"
   },
   "scripts": {
