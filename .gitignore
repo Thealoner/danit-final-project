@@ -35,6 +35,3 @@ target/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-
-## Node.js
-node_modules/
