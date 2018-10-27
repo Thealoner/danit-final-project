@@ -26,12 +26,18 @@ public class AppStartupRunner implements ApplicationRunner {
   @Override
   public void run(ApplicationArguments args) throws Exception {
     ObjectMapper mapper = new ObjectMapper();
-    TypeReference<List<Client>> typeReference = new TypeReference<List<Client>>() {
+    TypeReference<List<Client>> clientTypeReference = new TypeReference<List<Client>>() {
     };
-    InputStream inputStream = TypeReference.class.getResourceAsStream("/json/clients.json");
+    TypeReference<List<User>> userTypeReference = new TypeReference<List<User>>() {
+    };
+
+    InputStream clientInputStream = TypeReference.class.getResourceAsStream("/json/clients.json");
+    InputStream userInputStream = TypeReference.class.getResourceAsStream("/json/users.json");
     try {
-      List<Client> clients = mapper.readValue(inputStream, typeReference);
+      List<Client> clients = mapper.readValue(clientInputStream, clientTypeReference);
       clientRepository.saveAll(clients);
+      List<User> users = mapper.readValue(userInputStream, userTypeReference);
+      userRepository.saveAll(users);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

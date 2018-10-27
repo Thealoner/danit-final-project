@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1001,
+    "username": "Sam",
+    "password": "$2a$10$0JyhZBXoRn04G3srmj.IvO55kPid1A7y7AYMDmSBT4y9inRhxkn4y",
+    "roles": [
+      {
+        "id": 1002,
+        "name": "user-admin"
+      }
+    ]
+  },
+  {
+    "id": 1003,
+    "username": "Rosy",
+    "password": "$2a$10$P9J6zxnwsRbq2ASldNhPZeHAdGqzAQud5R0KbNJWBKjHUa.aC52YW",
+    "roles": [
+      {
+        "id": 1004,
+        "name": "user"
+      }
+    ]
+  },
+  {
+    "id": 1005,
+    "username": "Ada",
+    "password": "$2a$10$XSk5acaP9UaYZAEQNMLYKeqkM4dy/1zVo41LoHoAHnfTksVxk4qh.",
+    "roles": [
+      {
+        "id": 1006,
+        "name": "user"
+      }
+    ]
+  },
+  {
+    "id": 1007,
+    "username": "Travis",
+    "password": "$2a$10$tDNycP1zuXwXyjC1KWv5fOPvy6njxPF6GMx0.pQpi568GKfIA7lWC",
+    "roles": [
+      {
+        "id": 1008,
+        "name": "admin"
+      }
+    ]
+  }
+]
