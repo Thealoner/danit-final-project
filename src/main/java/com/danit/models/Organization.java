@@ -10,7 +10,7 @@ import javax.persistence.Table;
 public class Organization {
   @Id
   @Column(name = "id")
-  private Long organizationID;
+  private Long organizationId;
 
   @Column(name = "title")
   private String organizationTitle;

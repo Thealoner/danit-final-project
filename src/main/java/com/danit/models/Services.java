@@ -11,7 +11,7 @@ import java.util.UUID;
 public class Services {
   @Id
   @Column(name = "id")
-  private UUID serviceID;
+  private UUID serviceId;
 
   @Column(name = "title")
   private String title;
@@ -20,5 +20,5 @@ public class Services {
   private Float price;
 
   @Column(name = "organization_id")
-  private Long organizationID;
+  private Long organizationId;
 }

@@ -12,7 +12,7 @@ public class Package {
 
   @Id
   @Column(name = "id")
-  private UUID packageID;
+  private UUID packageId;
   @Column(name = "title")
   private String title;
   @Column(name = "term")

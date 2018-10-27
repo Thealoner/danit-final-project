@@ -13,7 +13,7 @@ import java.util.UUID;
 public class Card implements Serializable {
   @Id
   @Column(name = "UUID")
-  private UUID cardID;
+  private UUID cardId;
 
   @Column(name = "expiration_date")
   private Date expirationDate;
@@ -22,32 +22,32 @@ public class Card implements Serializable {
   private String gender;
 
   @Column(name = "package_id")
-  private UUID packageID;
+  private UUID packageId;
 
   @Column(name = "credit")
   private Float credit;
 
   @Column(name = "client_id")
-  private UUID clientID;
+  private UUID clientId;
 
   public Card() {
   }
 
-  public Card(UUID cardID, Date expirationDate, String gender, UUID packageID, Float credit, UUID clientID) {
-    this.cardID = cardID;
+  public Card(UUID cardId, Date expirationDate, String gender, UUID packageId, Float credit, UUID clientId) {
+    this.cardId = cardId;
     this.expirationDate = expirationDate;
     this.gender = gender;
-    this.packageID = packageID;
+    this.packageId = packageId;
     this.credit = credit;
-    this.clientID = clientID;
+    this.clientId = clientId;
   }
 
   public UUID getCardID() {
-    return cardID;
+    return cardId;
   }
 
-  public void setCardID(UUID cardID) {
-    this.cardID = cardID;
+  public void setCardID(UUID cardId) {
+    this.cardId = cardId;
   }
 
   public Date getExpirationDate() {
@@ -67,11 +67,11 @@ public class Card implements Serializable {
   }
 
   public UUID getPackageID() {
-    return packageID;
+    return packageId;
   }
 
-  public void setPackageID(UUID packageID) {
-    this.packageID = packageID;
+  public void setPackageID(UUID packageId) {
+    this.packageId = packageId;
   }
 
   public Float getCredit() {
@@ -83,11 +83,11 @@ public class Card implements Serializable {
   }
 
   public UUID getClientID() {
-    return clientID;
+    return clientId;
   }
 
   public void setClientID(UUID clientID) {
-    this.clientID = clientID;
+    this.clientId = clientId;
   }
 
   @Override
