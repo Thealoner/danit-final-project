@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ClientController {
@@ -22,7 +23,7 @@ public class ClientController {
     }
 
     @GetMapping("/api/client/get/{id}")
-    Client getClientById(@PathVariable(name = "id") long id) {
+    Optional<Client> getClientById(@PathVariable(name = "id") long id) {
         return clientService.getClientById(id);
     }
 }

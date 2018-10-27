@@ -1,6 +1,7 @@
 package com.danit.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -13,6 +14,7 @@ public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
+  @Column(unique = true)
   private String username;
   private String password;
 

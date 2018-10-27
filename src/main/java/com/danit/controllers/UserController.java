@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -41,7 +42,7 @@ public class UserController {
     }
 
    @GetMapping("/api/user/get/{id}")
-    User getUserById(@PathVariable(name = "id") long id) {
+   Optional<User> getUserById(@PathVariable(name = "id") long id) {
         return userService.getUserById(id);
     }
 }

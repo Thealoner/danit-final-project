@@ -7,5 +7,6 @@ import java.util.Optional;
 
 public interface ClientService {
     List<Client> getAllClients();
-    Client getClientById(long id);
+
+    Optional<Client> getClientById(long id);
 }

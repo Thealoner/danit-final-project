@@ -41,8 +41,7 @@ public class Client {
     public Client() {
     }
 
-    public Client(Long id, String firstName, String lastName, String gender, Date birthDate, String phoneNumber, String cardId, String email) {
-        this.id = id;
+    public Client(String firstName, String lastName, String gender, Date birthDate, String phoneNumber, String cardId, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
