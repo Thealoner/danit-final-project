@@ -11,17 +11,17 @@ import java.util.Optional;
 @Service
 public class ClientServiceImpl implements ClientService {
 
-    @Autowired
-    ClientRepository clientRepository;
+  @Autowired
+  ClientRepository clientRepository;
 
-    @Override
-    public List<Client> getAllClients() {
-        return clientRepository.findAll();
-    }
+  @Override
+  public List<Client> getAllClients() {
+    return clientRepository.findAll();
+  }
 
 
-    @Override
-    public Optional<Client> getClientById(long id) {
-        return clientRepository.findById(id);
-    }
+  @Override
+  public Optional<Client> getClientById(long id) {
+    return clientRepository.findById(id);
+  }
 }

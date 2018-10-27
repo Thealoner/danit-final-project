@@ -15,34 +15,34 @@ import java.util.Optional;
 @RestController
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+  @Autowired
+  private UserService userService;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+  @Autowired
+  private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
-    @PostMapping("/api/users/signup")
-    public void signUp(@RequestBody User user) {
-        userService.saveUser(user);
-    }
+  @PostMapping("/api/users/signup")
+  public void signUp(@RequestBody User user) {
+    userService.saveUser(user);
+  }
 
-    @GetMapping("/api/users/adduser")
-    public void addUser(@RequestParam(value = "username") String userName,
-                        @RequestParam(value = "password") String password,
-                        @RequestParam(value = "role") String role) {
-        User user = new User(userName, bCryptPasswordEncoder.encode(password), Arrays.asList(
-                new Role(role)));
-        userService.saveUser(user);
-    }
+  @GetMapping("/api/users/adduser")
+  public void addUser(@RequestParam(value = "username") String userName,
+                      @RequestParam(value = "password") String password,
+                      @RequestParam(value = "role") String role) {
+    User user = new User(userName, bCryptPasswordEncoder.encode(password), Arrays.asList(
+        new Role(role)));
+    userService.saveUser(user);
+  }
 
-    @GetMapping("/api/users/getallusers")
-    List<User> getAllUsers() {
-        return userService.getAllUsers();
-    }
+  @GetMapping("/api/users/getallusers")
+  List<User> getAllUsers() {
+    return userService.getAllUsers();
+  }
 
-   @GetMapping("/api/user/get/{id}")
-   Optional<User> getUserById(@PathVariable(name = "id") long id) {
-        return userService.getUserById(id);
-    }
+  @GetMapping("/api/user/get/{id}")
+  Optional<User> getUserById(@PathVariable(name = "id") long id) {
+    return userService.getUserById(id);
+  }
 }

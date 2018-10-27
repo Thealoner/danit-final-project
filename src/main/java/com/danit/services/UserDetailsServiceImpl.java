@@ -27,18 +27,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-      User user = userRepository.findByUsername(username);
-      if (user == null){
-          throw new UsernameNotFoundException("Invalid username or password.");
-      }
-      return new org.springframework.security.core.userdetails.User(user.getUsername(),
-              user.getPassword(),
-              mapRolesToAuthorities(user.getRoles()));
+    User user = userRepository.findByUsername(username);
+    if (user == null) {
+      throw new UsernameNotFoundException("Invalid username or password.");
+    }
+    return new org.springframework.security.core.userdetails.User(user.getUsername(),
+        user.getPassword(),
+        mapRolesToAuthorities(user.getRoles()));
   }
 
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles){
-        return roles.stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName()))
-                .collect(Collectors.toList());
+  private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
+    return roles.stream()
+        .map(role -> new SimpleGrantedAuthority(role.getName()))
+        .collect(Collectors.toList());
   }
 }

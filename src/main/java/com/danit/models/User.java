@@ -20,11 +20,11 @@ public class User {
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
   @JoinTable(
-          name = "users_role",
-          joinColumns = @JoinColumn(
-                  name = "user_id", referencedColumnName = "id"),
-          inverseJoinColumns = @JoinColumn(
-                  name = "role_id", referencedColumnName = "id"))
+      name = "users_role",
+      joinColumns = @JoinColumn(
+          name = "user_id", referencedColumnName = "id"),
+      inverseJoinColumns = @JoinColumn(
+          name = "role_id", referencedColumnName = "id"))
   private Collection<Role> roles;
 
   public User() {
@@ -60,21 +60,21 @@ public class User {
     this.password = password;
   }
 
-    public Collection<Role> getRoles() {
-        return roles;
-    }
+  public Collection<Role> getRoles() {
+    return roles;
+  }
 
-    public void setRoles(Collection<Role> roles) {
-        this.roles = roles;
-    }
+  public void setRoles(Collection<Role> roles) {
+    this.roles = roles;
+  }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", roles=" + roles +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "User{" +
+        "id=" + id +
+        ", username='" + username + '\'' +
+        ", password='" + password + '\'' +
+        ", roles=" + roles +
+        '}';
+  }
 }

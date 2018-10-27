@@ -14,16 +14,16 @@ import java.util.Optional;
 @RestController
 public class ClientController {
 
-    @Autowired
-    ClientService clientService;
+  @Autowired
+  ClientService clientService;
 
-    @GetMapping("/api/client/getall")
-    List<Client> getAllClients() {
-        return clientService.getAllClients();
-    }
+  @GetMapping("/api/client/getall")
+  List<Client> getAllClients() {
+    return clientService.getAllClients();
+  }
 
-    @GetMapping("/api/client/get/{id}")
-    Optional<Client> getClientById(@PathVariable(name = "id") long id) {
-        return clientService.getClientById(id);
-    }
+  @GetMapping("/api/client/get/{id}")
+  Optional<Client> getClientById(@PathVariable(name = "id") long id) {
+    return clientService.getClientById(id);
+  }
 }
