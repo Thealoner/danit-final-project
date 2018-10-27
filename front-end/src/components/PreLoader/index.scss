@@ -81,3 +81,15 @@
     opacity: 1;
   }
 }
+
+.App {
+  &__leftpanel {
+    float: left;
+    width: 10%;
+  }
+
+  &__rightpanel {
+    float: left;
+    width: 90%;
+  }
+}
