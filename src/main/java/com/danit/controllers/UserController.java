@@ -34,7 +34,7 @@ public class UserController {
   }
 
   @CrossOrigin(origins = "http://localhost:9000")
-  @GetMapping("/api/users/adduser")
+  @GetMapping("/api/users/add")
   public void addUser(@RequestParam(value = "username") String userName,
                       @RequestParam(value = "password") String password,
                       @RequestParam(value = "role") String role) {
@@ -44,7 +44,7 @@ public class UserController {
   }
 
   @CrossOrigin(origins = "http://localhost:9000")
-  @GetMapping("/api/users/getallusers")
+  @GetMapping("/api/users/getall")
   List<User> getAllUsers() {
     return userService.getAllUsers();
   }
