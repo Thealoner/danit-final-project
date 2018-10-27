@@ -33,7 +33,7 @@ public class UserController {
     userService.saveUser(user);
   }
 
-  @CrossOrigin(origins = "http://localhost:9000")
+  @CrossOrigin(origins = "http://localhost:3000")
   @GetMapping("/api/users/add")
   public void addUser(@RequestParam(value = "username") String userName,
                       @RequestParam(value = "password") String password,
@@ -43,13 +43,13 @@ public class UserController {
     userService.saveUser(user);
   }
 
-  @CrossOrigin(origins = "http://localhost:9000")
-  @GetMapping("/api/users/getall")
+  @CrossOrigin(origins = "http://localhost:3000")
+  @GetMapping("/api/users/all")
   List<User> getAllUsers() {
     return userService.getAllUsers();
   }
 
-  @CrossOrigin(origins = "http://localhost:9000")
+  @CrossOrigin(origins = "http://localhost:3000")
   @GetMapping("/api/users/get/{id}")
   Optional<User> getUserById(@PathVariable(name = "id") long id) {
     return userService.getUserById(id);
