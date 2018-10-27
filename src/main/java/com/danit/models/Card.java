@@ -42,11 +42,11 @@ public class Card implements Serializable {
     this.clientId = clientId;
   }
 
-  public UUID getCardID() {
+  public UUID getCardId() {
     return cardId;
   }
 
-  public void setCardID(UUID cardId) {
+  public void setCardId(UUID cardId) {
     this.cardId = cardId;
   }
 
@@ -66,11 +66,11 @@ public class Card implements Serializable {
     this.gender = gender;
   }
 
-  public UUID getPackageID() {
+  public UUID getPackageId() {
     return packageId;
   }
 
-  public void setPackageID(UUID packageId) {
+  public void setPackageId(UUID packageId) {
     this.packageId = packageId;
   }
 
@@ -82,21 +82,11 @@ public class Card implements Serializable {
     this.credit = credit;
   }
 
-  public UUID getClientID() {
+  public UUID getClientId() {
     return clientId;
   }
 
-  public void setClientID(UUID clientId) {
+  public void setClientId(UUID clientId) {
     this.clientId = clientId;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    return super.equals(obj);
-  }
-
-  @Override
-  public String toString() {
-    return super.toString();
   }
 }
