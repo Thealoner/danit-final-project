@@ -11,7 +11,7 @@ class App extends Component {
   render () {
     return (
       <Fragment>
-        <div className="preloader" ref="preloader"><PreLoader fullScreen={false}/></div>
+        <div className="preloader" ref="preloader"><PreLoader/></div>
         <div className="app">
           <Header/>
           <Login/>
