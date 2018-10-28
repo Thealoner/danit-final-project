@@ -5,15 +5,17 @@ import Header from './components/Header';
 import Main from './components/Main';
 import Footer from './components/Footer';
 import Login from './components/Login';
+import Forgot from './components/Login/Forgot';
 
 class App extends Component {
   render () {
     return (
       <Fragment>
-        <div className="preloader" ref="preloader"><PreLoader fullScreen={false}/></div>
+        <div className="preloader" ref="preloader"><PreLoader/></div>
         <div className="app">
           <Header/>
           <Login/>
+          <Forgot/>
           <Main/>
           <Footer/>
         </div>

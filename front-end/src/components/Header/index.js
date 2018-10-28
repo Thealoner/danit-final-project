@@ -1,18 +1,23 @@
 import React, {Component} from 'react';
 import './index.scss';
 import $ from 'jquery';
+import Menu from './Menu';
 
 class Header extends Component {
     componentDidMount = () => {
       $('.header__link').on('click', function () {
         $('.login').fadeIn();
+        return false;
       });
     };
 
     render () {
       return (
         <header className="header">
-          <span className="header__link">Авторизация</span>
+          <div className="header__container">
+            <Menu/>
+            <a href="/" className="header__link">Авторизация</a>
+          </div>
         </header>
       );
     }
