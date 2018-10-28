@@ -1,25 +1,24 @@
-.login {
+.forgot {
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 2;
+  z-index: 3;
   display: none;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, .9);
-  
+
   &__dialog {
     position: relative;
     top: 50%;
     left: 50%;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 300px;
-    height: 350px;
+    width: 400px;
+    height: 200px;
     background-color: #fff;
     transform: translate(-50%, -50%);
   }
@@ -44,18 +43,5 @@
     flex-direction: column;
     align-items: flex-start;
     width: 80%;
-  }
-
-  &__links-wrapper {
-    display: flex;
-    justify-content: space-between;
-    width: 80%;
-  }
-
-  &__link {
-    color: #808080;
-    font-size: 12px;
-    border-bottom: 1px solid;
-    cursor: pointer;
   }
 }
