@@ -5,7 +5,7 @@ import Header from './components/Header';
 import Main from './components/Main';
 import Footer from './components/Footer';
 import Login from './components/Login';
-import Forgot from "./components/Login/Forgot";
+import Forgot from './components/Login/Forgot';
 
 class App extends Component {
   render () {
@@ -16,7 +16,6 @@ class App extends Component {
           <Header/>
           <Login/>
           <Forgot/>
-          {/*<Route exact path="/forgot" component="forgot"/>*/}
           <Main/>
           <Footer/>
         </div>
