@@ -39,6 +39,7 @@
     "start-js": "react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "lint": "eslint \"src/**/*.js\"",
     "stylelint-dev": "stylelint src/**/*.scss || true --cache --cache-location './.stylelintcache'; exit 0",
     "stylelint-build": "stylelint 'src/**/*.scss'",
     "watch-styles-sass": "npm-watch"
