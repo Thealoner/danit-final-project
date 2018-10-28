@@ -18,7 +18,7 @@ class Forgot extends Component {
               <form action="#" className="forgot__form">
                 <label htmlFor="username">Enter email:</label>
                 <input type="text" name="" id="username" placeholder="E-mail" autoComplete="off"/>
-                <input type="submit" name="" value="Sign Up"/>
+                <input type="submit" name="" value="Send"/>
               </form>
             </div>
           </div>
