@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './index.scss';
 import $ from 'jquery';
+import axios from 'axios';
 
 class Login extends Component {
   constructor () {
@@ -28,8 +29,20 @@ class Login extends Component {
   handleSubmit (e) {
     e.preventDefault();
 
-    console.log('Login form was submitted with the following data:');
-    console.log(this.state);
+    axios.post('http://localhost:9000/api/clients/all', this.state)
+      .then(res => {
+        console.log(res);
+
+        if (res) {
+          $('.login').fadeOut(0);
+          // some other logic
+        } else {
+          $('.login__data-error').show();
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   render () {
@@ -50,6 +63,7 @@ class Login extends Component {
             <a href="/" className="login__link login__link--forgot">Забыл пароль</a>
             <a href="/" className="login__link login__link--register">Регистрация</a>
           </div>
+          <span className="login__data-error">неверный логин или пароль</span>
         </div>
       </div>
     );
@@ -74,6 +88,10 @@ class Login extends Component {
         if (event.target === self.refs.login) {
           $('.login').fadeOut();
         }
+      });
+
+      $('input:not(input:last-child)').on('focus', function () {
+        $('.login__data-error').hide();
       });
     };
 }
