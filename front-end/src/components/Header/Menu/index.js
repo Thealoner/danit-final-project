@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import './index.scss';
 
 class Menu extends Component {
   render () {
     return (
       <div className="menu">
-        <Link to="/" className="menu__link">Главная</Link>
-        <Link to="/configurator" className="menu__link">Конфигуратор</Link>
+        <NavLink exact to="/" activeClassName="menu__link--active" className="menu__link">Главная</NavLink>
+        <NavLink exact to="/configurator" activeClassName="menu__link--active" className="menu__link">Конфигуратор</NavLink>
       </div>
     );
   }

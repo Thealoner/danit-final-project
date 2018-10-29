@@ -21,6 +21,7 @@ input {
   outline: none;
 
   &[type="text"],
+  &[type="email"],
   &[type="password"] {
     padding-left: 10px;
     box-shadow: 1px 1px 3px 1px #ccc;
@@ -42,6 +43,10 @@ input {
 
     &:hover {
       background-color: #333;
+    }
+
+    &:active {
+      transform: scale(.99);
     }
   }
 }
