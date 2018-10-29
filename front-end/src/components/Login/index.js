@@ -21,9 +21,16 @@ class Login extends Component {
                 <label htmlFor="password">Password</label>
                 <input type="password" name="" id="password" placeholder="password"/>
                 <input type="submit" name="" value="Sign In"/>
-                <span>Forgot Password</span>
+                  <div className="login__btns">
+                      <span>Forgot Password</span>
+                      <span>Register</span>
+                  </div>
               </form>
             </div>
+              <div className="login__btns">
+                  <span>Forgot Password</span>
+                  <span>Register</span>
+              </div>
           </div>
         </div>
       );

@@ -7,6 +7,9 @@ class Header extends Component {
       $('.header__link').on('click', function () {
         $('.login').fadeIn();
       });
+      $('.header__link_registration').on('click', function () {
+            $('.registration').fadeIn();
+        });
     };
 
     render () {
