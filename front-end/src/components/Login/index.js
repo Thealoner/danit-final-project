@@ -50,6 +50,7 @@ class Login extends Component {
       <div className="login" ref="login">
         <div className="login__dialog">
           <span className="login__close">&times;</span>
+
           <form action="#" className="login__form" onSubmit={this.handleSubmit}>
             <label htmlFor="username">Логин</label>
             <input type="text" name="username" id="username" placeholder="введите имя пользователя"
@@ -59,6 +60,7 @@ class Login extends Component {
               value={this.state.password} onChange={this.handleChange} required/>
             <input type="submit" name="" value="Войти"/>
           </form>
+
           <div className="login__links-wrapper">
             <a href="/" className="login__link login__link--forgot">Забыл пароль</a>
             <a href="/" className="login__link login__link--register">Регистрация</a>
@@ -88,6 +90,30 @@ class Login extends Component {
         if (event.target === self.refs.login) {
           $('.login').fadeOut();
         }
+      });
+
+      let form = $('form');
+
+      form.on('keydown', function (event) {
+        if (event.keyCode === 13) {
+          $('input[type="submit"]').css('transform', 'scale(.99)');
+        }
+      });
+
+      form.on('keyup', function (event) {
+        if (event.keyCode === 13) {
+          $('input[type="submit"]').css('transform', 'none');
+        }
+      });
+
+      let submitButton = $('input[type="submit"]');
+
+      submitButton.on('mousedown', function () {
+        this.style.transform = 'scale(.99)';
+      });
+
+      submitButton.on('mouseup', function () {
+        this.style.transform = 'none';
       });
 
       $('input:not(input:last-child)').on('focus', function () {
