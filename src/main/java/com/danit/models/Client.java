@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
 
 
@@ -34,6 +36,7 @@ public class Client {
 
   @Column(name = "birth_date")
   @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
+  @Temporal(TemporalType.DATE)
   private Date birthDate;
 
   @Column(name = "phone_number")
