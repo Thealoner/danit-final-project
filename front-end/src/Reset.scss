@@ -49,7 +49,6 @@ blockquote, q {
 blockquote:before, blockquote:after,
 q:before, q:after {
 	content: '';
-	content: none;
 }
 table {
 	border-collapse: collapse;
@@ -59,8 +58,10 @@ table {
 a {
 	text-decoration: none;
 	cursor: pointer;
+	user-select: none;
 }
 
 button {
 	cursor: pointer;
+	user-select: none;
 }
