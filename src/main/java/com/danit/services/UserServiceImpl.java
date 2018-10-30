@@ -3,7 +3,6 @@ package com.danit.services;
 import com.danit.models.User;
 import com.danit.models.UserRoles;
 import com.danit.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 

@@ -2,7 +2,6 @@ package com.danit.services;
 
 import com.danit.models.Client;
 import com.danit.repositories.ClientRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
