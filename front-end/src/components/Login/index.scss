@@ -50,6 +50,7 @@
     display: flex;
     justify-content: space-between;
     width: 80%;
+    margin-top: 5px;
   }
 
   &__link {
@@ -57,5 +58,16 @@
     font-size: 12px;
     border-bottom: 1px solid;
     cursor: pointer;
+  }
+
+  &__data-error {
+    position: absolute;
+    bottom: 25px;
+    left: 0;
+    display: none;
+    width: 100%;
+    color: red;
+    font-size: 12px;
+    text-align: center;
   }
 }
