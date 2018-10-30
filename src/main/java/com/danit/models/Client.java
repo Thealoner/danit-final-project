@@ -5,7 +5,11 @@ import com.danit.utils.CustomDateAndTimeDeserialize;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
 
@@ -44,7 +48,8 @@ public class Client {
   public Client() {
   }
 
-  public Client(String firstName, String lastName, String gender, Date birthDate, String phoneNumber, String cardId, String email) {
+  public Client(String firstName, String lastName, String gender, Date birthDate,
+                String phoneNumber, String cardId, String email) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.gender = gender;

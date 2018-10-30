@@ -1,24 +1,19 @@
-package com.danit.models;
+package com.danit.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.danit.models.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-public class UserPrincipal implements UserDetails {
+public class UserDetailsImpl implements UserDetails {
 
   private User user;
 
-  public UserPrincipal(User user) {
+  public UserDetailsImpl(User user) {
     this.user = user;
   }
 

@@ -18,8 +18,9 @@ import static com.danit.security.SecurityConstants.HEADER_STRING;
 import static com.danit.security.SecurityConstants.SECRET;
 import static com.danit.security.SecurityConstants.TOKEN_PREFIX;
 
-public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
-  public JWTAuthorizationFilter(AuthenticationManager authManager) {
+public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
+
+  public JwtAuthorizationFilter(AuthenticationManager authManager) {
     super(authManager);
   }
 

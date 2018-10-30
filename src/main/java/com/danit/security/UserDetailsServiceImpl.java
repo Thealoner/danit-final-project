@@ -1,6 +1,5 @@
-package com.danit.services;
+package com.danit.security;
 
-import com.danit.models.UserPrincipal;
 import com.danit.models.User;
 import com.danit.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     if (user == null) {
       throw new UsernameNotFoundException(username);
     }
-    return new UserPrincipal(user);
+    return new UserDetailsImpl(user);
   }
 }
 

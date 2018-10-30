@@ -1,7 +1,7 @@
 package com.danit.services;
 
-import com.danit.models.UserRoles;
 import com.danit.models.User;
+import com.danit.models.UserRoles;
 import com.danit.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,22 +13,24 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
 
-  @Autowired
   private UserRepository userRepository;
 
-  @Autowired
-  private BCryptPasswordEncoder bCryptPasswordEncoder;
+  private BCryptPasswordEncoder bcryptPasswordEncoder;
+
+  UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bcryptPasswordEncoder) {
+    this.userRepository = userRepository;
+    this.bcryptPasswordEncoder = bcryptPasswordEncoder;
+  }
 
   @Override
   public void saveUser(User user) {
-    user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+    user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
     userRepository.save(user);
   }
 
   @Override
   public void saveUserByFields(String userName, String password, List<UserRoles> roles) {
-    User user = new User(userName, bCryptPasswordEncoder.encode(password),
-        roles);
+    User user = new User(userName, bcryptPasswordEncoder.encode(password), roles);
     userRepository.save(user);
   }
 

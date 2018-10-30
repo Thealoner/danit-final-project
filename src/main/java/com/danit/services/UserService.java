@@ -1,7 +1,7 @@
 package com.danit.services;
 
-import com.danit.models.UserRoles;
 import com.danit.models.User;
+import com.danit.models.UserRoles;
 
 import java.util.List;
 import java.util.Optional;

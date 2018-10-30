@@ -35,13 +35,7 @@ public class Package {
   private int openDateAllowed;
   @Column(name = "users_min")
   private int usersMin;
-//  private usersFamilyRelashionship;
-//  private limitAdditionalServices;
-//  private limitUsageByPaymentPercentage;
   @Column(name = "limit_visit_time")
   private int limitVisitTime;
-//  private sessionLimit;
-//  private Long cardColorID;
-//  private Long packageTypeID;
-//  private Long scheduleID;
+
 }

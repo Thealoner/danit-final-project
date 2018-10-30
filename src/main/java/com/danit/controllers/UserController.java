@@ -1,7 +1,7 @@
 package com.danit.controllers;
 
-import com.danit.models.UserRoles;
 import com.danit.models.User;
+import com.danit.models.UserRoles;
 import com.danit.models.UserRolesEnum;
 import com.danit.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,28 +19,17 @@ import java.util.Optional;
 
 
 @RestController
-@CrossOrigin
 public class UserController {
 
   @Autowired
   private UserService userService;
-
-  @Autowired
-  private BCryptPasswordEncoder bCryptPasswordEncoder;
-
-  //@CrossOrigin(origins = "http://localhost:3000")
-  @PostMapping("/api/users/auth")
-  public void auth() {
-    System.out.println("post user:");
-  }
 
   @CrossOrigin(origins = "http://localhost:3000")
   @GetMapping("/api/users/add")
   public void addUser(@RequestParam(value = "username") String userName,
                       @RequestParam(value = "password") String password,
                       @RequestParam(value = "role") String role) {
-    User user = new User(userName, bCryptPasswordEncoder.encode(password), Arrays.asList(
-        new UserRoles(UserRolesEnum.USER)));
+    User user = new User(userName, password, Arrays.asList(new UserRoles(UserRolesEnum.USER)));
     userService.saveUser(user);
   }
 
