@@ -73,12 +73,13 @@ class Login extends Component {
 
     componentDidMount = () => {
       let self = this;
+      let loginPage = $('.login');
       $('.login__close').on('click', function () {
-        $('.login').fadeOut();
+        loginPage.fadeOut();
       });
 
       $('.login__link').on('click', function () {
-        $('.login').fadeOut(0);
+        loginPage.fadeOut(0);
         return false;
       });
 
@@ -88,25 +89,24 @@ class Login extends Component {
 
       $(window).on('click', function (event) {
         if (event.target === self.refs.login) {
-          $('.login').fadeOut();
+          loginPage.fadeOut();
         }
       });
 
       let form = $('form');
+      let submitButton = $('input[type="submit"]');
 
       form.on('keydown', function (event) {
         if (event.keyCode === 13) {
-          $('input[type="submit"]').css('transform', 'scale(.99)');
+          submitButton.css('transform', 'scale(.99)');
         }
       });
 
       form.on('keyup', function (event) {
         if (event.keyCode === 13) {
-          $('input[type="submit"]').css('transform', 'none');
+          submitButton.css('transform', 'none');
         }
       });
-
-      let submitButton = $('input[type="submit"]');
 
       submitButton.on('mousedown', function () {
         this.style.transform = 'scale(.99)';
