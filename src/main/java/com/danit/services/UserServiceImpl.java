@@ -1,6 +1,6 @@
 package com.danit.services;
 
-import com.danit.models.Role;
+import com.danit.models.UserRoles;
 import com.danit.models.User;
 import com.danit.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void saveUserByFields(String userName, String password, List<Role> roles) {
+  public void saveUserByFields(String userName, String password, List<UserRoles> roles) {
     User user = new User(userName, bCryptPasswordEncoder.encode(password),
         roles);
     userRepository.save(user);

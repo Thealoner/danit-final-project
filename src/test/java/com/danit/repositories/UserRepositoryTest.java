@@ -1,9 +1,9 @@
 package com.danit.repositories;
 
-import com.danit.models.Role;
+import com.danit.models.UserRoles;
 import com.danit.models.User;
+import com.danit.models.UserRolesEnum;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +30,7 @@ public class UserRepositoryTest {
     @Before
     public void setUp() throws Exception {
         for (int i = 0; i < 100; i++) {
-            users.add(new User("testUser" + String.valueOf(i), "123", Arrays.asList(new Role("test_role"))));
+            users.add(new User("testUser" + String.valueOf(i), "123", Arrays.asList(new UserRoles(UserRolesEnum.USER))));
         }
     }
 

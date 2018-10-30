@@ -6,7 +6,7 @@
     "roles": [
       {
         "id": 1002,
-        "name": "user-admin"
+        "role": "ADMIN"
       }
     ]
   },
@@ -17,7 +17,7 @@
     "roles": [
       {
         "id": 1004,
-        "name": "user"
+        "role": "USER"
       }
     ]
   },
@@ -28,7 +28,7 @@
     "roles": [
       {
         "id": 1006,
-        "name": "user"
+        "role": "USER"
       }
     ]
   },
@@ -39,7 +39,7 @@
     "roles": [
       {
         "id": 1008,
-        "name": "admin"
+        "role": "ADMIN"
       }
     ]
   }

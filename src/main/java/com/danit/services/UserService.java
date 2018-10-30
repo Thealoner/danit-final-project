@@ -1,6 +1,6 @@
 package com.danit.services;
 
-import com.danit.models.Role;
+import com.danit.models.UserRoles;
 import com.danit.models.User;
 
 import java.util.List;
@@ -10,7 +10,7 @@ public interface UserService {
 
   void saveUser(User user);
 
-  void saveUserByFields(String userName, String password, List<Role> roles);
+  void saveUserByFields(String userName, String password, List<UserRoles> roles);
 
   User getUserByUsername(String username);
 

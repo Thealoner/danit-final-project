@@ -1,11 +1,10 @@
 package com.danit.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.validator.constraints.UniqueElements;
+import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -20,17 +19,17 @@ public class User {
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
   @JoinTable(
-      name = "users_role",
+      name = "users_roles",
       joinColumns = @JoinColumn(
           name = "user_id", referencedColumnName = "id"),
       inverseJoinColumns = @JoinColumn(
           name = "role_id", referencedColumnName = "id"))
-  private Collection<Role> roles;
+  private Collection<UserRoles> roles;
 
   public User() {
   }
 
-  public User(String username, String password, Collection<Role> roles) {
+  public User(String username, String password, Collection<UserRoles> roles) {
     this.username = username;
     this.password = password;
     this.roles = roles;
@@ -60,11 +59,11 @@ public class User {
     this.password = password;
   }
 
-  public Collection<Role> getRoles() {
+  public Collection<UserRoles> getRoles() {
     return roles;
   }
 
-  public void setRoles(Collection<Role> roles) {
+  public void setRoles(Collection<UserRoles> roles) {
     this.roles = roles;
   }
 
