@@ -1,0 +1,17 @@
+[
+    {
+        "id": 1,
+        "code": "#000000",
+        "active": true
+    },
+    {
+        "id": 2,
+        "code": "#CC0033",
+        "active": true
+    },
+    {
+        "id": 3,
+        "code": "#00BB22",
+        "active": false
+    }
+]

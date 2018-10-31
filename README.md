@@ -20,3 +20,5 @@
 
 
 [DB Structure](https://app.sqldbm.com/MySQL/Edit/p42191/#)
+
+[Sample .json responses](sample-data/json)
