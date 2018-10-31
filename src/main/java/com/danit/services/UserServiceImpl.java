@@ -1,12 +1,10 @@
 package com.danit.services;
 
 import com.danit.models.User;
-import com.danit.models.UserRoles;
 import com.danit.repositories.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,9 +27,8 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void saveUserByFields(String userName, String password, List<UserRoles> roles) {
-    User user = new User(userName, bcryptPasswordEncoder.encode(password), roles);
-    userRepository.save(user);
+  public void deleteUserById(long id) {
+    userRepository.deleteById(id);
   }
 
   @Override

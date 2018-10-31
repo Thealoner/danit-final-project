@@ -9,8 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.Collection;
@@ -22,17 +20,13 @@ public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
+
   @Column(unique = true)
   private String username;
+
   private String password;
 
-  @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-  @JoinTable(
-      name = "users_roles",
-      joinColumns = @JoinColumn(
-          name = "user_id", referencedColumnName = "id"),
-      inverseJoinColumns = @JoinColumn(
-          name = "role_id", referencedColumnName = "id"))
+  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
   private Collection<UserRoles> roles;
 
   public User() {

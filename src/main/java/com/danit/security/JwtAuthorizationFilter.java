@@ -1,37 +1,24 @@
 package com.danit.security;
 
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.danit.models.UserRoles;
-import com.danit.repositories.UserRepository;
-import com.danit.services.UserServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.SignatureException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
+
 
 import static com.danit.security.SecurityConstants.HEADER_STRING;
 import static com.danit.security.SecurityConstants.SECRET;
@@ -66,19 +53,18 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
   private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
     String token = request.getHeader(HEADER_STRING);
     if (token != null) {
-      DecodedJWT decodedJWT;
+      DecodedJWT decodedJwt;
       try {
-        decodedJWT = JWT.require(Algorithm.HMAC512(SECRET.getBytes()))
+        decodedJwt = JWT.require(Algorithm.HMAC512(SECRET.getBytes()))
             .build()
             .verify(token.replace(TOKEN_PREFIX, ""));
       } catch (JWTVerificationException e) {
         e.printStackTrace();
         return null;
       }
-      String user = decodedJWT.getSubject();
+      String user = decodedJwt.getSubject();
       UserDetails userDetails = userDetailsService.loadUserByUsername(user);
       Collection<? extends GrantedAuthority> grantedAuthorities = userDetails.getAuthorities();
-      System.out.println(Arrays.toString(grantedAuthorities.toArray()));
       if (user != null) {
         return new UsernamePasswordAuthenticationToken(user, null, grantedAuthorities);
       }

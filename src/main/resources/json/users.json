@@ -1,55 +1,45 @@
 [
   {
-    "id": 1011,
     "username": "Test2",
-    "password": "$2a$10$7q4jXDRQH5pWAQAsITxPo.g8pn2Tmf8Mdi60NlrUluzGdCNPNdJWS",
+    "password": "1234",
     "roles": [
       {
-        "id": 1012,
-        "role": "USER"
+        "role": "TEST"
       }
     ]
   },
   {
-    "id": 1013,
     "username": "Test1",
-    "password": "$2a$10$lg7bGTbXugUdv.Z2IrvkZOR0Ygjlk07CJFuftNP.n6XlWZL4T2uVG",
+    "password": "1234",
     "roles": [
       {
-        "id": 1014,
-        "role": "USER"
+        "role": "TEST"
       }
     ]
   },
   {
-    "id": 1015,
     "username": "Anna",
-    "password": "$2a$10$zfpHcEZl4GmddhoWzpTx4eg88XBiYCw6Hoqyls8JvCQTcLSVikQyy",
+    "password": "1234",
     "roles": [
       {
-        "id": 1016,
         "role": "USER"
       }
     ]
   },
   {
-    "id": 1017,
     "username": "Admin",
-    "password": "$2a$10$WoPbZj8MBUmhglfdcUECl.7gOlOSvEdhj.QDbQp6rLf/SS5Iy1Wy6",
+    "password": "1234",
     "roles": [
       {
-        "id": 1018,
-        "role": "USER"
+        "role": "ADMIN"
       }
     ]
   },
   {
-    "id": 1019,
     "username": "Sarah",
-    "password": "$2a$10$Rl8xux/4g8/F7SfYgy5df.BCeeZbhyrnMW.Suvw8O0qWEDSgILekm",
+    "password": "1234",
     "roles": [
       {
-        "id": 1020,
         "role": "USER"
       }
     ]
