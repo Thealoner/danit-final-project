@@ -63,7 +63,7 @@ class Login extends Component {
 
           <div className="login__links-wrapper">
             <a href="/" className="login__link login__link--forgot">Забыл пароль</a>
-            <a href="/" className="login__link login__link--register">Регистрация</a>
+            <a href="/" className="login__link login__link--registration">Регистрация</a>
           </div>
           <span className="login__data-error">неверный логин или пароль</span>
         </div>
@@ -71,55 +71,59 @@ class Login extends Component {
     );
   }
 
-       componentDidMount = () => {
-         let self = this;
-         let loginPage = $('.login');
-         $('.login__close').on('click', function () {
-           loginPage.fadeOut();
-         });
+    componentDidMount = () => {
+      let self = this;
+      let loginPage = $('.login');
+      $('.login__close').on('click', function () {
+        loginPage.fadeOut();
+      });
 
-         $('.login__link').on('click', function () {
-           loginPage.fadeOut(0);
-           return false;
-         });
+      $('.login__link').on('click', function () {
+        loginPage.fadeOut(0);
+        return false;
+      });
 
-         $('.login__link--forgot').on('click', function () {
-           $('.forgot').fadeIn(0);
-         });
+      $('.login__link--forgot').on('click', function () {
+        $('.forgot').fadeIn(0);
+      });
 
-         $(window).on('click', function (event) {
-           if (event.target === self.refs.login) {
-             loginPage.fadeOut();
-           }
-         });
+      $('.login__link--registration').on('click', function () {
+        $('.registration').fadeIn(0);
+      });
 
-         let form = $('form');
-         let submitButton = $('input[type="submit"]');
+      $(window).on('click', function (event) {
+        if (event.target === self.refs.login) {
+          loginPage.fadeOut();
+        }
+      });
 
-         form.on('keydown', function (event) {
-           if (event.keyCode === 13) {
-             submitButton.css('transform', 'scale(.99)');
-           }
-         });
+      let form = $('form');
+      let submitButton = $('input[type="submit"]');
 
-         form.on('keyup', function (event) {
-           if (event.keyCode === 13) {
-             submitButton.css('transform', 'none');
-           }
-         });
+      form.on('keydown', function (event) {
+        if (event.keyCode === 13) {
+          submitButton.css('transform', 'scale(.99)');
+        }
+      });
 
-         submitButton.on('mousedown', function () {
-           this.style.transform = 'scale(.99)';
-         });
+      form.on('keyup', function (event) {
+        if (event.keyCode === 13) {
+          submitButton.css('transform', 'none');
+        }
+      });
 
-         submitButton.on('mouseup', function () {
-           this.style.transform = 'none';
-         });
+      submitButton.on('mousedown', function () {
+        this.style.transform = 'scale(.99)';
+      });
 
-         $('input:not(input:last-child)').on('focus', function () {
-           $('.login__data-error').hide();
-         });
-       };
+      submitButton.on('mouseup', function () {
+        this.style.transform = 'none';
+      });
+
+      $('input:not(input:last-child)').on('focus', function () {
+        $('.login__data-error').hide();
+      });
+    };
 }
 
 export default Login;
