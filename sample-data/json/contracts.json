@@ -1,0 +1,192 @@
+[
+    {
+        "id": 1,
+        "card_uuid": "491188d0-dd2f-11e8-9f8b-f2801f1b9fd1",
+        "start_date": "1541005599",
+        "end_date": "1572548820",
+        "gender": "Муж.",
+        "credit": "300",
+        "package": {
+            "id": 1,
+            "title": "SPECIAL ONE"
+        },
+        "services": [
+            {
+                "id": 1,
+                "title": "Консультация + диагностика",
+                "service_qty": 1,
+                "price": "120.00",
+                "cost": "50.00",
+                "unit": "сеанс",
+                "units_number": 1,
+                "rule": "Все",
+                "organization": "Бриз",
+                "service_category": {
+                    "id": 3,
+                    "title": "Консультации"
+                }
+            },
+            {
+                "id": 2,
+                "title": "Фитнес консультация",
+                "service_qty": 1,
+                "price": "120.00",
+                "cost": "50.00",
+                "unit": "минута",
+                "units_number": 30,
+                "rule": {
+                    "id": 1,
+                    "description": "Все"
+                },
+                "organization": "Бриз",
+                "service_category": {
+                    "id": 3,
+                    "title": "Консультации"
+                }
+            },
+            {
+                "id": 3,
+                "title": "Персональная тренировка",
+                "service_qty": 1,
+                "price": "140.00",
+                "cost": "70.00",
+                "unit": "минута",
+                "units_number": 60,
+                "rule": {
+                    "id": 2,
+                    "description": "При первичной продаже"
+                },
+                "organization": "Бриз",
+                "service_category": {
+                    "id": 2,
+                    "title": "Тренировки"
+                }
+            },
+            {
+                "id": 4,
+                "title": "Функциональный тренинг",
+                "service_qty": 1,
+                "price": "90.00",
+                "cost": "40.00",
+                "unit": "минута",
+                "units_number": 60,
+                "rule": {
+                    "id": 1,
+                    "description": "Все"
+                },
+                "organization": "Бриз",
+                "service_category": {
+                    "id": 2,
+                    "title": "Тренировки"
+                }
+            }
+        ],
+        "active": true,
+        "client": {
+            "id": 1,
+            "name": "Илон Евлампиевич Маск",
+            "active": true
+        }
+    },
+    {
+        "id": 2,
+        "card_uuid": "00de0218-dd30-11e8-ab8b-f2801f1b9fd1",
+        "start_date": "1541003599",
+        "end_date": "1572546820",
+        "gender": "Жен.",
+        "credit": "450",
+        "package": {
+            "id": 2,
+            "title": "LIFE STYLE"
+        },
+        "services": [
+            {
+                "id": 1,
+                "title": "Консультация + диагностика",
+                "service_qty": 1,
+                "price": "120.00",
+                "cost": "50.00",
+                "unit": "сеанс",
+                "units_number": 1,
+                "rule": "Все",
+                "organization": "Бриз",
+                "service_category": {
+                    "id": 3,
+                    "title": "Консультации"
+                }
+            },
+            {
+                "id": 2,
+                "title": "Фитнес консультация",
+                "service_qty": 1,
+                "price": "120.00",
+                "cost": "50.00",
+                "unit": "минута",
+                "units_number": 30,
+                "rule": {
+                    "id": 1,
+                    "description": "Все"
+                },
+                "organization": "Бриз",
+                "service_category": {
+                    "id": 3,
+                    "title": "Консультации"
+                }
+            },
+            {
+                "id": 3,
+                "title": "Персональная тренировка",
+                "service_qty": 1,
+                "price": "140.00",
+                "cost": "70.00",
+                "unit": "минута",
+                "units_number": 60,
+                "rule": {
+                    "id": 2,
+                    "description": "При первичной продаже"
+                },
+                "organization": "Бриз",
+                "service_category": {
+                    "id": 2,
+                    "title": "Тренировки"
+                }
+            },
+            {
+                "id": 4,
+                "title": "Функциональный тренинг",
+                "service_qty": 1,
+                "price": "90.00",
+                "cost": "40.00",
+                "unit": "минута",
+                "units_number": 60,
+                "rule": {
+                    "id": 1,
+                    "description": "Все"
+                },
+                "organization": "Бриз",
+                "service_category": {
+                    "id": 2,
+                    "title": "Тренировки"
+                }
+            }
+        ],
+        "active": true,
+        "client": {
+            "id": 1,
+            "name": "Джессика Аркадьевна Ливингстон",
+            "active": true
+        },
+        "contracts_addenda": [
+            {
+                "id": 1,
+                "service": {
+                    "id": 1,
+                    "title": "Консультация + диагностика",
+                    "qty": 2,
+                    "added_date": "1541006134"
+                },
+                "price": "120.00"
+            }
+        ]
+    }
+]
