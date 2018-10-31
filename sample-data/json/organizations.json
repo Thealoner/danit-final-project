@@ -1,0 +1,17 @@
+[
+    {
+        "id": 1,
+        "title": "Бриз",
+        "active": true
+    },
+    {
+        "id": 2,
+        "title": "Пассат",
+        "active": true
+    },
+    {
+        "id": 3,
+        "title": "Муссон",
+        "active": false
+    }
+]
