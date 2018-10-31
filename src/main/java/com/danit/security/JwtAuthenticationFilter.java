@@ -1,6 +1,7 @@
 package com.danit.security;
 
 import com.auth0.jwt.JWT;
+import com.danit.exceptions.UserMapInputStreamException;
 import com.danit.models.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -44,7 +45,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
               new ArrayList<>())
       );
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw new UserMapInputStreamException("JwtAuthenticationFilter cant map input stream to User object");
     }
   }
 
