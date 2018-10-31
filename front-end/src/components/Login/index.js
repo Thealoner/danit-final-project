@@ -63,7 +63,7 @@ class Login extends Component {
 
           <div className="login__links-wrapper">
             <a href="/" className="login__link login__link--forgot">Забыл пароль</a>
-            <a href="/" className="login__link login__link--register">Регистрация</a>
+            <a href="/" className="login__link login__link--registration">Регистрация</a>
           </div>
           <span className="login__data-error">неверный логин или пароль</span>
         </div>
@@ -85,6 +85,10 @@ class Login extends Component {
 
       $('.login__link--forgot').on('click', function () {
         $('.forgot').fadeIn(0);
+      });
+
+      $('.login__link--registration').on('click', function () {
+        $('.registration').fadeIn(0);
       });
 
       $(window).on('click', function (event) {
