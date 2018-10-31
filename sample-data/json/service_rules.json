@@ -1,0 +1,17 @@
+[
+    {
+        "id": 1,
+        "description": "Все",
+        "active": true
+    },
+    {
+        "id": 2,
+        "description": "При первичной продаже",
+        "active": true
+    },
+    {
+        "id": 2,
+        "description": "Придуманное правило",
+        "active": false
+    }
+]
