@@ -4,7 +4,7 @@ import './index.scss';
 class PreLoader extends Component {
   render () {
     return (
-      <section className="preloader" ref='preloader'>
+      <section className="preloader">
         <div className="preloader__wrapper">
           <h2 className='preloader__title'>Loading</h2>
           <div className="preloader__lines">
@@ -21,14 +21,6 @@ class PreLoader extends Component {
         </div>
       </section>
     );
-  }
-
-  componentDidMount () {
-    if (this.props.fullScreen) {
-      this.refs.preloader.style.width = '100vw';
-      this.refs.preloader.style.height = '100vh';
-      this.refs.preloader.style.background = '#333';
-    }
   }
 }
 
