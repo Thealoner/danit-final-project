@@ -23,7 +23,6 @@ public class TestControllerTest {
 
   @Test
   public void testRestServiceTest() throws Exception {
-    this.mvc.perform(get("/test")).andExpect(status().isOk())
-        .andExpect(content().string("success"));
+    this.mvc.perform(get("/api/clients/get/1")).andExpect(status().isOk());
   }
 }
