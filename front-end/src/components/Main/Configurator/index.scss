@@ -1,3 +1,5 @@
+@import "../../../variables";
+
 .configurator {
   display: grid;
   grid-template-columns: 1fr 3fr;
@@ -5,11 +7,32 @@
   height: 100%;
 
   &__left {
-    background-color: whitesmoke;
+    padding: 10px 0 10px 10px;
+    overflow-y: auto;
+    background-color: $mainBackGround;
   }
 
   &__right {
-    overflow-y: scroll;
-    background-color: whitesmoke;
+    padding: 5px;
+    overflow-y: auto;
+    background-color: $mainBackGround;
+  }
+
+  &__links-wrapper {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding: 20px;
+    color: #000;
+  }
+
+  &__link--active {
+    background-color: #fff;
   }
 }

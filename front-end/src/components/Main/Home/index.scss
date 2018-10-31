@@ -1,8 +1,10 @@
+@import "../../../variables";
+
 .home {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
   grid-row: 2 / 3;
-  background-color: whitesmoke;
+  background-color: $mainBackGround;
 }

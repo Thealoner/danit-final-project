@@ -33,6 +33,10 @@
     line-height: 20px;
     transform: translate(100%, -10%);
     cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 
     &:active {
       transform: translate(100%, -10%) scale(.9);

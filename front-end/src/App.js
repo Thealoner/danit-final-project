@@ -14,10 +14,10 @@ class App extends Component {
         <div className="preloader" ref="preloader"><PreLoader/></div>
         <div className="app">
           <Header/>
-          <Login/>
-          <Forgot/>
           <Main/>
           <Footer/>
+          <Login/>
+          <Forgot/>
         </div>
       </Fragment>
     );
