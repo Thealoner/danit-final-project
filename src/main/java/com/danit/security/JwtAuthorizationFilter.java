@@ -2,9 +2,14 @@ package com.danit.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -12,7 +17,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collection;
+
 
 import static com.danit.security.SecurityConstants.HEADER_STRING;
 import static com.danit.security.SecurityConstants.SECRET;
@@ -20,8 +26,11 @@ import static com.danit.security.SecurityConstants.TOKEN_PREFIX;
 
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
-  public JwtAuthorizationFilter(AuthenticationManager authManager) {
+  private UserDetailsService userDetailsService;
+
+  public JwtAuthorizationFilter(AuthenticationManager authManager, UserDetailsService userDetailsService) {
     super(authManager);
+    this.userDetailsService = userDetailsService;
   }
 
   @Override
@@ -44,14 +53,20 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
   private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
     String token = request.getHeader(HEADER_STRING);
     if (token != null) {
-      // parse the token.
-      String user = JWT.require(Algorithm.HMAC512(SECRET.getBytes()))
-          .build()
-          .verify(token.replace(TOKEN_PREFIX, ""))
-          .getSubject();
-
+      DecodedJWT decodedJwt;
+      try {
+        decodedJwt = JWT.require(Algorithm.HMAC512(SECRET.getBytes()))
+            .build()
+            .verify(token.replace(TOKEN_PREFIX, ""));
+      } catch (JWTVerificationException e) {
+        e.printStackTrace();
+        return null;
+      }
+      String user = decodedJwt.getSubject();
+      UserDetails userDetails = userDetailsService.loadUserByUsername(user);
+      Collection<? extends GrantedAuthority> grantedAuthorities = userDetails.getAuthorities();
       if (user != null) {
-        return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+        return new UsernamePasswordAuthenticationToken(user, null, grantedAuthorities);
       }
       return null;
     }

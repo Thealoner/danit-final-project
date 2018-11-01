@@ -14,7 +14,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -24,11 +27,18 @@ import static org.junit.Assert.*;
 public class UserRepositoryTest {
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    UserRolesRepository userRolesRepository;
 
     private List<User> users = new ArrayList<>();
 
     @Before
     public void setUp() throws Exception {
+        Set<UserRoles> userRolesSet = new HashSet<>();
+        userRolesSet.add(new UserRoles(UserRolesEnum.USER));
+        userRolesSet.add(new UserRoles(UserRolesEnum.ADMIN));
+        userRolesSet.add(new UserRoles(UserRolesEnum.TEST));
+        userRolesRepository.saveAll(userRolesSet);
         for (int i = 0; i < 100; i++) {
             users.add(new User("testUser" + String.valueOf(i), "123", Arrays.asList(new UserRoles(UserRolesEnum.USER))));
         }
@@ -47,9 +57,23 @@ public class UserRepositoryTest {
 
     @Test
     public void findAllUsers() {
-        /*userRepository.saveAll(users);
+        userRepository.saveAll(users);
         List<User> newUsers = userRepository.findAll();
-        assertEquals(users.size(), newUsers.size());*/
+        assertEquals(users.size(), newUsers.size());
     }
 
+    @Test
+    public void removeOneUsers() {
+        userRepository.saveAll(users);
+        userRepository.delete(users.get(0));
+        List<User> newUsers = userRepository.findAll();
+        assertEquals(users.size() - 1, newUsers.size());
+    }
+
+    @Test
+    public void removeAllUsers() {
+        userRepository.deleteAll();
+        List<User> newUsers = userRepository.findAll();
+        assertEquals(0, newUsers.size());
+    }
 }
