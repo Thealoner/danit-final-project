@@ -8,6 +8,14 @@
     background-color: whitesmoke;
   }
 
+  &__menu {
+      margin: 1em 1em;
+  }
+
+  &__menuitem {
+      margin: 1em 0.5em;
+  }
+
   &__right {
     overflow-y: scroll;
     background-color: whitesmoke;

@@ -6,10 +6,10 @@ import 'tabulator-tables/dist/css/tabulator.min.css';
 import axios from 'axios';
 
 const columns = [
-  { title: 'Name', field: 'firstName', width: 150 },
-  { title: 'BirthDate', field: 'lastName', align: 'left' },
-  { title: 'PhoneNumber', field: 'gender' },
-  { title: 'CardId', field: 'cardId', align: 'birthDate' }
+  { title: 'ID', field: 'id', width: 150 },
+  { title: 'Title', field: 'title' },
+  { title: 'Price', field: 'price', align: 'left' },
+  { title: 'Active', field: 'active', align: 'birthDate' }
 ];
 
 class Packages extends Component {
@@ -55,7 +55,8 @@ class Packages extends Component {
         <ReactTabulator
           ref={ref => (this.ref = ref)}
           columns={columns}
-          data={this.state.data}
+        //   data={this.state.data}
+          data={this.props.data}
           rowClick={this.rowClick}
           options={options}
           data-custom-attr="test-custom-attribute"
@@ -70,7 +71,7 @@ class Packages extends Component {
   }
 
   componentDidMount () {
-    this.setData();
+    // this.setData();
   }
 }
 
