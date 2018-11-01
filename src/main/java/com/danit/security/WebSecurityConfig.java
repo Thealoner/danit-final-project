@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 
 @Configuration
@@ -25,12 +27,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.cors().and().csrf().disable().authorizeRequests()
-        .antMatchers(HttpMethod.GET, "/api/**").permitAll()
+    http.cors().and().csrf().disable()
+        .authorizeRequests()
+        .antMatchers("/test").permitAll()
+        .antMatchers(HttpMethod.GET, "/users/**").hasAuthority("ADMIN")
+        .antMatchers(HttpMethod.GET, "/clients/**").hasAnyAuthority("USER", "ADMIN")
         .anyRequest().authenticated()
         .and()
-        .addFilter(new JwtAuthenticationFilter(authenticationManager()))
-        .addFilter(new JwtAuthorizationFilter(authenticationManager()))
+        .addFilterBefore(new JwtAuthorizationFilter(authenticationManager(), userDetailsService),
+            BasicAuthenticationFilter.class)
+        .addFilterBefore(new JwtAuthenticationFilter(authenticationManager()),
+            UsernamePasswordAuthenticationFilter.class)
         // this disables session creation on Spring Security
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
   }
