@@ -15,8 +15,12 @@
 
 [Tech Spec](https://docs.google.com/document/d/1NQpMH8Cs5QxGCD-XKSBb6kupb99LucpBOy6jTSt96kI/edit#)
 
+[Business Process Description](https://docs.google.com/document/d/14PXB-ZMM5dl4moF2n0UIQXLYQBKmszSQkZZ48D6bslo/edit)
+
 
 [REST Endpoints CRUD](https://docs.google.com/spreadsheets/d/1W4uVHA4M-hm6gk6EuAv9KGKNYZm3y8ulNHFUZ0n4wNg/edit#gid=0)
 
 
 [DB Structure](https://app.sqldbm.com/MySQL/Edit/p42191/#)
+
+[Sample .json responses](sample-data/json)

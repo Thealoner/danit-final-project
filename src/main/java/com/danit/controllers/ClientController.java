@@ -19,13 +19,13 @@ public class ClientController {
   ClientService clientService;
 
   @CrossOrigin(origins = "http://localhost:3000")
-  @GetMapping("/api/clients/getall")
+  @GetMapping("/clients")
   List<Client> getAllClients() {
     return clientService.getAllClients();
   }
 
   @CrossOrigin(origins = "http://localhost:3000")
-  @GetMapping("/api/clients/get/{id}")
+  @GetMapping("/clients/{id}")
   Optional<Client> getClientById(@PathVariable(name = "id") long id) {
     return clientService.getClientById(id);
   }

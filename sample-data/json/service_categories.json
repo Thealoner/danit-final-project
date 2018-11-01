@@ -1,0 +1,37 @@
+[
+    {
+        "id": 1,
+        "title": "Бассейн",
+        "active": true
+    },
+    {
+        "id": 2,
+        "title": "Тренировки",
+        "active": true
+    },
+    {
+        "id": 3,
+        "title": "Консультации",
+        "active": true
+    },
+    {
+        "id": 4,
+        "title": "Спа",
+        "active": true
+    },
+    {
+        "id": 5,
+        "title": "Сауна",
+        "active": true
+    },
+    {
+        "id": 6,
+        "title": "Прочее",
+        "active": true
+    },
+    {
+        "id": 7,
+        "title": "Нет такой категории",
+        "active": false
+    }
+]
