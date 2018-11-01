@@ -1,21 +1,36 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Route } from 'react-router-dom';
 import './index.scss';
-import Packages from './Packages';
-import samplePackages from './SampleJson/packages.json';
+import Grid from './Grid';
+import GridEntities from './GridEntities';
 
 class Body extends Component {
+  state = {
+    links: []
+  };
+
+  constructor(props) {
+    super(props);
+
+    GridEntities.forEach((entity) => {
+      this.state.links.push(
+        <li key={entity.id} className="configurator__menuitem">
+          <NavLink exact to={"/configurator/" + entity.id} activeClassName="menu__link--active" className="menu__link">{entity.name}</NavLink>
+        </li>
+      );
+    });
+  }
+
   render() {
     return (
       <div className="configurator">
         <div className="configurator__left">
           <ul className="configurator__menu">
-            <li className="configurator__menuitem"><NavLink exact to="/configurator/packages" activeClassName="menu__link--active" className="menu__link">Пакеты</NavLink></li>
-            <li className="configurator__menuitem"><NavLink exact to="/configurator/clients" activeClassName="menu__link--active" className="menu__link">Клиенты</NavLink></li>
+            {this.state.links}
           </ul>
         </div>
         <div className="configurator__right">
-          <Packages data={samplePackages} />
+          <Route path="/configurator/:entityId" component={Grid} />
         </div>
       </div>
     );

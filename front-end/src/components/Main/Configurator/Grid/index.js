@@ -4,17 +4,19 @@ import { ReactTabulator } from 'react-tabulator';
 import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
 import axios from 'axios';
-
-const columns = [
-  { title: 'ID', field: 'id', width: 150 },
-  { title: 'Title', field: 'title' },
-  { title: 'Price', field: 'price', align: 'left' },
-  { title: 'Active', field: 'active', align: 'birthDate' }
-];
+import GridEntities from '../GridEntities';
 
 class Packages extends Component {
   state = {
-    data: []
+    id: '',
+    name: '',
+    data: [],
+    columns: [
+      { title: 'ID', field: 'id', width: 150 },
+      { title: 'Title', field: 'title' },
+      { title: 'Price', field: 'price', align: 'left' },
+      { title: 'Active', field: 'active' }
+    ]
   };
   ref = null;
 
@@ -29,7 +31,11 @@ class Packages extends Component {
         // handle success
         console.log(response);
         const data = response.data.slice(0, 100);
-        this.setState({ data: data });
+        this.setState({
+          id: this.props.match.params.entityId,
+          data: data,
+          // columns: entity.columns
+        });
       }.bind(this))
       .catch(function (error) {
         // handle error
@@ -40,38 +46,60 @@ class Packages extends Component {
       });
   };
 
+  setSampleData = () => {
+    let entityId = this.props.match.params.entityId;
+    
+    let entity = GridEntities.find((el) => {
+      return el.id === entityId;
+    });
+
+    this.setState({
+      id: entity.id,
+      data: entity.sampleData,
+      columns: entity.columns
+    });
+  }
+
   clearData = () => {
     this.setState({ data: [] });
   };
 
   render () {
     const options = {
-      height: 150,
+      height: 300,
       movableRows: true
     };
-
+    
     return (
       <Fragment>
         <ReactTabulator
           ref={ref => (this.ref = ref)}
-          columns={columns}
-          // data={this.state.data}
-          data={this.props.data}
+          columns={this.state.columns}
+          data={this.state.data}
           rowClick={this.rowClick}
           options={options}
           data-custom-attr="test-custom-attribute"
           className="custom-css-class"
         />
-        <h3>Asynchronous data: (e.g. fetch) - <button onClick={this.setData}>Set Data</button>{' '}
+        <h3>Asynchronous data: (e.g. fetch) - 
+          <button onClick={this.setSampleData}>Set Sample Data</button>{' '}
+          <button onClick={this.setData}>Set Data From Server</button>{' '}
           <button onClick={this.clearData}>Clear</button>
         </h3>
-        <ReactTabulator columns={columns} data={this.state.data} />
       </Fragment>
     );
   }
 
   componentDidMount () {
-    // this.setData();
+    this.setSampleData();
+  }
+
+  componentDidUpdate () {
+    let entityId = this.props.match.params.entityId;
+    
+    if (entityId !== this.state.id) {
+      this.setSampleData();
+    }
   }
 }
 
