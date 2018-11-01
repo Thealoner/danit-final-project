@@ -1,0 +1,47 @@
+[
+  {
+    "username": "Test2",
+    "password": "1234",
+    "roles": [
+      {
+        "role": "TEST"
+      }
+    ]
+  },
+  {
+    "username": "Test1",
+    "password": "1234",
+    "roles": [
+      {
+        "role": "TEST"
+      }
+    ]
+  },
+  {
+    "username": "Anna",
+    "password": "1234",
+    "roles": [
+      {
+        "role": "USER"
+      }
+    ]
+  },
+  {
+    "username": "Admin",
+    "password": "1234",
+    "roles": [
+      {
+        "role": "ADMIN"
+      }
+    ]
+  },
+  {
+    "username": "Sarah",
+    "password": "1234",
+    "roles": [
+      {
+        "role": "USER"
+      }
+    ]
+  }
+]

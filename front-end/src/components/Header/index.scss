@@ -17,5 +17,9 @@
   &__link {
     color: #000;
     cursor: pointer;
+
+    &:focus {
+      color: #666;
+    }
   }
 }

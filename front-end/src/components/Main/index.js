@@ -9,7 +9,7 @@ class Main extends Component {
     return (
       <main className="main">
         <Route exact path="/" component={Home} />
-        <Route exact path="/configurator" component={Configurator} />
+        <Route path="/configurator" component={Configurator} />
       </main>
     );
   }

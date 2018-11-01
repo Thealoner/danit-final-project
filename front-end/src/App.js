@@ -6,6 +6,7 @@ import Main from './components/Main';
 import Footer from './components/Footer';
 import Login from './components/Login';
 import Forgot from './components/Login/Forgot';
+import Registration from './components/Login/Registration';
 
 class App extends Component {
   render () {
@@ -16,6 +17,7 @@ class App extends Component {
           <Header/>
           <Login/>
           <Forgot/>
+          <Registration/>
           <Main/>
           <Footer/>
         </div>
