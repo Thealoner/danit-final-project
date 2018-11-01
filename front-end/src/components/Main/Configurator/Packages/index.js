@@ -55,7 +55,7 @@ class Packages extends Component {
         <ReactTabulator
           ref={ref => (this.ref = ref)}
           columns={columns}
-        //   data={this.state.data}
+          // data={this.state.data}
           data={this.props.data}
           rowClick={this.rowClick}
           options={options}
