@@ -12,9 +12,9 @@ const GridEntities = [
     sampleData: packages,
     columns: [
       { title: 'ID', field: 'id', width: 150 },
-      { title: 'Title', field: 'title' },
-      { title: 'Price', field: 'price', align: 'left' },
-      { title: 'Active', field: 'active' }
+      { title: 'Название', field: 'title' },
+      { title: 'Цена', field: 'price', align: 'left' },
+      { title: 'Активен', field: 'active' }
     ]
   },
   {
@@ -23,9 +23,9 @@ const GridEntities = [
     sampleData: services,
     columns: [
       { title: 'ID', field: 'id', width: 150 },
-      { title: 'Title', field: 'title' },
-      { title: 'Price', field: 'price', align: 'left' },
-      { title: 'Active', field: 'active' }
+      { title: 'Название', field: 'title' },
+      { title: 'Цена', field: 'price', align: 'left' },
+      { title: 'Активен', field: 'active' }
     ]
   },
   {
@@ -34,9 +34,9 @@ const GridEntities = [
     sampleData: serviceCategories,
     columns: [
       { title: 'ID', field: 'id', width: 150 },
-      { title: 'Description', field: 'description' },
-      { title: 'Price', field: 'price', align: 'left' },
-      { title: 'Active', field: 'active' }
+      { title: 'Описание', field: 'description' },
+      { title: 'Цена', field: 'price', align: 'left' },
+      { title: 'Активен', field: 'active' }
     ]
   },
   {
@@ -45,9 +45,9 @@ const GridEntities = [
     sampleData: serviceRules,
     columns: [
       { title: 'ID', field: 'id', width: 150 },
-      { title: 'Title', field: 'title' },
-      { title: 'Price', field: 'price', align: 'left' },
-      { title: 'Active', field: 'active' }
+      { title: 'Название', field: 'title' },
+      { title: 'Цена', field: 'price', align: 'left' },
+      { title: 'Активен', field: 'active' }
     ]
   },
   {
@@ -56,9 +56,9 @@ const GridEntities = [
     sampleData: contracts,
     columns: [
       { title: 'ID', field: 'id', width: 150 },
-      { title: 'Gender', field: 'gender' },
-      { title: 'Credit', field: 'credit', align: 'left' },
-      { title: 'Active', field: 'active' }
+      { title: 'Пакет', field: 'package.title' },
+      { title: 'Клиент', field: 'client.name', align: 'left' },
+      { title: 'Активен', field: 'active' }
     ]
   },
   {
@@ -67,9 +67,9 @@ const GridEntities = [
     sampleData: organizations,
     columns: [
       { title: 'ID', field: 'id', width: 150 },
-      { title: 'Title', field: 'title' },
-      { title: 'Price', field: 'price', align: 'left' },
-      { title: 'Active', field: 'active' }
+      { title: 'Название', field: 'title' },
+      { title: 'Цена', field: 'price', align: 'left' },
+      { title: 'Активен', field: 'active' }
     ]
   }
 ];
