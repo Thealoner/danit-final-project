@@ -33,8 +33,8 @@ class Packages extends Component {
         const data = response.data.slice(0, 100);
         this.setState({
           id: this.props.match.params.entityId,
-          data: data,
-          // columns: entity.columns
+          data: data
+          // ,columns: entity.columns
         });
       }.bind(this))
       .catch(function (error) {
@@ -81,7 +81,7 @@ class Packages extends Component {
           data-custom-attr="test-custom-attribute"
           className="custom-css-class"
         />
-        <h3>Asynchronous data: (e.g. fetch) - 
+        <h3>Asynchronous data: (e.g. fetch) -
           <button onClick={this.setSampleData}>Set Sample Data</button>{' '}
           <button onClick={this.setData}>Set Data From Server</button>{' '}
           <button onClick={this.clearData}>Clear</button>

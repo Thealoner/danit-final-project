@@ -9,19 +9,19 @@ class Body extends Component {
     links: []
   };
 
-  constructor(props) {
+  constructor (props) {
     super(props);
 
     GridEntities.forEach((entity) => {
       this.state.links.push(
         <li key={entity.id} className="configurator__menuitem">
-          <NavLink exact to={"/configurator/" + entity.id} activeClassName="menu__link--active" className="menu__link">{entity.name}</NavLink>
+          <NavLink exact to={'/configurator/' + entity.id} activeClassName="menu__link--active" className="menu__link">{entity.name}</NavLink>
         </li>
       );
     });
   }
 
-  render() {
+  render () {
     return (
       <div className="configurator">
         <div className="configurator__left">
