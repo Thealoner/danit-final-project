@@ -2,6 +2,7 @@ package com.danit.models;
 
 
 import com.danit.utils.CustomDateAndTimeDeserialize;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -36,6 +37,9 @@ public class Client {
 
   @Column(name = "birth_date")
   @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
+  @JsonFormat(
+      shape = JsonFormat.Shape.STRING,
+      pattern = "dd-MM-yyyy")
   @Temporal(TemporalType.DATE)
   private Date birthDate;
 
