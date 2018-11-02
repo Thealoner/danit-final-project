@@ -29,15 +29,15 @@ class Login extends Component {
   handleSubmit (e) {
     e.preventDefault();
 
-    axios.post('http://localhost:9000/login', JSON.stringify(this.state))
-      .then(res => {
-        if (res.status === 200) {
-          console.log(res.data);
-        }
-      })
-      .catch(function (error) {
-        console.log(error.message);
-      });
+      fetch('http://localhost:9000/login', {
+          method: "POST", // *GET, POST, PUT, DELETE, etc.
+          mode: "same-origin", // no-cors, cors, *same-origin
+          headers: {
+              "Content-Type": "application/json; charset=utf-8",
+          },
+          body: JSON.stringify(this.state)
+      }) // body data type must match "Content-Type" header)
+          .then(res => console.log(res.headers));
   }
 
   render () {
