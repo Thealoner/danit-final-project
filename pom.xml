@@ -109,7 +109,6 @@
             <version>1.4.197</version>
         </dependency>
 
-
         <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-test -->
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -117,7 +116,6 @@
             <version>5.1.1.RELEASE</version>
             <scope>test</scope>
         </dependency>
-
 
     </dependencies>
 
