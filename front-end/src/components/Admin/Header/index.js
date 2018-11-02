@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import './index.scss';
 import $ from 'jquery';
-import Menu from './Menu';
 
 class Header extends Component {
     componentDidMount = () => {
@@ -15,7 +14,8 @@ class Header extends Component {
       return (
         <header className="header">
           <div className="header__container">
-            <Menu/>
+            <a href="/" className="header__logo">LOGO</a>
+            <span>Tabs will be here</span>
             <a href="/" className="header__link">Авторизация</a>
           </div>
         </header>
