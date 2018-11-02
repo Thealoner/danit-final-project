@@ -6,15 +6,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "organizations")
-public class Organization {
+@Table(name = "card_colors")
+public class CardColor {
+
   @Id
   @Column(name = "id")
-  private Long organizationId;
-
-  @Column(name = "title")
-  private String organizationTitle;
-
+  private Long cardColorId;
+  @Column(name = "code")
+  private String code;
   @Column(name = "active")
   private boolean isActive;
 }

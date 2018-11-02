@@ -19,6 +19,18 @@ public class Services {
   @Column(name = "price")
   private Float price;
 
-  @Column(name = "organization_id")
-  private Long organizationId;
+  @Column(name = "cost")
+  private Float cost;
+
+  @Column(name = "unit")
+  private String unit;
+
+  @Column(name = "units_number")
+  private int unitsNumber;
+
+  @Column(name = "service_cathegory_id")
+  private Long serviceCathegoryId;
+
+  @Column(name = "active")
+  private boolean isActive;
 }

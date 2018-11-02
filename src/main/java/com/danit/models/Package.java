@@ -32,10 +32,22 @@ public class Package {
   @Column(name = "guest_visits")
   private int guestVisits;
   @Column(name = "open_date_allowed")
-  private int openDateAllowed;
-  @Column(name = "users_min")
-  private int usersMin;
-  @Column(name = "limit_visit_time")
-  private int limitVisitTime;
+  private boolean openDateAllowed;
+  @Column(name = "limit_additional_services")
+  private boolean limitAdditionalServices;
+  @Column(name = "limit_usage_by_payment_percentage")
+  private boolean limitUsageByPaymentPercentage;
+  @Column(name = "visit_time")
+  private int visitTime;
+  @Column(name = "visit_time_limited")
+  private boolean visitTimeLimited;
+  @Column(name = "card_color_id")
+  private Long cardColorId;
+  @Column(name = "active")
+  private boolean isActive;
+  @Column(name = "purchasable")
+  private boolean isPurchasable;
+  @Column(name = "parent_package_id")
+  private Long parentPackageId;
 
 }
