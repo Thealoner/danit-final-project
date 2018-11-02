@@ -33,11 +33,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http
-        .cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
+        .cors()
         .and()
         .csrf().disable()
         .authorizeRequests()
         .antMatchers("/test").permitAll()
+        .antMatchers("/login").permitAll()
         .antMatchers(HttpMethod.GET, "/users/**").hasAuthority("ADMIN")
         .antMatchers(HttpMethod.GET, "/clients/**").hasAnyAuthority("USER", "ADMIN")
         .anyRequest().authenticated()
@@ -58,8 +59,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Bean
   CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowedOrigins(Arrays.asList("http://localhost"));
-    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+    configuration.setAllowedOrigins(Arrays.asList("*"));
+    configuration.setAllowCredentials(true);
+    configuration.setAllowedHeaders(Arrays.asList("Access-Control-Allow-Headers", "Access-Control-Allow-Origin",
+        "Access-Control-Request-Method", "Access-Control-Request-Headers", "Origin", "Cache-Control", "Content-Type", "Authorization"));
+    configuration.setAllowedMethods(Arrays.asList("DELETE", "GET", "POST", "PATCH", "PUT"));
+    // This allow us to expose the headers
+    configuration.setExposedHeaders(Arrays.asList("Access-Control-Allow-Headers", "Authorization, x-xsrf-token, " +
+        "Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, " +
+        "Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"));
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);
     return source;

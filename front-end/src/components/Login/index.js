@@ -28,16 +28,18 @@ class Login extends Component {
 
   handleSubmit (e) {
     e.preventDefault();
-
-      fetch('http://localhost:9000/login', {
-          method: "POST", // *GET, POST, PUT, DELETE, etc.
-          mode: "same-origin", // no-cors, cors, *same-origin
-          headers: {
-              "Content-Type": "application/json; charset=utf-8",
-          },
-          body: JSON.stringify(this.state)
-      }) // body data type must match "Content-Type" header)
-          .then(res => console.log(res.headers));
+      let headers = {
+          'Content-Type': 'application/json',
+      };
+      axios.post('http://localhost:9000/login', JSON.stringify(this.state), {headers: headers})
+          .then(req => {
+              if (req.status === 200) {
+                  console.log(req.headers.authorization);
+              }
+          })
+          .catch(function (error) {
+              console.log(error);
+          });
   }
 
   render () {
