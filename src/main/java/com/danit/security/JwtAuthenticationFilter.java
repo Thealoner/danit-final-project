@@ -69,6 +69,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         + " with token: "
         + token
     );
+    
     res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
   }
 }
