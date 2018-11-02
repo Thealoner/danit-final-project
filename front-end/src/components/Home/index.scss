@@ -1,0 +1,13 @@
+.home {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  grid-row: 2 / 3;
+  background-color: whitesmoke;
+
+  &__listitem {
+    padding: 5px 10px;
+    margin: 5px 10px;
+  }
+}

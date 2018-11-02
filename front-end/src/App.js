@@ -1,12 +1,10 @@
 import React, {Component, Fragment} from 'react';
 import PreLoader from './components/PreLoader';
 import './App.scss';
-import Header from './components/Header';
-import Main from './components/Main';
-import Footer from './components/Footer';
-import Login from './components/Login';
-import Forgot from './components/Login/Forgot';
-import Registration from './components/Login/Registration';
+import {Route} from 'react-router-dom';
+import Admin from './components/Admin';
+import Manager from './components/Manager';
+import Home from './components/Home';
 
 class App extends Component {
   render () {
@@ -14,12 +12,9 @@ class App extends Component {
       <Fragment>
         <div className="preloader" ref="preloader"><PreLoader/></div>
         <div className="app">
-          <Header/>
-          <Login/>
-          <Forgot/>
-          <Registration/>
-          <Main/>
-          <Footer/>
+          <Route exact path="/" component={Home} />
+          <Route path="/admin" component={Admin} />
+          <Route path="/manager" component={Manager} />
         </div>
       </Fragment>
     );
