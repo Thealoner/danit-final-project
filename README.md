@@ -23,4 +23,4 @@
 
 [DB Structure](https://app.sqldbm.com/MySQL/Edit/p42191/#)
 
-[Sample .json responses](front-end/src/components/Main/Configurator/SampleJson)
+[Sample .json responses](front-end/src/SampleJson)
