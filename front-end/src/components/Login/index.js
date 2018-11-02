@@ -29,19 +29,14 @@ class Login extends Component {
   handleSubmit (e) {
     e.preventDefault();
 
-    axios.post('http://localhost:9000/api/clients/all', this.state)
+    axios.post('http://localhost:9000/login', JSON.stringify(this.state))
       .then(res => {
-        console.log(res);
-
-        if (res) {
-          $('.login').fadeOut(0);
-          // some other logic
-        } else {
-          $('.login__data-error').show();
+        if (res.status === 200) {
+          console.log(res.data);
         }
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error.message);
       });
   }
 

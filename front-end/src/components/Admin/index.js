@@ -11,10 +11,10 @@ class Admin extends Component {
     return (
       <Fragment>
         <Header/>
+        <Main/>
         <Login/>
         <Forgot/>
         <Registration/>
-        <Main/>
       </Fragment>
     );
   }
