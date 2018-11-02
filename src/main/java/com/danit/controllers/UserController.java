@@ -2,7 +2,11 @@ package com.danit.controllers;
 
 import com.danit.models.User;
 import com.danit.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +23,8 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
+  private Logger logger = LoggerFactory.getLogger(UserController.class);
+
   @Autowired
   private UserService userService;
 
@@ -34,6 +40,10 @@ public class UserController {
 
   @GetMapping("/users")
   List<User> getAllUsers() {
+    logger.info("Mapped \"{[/users],methods=[GET]}\" onto com.danit.controllers.UserController.getAllUsers()");
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String currentPrincipalName = authentication.getName();
+    logger.info("User " + currentPrincipalName);
     return userService.getAllUsers();
   }
 
