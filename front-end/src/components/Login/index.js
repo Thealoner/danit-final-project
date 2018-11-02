@@ -28,18 +28,18 @@ class Login extends Component {
 
   handleSubmit (e) {
     e.preventDefault();
-      let headers = {
-          'Content-Type': 'application/json',
-      };
-      axios.post('http://localhost:9000/login', JSON.stringify(this.state), {headers: headers})
-          .then(req => {
-              if (req.status === 200) {
-                  console.log(req.headers.authorization);
-              }
-          })
-          .catch(function (error) {
-              console.log(error);
-          });
+    let headers = {
+      'Content-Type': 'application/json',
+    };
+    axios.post('http://localhost:9000/login', JSON.stringify(this.state), {headers: headers})
+        .then(res => {
+          if (res.status === 200) {
+            console.log(res.headers.authorization);
+          }
+        })
+        .catch(function (error) {
+          console.log(error.message);
+        });
   }
 
   render () {
