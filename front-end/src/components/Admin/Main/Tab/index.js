@@ -4,25 +4,33 @@ import './index.scss';
 import Tabs, {TabPane} from 'rc-tabs';
 import TabContent from 'rc-tabs/lib/TabContent';
 import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
-import {Route} from 'react-router-dom';
+import {Route, NavLink} from 'react-router-dom';
 import Grid from '../Grid';
-import $ from 'jquery';
 
 let index = 1;
 
 class Tab extends Component {
-  componentDidMount = () => {
-    $('.tab__link').on('click', function (e) {
-      e.preventDefault();
-    });
-  };
-
   state = {
     tabs: [{
       title: 'Title',
-      content: 'Content'
+      content: 'Content',
+      tabId: ''
     }],
     activeKey: 'activeKey'
+  };
+
+  add = (e) => {
+    e.stopPropagation();
+    index++;
+    const newTab = {
+      title: `Title: ${index}`,
+      content: `Content: ${index}`
+    };
+    this.setState({
+      tabs: this.state.tabs.concat(newTab),
+      activeKey: `ActiveKey: ${index}`,
+      tabId: `${index}`
+    });
   };
 
   onTabChange = (activeKey) => {
@@ -36,7 +44,7 @@ class Tab extends Component {
     return this.state.tabs.map((t) => {
       return (<TabPane
         tab = {<span>{t.title}
-          <a className='tab__link' href="/" style={{
+          <NavLink exact to={'/admin/:tabId'} className='tab__link' style={{
             position: 'absolute',
             cursor: 'pointer',
             color: 'black',
@@ -44,17 +52,17 @@ class Tab extends Component {
             top: 0
           }}
           onClick={this.remove.bind(this, t.title)}
-          >x</a>
+          >x</NavLink>
         </span>}
         key={t.title}
       >
         <div>
-          {<Route path="/admin/:entityId" component={Grid} />}
+          <Route path="/admin/:tabId/:entityId" component={Grid} />
         </div>
       </TabPane>);
     }).concat([
       <TabPane
-        tab={ <a className='tab__link' href="/" style={{ color: 'black', cursor: 'pointer' }} onClick={this.add}> + Add</a>}
+        tab={ <NavLink exact to={'/admin/' + this.state.tabs.tabId} className='tab__link' style={{ color: 'black', cursor: 'pointer' }} onClick={this.add}> + Add</NavLink>}
         disabled={disabled}
         key={'__add'}
       />
@@ -89,23 +97,9 @@ class Tab extends Component {
     });
   };
 
-  add = (e) => {
-    e.stopPropagation();
-    index++;
-    const newTab = {
-      title: `Title: ${index}`,
-      content: `Content: ${index}`
-    };
-    this.setState({
-      tabs: this.state.tabs.concat(newTab),
-      activeKey: `ActiveKey: ${index}`
-    });
-  };
-
   render () {
     return (
       <div style = {{margin: 20}}>
-        <h2>Addable Tabs</h2>
         <div>
           <Tabs
             renderTabBar={() => (

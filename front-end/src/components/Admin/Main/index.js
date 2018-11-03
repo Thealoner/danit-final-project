@@ -15,7 +15,7 @@ class Main extends Component {
     GridEntities.forEach((entity) => {
       this.state.links.push(
         <li key={entity.id} className="main__menuitem">
-          <NavLink exact to={'/admin/' + entity.id} activeClassName="menu__link--active" className="menu__link">{entity.name}</NavLink>
+          <NavLink exact to={'/admin/' + this.tabId + '/' + entity.id} activeClassName="menu__link--active" className="menu__link">{entity.name}</NavLink>
         </li>
       );
     });
