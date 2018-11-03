@@ -39,7 +39,7 @@ class SimpleRecord extends Component {
         key: key,
         value: dataRecord[key]
       });
-    })
+    });
 
     return (
 

@@ -6,8 +6,6 @@ import Package from './Package';
 import { Route } from 'react-router-dom';
 
 class Record extends Component {
-
-
   render () {
     // let rowId = this.props.match.params.rowId;
     let rowData = this.props.location.state.rowData;

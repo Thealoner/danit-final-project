@@ -26,7 +26,7 @@ class Grid extends Component {
     let entityType = this.props.match.params.entityType;
     
     this.props.history.push({
-      pathname: '/admin/' + entityType + '/' + row.getData().id, 
+      pathname: '/admin/' + entityType + '/' + row.getData().id,
       state: {
         rowData: row.getData(),
         entityType: entityType
