@@ -5,8 +5,8 @@ import com.danit.repositories.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -37,8 +37,8 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public Optional<User> getUserById(long id) {
-    return userRepository.findById(id);
+  public User getUserById(long id) {
+    return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Cant find user with id=" + id));
   }
 
   @Override
