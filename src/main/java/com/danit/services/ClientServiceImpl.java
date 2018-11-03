@@ -4,8 +4,8 @@ import com.danit.models.Client;
 import com.danit.repositories.ClientRepository;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ClientServiceImpl implements ClientService {
@@ -23,7 +23,7 @@ public class ClientServiceImpl implements ClientService {
 
 
   @Override
-  public Optional<Client> getClientById(long id) {
-    return clientRepository.findById(id);
+  public Client getClientById(long id) {
+    return clientRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Cant find client with id=" + id));
   }
 }
