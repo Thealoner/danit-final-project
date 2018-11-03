@@ -1,12 +1,13 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import './index.scss';
+import Main from './Main';
 
 class Menu extends Component {
   render () {
     return (
-      <div className="manager">
-        This is the home manager page.
-      </div>
+      <Fragment>
+        <Main/>
+      </Fragment>
     );
   }
 }
