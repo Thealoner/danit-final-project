@@ -3,6 +3,7 @@ package com.danit.models;
 
 import com.danit.utils.CustomDateAndTimeDeserialize;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.persistence.CascadeType;
@@ -46,12 +47,9 @@ public class Contract {
   @Column(name = "active")
   private boolean isActive;
 
-  /*@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-  @JoinColumn(name = "package_id", referencedColumnName = "id")
-  private Packet packet;*/
-
   @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
   @JoinColumn(name = "client_id", updatable = false, insertable = false)
+  @JsonIgnore
   private Client client;
 
   @Column(name = "package_id")

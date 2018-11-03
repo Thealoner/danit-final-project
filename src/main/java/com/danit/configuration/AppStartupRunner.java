@@ -64,12 +64,6 @@ public class AppStartupRunner implements ApplicationRunner {
     users.forEach(user -> user.setPassword(bcryptPasswordEncoder.encode(user.getPassword())));
     userRepository.saveAll(users);
 
-    /*TypeReference<List<Packet>> packageTypeReference = new TypeReference<List<Packet>>() {
-    };
-    InputStream packageInputStream = TypeReference.class.getResourceAsStream("/json/packages.json");
-    List<Packet> packets = mapper.readValue(packageInputStream, packageTypeReference);
-    packetRepository.saveAll(packets);*/
-
     TypeReference<List<Client>> clientTypeReference = new TypeReference<List<Client>>() {
     };
     InputStream clientInputStream = TypeReference.class.getResourceAsStream("/json/clients.json");
@@ -81,7 +75,5 @@ public class AppStartupRunner implements ApplicationRunner {
     InputStream contractInputStream = TypeReference.class.getResourceAsStream("/json/contracts.json");
     List<Contract> contracts = mapper.readValue(contractInputStream, contractTypeReference);
     contractRepository.saveAll(contracts);
-
-    System.out.println(contractRepository.findAll());
   }
 }
