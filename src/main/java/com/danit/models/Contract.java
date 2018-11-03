@@ -30,7 +30,7 @@ public class Contract implements Serializable {
 
   @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
   @JoinColumn(name = "package_id", referencedColumnName = "id")
-  private Package packet;
+  private Packet packet;
 
   @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
   @JoinColumn(name = "client_id", referencedColumnName = "id")

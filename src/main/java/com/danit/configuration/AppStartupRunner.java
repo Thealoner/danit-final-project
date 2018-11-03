@@ -1,9 +1,13 @@
 package com.danit.configuration;
 
 import com.danit.models.Client;
+import com.danit.models.Contract;
+import com.danit.models.Packet;
 import com.danit.models.User;
 import com.danit.models.UserRoles;
 import com.danit.repositories.ClientRepository;
+import com.danit.repositories.ContractRepository;
+import com.danit.repositories.PacketRepository;
 import com.danit.repositories.UserRepository;
 import com.danit.repositories.UserRolesRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -29,17 +33,20 @@ public class AppStartupRunner implements ApplicationRunner {
 
   private UserRolesRepository userRolesRepository;
 
+  private PacketRepository packetRepository;
+
+  private ContractRepository contractRepository;
+
   private BCryptPasswordEncoder bcryptPasswordEncoder;
 
   @Autowired
-  public AppStartupRunner(UserRepository userRepository,
-                          ClientRepository clientRepository,
-                          BCryptPasswordEncoder bcryptPasswordEncoder,
-                          UserRolesRepository userRolesRepository) {
+  public AppStartupRunner(UserRepository userRepository, ClientRepository clientRepository, UserRolesRepository userRolesRepository, PacketRepository packetRepository, ContractRepository contractRepository, BCryptPasswordEncoder bcryptPasswordEncoder) {
     this.userRepository = userRepository;
     this.clientRepository = clientRepository;
-    this.bcryptPasswordEncoder = bcryptPasswordEncoder;
     this.userRolesRepository = userRolesRepository;
+    this.packetRepository = packetRepository;
+    this.contractRepository = contractRepository;
+    this.bcryptPasswordEncoder = bcryptPasswordEncoder;
   }
 
   @Override
@@ -64,5 +71,18 @@ public class AppStartupRunner implements ApplicationRunner {
     InputStream clientInputStream = TypeReference.class.getResourceAsStream("/json/clients.json");
     List<Client> clients = mapper.readValue(clientInputStream, clientTypeReference);
     clientRepository.saveAll(clients);
+
+    TypeReference<List<Packet>> packageTypeReference = new TypeReference<List<Packet>>() {
+    };
+    InputStream packageInputStream = TypeReference.class.getResourceAsStream("/json/packages.json");
+    List<Packet> packets = mapper.readValue(packageInputStream, packageTypeReference);
+    packetRepository.saveAll(packets);
+
+    TypeReference<List<Contract>> contractTypeReference = new TypeReference<List<Contract>>() {
+    };
+    InputStream contractInputStream = TypeReference.class.getResourceAsStream("/json/contracts.json");
+    List<Contract> contracts = mapper.readValue(contractInputStream, contractTypeReference);
+    contractRepository.saveAll(contracts);
+
   }
 }

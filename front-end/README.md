@@ -1,7 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
-You can find the most recent version of this guide [here](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md).
+You can find the most recent version of this guide [here](https://github.com/facebook/create-react-app/blob/master/packets/react-scripts/template/README.md).
 
 ## Table of Contents
 
@@ -108,7 +108,7 @@ You can find the most recent version of this guide [here](https://github.com/fac
 
 ## Updating to New Releases
 
-Create React App is divided into two packages:
+Create React App is divided into two packets:
 
 - `create-react-app` is a global command-line utility that you use to create new projects.
 - `react-scripts` is a development dependency in the generated projects (including this one).
@@ -204,7 +204,7 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 ## Supported Browsers
 
 By default, the generated project supports all modern browsers.<br>
-Support for Internet Explorer 9, 10, and 11 requires [polyfills](https://github.com/facebook/create-react-app/blob/master/packages/react-app-polyfill/README.md).
+Support for Internet Explorer 9, 10, and 11 requires [polyfills](https://github.com/facebook/create-react-app/blob/master/packets/react-app-polyfill/README.md).
 
 ### Supported Language Features
 
@@ -222,9 +222,9 @@ Learn more about [different proposal stages](https://babeljs.io/docs/plugins/#pr
 
 While we recommend using experimental proposals with some caution, Facebook heavily uses these features in the product code, so we intend to provide [codemods](https://medium.com/@cpojer/effective-javascript-codemods-5a6686bb46fb) if any of these proposals change in the future.
 
-Note that **this project includes no [polyfills](https://github.com/facebook/create-react-app/blob/master/packages/react-app-polyfill/README.md)** by default.
+Note that **this project includes no [polyfills](https://github.com/facebook/create-react-app/blob/master/packets/react-app-polyfill/README.md)** by default.
 
-If you use any other ES6+ features that need **runtime support** (such as `Array.from()` or `Symbol`), make sure you are [including the appropriate polyfills manually](https://github.com/facebook/create-react-app/blob/master/packages/react-app-polyfill/README.md), or that the browsers you are targeting already support them.
+If you use any other ES6+ features that need **runtime support** (such as `Array.from()` or `Symbol`), make sure you are [including the appropriate polyfills manually](https://github.com/facebook/create-react-app/blob/master/packets/react-app-polyfill/README.md), or that the browsers you are targeting already support them.
 
 ## Syntax Highlighting in the Editor
 
@@ -1089,7 +1089,7 @@ The global `fetch` function allows you to easily make AJAX requests. It takes in
 A Promise represents the eventual result of an asynchronous operation, you can find more information about Promises [here](https://www.promisejs.org/) and [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise). Both axios and `fetch()` use Promises under the hood. You can also use the [`async / await`](https://davidwalsh.name/async-await) syntax to reduce the callback nesting.
 
 Make sure the [`fetch()` API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) and [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) are available in your target audience's browsers.
-For example, support in Internet Explorer requires a [polyfill](https://github.com/facebook/create-react-app/blob/master/packages/react-app-polyfill/README.md).
+For example, support in Internet Explorer requires a [polyfill](https://github.com/facebook/create-react-app/blob/master/packets/react-app-polyfill/README.md).
 
 You can learn more about making AJAX requests from React components in [the FAQ entry on the React website](https://reactjs.org/docs/faq-ajax.html).
 
@@ -2503,8 +2503,8 @@ If you're seeing this error, you're likely using an old version of `react-script
 
 ## Alternatives to Ejecting
 
-[Ejecting](#npm-run-eject) lets you customize anything, but from that point on you have to maintain the configuration and scripts yourself. This can be daunting if you have many similar projects. In such cases instead of ejecting we recommend to _fork_ `react-scripts` and any other packages you need. [This article](https://auth0.com/blog/how-to-configure-create-react-app/) dives into how to do it in depth. You can find more discussion in [this issue](https://github.com/facebook/create-react-app/issues/682).
+[Ejecting](#npm-run-eject) lets you customize anything, but from that point on you have to maintain the configuration and scripts yourself. This can be daunting if you have many similar projects. In such cases instead of ejecting we recommend to _fork_ `react-scripts` and any other packets you need. [This article](https://auth0.com/blog/how-to-configure-create-react-app/) dives into how to do it in depth. You can find more discussion in [this issue](https://github.com/facebook/create-react-app/issues/682).
 
 ## Something Missing?
 
-If you have ideas for more “How To” recipes that should be on this page, [let us know](https://github.com/facebook/create-react-app/issues) or [contribute some!](https://github.com/facebook/create-react-app/edit/master/packages/react-scripts/template/README.md)
+If you have ideas for more “How To” recipes that should be on this page, [let us know](https://github.com/facebook/create-react-app/issues) or [contribute some!](https://github.com/facebook/create-react-app/edit/master/packets/react-scripts/template/README.md)
