@@ -3,6 +3,7 @@ package com.danit.models;
 
 import com.danit.utils.CustomDateAndTimeDeserialize;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -10,9 +11,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -27,7 +26,6 @@ import java.util.List;
 public class Client {
 
   @Id
-  @GeneratedValue
   @Column(name = "id")
   private Long id;
 
@@ -57,12 +55,9 @@ public class Client {
   @Column(name = "email")
   private String email;
 
-  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-  @JoinColumn(name = "contract_id", referencedColumnName = "id")
+  @OneToMany(mappedBy = "clientId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @JsonIgnore
   private List<Contract> contracts;
-
-  @Column(name = "contract_id")
-  private Long contractId;
 
   public Client() {
   }
@@ -150,14 +145,6 @@ public class Client {
     this.contracts = contracts;
   }
 
-  public Long getContractId() {
-    return contractId;
-  }
-
-  public void setContractId(Long contractId) {
-    this.contractId = contractId;
-  }
-
   @Override
   public String toString() {
     return "Client{" +
@@ -170,7 +157,6 @@ public class Client {
         ", cardId='" + cardId + '\'' +
         ", email='" + email + '\'' +
         ", contracts=" + contracts +
-        ", contractId=" + contractId +
         '}';
   }
 }

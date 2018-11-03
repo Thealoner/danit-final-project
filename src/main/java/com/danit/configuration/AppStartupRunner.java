@@ -70,16 +70,18 @@ public class AppStartupRunner implements ApplicationRunner {
     List<Packet> packets = mapper.readValue(packageInputStream, packageTypeReference);
     packetRepository.saveAll(packets);*/
 
+    TypeReference<List<Client>> clientTypeReference = new TypeReference<List<Client>>() {
+    };
+    InputStream clientInputStream = TypeReference.class.getResourceAsStream("/json/clients.json");
+    List<Client> clients = mapper.readValue(clientInputStream, clientTypeReference);
+    clientRepository.saveAll(clients);
+
     TypeReference<List<Contract>> contractTypeReference = new TypeReference<List<Contract>>() {
     };
     InputStream contractInputStream = TypeReference.class.getResourceAsStream("/json/contracts.json");
     List<Contract> contracts = mapper.readValue(contractInputStream, contractTypeReference);
     contractRepository.saveAll(contracts);
 
-    TypeReference<List<Client>> clientTypeReference = new TypeReference<List<Client>>() {
-    };
-    InputStream clientInputStream = TypeReference.class.getResourceAsStream("/json/clients.json");
-    List<Client> clients = mapper.readValue(clientInputStream, clientTypeReference);
-    clientRepository.saveAll(clients);
+    System.out.println(contractRepository.findAll());
   }
 }

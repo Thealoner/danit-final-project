@@ -9,7 +9,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,13 +16,11 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
-import java.util.UUID;
 
 @Entity
 @Table(name = "contracts")
 public class Contract {
   @Id
-  @GeneratedValue
   @Column(name = "id")
   private Long id;
 
@@ -49,16 +46,19 @@ public class Contract {
   @Column(name = "active")
   private boolean isActive;
 
-/*  @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+  /*@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
   @JoinColumn(name = "package_id", referencedColumnName = "id")
   private Packet packet;*/
 
   @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-  @JoinColumn(name = "client_id", referencedColumnName = "id")
+  @JoinColumn(name = "client_id", updatable = false, insertable = false)
   private Client client;
 
   @Column(name = "package_id")
   private Long packageId;
+
+  @Column(name = "client_id")
+  private Long clientId;
 
   public Contract() {
   }
@@ -119,6 +119,14 @@ public class Contract {
     this.packageId = packageId;
   }
 
+  public Long getClientId() {
+    return clientId;
+  }
+
+  public void setClientId(Long clientId) {
+    this.clientId = clientId;
+  }
+
   @Override
   public String toString() {
     return "Contract{" +
@@ -127,7 +135,7 @@ public class Contract {
         ", endDate=" + endDate +
         ", credit=" + credit +
         ", isActive=" + isActive +
-        ", client=" + client +
+        ", clientFirstName=" + client.getFirstName() +
         ", packageId=" + packageId +
         '}';
   }

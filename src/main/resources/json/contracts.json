@@ -1,82 +1,11 @@
 [
   {
     "id": 1001,
-    "startDate": "10-01-2018",
-    "endDate": "10-01-2019",
+    "startDate": "2018-01-10",
+    "endDate": "2019-01-10",
     "credit": "10000",
     "packageId": "1002",
-    "isActive": "true"
-  },
-  {
-    "id": 1002,
-    "startDate": "02-02-2018",
-    "endDate": "02-02-2019",
-    "credit": "8000",
-    "packageId": "1002",
-    "isActive": "true"
-  },
-  {
-    "id": 1003,
-    "startDate": "03-04-2018",
-    "endDate": "03-04-2019",
-    "credit": "7000",
-    "packageId": "1002",
-    "isActive": "true"
-  },
-  {
-    "id": 1004,
-    "startDate": "01-05-2018",
-    "endDate": "01-05-2019",
-    "credit": "9000",
-    "packageId": "1001",
-    "isActive": "true"
-  },
-  {
-    "id": 1005,
-    "startDate": "02-07-2018",
-    "endDate": "02-07-2019",
-    "credit": "1000",
-    "packageId": "1001",
-    "isActive": "true"
-  },
-  {
-    "id": 1006,
-    "startDate": "03-07-2018",
-    "endDate": "03-07-2019",
-    "credit": "2000",
-    "packageId": "1003",
-    "isActive": "true"
-  },
-  {
-    "id": 1007,
-    "startDate": "13-07-2018",
-    "endDate": "13-07-2019",
-    "credit": "1000",
-    "packageId": "1003",
-    "isActive": "true"
-  },
-  {
-    "id": 1008,
-    "startDate": "14-08-2018",
-    "endDate": "14-08-2019",
-    "credit": "1000",
-    "packageId": "1003",
-    "isActive": "true"
-  },
-  {
-    "id": 1009,
-    "startDate": "20-08-2018",
-    "endDate": "20-08-2019",
-    "credit": "10000",
-    "packageId": "1003",
-    "isActive": "true"
-  },
-  {
-    "id": 1010,
-    "startDate": "09-09-2018",
-    "endDate": "09-09-2019",
-    "credit": "2000",
-    "packageId": "1003",
-    "isActive": "false"
+    "isActive": "true",
+    "clientId": 1001
   }
 ]

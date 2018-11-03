@@ -25,6 +25,7 @@ public class ContractServiceImpl implements ContractService {
 
   @Override
   public Contract getClientById(long id) {
-    return contractRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Cant find Contract with id=" + id));
+    return contractRepository.findById(id).orElseThrow(() ->
+        new EntityNotFoundException("Cant find Contract with id=" + id));
   }
 }
