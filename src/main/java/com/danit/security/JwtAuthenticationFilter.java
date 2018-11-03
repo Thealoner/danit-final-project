@@ -4,6 +4,8 @@ import com.auth0.jwt.JWT;
 import com.danit.exceptions.UserMapInputStreamException;
 import com.danit.models.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,6 +29,8 @@ import static com.danit.security.SecurityConstants.TOKEN_PREFIX;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
   private AuthenticationManager authenticationManager;
+
+  private Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
   public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
     this.authenticationManager = authenticationManager;
@@ -59,6 +63,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         .withSubject(((UserDetails) auth.getPrincipal()).getUsername())
         .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
         .sign(HMAC512(SECRET.getBytes()));
+
+    logger.info("Successful Authentication of User "
+        + ((UserDetails) auth.getPrincipal()).getUsername()
+        + " with token: "
+        + token
+    );
+
     res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
   }
 }
