@@ -37,17 +37,17 @@ public class Package {
   private boolean limitAdditionalServices;
   @Column(name = "limit_usage_by_payment_percentage")
   private boolean limitUsageByPaymentPercentage;
-  @Column(name = "visit_time")
-  private int visitTime;
-  @Column(name = "visit_time_limited")
-  private boolean visitTimeLimited;
-  @Column(name = "card_color_id")
-  private Long cardColorId;
+//  @Column(name = "visit_time")
+//  private int visitTime;
+//  @Column(name = "visit_time_limited")
+//  private boolean visitTimeLimited;
+//  @Column(name = "card_color_id")
+//  private Long cardColorId;
   @Column(name = "active")
   private boolean isActive;
   @Column(name = "purchasable")
   private boolean isPurchasable;
-  @Column(name = "parent_package_id")
-  private Long parentPackageId;
+//  @Column(name = "parent_package_id")
+//  private Long parentPackageId;
 
 }

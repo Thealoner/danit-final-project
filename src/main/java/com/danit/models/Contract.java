@@ -1,8 +1,12 @@
 package com.danit.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
@@ -21,17 +25,16 @@ public class Contract implements Serializable {
   @Column(name = "end_date")
   private Date endDate;
 
-  @Column(name = "gender")
-  private String gender;
-
   @Column(name = "credit")
   private Float credit;
 
-  @Column(name = "package_id")
-  private UUID packageId;
+  @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+  @JoinColumn(name = "package_id", referencedColumnName = "id")
+  private Package packet;
 
-  @Column(name = "client_id")
-  private UUID clientId;
+  @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+  @JoinColumn(name = "client_id", referencedColumnName = "id")
+  private Client client;
 
 
   @Column(name = "active")
