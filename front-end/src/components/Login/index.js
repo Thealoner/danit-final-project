@@ -29,16 +29,16 @@ class Login extends Component {
   handleSubmit (e) {
     e.preventDefault();
     let headers = {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     };
     axios.post('http://localhost:9000/login', JSON.stringify(this.state), {headers: headers})
         .then(res => {
           if (res.status === 200) {
-            console.log(res.headers.authorization);
+            console.log(res.headers.authorization)
           }
         })
         .catch(function (error) {
-          console.log(error.message);
+          console.log(error.message)
         });
   }
 
