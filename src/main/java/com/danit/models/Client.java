@@ -6,14 +6,17 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -22,7 +25,6 @@ import java.util.Date;
 public class Client {
 
   @Id
-  @GeneratedValue
   @Column(name = "id")
   private Long id;
 
@@ -51,6 +53,9 @@ public class Client {
 
   @Column(name = "email")
   private String email;
+
+  @OneToMany(mappedBy = "clientId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  private List<Contract> contracts;
 
   public Client() {
   }
@@ -130,6 +135,14 @@ public class Client {
     this.email = email;
   }
 
+  public List<Contract> getContracts() {
+    return contracts;
+  }
+
+  public void setContracts(List<Contract> contracts) {
+    this.contracts = contracts;
+  }
+
   @Override
   public String toString() {
     return "Client{" +
@@ -141,6 +154,7 @@ public class Client {
         ", phoneNumber='" + phoneNumber + '\'' +
         ", cardId='" + cardId + '\'' +
         ", email='" + email + '\'' +
+        ", contracts=" + contracts +
         '}';
   }
 }
