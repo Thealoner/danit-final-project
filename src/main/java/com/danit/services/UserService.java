@@ -3,7 +3,6 @@ package com.danit.services;
 import com.danit.models.User;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserService {
 
@@ -13,7 +12,7 @@ public interface UserService {
 
   User getUserByUsername(String username);
 
-  Optional<User> getUserById(long id);
+  User getUserById(long id);
 
   List<User> getAllUsers();
 
