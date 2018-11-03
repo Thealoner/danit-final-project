@@ -66,9 +66,6 @@ public class Contract {
     this.id = id;
   }
 
-  public Contract() {
-  }
-
   public Date getStartDate() {
     return startDate;
   }
