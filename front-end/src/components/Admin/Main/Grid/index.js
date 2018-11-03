@@ -23,6 +23,14 @@ class Packages extends Component {
   rowClick = (e, row) => {
     console.log('ref table: ', this.ref.table); // this is the Tabulator table instance
     console.log('rowClick id:' + row.getData().id, row, e);
+    let entityType = this.props.match.params.entityType;
+    
+    this.props.history.push({
+      pathname: '/admin/' + entityType + '/' + row.getData().id, 
+      state: {
+        rowData: row.getData()
+      }
+    });
   };
 
   setData = () => {
@@ -32,7 +40,7 @@ class Packages extends Component {
         console.log(response);
         const data = response.data.slice(0, 100);
         this.setState({
-          id: this.props.match.params.entityId,
+          id: this.props.match.params.entityType,
           data: data
           // ,columns: entity.columns
         });
@@ -47,10 +55,10 @@ class Packages extends Component {
   };
 
   setSampleData = () => {
-    let entityId = this.props.match.params.entityId;
+    let entityType = this.props.match.params.entityType;
     
     let entity = GridEntities.find((el) => {
-      return el.id === entityId;
+      return el.id === entityType;
     });
 
     this.setState({
@@ -95,9 +103,9 @@ class Packages extends Component {
   }
 
   componentDidUpdate () {
-    let entityId = this.props.match.params.entityId;
+    let entityType = this.props.match.params.entityType;
     
-    if (entityId !== this.state.id) {
+    if (entityType !== this.state.id) {
       this.setSampleData();
     }
   }
