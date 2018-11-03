@@ -3,6 +3,7 @@ import { NavLink, Route } from 'react-router-dom';
 import './index.scss';
 import Grid from './Grid';
 import GridEntities from './GridEntities';
+import Record from './Record';
 
 class Main extends Component {
   state = {
@@ -30,7 +31,8 @@ class Main extends Component {
           </ul>
         </div>
         <div className="main__right">
-          <Route path="/admin/:entityId" component={Grid} />
+          <Route exact path="/admin/:entityType" component={Grid} />
+          <Route path="/admin/:entityType/:rowId" component={Record} />
         </div>
       </main>
     );

@@ -29,7 +29,7 @@ const GridEntities = [
     ]
   },
   {
-    id: 'serviceCategories',
+    id: 'service_categories',
     name: 'Категории сервисов',
     sampleData: serviceCategories,
     columns: [
@@ -40,7 +40,7 @@ const GridEntities = [
     ]
   },
   {
-    id: 'serviceRules',
+    id: 'service_rules',
     name: 'Условия сервисов',
     sampleData: serviceRules,
     columns: [
