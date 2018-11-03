@@ -1,56 +1,63 @@
 import 'rc-tabs/assets/index.css';
-import React, { Component }  from 'react';
+import React, { Component } from 'react';
 import './index.scss';
 import Tabs, {TabPane} from 'rc-tabs';
 import TabContent from 'rc-tabs/lib/TabContent';
 import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
-import {Route} from "react-router-dom";
-import Grid from "../Grid";
+import {Route} from 'react-router-dom';
+import Grid from '../Grid';
+import $ from 'jquery';
 
 let index = 1;
 
 class Tab extends Component {
+  componentDidMount = () => {
+    $('.tab__link').on('click', function (e) {
+      e.preventDefault();
+    });
+  };
+
   state = {
     tabs: [{
       title: 'Title',
-      content: 'Content',
+      content: 'Content'
     }],
-    activeKey: 'activeKey',
+    activeKey: 'activeKey'
   };
 
   onTabChange = (activeKey) => {
     this.setState({
-      activeKey,
+      activeKey
     });
   };
 
-  construct() {
+  construct () {
     const disabled = true;
     return this.state.tabs.map((t) => {
-      return(<TabPane
+      return (<TabPane
         tab = {<span>{t.title}
-          <a style={{
+          <a className='tab__link' href="/" style={{
             position: 'absolute',
             cursor: 'pointer',
             color: 'black',
             right: 5,
-            top: 0  ,
+            top: 0
           }}
           onClick={this.remove.bind(this, t.title)}
           >x</a>
         </span>}
         key={t.title}
-        >
+      >
         <div>
           {<Route path="/admin/:entityId" component={Grid} />}
         </div>
       </TabPane>);
     }).concat([
-        <TabPane
-            tab={<a style={{ color: 'black', cursor: 'pointer' }} onClick={this.add}> + Add</a>}
-            disabled={disabled}
-            key={'__add'}
-        />,
+      <TabPane
+        tab={ <a className='tab__link' href="/" style={{ color: 'black', cursor: 'pointer' }} onClick={this.add}> + Add</a>}
+        disabled={disabled}
+        key={'__add'}
+      />
     ]);
   }
 
@@ -78,7 +85,7 @@ class Tab extends Component {
     }
     this.setState({
       tabs: after,
-      activeKey,
+      activeKey
     });
   };
 
@@ -87,31 +94,31 @@ class Tab extends Component {
     index++;
     const newTab = {
       title: `Title: ${index}`,
-      content: `Content: ${index}`,
+      content: `Content: ${index}`
     };
     this.setState({
       tabs: this.state.tabs.concat(newTab),
-      activeKey: `ActiveKey: ${index}`,
+      activeKey: `ActiveKey: ${index}`
     });
   };
 
-  render() {
+  render () {
     return (
-        <div style = {{margin: 20}}>
-          <h2>Addable Tabs</h2>
-          <div>
-            <Tabs
-                renderTabBar={() => (
-                    <ScrollableInkTabBar/>
-                )}
-                renderTabContent={() => <TabContent/>}
-                activeKey={this.state.activeKey}
-                onChange={this.onTabChange}
-            >
-              {this.construct()}
-            </Tabs>
-          </div>
+      <div style = {{margin: 20}}>
+        <h2>Addable Tabs</h2>
+        <div>
+          <Tabs
+            renderTabBar={() => (
+              <ScrollableInkTabBar/>
+            )}
+            renderTabContent={() => <TabContent/>}
+            activeKey={this.state.activeKey}
+            onChange={this.onTabChange}
+          >
+            {this.construct()}
+          </Tabs>
         </div>
+      </div>
     );
   }
 }

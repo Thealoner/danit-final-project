@@ -67,7 +67,7 @@ class Packages extends Component {
   render () {
     const options = {
       movableRows: true,
-      layout: "fitColumns"
+      layout: 'fitColumns'
     };
     
     return (
