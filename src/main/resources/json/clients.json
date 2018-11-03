@@ -7,8 +7,7 @@
     "firstName": "Philippa",
     "gender": "Female",
     "lastName": "Lawtie",
-    "phoneNumber": "958-143-9304",
-    "contract_id": "1001"
+    "phoneNumber": "958-143-9304"
   },
   {
     "id": 2,
@@ -18,8 +17,7 @@
     "firstName": "Camille",
     "gender": "Female",
     "lastName": "Gilfoy",
-    "phoneNumber": "285-186-2191",
-    "contract_id": "1002"
+    "phoneNumber": "285-186-2191"
   },
   {
     "id": 3,
@@ -29,8 +27,7 @@
     "firstName": "Maryjane",
     "gender": "Female",
     "lastName": "Drohane",
-    "phoneNumber": "708-735-5298",
-    "contract_id": "1003"
+    "phoneNumber": "708-735-5298"
   },
   {
     "id": 4,
@@ -40,8 +37,7 @@
     "firstName": "Trace",
     "gender": "Male",
     "lastName": "Mattia",
-    "phoneNumber": "124-104-7181",
-    "contract_id": "1004"
+    "phoneNumber": "124-104-7181"
   },
   {
     "id": 5,
@@ -51,8 +47,7 @@
     "firstName": "Ly",
     "gender": "Male",
     "lastName": "Lotherington",
-    "phoneNumber": "647-775-6424",
-    "contract_id": "1005"
+    "phoneNumber": "647-775-6424"
   },
   {
     "id": 6,
@@ -62,8 +57,7 @@
     "firstName": "Thomasa",
     "gender": "Female",
     "lastName": "Feechum",
-    "phoneNumber": "261-676-6376",
-    "contract_id": "1006"
+    "phoneNumber": "261-676-6376"
   },
   {
     "id": 7,
@@ -73,8 +67,7 @@
     "firstName": "Else",
     "gender": "Female",
     "lastName": "Toffanini",
-    "phoneNumber": "847-209-2920",
-    "contract_id": "1007"
+    "phoneNumber": "847-209-2920"
   },
   {
     "id": 8,
@@ -84,8 +77,7 @@
     "firstName": "Cross",
     "gender": "Male",
     "lastName": "Belmont",
-    "phoneNumber": "653-323-4324",
-    "contract_id": "1008"
+    "phoneNumber": "653-323-4324"
   },
   {
     "id": 9,
@@ -95,8 +87,7 @@
     "firstName": "Lorne",
     "gender": "Male",
     "lastName": "Reis",
-    "phoneNumber": "846-578-0662",
-    "contract_id": "1009"
+    "phoneNumber": "846-578-0662"
   },
   {
     "id": 10,
@@ -106,7 +97,6 @@
     "firstName": "Griselda",
     "gender": "Female",
     "lastName": "Winspeare",
-    "phoneNumber": "155-846-2959",
-    "contract_id": "1010"
+    "phoneNumber": "155-846-2959"
   }
 ]
