@@ -19,7 +19,18 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
             <version>2.0.5.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
 
         <!--Test-->
@@ -98,6 +109,7 @@
             <version>1.4.197</version>
         </dependency>
 
+
         <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-test -->
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -105,7 +117,6 @@
             <version>5.1.1.RELEASE</version>
             <scope>test</scope>
         </dependency>
-
 
     </dependencies>
 

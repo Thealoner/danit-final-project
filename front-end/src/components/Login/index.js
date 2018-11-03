@@ -28,20 +28,17 @@ class Login extends Component {
 
   handleSubmit (e) {
     e.preventDefault();
-
-    axios.post('http://localhost:9000/api/clients/all', this.state)
+    let headers = {
+      'Content-Type': 'application/json'
+    };
+    axios.post('http://localhost:9000/login', JSON.stringify(this.state), {headers: headers})
       .then(res => {
-        console.log(res);
-
-        if (res) {
-          $('.login').fadeOut(0);
-          // some other logic
-        } else {
-          $('.login__data-error').show();
+        if (res.status === 200) {
+          console.log(res.headers.authorization);
         }
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error.message);
       });
   }
 
