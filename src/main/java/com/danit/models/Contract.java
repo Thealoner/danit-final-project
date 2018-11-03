@@ -58,9 +58,6 @@ public class Contract {
   @Column(name = "client_id")
   private Long clientId;
 
-  public Contract() {
-  }
-
   public Long getId() {
     return id;
   }
