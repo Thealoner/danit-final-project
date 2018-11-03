@@ -1,9 +1,6 @@
 package com.danit.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
@@ -27,11 +24,13 @@ public class Contract implements Serializable {
   @Column(name = "credit")
   private Float credit;
 
-  @Column(name = "package_id")
-  private UUID packageId;
+  @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+  @JoinColumn(name = "package_id", referencedColumnName = "id")
+  private Package packet;
 
-  @Column(name = "client_id")
-  private UUID clientId;
+  @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+  @JoinColumn(name = "client_id", referencedColumnName = "id")
+  private Client client;
 
 
   @Column(name = "active")
