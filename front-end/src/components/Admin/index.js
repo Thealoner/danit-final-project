@@ -1,6 +1,5 @@
 import React, {Component, Fragment} from 'react';
 import './index.scss';
-import Header from './Header';
 import Main from './Main';
 import Login from '../Login';
 import Forgot from '../Login/Forgot';
@@ -10,7 +9,6 @@ class Admin extends Component {
   render () {
     return (
       <Fragment>
-        <Header/>
         <Main/>
         <Login/>
         <Forgot/>
