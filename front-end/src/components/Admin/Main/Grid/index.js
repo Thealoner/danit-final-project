@@ -28,7 +28,8 @@ class Packages extends Component {
     this.props.history.push({
       pathname: '/admin/' + entityType + '/' + row.getData().id, 
       state: {
-        rowData: row.getData()
+        rowData: row.getData(),
+        entityType: entityType
       }
     });
   };

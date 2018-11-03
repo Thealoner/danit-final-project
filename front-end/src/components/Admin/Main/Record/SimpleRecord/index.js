@@ -3,16 +3,15 @@ import './index.scss';
 import { ReactTabulator } from 'react-tabulator';
 import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
+import GridEntities from '../../GridEntities';
 
 class SimpleRecord extends Component {
   state = {
     id: '',
     name: '',
     columns: [
-      { title: 'ID', field: 'id', width: 150 },
-      { title: 'Title', field: 'title' },
-      { title: 'Price', field: 'price', align: 'left' },
-      { title: 'Active', field: 'active' }
+      { title: 'Key', field: 'key', width: 150 },
+      { title: 'Value', field: 'value', align: 'left' }
     ]
   };
 
@@ -21,7 +20,26 @@ class SimpleRecord extends Component {
       height: 300,
       movableRows: true
     };
-    let data = this.props.location.state.rowData;
+    
+    let entityType = this.props.location.state.entityType;
+    let rowData = this.props.location.state.rowData;
+    let entity = GridEntities.find((el) => {
+      return el.id === entityType;
+    });
+    
+    let dataRecord = entity.sampleData.find((el) => {
+      return el.id === rowData.id;
+    });
+    
+    let keys = Object.keys(dataRecord);
+    let data = [];
+    
+    keys.forEach((key) => {
+      data.push({
+        key: key,
+        value: dataRecord[key]
+      });
+    })
 
     return (
 
