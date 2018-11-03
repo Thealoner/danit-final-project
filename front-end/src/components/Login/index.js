@@ -32,14 +32,14 @@ class Login extends Component {
       'Content-Type': 'application/json'
     };
     axios.post('http://localhost:9000/login', JSON.stringify(this.state), {headers: headers})
-        .then(res => {
-          if (res.status === 200) {
-            console.log(res.headers.authorization)
-          }
-        })
-        .catch(function (error) {
-          console.log(error.message)
-        });
+      .then(res => {
+        if (res.status === 200) {
+          console.log(res.headers.authorization)
+        }
+      })
+      .catch(function (error) {
+        console.log(error.message)
+      });
   }
 
   render () {
