@@ -12,7 +12,7 @@ class Packages extends Component {
     name: '',
     data: [],
     columns: [
-      { title: 'ID', field: 'id', width: 150 },
+      { title: 'ID', field: 'id' },
       { title: 'Title', field: 'title' },
       { title: 'Price', field: 'price', align: 'left' },
       { title: 'Active', field: 'active' }
@@ -58,7 +58,7 @@ class Packages extends Component {
       data: entity.sampleData,
       columns: entity.columns
     });
-  }
+  };
 
   clearData = () => {
     this.setState({ data: [] });
@@ -66,8 +66,8 @@ class Packages extends Component {
 
   render () {
     const options = {
-      height: 300,
-      movableRows: true
+      movableRows: true,
+      layout: "fitColumns"
     };
     
     return (

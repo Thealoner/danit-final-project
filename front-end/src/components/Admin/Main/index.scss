@@ -1,10 +1,13 @@
 .main {
   display: grid;
-  grid-template-columns: 1fr 5fr;
-  grid-column-gap: .5vh;
   height: 100%;
+  grid-template-columns: 1fr 5fr;
+  grid-column-gap: .7vh;
+  overflow-y: auto;
+
 
   &__left {
+    height: 100%;
     background-color: whitesmoke;
   }
 
@@ -13,11 +16,15 @@
   }
 
   &__menuitem {
-      margin: 1em .5em;
+      margin: 2em .6em;
   }
 
   &__right {
     overflow-y: auto;
     background-color: whitesmoke;
   }
+}
+
+.tabs{
+  width: 100%;
 }

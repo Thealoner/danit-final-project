@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { NavLink, Route } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './index.scss';
-import Grid from './Grid';
 import GridEntities from './GridEntities';
+import Tab from './Tab';
 
 class Main extends Component {
   state = {
@@ -23,6 +23,7 @@ class Main extends Component {
 
   render () {
     return (
+
       <main className="main">
         <div className="main__left">
           <ul className="main__menu">
@@ -30,7 +31,7 @@ class Main extends Component {
           </ul>
         </div>
         <div className="main__right">
-          <Route path="/admin/:entityId" component={Grid} />
+          <Tab className="tabs"/>
         </div>
       </main>
     );

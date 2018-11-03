@@ -11,3 +11,14 @@
     padding: 5px 10px;
   }
 }
+
+
+
+.header__link {
+  color: #000;
+  cursor: pointer;
+
+  &:focus {
+    color: #666;
+  }
+}

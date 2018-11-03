@@ -11,7 +11,7 @@ const GridEntities = [
     name: 'Пакеты',
     sampleData: packages,
     columns: [
-      { title: 'ID', field: 'id', width: 150 },
+      { title: 'ID', field: 'id'},
       { title: 'Название', field: 'title' },
       { title: 'Цена', field: 'price', align: 'left' },
       { title: 'Активен', field: 'active' }
@@ -22,7 +22,7 @@ const GridEntities = [
     name: 'Сервисы',
     sampleData: services,
     columns: [
-      { title: 'ID', field: 'id', width: 150 },
+      { title: 'ID', field: 'id'},
       { title: 'Название', field: 'title' },
       { title: 'Цена', field: 'price', align: 'left' },
       { title: 'Активен', field: 'active' }
@@ -33,7 +33,7 @@ const GridEntities = [
     name: 'Категории сервисов',
     sampleData: serviceCategories,
     columns: [
-      { title: 'ID', field: 'id', width: 150 },
+      { title: 'ID', field: 'id'},
       { title: 'Описание', field: 'description' },
       { title: 'Цена', field: 'price', align: 'left' },
       { title: 'Активен', field: 'active' }
@@ -44,7 +44,7 @@ const GridEntities = [
     name: 'Условия сервисов',
     sampleData: serviceRules,
     columns: [
-      { title: 'ID', field: 'id', width: 150 },
+      { title: 'ID', field: 'id'},
       { title: 'Название', field: 'title' },
       { title: 'Цена', field: 'price', align: 'left' },
       { title: 'Активен', field: 'active' }
@@ -55,7 +55,7 @@ const GridEntities = [
     name: 'Контракты',
     sampleData: contracts,
     columns: [
-      { title: 'ID', field: 'id', width: 150 },
+      { title: 'ID', field: 'id'},
       { title: 'Пакет', field: 'package.title' },
       { title: 'Клиент', field: 'client.name', align: 'left' },
       { title: 'Активен', field: 'active' }
@@ -66,7 +66,7 @@ const GridEntities = [
     name: 'Организации',
     sampleData: organizations,
     columns: [
-      { title: 'ID', field: 'id', width: 150 },
+      { title: 'ID', field: 'id'},
       { title: 'Название', field: 'title' },
       { title: 'Цена', field: 'price', align: 'left' },
       { title: 'Активен', field: 'active' }
