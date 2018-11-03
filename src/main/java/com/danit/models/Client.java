@@ -6,14 +6,19 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -51,6 +56,13 @@ public class Client {
 
   @Column(name = "email")
   private String email;
+
+  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @JoinColumn(name = "contract_id", referencedColumnName = "id")
+  private List<Contract> contracts;
+
+  @Column(name = "contract_id")
+  private Long contractId;
 
   public Client() {
   }
@@ -130,6 +142,22 @@ public class Client {
     this.email = email;
   }
 
+  public List<Contract> getContracts() {
+    return contracts;
+  }
+
+  public void setContracts(List<Contract> contracts) {
+    this.contracts = contracts;
+  }
+
+  public Long getContractId() {
+    return contractId;
+  }
+
+  public void setContractId(Long contractId) {
+    this.contractId = contractId;
+  }
+
   @Override
   public String toString() {
     return "Client{" +
@@ -141,6 +169,8 @@ public class Client {
         ", phoneNumber='" + phoneNumber + '\'' +
         ", cardId='" + cardId + '\'' +
         ", email='" + email + '\'' +
+        ", contracts=" + contracts +
+        ", contractId=" + contractId +
         '}';
   }
 }
