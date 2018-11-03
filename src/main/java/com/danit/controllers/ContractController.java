@@ -15,7 +15,7 @@ public class ContractController {
   @Autowired
   private ContractService contractService;
 
-  @GetMapping("/clients")
+  @GetMapping("/contracts")
   List<Contract> getAllContracts() {
     return contractService.getAllClients();
   }
