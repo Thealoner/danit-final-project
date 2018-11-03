@@ -19,12 +19,12 @@ public class ContractServiceImpl implements ContractService {
   }
 
   @Override
-  public List<Contract> getAllClients() {
+  public List<Contract> getAllContracts() {
     return contractRepository.findAll();
   }
 
   @Override
-  public Contract getClientById(long id) {
+  public Contract getContractById(long id) {
     return contractRepository.findById(id).orElseThrow(() ->
         new EntityNotFoundException("Cant find Contract with id=" + id));
   }

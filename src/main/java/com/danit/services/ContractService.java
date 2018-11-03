@@ -5,7 +5,7 @@ import com.danit.models.Contract;
 import java.util.List;
 
 public interface ContractService {
-  List<Contract> getAllClients();
+  List<Contract> getAllContracts();
 
-  Contract getClientById(long id);
+  Contract getContractById(long id);
 }

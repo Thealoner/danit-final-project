@@ -17,12 +17,12 @@ public class ContractController {
 
   @GetMapping("/contracts")
   List<Contract> getAllContracts() {
-    return contractService.getAllClients();
+    return contractService.getAllContracts();
   }
 
   @GetMapping("/contracts/{id}")
   Contract getContractById(@PathVariable(name = "id") long id) {
-    return contractService.getClientById(id);
+    return contractService.getContractById(id);
   }
 
 }
