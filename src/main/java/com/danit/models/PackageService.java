@@ -2,6 +2,8 @@ package com.danit.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.UUID;
 
@@ -9,6 +11,8 @@ import java.util.UUID;
 @Table(name = "packages_services")
 public class PackageService {
 
+  @Id
+  @GeneratedValue
   @Column(name = "package_id")
   private UUID packageId;
 
