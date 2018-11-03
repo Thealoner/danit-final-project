@@ -1,6 +1,13 @@
 package com.danit.models;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
@@ -17,9 +24,6 @@ public class Contract implements Serializable {
 
   @Column(name = "end_date")
   private Date endDate;
-
-  @Column(name = "gender")
-  private String gender;
 
   @Column(name = "credit")
   private Float credit;
