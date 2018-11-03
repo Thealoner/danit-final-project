@@ -12,10 +12,14 @@ class Grid extends Component {
     name: '',
     data: [],
     columns: [
-      { title: 'ID', field: 'id' },
-      { title: 'Title', field: 'title' },
-      { title: 'Price', field: 'price', align: 'left' },
-      { title: 'Active', field: 'active' }
+      { title: 'ID', field: 'id', width: 150 },
+      { title: 'Номер карты', field: 'cardId' },
+      { title: 'Имя', field: 'firstName' },
+      { title: 'Фамилия', field: 'lastName', align: 'left' },
+      { title: 'Дата рождения', field: 'birthDate' },
+      { title: 'Пол', field: 'gender' },
+      { title: 'E-mail', field: 'email' },
+      { title: 'Номер телефона', field: 'phoneNumber' }
     ]
   };
   ref = null;
@@ -66,8 +70,8 @@ class Grid extends Component {
 
   render () {
     const options = {
-      movableRows: true,
-      layout: 'fitColumns'
+      height: 300,
+      movableRows: true
     };
     
     return (
