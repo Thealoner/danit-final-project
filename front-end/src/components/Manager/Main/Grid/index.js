@@ -13,9 +13,13 @@ class Grid extends Component {
     data: [],
     columns: [
       { title: 'ID', field: 'id', width: 150 },
-      { title: 'Title', field: 'title' },
-      { title: 'Price', field: 'price', align: 'left' },
-      { title: 'Active', field: 'active' }
+      { title: 'Номер карты', field: 'cardId' },
+      { title: 'Имя', field: 'firstName' },
+      { title: 'Фамилия', field: 'lastName', align: 'left' },
+      { title: 'Дата рождения', field: 'birthDate' },
+      { title: 'Пол', field: 'gender' },
+      { title: 'E-mail', field: 'email' },
+      { title: 'Номер телефона', field: 'phoneNumber' }
     ]
   };
   ref = null;
