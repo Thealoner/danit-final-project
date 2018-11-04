@@ -6,6 +6,7 @@ import TabContent from 'rc-tabs/lib/TabContent';
 import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
 import {Route, NavLink} from 'react-router-dom';
 import Grid from '../Grid';
+import Record from '../Record';
 
 let index = 1;
 
@@ -24,12 +25,12 @@ class Tab extends Component {
     index++;
     const newTab = {
       title: `Title: ${index}`,
-      content: `Content: ${index}`
+      content: `Content: ${index}`,
+      tabId: `${index}`
     };
     this.setState({
       tabs: this.state.tabs.concat(newTab),
       activeKey: `ActiveKey: ${index}`,
-      tabId: `${index}`
     });
   };
 
@@ -45,6 +46,7 @@ class Tab extends Component {
       return (<TabPane
         tab = {<span>{t.title}
           <NavLink exact to={'/admin/:tabId'} className='tab__link' style={{
+          <NavLink exact to={'/admin/' + t.tabId} className='tab__link' style={{
             position: 'absolute',
             cursor: 'pointer',
             color: 'black',
@@ -57,7 +59,8 @@ class Tab extends Component {
         key={t.title}
       >
         <div>
-          <Route path="/admin/:tabId/:entityId" component={Grid} />
+          <Route exact path="/admin/:tabId/:entityType" component={Grid} />
+          <Route path="/admin/:tabId/:entityType/:rowId" component={Record} />
         </div>
       </TabPane>);
     }).concat([

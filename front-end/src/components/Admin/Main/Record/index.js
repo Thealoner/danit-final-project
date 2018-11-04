@@ -13,17 +13,17 @@ class Record extends Component {
 
     return (
       <div className="record">
-        <Route path={ '/admin/packages/:id' } component={Tabs} rowData={rowData} entityType={entityType} />
-        <Route path={ '/admin/services/:id' } component={Tabs} rowData={rowData} entityType={entityType} />
-        <Route path={ '/admin/contracts/:id' } component={Tabs} rowData={rowData} entityType={entityType} />
+        <Route path={ '/admin/:tabId/packages/:id' } component={Tabs} rowData={rowData} entityType={entityType} />
+        <Route path={ '/admin/:tabId/services/:id' } component={Tabs} rowData={rowData} entityType={entityType} />
+        <Route path={ '/admin/:tabId/contracts/:id' } component={Tabs} rowData={rowData} entityType={entityType} />
 
-        <Route path={ '/admin/packages/:id' } component={Package} rowData={rowData} entityType={entityType} />
-        <Route path={ '/admin/services/:id' } component={Package} rowData={rowData} entityType={entityType} />
-        <Route path={ '/admin/contracts/:id' } component={Package} rowData={rowData} entityType={entityType} />
+        <Route path={ '/admin/:tabId/packages/:id' } component={Package} rowData={rowData} entityType={entityType} />
+        <Route path={ '/admin/:tabId/services/:id' } component={Package} rowData={rowData} entityType={entityType} />
+        <Route path={ '/admin/:tabId/contracts/:id' } component={Package} rowData={rowData} entityType={entityType} />
 
-        <Route path={ '/admin/service_categories/:id' } component={SimpleRecord} rowData={rowData} entityType={entityType} />
-        <Route path={ '/admin/service_rules/:id' } component={SimpleRecord} rowData={rowData} entityType={entityType} />
-        <Route path={ '/admin/organizations/:id' } component={SimpleRecord} rowData={rowData} entityType={entityType} />
+        <Route path={ '/admin/:tabId/service_categories/:id' } component={SimpleRecord} rowData={rowData} entityType={entityType} />
+        <Route path={ '/admin/:tabId/service_rules/:id' } component={SimpleRecord} rowData={rowData} entityType={entityType} />
+        <Route path={ '/admin/:tabId/organizations/:id' } component={SimpleRecord} rowData={rowData} entityType={entityType} />
       </div>
     );
   }
