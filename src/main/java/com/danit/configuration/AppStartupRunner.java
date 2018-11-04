@@ -1,9 +1,11 @@
 package com.danit.configuration;
 
 import com.danit.models.Client;
+import com.danit.models.Contract;
 import com.danit.models.User;
 import com.danit.models.UserRoles;
 import com.danit.repositories.ClientRepository;
+import com.danit.repositories.ContractRepository;
 import com.danit.repositories.UserRepository;
 import com.danit.repositories.UserRolesRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -31,15 +33,18 @@ public class AppStartupRunner implements ApplicationRunner {
 
   private BCryptPasswordEncoder bcryptPasswordEncoder;
 
+  private ContractRepository contractRepository;
+
   @Autowired
   public AppStartupRunner(UserRepository userRepository,
                           ClientRepository clientRepository,
                           BCryptPasswordEncoder bcryptPasswordEncoder,
-                          UserRolesRepository userRolesRepository) {
+                          UserRolesRepository userRolesRepository, ContractRepository contractRepository) {
     this.userRepository = userRepository;
     this.clientRepository = clientRepository;
     this.bcryptPasswordEncoder = bcryptPasswordEncoder;
     this.userRolesRepository = userRolesRepository;
+    this.contractRepository = contractRepository;
   }
 
   @Override
@@ -64,5 +69,11 @@ public class AppStartupRunner implements ApplicationRunner {
     InputStream clientInputStream = TypeReference.class.getResourceAsStream("/json/clients.json");
     List<Client> clients = mapper.readValue(clientInputStream, clientTypeReference);
     clientRepository.saveAll(clients);
+
+    TypeReference<List<Contract>> contractTypeReference = new TypeReference<List<Contract>>() {
+    };
+    InputStream contractInputStream = TypeReference.class.getResourceAsStream("/json/contracts.json");
+    List<Contract> contracts = mapper.readValue(contractInputStream, contractTypeReference);
+    contractRepository.saveAll(contracts);
   }
 }

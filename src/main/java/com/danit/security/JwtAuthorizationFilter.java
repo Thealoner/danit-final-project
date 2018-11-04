@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
 
-
 import static com.danit.security.SecurityConstants.HEADER_STRING;
 import static com.danit.security.SecurityConstants.SECRET;
 import static com.danit.security.SecurityConstants.TOKEN_PREFIX;
