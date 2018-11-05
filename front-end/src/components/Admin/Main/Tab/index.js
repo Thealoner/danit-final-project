@@ -8,98 +8,42 @@ import {Route, NavLink, withRouter} from 'react-router-dom';
 import Grid from '../Grid';
 import Record from '../Record';
 
-let index = 1;
-
 class Tab extends Component {
-  state = {
-    tabs: [{
-      title: 'Title',
-      content: 'Content',
-      tabId: ''
-    }],
-    activeKey: 'Title'
-  };
-
-  add = (e) => {
-    e.stopPropagation();
-    index++;
-    const newTab = {
-      title: `Title: ${index}`,
-      content: `Content: ${index}`,
-      tabId: `${index}`
-    };
-    this.setState({
-      tabs: this.state.tabs.concat(newTab),
-      activeKey: `ActiveKey: ${index}`,
-    });
-  };
-
-  onTabChange = (activeKey) => {
-    this.setState({
-      activeKey
-    });
-
-    this.props.history.push('/admin/'  + activeKey);
-  };
 
   construct () {
     const disabled = true;
-    return this.state.tabs.map((t) => {
+    return this.props.tabs.map((t) => {
       return (<TabPane
         tab = {<span>{t.title}
-          <NavLink exact to={'/admin/' + t.tabId} className='tab__link' style={{
+          <NavLink to={'/admin/' + t.tabId} className='tab__link' style={{
             position: 'absolute',
             cursor: 'pointer',
             color: 'black',
             right: 5,
             top: 0
           }}
-          onClick={this.remove.bind(this, t.title)}
+          onClick={this.props.remove.bind(this, t.title)}
           >x</NavLink>
         </span>}
         key={t.title}
       >
         <div>
-          <Route exact path="/admin/:tabId/:entityType" component={Grid} />
-          <Route path="/admin/:tabId/:entityType/:rowId" component={Record} />
+          <Route exact path="/admin/:tabId/:entityType" render={
+            (props)=><Grid setActiveModule={this.props.setActiveModule} {...props} />
+          }/>
+          <Route path="/admin/:tabId/:entityType/:rowId" render={
+            (props)=><Record setActiveModule={this.props.setActiveModule} {...props} />
+          } />
         </div>
       </TabPane>);
     }).concat([
       <TabPane
-        tab={ <NavLink exact to={'/admin/' + this.state.tabs.tabId} className='tab__link' style={{ color: 'black', cursor: 'pointer' }} onClick={this.add}> + Add</NavLink>}
+        tab={ <NavLink exact to={'/admin/' + this.props.tabs.tabId} className='tab__link' style={{ color: 'black', cursor: 'pointer' }} onClick={this.props.add}> + Add</NavLink>}
         disabled={disabled}
         key={'__add'}
       />
     ]);
   }
-
-  remove = (title, e) => {
-    e.stopPropagation();
-    if (this.state.tabs.length === 1) {
-      alert('Error. You cannot delete this tab');
-      return;
-    }
-    let foundIndex = 0;
-    const after = this.state.tabs.filter((t, i) => {
-      if (t.title !== title) {
-        return true;
-      }
-      foundIndex = i;
-      return false;
-    });
-
-    let activeKey = this.state.activeKey;
-    if (activeKey === title) {
-      if (foundIndex) {
-        foundIndex--;
-      }
-      activeKey = after[foundIndex].title;
-    }
-    this.setState({
-      tabs: after,
-      activeKey
-    });
-  };
 
   render () {
     return (
@@ -110,8 +54,8 @@ class Tab extends Component {
               <ScrollableInkTabBar/>
             )}
             renderTabContent={() => <TabContent/>}
-            activeKey={this.state.activeKey}
-            onChange={this.onTabChange}
+            activeKey={this.props.activeKey}
+            onChange={this.props.onTabChange}
           >
             {this.construct()}
           </Tabs>
@@ -121,4 +65,4 @@ class Tab extends Component {
   }
 }
 
-export default withRouter(Tab);
+export default Tab;

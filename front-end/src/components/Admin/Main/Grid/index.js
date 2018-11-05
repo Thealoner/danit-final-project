@@ -56,11 +56,14 @@ class Grid extends Component {
   };
 
   setSampleData = () => {
+    debugger;
     let entityType = this.props.match.params.entityType;
     
     let entity = GridEntities.find((el) => {
       return el.id === entityType;
     });
+    
+    this.props.setActiveModule(entity.id);
 
     this.setState({
       id: entity.id,
