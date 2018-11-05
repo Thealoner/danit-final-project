@@ -12,7 +12,7 @@ class Grid extends Component {
     name: '',
     data: [],
     columns: [
-      { title: 'ID', field: 'id', width: 150 },
+      { title: 'ID', field: 'id' },
       { title: 'Title', field: 'title' },
       { title: 'Price', field: 'price', align: 'left' },
       { title: 'Active', field: 'active' }
@@ -21,12 +21,12 @@ class Grid extends Component {
   ref = null;
 
   rowClick = (e, row) => {
-    console.log('ref table: ', this.ref.table); // this is the Tabulator table instance
-    console.log('rowClick id:' + row.getData().id, row, e);
-    let entityType = this.props.match.params.entityType;
+    let { entityType, tabKey } = this.props.match.params;
+    
+    this.props.setTabContentUrl(entityType + '/' + row.getData().id);
     
     this.props.history.push({
-      pathname: '/admin/' + entityType + '/' + row.getData().id,
+      pathname: '/admin/' + tabKey + '/' + entityType + '/' + row.getData().id,
       state: {
         rowData: row.getData(),
         entityType: entityType
@@ -61,6 +61,8 @@ class Grid extends Component {
     let entity = GridEntities.find((el) => {
       return el.id === entityType;
     });
+    
+    this.props.setTabContentUrl(entity.id);
 
     this.setState({
       id: entity.id,
@@ -75,8 +77,8 @@ class Grid extends Component {
 
   render () {
     const options = {
-      height: 300,
-      movableRows: true
+      movableRows: true,
+      layout: 'fitColumns'
     };
     
     return (
