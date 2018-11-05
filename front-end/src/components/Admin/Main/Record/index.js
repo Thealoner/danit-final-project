@@ -7,7 +7,6 @@ import { Route } from 'react-router-dom';
 import GridEntities from '../GridEntities';
 
 class Record extends Component {
-
   getRoutes = () => {
     let rowId = this.props.match.params.rowId;
     let entityType = this.props.match.params.entityType;
@@ -17,17 +16,19 @@ class Record extends Component {
 
       if (entity.recordType === 'simple') {
         route = (
-        <Route key={entity.id} path={ '/admin/:tabKey/' + entity.id + '/:rowId' } render={
+          <Route key={entity.id} path={ '/admin/:tabKey/' + entity.id + '/:rowId' } render={
             (props) => <SimpleRecord setTabContentUrl={this.props.setTabContentUrl} entityType={entityType} {...props} />
-        } />
-      )} else if (entity.recordType === 'tabbed') {
+          } />
+        );
+      } else if (entity.recordType === 'tabbed') {
         route = (
           <Fragment key={entity.id}>
             <Route path={ '/admin/:tabKey/' + entity.id + '/:rowId' } component={RecordTabs} rowId={rowId} entityType={entityType} />
             <Route path={ '/admin/:tabKey/' + entity.id + '/:rowId' } component={Package} rowId={rowId} entityType={entityType} />
           </Fragment>
-        )
+        );
       }
+
       return route;
     });
   }

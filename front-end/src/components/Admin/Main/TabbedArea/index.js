@@ -9,31 +9,31 @@ import Grid from '../Grid';
 import Record from '../Record';
 
 class TabbedArea extends Component {
-
   construct () {
     const disabled = true;
 
     return this.props.tabs.map((t) => {
       return (
-      <TabPane
-        key={t.tabKey}
-        tab = {<span>{t.title}
-          <NavLink
-            to={'/admin/' + t.tabKey}
-            className='tabbedarea__close'
-            onClick={this.props.remove.bind(this, t.tabKey)}
-          >x</NavLink>
-        </span>}
-      >
-        <div>
-          <Route exact path="/admin/:tabKey/:entityType" render={
-            (props) => <Grid setTabContentUrl={this.props.setTabContentUrl} {...props} />
-          } />
-          <Route path="/admin/:tabKey/:entityType/:rowId" render={
-            (props) => <Record setTabContentUrl={this.props.setTabContentUrl} {...props} />
-          } />
-        </div>
-      </TabPane>);
+        <TabPane
+          key={t.tabKey}
+          tab = {<span>{t.title}
+            <NavLink
+              to={'/admin/' + t.tabKey}
+              className='tabbedarea__close'
+              onClick={this.props.remove.bind(this, t.tabKey)}
+            >x</NavLink>
+          </span>}
+        >
+          <div>
+            <Route exact path="/admin/:tabKey/:entityType" render={
+              (props) => <Grid setTabContentUrl={this.props.setTabContentUrl} {...props} />
+            } />
+            <Route path="/admin/:tabKey/:entityType/:rowId" render={
+              (props) => <Record setTabContentUrl={this.props.setTabContentUrl} {...props} />
+            } />
+          </div>
+        </TabPane>
+      );
     }).concat([
       <TabPane
         key={'__add'}

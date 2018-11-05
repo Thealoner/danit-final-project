@@ -15,7 +15,6 @@ class Main extends Component {
     }],
     activeKey: '1'
   };
-  
 
   add = (e) => {
     e.stopPropagation();
@@ -31,7 +30,7 @@ class Main extends Component {
       activeKey: `${index}`
     });
     
-    this.props.history.push('/admin/'  + index + '/');
+    this.props.history.push('/admin/' + index + '/');
   };
 
   onTabChange = (activeKey) => {
@@ -41,8 +40,9 @@ class Main extends Component {
 
     let clickedTab = this.state.tabs.find((tab) => {
       return tab.tabKey === activeKey;
-    })
-    this.props.history.push('/admin/'  + activeKey + '/' + clickedTab.contentUrl);
+    });
+
+    this.props.history.push('/admin/' + activeKey + '/' + clickedTab.contentUrl);
   };
 
   remove = (tabKey, e) => {
