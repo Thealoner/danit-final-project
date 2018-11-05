@@ -107,9 +107,6 @@ class Main extends Component {
       </main>
     );
   }
-
-  componentDidUpdate () {
-  }
 }
 
 export default withRouter(Main);

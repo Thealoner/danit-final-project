@@ -23,7 +23,8 @@ class SimpleRecord extends Component {
     
     // let entityType = this.props.location.state.entityType;
     // let rowData = this.props.location.state.rowData;
-    let rowId = this.props.match.params.rowId;
+    debugger;
+    let rowId = this.props.match.params.id;
     let entityType = this.props.match.params.entityType;
 
     let entity = GridEntities.find((el) => {
