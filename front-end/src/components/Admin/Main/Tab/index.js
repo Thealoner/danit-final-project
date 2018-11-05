@@ -4,7 +4,7 @@ import './index.scss';
 import Tabs, {TabPane} from 'rc-tabs';
 import TabContent from 'rc-tabs/lib/TabContent';
 import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
-import {Route, NavLink} from 'react-router-dom';
+import {Route, NavLink, withRouter} from 'react-router-dom';
 import Grid from '../Grid';
 import Record from '../Record';
 
@@ -17,7 +17,7 @@ class Tab extends Component {
       content: 'Content',
       tabId: ''
     }],
-    activeKey: 'activeKey'
+    activeKey: 'Title'
   };
 
   add = (e) => {
@@ -38,6 +38,8 @@ class Tab extends Component {
     this.setState({
       activeKey
     });
+
+    this.props.history.push('/admin/'  + activeKey);
   };
 
   construct () {
@@ -119,4 +121,4 @@ class Tab extends Component {
   }
 }
 
-export default Tab;
+export default withRouter(Tab);
