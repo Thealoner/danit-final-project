@@ -1,41 +1,18 @@
 .forgot {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 3;
-  display: none;
-  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100%;
-  background-color: rgba(0, 0, 0, .9);
+  background-color: #000;
 
   &__dialog {
     position: relative;
-    top: 50%;
-    left: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 400px;
     height: 200px;
     background-color: #fff;
-    transform: translate(-50%, -50%);
-  }
-
-  &__close {
-    position: absolute;
-    top: 0;
-    right: 0;
-    color: white;
-    font-size: 30px;
-    line-height: 20px;
-    transform: translate(100%, -10%);
-    cursor: pointer;
-
-    &:active {
-      transform: translate(100%, -10%) scale(.9);
-    }
   }
 
   &__form {

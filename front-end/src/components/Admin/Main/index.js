@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import './index.scss';
 import Tab from './Tab';
 import EntitiesMenu from './EntitiesMenu';

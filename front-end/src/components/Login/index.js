@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import './index.scss';
 import $ from 'jquery';
 import axios from 'axios';
+import {Link} from 'react-router-dom';
+import * as JWT from 'jwt-decode';
 
 class Login extends Component {
   constructor () {
@@ -34,11 +36,14 @@ class Login extends Component {
     axios.post('http://localhost:9000/login', JSON.stringify(this.state), {headers: headers})
       .then(res => {
         if (res.status === 200) {
-          console.log(res.headers.authorization);
+          let token = JWT(res.headers.authorization);
+          console.log(token);
+          this.props.history.push('/admin');
         }
       })
       .catch(function (error) {
         console.log(error.message);
+        $('.login__data-error').fadeIn();
       });
   }
 
@@ -46,8 +51,6 @@ class Login extends Component {
     return (
       <div className="login" ref="login">
         <div className="login__dialog">
-          <span className="login__close">&times;</span>
-
           <form action="#" className="login__form" onSubmit={this.handleSubmit}>
             <label htmlFor="username">Логин</label>
             <input type="text" name="username" id="username" placeholder="введите имя пользователя"
@@ -57,10 +60,9 @@ class Login extends Component {
               value={this.state.password} onChange={this.handleChange} required/>
             <input type="submit" name="" value="Войти"/>
           </form>
-
           <div className="login__links-wrapper">
-            <a href="/" className="login__link login__link--forgot">Забыл пароль</a>
-            <a href="/" className="login__link login__link--registration">Регистрация</a>
+            <Link to="/forgot-password" className="login__link login__link--forgot">Забыл пароль</Link>
+            <Link to="/registration" className="login__link login__link--registration">Регистрация</Link>
           </div>
           <span className="login__data-error">неверный логин или пароль</span>
         </div>
@@ -69,31 +71,6 @@ class Login extends Component {
   }
 
     componentDidMount = () => {
-      let self = this;
-      let loginPage = $('.login');
-      $('.login__close').on('click', function () {
-        loginPage.fadeOut();
-      });
-
-      $('.login__link').on('click', function () {
-        loginPage.fadeOut(0);
-        return false;
-      });
-
-      $('.login__link--forgot').on('click', function () {
-        $('.forgot').fadeIn(0);
-      });
-
-      $('.login__link--registration').on('click', function () {
-        $('.registration').fadeIn(0);
-      });
-
-      $(window).on('click', function (event) {
-        if (event.target === self.refs.login) {
-          loginPage.fadeOut();
-        }
-      });
-
       let form = $('form');
       let submitButton = $('input[type="submit"]');
 
@@ -118,7 +95,7 @@ class Login extends Component {
       });
 
       $('input:not(input:last-child)').on('focus', function () {
-        $('.login__data-error').hide();
+        $('.login__data-error').fadeOut();
       });
     };
 }

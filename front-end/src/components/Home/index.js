@@ -1,29 +1,15 @@
-import React, {Component, Fragment} from 'react';
-import { Link } from 'react-router-dom';
+import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 import './index.scss';
-import $ from 'jquery';
-import Login from '../Login';
 
 class Home extends Component {
-  componentDidMount = () => {
-    $('.header__link').on('click', function () {
-      $('.login').fadeIn();
-      return false;
-    });
-  };
-
   render () {
     return (
-      <Fragment>
-        <Login/>
-        <div className="home">
-          <ul>
-            <li className="home__listitem"><a href="/" className="header__link">Авторизация</a></li>
-            <li className="home__listitem"><Link to="/admin">Admin Panel</Link></li>
-            <li className="home__listitem"><Link to="/manager">Manager Panel</Link></li>
-          </ul>
-        </div>
-      </Fragment>
+      <div className="home">
+        <Link to="/login" className="home__link">Авторизация</Link>
+        <Link to="/admin" className="home__link">Админ</Link>
+        <Link to="/manager" className="home__link">Менеджер</Link>
+      </div>
     );
   }
 }

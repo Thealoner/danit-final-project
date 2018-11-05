@@ -4,12 +4,11 @@ import './index.scss';
 import Tabs, {TabPane} from 'rc-tabs';
 import TabContent from 'rc-tabs/lib/TabContent';
 import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
-import {Route, NavLink, withRouter} from 'react-router-dom';
+import {Route, NavLink} from 'react-router-dom';
 import Grid from '../Grid';
 import Record from '../Record';
 
 class Tab extends Component {
-
   construct () {
     const disabled = true;
     return this.props.tabs.map((t) => {
@@ -29,10 +28,10 @@ class Tab extends Component {
       >
         <div>
           <Route exact path="/admin/:tabId/:entityType" render={
-            (props)=><Grid setActiveModule={this.props.setActiveModule} {...props} />
+            (props) => <Grid setActiveModule={this.props.setActiveModule} {...props} />
           }/>
           <Route path="/admin/:tabId/:entityType/:rowId" render={
-            (props)=><Record setActiveModule={this.props.setActiveModule} {...props} />
+            (props) => <Record setActiveModule={this.props.setActiveModule} {...props} />
           } />
         </div>
       </TabPane>);
