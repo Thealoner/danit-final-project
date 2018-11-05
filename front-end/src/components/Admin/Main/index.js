@@ -30,9 +30,8 @@ class Main extends Component {
       tabs: this.state.tabs.concat(newTab),
       activeKey: `${index}`
     });
-    // debugger;
-    // let activeKey = this.state.activeKey;
-    // this.props.history.push('/admin/'  + activeKey + '/' + this.state.tabs.find(tab => tab.tabKey === activeKey).contentUrl);
+    
+    this.props.history.push('/admin/'  + index + '/');
   };
 
   onTabChange = (activeKey) => {

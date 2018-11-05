@@ -39,12 +39,11 @@ class TabbedArea extends Component {
         key={'__add'}
         disabled={disabled}
         tab={
-          <NavLink
-            exact to={'/admin/' + this.props.tabs.tabKey}
+          <span
             className='tabbedarea__link'
             onClick={this.props.add}>
             + Add
-          </NavLink>
+          </span>
         }
       />
     ]);

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import './index.scss';
-import Tabs from './Tabs';
+import RecordTabs from './RecordTabs';
 import SimpleRecord from './SimpleRecord';
 import Package from './Package';
 import { Route } from 'react-router-dom';
@@ -22,9 +22,9 @@ class Record extends Component {
         } />
       )} else if (entity.recordType === 'tabbed') {
         route = (
-          <Fragment>
-            <Route key={entity.id} path={ '/admin/:tabKey/' + entity.id + '/:rowId' } component={Tabs} rowId={rowId} entityType={entityType} />
-            <Route key={entity.id} path={ '/admin/:tabKey/' + entity.id + '/:rowId' } component={Package} rowId={rowId} entityType={entityType} />
+          <Fragment key={entity.id}>
+            <Route path={ '/admin/:tabKey/' + entity.id + '/:rowId' } component={RecordTabs} rowId={rowId} entityType={entityType} />
+            <Route path={ '/admin/:tabKey/' + entity.id + '/:rowId' } component={Package} rowId={rowId} entityType={entityType} />
           </Fragment>
         )
       }
