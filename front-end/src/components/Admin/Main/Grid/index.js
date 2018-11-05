@@ -21,12 +21,13 @@ class Grid extends Component {
   ref = null;
 
   rowClick = (e, row) => {
-    console.log('ref table: ', this.ref.table); // this is the Tabulator table instance
-    console.log('rowClick id:' + row.getData().id, row, e);
     let entityType = this.props.match.params.entityType;
+    let tabId = this.props.match.params.tabId;
+    
+    this.props.setActiveModule(entityType + '/' + row.getData().id);
     
     this.props.history.push({
-      pathname: '/admin/' + entityType + '/' + row.getData().id,
+      pathname: '/admin/' + tabId + '/' + entityType + '/' + row.getData().id,
       state: {
         rowData: row.getData(),
         entityType: entityType
@@ -56,7 +57,6 @@ class Grid extends Component {
   };
 
   setSampleData = () => {
-    debugger;
     let entityType = this.props.match.params.entityType;
     
     let entity = GridEntities.find((el) => {

@@ -22,10 +22,10 @@ class Tab extends Component {
             right: 5,
             top: 0
           }}
-          onClick={this.props.remove.bind(this, t.title)}
+          onClick={this.props.remove.bind(this, t.tabId)}
           >x</NavLink>
         </span>}
-        key={t.title}
+        key={t.tabId}
       >
         <div>
           <Route exact path="/admin/:tabId/:entityType" render={

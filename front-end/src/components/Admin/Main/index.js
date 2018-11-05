@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
 import './index.scss';
-import GridEntities from './GridEntities';
 import Tab from './Tab';
+import EntitiesMenu from './EntitiesMenu';
 
 let index = 1;
 
@@ -11,24 +11,11 @@ class Main extends Component {
     tabs: [{
       title: 'Title',
       content: 'Content',
-      tabId: '',
+      tabId: '1',
       activeModule: ''
     }],
-    activeKey: 'Title',
-    links: []
+    activeKey: '1'
   };
-
-  constructor (props) {
-    super(props);
-
-    GridEntities.forEach((entity) => {
-      this.state.links.push(
-        <li key={entity.id} className="main__menuitem">
-          <NavLink exact to={'/admin/' + this.state.activeKey + '/' + entity.id} activeClassName="menu__link--active" className="menu__link">{entity.name}</NavLink>
-        </li>
-      );
-    });
-  }
   
 
   add = (e) => {
@@ -40,10 +27,14 @@ class Main extends Component {
       tabId: `${index}`,
       activeModule: ''
     };
+    
     this.setState({
       tabs: this.state.tabs.concat(newTab),
-      activeKey: `ActiveKey: ${index}`,
+      activeKey: `${index}`
     });
+    // debugger;
+    // let activeKey = this.state.activeKey;
+    // this.props.history.push('/admin/'  + activeKey + '/' + this.state.tabs.find(tab => tab.tabId === activeKey).activeModule);
   };
 
   onTabChange = (activeKey) => {
@@ -52,12 +43,12 @@ class Main extends Component {
     });
 
     let clickedTab = this.state.tabs.find((tab) => {
-      return tab.title === activeKey;
+      return tab.tabId === activeKey;
     })
     this.props.history.push('/admin/'  + activeKey + '/' + clickedTab.activeModule);
   };
 
-  remove = (title, e) => {
+  remove = (tabId, e) => {
     e.stopPropagation();
     if (this.state.tabs.length === 1) {
       alert('Error. You cannot delete this tab');
@@ -65,7 +56,7 @@ class Main extends Component {
     }
     let foundIndex = 0;
     const after = this.state.tabs.filter((t, i) => {
-      if (t.title !== title) {
+      if (t.tabId !== tabId) {
         return true;
       }
       foundIndex = i;
@@ -73,11 +64,11 @@ class Main extends Component {
     });
 
     let activeKey = this.state.activeKey;
-    if (activeKey === title) {
+    if (activeKey === tabId) {
       if (foundIndex) {
         foundIndex--;
       }
-      activeKey = after[foundIndex].title;
+      activeKey = after[foundIndex].tabId;
     }
     this.setState({
       tabs: after,
@@ -87,7 +78,7 @@ class Main extends Component {
 
   setActiveModule = (module) => {
     let currenTab = this.state.tabs.find((tab) => {
-      return tab.title === this.state.activeKey;
+      return tab.tabId === this.state.activeKey;
     });
 
     currenTab.activeModule = module;
@@ -99,7 +90,7 @@ class Main extends Component {
       <main className="main">
         <div className="main__left">
           <ul className="main__menu">
-            {this.state.links}
+            <EntitiesMenu activeKey={this.state.activeKey} />
           </ul>
         </div>
         <div className="main__right">
@@ -115,6 +106,9 @@ class Main extends Component {
         </div>
       </main>
     );
+  }
+
+  componentDidUpdate () {
   }
 }
 

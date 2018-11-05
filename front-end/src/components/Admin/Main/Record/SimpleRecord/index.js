@@ -21,14 +21,17 @@ class SimpleRecord extends Component {
       movableRows: true
     };
     
-    let entityType = this.props.location.state.entityType;
-    let rowData = this.props.location.state.rowData;
+    // let entityType = this.props.location.state.entityType;
+    // let rowData = this.props.location.state.rowData;
+    let rowId = this.props.match.params.rowId;
+    let entityType = this.props.match.params.entityType;
+
     let entity = GridEntities.find((el) => {
       return el.id === entityType;
     });
     
     let dataRecord = entity.sampleData.find((el) => {
-      return el.id === rowData.id;
+      return el.id === rowId;
     });
     
     let keys = Object.keys(dataRecord);
