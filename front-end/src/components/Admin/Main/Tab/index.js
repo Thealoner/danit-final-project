@@ -45,7 +45,6 @@ class Tab extends Component {
     return this.state.tabs.map((t) => {
       return (<TabPane
         tab = {<span>{t.title}
-          <NavLink exact to={'/admin/:tabId'} className='tab__link' style={{
           <NavLink exact to={'/admin/' + t.tabId} className='tab__link' style={{
             position: 'absolute',
             cursor: 'pointer',
