@@ -13,9 +13,13 @@ class Grid extends Component {
     data: [],
     columns: [
       { title: 'ID', field: 'id', width: 150 },
-      { title: 'Title', field: 'title' },
-      { title: 'Price', field: 'price', align: 'left' },
-      { title: 'Active', field: 'active' }
+      { title: 'Номер карты', field: 'cardId' },
+      { title: 'Имя', field: 'firstName' },
+      { title: 'Фамилия', field: 'lastName', align: 'left' },
+      { title: 'Дата рождения', field: 'birthDate' },
+      { title: 'Пол', field: 'gender' },
+      { title: 'E-mail', field: 'email' },
+      { title: 'Номер телефона', field: 'phoneNumber' }
     ]
   };
   ref = null;
@@ -23,15 +27,6 @@ class Grid extends Component {
   rowClick = (e, row) => {
     console.log('ref table: ', this.ref.table); // this is the Tabulator table instance
     console.log('rowClick id:' + row.getData().id, row, e);
-    let entityType = this.props.match.params.entityType;
-    
-    this.props.history.push({
-      pathname: '/admin/' + entityType + '/' + row.getData().id,
-      state: {
-        rowData: row.getData(),
-        entityType: entityType
-      }
-    });
   };
 
   setData = () => {
@@ -41,7 +36,7 @@ class Grid extends Component {
         console.log(response);
         const data = response.data.slice(0, 100);
         this.setState({
-          id: this.props.match.params.entityType,
+          id: this.props.match.params.entityId,
           data: data
           // ,columns: entity.columns
         });
@@ -56,10 +51,10 @@ class Grid extends Component {
   };
 
   setSampleData = () => {
-    let entityType = this.props.match.params.entityType;
+    let entityId = this.props.match.params.entityId;
     
     let entity = GridEntities.find((el) => {
-      return el.id === entityType;
+      return el.id === entityId;
     });
 
     this.setState({
@@ -104,9 +99,9 @@ class Grid extends Component {
   }
 
   componentDidUpdate () {
-    let entityType = this.props.match.params.entityType;
+    let entityId = this.props.match.params.entityId;
     
-    if (entityType !== this.state.id) {
+    if (entityId !== this.state.id) {
       this.setSampleData();
     }
   }

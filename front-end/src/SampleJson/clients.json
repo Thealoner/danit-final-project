@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "birthDate": "1979-03-17 00:00:00",
+    "cardId": "966668918131",
+    "email": "plawtie0@amazonaws.com",
+    "firstName": "Philippa",
+    "gender": "Female",
+    "lastName": "Lawtie",
+    "phoneNumber": "958-143-9304"
+  },
+  {
+    "id": 2,
+    "birthDate": "1988-05-06 00:00:00",
+    "cardId": "928954225058",
+    "email": "cgilfoy1@storify.com",
+    "firstName": "Camille",
+    "gender": "Female",
+    "lastName": "Gilfoy",
+    "phoneNumber": "285-186-2191"
+  },
+  {
+    "id": 3,
+    "birthDate": "2005-08-30 00:00:00",
+    "cardId": "980432194756",
+    "email": "mdrohane2@arizona.edu",
+    "firstName": "Maryjane",
+    "gender": "Female",
+    "lastName": "Drohane",
+    "phoneNumber": "708-735-5298"
+  },
+  {
+    "id": 4,
+    "birthDate": "1993-03-22 00:00:00",
+    "cardId": "905000365383",
+    "email": "tmattia3@theatlantic.com",
+    "firstName": "Trace",
+    "gender": "Male",
+    "lastName": "Mattia",
+    "phoneNumber": "124-104-7181"
+  },
+  {
+    "id": 5,
+    "birthDate": "1996-11-17 00:00:00",
+    "cardId": "987722692873",
+    "email": "llotherington4@wikipedia.org",
+    "firstName": "Ly",
+    "gender": "Male",
+    "lastName": "Lotherington",
+    "phoneNumber": "647-775-6424"
+  },
+  {
+    "id": 6,
+    "birthDate": "1973-07-16 00:00:00",
+    "cardId": "973754554873",
+    "email": "tfeechum5@posterous.com",
+    "firstName": "Thomasa",
+    "gender": "Female",
+    "lastName": "Feechum",
+    "phoneNumber": "261-676-6376"
+  },
+  {
+    "id": 7,
+    "birthDate": "1976-12-07 00:00:00",
+    "cardId": "979407754413",
+    "email": "etoffanini6@twitter.com",
+    "firstName": "Else",
+    "gender": "Female",
+    "lastName": "Toffanini",
+    "phoneNumber": "847-209-2920"
+  },
+  {
+    "id": 8,
+    "birthDate": "1991-12-29 00:00:00",
+    "cardId": "999526353671",
+    "email": "cbelmont7@answers.com",
+    "firstName": "Cross",
+    "gender": "Male",
+    "lastName": "Belmont",
+    "phoneNumber": "653-323-4324"
+  },
+  {
+    "id": 9,
+    "birthDate": "2004-02-07 00:00:00",
+    "cardId": "988214031207",
+    "email": "lreis8@vistaprint.com",
+    "firstName": "Lorne",
+    "gender": "Male",
+    "lastName": "Reis",
+    "phoneNumber": "846-578-0662"
+  },
+  {
+    "id": 10,
+    "birthDate": "1971-11-21 00:00:00",
+    "cardId": "962561743995",
+    "email": "gwinspeare9@businessinsider.com",
+    "firstName": "Griselda",
+    "gender": "Female",
+    "lastName": "Winspeare",
+    "phoneNumber": "155-846-2959"
+  }
+]
