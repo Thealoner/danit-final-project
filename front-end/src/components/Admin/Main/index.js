@@ -10,9 +10,8 @@ class Main extends Component {
   state = {
     tabs: [{
       title: 'Title',
-      content: 'Content',
       tabKey: '1',
-      activeModule: ''
+      contentUrl: ''
     }],
     activeKey: '1'
   };
@@ -23,9 +22,8 @@ class Main extends Component {
     index++;
     const newTab = {
       title: `Title: ${index}`,
-      content: `Content: ${index}`,
       tabKey: `${index}`,
-      activeModule: ''
+      contentUrl: ''
     };
     
     this.setState({
@@ -34,7 +32,7 @@ class Main extends Component {
     });
     // debugger;
     // let activeKey = this.state.activeKey;
-    // this.props.history.push('/admin/'  + activeKey + '/' + this.state.tabs.find(tab => tab.tabKey === activeKey).activeModule);
+    // this.props.history.push('/admin/'  + activeKey + '/' + this.state.tabs.find(tab => tab.tabKey === activeKey).contentUrl);
   };
 
   onTabChange = (activeKey) => {
@@ -45,7 +43,7 @@ class Main extends Component {
     let clickedTab = this.state.tabs.find((tab) => {
       return tab.tabKey === activeKey;
     })
-    this.props.history.push('/admin/'  + activeKey + '/' + clickedTab.activeModule);
+    this.props.history.push('/admin/'  + activeKey + '/' + clickedTab.contentUrl);
   };
 
   remove = (tabKey, e) => {
@@ -76,12 +74,12 @@ class Main extends Component {
     });
   };
 
-  setActiveModule = (module) => {
+  setTabContentUrl = (url) => {
     let currenTab = this.state.tabs.find((tab) => {
       return tab.tabKey === this.state.activeKey;
     });
 
-    currenTab.activeModule = module;
+    currenTab.contentUrl = url;
   }
 
   render () {
@@ -101,7 +99,7 @@ class Main extends Component {
             remove={this.remove}
             activeKey={this.state.activeKey}
             tabs={this.state.tabs}
-            setActiveModule={this.setActiveModule}
+            setTabContentUrl={this.setTabContentUrl}
           />
         </div>
       </main>

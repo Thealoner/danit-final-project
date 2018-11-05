@@ -10,6 +10,8 @@ const GridEntities = [
     id: 'packages',
     name: 'Пакеты',
     sampleData: packages,
+    recordType: 'tabbed',
+    recordComponent: 'Package',
     columns: [
       { title: 'ID', field: 'id' },
       { title: 'Название', field: 'title' },
@@ -21,6 +23,8 @@ const GridEntities = [
     id: 'services',
     name: 'Сервисы',
     sampleData: services,
+    recordType: 'tabbed',
+    recordComponent: 'Package',
     columns: [
       { title: 'ID', field: 'id' },
       { title: 'Название', field: 'title' },
@@ -32,6 +36,7 @@ const GridEntities = [
     id: 'service_categories',
     name: 'Категории сервисов',
     sampleData: serviceCategories,
+    recordType: 'simple',
     columns: [
       { title: 'ID', field: 'id' },
       { title: 'Описание', field: 'description' },
@@ -43,6 +48,7 @@ const GridEntities = [
     id: 'service_rules',
     name: 'Условия сервисов',
     sampleData: serviceRules,
+    recordType: 'simple',
     columns: [
       { title: 'ID', field: 'id' },
       { title: 'Название', field: 'title' },
@@ -54,6 +60,8 @@ const GridEntities = [
     id: 'contracts',
     name: 'Контракты',
     sampleData: contracts,
+    recordType: 'tabbed',
+    recordComponent: 'Package',
     columns: [
       { title: 'ID', field: 'id' },
       { title: 'Пакет', field: 'package.title' },
@@ -65,6 +73,7 @@ const GridEntities = [
     id: 'organizations',
     name: 'Организации',
     sampleData: organizations,
+    recordType: 'simple',
     columns: [
       { title: 'ID', field: 'id' },
       { title: 'Название', field: 'title' },

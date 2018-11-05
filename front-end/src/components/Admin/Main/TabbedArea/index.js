@@ -27,10 +27,10 @@ class TabbedArea extends Component {
       >
         <div>
           <Route exact path="/admin/:tabKey/:entityType" render={
-            (props) => <Grid setActiveModule={this.props.setActiveModule} {...props} />
+            (props) => <Grid setTabContentUrl={this.props.setTabContentUrl} {...props} />
           } />
           <Route path="/admin/:tabKey/:entityType/:rowId" render={
-            (props) => <Record setActiveModule={this.props.setActiveModule} {...props} />
+            (props) => <Record setTabContentUrl={this.props.setTabContentUrl} {...props} />
           } />
         </div>
       </TabPane>);

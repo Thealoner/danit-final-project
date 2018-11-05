@@ -20,12 +20,11 @@ class SimpleRecord extends Component {
       height: 300,
       movableRows: true
     };
-    debugger;
-    let entityType = this.props.entityType;
-    let setActiveModule = this.props.setActiveModule;
+    
+    let { entityType, setTabContentUrl } = this.props;
     let rowId = this.props.match.params.rowId;
     
-    setActiveModule(entityType + '/' + rowId);
+    setTabContentUrl(entityType + '/' + rowId);
 
     let entity = GridEntities.find((el) => {
       return el.id === entityType;
