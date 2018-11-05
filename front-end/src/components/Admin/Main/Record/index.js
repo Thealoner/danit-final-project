@@ -9,21 +9,22 @@ class Record extends Component {
   render () {
     let rowId = this.props.match.params.rowId;
     let entityType = this.props.match.params.entityType;
-    // let entityType = this.props.location.state.entityType;
 
     return (
       <div className="record">
-        <Route path={ '/admin/:tabId/packages/:id' } component={Tabs} rowId={rowId} entityType={entityType} />
-        <Route path={ '/admin/:tabId/services/:id' } component={Tabs} rowId={rowId} entityType={entityType} />
-        <Route path={ '/admin/:tabId/contracts/:id' } component={Tabs} rowId={rowId} entityType={entityType} />
+        <Route path={ '/admin/:tabKey/packages/:rowId' } component={Tabs} rowId={rowId} entityType={entityType} />
+        <Route path={ '/admin/:tabKey/services/:rowId' } component={Tabs} rowId={rowId} entityType={entityType} />
+        <Route path={ '/admin/:tabKey/contracts/:rowId' } component={Tabs} rowId={rowId} entityType={entityType} />
 
-        <Route path={ '/admin/:tabId/packages/:id' } component={Package} rowId={rowId} entityType={entityType} />
-        <Route path={ '/admin/:tabId/services/:id' } component={Package} rowId={rowId} entityType={entityType} />
-        <Route path={ '/admin/:tabId/contracts/:id' } component={Package} rowId={rowId} entityType={entityType} />
+        <Route path={ '/admin/:tabKey/packages/:rowId' } component={Package} rowId={rowId} entityType={entityType} />
+        <Route path={ '/admin/:tabKey/services/:rowId' } component={Package} rowId={rowId} entityType={entityType} />
+        <Route path={ '/admin/:tabKey/contracts/:rowId' } component={Package} rowId={rowId} entityType={entityType} />
 
-        <Route path={ '/admin/:tabId/service_categories/:id' } component={SimpleRecord} rowId={rowId} entityType={entityType} />
-        <Route path={ '/admin/:tabId/service_rules/:id' } component={SimpleRecord} rowId={rowId} entityType={entityType} />
-        <Route path={ '/admin/:tabId/organizations/:id' } component={SimpleRecord} rowId={rowId} entityType={entityType} />
+        <Route path={ '/admin/:tabKey/service_categories/:rowId' } component={SimpleRecord} rowId={rowId} entityType={entityType} />
+        <Route path={ '/admin/:tabKey/service_rules/:rowId' } component={SimpleRecord} rowId={rowId} entityType={entityType} />
+        <Route path={ '/admin/:tabKey/organizations/:rowId' } render={
+            (props) => <SimpleRecord setActiveModule={this.props.setActiveModule} entityType={entityType} {...props} />
+        } />
       </div>
     );
   }

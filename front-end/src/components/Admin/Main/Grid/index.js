@@ -22,12 +22,12 @@ class Grid extends Component {
 
   rowClick = (e, row) => {
     let entityType = this.props.match.params.entityType;
-    let tabId = this.props.match.params.tabId;
+    let tabKey = this.props.match.params.tabKey;
     
     this.props.setActiveModule(entityType + '/' + row.getData().id);
     
     this.props.history.push({
-      pathname: '/admin/' + tabId + '/' + entityType + '/' + row.getData().id,
+      pathname: '/admin/' + tabKey + '/' + entityType + '/' + row.getData().id,
       state: {
         rowData: row.getData(),
         entityType: entityType

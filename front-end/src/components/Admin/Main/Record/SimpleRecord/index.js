@@ -20,19 +20,19 @@ class SimpleRecord extends Component {
       height: 300,
       movableRows: true
     };
-    
-    // let entityType = this.props.location.state.entityType;
-    // let rowData = this.props.location.state.rowData;
     debugger;
-    let rowId = this.props.match.params.id;
-    let entityType = this.props.match.params.entityType;
+    let entityType = this.props.entityType;
+    let setActiveModule = this.props.setActiveModule;
+    let rowId = this.props.match.params.rowId;
+    
+    setActiveModule(entityType + '/' + rowId);
 
     let entity = GridEntities.find((el) => {
       return el.id === entityType;
     });
     
     let dataRecord = entity.sampleData.find((el) => {
-      return el.id === rowId;
+      return el.id === +rowId;
     });
     
     let keys = Object.keys(dataRecord);
