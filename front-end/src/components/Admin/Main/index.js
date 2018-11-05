@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import './index.scss';
-import Tab from './Tab';
+import TabbedArea from './TabbedArea';
 import EntitiesMenu from './EntitiesMenu';
 
 let index = 1;
@@ -10,31 +10,27 @@ class Main extends Component {
   state = {
     tabs: [{
       title: 'Title',
-      content: 'Content',
-      tabId: '1',
-      activeModule: ''
+      tabKey: '1',
+      contentUrl: ''
     }],
     activeKey: '1'
   };
-  
 
   add = (e) => {
     e.stopPropagation();
     index++;
     const newTab = {
       title: `Title: ${index}`,
-      content: `Content: ${index}`,
-      tabId: `${index}`,
-      activeModule: ''
+      tabKey: `${index}`,
+      contentUrl: ''
     };
     
     this.setState({
       tabs: this.state.tabs.concat(newTab),
       activeKey: `${index}`
     });
-    // debugger;
-    // let activeKey = this.state.activeKey;
-    // this.props.history.push('/admin/'  + activeKey + '/' + this.state.tabs.find(tab => tab.tabId === activeKey).activeModule);
+    
+    this.props.history.push('/admin/' + index + '/');
   };
 
   onTabChange = (activeKey) => {
@@ -43,12 +39,13 @@ class Main extends Component {
     });
 
     let clickedTab = this.state.tabs.find((tab) => {
-      return tab.tabId === activeKey;
-    })
-    this.props.history.push('/admin/'  + activeKey + '/' + clickedTab.activeModule);
+      return tab.tabKey === activeKey;
+    });
+
+    this.props.history.push('/admin/' + activeKey + '/' + clickedTab.contentUrl);
   };
 
-  remove = (tabId, e) => {
+  remove = (tabKey, e) => {
     e.stopPropagation();
     if (this.state.tabs.length === 1) {
       alert('Error. You cannot delete this tab');
@@ -56,7 +53,7 @@ class Main extends Component {
     }
     let foundIndex = 0;
     const after = this.state.tabs.filter((t, i) => {
-      if (t.tabId !== tabId) {
+      if (t.tabKey !== tabKey) {
         return true;
       }
       foundIndex = i;
@@ -64,11 +61,11 @@ class Main extends Component {
     });
 
     let activeKey = this.state.activeKey;
-    if (activeKey === tabId) {
+    if (activeKey === tabKey) {
       if (foundIndex) {
         foundIndex--;
       }
-      activeKey = after[foundIndex].tabId;
+      activeKey = after[foundIndex].tabKey;
     }
     this.setState({
       tabs: after,
@@ -76,12 +73,12 @@ class Main extends Component {
     });
   };
 
-  setActiveModule = (module) => {
+  setTabContentUrl = (url) => {
     let currenTab = this.state.tabs.find((tab) => {
-      return tab.tabId === this.state.activeKey;
+      return tab.tabKey === this.state.activeKey;
     });
 
-    currenTab.activeModule = module;
+    currenTab.contentUrl = url;
   }
 
   render () {
@@ -94,14 +91,14 @@ class Main extends Component {
           </ul>
         </div>
         <div className="main__right">
-          <Tab
+          <TabbedArea
             className="tabs"
             add={this.add}
             onTabChange={this.onTabChange}
             remove={this.remove}
             activeKey={this.state.activeKey}
             tabs={this.state.tabs}
-            setActiveModule={this.setActiveModule}
+            setTabContentUrl={this.setTabContentUrl}
           />
         </div>
       </main>

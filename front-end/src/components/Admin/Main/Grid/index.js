@@ -21,13 +21,12 @@ class Grid extends Component {
   ref = null;
 
   rowClick = (e, row) => {
-    let entityType = this.props.match.params.entityType;
-    let tabId = this.props.match.params.tabId;
+    let { entityType, tabKey } = this.props.match.params;
     
-    this.props.setActiveModule(entityType + '/' + row.getData().id);
+    this.props.setTabContentUrl(entityType + '/' + row.getData().id);
     
     this.props.history.push({
-      pathname: '/admin/' + tabId + '/' + entityType + '/' + row.getData().id,
+      pathname: '/admin/' + tabKey + '/' + entityType + '/' + row.getData().id,
       state: {
         rowData: row.getData(),
         entityType: entityType
@@ -63,7 +62,7 @@ class Grid extends Component {
       return el.id === entityType;
     });
     
-    this.props.setActiveModule(entity.id);
+    this.props.setTabContentUrl(entity.id);
 
     this.setState({
       id: entity.id,

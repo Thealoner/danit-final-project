@@ -1,0 +1,13 @@
+.tabbedarea {
+  &__link {
+    color: black;
+    cursor: pointer;
+  }
+  &__close {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    color: black;
+    cursor: pointer;
+  }
+}
