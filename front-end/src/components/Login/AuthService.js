@@ -15,10 +15,9 @@ export default class AuthService {
         username,
         password
       })
-    }).then(res => {
-      console.log('received token: ' + res.token);
-      this.setToken(res.token);
-      return Promise.resolve(res);
+    }).then(data => {
+      this.setToken(data);
+      return Promise.resolve(data);
     });
   }
 
@@ -37,17 +36,14 @@ export default class AuthService {
   }
 
   setToken (idToken) {
-    console.log("setToken" + idToken);
     localStorage.setItem('id_token', idToken);
   }
 
   getToken () {
-    console.log("getToken" + localStorage.getItem('id_token'));
     return localStorage.getItem('id_token');
   }
 
   logout () {
-    console.log('logout')
     localStorage.removeItem('id_token');
   }
 
@@ -70,10 +66,8 @@ export default class AuthService {
       ...options
     })
       .then(this._checkStatus)
-      .then(response => {
-        console.log(response.headers);
-        //response.json()
-      });
+      .then(response =>response.json())
+      .then(data => data.Authorization)
   }
 
   _checkStatus (response) {
