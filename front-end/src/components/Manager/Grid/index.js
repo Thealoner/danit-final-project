@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import './index.scss';
 import { ReactTabulator } from 'react-tabulator';
 import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
@@ -70,7 +69,6 @@ class Grid extends Component {
 
   render () {
     const options = {
-      height: 300,
       movableRows: true
     };
     

@@ -1,67 +1,59 @@
 import React, {Component} from 'react';
 import './index.scss';
 import $ from 'jquery';
-import axios from 'axios';
+import AuthService from './AuthService';
 
 class Login extends Component {
   constructor () {
     super();
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.Auth = new AuthService();
 
     this.state = {
       username: '',
       password: ''
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange (e) {
-    let target = e.target;
-    let value = target.value;
-    let name = target.name;
-
     this.setState({
-      [name]: value
+      [e.target.name]: e.target.value
     });
   }
 
   handleSubmit (e) {
     e.preventDefault();
-    let headers = {
-      'Content-Type': 'application/json'
-    };
-    axios.post('http://localhost:9000/login', JSON.stringify(this.state), {headers: headers})
+    this.Auth.login(this.state.username, this.state.password)
       .then(res => {
-        if (res.status === 200) {
-          console.log(res.headers.authorization);
-        }
+        this.props.history.replace('/');
       })
-      .catch(function (error) {
-        console.log(error.message);
+      .catch(err => {
+        console.log(err);
+        $('.login__data-error').fadeIn();
       });
+  }
+
+  componentWillMount () {
+    if (this.Auth.loggedIn()) {
+      this.props.history.replace('/');
+    }
   }
 
   render () {
     return (
       <div className="login" ref="login">
         <div className="login__dialog">
-          <span className="login__close">&times;</span>
-
+          <span className="login__data-error">пока запускаем JWTserver_test.js и тестим</span>
           <form action="#" className="login__form" onSubmit={this.handleSubmit}>
             <label htmlFor="username">Логин</label>
-            <input type="text" name="username" id="username" placeholder="введите имя пользователя"
+            <input type="text" name="username" id="username" placeholder="введите имя пользователя (User)"
               value={this.state.username} onChange={this.handleChange} required/>
             <label htmlFor="password">Пароль</label>
-            <input type="password" name="password" id="password" placeholder="введите пароль"
+            <input type="password" name="password" id="password" placeholder="введите пароль (1234)"
               value={this.state.password} onChange={this.handleChange} required/>
             <input type="submit" name="" value="Войти"/>
           </form>
-
-          <div className="login__links-wrapper">
-            <a href="/" className="login__link login__link--forgot">Забыл пароль</a>
-            <a href="/" className="login__link login__link--registration">Регистрация</a>
-          </div>
           <span className="login__data-error">неверный логин или пароль</span>
         </div>
       </div>
@@ -69,31 +61,6 @@ class Login extends Component {
   }
 
     componentDidMount = () => {
-      let self = this;
-      let loginPage = $('.login');
-      $('.login__close').on('click', function () {
-        loginPage.fadeOut();
-      });
-
-      $('.login__link').on('click', function () {
-        loginPage.fadeOut(0);
-        return false;
-      });
-
-      $('.login__link--forgot').on('click', function () {
-        $('.forgot').fadeIn(0);
-      });
-
-      $('.login__link--registration').on('click', function () {
-        $('.registration').fadeIn(0);
-      });
-
-      $(window).on('click', function (event) {
-        if (event.target === self.refs.login) {
-          loginPage.fadeOut();
-        }
-      });
-
       let form = $('form');
       let submitButton = $('input[type="submit"]');
 
@@ -118,7 +85,7 @@ class Login extends Component {
       });
 
       $('input:not(input:last-child)').on('focus', function () {
-        $('.login__data-error').hide();
+        $('.login__data-error').fadeOut();
       });
     };
 }

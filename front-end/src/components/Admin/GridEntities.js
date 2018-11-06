@@ -1,10 +1,10 @@
-import packages from '../../../SampleJson/packages.json';
-import services from '../../../SampleJson/services.json';
-import serviceCategories from '../../../SampleJson/service_categories.json';
-import serviceRules from '../../../SampleJson/service_rules.json';
-import contracts from '../../../SampleJson/contracts.json';
-import organizations from '../../../SampleJson/organizations.json';
-import clients from '../../../SampleJson/clients.json';
+import packages from '../../SampleJson/packages.json';
+import services from '../../SampleJson/services.json';
+import serviceCategories from '../../SampleJson/service_categories.json';
+import serviceRules from '../../SampleJson/service_rules.json';
+import contracts from '../../SampleJson/contracts.json';
+import organizations from '../../SampleJson/organizations.json';
+import clients from '../../SampleJson/clients.json';
 
 const GridEntities = [
   {
