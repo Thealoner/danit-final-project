@@ -16,6 +16,7 @@ export default class AuthService {
         password
       })
     }).then(res => {
+      console.log('received token: ' + res.token);
       this.setToken(res.token);
       return Promise.resolve(res);
     });
@@ -36,14 +37,17 @@ export default class AuthService {
   }
 
   setToken (idToken) {
+    console.log("setToken" + idToken);
     localStorage.setItem('id_token', idToken);
   }
 
   getToken () {
+    console.log("getToken" + localStorage.getItem('id_token'));
     return localStorage.getItem('id_token');
   }
 
   logout () {
+    console.log('logout')
     localStorage.removeItem('id_token');
   }
 
@@ -53,12 +57,12 @@ export default class AuthService {
 
   fetch (url, options) {
     const headers = {
-      'Accept': 'application/json',
       'Content-Type': 'application/json'
     };
 
     if (this.loggedIn()) {
-      headers['Authorization'] = 'Bearer ' + this.getToken();
+      console.log('logged in')
+      headers['Authorization'] = this.getToken();
     }
 
     return fetch(url, {
@@ -66,7 +70,10 @@ export default class AuthService {
       ...options
     })
       .then(this._checkStatus)
-      .then(response => response.json());
+      .then(response => {
+        console.log(response.headers);
+        //response.json()
+      });
   }
 
   _checkStatus (response) {

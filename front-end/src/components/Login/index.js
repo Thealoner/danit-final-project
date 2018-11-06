@@ -29,7 +29,7 @@ class Login extends Component {
         this.props.history.replace('/');
       })
       .catch(err => {
-        console.log(err.message);
+        console.log(err);
         $('.login__data-error').fadeIn();
       });
   }
