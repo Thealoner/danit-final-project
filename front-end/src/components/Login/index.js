@@ -1,16 +1,19 @@
 import React, {Component} from 'react';
 import './index.scss';
 import $ from 'jquery';
-import {Link} from 'react-router-dom';
 import AuthService from './AuthService';
 
 class Login extends Component {
   constructor () {
     super();
-
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.auth = new AuthService();
+    this.Auth = new AuthService();
+
+    this.state = {
+      username: '',
+      password: ''
+    };
   }
 
   handleChange (e) {
@@ -21,18 +24,18 @@ class Login extends Component {
 
   handleSubmit (e) {
     e.preventDefault();
-    this.auth.login(this.state.username, this.state.password)
+    this.Auth.login(this.state.username, this.state.password)
       .then(res => {
         this.props.history.replace('/');
       })
       .catch(err => {
         console.log(err.message);
-        ('.login__data-error').fadeIn();
+        $('.login__data-error').fadeIn();
       });
   }
 
   componentWillMount () {
-    if (this.auth.loggedIn()) {
+    if (this.Auth.loggedIn()) {
       this.props.history.replace('/');
     }
   }
@@ -41,19 +44,16 @@ class Login extends Component {
     return (
       <div className="login" ref="login">
         <div className="login__dialog">
+          <span className="login__data-error">пока запускаем JWTserver_test.js и тестим</span>
           <form action="#" className="login__form" onSubmit={this.handleSubmit}>
             <label htmlFor="username">Логин</label>
-            <input type="text" name="username" id="username" placeholder="введите имя пользователя"
+            <input type="text" name="username" id="username" placeholder="введите имя пользователя (User)"
               value={this.state.username} onChange={this.handleChange} required/>
             <label htmlFor="password">Пароль</label>
-            <input type="password" name="password" id="password" placeholder="введите пароль"
+            <input type="password" name="password" id="password" placeholder="введите пароль (1234)"
               value={this.state.password} onChange={this.handleChange} required/>
             <input type="submit" name="" value="Войти"/>
           </form>
-          <div className="login__links-wrapper">
-            <Link to="/forgot-password" className="login__link login__link--forgot">Забыл пароль</Link>
-            <Link to="/registration" className="login__link login__link--registration">Регистрация</Link>
-          </div>
           <span className="login__data-error">неверный логин или пароль</span>
         </div>
       </div>

@@ -6,7 +6,6 @@ class Home extends Component {
   render () {
     return (
       <div className="home">
-        <Link to="/login" className="home__link">Авторизация</Link>
         <Link to="/admin" className="home__link">Админ</Link>
         <Link to="/manager" className="home__link">Менеджер</Link>
       </div>

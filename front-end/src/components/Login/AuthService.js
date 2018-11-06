@@ -56,9 +56,9 @@ export default class AuthService {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     };
-    
+
     if (this.loggedIn()) {
-      headers['Authorization'] = `Bearer ${this.getToken()}`;
+      headers['Authorization'] = 'Bearer ' + this.getToken();
     }
 
     return fetch(url, {

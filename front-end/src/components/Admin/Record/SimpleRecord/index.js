@@ -17,7 +17,6 @@ class SimpleRecord extends Component {
 
   render () {
     const options = {
-      height: 300,
       movableRows: true
     };
     

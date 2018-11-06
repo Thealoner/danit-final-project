@@ -14,22 +14,19 @@ class Manager extends Component {
 
       GridEntities.forEach((entity) => {
         this.state.links.push(
-          <li key={entity.id} className="main__menuitem">
-            <NavLink exact to={'/manager/' + entity.id} activeClassName="menu__link--active" className="menu__link">{entity.name}</NavLink>
-          </li>
+          <NavLink to={'/manager/' + entity.id} key={entity.id} className="configurator__link"
+            activeClassName="configurator__link--active">{entity.name}</NavLink>
         );
       });
     }
 
     render () {
       return (
-        <main className="main">
-          <div className="main__left">
-            <ul className="main__menu">
-              {this.state.links}
-            </ul>
+        <main className="configurator">
+          <div className="configurator__left">
+            {this.state.links}
           </div>
-          <div className="main__right">
+          <div className="configurator__right">
             <Route path="/manager/:entityId" component={Grid} />
           </div>
         </main>
