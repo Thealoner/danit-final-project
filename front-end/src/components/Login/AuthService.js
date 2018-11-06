@@ -57,7 +57,6 @@ export default class AuthService {
     };
 
     if (this.loggedIn()) {
-      console.log('logged in')
       headers['Authorization'] = this.getToken();
     }
 
@@ -66,8 +65,8 @@ export default class AuthService {
       ...options
     })
       .then(this._checkStatus)
-      .then(response =>response.json())
-      .then(data => data.Authorization)
+        .then(response => response.json())
+        .then(data => data.Authorization);
   }
 
   _checkStatus (response) {
