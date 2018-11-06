@@ -3,7 +3,9 @@ package com.danit.models;
 
 import com.danit.utils.CustomDateAndTimeDeserialize;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.persistence.CascadeType;
@@ -20,6 +22,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "contracts")
+@JsonIdentityInfo(property = "id", generator = ObjectIdGenerators.PropertyGenerator.class, scope = Contract.class)
 public class Contract {
   @Id
   @Column(name = "id")

@@ -7,5 +7,45 @@
     "packageId": "1002",
     "isActive": "true",
     "clientId": 1001
+  },
+
+  {
+    "id": 1002,
+    "startDate": "2019-01-10",
+    "endDate": "2020-01-10",
+    "credit": "10000",
+    "packageId": "1003",
+    "isActive": "true",
+    "clientId": 1001
+  },
+
+  {
+    "id": 1003,
+    "startDate": "2018-01-08",
+    "endDate": "2019-01-08",
+    "credit": "10000",
+    "packageId": "1003",
+    "isActive": "true",
+    "clientId": 1002
+  },
+
+  {
+    "id": 1004,
+    "startDate": "2018-01-10",
+    "endDate": "2019-01-10",
+    "credit": "10000",
+    "packageId": "1003",
+    "isActive": "true",
+    "clientId": 1003
+  },
+
+  {
+    "id": 1005,
+    "startDate": "2018-01-10",
+    "endDate": "2019-01-10",
+    "credit": "10000",
+    "packageId": "1003",
+    "isActive": "true",
+    "clientId": 1004
   }
 ]
