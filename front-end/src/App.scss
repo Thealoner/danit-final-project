@@ -14,6 +14,15 @@
   display: grid;
   height: 100vh;
   font-family: 'Lato', sans-serif;
+
+  &__user {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 100px;
+    height: 50px;
+    border: 1px solid black;
+  }
 }
 
 

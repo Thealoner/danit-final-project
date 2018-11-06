@@ -1,50 +1,40 @@
 import React, {Component} from 'react';
 import './index.scss';
 import $ from 'jquery';
-import axios from 'axios';
 import {Link} from 'react-router-dom';
-import * as JWT from 'jwt-decode';
+import AuthService from './AuthService';
 
 class Login extends Component {
   constructor () {
     super();
 
-    this.state = {
-      username: '',
-      password: ''
-    };
-
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.auth = new AuthService();
   }
 
   handleChange (e) {
-    let target = e.target;
-    let value = target.value;
-    let name = target.name;
-
     this.setState({
-      [name]: value
+      [e.target.name]: e.target.value
     });
   }
 
   handleSubmit (e) {
     e.preventDefault();
-    let headers = {
-      'Content-Type': 'application/json'
-    };
-    axios.post('http://localhost:9000/login', JSON.stringify(this.state), {headers: headers})
+    this.auth.login(this.state.username, this.state.password)
       .then(res => {
-        if (res.status === 200) {
-          let token = JWT(res.headers.authorization);
-          console.log(token);
-          this.props.history.push('/admin');
-        }
+        this.props.history.replace('/');
       })
-      .catch(function (error) {
-        console.log(error.message);
-        $('.login__data-error').fadeIn();
+      .catch(err => {
+        console.log(err.message);
+        ('.login__data-error').fadeIn();
       });
+  }
+
+  componentWillMount () {
+    if (this.auth.loggedIn()) {
+      this.props.history.replace('/');
+    }
   }
 
   render () {
