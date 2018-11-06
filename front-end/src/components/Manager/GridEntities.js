@@ -1,4 +1,4 @@
-import clients from '../../../SampleJson/clients.json';
+import clients from '../../SampleJson/clients.json';
 
 const GridEntities = [
   {

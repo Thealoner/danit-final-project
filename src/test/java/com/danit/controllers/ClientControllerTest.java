@@ -47,7 +47,7 @@ public class ClientControllerTest {
   public HttpHeaders setHeader(){
     headers.setContentType(MediaType.APPLICATION_JSON);
     HttpEntity<String> entity = new HttpEntity<String>(adminAuthJson, headers);
-    ResponseEntity<HttpHeaders> resHeader = template.postForEntity("/login", entity, HttpHeaders.class);
+    ResponseEntity<String> resHeader = template.postForEntity("/login", entity, String.class);
     List<String> tokens = resHeader.getHeaders().get("Authorization");
     headers.clear();
     headers.set("Authorization", tokens.get(0));
