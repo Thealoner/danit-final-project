@@ -38,4 +38,11 @@ public class ContractServiceImpl implements ContractService {
   public void deleteContractById(long id) {
     contractRepository.deleteById(id);
   }
+
+  @Override
+  public void bulkSaveContracts(List<Contract> contracts) {
+    for (Contract contract: contracts) {
+      contractRepository.save(contract);
+    }
+  }
 }
