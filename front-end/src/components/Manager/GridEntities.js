@@ -5,15 +5,14 @@ const GridEntities = [
     id: 'clients',
     name: 'Клиенты',
     sampleData: clients,
+    recordType: 'simple',
     columns: [
-      { title: 'ID', field: 'id', width: 150 },
-      { title: 'Номер карты', field: 'cardId' },
+      { title: 'ID', field: 'id' },
+      { title: 'Дата Рождения', field: 'birthDate' },
       { title: 'Имя', field: 'firstName' },
-      { title: 'Фамилия', field: 'lastName', align: 'left' },
-      { title: 'Дата рождения', field: 'birthDate' },
+      { title: 'Фамилия', field: 'lastName' },
       { title: 'Пол', field: 'gender' },
-      { title: 'E-mail', field: 'email' },
-      { title: 'Номер телефона', field: 'phoneNumber' }
+      { title: 'Активен', field: 'active' }
     ]
   }
 ];
