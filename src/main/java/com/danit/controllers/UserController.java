@@ -44,9 +44,9 @@ public class UserController {
   }
 
   //TODO:Should return user?
-  @PutMapping("/users/{id}")
-  void updateUser(@RequestBody User updUser, @PathVariable(name = "id") long id) {
-    userService.saveUser(updUser);
+  @PutMapping("/users")
+  void updateUser(@RequestBody User updUser) {
+    userService.updateUser(updUser);
   }
 
   @DeleteMapping("/users/{id}")
