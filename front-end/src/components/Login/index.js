@@ -44,10 +44,9 @@ class Login extends Component {
     return (
       <div className="login" ref="login">
         <div className="login__dialog">
-          <span className="login__data-error">пока запускаем JWTserver_test.js и тестим</span>
           <form action="#" className="login__form" onSubmit={this.handleSubmit}>
             <label htmlFor="username">Логин</label>
-            <input type="text" name="username" id="username" placeholder="введите имя пользователя (User)"
+            <input type="text" name="username" id="username" placeholder="введите имя пользователя (Anna)"
               value={this.state.username} onChange={this.handleChange} required/>
             <label htmlFor="password">Пароль</label>
             <input type="password" name="password" id="password" placeholder="введите пароль (1234)"
