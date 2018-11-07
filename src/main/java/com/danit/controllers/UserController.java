@@ -37,7 +37,7 @@ public class UserController {
   @ResponseStatus(HttpStatus.CREATED)
   public void createUsers(@RequestBody List<User> users) {
     logger.info("Adding new users");
-    userService.saveAllUsers(users);
+    userService.saveUsers(users);
     logger.info("Users saved");
   }
 
@@ -47,8 +47,8 @@ public class UserController {
   }
 
   @PutMapping("/users")
-  void updateUser(@RequestBody User updUser) {
-    userService.updateUser(updUser);
+  void updateUser(@RequestBody List<User> users) {
+    userService.updateUsers(users);
   }
 
   @DeleteMapping("/users/{id}")
@@ -67,4 +67,10 @@ public class UserController {
     logger.info("User " + currentPrincipalName);
     return userService.getAllUsers();
   }
+
+  @DeleteMapping("/users")
+  public void deleteUsers(@RequestBody List<User> users) {
+    userService.deleteUsers(users);
+  }
+
 }

@@ -18,6 +18,5 @@ public interface UserService {
 
   List<User> getAllUsers();
 
-  void saveAllUsers(List<User> users);
-
+  void deleteUsers(List<User> users);
 }

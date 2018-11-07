@@ -20,33 +20,43 @@ public class ContractController {
 
   Logger logger = LoggerFactory.getLogger(ContractController.class);
 
-  @Autowired
   private ContractService contractService;
 
+  @Autowired
+  public ContractController(ContractService contractService) {
+    this.contractService = contractService;
+  }
+
   @PostMapping("/contracts")
-  private void createContract(@RequestBody List<Contract> contracts) {
+  private void createContracts(@RequestBody List<Contract> contracts) {
     logger.info("Adding new contract");
-    contractService.saveAllContracts(contracts);
+    contractService.saveContracts(contracts);
     logger.info("Contract saved");
   }
 
   @GetMapping("/contracts/{id}")
-  Contract getContractById(@PathVariable(name = "id") long id){ return contractService.getContractById(id);
-  }
-
-  @PutMapping("/contracts")
-  public void addContract(@RequestBody Contract contract) { contractService.saveContract(contract);
-  }
-
-//TODO: Ask if it can stay
-  @DeleteMapping("/contracts/{id}")
-  public void deleteContractById(@PathVariable(name = "id") long id) {
-    contractService.deleteContractById(id);
+  Contract getContractById(@PathVariable(name = "id") long id) {
+    return contractService.getContractById(id);
   }
 
   @GetMapping("/contracts")
   List<Contract> getAllContracts() {
     return contractService.getAllContracts();
+  }
+
+  @PutMapping("/contracts")
+  public void addContracts(@RequestBody List<Contract> contracts) {
+    contractService.saveContracts(contracts);
+  }
+
+  @DeleteMapping("/contracts/{id}")
+  public void deleteContractById(@PathVariable(name = "id") long id) {
+    contractService.deleteContractById(id);
+  }
+
+  @DeleteMapping("/contracts")
+  public void deleteContracts(@RequestBody List<Contract> contracts) {
+    contractService.deleteContracts(contracts);
   }
 
 }

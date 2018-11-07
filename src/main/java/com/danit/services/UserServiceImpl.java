@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 @Service
@@ -24,26 +23,15 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void saveUser(User user) {
-    if (Objects.nonNull(userRepository.findByUsername(user.getUsername()))) {
-      throw new EntityNameIsAlreadyExistInDb("User with name=" + user.getUsername() + " already exist in DB, but it should be unique");
-    }
-    user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
-    userRepository.save(user);
-  }
-
-  @Override
   public void updateUsers(List<User> users) {
     Set<Long> usersId = userRepository.getAllUsersId();
-    clients.forEach(client -> {
-      if(!clientsId.contains(client.getId())) {
-        throw new EntityNotFoundException("Client with id=" + client.getId() + " is not exist");
+    users.forEach(user -> {
+      if (!usersId.contains(user.getId())) {
+        throw new EntityNotFoundException("User with id=" + user.getId() + " is not exist");
       }
     });
-    userRepository.findById(user.getId())
-        .orElseThrow(() -> new EntityNotFoundException("User with id=" + user.getId() + " is not exist"));
-    user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
-    userRepository.save(user);
+    users.forEach(user -> user.setPassword(bcryptPasswordEncoder.encode(user.getPassword())));
+    userRepository.saveAll(users);
   }
 
   @Override
@@ -68,15 +56,25 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void saveAllUsers(List<User> users) {
+  public void deleteUsers(List<User> users) {
+    Set<Long> usersId = userRepository.getAllUsersId();
+    users.forEach(user -> {
+      if (!usersId.contains(user.getId())) {
+        throw new EntityNotFoundException("User with id=" + user.getId() + " is not exist");
+      }
+    });
+    userRepository.deleteInBatch(users);
+  }
+
+  @Override
+  public void saveUsers(List<User> users) {
     Set<String> userNames = userRepository.findAllUserNames();
     users.forEach(user -> {
-      if(userNames.contains(user.getUsername())) {
+      if (userNames.contains(user.getUsername())) {
         throw new EntityNameIsAlreadyExistInDb("User with name=" + user.getUsername() +
             " already exist in DB, but it should be unique");
       }
     });
-
     users.forEach(user -> user.setPassword(bcryptPasswordEncoder.encode(user.getPassword())));
     userRepository.saveAll(users);
   }

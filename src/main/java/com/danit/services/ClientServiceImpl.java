@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Consumer;
 
 @Service
 public class ClientServiceImpl implements ClientService {
@@ -23,7 +22,6 @@ public class ClientServiceImpl implements ClientService {
     return clientRepository.findAll();
   }
 
-
   @Override
   public Client getClientById(long id) {
     return clientRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Cant find client with id=" + id));
@@ -38,7 +36,7 @@ public class ClientServiceImpl implements ClientService {
   public void updateClients(List<Client> clients) {
     Set<Long> clientsId = clientRepository.getAllClientsId();
     clients.forEach(client -> {
-      if(!clientsId.contains(client.getId())) {
+      if (!clientsId.contains(client.getId())) {
         throw new EntityNotFoundException("Client with id=" + client.getId() + " is not exist");
       }
     });
@@ -51,7 +49,13 @@ public class ClientServiceImpl implements ClientService {
   }
 
   @Override
-  public void saveAllClients(List<Client> clients) {
-    clientRepository.saveAll(clients);
+  public void deleteClients(List<Client> clients) {
+    Set<Long> clientsId = clientRepository.getAllClientsId();
+    clients.forEach(client -> {
+      if (!clientsId.contains(client.getId())) {
+        throw new EntityNotFoundException("Client with id=" + client.getId() + " is not exist");
+      }
+    });
+    clientRepository.deleteInBatch(clients);
   }
 }

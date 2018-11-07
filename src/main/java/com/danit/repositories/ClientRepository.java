@@ -10,6 +10,6 @@ import java.util.Set;
 
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
-    @Query("select c.id from Client c")
-    Set<Long> getAllClientsId();
+  @Query("select c.id from Client c")
+  Set<Long> getAllClientsId();
 }

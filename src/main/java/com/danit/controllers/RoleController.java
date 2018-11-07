@@ -36,7 +36,8 @@ public class RoleController {
 
   @GetMapping("/roles")
   List<UserRoles> getAllRoles() {
-    logger.info("Mapped \"{[/roles],methods=[GET]}\" onto " + new Object() {}
+    logger.info("Mapped \"{[/roles],methods=[GET]}\" onto " + new Object() {
+    }
         .getClass()
         .getEnclosingMethod().getName() + "()");
     return roleService.getAllRoles();

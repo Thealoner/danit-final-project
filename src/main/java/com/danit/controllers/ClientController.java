@@ -36,7 +36,7 @@ public class ClientController {
   @ResponseStatus(HttpStatus.CREATED)
   public void createClient(@RequestBody List<Client> clients) {
     logger.info("Adding new clients");
-    clientService.saveAllClients(clients);
+    clientService.saveClients(clients);
     logger.info("Clients saved");
   }
 
@@ -54,7 +54,7 @@ public class ClientController {
   }
 
   @DeleteMapping("/clients/{id}")
-  public void deleteUserById(@PathVariable(name = "id") long id) {
+  public void deleteClientById(@PathVariable(name = "id") long id) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentPrincipalName = authentication.getName();
     logger.info("User " + currentPrincipalName + " try to delete client with id " + id);
@@ -64,6 +64,11 @@ public class ClientController {
   @GetMapping("/clients")
   List<Client> getAllClients() {
     return clientService.getAllClients();
+  }
+
+  @DeleteMapping("/clients")
+  public void deleteClients(@RequestBody List<Client> clients) {
+    clientService.deleteClients(clients);
   }
 
 }
