@@ -40,9 +40,9 @@ public class ContractServiceImpl implements ContractService {
   }
 
   @Override
-  public void bulkSaveContracts(List<Contract> contracts) {
-    for (Contract contract: contracts) {
-      contractRepository.save(contract);
-    }
+  public void saveAllContracts(List<Contract> contracts) {
+    contractRepository.saveAll(contracts);
   }
+
+
 }

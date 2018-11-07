@@ -13,5 +13,6 @@ public interface ContractService {
 
   void deleteContractById(long id);
 
-  void bulkSaveContracts(List<Contract> contracts);
+  void saveAllContracts(List<Contract> contracts);
+
 }

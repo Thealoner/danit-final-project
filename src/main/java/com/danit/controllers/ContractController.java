@@ -48,11 +48,10 @@ public class ContractController {
   }
 
   @PostMapping("/contracts")
-  private String createContract(@RequestBody List<Contract> contracts) {
+  private void createContract(@RequestBody List<Contract> contracts) {
     logger.info("Adding new contract");
-    contractService.bulkSaveContracts(contracts);
+    contractService.saveAllContracts(contracts);
     logger.info("Contract saved");
-    return "Contract saved";
   }
 
 }
