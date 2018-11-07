@@ -50,7 +50,8 @@
     "lint": "eslint \"src/**/*.js\"",
     "stylelint-dev": "stylelint src/**/*.scss || true --cache --cache-location './.stylelintcache'; exit 0",
     "stylelint-build": "stylelint 'src/**/*.scss'",
-    "watch-styles-sass": "npm-watch"
+    "watch-styles-sass": "npm-watch",
+    "jwt-auth-test": "node src/components/Login/JWTserver_test.js"
   },
   "eslintConfig": {
     "extends": "react-app"
