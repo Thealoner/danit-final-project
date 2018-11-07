@@ -8,7 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -54,7 +59,7 @@ public class UserControllerTest {
   public void shouldReturn200WhenSendingRequestToControllerWithRoleAdmin() throws Exception {
     headers.setContentType(MediaType.APPLICATION_JSON);
     HttpEntity<String> entity = new HttpEntity<String>(adminAuthJson, headers);
-    ResponseEntity<HttpHeaders> resHeader = template.postForEntity("/login", entity, HttpHeaders.class);
+    ResponseEntity<String> resHeader = template.postForEntity("/login", entity, String.class);
     List<String> tokens = resHeader.getHeaders().get("Authorization");
     Assert.assertTrue(Objects.nonNull(tokens));
 
@@ -70,9 +75,8 @@ public class UserControllerTest {
   public void shouldReturn403WhenSendingRequestToControllerWithRoleNotAdmin() throws Exception {
     headers.setContentType(MediaType.APPLICATION_JSON);
     HttpEntity<String> entity = new HttpEntity<String>(notAdminAuthJson, headers);
-    ResponseEntity<HttpHeaders> resHeader = template.postForEntity("/login", entity, HttpHeaders.class);
+    ResponseEntity<String> resHeader = template.postForEntity("/login", entity, String.class);
     List<String> tokens = resHeader.getHeaders().get("Authorization");
-    Assert.assertTrue(Objects.nonNull(tokens));
 
     headers.clear();
     headers.set("Authorization", tokens.get(0));

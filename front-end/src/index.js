@@ -1,17 +1,23 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
 import './Reset.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import Login from './components/Login';
 // import {Provider} from 'react-redux';
-import {BrowserRouter} from 'react-router-dom';
 // import store from './store';
 
 ReactDOM.render(
   // <Provider store={store}>
   <BrowserRouter>
-    <App/>
+    <Fragment>
+      <Switch>
+        <Route path="/login" component={Login} />
+        <Route path="/" component={App} />
+      </Switch>
+    </Fragment>
   </BrowserRouter>,
   // </Provider>,
   document.getElementById('root')

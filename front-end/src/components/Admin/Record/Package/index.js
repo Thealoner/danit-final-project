@@ -3,12 +3,12 @@ import './index.scss';
 
 class Package extends Component {
   render () {
-    let data = this.props.location.state.rowData;
-    let entityType = this.props.location.state.entityType;
+    let rowId = this.props.match.params.rowId;
+    let entityType = this.props.match.params.entityType;
 
     return (
       <div className="package">
-        Package component. Package ID: {data.id}. EntityType={entityType}.
+        Package component. Package ID: {rowId}. EntityType={entityType}.
       </div>
     );
   }

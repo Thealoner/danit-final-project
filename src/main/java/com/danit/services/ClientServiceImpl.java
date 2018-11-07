@@ -26,4 +26,14 @@ public class ClientServiceImpl implements ClientService {
   public Client getClientById(long id) {
     return clientRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Cant find client with id=" + id));
   }
+
+  @Override
+  public void saveClient(Client client) {
+    clientRepository.save(client);
+  }
+
+  @Override
+  public void deleteClientById(long id) {
+    clientRepository.deleteById(id);
+  }
 }

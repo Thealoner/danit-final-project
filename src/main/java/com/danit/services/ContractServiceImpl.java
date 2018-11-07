@@ -28,4 +28,21 @@ public class ContractServiceImpl implements ContractService {
     return contractRepository.findById(id).orElseThrow(() ->
         new EntityNotFoundException("Cant find Contract with id=" + id));
   }
+
+  @Override
+  public void saveContract(Contract contract) {
+    contractRepository.save(contract);
+  }
+
+  @Override
+  public void deleteContractById(long id) {
+    contractRepository.deleteById(id);
+  }
+
+  @Override
+  public void saveAllContracts(List<Contract> contracts) {
+    contractRepository.saveAll(contracts);
+  }
+
+
 }

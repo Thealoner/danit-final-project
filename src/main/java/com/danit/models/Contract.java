@@ -4,6 +4,7 @@ package com.danit.models;
 import com.danit.utils.CustomDateAndTimeDeserialize;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.persistence.CascadeType;
@@ -20,6 +21,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "contracts")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Contract {
   @Id
   @Column(name = "id")

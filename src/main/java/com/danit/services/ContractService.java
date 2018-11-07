@@ -8,4 +8,11 @@ public interface ContractService {
   List<Contract> getAllContracts();
 
   Contract getContractById(long id);
+
+  void saveContract(Contract contract);
+
+  void deleteContractById(long id);
+
+  void saveAllContracts(List<Contract> contracts);
+
 }

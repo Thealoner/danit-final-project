@@ -17,18 +17,20 @@ class SimpleRecord extends Component {
 
   render () {
     const options = {
-      height: 300,
       movableRows: true
     };
     
-    let entityType = this.props.location.state.entityType;
-    let rowData = this.props.location.state.rowData;
+    let { entityType, setTabContentUrl } = this.props;
+    let rowId = this.props.match.params.rowId;
+    
+    setTabContentUrl(entityType + '/' + rowId);
+
     let entity = GridEntities.find((el) => {
       return el.id === entityType;
     });
     
     let dataRecord = entity.sampleData.find((el) => {
-      return el.id === rowData.id;
+      return el.id === +rowId;
     });
     
     let keys = Object.keys(dataRecord);

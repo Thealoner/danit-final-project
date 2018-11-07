@@ -37,7 +37,7 @@ public class JwtAuthenticationTest {
   public void postMethodWithRightCredOnLoginShouldSucceedWith200() throws Exception {
     headers.setContentType(MediaType.APPLICATION_JSON);
     HttpEntity<String> entity = new HttpEntity<String>(validAdminAuthJson, headers);
-    ResponseEntity<HttpHeaders> resHeader = template.postForEntity("/login", entity, HttpHeaders.class);
+    ResponseEntity<String> resHeader = template.postForEntity("/login", entity, String.class);
     assertEquals(HttpStatus.OK, resHeader.getStatusCode());
   }
 
@@ -45,7 +45,7 @@ public class JwtAuthenticationTest {
   public void postMethodWithBadCredOnLoginShouldSucceedWith403() throws Exception {
     headers.setContentType(MediaType.APPLICATION_JSON);
     HttpEntity<String> entity = new HttpEntity<String>(nonValidAdminAuthJson, headers);
-    ResponseEntity<HttpHeaders> resHeader = template.postForEntity("/login", entity, HttpHeaders.class);
+    ResponseEntity<String> resHeader = template.postForEntity("/login", entity, String.class);
     assertEquals(HttpStatus.FORBIDDEN, resHeader.getStatusCode());
   }
 
@@ -53,7 +53,7 @@ public class JwtAuthenticationTest {
   public void responseHeaderShouldContainBearing() throws Exception {
     headers.setContentType(MediaType.APPLICATION_JSON);
     HttpEntity<String> entity = new HttpEntity<String>(validAdminAuthJson, headers);
-    ResponseEntity<HttpHeaders> resHeader = template.postForEntity("/login", entity, HttpHeaders.class);
+    ResponseEntity<String> resHeader = template.postForEntity("/login", entity, String.class);
     List<String> tokens = resHeader.getHeaders().get("Authorization");
     Assert.assertTrue(Objects.nonNull(tokens));
     tokens.forEach(s -> assertTrue(s.contains("Bearer")));
@@ -63,7 +63,7 @@ public class JwtAuthenticationTest {
   public void responseTokenShouldBeValidForAuth() throws Exception {
     headers.setContentType(MediaType.APPLICATION_JSON);
     HttpEntity<String> entity = new HttpEntity<String>(validAdminAuthJson, headers);
-    ResponseEntity<HttpHeaders> resHeader = template.postForEntity("/login", entity, HttpHeaders.class);
+    ResponseEntity<String> resHeader = template.postForEntity("/login", entity, String.class);
     List<String> tokens = resHeader.getHeaders().get("Authorization");
     Assert.assertTrue(Objects.nonNull(tokens));
 
