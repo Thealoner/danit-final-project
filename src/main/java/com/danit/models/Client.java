@@ -4,6 +4,7 @@ package com.danit.models;
 import com.danit.utils.CustomDateAndTimeDeserialize;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -24,7 +25,6 @@ import java.util.List;
 @Entity
 @Table(name = "clients")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@JsonIdentityInfo(property = "id", generator = ObjectIdGenerators.PropertyGenerator.class, scope = Client.class)
 public class Client {
 
   @Id
@@ -57,6 +57,8 @@ public class Client {
   @Column(name = "email")
   private String email;
 
+  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+  @JsonIdentityReference(alwaysAsId = true)
   @OneToMany(mappedBy = "clientId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   private List<Contract> contracts;
 
