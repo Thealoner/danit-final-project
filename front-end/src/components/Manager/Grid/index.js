@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import './index.scss';
 import { ReactTabulator } from 'react-tabulator';
 import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
@@ -11,21 +12,28 @@ class Grid extends Component {
     name: '',
     data: [],
     columns: [
-      { title: 'ID', field: 'id', width: 150 },
-      { title: 'Номер карты', field: 'cardId' },
+      { title: 'ID', field: 'id' },
+      { title: 'Дата Рождения', field: 'birthDate' },
       { title: 'Имя', field: 'firstName' },
-      { title: 'Фамилия', field: 'lastName', align: 'left' },
-      { title: 'Дата рождения', field: 'birthDate' },
+      { title: 'Фамилия', field: 'lastName' },
       { title: 'Пол', field: 'gender' },
-      { title: 'E-mail', field: 'email' },
-      { title: 'Номер телефона', field: 'phoneNumber' }
+      { title: 'Активен', field: 'active' }
     ]
   };
   ref = null;
 
   rowClick = (e, row) => {
-    console.log('ref table: ', this.ref.table); // this is the Tabulator table instance
-    console.log('rowClick id:' + row.getData().id, row, e);
+    let { entityType, tabKey } = this.props.match.params;
+    
+    this.props.setTabContentUrl(entityType + '/' + row.getData().id);
+    
+    this.props.history.push({
+      pathname: '/manager/' + tabKey + '/' + entityType + '/' + row.getData().id,
+      state: {
+        rowData: row.getData(),
+        entityType: entityType
+      }
+    });
   };
 
   setData = () => {
@@ -35,7 +43,7 @@ class Grid extends Component {
         console.log(response);
         const data = response.data.slice(0, 100);
         this.setState({
-          id: this.props.match.params.entityId,
+          id: this.props.match.params.entityType,
           data: data
           // ,columns: entity.columns
         });
@@ -50,11 +58,13 @@ class Grid extends Component {
   };
 
   setSampleData = () => {
-    let entityId = this.props.match.params.entityId;
+    let entityType = this.props.match.params.entityType;
     
     let entity = GridEntities.find((el) => {
-      return el.id === entityId;
+      return el.id === entityType;
     });
+    
+    this.props.setTabContentUrl(entity.id);
 
     this.setState({
       id: entity.id,
@@ -69,7 +79,8 @@ class Grid extends Component {
 
   render () {
     const options = {
-      movableRows: true
+      movableRows: true,
+      layout: 'fitColumns'
     };
     
     return (
@@ -97,9 +108,9 @@ class Grid extends Component {
   }
 
   componentDidUpdate () {
-    let entityId = this.props.match.params.entityId;
+    let entityType = this.props.match.params.entityType;
     
-    if (entityId !== this.state.id) {
+    if (entityType !== this.state.id) {
       this.setSampleData();
     }
   }
