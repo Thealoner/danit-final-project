@@ -46,7 +46,7 @@ class Login extends Component {
         <div className="login__dialog">
           <form action="#" className="login__form" onSubmit={this.handleSubmit}>
             <label htmlFor="username">Логин</label>
-            <input type="text" name="username" id="username" placeholder="введите имя пользователя (Anna)"
+            <input type="text" name="username" id="username" placeholder="введите имя пользователя (Admin)"
               value={this.state.username} onChange={this.handleChange} required/>
             <label htmlFor="password">Пароль</label>
             <input type="password" name="password" id="password" placeholder="введите пароль (1234)"
