@@ -13,9 +13,11 @@ class Grid extends Component {
     data: [],
     columns: [
       { title: 'ID', field: 'id' },
-      { title: 'First Name', field: 'firstName' },
-      { title: 'LAst Name', field: 'lastName', align: 'left' },
-      { title: 'Active', field: 'active' }
+      { title: 'Дата Рождения', field: 'birthDate' },
+      { title: 'Имя', field: 'firstName' },
+      { title: 'Фамилия', field: 'lastName' },
+      { title: 'Пол', field: 'gender' },
+      { title: 'Активен', field: 'active' }
     ]
   };
   ref = null;
