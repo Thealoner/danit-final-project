@@ -69,7 +69,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         + " with token: "
         + token
     );
-
     res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+    res.setContentType("application/json");
+    res.setCharacterEncoding("UTF-8");
+    res.getWriter().write(
+        "{\"" + SecurityConstants.HEADER_STRING + "\":\"" + SecurityConstants.TOKEN_PREFIX + token + "\"}"
+    );
   }
 }
