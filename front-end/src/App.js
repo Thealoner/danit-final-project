@@ -24,7 +24,7 @@ class App extends Component {
         <div className="app__user">
           <div className="app__user-wrapper">
             <img className="app__logo" src={avatar} alt=""/>
-            <span>{this.props.user.username}</span>
+            <span>{this.props.user.sub}</span>
           </div>
           <button type="button" className="app__btn-logout" onClick={this.handleLogout.bind(this)}>Logout</button>
         </div>
