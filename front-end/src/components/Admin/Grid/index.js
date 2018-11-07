@@ -5,6 +5,7 @@ import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
 import axios from 'axios';
 import GridEntities from '../GridEntities';
+import AuthService from '../../Login/AuthService';
 
 class Grid extends Component {
   state = {
@@ -35,24 +36,53 @@ class Grid extends Component {
   };
 
   setData = () => {
-    axios.get('http://localhost:9000/api/clients/all')
-      .then(function (response) {
-        // handle success
-        console.log(response);
-        const data = response.data.slice(0, 100);
-        this.setState({
-          id: this.props.match.params.entityType,
-          data: data
-          // ,columns: entity.columns
+    let { entityType } = this.props.match.params;
+    let authService = new AuthService();
+
+    if (authService.loggedIn() && !authService.isTokenExpired()) {
+      const headers = {
+        'Content-Type': 'application/json'
+      };
+
+      let token = authService.getToken();
+      headers['Authorization'] = token;
+
+      fetch(
+        'http://localhost:9000/' + entityType,
+        {headers}
+      )
+        .then(authService._checkStatus)
+        .then(response => response.json())
+        .then(data => {
+          this.setState({
+            id: entityType,
+            data: data
+            // ,columns: entity.columns
+          });
         });
-      }.bind(this))
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      })
-      .then(function () {
-        // always executed
-      });
+    } else {
+      console.log('Not logged in or token is expired');
+    }
+
+    // let { entityType } = this.props.match.params;
+    // axios.get('http://localhost:9000/' + entityType)
+    //   .then(function (response) {
+    //     // handle success
+    //     console.log(response);
+    //     const data = response.data.slice(0, 100);
+    //     this.setState({
+    //       id: entityType,
+    //       data: data
+    //       // ,columns: entity.columns
+    //     });
+    //   }.bind(this))
+    //   .catch(function (error) {
+    //     // handle error
+    //     console.log(error);
+    //   })
+    //   .then(function () {
+    //     // always executed
+    //   });
   };
 
   setSampleData = () => {
