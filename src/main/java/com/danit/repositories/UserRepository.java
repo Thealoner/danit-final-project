@@ -9,6 +9,9 @@ import java.util.Set;
 public interface UserRepository extends JpaRepository<User, Long> {
   User findByUsername(String name);
 
+  @Query("select u.id from User u")
+  Set<Long> getAllUsersId();
+
   @Query("select u.username from User u")
   Set<String> findAllUserNames();
 }

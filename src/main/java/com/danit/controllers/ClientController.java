@@ -25,12 +25,15 @@ public class ClientController {
 
   Logger logger = LoggerFactory.getLogger(TestController.class);
 
+  private ClientService clientService;
+
   @Autowired
-  ClientService clientService;
+  public ClientController(ClientService clientService) {
+    this.clientService = clientService;
+  }
 
   @PostMapping("/clients")
   @ResponseStatus(HttpStatus.CREATED)
-  //TODO: Should return client?
   public void createClient(@RequestBody List<Client> clients) {
     logger.info("Adding new clients");
     clientService.saveAllClients(clients);
@@ -46,8 +49,8 @@ public class ClientController {
   }
 
   @PutMapping("/clients")
-  public void addClient(@RequestBody Client client) {
-    clientService.saveClient(client);
+  public void addClient(@RequestBody List<Client> clients) {
+    clientService.updateClients(clients);
   }
 
   @DeleteMapping("/clients/{id}")
