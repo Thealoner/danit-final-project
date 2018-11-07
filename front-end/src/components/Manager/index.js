@@ -1,37 +1,106 @@
 import React, { Component } from 'react';
-import { NavLink, Route } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import './index.scss';
-import Grid from './Grid';
-import GridEntities from './GridEntities';
+import TabbedArea from './TabbedArea';
+import EntitiesMenu from './EntitiesMenu';
+
+let index = 1;
 
 class Manager extends Component {
-    state = {
-      links: []
+  state = {
+    tabs: [{
+      title: 'Title',
+      tabKey: '1',
+      contentUrl: ''
+    }],
+    activeKey: '1'
+  };
+
+  add = (e) => {
+    e.stopPropagation();
+    index++;
+    const newTab = {
+      title: `Title: ${index}`,
+      tabKey: `${index}`,
+      contentUrl: ''
     };
+    
+    this.setState({
+      tabs: this.state.tabs.concat(newTab),
+      activeKey: `${index}`
+    });
+    
+    this.props.history.push('/manager/' + index + '/');
+  };
 
-    constructor (props) {
-      super(props);
+  onTabChange = (activeKey) => {
+    this.setState({
+      activeKey
+    });
 
-      GridEntities.forEach((entity) => {
-        this.state.links.push(
-          <NavLink to={'/manager/' + entity.id} key={entity.id} className="configurator__link"
-            activeClassName="configurator__link--active">{entity.name}</NavLink>
-        );
-      });
+    let clickedTab = this.state.tabs.find((tab) => {
+      return tab.tabKey === activeKey;
+    });
+
+    this.props.history.push('/manager/' + activeKey + '/' + clickedTab.contentUrl);
+  };
+
+  remove = (tabKey, e) => {
+    e.stopPropagation();
+    if (this.state.tabs.length === 1) {
+      alert('Error. You cannot delete this tab');
+      return;
     }
+    let foundIndex = 0;
+    const after = this.state.tabs.filter((t, i) => {
+      if (t.tabKey !== tabKey) {
+        return true;
+      }
+      foundIndex = i;
+      return false;
+    });
 
-    render () {
-      return (
-        <main className="configurator">
-          <div className="configurator__left">
-            {this.state.links}
-          </div>
-          <div className="configurator__right">
-            <Route path="/manager/:entityId" component={Grid} />
-          </div>
-        </main>
-      );
+    let activeKey = this.state.activeKey;
+    if (activeKey === tabKey) {
+      if (foundIndex) {
+        foundIndex--;
+      }
+      activeKey = after[foundIndex].tabKey;
     }
+    this.setState({
+      tabs: after,
+      activeKey
+    });
+  };
+
+  setTabContentUrl = (url) => {
+    let currenTab = this.state.tabs.find((tab) => {
+      return tab.tabKey === this.state.activeKey;
+    });
+
+    currenTab.contentUrl = url;
+  };
+
+  render () {
+    return (
+      <main className="configurator">
+        <div className="configurator__left">
+          <EntitiesMenu activeKey={this.state.activeKey} />
+        </div>
+        <div className="configurator__right">
+          <TabbedArea
+            className="tabs"
+            add={this.add}
+            onTabChange={this.onTabChange}
+            remove={this.remove}
+            activeKey={this.state.activeKey}
+            tabs={this.state.tabs}
+            setTabContentUrl={this.setTabContentUrl}
+          />
+        </div>
+      </main>
+    );
+  }
 }
 
-export default Manager;
+export default withRouter(Manager);
