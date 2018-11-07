@@ -27,7 +27,6 @@ public class RoleController {
 
   @PostMapping("/roles")
   @ResponseStatus(HttpStatus.CREATED)
-  //TODO: Should return role?
   public void createRoles(@RequestBody List<UserRoles> roles) {
     logger.info("Adding new roles");
     roleService.saveAllRoles(roles);
@@ -36,10 +35,6 @@ public class RoleController {
 
   @GetMapping("/roles")
   List<UserRoles> getAllRoles() {
-    logger.info("Mapped \"{[/roles],methods=[GET]}\" onto " + new Object() {
-    }
-        .getClass()
-        .getEnclosingMethod().getName() + "()");
     return roleService.getAllRoles();
   }
 

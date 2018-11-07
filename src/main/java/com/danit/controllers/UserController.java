@@ -58,10 +58,6 @@ public class UserController {
 
   @GetMapping("/users")
   List<User> getAllUsers() {
-    logger.info("Mapped \"{[/users],methods=[GET]}\" onto " + new Object() {
-    }
-        .getClass()
-        .getEnclosingMethod().getName() + "()");
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentPrincipalName = authentication.getName();
     logger.info("User " + currentPrincipalName);
