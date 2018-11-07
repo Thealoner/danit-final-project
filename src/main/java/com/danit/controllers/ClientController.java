@@ -6,13 +6,16 @@ import com.danit.services.ClientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -25,9 +28,13 @@ public class ClientController {
   @Autowired
   ClientService clientService;
 
-  @GetMapping("/clients")
-  List<Client> getAllClients() {
-    return clientService.getAllClients();
+  @PostMapping("/clients")
+  @ResponseStatus(HttpStatus.CREATED)
+  //TODO: Should return client?
+  public void createClient(@RequestBody List<Client> clients) {
+    logger.info("Adding new clients");
+    clientService.saveAllClients(clients);
+    logger.info("Clients saved");
   }
 
   @GetMapping("/clients/{id}")
@@ -49,6 +56,11 @@ public class ClientController {
     String currentPrincipalName = authentication.getName();
     logger.info("User " + currentPrincipalName + " try to delete client with id " + id);
     clientService.deleteClientById(id);
+  }
+
+  @GetMapping("/clients")
+  List<Client> getAllClients() {
+    return clientService.getAllClients();
   }
 
 }

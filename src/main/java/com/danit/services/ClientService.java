@@ -12,4 +12,6 @@ public interface ClientService {
   void saveClient(Client client);
 
   void deleteClientById(long id);
+
+  void saveAllClients(List<Client> clients);
 }

@@ -1,7 +1,6 @@
 package com.danit.controllers;
 
 import com.danit.models.Contract;
-import com.danit.services.ClientService;
 import com.danit.services.ContractService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,34 +23,30 @@ public class ContractController {
   @Autowired
   private ContractService contractService;
 
-  @Autowired
-  private ClientService clientService;
-
-  @GetMapping("/contracts")
-  List<Contract> getAllContracts() {
-    return contractService.getAllContracts();
-  }
-
-  @GetMapping("/contracts/{id}")
-  Contract getContractById(@PathVariable(name = "id") long id) {
-    return contractService.getContractById(id);
-  }
-
-  @PutMapping("/contracts")
-  public void addContract(@RequestBody Contract contract) {
-    contractService.saveContract(contract);
-  }
-
-  @DeleteMapping("/contracts/{id}")
-  public void deleteContractById(@PathVariable(name = "id") long id) {
-    contractService.deleteContractById(id);
-  }
-
   @PostMapping("/contracts")
   private void createContract(@RequestBody List<Contract> contracts) {
     logger.info("Adding new contract");
     contractService.saveAllContracts(contracts);
     logger.info("Contract saved");
+  }
+
+  @GetMapping("/contracts/{id}")
+  Contract getContractById(@PathVariable(name = "id") long id){ return contractService.getContractById(id);
+  }
+
+  @PutMapping("/contracts")
+  public void addContract(@RequestBody Contract contract) { contractService.saveContract(contract);
+  }
+
+//TODO: Ask if it can stay
+  @DeleteMapping("/contracts/{id}")
+  public void deleteContractById(@PathVariable(name = "id") long id) {
+    contractService.deleteContractById(id);
+  }
+
+  @GetMapping("/contracts")
+  List<Contract> getAllContracts() {
+    return contractService.getAllContracts();
   }
 
 }
