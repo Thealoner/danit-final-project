@@ -44,7 +44,6 @@ class Login extends Component {
     return (
       <div className="login" ref="login">
         <div className="login__dialog">
-          <span className="login__data-error"></span>
           <form action="#" className="login__form" onSubmit={this.handleSubmit}>
             <label htmlFor="username">Логин</label>
             <input type="text" name="username" id="username" placeholder="введите имя пользователя (Admin)"
