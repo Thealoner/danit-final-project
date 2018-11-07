@@ -38,5 +38,4 @@ public class RoleController {
     return roleService.getAllRoles();
   }
 
-
 }
