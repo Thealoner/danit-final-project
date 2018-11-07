@@ -31,7 +31,7 @@ class Record extends Component {
 
       return route;
     });
-  }
+  };
 
   render () {
     let routes = this.getRoutes();

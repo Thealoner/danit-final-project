@@ -14,7 +14,7 @@ class Grid extends Component {
     columns: [
       { title: 'ID', field: 'id' },
       { title: 'First Name', field: 'firstName' },
-      { title: 'LAst Name', field: 'lastName', align: 'left' },
+      { title: 'Last NAme', field: 'lastName', align: 'left' },
       { title: 'Active', field: 'active' }
     ]
   };
