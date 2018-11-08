@@ -11,7 +11,7 @@ const GridEntities = [
     id: 'packages',
     name: 'Пакеты',
     sampleData: packages,
-    apiBaseUrl: '/packages',
+    apiUrl: '/packages',
     recordType: 'tabbed',
     recordComponent: 'Package',
     columns: [
@@ -25,7 +25,7 @@ const GridEntities = [
     id: 'services',
     name: 'Сервисы',
     sampleData: services,
-    apiBaseUrl: '/services',
+    apiUrl: '/services',
     recordType: 'tabbed',
     recordComponent: 'Package',
     columns: [
@@ -39,7 +39,7 @@ const GridEntities = [
     id: 'service_categories',
     name: 'Категории сервисов',
     sampleData: serviceCategories,
-    apiBaseUrl: '/service_categories',
+    apiUrl: '/service_categories',
     recordType: 'simple',
     columns: [
       { title: 'ID', field: 'id' },
@@ -52,7 +52,7 @@ const GridEntities = [
     id: 'service_rules',
     name: 'Условия сервисов',
     sampleData: serviceRules,
-    apiBaseUrl: '/service_rules',
+    apiUrl: '/service_rules',
     recordType: 'simple',
     columns: [
       { title: 'ID', field: 'id' },
@@ -65,7 +65,7 @@ const GridEntities = [
     id: 'contracts',
     name: 'Контракты',
     sampleData: contracts,
-    apiBaseUrl: '/contracts',
+    apiUrl: '/contracts',
     recordType: 'tabbed',
     recordComponent: 'Package',
     columns: [
@@ -79,7 +79,7 @@ const GridEntities = [
     id: 'organizations',
     name: 'Организации',
     sampleData: organizations,
-    apiBaseUrl: '/organizations',
+    apiUrl: '/organizations',
     recordType: 'simple',
     columns: [
       { title: 'ID', field: 'id' },
@@ -92,7 +92,7 @@ const GridEntities = [
     id: 'clients',
     name: 'Клиенты',
     sampleData: clients,
-    apiBaseUrl: '/clients',
+    apiUrl: '/clients',
     recordType: 'simple',
     columns: [
       { title: 'ID', field: 'id' },
@@ -102,7 +102,34 @@ const GridEntities = [
       { title: 'Пол', field: 'gender' },
       { title: 'Активен', field: 'active' }
     ]
+  },
+  {
+    id: 'users',
+    name: 'Пользователи',
+    apiUrl: '/users',
+    recordType: 'simple',
+    columns: [
+      { title: 'ID', field: 'id' },
+      { title: 'Дата Рождения', field: 'username' },
+      { title: 'Имя', field: 'roles' }
+    ]
+  },
+  {
+    id: 'roles',
+    name: 'Роли Пользователей',
+    apiUrl: '/roles',
+    recordType: 'simple',
+    columns: [
+      { title: 'ID', field: 'role' }
+    ]
   }
 ];
 
+function getEntityByType (entityType) {
+  return GridEntities.find((el) => {
+    return el.id === entityType;
+  });
+}
+
+export { getEntityByType };
 export default GridEntities;
