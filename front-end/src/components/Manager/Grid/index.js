@@ -57,6 +57,8 @@ class Grid extends Component {
         .then(authService._checkStatus)
         .then(response => response.json())
         .then(data => {
+          this.props.setTabContentUrl(entity.id);
+          
           this.setState({
             id: entityType,
             data: data
