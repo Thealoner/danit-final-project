@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ContractServiceImpl implements ContractService {
@@ -30,8 +31,8 @@ public class ContractServiceImpl implements ContractService {
   }
 
   @Override
-  public void saveContract(Contract contract) {
-    contractRepository.save(contract);
+  public void saveContracts(List<Contract> contracts) {
+    contractRepository.saveAll(contracts);
   }
 
   @Override
@@ -40,9 +41,14 @@ public class ContractServiceImpl implements ContractService {
   }
 
   @Override
-  public void saveAllContracts(List<Contract> contracts) {
-    contractRepository.saveAll(contracts);
+  public void deleteContracts(List<Contract> contracts) {
+    Set<Long> usersId = contractRepository.getAllContractsId();
+    contracts.forEach(contract -> {
+      if (!usersId.contains(contract.getId())) {
+        throw new EntityNotFoundException("Contract with id=" + contract.getId() + " is not exist");
+      }
+    });
+    contractRepository.deleteInBatch(contracts);
   }
-
 
 }

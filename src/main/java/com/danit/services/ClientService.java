@@ -5,11 +5,16 @@ import com.danit.models.Client;
 import java.util.List;
 
 public interface ClientService {
+
   List<Client> getAllClients();
 
   Client getClientById(long id);
 
-  void saveClient(Client client);
+  void saveClients(List<Client> clients);
+
+  void updateClients(List<Client> clients);
 
   void deleteClientById(long id);
+
+  void deleteClients(List<Client> clients);
 }

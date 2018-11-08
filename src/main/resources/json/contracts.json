@@ -47,5 +47,15 @@
     "packageId": "1003",
     "isActive": "true",
     "clientId": 1004
+  },
+
+  {
+    "id": 1006,
+    "startDate": "2018-01-10",
+    "endDate": "2019-01-10",
+    "credit": "10000",
+    "packageId": "1003",
+    "isActive": "true",
+    "clientId": 1001
   }
 ]
