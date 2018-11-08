@@ -48,7 +48,7 @@ class Grid extends Component {
       };
 
       let token = authService.getToken();
-      headers['Authorization'] = token;
+        headers['Authorization'] = token;
 
       fetch(
         Settings.apiServerUrl + entity.apiUrl,
