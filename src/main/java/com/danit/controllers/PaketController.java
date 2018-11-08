@@ -30,9 +30,9 @@ public class PaketController {
 
   @PostMapping("/pakets")
   private void createPakets(@RequestBody List<Paket> pakets) {
-    logger.info("Adding new contract");
+    logger.info("Adding new paket");
     paketService.savePakets(pakets);
-    logger.info("Contract saved");
+    logger.info("Paket saved");
   }
 
   @GetMapping("/pakets/{id}")

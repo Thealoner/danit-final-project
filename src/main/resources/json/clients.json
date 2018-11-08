@@ -7,10 +7,7 @@
     "gender": "Female",
     "lastName": "Lawtie",
     "phoneNumber": "958-143-9304",
-    "contracts": [
-      {"id": 1001},
-      {"id": 1002}
-    ]
+    "active": true
   },
 
   {
@@ -21,9 +18,7 @@
     "gender": "Female",
     "lastName": "Lawtie",
     "phoneNumber": "958-143-9304",
-    "contracts": [
-      {"id": 1003}
-    ]
+    "active": true
   },
 
   {
@@ -34,9 +29,7 @@
     "gender": "Female",
     "lastName": "Lawtie",
     "phoneNumber": "958-143-9304",
-    "contracts": [
-      {"id": 1004}
-    ]
+    "active": true
   },
 
   {
@@ -47,9 +40,7 @@
     "gender": "Female",
     "lastName": "Lawtie",
     "phoneNumber": "958-143-9304",
-    "contracts": [
-      {"id": 1005}
-    ]
+    "active": true
   }
 
 ]

@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.List;
 
 @Entity
@@ -74,10 +75,10 @@ public class Paket {
   @Column(name = "purchasable")
   private Boolean purchasable;
 
-  @OneToMany(mappedBy = "packageId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "packageId", fetch = FetchType.EAGER)
   private List<Contract> contracts;
 
-  @OneToMany(mappedBy = "paket", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "paket", fetch = FetchType.EAGER)
   private List<CardColor> cards;
 
   public Long getId() {

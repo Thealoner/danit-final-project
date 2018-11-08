@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "card_colors")
@@ -34,12 +35,12 @@ public class CardColor {
   @Column(name = "contract_id")
   private Long contractId;
 
-  @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "packet_id", updatable = false, insertable = false)
   @JsonIgnore
   private Paket paket;
 
-  @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "contract_id", updatable = false, insertable = false)
   @JsonIgnore
   private Contract contract;
@@ -84,20 +85,20 @@ public class CardColor {
     this.paket = paket;
   }
 
-  public Long getContractId() {
-    return contractId;
-  }
-
-  public void setContractId(Long contractId) {
-    this.contractId = contractId;
-  }
-
   public Contract getContract() {
     return contract;
   }
 
   public void setContract(Contract contract) {
     this.contract = contract;
+  }
+
+  public Long getContractId() {
+    return contractId;
+  }
+
+  public void setContractId(Long contractId) {
+    this.contractId = contractId;
   }
 
   @Override

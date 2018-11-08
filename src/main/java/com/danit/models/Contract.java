@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import java.util.Date;
 import java.util.List;
 
@@ -51,17 +52,17 @@ public class Contract {
   @Column(name = "active")
   private boolean isActive;
 
-  @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "client_id", updatable = false, insertable = false)
   @JsonIgnore
   private Client client;
 
-  @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "package_id", updatable = false, insertable = false)
   @JsonIgnore
   private Paket paket;
 
-  @OneToMany(mappedBy = "contract", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+  @OneToMany(mappedBy = "contract", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
   private List<CardColor> cards;
 
   @Column(name = "package_id")
@@ -126,14 +127,6 @@ public class Contract {
     this.paket = paket;
   }
 
-  public List<CardColor> getCards() {
-    return cards;
-  }
-
-  public void setCards(List<CardColor> cards) {
-    this.cards = cards;
-  }
-
   public Long getPackageId() {
     return packageId;
   }
@@ -148,6 +141,14 @@ public class Contract {
 
   public void setClientId(Long clientId) {
     this.clientId = clientId;
+  }
+
+  public List<CardColor> getCards() {
+    return cards;
+  }
+
+  public void setCards(List<CardColor> cards) {
+    this.cards = cards;
   }
 
   @Override

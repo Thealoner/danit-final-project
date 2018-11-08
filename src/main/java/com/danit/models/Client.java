@@ -59,7 +59,7 @@ public class Client {
 
   @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
   @JsonIdentityReference(alwaysAsId = true)
-  @OneToMany(mappedBy = "clientId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "clientId", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
   private List<Contract> contracts;
 
   public Client() {
