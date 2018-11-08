@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import AuthService from './AuthService';
+import Settings from '../Settings';
 
 export default function withAuth (AuthComponent) {
-  const Auth = new AuthService('http://localhost:9000');
+  const Auth = new AuthService(Settings.apiServerUrl);
   return class AuthWrapped extends Component {
     constructor () {
       super();

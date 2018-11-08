@@ -6,7 +6,9 @@ import java.util.List;
 
 public interface UserService {
 
-  void saveUser(User user);
+  void saveUsers(List<User> users);
+
+  void updateUsers(List<User> users);
 
   void deleteUserById(long id);
 
@@ -16,4 +18,5 @@ public interface UserService {
 
   List<User> getAllUsers();
 
+  void deleteUsers(List<User> users);
 }
