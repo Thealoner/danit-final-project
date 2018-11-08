@@ -1,7 +1,6 @@
 package com.danit.controllers;
 
 import com.danit.models.Contract;
-import com.danit.services.ClientService;
 import com.danit.services.ContractService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,15 +20,18 @@ public class ContractController {
 
   Logger logger = LoggerFactory.getLogger(ContractController.class);
 
-  @Autowired
   private ContractService contractService;
 
   @Autowired
-  private ClientService clientService;
+  public ContractController(ContractService contractService) {
+    this.contractService = contractService;
+  }
 
-  @GetMapping("/contracts")
-  List<Contract> getAllContracts() {
-    return contractService.getAllContracts();
+  @PostMapping("/contracts")
+  private void createContracts(@RequestBody List<Contract> contracts) {
+    logger.info("Adding new contract");
+    contractService.saveContracts(contracts);
+    logger.info("Contract saved");
   }
 
   @GetMapping("/contracts/{id}")
@@ -37,9 +39,14 @@ public class ContractController {
     return contractService.getContractById(id);
   }
 
+  @GetMapping("/contracts")
+  List<Contract> getAllContracts() {
+    return contractService.getAllContracts();
+  }
+
   @PutMapping("/contracts")
-  public void addContract(@RequestBody Contract contract) {
-    contractService.saveContract(contract);
+  public void addContracts(@RequestBody List<Contract> contracts) {
+    contractService.saveContracts(contracts);
   }
 
   @DeleteMapping("/contracts/{id}")
@@ -47,11 +54,9 @@ public class ContractController {
     contractService.deleteContractById(id);
   }
 
-  @PostMapping("/contracts")
-  private void createContract(@RequestBody List<Contract> contracts) {
-    logger.info("Adding new contract");
-    contractService.saveAllContracts(contracts);
-    logger.info("Contract saved");
+  @DeleteMapping("/contracts")
+  public void deleteContracts(@RequestBody List<Contract> contracts) {
+    contractService.deleteContracts(contracts);
   }
 
 }

@@ -66,8 +66,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     logger.info("Successful Authentication of User "
         + ((UserDetails) auth.getPrincipal()).getUsername()
-        + " with token: "
-        + token
     );
     res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
     res.setContentType("application/json");
