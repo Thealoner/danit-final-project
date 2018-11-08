@@ -1,8 +1,9 @@
 import decodeJWT from 'jwt-decode';
+import Settings from '../Settings';
 
 export default class AuthService {
   constructor (domain) {
-    this.domain = domain || 'http://localhost:9000';
+    this.domain = domain || Settings.apiServerUrl;
     this.fetch = this.fetch.bind(this);
     this.login = this.login.bind(this);
     this.getProfile = this.getProfile.bind(this);

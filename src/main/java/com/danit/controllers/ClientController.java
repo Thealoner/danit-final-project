@@ -6,13 +6,16 @@ import com.danit.services.ClientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -22,12 +25,19 @@ public class ClientController {
 
   Logger logger = LoggerFactory.getLogger(TestController.class);
 
-  @Autowired
-  ClientService clientService;
+  private ClientService clientService;
 
-  @GetMapping("/clients")
-  List<Client> getAllClients() {
-    return clientService.getAllClients();
+  @Autowired
+  public ClientController(ClientService clientService) {
+    this.clientService = clientService;
+  }
+
+  @PostMapping("/clients")
+  @ResponseStatus(HttpStatus.CREATED)
+  public void createClient(@RequestBody List<Client> clients) {
+    logger.info("Adding new clients");
+    clientService.saveClients(clients);
+    logger.info("Clients saved");
   }
 
   @GetMapping("/clients/{id}")
@@ -39,16 +49,26 @@ public class ClientController {
   }
 
   @PutMapping("/clients")
-  public void addClient(@RequestBody Client client) {
-    clientService.saveClient(client);
+  public void addClient(@RequestBody List<Client> clients) {
+    clientService.updateClients(clients);
   }
 
   @DeleteMapping("/clients/{id}")
-  public void deleteUserById(@PathVariable(name = "id") long id) {
+  public void deleteClientById(@PathVariable(name = "id") long id) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentPrincipalName = authentication.getName();
     logger.info("User " + currentPrincipalName + " try to delete client with id " + id);
     clientService.deleteClientById(id);
+  }
+
+  @GetMapping("/clients")
+  List<Client> getAllClients() {
+    return clientService.getAllClients();
+  }
+
+  @DeleteMapping("/clients")
+  public void deleteClients(@RequestBody List<Client> clients) {
+    clientService.deleteClients(clients);
   }
 
 }

@@ -3,8 +3,8 @@ import './index.scss';
 
 class Package extends Component {
   render () {
-    let rowId = this.props.match.params.rowId;
-    let entityType = this.props.match.params.entityType;
+    let { rowId } = this.props.match.params;
+    let { entityType } = this.props;
 
     return (
       <div className="package">
