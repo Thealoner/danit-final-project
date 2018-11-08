@@ -18,7 +18,7 @@ class Grid extends Component {
       { title: 'Price', field: 'price', align: 'left' },
       { title: 'First Name', field: 'firstName', align: 'left' },
       { title: 'Username', field: 'username', align: 'left' },
-      { title: 'Active', field: 'isActive', formatter:'tickCross' }
+      { title: 'Active', field: 'isActive', formatter: 'tickCross' }
     ]
   };
   ref = null;

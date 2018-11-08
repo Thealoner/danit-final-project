@@ -61,7 +61,6 @@ class SimpleRecord extends Component {
   };
 
   saveData = () => {
-    let { rowId } = this.props.match.params;
     let { entityType } = this.props;
     let entity = getEntityByType(entityType);
     let authService = new AuthService();
@@ -78,7 +77,7 @@ class SimpleRecord extends Component {
 
       fetch(
         Settings.apiServerUrl + entity.apiUrl,
-        { 
+        {
           method: 'PUT',
           body: JSON.stringify(dataToSave),
           headers

@@ -8,7 +8,7 @@ import GridEntities from '../GridEntities';
 
 class Record extends Component {
   getRoutes = () => {
-    let { entityType, rowId } = this.props.match.params;
+    let { entityType } = this.props.match.params;
 
     return GridEntities.map((entity) => {
       let route;
@@ -24,10 +24,10 @@ class Record extends Component {
           <Fragment key={entity.id}>
             <Route path={ '/admin/:tabKey/' + entity.id + '/:rowId' } render={
               (props) => <RecordTabs entityType={entityType} {...props} />
-          } />
+            } />
             <Route path={ '/admin/:tabKey/' + entity.id + '/:rowId' } render={
               (props) => <Package entityType={entityType} {...props} />
-          } />
+            } />
           </Fragment>
         );
       }
