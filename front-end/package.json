@@ -11,7 +11,7 @@
     }
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "ajv": "^6.5.5",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "express-jwt": "^5.3.1",
