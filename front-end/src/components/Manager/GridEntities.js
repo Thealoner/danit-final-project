@@ -6,6 +6,7 @@ const GridEntities = [
     name: 'Клиенты',
     sampleData: clients,
     recordType: 'simple',
+    apiUrl: '/clients',
     columns: [
       { title: 'ID', field: 'id' },
       { title: 'Дата Рождения', field: 'birthDate' },
@@ -16,5 +17,13 @@ const GridEntities = [
     ]
   }
 ];
+
+function getEntityByType (entityType) {
+  return GridEntities.find((el) => {
+    return el.id === entityType;
+  });
+}
+
+export { getEntityByType };
 
 export default GridEntities;
