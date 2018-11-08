@@ -15,81 +15,83 @@ class Grid extends Component {
     columns = [];
     tabulator = null;
 
-     rowClick = (e, row) => {
-       let { entityType, tabKey } = this.props.match.params;
+    rowClick = (e, row) => {
+      let { entityType, tabKey } = this.props.match.params;
 
-       this.props.setTabContentUrl(entityType + '/' + row.getData().id);
+      this.props.setTabContentUrl(entityType + '/' + row.getData().id);
 
-       this.props.history.push({
-         pathname: '/admin/' + tabKey + '/' + entityType + '/' + row.getData().id,
-         state: {
-           rowData: row.getData(),
-           entityType: entityType
-         }
-       });
-     };
+      this.props.history.push({
+        pathname: '/admin/' + tabKey + '/' + entityType + '/' + row.getData().id,
+        state: {
+          rowData: row.getData(),
+          entityType: entityType
+        }
+      });
+    };
 
-     getData = () => {
-       let { entityType } = this.props.match.params;
-       let entity = getEntityByType(entityType);
-       let authService = new AuthService();
+    getData = () => {
+      let { entityType } = this.props.match.params;
+      let entity = getEntityByType(entityType);
+      let authService = new AuthService();
 
-       if (authService.loggedIn() && !authService.isTokenExpired()) {
-         const headers = {
-           'Content-Type': 'application/json'
-         };
+      if (authService.loggedIn() && !authService.isTokenExpired()) {
+        const headers = {
+          'Content-Type': 'application/json'
+        };
 
-         let token = authService.getToken();
-         headers['Authorization'] = token;
+        let token = authService.getToken();
+        headers['Authorization'] = token;
 
-         fetch(
-           Settings.apiServerUrl + entity.apiUrl,
-           { headers }
-         )
-           .then(authService._checkStatus)
-           .then(response => response.json())
-           .then(data => {
-             this.id = entityType;
-             this.data = data;
-             this.columns = entity.columns;
-             this.tabulator.setColumns(this.columns);
-             this.tabulator.setData(this.data);
-           })
-           .catch(error => {
-             console.log('' + error);
-             this.data = [];
-             this.columns = [];
-             this.tabulator.setColumns(this.columns);
-             this.tabulator.setData(this.data);
-           });
-       } else {
-         console.log('Not logged in or token is expired');
-       }
-     };
+        fetch(
+          Settings.apiServerUrl + entity.apiUrl,
+          { headers }
+        )
+          .then(authService._checkStatus)
+          .then(response => response.json())
+          .then(data => {
+            this.id = entityType;
+            this.data = data;
+            this.columns = entity.columns;
+            this.tabulator.setColumns(this.columns);
+            this.tabulator.setData(this.data);
+          })
+          .catch(error => {
+            console.log('' + error);
+            this.id = '';
+            this.data = [];
+            this.columns = [];
+            this.tabulator.setColumns(this.columns);
+            this.tabulator.setData(this.data);
+          });
+      } else {
+        console.log('Not logged in or token is expired');
+      }
+    };
 
-     render () {
-       return (
-         <div ref={el => (this.el = el)} className="custom-css-class" data-custom-attr="test-custom-attribute"/>
-       );
-     }
+    render () {
+      return (
+        <div ref={el => (this.el = el)} className="custom-css-class" data-custom-attr="test-custom-attribute"/>
+      );
+    }
 
-     componentDidMount () {
-       this.tabulator = new Tabulator(this.el, {
-         data: this.data,
-         columns: this.columns,
-         rowClick: this.rowClick,
-         movableRows: true,
-         layout: 'fitColumns'
-       });
-     }
+    componentDidMount () {
+      this.getData();
+      this.tabulator = new Tabulator(this.el, {
+        data: this.data,
+        columns: this.columns,
+        rowClick: this.rowClick,
+        movableRows: true,
+        layout: 'fitColumns'
+      });
+    }
 
-     componentDidUpdate () {
-       let { entityType } = this.props.match.params;
-    
-       if (entityType !== this.id) {
-         this.getData();
-       }
-     }
+    componentDidUpdate () {
+      let { entityType } = this.props.match.params;
+
+      if (entityType !== this.id) {
+        this.getData();
+      }
+    }
 }
 
 export default Grid;
