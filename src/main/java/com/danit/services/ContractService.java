@@ -9,10 +9,10 @@ public interface ContractService {
 
   Contract getContractById(long id);
 
-  void saveContract(Contract contract);
+  void saveContracts(List<Contract> contracts);
 
   void deleteContractById(long id);
 
-  void saveAllContracts(List<Contract> contracts);
+  void deleteContracts(List<Contract> contracts);
 
 }

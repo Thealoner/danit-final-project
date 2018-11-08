@@ -8,11 +8,11 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "packages")
-public class Package {
+public class Paket {
 
   @Id
   @Column(name = "id")
-  private UUID packageId;
+  private UUID paketId;
   @Column(name = "title")
   private String title;
   @Column(name = "term")
