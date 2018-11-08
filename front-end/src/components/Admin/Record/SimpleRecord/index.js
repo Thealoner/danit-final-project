@@ -11,66 +11,105 @@ class SimpleRecord extends Component {
   state = {
     entityType: '',
     name: '',
-    data: [],
+    simpleFields: [],
+    complexFields: [],
     columns: [
       { title: 'Key', field: 'key', width: 150 },
       { title: 'Value', field: 'value', align: 'left', editor: true }
-    ]
+    ],
+    authService: new AuthService()
   };
 
   getData = () => {
     let { rowId } = this.props.match.params;
     let { entityType } = this.props;
     let entity = getEntityByType(entityType);
-    let authService = new AuthService();
 
-    if (authService.loggedIn() && !authService.isTokenExpired()) {
-      const headers = {
-        'Content-Type': 'application/json'
-      };
-
-      let token = authService.getToken();
-      headers['Authorization'] = token;
-
-      fetch(
-        Settings.apiServerUrl + entity.apiUrl + '/' + rowId,
-        { headers }
-      )
-        .then(authService._checkStatus)
-        .then(response => response.json())
-        .then(data => {
-          let keys = Object.keys(data);
-          let dataArray = [];
-    
-          keys.forEach((key) => {
-            dataArray.push({
-              key: key,
-              value: data[key]
-            });
-          });
-
-          this.setState({
-            entityType: entityType,
-            data: dataArray
-            // ,columns: entity.columns
-          });
-        });
+    if (this.state.authService.loggedIn() && !this.state.authService.isTokenExpired()) {
+      this.fetchEntity(entity, rowId);
     } else {
       console.log('Not logged in or token is expired');
     }
   };
 
+  fetchEntity = (entity, entityType) => {
+    const headers = {
+      'Content-Type': 'application/json'
+    };
+
+    let token = this.state.authService.getToken();
+    headers['Authorization'] = token;
+
+    fetch(
+      Settings.apiServerUrl + entity.apiUrl + '/' + entityType,
+      { headers }
+    )
+      .then(this.state.authService._checkStatus)
+      .then(response => response.json())
+      .then(data => {
+        let keys = Object.keys(data);
+        let simpleFields = [];
+        let complexFieldsToFetch = [];
+  
+        keys.forEach((key) => {
+          if (Array.isArray(data[key]) || (data[key] && typeof data[key] === 'object' && data[key].constructor === Object)) {
+            complexFieldsToFetch.push = {
+              key: data[key]
+            };
+          }
+
+          simpleFields.push({
+            key: key,
+            value: data[key]
+          });
+        });
+
+        this.setState({
+          entityType: entityType,
+          simpleFields
+          // ,columns: entity.columns
+        });
+
+        return complexFieldsToFetch;
+      })
+      .then((complexFieldsToFetch) => {
+        // fetch complexFields
+        complexFieldsToFetch.forEach((entityIds, entity) => {
+          let entityType = getEntityByType(entity);
+
+          fetch(
+            Settings.apiServerUrl + entity.apiUrl + '/' + entityType,
+            { headers }
+          )
+            .then(this.state.authService._checkStatus)
+            .then(response => response.json())
+            .then(data => {
+              let complexFields = [];
+
+              data.filter((contract) => {
+                return complexFieldsToFetch.includes(contract.id);
+              });
+
+              this.setState({
+                entityType: entityType,
+                complexFields
+                // ,columns: entity.columns
+              });
+            });
+        });
+      });
+  };
+
   saveData = () => {
     let { entityType } = this.props;
     let entity = getEntityByType(entityType);
-    let authService = new AuthService();
 
-    if (authService.loggedIn() && !authService.isTokenExpired()) {
+    if (this.state.authService.loggedIn() && !this.state.authService.isTokenExpired()) {
       const headers = {
         'Content-Type': 'application/json'
       };
 
-      let token = authService.getToken();
+      let token = this.state.authService.getToken();
       headers['Authorization'] = token;
       let array = this.state.data;
       let dataToSave = array.reduce((obj, {key, value}) => ({ ...obj, [key]: value }), {});
@@ -83,7 +122,7 @@ class SimpleRecord extends Component {
           headers
         }
       )
-        .then(authService._checkStatus)
+        .then(this.state.authService._checkStatus)
         .then(response => response.json())
         .then(data => {
           let keys = Object.keys(data);
@@ -120,7 +159,7 @@ class SimpleRecord extends Component {
         <ReactTabulator
           ref={ref => (this.ref = ref)}
           columns={this.state.columns}
-          data={this.state.data}
+          data={this.state.simpleFields}
           rowClick={this.rowClick}
           options={options}
           data-custom-attr="test-custom-attribute"
