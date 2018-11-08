@@ -2,10 +2,14 @@ package com.danit.configuration;
 
 import com.danit.models.Client;
 import com.danit.models.Contract;
+import com.danit.models.ServiceCategory;
+import com.danit.models.Services;
 import com.danit.models.User;
 import com.danit.models.UserRoles;
 import com.danit.repositories.ClientRepository;
 import com.danit.repositories.ContractRepository;
+import com.danit.repositories.ServiceCategoryRepository;
+import com.danit.repositories.ServiceRepository;
 import com.danit.repositories.UserRepository;
 import com.danit.repositories.UserRolesRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -35,16 +39,19 @@ public class AppStartupRunner implements ApplicationRunner {
 
   private ContractRepository contractRepository;
 
+  private ServiceRepository servicesRepository;
+
+  private ServiceCategoryRepository serviceCategoryRepository;
+
   @Autowired
-  public AppStartupRunner(UserRepository userRepository,
-                          ClientRepository clientRepository,
-                          BCryptPasswordEncoder bcryptPasswordEncoder,
-                          UserRolesRepository userRolesRepository, ContractRepository contractRepository) {
+  public AppStartupRunner(UserRepository userRepository, ClientRepository clientRepository, UserRolesRepository userRolesRepository, BCryptPasswordEncoder bcryptPasswordEncoder, ContractRepository contractRepository, ServiceRepository servicesRepository, ServiceCategoryRepository serviceCategoryRepository) {
     this.userRepository = userRepository;
     this.clientRepository = clientRepository;
-    this.bcryptPasswordEncoder = bcryptPasswordEncoder;
     this.userRolesRepository = userRolesRepository;
+    this.bcryptPasswordEncoder = bcryptPasswordEncoder;
     this.contractRepository = contractRepository;
+    this.servicesRepository = servicesRepository;
+    this.serviceCategoryRepository = serviceCategoryRepository;
   }
 
   @Override
@@ -75,5 +82,17 @@ public class AppStartupRunner implements ApplicationRunner {
     InputStream contractInputStream = TypeReference.class.getResourceAsStream("/json/contracts.json");
     List<Contract> contracts = mapper.readValue(contractInputStream, contractTypeReference);
     contractRepository.saveAll(contracts);
+
+    TypeReference<List<Services>> servicesTypeReference = new TypeReference<List<Services>>() {
+    };
+    InputStream servicesInputStream = TypeReference.class.getResourceAsStream("/json/services.json");
+    List<Services> services = mapper.readValue(servicesInputStream, servicesTypeReference);
+    servicesRepository.saveAll(services);
+
+    TypeReference<List<ServiceCategory>> serviceCategoryTypeReference = new TypeReference<List<ServiceCategory>>() {
+    };
+    InputStream serviceCategoryInputStream = TypeReference.class.getResourceAsStream("/json/servicecategory.json");
+    List<ServiceCategory> serviceCategory = mapper.readValue(serviceCategoryInputStream, serviceCategoryTypeReference);
+    serviceCategoryRepository.saveAll(serviceCategory);
   }
 }

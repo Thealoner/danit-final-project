@@ -1,0 +1,15 @@
+[
+  {
+    "id": 1001,
+    "title": "YOGA",
+    "services": [1001],
+    "enabled": 1
+  },
+
+  {
+    "id": 1002,
+    "title": "YOGA",
+    "services": [1001],
+    "enabled": 1
+  }
+]
