@@ -14,10 +14,12 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "contracts")
@@ -53,6 +55,14 @@ public class Contract {
   @JoinColumn(name = "client_id", updatable = false, insertable = false)
   @JsonIgnore
   private Client client;
+
+  @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+  @JoinColumn(name = "package_id", updatable = false, insertable = false)
+  @JsonIgnore
+  private Paket paket;
+
+  @OneToMany(mappedBy = "contract", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+  private List<CardColor> cards;
 
   @Column(name = "package_id")
   private Long packageId;
@@ -92,12 +102,12 @@ public class Contract {
     this.credit = credit;
   }
 
-  public boolean getIsActive() {
-    return this.isActive;
+  public boolean isActive() {
+    return isActive;
   }
 
-  public void setIsActive(boolean isActive) {
-    this.isActive = isActive;
+  public void setActive(boolean active) {
+    isActive = active;
   }
 
   public Client getClient() {
@@ -106,6 +116,22 @@ public class Contract {
 
   public void setClient(Client client) {
     this.client = client;
+  }
+
+  public Paket getPaket() {
+    return paket;
+  }
+
+  public void setPaket(Paket paket) {
+    this.paket = paket;
+  }
+
+  public List<CardColor> getCards() {
+    return cards;
+  }
+
+  public void setCards(List<CardColor> cards) {
+    this.cards = cards;
   }
 
   public Long getPackageId() {
@@ -132,8 +158,10 @@ public class Contract {
         ", endDate=" + endDate +
         ", credit=" + credit +
         ", isActive=" + isActive +
-        ", clientFirstName=" + client.getFirstName() +
+        ", client=" + client +
+        ", paket=" + paket +
         ", packageId=" + packageId +
+        ", clientId=" + clientId +
         '}';
   }
 }

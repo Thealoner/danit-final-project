@@ -2,7 +2,6 @@
   {
     "id": 1001,
     "birthDate": "1979-03-17",
-    "cardId": "966668918131",
     "email": "plawtie0@amazonaws.com",
     "firstName": "Philippa",
     "gender": "Female",
@@ -17,7 +16,6 @@
   {
     "id": 1002,
     "birthDate": "1979-03-17",
-    "cardId": "966668918131",
     "email": "plawtie0@amazonaws.com",
     "firstName": "Philippa",
     "gender": "Female",
@@ -31,7 +29,6 @@
   {
     "id": 1003,
     "birthDate": "1979-03-17",
-    "cardId": "966668918131",
     "email": "plawtie0@amazonaws.com",
     "firstName": "Philippa",
     "gender": "Female",
@@ -45,7 +42,6 @@
   {
     "id": 1004,
     "birthDate": "1979-03-17",
-    "cardId": "966668918131",
     "email": "plawtie0@amazonaws.com",
     "firstName": "Philippa",
     "gender": "Female",

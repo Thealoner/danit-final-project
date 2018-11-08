@@ -51,11 +51,11 @@ public class Client {
   @Column(name = "phone_number")
   private String phoneNumber;
 
-  @Column(name = "card_id")
-  private String cardId;
-
   @Column(name = "email")
   private String email;
+
+  @Column(name = "active")
+  private Boolean active;
 
   @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
   @JsonIdentityReference(alwaysAsId = true)
@@ -72,7 +72,6 @@ public class Client {
     this.gender = gender;
     this.birthDate = birthDate;
     this.phoneNumber = phoneNumber;
-    this.cardId = cardId;
     this.email = email;
   }
 
@@ -124,14 +123,6 @@ public class Client {
     this.phoneNumber = phoneNumber;
   }
 
-  public String getCardId() {
-    return cardId;
-  }
-
-  public void setCardId(String cardId) {
-    this.cardId = cardId;
-  }
-
   public String getEmail() {
     return email;
   }
@@ -148,6 +139,14 @@ public class Client {
     this.contracts = contracts;
   }
 
+  public Boolean getActive() {
+    return active;
+  }
+
+  public void setActive(Boolean active) {
+    this.active = active;
+  }
+
   @Override
   public String toString() {
     return "Client{" +
@@ -157,9 +156,8 @@ public class Client {
         ", gender='" + gender + '\'' +
         ", birthDate=" + birthDate +
         ", phoneNumber='" + phoneNumber + '\'' +
-        ", cardId='" + cardId + '\'' +
         ", email='" + email + '\'' +
-        ", contracts=" + contracts +
+        ", active=" + active +
         '}';
   }
 }
