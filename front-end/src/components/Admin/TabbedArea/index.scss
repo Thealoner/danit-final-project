@@ -1,8 +1,11 @@
-.tabs_area {
+.rc-tabs {
   height: 100%;
+
+// custom classes:
 
   &__link {
     color: black;
+    background-color: #ccc;
     cursor: pointer;
   }
 
@@ -19,27 +22,62 @@
     color: black;
     cursor: pointer;
   }
-  
-  &__content {
-    height: 95%;
-    border: 1px solid black;
-    border-bottom: none;
+
+  // override classes:
+
+  &-content {
+    height: 94%;
   }
 
-  &__header {
-    height: 5%;
+  &-bar {
+    height: 6%;
     background-color: #fff;
     border-bottom: none!important;
   }
 
-  &__tab {
+  &-nav-container,
+  &-nav-wrap,
+  &-nav-scroll {
+    height: 100%;
+  }
+
+  &-nav-scroll {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  &-nav {
+    height: 89%;
+  }
+
+  &-nav > div:first-child {
+    height: 100%;
+  }
+
+  &-tab:not(.rc-tabs-tab-disabled) {
     display: flex!important;
     justify-content: space-between;
     align-items: center;
-    width: 100px;
-    height: 100%!important;
+    width: 150px;
+    height: 100%;
     margin: 0!important;
     padding: 0!important;
-    border: 1px solid black;
+  }
+
+  &-tab-disabled {
+    display: flex!important;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 100%;
+    margin: 0!important;
+    padding: 0!important;
+    background-color: #ccc;
+  }
+
+  &-tab-active {
+    background-color: whitesmoke;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
   }
 }

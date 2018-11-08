@@ -49,6 +49,7 @@ class Grid extends Component {
           .then(authService._checkStatus)
           .then(response => response.json())
           .then(data => {
+            this.props.setTabContentUrl(entity.id);
             this.id = entityType;
             this.data = data;
             this.columns = entity.columns;
@@ -69,6 +70,10 @@ class Grid extends Component {
     };
 
     render () {
+      let { entityType } = this.props.match.params;
+      let { setTabContentUrl } = this.props;
+      setTabContentUrl(entityType);
+
       return (
         <div ref={el => (this.el = el)} className="custom-css-class" data-custom-attr="test-custom-attribute"/>
       );
