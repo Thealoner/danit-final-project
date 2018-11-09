@@ -68,10 +68,12 @@ class Grid extends Component {
         console.log('Not logged in or token is expired');
       }
     };
+
     render () {
       let { entityType } = this.props.match.params;
       let { setTabContentUrl } = this.props;
       setTabContentUrl(entityType);
+
       return (
         <div ref={el => (this.el = el)} className="custom-css-class" data-custom-attr="test-custom-attribute"/>
       );
