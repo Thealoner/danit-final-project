@@ -6,6 +6,7 @@
     "cost": "200",
     "unit": "min",
     "unitsNumber": "55",
-    "enabled": 1
+    "serviceCategories": [],
+    "active": true
   }
 ]

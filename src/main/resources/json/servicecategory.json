@@ -1,15 +1,15 @@
 [
   {
-    "id": 1001,
-    "title": "YOGA",
-    "services": [1001],
-    "enabled": 1
+    "id": 2001,
+    "title": "SPA",
+    "services": [],
+    "active": true
   },
 
   {
-    "id": 1002,
+    "id": 2002,
     "title": "YOGA",
-    "services": [1001],
-    "enabled": 1
+    "services": [],
+    "active": true
   }
 ]
