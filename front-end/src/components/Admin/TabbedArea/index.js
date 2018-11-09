@@ -34,9 +34,7 @@ class TabbedArea extends Component {
         </TabPane>
       );
     }).concat([
-      <TabPane key={'__add'} disabled={disabled} tab={<span className='rc-tabs__link' onClick={this.props.add}>
-            +
-      </span>}/>
+      <TabPane key={'__add'} disabled={disabled} tab={<span className='rc-tabs__add-btn' onClick={this.props.add}/>}/>
     ]);
   }
 
@@ -44,7 +42,7 @@ class TabbedArea extends Component {
     return (
       <Tabs
         renderTabBar={() => <ScrollableInkTabBar/>}
-        renderTabContent={() => <TabContent animated={true}/>}
+        renderTabContent={() => <TabContent animated={false}/>}
         activeKey={this.props.activeKey}
         onChange={this.props.onTabChange}>
         {this.construct()}
