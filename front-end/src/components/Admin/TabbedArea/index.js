@@ -11,8 +11,24 @@ import $ from 'jquery';
 
 class TabbedArea extends Component {
   componentDidMount () {
-    $('.rc-tabs-nav').removeClass('rc-tabs-nav-animated');
+    let tabsNav = $('.rc-tabs-nav');
+
+    tabsNav.removeClass('rc-tabs-nav-animated');
     $('.rc-tabs-ink-bar').removeClass('rc-tabs-ink-bar-animated');
+
+    tabsNav.on('click', function (e) {
+      $('.rc-tabs-tab').css('border-bottom-right-radius', '0');
+
+      if ($(e.target).hasClass('rc-tabs__close-btn')) {
+        $(e.target).closest('.rc-tabs-tab').prev().css('border-bottom-right-radius', '0');
+      } else {
+        $(e.target).closest('.rc-tabs-tab').prev().css('border-bottom-right-radius', '10px');
+      }
+
+      setTimeout(function () {
+        $('.rc-tabs-tab-active').prev().css('border-bottom-right-radius', '10px');
+      }, 40);
+    });
   }
 
   construct () {

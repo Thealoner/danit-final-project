@@ -13,10 +13,14 @@
     height: 35px;
     border-radius: 50%;
     cursor: pointer;
-    transition: .3s;
+    transition: background-color .3s;
 
     &:hover {
       background-color: $main-bg;
+    }
+
+    &:active {
+      transform: scale(.95);
     }
 
     &::before {
@@ -63,6 +67,10 @@
 
     &:hover {
       background-color: $main-bg;
+    }
+
+    &:active {
+      transform: scale(.95);
     }
 
     &::before {
@@ -146,18 +154,23 @@
     padding: 0 5px 0 10px !important;
     color: #999;
     background-color: #fff;
-    border: 1px solid $main-bg;
-    border-bottom: none;
+    border-top: 1px solid $main-bg;
+    border-left: 1px solid $main-bg;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 
+    &:nth-last-of-type(2) {
+      border-right: 1px solid $main-bg;
+      border-bottom-right-radius: 0!important;
+    }
+
     &:hover {
-      color: black!important;
+      color: black !important;
     }
   }
 
   &-ink-bar {
-    background-color: transparent!important;
+    background-color: transparent !important;
   }
 
   &-tab-disabled {
@@ -173,9 +186,17 @@
   }
 
   &-tab-active {
-    color: black!important;
-    background-color: $main-bg!important;
-    border-bottom-right-radius: 0!important;
-    border-bottom-left-radius: 0!important;
+    color: black !important;
+    background-color: $main-bg !important;
+    border-bottom-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+
+    & + .rc-tabs-tab {
+      border-bottom-left-radius: 10px !important;
+    }
+
+    & .rc-tabs__close-btn:hover {
+      background-color: #fff;
+    }
   }
 }
