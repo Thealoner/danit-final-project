@@ -18,6 +18,7 @@ const GridEntities = [
       { title: 'ID', field: 'id' },
       { title: 'Название', field: 'title' },
       { title: 'Цена', field: 'price', align: 'left' },
+      { title: 'Можно купить?', field: 'purchasable' },
       { title: 'Активен', field: 'active' }
     ]
   },
@@ -31,7 +32,12 @@ const GridEntities = [
     columns: [
       { title: 'ID', field: 'id' },
       { title: 'Название', field: 'title' },
+      { title: 'Категория', field: 'service_category.title' },
+      { title: 'service_qty', field: 'service_qty' },
       { title: 'Цена', field: 'price', align: 'left' },
+      { title: 'Себестоимость', field: 'cost', align: 'left' },
+      { title: 'Единица измерения', field: 'unit', align: 'left' },
+      { title: 'Кол-во единиц', field: 'units_number', align: 'left' },
       { title: 'Активен', field: 'active' }
     ]
   },
@@ -43,8 +49,7 @@ const GridEntities = [
     recordType: 'simple',
     columns: [
       { title: 'ID', field: 'id' },
-      { title: 'Описание', field: 'description' },
-      { title: 'Цена', field: 'price', align: 'left' },
+      { title: 'Название', field: 'title' },
       { title: 'Активен', field: 'active' }
     ]
   },
@@ -56,8 +61,7 @@ const GridEntities = [
     recordType: 'simple',
     columns: [
       { title: 'ID', field: 'id' },
-      { title: 'Название', field: 'title' },
-      { title: 'Цена', field: 'price', align: 'left' },
+      { title: 'Описание', field: 'description' },
       { title: 'Активен', field: 'active' }
     ]
   },
@@ -84,7 +88,6 @@ const GridEntities = [
     columns: [
       { title: 'ID', field: 'id' },
       { title: 'Название', field: 'title' },
-      { title: 'Цена', field: 'price', align: 'left' },
       { title: 'Активен', field: 'active' }
     ]
   },
@@ -96,11 +99,12 @@ const GridEntities = [
     recordType: 'simple',
     columns: [
       { title: 'ID', field: 'id' },
-      { title: 'Дата Рождения', field: 'birthDate' },
       { title: 'Имя', field: 'firstName' },
       { title: 'Фамилия', field: 'lastName' },
       { title: 'Пол', field: 'gender' },
-      { title: 'Активен', field: 'active' }
+      { title: 'Дата Рождения', field: 'birthDate' },
+      { title: 'Телефон', field: 'phoneNumber' },
+      { title: 'Email', field: 'email' }
     ]
   },
   {
@@ -110,8 +114,8 @@ const GridEntities = [
     recordType: 'simple',
     columns: [
       { title: 'ID', field: 'id' },
-      { title: 'Дата Рождения', field: 'username' },
-      { title: 'Имя', field: 'roles' }
+      { title: 'Логин', field: 'username' },
+      { title: 'Роли', field: 'roles' }
     ]
   },
   {
