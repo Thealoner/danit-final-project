@@ -42,9 +42,9 @@ public class PaketServiceImpl implements PaketService {
 
   @Override
   public void deletePakets(List<Paket> pakets) {
-    Set<Long> usersId = paketRepository.getAllPaketsId();
+    Set<Long> paketsId = paketRepository.getAllPaketsId();
     pakets.forEach(paket -> {
-      if (!usersId.contains(paket.getId())) {
+      if (!paketsId.contains(paket.getId())) {
         throw new EntityNotFoundException("Paket with id=" + paket.getId() + " is not exist");
       }
     });

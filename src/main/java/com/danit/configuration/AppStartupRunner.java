@@ -94,6 +94,7 @@ public class AppStartupRunner implements ApplicationRunner {
     List<Contract> contracts = mapper.readValue(contractInputStream, contractTypeReference);
     contractRepository.saveAll(contracts);
 
+
     TypeReference<List<CardColor>> cardColorTypeReference = new TypeReference<List<CardColor>>() {
     };
     InputStream cardColorInputStream = TypeReference.class.getResourceAsStream("/json/cards.json");

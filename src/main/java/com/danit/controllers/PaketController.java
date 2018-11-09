@@ -1,6 +1,5 @@
 package com.danit.controllers;
 
-import com.danit.models.Contract;
 import com.danit.models.Paket;
 import com.danit.services.PaketService;
 import org.slf4j.Logger;
