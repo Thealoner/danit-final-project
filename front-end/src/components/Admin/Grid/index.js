@@ -17,9 +17,7 @@ class Grid extends Component {
 
     rowClick = (e, row) => {
       let { entityType, tabKey } = this.props.match.params;
-
       this.props.setTabContentUrl(entityType + '/' + row.getData().id);
-
       this.props.history.push({
         pathname: '/admin/' + tabKey + '/' + entityType + '/' + row.getData().id,
         state: {
@@ -68,10 +66,12 @@ class Grid extends Component {
         console.log('Not logged in or token is expired');
       }
     };
+
     render () {
       let { entityType } = this.props.match.params;
       let { setTabContentUrl } = this.props;
       setTabContentUrl(entityType);
+
       return (
         <div ref={el => (this.el = el)} className="custom-css-class" data-custom-attr="test-custom-attribute"/>
       );
