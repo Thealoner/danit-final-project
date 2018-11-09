@@ -1,3 +1,5 @@
+@import "variables";
+
 .app {
   height: 100vh;
   font-family: 'Lato', sans-serif;
@@ -43,7 +45,7 @@
   }
 
   &__btn-logout {
-    background-color: whitesmoke;
+    background-color: $main-bg;
   }
 }
 

@@ -1,3 +1,5 @@
+@import "../../../variables";
+
 .rc-tabs {
   height: 100%;
 
@@ -14,7 +16,7 @@
     transition: .3s;
 
     &:hover {
-      background-color: whitesmoke;
+      background-color: $main-bg;
     }
 
     &::before {
@@ -43,18 +45,50 @@
     }
   }
 
-  .title-wrapper {
-    display: block;
+  &__title-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
     height: 100%;
   }
 
-  &__close {
-    position: absolute;
-    top: 0;
-    right: 10px;
-    color: black;
+  &__close-btn {
+    position: relative;
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
     cursor: pointer;
+
+    &:hover {
+      background-color: $main-bg;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 2px;
+      height: 60%;
+      background-color: #999;
+      border-radius: 10px;
+      -webkit-transform: translate(-50%, -50%) rotateZ(45deg);
+      -moz-transform: translate(-50%, -50%) rotateZ(45deg);
+      -ms-transform: translate(-50%, -50%) rotateZ(45deg);
+      -o-transform: translate(-50%, -50%) rotateZ(45deg);
+      transform: translate(-50%, -50%) rotateZ(45deg);
+    }
+
+    &::after {
+      @extend .rc-tabs__close-btn::before;
+      -webkit-transform: translate(-50%, -50%) rotateZ(-45deg);
+      -moz-transform: translate(-50%, -50%) rotateZ(-45deg);
+      -ms-transform: translate(-50%, -50%) rotateZ(-45deg);
+      -o-transform: translate(-50%, -50%) rotateZ(-45deg);
+      transform: translate(-50%, -50%) rotateZ(-45deg);
+    }
   }
 
   // override classes:
@@ -62,7 +96,7 @@
   &-content {
     height: 94%;
     background-color: #fff;
-    border: 15px solid whitesmoke;
+    border: 15px solid #e6e6e6;
   }
 
   &-bar {
@@ -99,23 +133,23 @@
       display: block;
       width: 100%;
       height: 50%;
-      background-color: whitesmoke;
+      background-color: $main-bg;
     }
   }
 
   &-tab:not(.rc-tabs-tab-disabled) {
     position: relative;
     z-index: 1;
-    display: flex !important;
-    justify-content: space-between;
-    align-items: center;
     width: 150px;
     height: 100%;
     margin: 0 !important;
-    padding: 0 10px !important;
+    padding: 0 5px 0 10px !important;
     color: #999;
     background-color: #fff;
-    border-radius: 10px;
+    border: 1px solid $main-bg;
+    border-bottom: none;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 
     &:hover {
       color: black!important;
@@ -136,12 +170,11 @@
     margin: 0 !important;
     padding: 0 !important;
     background-color: #fff;
-    border-bottom-left-radius: 10px;
   }
 
   &-tab-active {
     color: black!important;
-    background-color: whitesmoke!important;
+    background-color: $main-bg!important;
     border-bottom-right-radius: 0!important;
     border-bottom-left-radius: 0!important;
   }
