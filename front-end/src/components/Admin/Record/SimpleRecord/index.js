@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import './index.scss';
 import { ReactTabulator } from 'react-tabulator';
 import 'react-tabulator/lib/styles.css';
@@ -11,118 +11,32 @@ class SimpleRecord extends Component {
   state = {
     entityType: '',
     name: '',
-    simpleFields: [],
-    complexFields: [],
+    data: [],
     columns: [
       { title: 'Key', field: 'key', width: 150 },
-      { title: 'Value', field: 'value', align: 'left', editor: true }
-    ],
-    authService: new AuthService()
+      { title: 'Value', field: 'value', align: 'left' }
+    ]
   };
 
   getData = () => {
     let { rowId } = this.props.match.params;
     let { entityType } = this.props;
     let entity = getEntityByType(entityType);
+    let authService = new AuthService();
 
-    if (this.state.authService.loggedIn() && !this.state.authService.isTokenExpired()) {
-      this.fetchEntity(entity, rowId);
-    } else {
-      console.log('Not logged in or token is expired');
-    }
-  };
-
-  fetchEntity = (entity, entityType) => {
-    const headers = {
-      'Content-Type': 'application/json'
-    };
-
-    let token = this.state.authService.getToken();
-    headers['Authorization'] = token;
-
-    fetch(
-      Settings.apiServerUrl + entity.apiUrl + '/' + entityType,
-      { headers }
-    )
-      .then(this.state.authService._checkStatus)
-      .then(response => response.json())
-      .then(data => {
-        let keys = Object.keys(data);
-        let simpleFields = [];
-        let complexFieldsToFetch = [];
-  
-        keys.forEach((key) => {
-          if (Array.isArray(data[key]) || (data[key] && typeof data[key] === 'object' && data[key].constructor === Object)) {
-            complexFieldsToFetch.push = {
-              key: data[key]
-            };
-          }
-
-          simpleFields.push({
-            key: key,
-            value: data[key]
-          });
-        });
-
-        this.setState({
-          entityType: entityType,
-          simpleFields
-          // ,columns: entity.columns
-        });
-
-        return complexFieldsToFetch;
-      })
-      .then((complexFieldsToFetch) => {
-        // fetch complexFields
-        complexFieldsToFetch.forEach((entityIds, entity) => {
-          let entityType = getEntityByType(entity);
-
-          fetch(
-            Settings.apiServerUrl + entity.apiUrl + '/' + entityType,
-            { headers }
-          )
-            .then(this.state.authService._checkStatus)
-            .then(response => response.json())
-            .then(data => {
-              let complexFields = [];
-
-              data.filter((contract) => {
-                return complexFieldsToFetch.includes(contract.id);
-              });
-
-              this.setState({
-                entityType: entityType,
-                complexFields
-                // ,columns: entity.columns
-              });
-            });
-        });
-      });
-  };
-
-  saveData = () => {
-    let { entityType } = this.props;
-    let entity = getEntityByType(entityType);
-
-    if (this.state.authService.loggedIn() && !this.state.authService.isTokenExpired()) {
+    if (authService.loggedIn() && !authService.isTokenExpired()) {
       const headers = {
         'Content-Type': 'application/json'
       };
 
-      let token = this.state.authService.getToken();
+      let token = authService.getToken();
       headers['Authorization'] = token;
-      let array = this.state.data;
-      let dataToSave = array.reduce((obj, {key, value}) => ({ ...obj, [key]: value }), {});
 
       fetch(
-        Settings.apiServerUrl + entity.apiUrl,
-        {
-          method: 'PUT',
-          body: JSON.stringify(dataToSave),
-          headers
-        }
+        Settings.apiServerUrl + entity.apiUrl + '/' + rowId,
+        { headers }
       )
-        .then(this.state.authService._checkStatus)
+        .then(authService._checkStatus)
         .then(response => response.json())
         .then(data => {
           let keys = Object.keys(data);
@@ -138,6 +52,7 @@ class SimpleRecord extends Component {
           this.setState({
             entityType: entityType,
             data: dataArray
+            // ,columns: entity.columns
           });
         });
     } else {
@@ -155,18 +70,15 @@ class SimpleRecord extends Component {
     };
 
     return (
-      <Fragment>
-        <ReactTabulator
-          ref={ref => (this.ref = ref)}
-          columns={this.state.columns}
-          data={this.state.simpleFields}
-          rowClick={this.rowClick}
-          options={options}
-          data-custom-attr="test-custom-attribute"
-          className="custom-css-class"
-        />
-        <button onClick={this.saveData}>Save</button>
-      </Fragment>
+      <ReactTabulator
+        ref={ref => (this.ref = ref)}
+        columns={this.state.columns}
+        data={this.state.data}
+        rowClick={this.rowClick}
+        options={options}
+        data-custom-attr="test-custom-attribute"
+        className="custom-css-class"
+      />
     );
   }
 
