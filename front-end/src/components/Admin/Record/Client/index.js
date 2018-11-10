@@ -6,8 +6,7 @@ import 'tabulator-tables/dist/css/tabulator.min.css';
 import { getEntityByType } from '../../GridEntities';
 import AuthService from '../../../Login/AuthService';
 import Settings from '../../../Settings';
-import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
+import ClientEditor from './ClientEditor';
 
 class SimpleRecord extends Component {
   state = {
@@ -15,6 +14,7 @@ class SimpleRecord extends Component {
     name: '',
     simpleFields: [],
     complexFields: [],
+    data: [],
     columns: [
       { title: 'Key', field: 'key', width: 150 },
       { title: 'Value', field: 'value', align: 'left', editor: true }
@@ -68,6 +68,7 @@ class SimpleRecord extends Component {
 
         this.setState({
           entityType: entityType,
+          data,
           simpleFields,
           complexFields
           // ,columns: entity.columns
@@ -120,6 +121,10 @@ class SimpleRecord extends Component {
     }
   };
 
+  updateUser = (data) => {
+    console.log('user updated', data);
+  }
+
   render () {
     let { rowId } = this.props.match.params;
     let { entityType, setTabContentUrl } = this.props;
@@ -129,68 +134,12 @@ class SimpleRecord extends Component {
       movableRows: true
     };
 
+    let data = this.state.data;
+
     return (
       <div className="client">
-        <Formik
-          initialValues={{ email: '' }}
-          validationSchema={Yup.object().shape({
-            email: Yup.string()
-              .email()
-              .required('Required'),
-          })}
-        >
-          {props => {
-            const {
-              values,
-              touched,
-              errors,
-              dirty,
-              isSubmitting,
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              handleReset,
-            } = props;
-            return (
-              <Fragment>
-                <form onSubmit={handleSubmit} style={{ float: 'left' }}>
-                  <label htmlFor="email" style={{ display: 'block' }}>
-                    Email
-                  </label>
-                  <input
-                    id="email"
-                    placeholder="Enter your email"
-                    type="text"
-                    value={values.email}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    className={
-                      errors.email && touched.email ? 'text-input error' : 'text-input'
-                    }
-                  />
-                  {errors.email &&
-                    touched.email && <div className="input-feedback">{errors.email}</div>}
-
-                  <button
-                    type="button"
-                    className="outline"
-                    onClick={handleReset}
-                    disabled={!dirty || isSubmitting}
-                  >
-                    Reset
-                  </button>
-                  <button type="submit" disabled={isSubmitting}>
-                    Submit
-                  </button>
-                </form>
-                  
-                <div style={{float: 'right', width: '200px'}}>
-                  <DisplayFormikState {...props} />
-                </div>
-              </Fragment>
-            );
-          }}
-        </Formik>
+        <p>Client ID: {data.id}</p>
+        <ClientEditor data={data} updateUser={this.updateUser} />
         <ReactTabulator
           ref={ref => (this.ref = ref)}
           columns={this.state.columns}
@@ -209,20 +158,5 @@ class SimpleRecord extends Component {
     this.getData();
   }
 }
-
-export const DisplayFormikState = props =>
-  <div style={{ margin: '1rem 0' }}>
-    <h3 style={{ fontFamily: 'monospace' }} />
-    <pre
-      style={{
-        background: '#f6f8fa',
-        fontSize: '.65rem',
-        padding: '.5rem',
-      }}
-    >
-      <strong>props</strong> ={' '}
-      {JSON.stringify(props, null, 2)}
-    </pre>
-  </div>;
 
 export default SimpleRecord;
