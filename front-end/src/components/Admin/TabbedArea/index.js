@@ -32,54 +32,42 @@ class TabbedArea extends Component {
     });
   }
 
-  /* setTabTitle = (url) => {
-    if (url) {
-      let urlArr = url.split('/');
-      let title = getEntityByType(urlArr[0]).name;
+   setTabTitle = (url) => {
+     return url ? getEntityByType(url).name : 'Title';
+   };
 
-      if (urlArr.length > 1) {
-        for (let i = 1; i < urlArr.length; i++) {
-          title += '/' + urlArr[i];
-        }
-      }
-      return title;
-    } else {
-      return 'Title';
-    }
-  }; */
+   construct () {
+     const disabled = true;
 
-  construct () {
-    const disabled = true;
+     return this.props.tabs.map((t) => {
+       return <TabPane
+         key={t.tabKey}
+         tab={<span className="rc-tabs__title-wrapper">{this.setTabTitle(t.contentUrl)}
+           <NavLink to={'/admin/' + t.tabKey} className='rc-tabs__close-btn'
+             onClick={this.props.remove.bind(this, t.tabKey)}/>
+         </span>}>
+         <Route exact path="/admin/:tabKey/:entityType" render={
+           (props) => <Grid setTabContentUrl={this.props.setTabContentUrl} {...props} />
+         }/>
+         <Route path="/admin/:tabKey/:entityType/:rowId" render={
+           (props) => <Record setTabContentUrl={this.props.setTabContentUrl} {...props} />}/>
+       </TabPane>;
+     }).concat([
+       <TabPane key={'__add'} disabled={disabled} tab={<span className='rc-tabs__add-btn' onClick={this.props.add}/>}/>
+     ]);
+   }
 
-    return this.props.tabs.map((t) => {
-      return <TabPane
-        key={t.tabKey}
-        tab={<span className="rc-tabs__title-wrapper">{this.props.getTabTitle()}
-          <NavLink to={'/admin/' + t.tabKey} className='rc-tabs__close-btn'
-            onClick={this.props.remove.bind(this, t.tabKey)}/>
-        </span>}>
-        <Route exact path="/admin/:tabKey/:entityType" render={
-          (props) => <Grid setTabContentUrl={this.props.setTabContentUrl} {...props} />
-        }/>
-        <Route path="/admin/:tabKey/:entityType/:rowId" render={
-          (props) => <Record setTabContentUrl={this.props.setTabContentUrl} {...props} />}/>
-      </TabPane>;
-    }).concat([
-      <TabPane key={'__add'} disabled={disabled} tab={<span className='rc-tabs__add-btn' onClick={this.props.add}/>}/>
-    ]);
-  }
-
-  render () {
-    return (
-      <Tabs
-        renderTabBar={() => <ScrollableInkTabBar/>}
-        renderTabContent={() => <TabContent animated={false}/>}
-        activeKey={this.props.activeKey}
-        onChange={this.props.onTabChange}>
-        {this.construct()}
-      </Tabs>
-    );
-  }
+   render () {
+     return (
+       <Tabs
+         renderTabBar={() => <ScrollableInkTabBar/>}
+         renderTabContent={() => <TabContent animated={false}/>}
+         activeKey={this.props.activeKey}
+         onChange={this.props.onTabChange}>
+         {this.construct()}
+       </Tabs>
+     );
+   }
 }
 
 export default TabbedArea;

@@ -77,7 +77,8 @@ class Admin extends Component {
   };
 
   getTabTitle (id) {
-    return getEntityByType(id).name;
+    this.titles = getEntityByType(id);
+    return this.titles.name;
   }
 
   setTabContentUrl = (url) => {
