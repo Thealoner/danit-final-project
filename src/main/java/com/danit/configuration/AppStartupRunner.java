@@ -44,7 +44,13 @@ public class AppStartupRunner implements ApplicationRunner {
   private ServiceCategoryRepository serviceCategoryRepository;
 
   @Autowired
-  public AppStartupRunner(UserRepository userRepository, ClientRepository clientRepository, UserRolesRepository userRolesRepository, BCryptPasswordEncoder bcryptPasswordEncoder, ContractRepository contractRepository, ServiceRepository servicesRepository, ServiceCategoryRepository serviceCategoryRepository) {
+  public AppStartupRunner(UserRepository userRepository,
+                          ClientRepository clientRepository,
+                          UserRolesRepository userRolesRepository,
+                          BCryptPasswordEncoder bcryptPasswordEncoder,
+                          ContractRepository contractRepository,
+                          ServiceRepository servicesRepository,
+                          ServiceCategoryRepository serviceCategoryRepository) {
     this.userRepository = userRepository;
     this.clientRepository = clientRepository;
     this.userRolesRepository = userRolesRepository;

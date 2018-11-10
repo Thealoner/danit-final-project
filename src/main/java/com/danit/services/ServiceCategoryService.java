@@ -19,5 +19,5 @@ public interface ServiceCategoryService {
 
   List<Services> getAllServiceCategoryServices(Long id);
 
-  //  void deleteServiceCategoryService(Long servCatId, Long serviceId);
+  void deleteServiceCategoryService(Long servCatId, Long serviceId);
 }

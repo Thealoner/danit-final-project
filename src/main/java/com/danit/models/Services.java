@@ -42,7 +42,11 @@ public class Services {
   public Services() {
   }
 
-  public Services(Long id, String title, Float price, Float cost, String unit, int unitsNumber, List<ServiceCategory> serviceCategories, Boolean isActive) {
+  public Services(Long id, String title,
+                  Float price, Float cost,
+                  String unit, int unitsNumber,
+                  List<ServiceCategory> serviceCategories,
+                  Boolean isActive) {
     this.id = id;
     this.title = title;
     this.price = price;

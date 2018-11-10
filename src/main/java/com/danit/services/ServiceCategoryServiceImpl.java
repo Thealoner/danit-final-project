@@ -3,9 +3,9 @@ package com.danit.services;
 import com.danit.models.ServiceCategory;
 import com.danit.models.Services;
 import com.danit.repositories.ServiceCategoryRepository;
-import com.danit.repositories.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -15,7 +15,8 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
 
   private ServiceCategoryRepository serviceCategoryRepository;
 
-  private ServiceRepository serviceRepository;
+  @Autowired
+  private ServicesService servicesService;
 
   @Autowired
   public ServiceCategoryServiceImpl(ServiceCategoryRepository serviceCategoryRepository) {
@@ -56,8 +57,12 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
     return serviceCategory.getServices();
   }
 
-  //  @Override
-  //  public void deleteServiceCategoryService(Long servCatId, Long serviceId) {
-  //    serviceCategoryRepository.deleteServiceCategoryService(servCatId, serviceId);
-  //  }
+  @Override
+  @Transactional
+  public void deleteServiceCategoryService(Long servCatId, Long serviceId) {
+    ServiceCategory serviceCategory = getServiceCategoryById(servCatId);
+    List<Services> services = serviceCategory.getServices();
+    Services service = servicesService.getServiceById(serviceId);
+    services.remove(service);
+  }
 }

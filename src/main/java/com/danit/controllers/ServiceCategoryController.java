@@ -54,6 +54,12 @@ public class ServiceCategoryController {
     serviceCategoryService.deleteServiceCategoryById(id);
   }
 
+  @DeleteMapping("/service_categories/{servCatId}/services/{serviceId}")
+  public void deleteServiceCategoryById(@PathVariable(name = "servCatId") long servCatId,
+                                        @PathVariable(name = "serviceId") long serviceId) {
+    serviceCategoryService.deleteServiceCategoryService(servCatId, serviceId);
+  }
+
   @GetMapping("/service_categories")
   List<ServiceCategory> getAllServiceCategories() {
     return serviceCategoryService.getAllServiceCategories();
@@ -63,10 +69,5 @@ public class ServiceCategoryController {
   List<Services> getAllServiceCategoryServices(@PathVariable(name = "id") long id) {
     return serviceCategoryService.getAllServiceCategoryServices(id);
   }
-
-  //  @DeleteMapping("/service_categories/{servCatId}/services/{serviceId}")
-  //  public void deleteServiceCategoryById(@PathVariable(name = "servCatId") long servCatId, @PathVariable(name = "serviceId") long serviceId) {
-  //    serviceCategoryService.deleteServiceCategoryService(servCatId, serviceId);
-  //  }
 
 }
