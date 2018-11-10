@@ -6,7 +6,16 @@
     "cost": "200",
     "unit": "min",
     "unitsNumber": "55",
-    "serviceCategories": [],
+    "active": true
+  },
+
+  {
+    "id": 1002,
+    "title": "Yoga",
+    "price": "200",
+    "cost": "200",
+    "unit": "min",
+    "unitsNumber": "55",
     "active": true
   }
 ]

@@ -1,24 +1,20 @@
 package com.danit.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.List;
 
 @Entity
 @Table(name = "services")
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Services {
   @Id
-  @Column(name = "service_id")
+  @Column(name = "id")
   private Long id;
 
   @Column(name = "title")
@@ -36,13 +32,7 @@ public class Services {
   @Column(name = "units_number")
   private int unitsNumber;
 
-  @ManyToMany(cascade = {
-      CascadeType.MERGE
-  })
-  @JoinTable(name = "services_service_categories",
-      joinColumns = @JoinColumn(name = "service_id"),
-      inverseJoinColumns = @JoinColumn(name = "service_category_id")
-  )
+  @ManyToMany(fetch = FetchType.EAGER, mappedBy = "services")
   @JsonIgnore
   private List<ServiceCategory> serviceCategories;
 

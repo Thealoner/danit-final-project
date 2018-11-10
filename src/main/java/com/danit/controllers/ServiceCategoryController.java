@@ -1,6 +1,7 @@
 package com.danit.controllers;
 
 import com.danit.models.ServiceCategory;
+import com.danit.models.Services;
 import com.danit.services.ServiceCategoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,5 +58,15 @@ public class ServiceCategoryController {
   List<ServiceCategory> getAllServiceCategories() {
     return serviceCategoryService.getAllServiceCategories();
   }
+
+  @GetMapping("/service_categories/{id}/services")
+  List<Services> getAllServiceCategoryServices(@PathVariable(name = "id") long id) {
+    return serviceCategoryService.getAllServiceCategoryServices(id);
+  }
+
+  //  @DeleteMapping("/service_categories/{servCatId}/services/{serviceId}")
+  //  public void deleteServiceCategoryById(@PathVariable(name = "servCatId") long servCatId, @PathVariable(name = "serviceId") long serviceId) {
+  //    serviceCategoryService.deleteServiceCategoryService(servCatId, serviceId);
+  //  }
 
 }

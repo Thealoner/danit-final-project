@@ -1,26 +1,21 @@
 package com.danit.models;
 
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.List;
 
 @Entity
 @Table(name = "service_categories")
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class ServiceCategory {
   @Id
-  @Column(name = "service_category_id")
+  @Column(name = "id")
   private Long id;
 
   @Column(name = "title")
@@ -29,9 +24,12 @@ public class ServiceCategory {
   @Column(name = "active")
   private Boolean isActive;
 
-  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, mappedBy = "serviceCategories")
-  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-  @JsonIdentityReference(alwaysAsId = true)
+
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "services_service_categories",
+      joinColumns = @JoinColumn(name = "service_categories_id", referencedColumnName = "id"),
+      inverseJoinColumns = @JoinColumn(name = "services_id", referencedColumnName = "id")
+  )
   private List<Services> services;
 
   public ServiceCategory() {

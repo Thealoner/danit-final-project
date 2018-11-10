@@ -2,14 +2,43 @@
   {
     "id": 2001,
     "title": "SPA",
-    "services": [],
+    "services": [
+      {
+        "id": 1001,
+        "title": "Total Body Workout",
+        "price": "200",
+        "cost": "200",
+        "unit": "min",
+        "unitsNumber": "55",
+        "active": true
+      }
+    ],
     "active": true
   },
 
   {
     "id": 2002,
     "title": "YOGA",
-    "services": [],
+    "services": [
+      {
+        "id": 1001,
+        "title": "Total Body Workout",
+        "price": "200",
+        "cost": "200",
+        "unit": "min",
+        "unitsNumber": "55",
+        "active": true
+      },
+      {
+        "id": 1002,
+        "title": "Yoga",
+        "price": "200",
+        "cost": "200",
+        "unit": "min",
+        "unitsNumber": "55",
+        "active": true
+      }
+    ],
     "active": true
   }
 ]
