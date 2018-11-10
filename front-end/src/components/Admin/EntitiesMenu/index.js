@@ -8,7 +8,7 @@ function EntitiesMenu (props) {
   GridEntities.forEach((entity) => {
     links.push(
       <NavLink to={'/admin/' + props.activeKey + '/' + entity.id} key={entity.id} className="configurator__link"
-        activeClassName="configurator__link--active" >{entity.name}</NavLink>
+        activeClassName="configurator__link--active" onClick={() => props.getTabTitle(entity.id)}>{entity.name}</NavLink>
     );
   });
 

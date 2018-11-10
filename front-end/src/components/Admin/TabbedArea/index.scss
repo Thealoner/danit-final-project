@@ -9,8 +9,8 @@
     position: relative;
     display: block;
     box-sizing: initial;
-    width: 35px;
-    height: 35px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     cursor: pointer;
     transition: background-color .3s;
@@ -102,13 +102,13 @@
   // override classes:
 
   &-content {
-    height: 94%;
+    height: 95%;
     background-color: #fff;
     border: 15px solid $main-bg;
   }
 
   &-bar {
-    height: 6%;
+    height: 5%;
     background-color: #fff;
     border-bottom: none !important;
   }
@@ -125,7 +125,7 @@
   }
 
   &-nav {
-    height: 89%;
+    height: 100%;
   }
 
   &-nav > div:first-child {
@@ -178,7 +178,7 @@
     display: flex !important;
     justify-content: center;
     align-items: center;
-    width: 40px;
+    width: 37px;
     height: 100%;
     margin: 0 !important;
     padding: 0 !important;

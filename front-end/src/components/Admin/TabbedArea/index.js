@@ -8,6 +8,7 @@ import { Route, NavLink } from 'react-router-dom';
 import Grid from '../Grid';
 import Record from '../Record';
 import $ from 'jquery';
+import { getEntityByType } from '../GridEntities';
 
 class TabbedArea extends Component {
   componentDidMount () {
@@ -31,13 +32,29 @@ class TabbedArea extends Component {
     });
   }
 
+  /* setTabTitle = (url) => {
+    if (url) {
+      let urlArr = url.split('/');
+      let title = getEntityByType(urlArr[0]).name;
+
+      if (urlArr.length > 1) {
+        for (let i = 1; i < urlArr.length; i++) {
+          title += '/' + urlArr[i];
+        }
+      }
+      return title;
+    } else {
+      return 'Title';
+    }
+  }; */
+
   construct () {
     const disabled = true;
 
     return this.props.tabs.map((t) => {
       return <TabPane
         key={t.tabKey}
-        tab={<span className="rc-tabs__title-wrapper">{t.title}
+        tab={<span className="rc-tabs__title-wrapper">{this.props.getTabTitle()}
           <NavLink to={'/admin/' + t.tabKey} className='rc-tabs__close-btn'
             onClick={this.props.remove.bind(this, t.tabKey)}/>
         </span>}>
