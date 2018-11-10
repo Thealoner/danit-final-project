@@ -21,5 +21,5 @@ public interface ServiceCategoryService {
 
   void deleteServiceCategoryService(Long servCatId, Long serviceId);
 
-  void saveServiceCategory (ServiceCategory serviceCategory);
+  void saveServiceCategory(ServiceCategory serviceCategory);
 }
