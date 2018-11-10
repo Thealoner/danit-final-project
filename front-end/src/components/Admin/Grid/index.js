@@ -17,9 +17,7 @@ class Grid extends Component {
 
     rowClick = (e, row) => {
       let { entityType, tabKey } = this.props.match.params;
-
       this.props.setTabContentUrl(entityType + '/' + row.getData().id);
-
       this.props.history.push({
         pathname: '/admin/' + tabKey + '/' + entityType + '/' + row.getData().id,
         state: {
