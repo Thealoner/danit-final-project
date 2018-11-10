@@ -1,3 +1,5 @@
+@import "../../variables";
+
 .configurator {
   display: grid;
   height: 100%;
@@ -8,7 +10,7 @@
 
   &__left {
     height: 100%;
-    background-color: whitesmoke;
+    background-color: $main-bg;
   }
 
   &__link {
@@ -30,11 +32,8 @@
 
 
   &__right {
+    height: 100%;
     overflow-y: auto;
-    background-color: whitesmoke;
+    background-color: $main-bg;
   }
-}
-
-.tabs{
-  width: 100%;
 }
