@@ -3,6 +3,7 @@ import './index.scss';
 import RecordTabs from './RecordTabs';
 import SimpleRecord from './SimpleRecord';
 import Package from './Package';
+import Client from './Client';
 import { Route } from 'react-router-dom';
 import GridEntities from '../GridEntities';
 
@@ -13,7 +14,13 @@ class Record extends Component {
     return GridEntities.map((entity) => {
       let route;
 
-      if (entity.recordType === 'simple') {
+      if (entity.id === 'clients') {
+        route = (
+          <Route key={entity.id} path={ '/admin/:tabKey/' + entity.id + '/:rowId' } render={
+            (props) => <Client setTabContentUrl={this.props.setTabContentUrl} entityType={entityType} {...props} />
+          } />
+        );
+      } else if (entity.recordType === 'simple') {
         route = (
           <Route key={entity.id} path={ '/admin/:tabKey/' + entity.id + '/:rowId' } render={
             (props) => <SimpleRecord setTabContentUrl={this.props.setTabContentUrl} entityType={entityType} {...props} />
