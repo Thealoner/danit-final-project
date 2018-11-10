@@ -35,7 +35,8 @@
     "stylelint": "^8.2.0",
     "stylelint-config-rational-order": "0.0.2",
     "stylelint-config-standard": "^17.0.0",
-    "stylelint-order": "^0.7.0"
+    "stylelint-order": "^0.7.0",
+    "tabulator-tables": "^4.1.1"
   },
   "devDependencies": {
     "@types/react": "^16.4.18",
