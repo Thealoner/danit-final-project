@@ -1,0 +1,39 @@
+@import "../../variables";
+
+.configurator {
+  display: grid;
+  height: 100%;
+  grid-template-columns: 1fr 5fr;
+  grid-column-gap: .7vh;
+  overflow-y: auto;
+
+
+  &__left {
+    height: 100%;
+    background-color: $main-bg;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    padding: 10px 0 10px 10px;
+    color: black;
+    transition: padding .5s;
+
+    &:hover {
+      padding-left: 15px;
+    }
+  }
+  
+  &__link--active {
+    padding-left: 15px;
+    background-color: #fff;
+  }
+
+
+  &__right {
+    height: 100%;
+    overflow-y: auto;
+    background-color: $main-bg;
+  }
+}
