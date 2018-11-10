@@ -10,7 +10,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -20,20 +19,15 @@ import org.springframework.test.web.servlet.MockMvc;
 public class ContractControllerTest {
 
   @Autowired
-  private MockMvc mockMvc;
-
-  @Autowired
-  private TestRestTemplate template;
-
-  @Autowired
   TestUtils testUtils;
-
   @MockBean
   ClientService clientServiceMock;
-
   @Autowired
   ObjectMapper objectMapper;
-
+  @Autowired
+  private MockMvc mockMvc;
+  @Autowired
+  private TestRestTemplate template;
 
   @Test
   public void getContractById() {
@@ -45,6 +39,7 @@ public class ContractControllerTest {
 
   @Test
   public void addContracts() {
+
   }
 
   @Test

@@ -9,7 +9,6 @@
     "clientId": 1001,
     "active": true
   },
-
   {
     "id": 1002,
     "startDate": "2019-01-10",
@@ -20,7 +19,6 @@
     "clientId": 1001,
     "active": true
   },
-
   {
     "id": 1003,
     "startDate": "2018-01-08",
@@ -31,7 +29,6 @@
     "clientId": 1002,
     "active": true
   },
-
   {
     "id": 1004,
     "startDate": "2018-01-10",
@@ -42,7 +39,6 @@
     "clientId": 1003,
     "active": true
   },
-
   {
     "id": 1005,
     "startDate": "2018-01-10",
@@ -53,7 +49,6 @@
     "clientId": 1004,
     "active": true
   },
-
   {
     "id": 1006,
     "startDate": "2018-01-10",
