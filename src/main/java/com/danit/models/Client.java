@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,6 +22,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -51,15 +54,15 @@ public class Client {
   @Column(name = "phone_number")
   private String phoneNumber;
 
-  @Column(name = "card_id")
-  private String cardId;
-
   @Column(name = "email")
   private String email;
 
-  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-  @JsonIdentityReference(alwaysAsId = true)
-  @OneToMany(mappedBy = "clientId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @Column(name = "active")
+  private Boolean active;
+
+  /*@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+  @JsonIdentityReference(alwaysAsId = true)*/
+  @OneToMany(mappedBy = "clientId", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
   private List<Contract> contracts;
 
   public Client() {
@@ -72,7 +75,6 @@ public class Client {
     this.gender = gender;
     this.birthDate = birthDate;
     this.phoneNumber = phoneNumber;
-    this.cardId = cardId;
     this.email = email;
   }
 
@@ -124,14 +126,6 @@ public class Client {
     this.phoneNumber = phoneNumber;
   }
 
-  public String getCardId() {
-    return cardId;
-  }
-
-  public void setCardId(String cardId) {
-    this.cardId = cardId;
-  }
-
   public String getEmail() {
     return email;
   }
@@ -148,6 +142,14 @@ public class Client {
     this.contracts = contracts;
   }
 
+  public Boolean getActive() {
+    return active;
+  }
+
+  public void setActive(Boolean active) {
+    this.active = active;
+  }
+
   @Override
   public String toString() {
     return "Client{" +
@@ -157,9 +159,8 @@ public class Client {
         ", gender='" + gender + '\'' +
         ", birthDate=" + birthDate +
         ", phoneNumber='" + phoneNumber + '\'' +
-        ", cardId='" + cardId + '\'' +
         ", email='" + email + '\'' +
-        ", contracts=" + contracts +
+        ", active=" + active +
         '}';
   }
 }

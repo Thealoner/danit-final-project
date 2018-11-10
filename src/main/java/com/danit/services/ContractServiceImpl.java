@@ -42,9 +42,9 @@ public class ContractServiceImpl implements ContractService {
 
   @Override
   public void deleteContracts(List<Contract> contracts) {
-    Set<Long> usersId = contractRepository.getAllContractsId();
+    Set<Long> contractsId = contractRepository.getAllContractsId();
     contracts.forEach(contract -> {
-      if (!usersId.contains(contract.getId())) {
+      if (!contractsId.contains(contract.getId())) {
         throw new EntityNotFoundException("Contract with id=" + contract.getId() + " is not exist");
       }
     });

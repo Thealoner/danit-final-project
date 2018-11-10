@@ -19,6 +19,11 @@ public class RoleServiceImpl implements RoleService {
   }
 
   @Override
+  public void deleteRoles(List<UserRoles> roles) {
+    userRolesRepository.deleteAll(roles);
+  }
+
+  @Override
   public void saveAllRoles(List<UserRoles> roles) {
     userRolesRepository.saveAll(roles);
   }
@@ -27,4 +32,5 @@ public class RoleServiceImpl implements RoleService {
   public List<UserRoles> getAllRoles() {
     return userRolesRepository.findAll();
   }
+
 }

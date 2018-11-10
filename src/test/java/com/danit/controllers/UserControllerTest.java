@@ -38,6 +38,7 @@ public class UserControllerTest {
   private HttpHeaders headers = new HttpHeaders();
 
   private String adminAuthJson = "{\"username\": \"Admin\", \"password\": \"1234\"}";
+
   private String notAdminAuthJson = "{\"username\": \"Sarah\", \"password\": \"1234\"}";
 
 

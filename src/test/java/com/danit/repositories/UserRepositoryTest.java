@@ -1,7 +1,7 @@
 package com.danit.repositories;
 
-import com.danit.models.UserRoles;
 import com.danit.models.User;
+import com.danit.models.UserRoles;
 import com.danit.models.UserRolesEnum;
 import org.junit.After;
 import org.junit.Before;
@@ -14,12 +14,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
