@@ -1,23 +1,25 @@
 package com.danit.controllers;
 
+import com.danit.TestUtils;
+import com.danit.models.UserRolesEnum;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.List;
-
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -25,39 +27,49 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
 public class RoleControllerTest {
+
+  @Autowired
+  private TestRestTemplate template;
 
   @Autowired
   private MockMvc mockMvc;
 
   @Autowired
-  private TestRestTemplate template;
-
-  private HttpHeaders headers = new HttpHeaders();
-
-
-
-  private String adminAuthJson = "{\"username\": \"Admin\", \"password\": \"1234\"}";
-
-
-  public HttpHeaders setHeader(){
-    headers.setContentType(MediaType.APPLICATION_JSON);
-    HttpEntity<String> entity = new HttpEntity<String>(adminAuthJson, headers);
-    ResponseEntity<String> resHeader = template.postForEntity("/login", entity, String.class);
-    List<String> tokens = resHeader.getHeaders().get("Authorization");
-    headers.clear();
-    headers.set("Authorization", tokens.get(0));
-    return headers;
-  }
+  TestUtils testUtils;
 
   @Test
   public void getAllRoles() throws Exception {
-    HttpHeaders header = setHeader();
+    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.ADMIN);
+    this.mockMvc.perform(get("/roles").headers(header))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(jsonPath("$", hasSize(2)))
+        .andExpect(jsonPath("$[*].role", containsInAnyOrder("ADMIN", "USER")));
+  }
+
+  @Test
+  public void saveAndDeleteRole() throws Exception {
+    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.ADMIN);
+    this.mockMvc.perform(post("/roles").headers(header)
+        .contentType("application/json")
+        .content("[{\"role\": \"TEST\"}]"));
+
     this.mockMvc.perform(get("/roles").headers(header))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
         .andExpect(jsonPath("$", hasSize(3)))
-        .andExpect(jsonPath("$[0].role", is("ADMIN")));
+        .andExpect(jsonPath("$[*].role", containsInAnyOrder("ADMIN", "TEST", "USER")));
 
+    this.mockMvc.perform(delete("/roles").headers(header)
+        .contentType("application/json")
+        .content("[{\"role\": \"TEST\"}]"));
+
+    this.mockMvc.perform(get("/roles").headers(header))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(jsonPath("$", hasSize(2)))
+        .andExpect(jsonPath("$[*].role", containsInAnyOrder("ADMIN", "USER")));
   }
 }

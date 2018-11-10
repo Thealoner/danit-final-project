@@ -7,8 +7,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -22,8 +26,12 @@ public class RoleController {
 
   private Logger logger = LoggerFactory.getLogger(RoleController.class);
 
-  @Autowired
   private RoleService roleService;
+
+  @Autowired
+  public RoleController(RoleService roleService) {
+    this.roleService = roleService;
+  }
 
   @PostMapping("/roles")
   @ResponseStatus(HttpStatus.CREATED)
@@ -36,6 +44,11 @@ public class RoleController {
   @GetMapping("/roles")
   List<UserRoles> getAllRoles() {
     return roleService.getAllRoles();
+  }
+
+  @DeleteMapping("/roles")
+  void deleteRole(@RequestBody List<UserRoles> roles) {
+    roleService.deleteRoles(roles);
   }
 
 }
