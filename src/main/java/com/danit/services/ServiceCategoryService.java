@@ -20,4 +20,6 @@ public interface ServiceCategoryService {
   List<Services> getAllServiceCategoryServices(Long id);
 
   void deleteServiceCategoryService(Long servCatId, Long serviceId);
+
+  void saveServiceCategory (ServiceCategory serviceCategory);
 }

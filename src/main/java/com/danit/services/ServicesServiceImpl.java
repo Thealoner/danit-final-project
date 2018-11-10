@@ -39,5 +39,10 @@ public class ServicesServiceImpl implements ServicesService{
     return serviceRepository.findAll();
   }
 
+  @Override
+  public void saveService(Services service) {
+    serviceRepository.save(service);
+  }
+
 
 }

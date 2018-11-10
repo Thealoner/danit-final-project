@@ -39,9 +39,14 @@ public class ServiceCategoryController {
     return serviceCategoryService.getServiceCategoryById(id);
   }
 
-  @PutMapping("/service_categories/{id}")
-  public void updateServiceCategory(@RequestBody List<ServiceCategory> serviceCategories) {
+  @PutMapping("/service_categories")
+  public void updateServiceCategories(@RequestBody List<ServiceCategory> serviceCategories) {
     serviceCategoryService.saveServiceCategories(serviceCategories);
+  }
+
+  @PutMapping("/service_categories/{id}")
+  public void updateServiceCategory(@RequestBody ServiceCategory serviceCategory) {
+    serviceCategoryService.saveServiceCategory(serviceCategory);
   }
 
   @DeleteMapping("/service_categories")

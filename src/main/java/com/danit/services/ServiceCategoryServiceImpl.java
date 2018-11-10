@@ -65,4 +65,9 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
     Services service = servicesService.getServiceById(serviceId);
     services.remove(service);
   }
+
+  @Override
+  public void saveServiceCategory(ServiceCategory serviceCategory) {
+    serviceCategoryRepository.save(serviceCategory);
+  }
 }

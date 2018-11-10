@@ -16,4 +16,6 @@ public interface ServicesService {
 
   List<Services> getAllServices();
 
+  void saveService(Services service);
+
 }

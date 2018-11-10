@@ -40,8 +40,13 @@ public class ServicesController {
   }
 
   @PutMapping("/services")
-  public void addServices(@RequestBody List<Services> services) {
+  public void updateServices(@RequestBody List<Services> services) {
     servicesService.saveServices(services);
+  }
+
+  @PutMapping("/services/{id}")
+  public void updateService(@PathVariable(name = "id") long id,@RequestBody Services service) {
+    servicesService.saveService(service);
   }
 
   @DeleteMapping("/services/{id}")
