@@ -5,6 +5,7 @@ import com.danit.utils.CustomDateAndTimeDeserialize;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -68,16 +69,6 @@ public class Client {
   public Client() {
   }
 
-  public Client(String firstName, String lastName, String gender, Date birthDate,
-                String phoneNumber, String cardId, String email) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.gender = gender;
-    this.birthDate = birthDate;
-    this.phoneNumber = phoneNumber;
-    this.email = email;
-  }
-
   public Long getId() {
     return id;
   }
@@ -134,20 +125,20 @@ public class Client {
     this.email = email;
   }
 
-  public List<Contract> getContracts() {
-    return contracts;
-  }
-
-  public void setContracts(List<Contract> contracts) {
-    this.contracts = contracts;
-  }
-
   public Boolean getActive() {
     return active;
   }
 
   public void setActive(Boolean active) {
     this.active = active;
+  }
+
+  public List<Contract> getContracts() {
+    return contracts;
+  }
+
+  public void setContracts(List<Contract> contracts) {
+    this.contracts = contracts;
   }
 
   @Override
@@ -163,4 +154,5 @@ public class Client {
         ", active=" + active +
         '}';
   }
+
 }
