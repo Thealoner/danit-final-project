@@ -62,6 +62,9 @@ public class Client {
   @OneToMany(mappedBy = "clientId", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
   private List<Contract> contracts;
 
+  public Client() {
+  }
+
   public Client(String firstName, String lastName, String gender,
                 Date birthDate, String phoneNumber, String email, Boolean active) {
     this.firstName = firstName;
