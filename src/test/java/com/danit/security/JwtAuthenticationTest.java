@@ -17,8 +17,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 import java.util.Objects;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 
 @RunWith(SpringRunner.class)
@@ -70,7 +71,7 @@ public class JwtAuthenticationTest {
     headers.clear();
     headers.set("Authorization", tokens.get(0));
 
-    ResponseEntity<String> response = template.exchange("/users/1", HttpMethod.GET,
+    ResponseEntity<String> response = template.exchange("/users/1001", HttpMethod.GET,
         new HttpEntity<Object>(headers), String.class);
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertNotNull(response.getBody());
@@ -80,7 +81,7 @@ public class JwtAuthenticationTest {
   public void nonValidTokenShouldResp403() throws Exception {
     headers.clear();
     headers.set("Authorization", "randomtoken");
-    ResponseEntity<String> response = template.exchange("/users/1", HttpMethod.GET,
+    ResponseEntity<String> response = template.exchange("/users/1001", HttpMethod.GET,
         new HttpEntity<Object>(headers), String.class);
     assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
   }

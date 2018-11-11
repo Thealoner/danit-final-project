@@ -38,6 +38,7 @@ public class UserControllerTest {
   private HttpHeaders headers = new HttpHeaders();
 
   private String adminAuthJson = "{\"username\": \"Admin\", \"password\": \"1234\"}";
+
   private String notAdminAuthJson = "{\"username\": \"Sarah\", \"password\": \"1234\"}";
 
 
@@ -47,10 +48,10 @@ public class UserControllerTest {
   }
 
   @Test
-  public void adminAccessWithCorruptedTokenShouldBeForbidden(){
+  public void adminAccessWithCorruptedTokenShouldBeForbidden() {
     headers.clear();
     headers.set("Authorization", "randomtoken");
-    ResponseEntity<String> response = template.exchange("/users/1", HttpMethod.GET,
+    ResponseEntity<String> response = template.exchange("/users/1001", HttpMethod.GET,
         new HttpEntity<Object>(headers), String.class);
     assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
   }
@@ -66,7 +67,7 @@ public class UserControllerTest {
     headers.clear();
     headers.set("Authorization", tokens.get(0));
 
-    ResponseEntity<String> response = template.exchange("/users/1", HttpMethod.GET,
+    ResponseEntity<String> response = template.exchange("/users/1001", HttpMethod.GET,
         new HttpEntity<Object>(headers), String.class);
     assertEquals(HttpStatus.OK, response.getStatusCode());
   }
@@ -81,7 +82,7 @@ public class UserControllerTest {
     headers.clear();
     headers.set("Authorization", tokens.get(0));
 
-    ResponseEntity<String> response = template.exchange("/users/1", HttpMethod.GET,
+    ResponseEntity<String> response = template.exchange("/users/1001", HttpMethod.GET,
         new HttpEntity<Object>(headers), String.class);
     assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
   }

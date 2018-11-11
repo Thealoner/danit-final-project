@@ -12,4 +12,7 @@ import java.util.Set;
 public interface ClientRepository extends JpaRepository<Client, Long> {
   @Query("select c.id from Client c")
   Set<Long> getAllClientsId();
+
+  @Query("select count(*) from Client")
+  int getNumberOfClients();
 }

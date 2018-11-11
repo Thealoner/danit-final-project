@@ -1,32 +1,5 @@
 [
   {
-    "username": "Test2",
-    "password": "1234",
-    "roles": [
-      {
-        "role": "TEST"
-      }
-    ]
-  },
-  {
-    "username": "Test1",
-    "password": "1234",
-    "roles": [
-      {
-        "role": "TEST"
-      }
-    ]
-  },
-  {
-    "username": "Anna",
-    "password": "1234",
-    "roles": [
-      {
-        "role": "USER"
-      }
-    ]
-  },
-  {
     "username": "Admin",
     "password": "1234",
     "roles": [
@@ -37,6 +10,15 @@
   },
   {
     "username": "Sarah",
+    "password": "1234",
+    "roles": [
+      {
+        "role": "USER"
+      }
+    ]
+  },
+  {
+    "username": "Anna",
     "password": "1234",
     "roles": [
       {
