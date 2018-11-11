@@ -27,26 +27,40 @@ public class ClientRepositoryTest {
   @Test
   public void findById() {
     Client client = new Client();
-    client.setId((long) 1009);
     client.setFirstName("Nadya");
     this.entityManager.persist(client);
-    Optional<Client> optFound = this.clientRepository.findById((long) 1009);
+    Optional<Client> optFound = this.clientRepository.findById(client.getId());
     Client found = optFound.orElseThrow(RuntimeException::new);
     assertThat(found.getFirstName()).isEqualTo("Nadya");
   }
 
   @Test
-  public void findAllClients(){
-    for(int i = 1001; i < 1006; i++){
+  public void findAllClients() {
+    clientRepository.deleteAll();
+
+    for (int i = 0; i < 10; i++) {
       Client client = new Client();
-      client.setId((long) i);
       client.setFirstName("Client" + i);
       this.entityManager.persist(client);
     }
 
-    List<Client> found = this.clientRepository.findAll();
+    assertThat(clientRepository.getNumberOfClients()).isEqualTo(10);
 
-    assertThat(found.get(3).getId()).isEqualTo((long)1004);
+    List<Client> clients = this.clientRepository.findAll();
+    for (int i = 0; i < 10; i++) {
+      assertThat(clients.get(i).getFirstName()).isEqualTo("Client" + i);
+    }
+  }
+
+  @Test
+  public void deleteAllClients() {
+    for (int i = 0; i < 10; i++) {
+      Client client = new Client();
+      client.setFirstName("Client" + i);
+      this.entityManager.persist(client);
+    }
+    clientRepository.deleteAll();
+    assertThat(clientRepository.getNumberOfClients()).isEqualTo(0);
   }
 
 }

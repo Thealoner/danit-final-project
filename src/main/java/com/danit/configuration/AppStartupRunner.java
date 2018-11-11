@@ -1,15 +1,19 @@
 package com.danit.configuration;
 
+import com.danit.models.CardColor;
 import com.danit.models.Client;
 import com.danit.models.Contract;
 import com.danit.models.ServiceCategory;
 import com.danit.models.Services;
+import com.danit.models.Paket;
 import com.danit.models.User;
 import com.danit.models.UserRoles;
+import com.danit.repositories.CardColorRepository;
 import com.danit.repositories.ClientRepository;
 import com.danit.repositories.ContractRepository;
 import com.danit.repositories.ServiceCategoryRepository;
 import com.danit.repositories.ServiceRepository;
+import com.danit.repositories.PaketRepository;
 import com.danit.repositories.UserRepository;
 import com.danit.repositories.UserRolesRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -43,11 +47,18 @@ public class AppStartupRunner implements ApplicationRunner {
 
   private ServiceCategoryRepository serviceCategoryRepository;
 
+  private PaketRepository paketRepository;
+
+  private CardColorRepository cardColorRepository;
+
   @Autowired
   public AppStartupRunner(UserRepository userRepository,
                           ClientRepository clientRepository,
                           UserRolesRepository userRolesRepository,
                           BCryptPasswordEncoder bcryptPasswordEncoder,
+                          UserRolesRepository userRolesRepository,
+                          ContractRepository contractRepository,
+                          PaketRepository paketRepository, CardColorRepository cardColorRepository) {
                           ContractRepository contractRepository,
                           ServiceRepository servicesRepository,
                           ServiceCategoryRepository serviceCategoryRepository) {
@@ -56,6 +67,8 @@ public class AppStartupRunner implements ApplicationRunner {
     this.userRolesRepository = userRolesRepository;
     this.bcryptPasswordEncoder = bcryptPasswordEncoder;
     this.contractRepository = contractRepository;
+    this.paketRepository = paketRepository;
+    this.cardColorRepository = cardColorRepository;
     this.servicesRepository = servicesRepository;
     this.serviceCategoryRepository = serviceCategoryRepository;
   }
@@ -83,11 +96,25 @@ public class AppStartupRunner implements ApplicationRunner {
     List<Client> clients = mapper.readValue(clientInputStream, clientTypeReference);
     clientRepository.saveAll(clients);
 
+    TypeReference<List<Paket>> paketTypeReference = new TypeReference<List<Paket>>() {
+    };
+    InputStream paketInputStream = TypeReference.class.getResourceAsStream("/json/pakets.json");
+    List<Paket> pakets = mapper.readValue(paketInputStream, paketTypeReference);
+    paketRepository.saveAll(pakets);
+
     TypeReference<List<Contract>> contractTypeReference = new TypeReference<List<Contract>>() {
     };
     InputStream contractInputStream = TypeReference.class.getResourceAsStream("/json/contracts.json");
     List<Contract> contracts = mapper.readValue(contractInputStream, contractTypeReference);
     contractRepository.saveAll(contracts);
+
+
+    TypeReference<List<CardColor>> cardColorTypeReference = new TypeReference<List<CardColor>>() {
+    };
+    InputStream cardColorInputStream = TypeReference.class.getResourceAsStream("/json/cards.json");
+    List<CardColor> cards = mapper.readValue(cardColorInputStream, cardColorTypeReference);
+    cardColorRepository.saveAll(cards);
+
 
     TypeReference<List<Services>> servicesTypeReference = new TypeReference<List<Services>>() {
     };
