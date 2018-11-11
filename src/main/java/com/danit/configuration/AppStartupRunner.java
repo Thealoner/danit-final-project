@@ -57,18 +57,19 @@ public class AppStartupRunner implements ApplicationRunner {
                           UserRolesRepository userRolesRepository,
                           BCryptPasswordEncoder bcryptPasswordEncoder,
                           ContractRepository contractRepository,
-                          PaketRepository paketRepository, CardColorRepository cardColorRepository,
                           ServiceRepository servicesRepository,
-                          ServiceCategoryRepository serviceCategoryRepository) {
+                          ServiceCategoryRepository serviceCategoryRepository,
+                          PaketRepository paketRepository,
+                          CardColorRepository cardColorRepository) {
     this.userRepository = userRepository;
     this.clientRepository = clientRepository;
     this.userRolesRepository = userRolesRepository;
     this.bcryptPasswordEncoder = bcryptPasswordEncoder;
     this.contractRepository = contractRepository;
-    this.paketRepository = paketRepository;
-    this.cardColorRepository = cardColorRepository;
     this.servicesRepository = servicesRepository;
     this.serviceCategoryRepository = serviceCategoryRepository;
+    this.paketRepository = paketRepository;
+    this.cardColorRepository = cardColorRepository;
   }
 
   @Override
