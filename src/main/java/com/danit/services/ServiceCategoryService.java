@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ServiceCategoryService {
 
-  void saveServiceCategories(List<ServiceCategory> services);
+  List<ServiceCategory> saveServiceCategories(List<ServiceCategory> servicCategories);
 
   ServiceCategory getServiceCategoryById(Long id);
 
@@ -21,5 +21,5 @@ public interface ServiceCategoryService {
 
   void deleteServiceCategoryService(Long servCatId, Long serviceId);
 
-  void saveServiceCategory(ServiceCategory serviceCategory);
+  ServiceCategory saveServiceCategory(ServiceCategory serviceCategory);
 }

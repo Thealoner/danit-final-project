@@ -24,8 +24,8 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
   }
 
   @Override
-  public void saveServiceCategories(List<ServiceCategory> services) {
-    serviceCategoryRepository.saveAll(services);
+  public List<ServiceCategory> saveServiceCategories(List<ServiceCategory> services) {
+    return serviceCategoryRepository.saveAll(services);
   }
 
   @Override
@@ -67,7 +67,7 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
   }
 
   @Override
-  public void saveServiceCategory(ServiceCategory serviceCategory) {
-    serviceCategoryRepository.save(serviceCategory);
+  public ServiceCategory saveServiceCategory(ServiceCategory serviceCategory) {
+    return serviceCategoryRepository.save(serviceCategory);
   }
 }

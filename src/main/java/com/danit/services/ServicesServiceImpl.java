@@ -15,8 +15,8 @@ public class ServicesServiceImpl implements ServicesService{
   ServiceRepository serviceRepository;
 
   @Override
-  public void saveServices(List<Services> services) {
-    serviceRepository.saveAll(services);
+  public List<Services> saveServices(List<Services> services) {
+    return serviceRepository.saveAll(services);
   }
 
   @Override
@@ -40,8 +40,8 @@ public class ServicesServiceImpl implements ServicesService{
   }
 
   @Override
-  public void saveService(Services service) {
-    serviceRepository.save(service);
+  public Services saveService(Services service) {
+    return serviceRepository.save(service);
   }
 
 }

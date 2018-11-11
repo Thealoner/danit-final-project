@@ -6,7 +6,9 @@ import java.util.List;
 
 public interface ServicesService {
 
-  void saveServices(List<Services> services);
+  List<Services> saveServices(List<Services> services);
+
+  Services saveService(Services service);
 
   Services getServiceById(Long id);
 
@@ -16,6 +18,6 @@ public interface ServicesService {
 
   List<Services> getAllServices();
 
-  void saveService(Services service);
+
 
 }

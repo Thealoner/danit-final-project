@@ -3,17 +3,17 @@ package com.danit.configuration;
 import com.danit.models.CardColor;
 import com.danit.models.Client;
 import com.danit.models.Contract;
+import com.danit.models.Paket;
 import com.danit.models.ServiceCategory;
 import com.danit.models.Services;
-import com.danit.models.Paket;
 import com.danit.models.User;
 import com.danit.models.UserRoles;
 import com.danit.repositories.CardColorRepository;
 import com.danit.repositories.ClientRepository;
 import com.danit.repositories.ContractRepository;
+import com.danit.repositories.PaketRepository;
 import com.danit.repositories.ServiceCategoryRepository;
 import com.danit.repositories.ServiceRepository;
-import com.danit.repositories.PaketRepository;
 import com.danit.repositories.UserRepository;
 import com.danit.repositories.UserRolesRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -56,10 +56,8 @@ public class AppStartupRunner implements ApplicationRunner {
                           ClientRepository clientRepository,
                           UserRolesRepository userRolesRepository,
                           BCryptPasswordEncoder bcryptPasswordEncoder,
-                          UserRolesRepository userRolesRepository,
                           ContractRepository contractRepository,
-                          PaketRepository paketRepository, CardColorRepository cardColorRepository) {
-                          ContractRepository contractRepository,
+                          PaketRepository paketRepository, CardColorRepository cardColorRepository,
                           ServiceRepository servicesRepository,
                           ServiceCategoryRepository serviceCategoryRepository) {
     this.userRepository = userRepository;
