@@ -31,8 +31,8 @@ public class PaketServiceImpl implements PaketService {
   }
 
   @Override
-  public void savePakets(List<Paket> pakets) {
-    paketRepository.saveAll(pakets);
+  public List<Paket> savePakets(List<Paket> pakets) {
+    return paketRepository.saveAll(pakets);
   }
 
   @Override

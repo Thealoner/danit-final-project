@@ -10,7 +10,7 @@ public interface PaketService {
 
   Paket getPaketById(long id);
 
-  void savePakets(List<Paket> pakets);
+  List<Paket> savePakets(List<Paket> pakets);
 
   void deletePaketById(long id);
 

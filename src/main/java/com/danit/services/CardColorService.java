@@ -10,7 +10,7 @@ public interface CardColorService {
 
   CardColor getCardColorById(long id);
 
-  void saveCardColors(List<CardColor> cards);
+  List<CardColor> saveCardColors(List<CardColor> cards);
 
   void deleteCardColorById(long id);
 
