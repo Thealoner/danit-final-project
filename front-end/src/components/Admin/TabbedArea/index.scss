@@ -51,18 +51,20 @@
 
   &__title-wrapper {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    width: 100%;
+    max-width: 85%;
     height: 100%;
+    overflow: hidden;
   }
 
   &__close-btn {
     position: relative;
     display: block;
     width: 20px;
+    min-width: 20px;
     height: 20px;
     border-radius: 50%;
+    box-shadow: -5px 0 10px 3px white;
     cursor: pointer;
 
     &:hover {
@@ -148,10 +150,13 @@
   &-tab:not(.rc-tabs-tab-disabled) {
     position: relative;
     z-index: 1;
-    width: 150px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 170px;
     height: 100%;
     margin: 0 !important;
-    padding: 0 5px 0 10px !important;
+    padding: 0 5px 0 15px !important;
     color: #999;
     background-color: #fff;
     border-top: 1px solid $main-bg;
@@ -193,6 +198,10 @@
 
     & + .rc-tabs-tab {
       border-bottom-left-radius: 10px !important;
+    }
+
+    & .rc-tabs__close-btn {
+      box-shadow: -5px 0 10px 3px $main-bg;
     }
 
     & .rc-tabs__close-btn:hover {

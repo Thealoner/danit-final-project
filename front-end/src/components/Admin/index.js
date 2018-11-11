@@ -3,16 +3,13 @@ import { withRouter } from 'react-router-dom';
 import './index.scss';
 import TabbedArea from './TabbedArea';
 import EntitiesMenu from './EntitiesMenu';
-import { getEntityByType } from './GridEntities';
 
 let index = 1;
 
 class Admin extends Component {
-  titles = {};
-
   state = {
     tabs: [{
-      title: 'DefaultTitle',
+      title: 'Title',
       tabKey: '1',
       contentUrl: ''
     }],
@@ -76,10 +73,14 @@ class Admin extends Component {
     });
   };
 
-  getTabTitle (id) {
-    this.titles = getEntityByType(id);
-    return this.titles.name;
-  }
+  setTabTitle = (title) => {
+    let currentTab = this.state.tabs.find((tab) => {
+      return tab.tabKey === this.state.activeKey;
+    });
+
+    currentTab.title = title;
+    return currentTab.title;
+  };
 
   setTabContentUrl = (url) => {
     let currentTab = this.state.tabs.find((tab) => {
@@ -94,7 +95,7 @@ class Admin extends Component {
     return (
       <main className="configurator">
         <div className="configurator__left">
-          <EntitiesMenu activeKey={this.state.activeKey} getTabTitle={this.getTabTitle}/>
+          <EntitiesMenu activeKey={this.state.activeKey} setTabTitle={this.setTabTitle}/>
         </div>
         <div className="configurator__right">
           <TabbedArea
@@ -105,7 +106,7 @@ class Admin extends Component {
             activeKey={this.state.activeKey}
             tabs={this.state.tabs}
             setTabContentUrl={this.setTabContentUrl}
-            getTabTitle={this.getTabTitle}
+            setTabTitle={this.setTabTitle}
           />
         </div>
       </main>
