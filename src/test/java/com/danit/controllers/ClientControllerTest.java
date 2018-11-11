@@ -1,24 +1,24 @@
 package com.danit.controllers;
 
+import com.danit.TestUtils;
+import com.danit.models.UserRolesEnum;
 import com.danit.services.ClientService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.List;
-
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -27,46 +27,59 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ClientControllerTest {
 
   @Autowired
-  private MockMvc mockMvc;
-
+  TestUtils testUtils;
+  @Autowired
+  ClientService clientService;
   @Autowired
   private TestRestTemplate template;
-
-  private HttpHeaders headers = new HttpHeaders();
-
-  @MockBean
-  ClientService clientServiceMock;
-
   @Autowired
-  ObjectMapper objectMapper;
-
-
-  private String adminAuthJson = "{\"username\": \"Admin\", \"password\": \"1234\"}";
-
-
-  public HttpHeaders setHeader(){
-    headers.setContentType(MediaType.APPLICATION_JSON);
-    HttpEntity<String> entity = new HttpEntity<String>(adminAuthJson, headers);
-    ResponseEntity<String> resHeader = template.postForEntity("/login", entity, String.class);
-    List<String> tokens = resHeader.getHeaders().get("Authorization");
-    headers.clear();
-    headers.set("Authorization", tokens.get(0));
-    return headers;
-  }
-
-
+  private MockMvc mockMvc;
 
   @Test
   public void isOkWhenAdminAccess() throws Exception {
-    HttpHeaders header = setHeader();
+    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.ADMIN);
     mockMvc
         .perform(get("/clients").headers(header))
         .andExpect(status().isOk());
   }
 
-  private byte[] toJson(Object object) throws Exception {
-    return this.objectMapper
-        .writeValueAsString(object).getBytes();
+  @Test
+  public void saveAndDeleteClient() throws Exception {
+    int numberOfClients = clientService.getNumberOfClients();
+    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
+    this.mockMvc.perform(post("/clients").headers(header)
+        .contentType("application/json")
+        .content("[{\n"
+            + "    \"birthDate\": \"1978-12-22\",\n"
+            + "    \"email\": \"alex2021@gmail.com\",\n"
+            + "    \"firstName\": \"Alexey\",\n"
+            + "    \"gender\": \"Female\",\n"
+            + "    \"lastName\": \"Grinkov\",\n"
+            + "    \"phoneNumber\": \"155-846-2959\",\n"
+            + "    \"active\": true\n"
+            + "  }]"))
+        .andExpect(status().isCreated());
+
+    mockMvc.perform(get("/clients").headers(header))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(jsonPath("$", hasSize(numberOfClients + 1)));
+
+    /*mockMvc.perform(delete("/clients").headers(header)
+        .contentType("application/json")
+        .content("[{\n" +
+            + "    \"birthDate\": \"1978-12-22\",\n"
+            + "    \"email\": \"alex2021@gmail.com\",\n"
+            + "    \"firstName\": \"Alexey\",\n"
+            + "    \"gender\": \"Female\",\n"
+            + "    \"lastName\": \"Grinkov\",\n"
+            + "    \"phoneNumber\": \"155-846-2959\",\n"
+            + "    \"active\": true\n"
+            + "  }]"));
+
+    mockMvc.perform(get("/clients").headers(header))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(jsonPath("$", hasSize(numberOfClients)));*/
+
   }
 
 }
