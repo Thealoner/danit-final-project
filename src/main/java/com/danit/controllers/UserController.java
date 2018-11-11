@@ -6,9 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,8 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.danit.utils.SpringSecurityUtils.getCurrentPrincipalName;
+
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
   private Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -35,37 +33,38 @@ public class UserController {
 
   @PostMapping("/users")
   @ResponseStatus(HttpStatus.CREATED)
-  public void createUsers(@RequestBody List<User> users) {
-    logger.info("Adding new users");
-    userService.saveUsers(users);
-    logger.info("Users saved");
+  List<User> createUsers(@RequestBody List<User> users) {
+    logger.info("User " + getCurrentPrincipalName() + " is saving new users: " + users);
+    return userService.saveUsers(users);
+  }
+
+  @GetMapping("/users")
+  List<User> getAllUsers() {
+    logger.info("User " + getCurrentPrincipalName() + " got all users data");
+    return userService.getAllUsers();
   }
 
   @GetMapping("/users/{id}")
   User getUserById(@PathVariable(name = "id") long id) {
+    logger.info("User " + getCurrentPrincipalName() + " got user data with id: " + id);
     return userService.getUserById(id);
   }
 
   @PutMapping("/users")
   void updateUser(@RequestBody List<User> users) {
+    logger.info("User " + getCurrentPrincipalName() + " is updating users data: " + users);
     userService.updateUsers(users);
   }
 
   @DeleteMapping("/users/{id}")
   public void deleteUserById(@PathVariable(name = "id") long id) {
+    logger.info("User " + getCurrentPrincipalName() + " try to delete user with id: " + id);
     userService.deleteUserById(id);
-  }
-
-  @GetMapping("/users")
-  List<User> getAllUsers() {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    String currentPrincipalName = authentication.getName();
-    logger.info("User " + currentPrincipalName);
-    return userService.getAllUsers();
   }
 
   @DeleteMapping("/users")
   public void deleteUsers(@RequestBody List<User> users) {
+    logger.info("User " + getCurrentPrincipalName() + " is trying to delete users: " + users);
     userService.deleteUsers(users);
   }
 

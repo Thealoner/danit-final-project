@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.danit.utils.SpringSecurityUtils.getCurrentPrincipalName;
+
 @RestController
 public class CardColorController {
 
-  Logger logger = LoggerFactory.getLogger(ContractController.class);
+  private Logger logger = LoggerFactory.getLogger(CardColorController.class);
 
   private CardColorService cardColorService;
 
@@ -28,34 +30,38 @@ public class CardColorController {
   }
 
   @PostMapping("/cards")
-  private void createCards(@RequestBody List<CardColor> cards) {
-    logger.info("Adding new card");
-    cardColorService.saveCardColors(cards);
-    logger.info("Card saved");
-  }
-
-  @GetMapping("/cards/{id}")
-  CardColor getCardById(@PathVariable(name = "id") long id) {
-    return cardColorService.getCardColorById(id);
+  List<CardColor> createCards(@RequestBody List<CardColor> cards) {
+    logger.info("User " + getCurrentPrincipalName() + " is saving new cards: " + cards);
+    return cardColorService.saveCardColors(cards);
   }
 
   @GetMapping("/cards")
   List<CardColor> getAllCards() {
+    logger.info("User " + getCurrentPrincipalName() + " got all cards data");
     return cardColorService.getAllCardColors();
+  }
+
+  @GetMapping("/cards/{id}")
+  CardColor getCardById(@PathVariable(name = "id") long id) {
+    logger.info("User " + getCurrentPrincipalName() + " got card data with id: " + id);
+    return cardColorService.getCardColorById(id);
   }
 
   @PutMapping("/cards")
   public void addCards(@RequestBody List<CardColor> cards) {
+    logger.info("User " + getCurrentPrincipalName() + " is updating cards data: " + cards);
     cardColorService.saveCardColors(cards);
   }
 
   @DeleteMapping("/cards/{id}")
   public void deleteCardById(@PathVariable(name = "id") long id) {
+    logger.info("User " + getCurrentPrincipalName() + " try to delete card with id: " + id);
     cardColorService.deleteCardColorById(id);
   }
 
   @DeleteMapping("/cards")
   public void deleteCards(@RequestBody List<CardColor> cards) {
+    logger.info("User " + getCurrentPrincipalName() + " is trying to delete cards: " + cards);
     cardColorService.deleteCardColors(cards);
   }
 

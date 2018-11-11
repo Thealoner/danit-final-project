@@ -32,8 +32,8 @@ public class CardColorServiceImpl implements CardColorService {
   }
 
   @Override
-  public void saveCardColors(List<CardColor> cards) {
-    cardColorRepository.saveAll(cards);
+  public List<CardColor> saveCardColors(List<CardColor> cards) {
+    return cardColorRepository.saveAll(cards);
   }
 
   @Override

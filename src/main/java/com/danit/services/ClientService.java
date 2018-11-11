@@ -10,7 +10,7 @@ public interface ClientService {
 
   Client getClientById(long id);
 
-  void saveClients(List<Client> clients);
+  List<Client> saveClients(List<Client> clients);
 
   void updateClients(List<Client> clients);
 
