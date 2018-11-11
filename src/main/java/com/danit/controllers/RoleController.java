@@ -33,20 +33,20 @@ public class RoleController {
   @PostMapping("/roles")
   @ResponseStatus(HttpStatus.CREATED)
   public void createRoles(@RequestBody List<UserRoles> roles) {
-    logger.info("User " + getCurrentPrincipalName() + " is saving new roles: " + roles);
+    logger.info(getCurrentPrincipalName() + " is saving new roles: " + roles);
     roleService.saveAllRoles(roles);
   }
 
   @GetMapping("/roles")
   List<UserRoles> getAllRoles() {
-    logger.info("User " + getCurrentPrincipalName() + " got all user roles data");
+    logger.info(getCurrentPrincipalName() + " got all user roles data");
     return roleService.getAllRoles();
   }
 
   @DeleteMapping("/roles")
   @ResponseStatus(HttpStatus.OK)
   void deleteRole(@RequestBody List<UserRoles> roles) {
-    logger.info("User " + getCurrentPrincipalName() + " is trying to delete roles: " + roles);
+    logger.info(getCurrentPrincipalName() + " is trying to delete roles: " + roles);
     roleService.deleteRoles(roles);
   }
 

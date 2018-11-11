@@ -35,37 +35,37 @@ public class ClientController {
   @PostMapping("/clients")
   @ResponseStatus(HttpStatus.CREATED)
   public List<Client> createClient(@RequestBody List<Client> clients) {
-    logger.info("User " + getCurrentPrincipalName() + " is saving new clients: " + clients);
+    logger.info(getCurrentPrincipalName() + " is saving new clients: " + clients);
     return clientService.saveClients(clients);
   }
 
   @GetMapping("/clients")
   List<Client> getAllClients() {
-    logger.info("User " + getCurrentPrincipalName() + " got all clients data");
+    logger.info(getCurrentPrincipalName() + " got all clients data");
     return clientService.getAllClients();
   }
 
   @GetMapping("/clients/{id}")
   Client getClientById(@PathVariable(name = "id") long id) {
-    logger.info("User " + getCurrentPrincipalName() + " got client data with id: " + id);
+    logger.info(getCurrentPrincipalName() + " got client data with id: " + id);
     return clientService.getClientById(id);
   }
 
   @PutMapping("/clients")
   public void addClient(@RequestBody List<Client> clients) {
-    logger.info("User " + getCurrentPrincipalName() + " is updating clients data: " + clients);
+    logger.info(getCurrentPrincipalName() + " is updating clients data: " + clients);
     clientService.updateClients(clients);
   }
 
   @DeleteMapping("/clients/{id}")
   public void deleteClientById(@PathVariable(name = "id") long id) {
-    logger.info("User " + getCurrentPrincipalName() + " try to delete client with id: " + id);
+    logger.info(getCurrentPrincipalName() + " try to delete client with id: " + id);
     clientService.deleteClientById(id);
   }
 
   @DeleteMapping("/clients")
   public void deleteClients(@RequestBody List<Client> clients) {
-    logger.info("User " + getCurrentPrincipalName() + " is trying to delete clients: " + clients);
+    logger.info(getCurrentPrincipalName() + " is trying to delete clients: " + clients);
     clientService.deleteClients(clients);
   }
 

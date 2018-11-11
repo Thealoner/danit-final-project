@@ -34,37 +34,37 @@ public class ContractController {
   @PostMapping("/contracts")
   @ResponseStatus(HttpStatus.CREATED)
   List<Contract> createContracts(@RequestBody List<Contract> contracts) {
-    logger.info("User " + getCurrentPrincipalName() + " is saving new contracts: " + contracts);
+    logger.info(getCurrentPrincipalName() + " is saving new contracts: " + contracts);
     return contractService.saveContracts(contracts);
   }
 
   @GetMapping("/contracts")
   List<Contract> getAllContracts() {
-    logger.info("User " + getCurrentPrincipalName() + " got all contracts data");
+    logger.info(getCurrentPrincipalName() + " got all contracts data");
     return contractService.getAllContracts();
   }
 
   @GetMapping("/contracts/{id}")
   Contract getContractById(@PathVariable(name = "id") long id) {
-    logger.info("User " + getCurrentPrincipalName() + " got contract data with id: " + id);
+    logger.info(getCurrentPrincipalName() + " got contract data with id: " + id);
     return contractService.getContractById(id);
   }
 
   @PutMapping("/contracts")
   public void addContracts(@RequestBody List<Contract> contracts) {
-    logger.info("User " + getCurrentPrincipalName() + " is updating contracts data: " + contracts);
+    logger.info(getCurrentPrincipalName() + " is updating contracts data: " + contracts);
     contractService.saveContracts(contracts);
   }
 
   @DeleteMapping("/contracts/{id}")
   public void deleteContractById(@PathVariable(name = "id") long id) {
-    logger.info("User " + getCurrentPrincipalName() + " try to delete contract with id: " + id);
+    logger.info(getCurrentPrincipalName() + " try to delete contract with id: " + id);
     contractService.deleteContractById(id);
   }
 
   @DeleteMapping("/contracts")
   public void deleteContracts(@RequestBody List<Contract> contracts) {
-    logger.info("User " + getCurrentPrincipalName() + " is trying to delete contracts: " + contracts);
+    logger.info(getCurrentPrincipalName() + " is trying to delete contracts: " + contracts);
     contractService.deleteContracts(contracts);
   }
 

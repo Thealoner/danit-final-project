@@ -34,37 +34,37 @@ public class UserController {
   @PostMapping("/users")
   @ResponseStatus(HttpStatus.CREATED)
   List<User> createUsers(@RequestBody List<User> users) {
-    logger.info("User " + getCurrentPrincipalName() + " is saving new users: " + users);
+    logger.info(getCurrentPrincipalName() + " is saving new users: " + users);
     return userService.saveUsers(users);
   }
 
   @GetMapping("/users")
   List<User> getAllUsers() {
-    logger.info("User " + getCurrentPrincipalName() + " got all users data");
+    logger.info(getCurrentPrincipalName() + " got all users data");
     return userService.getAllUsers();
   }
 
   @GetMapping("/users/{id}")
   User getUserById(@PathVariable(name = "id") long id) {
-    logger.info("User " + getCurrentPrincipalName() + " got user data with id: " + id);
+    logger.info(getCurrentPrincipalName() + " got user data with id: " + id);
     return userService.getUserById(id);
   }
 
   @PutMapping("/users")
   void updateUser(@RequestBody List<User> users) {
-    logger.info("User " + getCurrentPrincipalName() + " is updating users data: " + users);
+    logger.info(getCurrentPrincipalName() + " is updating users data: " + users);
     userService.updateUsers(users);
   }
 
   @DeleteMapping("/users/{id}")
   public void deleteUserById(@PathVariable(name = "id") long id) {
-    logger.info("User " + getCurrentPrincipalName() + " try to delete user with id: " + id);
+    logger.info(getCurrentPrincipalName() + " try to delete user with id: " + id);
     userService.deleteUserById(id);
   }
 
   @DeleteMapping("/users")
   public void deleteUsers(@RequestBody List<User> users) {
-    logger.info("User " + getCurrentPrincipalName() + " is trying to delete users: " + users);
+    logger.info(getCurrentPrincipalName() + " is trying to delete users: " + users);
     userService.deleteUsers(users);
   }
 
