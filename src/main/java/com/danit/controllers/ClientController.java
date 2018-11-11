@@ -40,6 +40,11 @@ public class ClientController {
     logger.info("Clients saved");
   }
 
+  @GetMapping("/clients")
+  List<Client> getAllClients() {
+    return clientService.getAllClients();
+  }
+
   @GetMapping("/clients/{id}")
   Client getClientById(@PathVariable(name = "id") long id) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -59,11 +64,6 @@ public class ClientController {
     String currentPrincipalName = authentication.getName();
     logger.info("User " + currentPrincipalName + " try to delete client with id " + id);
     clientService.deleteClientById(id);
-  }
-
-  @GetMapping("/clients")
-  List<Client> getAllClients() {
-    return clientService.getAllClients();
   }
 
   @DeleteMapping("/clients")

@@ -58,4 +58,9 @@ public class ClientServiceImpl implements ClientService {
     });
     clientRepository.deleteInBatch(clients);
   }
+
+  @Override
+  public int getNumberOfClients() {
+    return clientRepository.getNumberOfClients();
+  }
 }
