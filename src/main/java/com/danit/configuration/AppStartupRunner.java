@@ -33,44 +33,32 @@ import java.util.Set;
 @Component
 public class AppStartupRunner implements ApplicationRunner {
 
+  @Autowired
   private UserRepository userRepository;
 
+  @Autowired
   private ClientRepository clientRepository;
 
+  @Autowired
   private UserRolesRepository userRolesRepository;
 
+  @Autowired
   private BCryptPasswordEncoder bcryptPasswordEncoder;
 
+  @Autowired
   private ContractRepository contractRepository;
 
+  @Autowired
   private ServiceRepository servicesRepository;
 
+  @Autowired
   private ServiceCategoryRepository serviceCategoryRepository;
 
+  @Autowired
   private PaketRepository paketRepository;
 
-  private CardColorRepository cardColorRepository;
-
   @Autowired
-  public AppStartupRunner(UserRepository userRepository,
-                          ClientRepository clientRepository,
-                          UserRolesRepository userRolesRepository,
-                          BCryptPasswordEncoder bcryptPasswordEncoder,
-                          ContractRepository contractRepository,
-                          ServiceRepository servicesRepository,
-                          ServiceCategoryRepository serviceCategoryRepository,
-                          PaketRepository paketRepository,
-                          CardColorRepository cardColorRepository) {
-    this.userRepository = userRepository;
-    this.clientRepository = clientRepository;
-    this.userRolesRepository = userRolesRepository;
-    this.bcryptPasswordEncoder = bcryptPasswordEncoder;
-    this.contractRepository = contractRepository;
-    this.servicesRepository = servicesRepository;
-    this.serviceCategoryRepository = serviceCategoryRepository;
-    this.paketRepository = paketRepository;
-    this.cardColorRepository = cardColorRepository;
-  }
+  private CardColorRepository cardColorRepository;
 
   @Override
   public void run(ApplicationArguments args) throws IOException {
