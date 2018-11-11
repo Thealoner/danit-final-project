@@ -3,6 +3,7 @@ server.port: 9000
 ## Hibernate Properties
 # Enabling H2 Console
 spring.datasource.url: jdbc:h2:mem:testdb
+#spring.datasource.url: jdbc:h2:tcp://localhost/~/test
 spring.datasource.driverClassName: org.h2.Driver
 spring.datasource.username: sa
 spring.datasource.password:

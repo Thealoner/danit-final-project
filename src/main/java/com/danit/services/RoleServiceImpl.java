@@ -10,21 +10,26 @@ import java.util.List;
 @Service
 public class RoleServiceImpl implements RoleService {
 
-  @Autowired
-  UserRolesRepository userRolesRepository;
+  private UserRolesRepository userRolesRepository;
 
-  @Override
-  public void saveRole(UserRoles role) {
-    userRolesRepository.save(role);
+  @Autowired
+  public RoleServiceImpl(UserRolesRepository userRolesRepository) {
+    this.userRolesRepository = userRolesRepository;
   }
 
   @Override
-  public void saveAllRoles(List<UserRoles> roles) {
-    userRolesRepository.saveAll(roles);
+  public void deleteRoles(List<UserRoles> roles) {
+    userRolesRepository.deleteAll(roles);
+  }
+
+  @Override
+  public List<UserRoles> saveAllRoles(List<UserRoles> roles) {
+    return userRolesRepository.saveAll(roles);
   }
 
   @Override
   public List<UserRoles> getAllRoles() {
     return userRolesRepository.findAll();
   }
+
 }

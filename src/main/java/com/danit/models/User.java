@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.util.Collection;
 
@@ -18,7 +19,9 @@ import java.util.Collection;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @SequenceGenerator(name = "userSequence", sequenceName = "userSequence", allocationSize = 1, initialValue = 1001)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userSequence")
+  @Column(name = "id")
   private Long id;
 
   @Column(unique = true)
