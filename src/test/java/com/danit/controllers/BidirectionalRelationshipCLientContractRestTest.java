@@ -30,7 +30,7 @@ public class BidirectionalRelationshipCLientContractRestTest {
 
   private String adminAuthJson = "{\"username\": \"Admin\", \"password\": \"1234\"}";
 
-  public HttpHeaders setHeader(){
+  public HttpHeaders setHeader() {
     headers.setContentType(MediaType.APPLICATION_JSON);
     HttpEntity<String> entity = new HttpEntity<String>(adminAuthJson, headers);
     ResponseEntity<String> resHeader = template.postForEntity("/login", entity, String.class);
