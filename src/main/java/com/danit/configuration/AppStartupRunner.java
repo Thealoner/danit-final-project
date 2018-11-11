@@ -51,7 +51,6 @@ public class AppStartupRunner implements ApplicationRunner {
 
   private CardColorRepository cardColorRepository;
 
-  @Autowired
   public AppStartupRunner(UserRepository userRepository,
                           ClientRepository clientRepository,
                           UserRolesRepository userRolesRepository,
@@ -71,6 +70,9 @@ public class AppStartupRunner implements ApplicationRunner {
     this.paketRepository = paketRepository;
     this.cardColorRepository = cardColorRepository;
   }
+
+  @Autowired
+
 
   @Override
   public void run(ApplicationArguments args) throws IOException {
