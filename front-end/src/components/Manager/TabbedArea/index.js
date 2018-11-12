@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import './index.scss';
 import Tabs, {TabPane} from 'rc-tabs';
 import 'rc-tabs/assets/index.css';
 import TabContent from 'rc-tabs/lib/TabContent';
