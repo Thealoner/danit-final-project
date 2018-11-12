@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import './index.scss';
 import Tabs, {TabPane} from 'rc-tabs';
 import 'rc-tabs/assets/index.css';
@@ -37,10 +37,9 @@ class TabbedArea extends Component {
     return this.props.tabs.map((t) => {
       return <TabPane
         key={t.tabKey}
-        tab={<span className="rc-tabs__title-wrapper">{t.title}
+        tab={<Fragment><span className="rc-tabs__title-wrapper" title={t.title}>{t.title}</span>
           <NavLink to={'/admin/' + t.tabKey} className='rc-tabs__close-btn'
-            onClick={this.props.remove.bind(this, t.tabKey)}/>
-        </span>}>
+            onClick={this.props.remove.bind(this, t.tabKey)}/></Fragment>}>
         <Route exact path="/admin/:tabKey/:entityType" render={
           (props) => <Grid setTabContentUrl={this.props.setTabContentUrl} {...props} />
         }/>
