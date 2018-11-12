@@ -1,5 +1,6 @@
 package com.danit.utils;
 
+import com.danit.exceptions.IllegalFormatException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -22,8 +23,7 @@ public class CustomDateAndTimeDeserialize extends JsonDeserializer<Date> {
     try {
       return dateFormat.parse(str);
     } catch (ParseException e) {
-      // Handle exception here
+      throw new IllegalFormatException("To date conversion error: " + str);
     }
-    return paramDeserializationContext.parseDate(str);
   }
 }

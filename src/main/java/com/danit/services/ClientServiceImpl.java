@@ -28,8 +28,8 @@ public class ClientServiceImpl implements ClientService {
   }
 
   @Override
-  public void saveClients(List<Client> clients) {
-    clientRepository.saveAll(clients);
+  public List<Client> saveClients(List<Client> clients) {
+    return clientRepository.saveAll(clients);
   }
 
   @Override
@@ -57,5 +57,10 @@ public class ClientServiceImpl implements ClientService {
       }
     });
     clientRepository.deleteInBatch(clients);
+  }
+
+  @Override
+  public int getNumberOfClients() {
+    return clientRepository.getNumberOfClients();
   }
 }
