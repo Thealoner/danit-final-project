@@ -12,4 +12,7 @@ public interface ServiceRepository extends JpaRepository<Services, Long> {
   @Query("select s.id from Services s")
   Set<Long> getAllServicesId();
 
+  @Query("select count(*) from Services")
+  int getTotalQuantityOfServices();
+
 }

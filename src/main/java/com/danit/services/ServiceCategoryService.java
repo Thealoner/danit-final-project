@@ -22,4 +22,6 @@ public interface ServiceCategoryService {
   void deleteServiceCategoryService(Long servCatId, Long serviceId);
 
   ServiceCategory saveServiceCategory(ServiceCategory serviceCategory);
+
+  int getTotalQuantityOfServiceCategories();
 }

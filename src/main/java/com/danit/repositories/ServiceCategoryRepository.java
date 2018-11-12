@@ -15,4 +15,7 @@ public interface ServiceCategoryRepository extends JpaRepository<ServiceCategory
       "AND SERVICE_CATEGORIES_ID = :serviceCategoryId",
       nativeQuery = true)
   void deleteServiceCategoryService(@Param("serviceCategoryId") Long serviceCategoryId, @Param("serviceId") Long serviceId);
+
+  @Query("select count(*) from ServiceCategory")
+  int getTotalQuantityOfServiceCategories();
 }

@@ -40,6 +40,11 @@ public class ServicesServiceImpl implements ServicesService{
   }
 
   @Override
+  public int getTotalQuantityOfServices() {
+    return serviceRepository.getTotalQuantityOfServices();
+  }
+
+  @Override
   public Services saveService(Services service) {
     return serviceRepository.save(service);
   }

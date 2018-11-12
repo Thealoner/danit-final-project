@@ -70,4 +70,9 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
   public ServiceCategory saveServiceCategory(ServiceCategory serviceCategory) {
     return serviceCategoryRepository.save(serviceCategory);
   }
+
+  @Override
+  public int getTotalQuantityOfServiceCategories() {
+    return serviceCategoryRepository.getTotalQuantityOfServiceCategories();
+  }
 }

@@ -18,6 +18,8 @@ public interface ServicesService {
 
   List<Services> getAllServices();
 
+  int getTotalQuantityOfServices();
+
 
 
 }
