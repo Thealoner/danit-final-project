@@ -6,20 +6,26 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import Login from './components/Login';
-// import {Provider} from 'react-redux';
-// import store from './store';
+import { addLocaleData } from 'react-intl';
+import en from 'react-intl/locale-data/en';
+import ru from 'react-intl/locale-data/ru';
+import {Provider} from 'react-redux';
+import store from './store';
+
+addLocaleData(en);
+addLocaleData(ru);
 
 ReactDOM.render(
-  // <Provider store={store}>
-  <BrowserRouter>
-    <Fragment>
-      <Switch>
-        <Route path="/login" component={Login} />
-        <Route path="/" component={App} />
-      </Switch>
-    </Fragment>
-  </BrowserRouter>,
-  // </Provider>,
+  <Provider store={store}>
+    <BrowserRouter>
+      <Fragment>
+        <Switch>
+          <Route path="/login" component={Login} />
+          <Route path="/" component={App} />
+        </Switch>
+      </Fragment>
+    </BrowserRouter>
+  </Provider>,
   document.getElementById('root')
 );
 

@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
 import PreLoader from './components/PreLoader';
 import './App.scss';
-import {Route} from 'react-router-dom';
+import {Link, Route} from 'react-router-dom';
 import Home from './components/Home';
 import AuthService from './components/Login/AuthService';
 import avatar from './img/avatar.png';
 import Admin from './components/Admin';
 import Manager from './components/Manager';
 import withAuth from './components/Login/withAuth';
+import {IntlProvider} from 'react-intl';
+import {connect} from 'react-redux';
 
 const Auth = new AuthService();
 
@@ -19,19 +21,26 @@ class App extends Component {
 
   render () {
     return (
-      <div className="app">
-        <div className="app__preloader" ref="preloader"><PreLoader/></div>
-        <div className="app__user">
-          <div className="app__user-wrapper">
-            <img className="app__logo" src={avatar} alt=""/>
-            <span>{this.props.user.sub}</span>
-          </div>
-          <button type="button" className="app__btn-logout" onClick={this.handleLogout.bind(this)}>Logout</button>
+      <IntlProvider
+        locale="ru"
+        messages={{
+          'home_admin': 'Админ',
+          'home_manager': 'Менеджер'
+        }}>
+        <div className="app">
+          <div className="app__preloader" ref="preloader"><PreLoader/></div>
+          <header className="app__header">
+            <Link to="/" className="app__logo">LOGO</Link>
+            <div className="app__user">
+              <img className="app__avatar" src={avatar} alt="" title={this.props.user.sub}/>
+              <button type="button" className="app__btn-logout" onClick={this.handleLogout.bind(this)}>Logout</button>
+            </div>
+          </header>
+          <Route exact path="/" component={Home}/>
+          <Route path="/admin" component={Admin}/>
+          <Route path="/manager" component={Manager}/>
         </div>
-        <Route exact path="/" component={Home} />
-        <Route path="/admin" component={Admin} />
-        <Route path="/manager" component={Manager} />
-      </div>
+      </IntlProvider>
     );
   }
 
@@ -63,4 +72,10 @@ class App extends Component {
   }
 }
 
-export default withAuth(App);
+function mapStateToProps (state) {
+  return {
+    lang: state.locale.lang
+  };
+}
+
+export default connect(mapStateToProps)(withAuth(App));
