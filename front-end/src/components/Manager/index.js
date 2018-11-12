@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import './index.scss';
 import TabbedArea from './TabbedArea';
 import EntitiesMenu from './EntitiesMenu';
+import $ from 'jquery';
 
 let index = 1;
 
@@ -80,6 +80,22 @@ class Manager extends Component {
 
     currenTab.contentUrl = url;
   };
+
+  componentDidMount () {
+    if (this.state.tabs.length === 1) {
+      $('.rc-tabs__close-btn').css('display', 'none');
+    } else {
+      $('.rc-tabs__close-btn').css('display', 'initial');
+    }
+  }
+
+  componentDidUpdate () {
+    if (this.state.tabs.length === 1) {
+      $('.rc-tabs__close-btn').css('display', 'none');
+    } else {
+      $('.rc-tabs__close-btn').css('display', 'initial');
+    }
+  }
 
   render () {
     return (
