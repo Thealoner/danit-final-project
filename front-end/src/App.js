@@ -81,4 +81,4 @@ function mapStateToProps (state) {
   };
 }
 
-export default connect(mapStateToProps)(withAuth(App));
+export default withAuth(connect(mapStateToProps)(App));
