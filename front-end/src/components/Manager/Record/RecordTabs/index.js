@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './index.scss';
 
 class Tabs extends Component {
   render () {
