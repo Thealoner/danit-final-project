@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void saveUsers(List<User> users) {
+  public List<User> saveUsers(List<User> users) {
     Set<String> userNames = userRepository.findAllUserNames();
     users.forEach(user -> {
       if (userNames.contains(user.getUsername())) {
@@ -76,6 +76,6 @@ public class UserServiceImpl implements UserService {
       }
     });
     users.forEach(user -> user.setPassword(bcryptPasswordEncoder.encode(user.getPassword())));
-    userRepository.saveAll(users);
+    return userRepository.saveAll(users);
   }
 }

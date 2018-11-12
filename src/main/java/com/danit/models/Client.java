@@ -3,18 +3,17 @@ package com.danit.models;
 
 import com.danit.utils.CustomDateAndTimeDeserialize;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,10 +23,11 @@ import java.util.List;
 
 @Entity
 @Table(name = "clients")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Client {
 
   @Id
+  @SequenceGenerator(name = "clientSequence", sequenceName = "clientSequence", allocationSize = 1, initialValue = 1001)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "clientSequence")
   @Column(name = "id")
   private Long id;
 
@@ -51,29 +51,29 @@ public class Client {
   @Column(name = "phone_number")
   private String phoneNumber;
 
-  @Column(name = "card_id")
-  private String cardId;
-
   @Column(name = "email")
   private String email;
 
-  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-  @JsonIdentityReference(alwaysAsId = true)
-  @OneToMany(mappedBy = "clientId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @Column(name = "active")
+  private Boolean active;
+
+  /*@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+  @JsonIdentityReference(alwaysAsId = true)*/
+  @OneToMany(mappedBy = "clientId", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
   private List<Contract> contracts;
 
   public Client() {
   }
 
-  public Client(String firstName, String lastName, String gender, Date birthDate,
-                String phoneNumber, String cardId, String email) {
+  public Client(String firstName, String lastName, String gender,
+                Date birthDate, String phoneNumber, String email, Boolean active) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.gender = gender;
     this.birthDate = birthDate;
     this.phoneNumber = phoneNumber;
-    this.cardId = cardId;
     this.email = email;
+    this.active = active;
   }
 
   public Long getId() {
@@ -124,20 +124,20 @@ public class Client {
     this.phoneNumber = phoneNumber;
   }
 
-  public String getCardId() {
-    return cardId;
-  }
-
-  public void setCardId(String cardId) {
-    this.cardId = cardId;
-  }
-
   public String getEmail() {
     return email;
   }
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public Boolean getActive() {
+    return active;
+  }
+
+  public void setActive(Boolean active) {
+    this.active = active;
   }
 
   public List<Contract> getContracts() {
@@ -157,9 +157,9 @@ public class Client {
         ", gender='" + gender + '\'' +
         ", birthDate=" + birthDate +
         ", phoneNumber='" + phoneNumber + '\'' +
-        ", cardId='" + cardId + '\'' +
         ", email='" + email + '\'' +
-        ", contracts=" + contracts +
+        ", active=" + active +
         '}';
   }
+
 }
