@@ -10,11 +10,11 @@ import Record from '../Record';
 
 class TabbedArea extends Component {
   componentDidUpdate () {
-    let tab = document.querySelectorAll('.rc-tabs-tab');
+    let tabs = document.getElementsByClassName('rc-tabs-tab');
     let tabActive = document.querySelector('.rc-tabs-tab-active');
 
-    for (let i = 0; i < tab.length; i++) {
-      tab[i].style.borderBottomRightRadius = '0';
+    for (let i = 0; i < tabs.length; i++) {
+      tabs[i].style.borderBottomRightRadius = '0';
     }
 
     if (tabActive.previousElementSibling) {
