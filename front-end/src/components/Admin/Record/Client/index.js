@@ -6,7 +6,8 @@ import 'tabulator-tables/dist/css/tabulator.min.css';
 import { getEntityByType } from '../../GridEntities';
 import AuthService from '../../../Login/AuthService';
 import Settings from '../../../Settings';
-import ClientEditor from './ClientEditor';
+// import ClientEditor from './ClientEditor';
+import Form from 'react-jsonschema-form';
 
 class SimpleRecord extends Component {
   state = {
@@ -135,11 +136,17 @@ class SimpleRecord extends Component {
     };
 
     let data = this.state.data;
+    let entity = getEntityByType(entityType);
 
     return (
       <div className="client">
         <p>Client ID: {data.id}</p>
-        <ClientEditor data={data} updateUser={this.updateUser} />
+        {/* <ClientEditor data={data} updateUser={this.updateUser} /> */}
+        <Form
+          schema={entity.schema}
+          uiSchema={entity.uiSchema}
+          formData={data}
+        />
         <ReactTabulator
           ref={ref => (this.ref = ref)}
           columns={this.state.columns}

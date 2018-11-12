@@ -22,126 +22,128 @@
         "active": true,
         "purchasable": true,
         "parent_package_id": null,
-        "organization": {
-            "id": 1,
-            "title": "Бриз",
-            "active": true,
-            "time_of_visit": [
-                {
-                    "day": 0,
-                    "from_time": "6:45",
-                    "enter_before_time": "23:00",
-                    "exit_before_time": "23:00"
-                },
-                {
-                    "day": 1,
-                    "from_time": "6:45",
-                    "enter_before_time": "23:00",
-                    "exit_before_time": "23:00"
-                },
-                {
-                    "day": 2,
-                    "from_time": "6:45",
-                    "enter_before_time": "23:00",
-                    "exit_before_time": "23:00"
-                },
-                {
-                    "day": 3,
-                    "from_time": "6:45",
-                    "enter_before_time": "23:00",
-                    "exit_before_time": "23:00"
-                },
-                {
-                    "day": 4,
-                    "from_time": "6:45",
-                    "enter_before_time": "23:00",
-                    "exit_before_time": "23:00"
-                },
-                {
-                    "day": 5,
-                    "from_time": "6:45",
-                    "enter_before_time": "23:00",
-                    "exit_before_time": "23:00"
-                },
-                {
-                    "day": 6,
-                    "from_time": "6:45",
-                    "enter_before_time": "23:00",
-                    "exit_before_time": "23:00"
-                }
-            ],
-            "services": [
-                {
-                    "id": 1,
-                    "title": "Консультация + диагностика",
-                    "service_qty": 1,
-                    "price": "120.00",
-                    "cost": "50.00",
-                    "unit": "сеанс",
-                    "units_number": 1,
-                    "rule": "Все",
-                    "organization": "Бриз",
-                    "service_category": {
-                        "id": 3,
-                        "title": "Консультации"
+        "organizations": [
+            {
+                "id": 1,
+                "title": "Бриз",
+                "active": true,
+                "time_of_visit": [
+                    {
+                        "day": 0,
+                        "from_time": "6:45",
+                        "enter_before_time": "23:00",
+                        "exit_before_time": "23:00"
+                    },
+                    {
+                        "day": 1,
+                        "from_time": "6:45",
+                        "enter_before_time": "23:00",
+                        "exit_before_time": "23:00"
+                    },
+                    {
+                        "day": 2,
+                        "from_time": "6:45",
+                        "enter_before_time": "23:00",
+                        "exit_before_time": "23:00"
+                    },
+                    {
+                        "day": 3,
+                        "from_time": "6:45",
+                        "enter_before_time": "23:00",
+                        "exit_before_time": "23:00"
+                    },
+                    {
+                        "day": 4,
+                        "from_time": "6:45",
+                        "enter_before_time": "23:00",
+                        "exit_before_time": "23:00"
+                    },
+                    {
+                        "day": 5,
+                        "from_time": "6:45",
+                        "enter_before_time": "23:00",
+                        "exit_before_time": "23:00"
+                    },
+                    {
+                        "day": 6,
+                        "from_time": "6:45",
+                        "enter_before_time": "23:00",
+                        "exit_before_time": "23:00"
                     }
-                },
-                {
-                    "id": 2,
-                    "title": "Фитнес консультация",
-                    "service_qty": 1,
-                    "price": "120.00",
-                    "cost": "50.00",
-                    "unit": "минута",
-                    "units_number": 30,
-                    "rule": {
+                ],
+                "services": [
+                    {
                         "id": 1,
-                        "description": "Все"
+                        "title": "Консультация + диагностика",
+                        "service_qty": 1,
+                        "price": "120.00",
+                        "cost": "50.00",
+                        "unit": "сеанс",
+                        "units_number": 1,
+                        "rule": "Все",
+                        "organization": "Бриз",
+                        "service_category": {
+                            "id": 3,
+                            "title": "Консультации"
+                        }
                     },
-                    "organization": "Бриз",
-                    "service_category": {
+                    {
+                        "id": 2,
+                        "title": "Фитнес консультация",
+                        "service_qty": 1,
+                        "price": "120.00",
+                        "cost": "50.00",
+                        "unit": "минута",
+                        "units_number": 30,
+                        "rule": {
+                            "id": 1,
+                            "description": "Все"
+                        },
+                        "organization": "Бриз",
+                        "service_category": {
+                            "id": 3,
+                            "title": "Консультации"
+                        }
+                    },
+                    {
                         "id": 3,
-                        "title": "Консультации"
-                    }
-                },
-                {
-                    "id": 3,
-                    "title": "Персональная тренировка",
-                    "service_qty": 1,
-                    "price": "140.00",
-                    "cost": "70.00",
-                    "unit": "минута",
-                    "units_number": 60,
-                    "rule": {
-                        "id": 2,
-                        "description": "При первичной продаже"
+                        "title": "Персональная тренировка",
+                        "service_qty": 1,
+                        "price": "140.00",
+                        "cost": "70.00",
+                        "unit": "минута",
+                        "units_number": 60,
+                        "rule": {
+                            "id": 2,
+                            "description": "При первичной продаже"
+                        },
+                        "organization": "Бриз",
+                        "service_category": {
+                            "id": 2,
+                            "title": "Тренировки"
+                        }
                     },
-                    "organization": "Бриз",
-                    "service_category": {
-                        "id": 2,
-                        "title": "Тренировки"
+                    {
+                        "id": 4,
+                        "title": "Функциональный тренинг",
+                        "service_qty": 1,
+                        "price": "90.00",
+                        "cost": "40.00",
+                        "unit": "минута",
+                        "units_number": 60,
+                        "rule": {
+                            "id": 1,
+                            "description": "Все"
+                        },
+                        "organization": "Бриз",
+                        "service_category": {
+                            "id": 2,
+                            "title": "Тренировки"
+                        }
                     }
-                },
-                {
-                    "id": 4,
-                    "title": "Функциональный тренинг",
-                    "service_qty": 1,
-                    "price": "90.00",
-                    "cost": "40.00",
-                    "unit": "минута",
-                    "units_number": 60,
-                    "rule": {
-                        "id": 1,
-                        "description": "Все"
-                    },
-                    "organization": "Бриз",
-                    "service_category": {
-                        "id": 2,
-                        "title": "Тренировки"
-                    }
-                }
-            ]
-        }
+                ]
+            }
+        ]
     },
     {
         "id": 2,
@@ -166,113 +168,115 @@
         "active": true,
         "purchasable": true,
         "parent_package_id": null,
-        "organization": {
-            "id": 1,
-            "title": "Бриз",
-            "active": true,
-            "time_of_visit": [
-                {
-                    "day": 0,
-                    "from_time": "6:45",
-                    "enter_before_time": "23:00",
-                    "exit_before_time": "23:00"
-                },
-                {
-                    "day": 1,
-                    "from_time": "6:45",
-                    "enter_before_time": "23:00",
-                    "exit_before_time": "23:00"
-                },
-                {
-                    "day": 2,
-                    "from_time": "6:45",
-                    "enter_before_time": "23:00",
-                    "exit_before_time": "23:00"
-                },
-                {
-                    "day": 3,
-                    "from_time": "6:45",
-                    "enter_before_time": "23:00",
-                    "exit_before_time": "23:00"
-                },
-                {
-                    "day": 4,
-                    "from_time": "6:45",
-                    "enter_before_time": "23:00",
-                    "exit_before_time": "23:00"
-                },
-                {
-                    "day": 5,
-                    "from_time": "6:45",
-                    "enter_before_time": "23:00",
-                    "exit_before_time": "23:00"
-                },
-                {
-                    "day": 6,
-                    "from_time": "6:45",
-                    "enter_before_time": "23:00",
-                    "exit_before_time": "23:00"
-                }
-            ],
-            "services": [
-                {
-                    "title": "Консультация + диагностика",
-                    "service_qty": 1,
-                    "price": "120.00",
-                    "cost": "50.00",
-                    "unit": "сеанс",
-                    "units_number": 1,
-                    "rule": "Все",
-                    "organization": "Бриз",
-                    "service_category": {
-                        "id": 3,
-                        "title": "Консультации"
+        "organizations": [
+            {
+                "id": 1,
+                "title": "Бриз",
+                "active": true,
+                "time_of_visit": [
+                    {
+                        "day": 0,
+                        "from_time": "6:45",
+                        "enter_before_time": "23:00",
+                        "exit_before_time": "23:00"
+                    },
+                    {
+                        "day": 1,
+                        "from_time": "6:45",
+                        "enter_before_time": "23:00",
+                        "exit_before_time": "23:00"
+                    },
+                    {
+                        "day": 2,
+                        "from_time": "6:45",
+                        "enter_before_time": "23:00",
+                        "exit_before_time": "23:00"
+                    },
+                    {
+                        "day": 3,
+                        "from_time": "6:45",
+                        "enter_before_time": "23:00",
+                        "exit_before_time": "23:00"
+                    },
+                    {
+                        "day": 4,
+                        "from_time": "6:45",
+                        "enter_before_time": "23:00",
+                        "exit_before_time": "23:00"
+                    },
+                    {
+                        "day": 5,
+                        "from_time": "6:45",
+                        "enter_before_time": "23:00",
+                        "exit_before_time": "23:00"
+                    },
+                    {
+                        "day": 6,
+                        "from_time": "6:45",
+                        "enter_before_time": "23:00",
+                        "exit_before_time": "23:00"
                     }
-                },
-                {
-                    "title": "Фитнес консультация",
-                    "service_qty": 1,
-                    "price": "120.00",
-                    "cost": "50.00",
-                    "unit": "минута",
-                    "units_number": 30,
-                    "rule": "Все",
-                    "organization": "Бриз",
-                    "service_category": {
-                        "id": 3,
-                        "title": "Консультации"
+                ],
+                "services": [
+                    {
+                        "title": "Консультация + диагностика",
+                        "service_qty": 1,
+                        "price": "120.00",
+                        "cost": "50.00",
+                        "unit": "сеанс",
+                        "units_number": 1,
+                        "rule": "Все",
+                        "organization": "Бриз",
+                        "service_category": {
+                            "id": 3,
+                            "title": "Консультации"
+                        }
+                    },
+                    {
+                        "title": "Фитнес консультация",
+                        "service_qty": 1,
+                        "price": "120.00",
+                        "cost": "50.00",
+                        "unit": "минута",
+                        "units_number": 30,
+                        "rule": "Все",
+                        "organization": "Бриз",
+                        "service_category": {
+                            "id": 3,
+                            "title": "Консультации"
+                        }
+                    },
+                    {
+                        "title": "Персональная тренировка",
+                        "service_qty": 1,
+                        "price": "140.00",
+                        "cost": "70.00",
+                        "unit": "минута",
+                        "units_number": 60,
+                        "rule": "При первичной продаже",
+                        "organization": "Бриз",
+                        "service_category": {
+                            "id": 2,
+                            "title": "Тренировки"
+                        }
+                    },
+                    {
+                        "title": "Функциональный тренинг",
+                        "service_qty": 1,
+                        "price": "90.00",
+                        "cost": "40.00",
+                        "unit": "минута",
+                        "units_number": 60,
+                        "rule": "Все",
+                        "organization": "Бриз",
+                        "service_category": {
+                            "id": 2,
+                            "title": "Тренировки"
+                        }
                     }
-                },
-                {
-                    "title": "Персональная тренировка",
-                    "service_qty": 1,
-                    "price": "140.00",
-                    "cost": "70.00",
-                    "unit": "минута",
-                    "units_number": 60,
-                    "rule": "При первичной продаже",
-                    "organization": "Бриз",
-                    "service_category": {
-                        "id": 2,
-                        "title": "Тренировки"
-                    }
-                },
-                {
-                    "title": "Функциональный тренинг",
-                    "service_qty": 1,
-                    "price": "90.00",
-                    "cost": "40.00",
-                    "unit": "минута",
-                    "units_number": 60,
-                    "rule": "Все",
-                    "organization": "Бриз",
-                    "service_category": {
-                        "id": 2,
-                        "title": "Тренировки"
-                    }
-                }
-            ]
-        }
+                ]
+            }
+        ]
     },
     {
         "id": 3,
@@ -294,55 +298,57 @@
         "active": null,
         "purchasable": true,
         "parent_package_id": 1,
-        "organization": {
-            "id": 1,
-            "title": "Бриз",
-            "active": true,
-            "time_of_visit": [
-                {
-                    "day": 0,
-                    "from_time": "6:45",
-                    "enter_before_time": "17:00",
-                    "exit_before_time": "17:00"
-                },
-                {
-                    "day": 1,
-                    "from_time": "6:45",
-                    "enter_before_time": "17:00",
-                    "exit_before_time": "17:00"
-                },
-                {
-                    "day": 2,
-                    "from_time": "6:45",
-                    "enter_before_time": "17:00",
-                    "exit_before_time": "17:00"
-                },
-                {
-                    "day": 3,
-                    "from_time": "6:45",
-                    "enter_before_time": "17:00",
-                    "exit_before_time": "17:00"
-                },
-                {
-                    "day": 4,
-                    "from_time": "6:45",
-                    "enter_before_time": "17:00",
-                    "exit_before_time": "17:00"
-                },
-                {
-                    "day": 5,
-                    "from_time": "6:45",
-                    "enter_before_time": "17:00",
-                    "exit_before_time": "17:00"
-                },
-                {
-                    "day": 6,
-                    "from_time": "6:45",
-                    "enter_before_time": "17:00",
-                    "exit_before_time": "17:00"
-                }
-            ],
-            "services": null
-        }
+        "organizations": [
+            {
+                "id": 1,
+                "title": "Бриз",
+                "active": true,
+                "time_of_visit": [
+                    {
+                        "day": 0,
+                        "from_time": "6:45",
+                        "enter_before_time": "17:00",
+                        "exit_before_time": "17:00"
+                    },
+                    {
+                        "day": 1,
+                        "from_time": "6:45",
+                        "enter_before_time": "17:00",
+                        "exit_before_time": "17:00"
+                    },
+                    {
+                        "day": 2,
+                        "from_time": "6:45",
+                        "enter_before_time": "17:00",
+                        "exit_before_time": "17:00"
+                    },
+                    {
+                        "day": 3,
+                        "from_time": "6:45",
+                        "enter_before_time": "17:00",
+                        "exit_before_time": "17:00"
+                    },
+                    {
+                        "day": 4,
+                        "from_time": "6:45",
+                        "enter_before_time": "17:00",
+                        "exit_before_time": "17:00"
+                    },
+                    {
+                        "day": 5,
+                        "from_time": "6:45",
+                        "enter_before_time": "17:00",
+                        "exit_before_time": "17:00"
+                    },
+                    {
+                        "day": 6,
+                        "from_time": "6:45",
+                        "enter_before_time": "17:00",
+                        "exit_before_time": "17:00"
+                    }
+                ],
+                "services": null
+            }
+        ]
     }
 ]

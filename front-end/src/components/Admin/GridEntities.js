@@ -105,7 +105,43 @@ const GridEntities = [
       { title: 'Дата Рождения', field: 'birthDate' },
       { title: 'Телефон', field: 'phoneNumber' },
       { title: 'Email', field: 'email' }
-    ]
+    ],
+    schema: {
+      title: 'Edit Client',
+      type: 'object',
+      required: 'firstName',
+      properties: {
+        firstName: {type: 'string', title: 'Имя'},
+        lastName: {type: 'string', title: 'Фамилия'},
+        gender: {type: 'string', title: 'Пол'},
+        birthDate: {type: 'string', title: 'Дата рождения'},
+        phoneNumber: {type: 'string', title: 'Телефон'},
+        email: {type: 'string', title: 'Email'},
+        active: {type: 'boolean', title: 'Активен'},
+        contracts: {
+          type: 'array',
+          title: 'Контракты', 
+          items: {
+            type: 'object',
+            properties: {
+              startDate: {type: 'string', title: 'Дата начала'},
+              endDate: {type: 'string', title: 'Дата окончания'},
+              credit: {type: 'string', title: 'Кредит'}
+            }
+          }
+        }
+      }
+    },
+    uiSchema: {
+      firstName: {'ui:autofocus': true},
+      email: {'ui:widget': 'email'},
+      birthDate: {'ui:widget': 'date'},
+      contracts: {
+        "ui:options": {
+          orderable: false
+        }
+      }
+    }
   },
   {
     id: 'users',

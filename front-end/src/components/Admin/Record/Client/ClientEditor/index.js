@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+// import { Formik, Field, Form, ErrorMessage } from 'formik';
+// import * as Yup from 'yup';
 
 const ClientEditor = ({ data, updateUser }) => {
   return (
