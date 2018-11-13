@@ -4,12 +4,16 @@ import com.danit.models.CardColor;
 import com.danit.models.Client;
 import com.danit.models.Contract;
 import com.danit.models.Paket;
+import com.danit.models.ServiceCategory;
+import com.danit.models.Services;
 import com.danit.models.User;
 import com.danit.models.UserRoles;
 import com.danit.repositories.CardColorRepository;
 import com.danit.repositories.ClientRepository;
 import com.danit.repositories.ContractRepository;
 import com.danit.repositories.PaketRepository;
+import com.danit.repositories.ServiceCategoryRepository;
+import com.danit.repositories.ServiceRepository;
 import com.danit.repositories.UserRepository;
 import com.danit.repositories.UserRolesRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -29,35 +33,32 @@ import java.util.Set;
 @Component
 public class AppStartupRunner implements ApplicationRunner {
 
+  @Autowired
   private UserRepository userRepository;
 
+  @Autowired
   private ClientRepository clientRepository;
 
+  @Autowired
   private UserRolesRepository userRolesRepository;
 
+  @Autowired
   private BCryptPasswordEncoder bcryptPasswordEncoder;
 
+  @Autowired
   private ContractRepository contractRepository;
 
-  private PaketRepository paketRepository;
-
-  private CardColorRepository cardColorRepository;
+  @Autowired
+  private ServiceRepository servicesRepository;
 
   @Autowired
-  public AppStartupRunner(UserRepository userRepository,
-                          ClientRepository clientRepository,
-                          BCryptPasswordEncoder bcryptPasswordEncoder,
-                          UserRolesRepository userRolesRepository,
-                          ContractRepository contractRepository,
-                          PaketRepository paketRepository, CardColorRepository cardColorRepository) {
-    this.userRepository = userRepository;
-    this.clientRepository = clientRepository;
-    this.bcryptPasswordEncoder = bcryptPasswordEncoder;
-    this.userRolesRepository = userRolesRepository;
-    this.contractRepository = contractRepository;
-    this.paketRepository = paketRepository;
-    this.cardColorRepository = cardColorRepository;
-  }
+  private ServiceCategoryRepository serviceCategoryRepository;
+
+  @Autowired
+  private PaketRepository paketRepository;
+
+  @Autowired
+  private CardColorRepository cardColorRepository;
 
   @Override
   public void run(ApplicationArguments args) throws IOException {
@@ -101,5 +102,17 @@ public class AppStartupRunner implements ApplicationRunner {
     List<CardColor> cards = mapper.readValue(cardColorInputStream, cardColorTypeReference);
     cardColorRepository.saveAll(cards);
 
+
+    TypeReference<List<Services>> servicesTypeReference = new TypeReference<List<Services>>() {
+    };
+    InputStream servicesInputStream = TypeReference.class.getResourceAsStream("/json/services.json");
+    List<Services> services = mapper.readValue(servicesInputStream, servicesTypeReference);
+    servicesRepository.saveAll(services);
+
+    TypeReference<List<ServiceCategory>> serviceCategoryTypeReference = new TypeReference<List<ServiceCategory>>() {
+    };
+    InputStream serviceCategoryInputStream = TypeReference.class.getResourceAsStream("/json/servicecategory.json");
+    List<ServiceCategory> serviceCategory = mapper.readValue(serviceCategoryInputStream, serviceCategoryTypeReference);
+    serviceCategoryRepository.saveAll(serviceCategory);
   }
 }

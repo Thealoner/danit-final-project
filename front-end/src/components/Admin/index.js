@@ -20,7 +20,7 @@ class Admin extends Component {
     e.stopPropagation();
     index++;
     const newTab = {
-      title: `Title: ${index}`,
+      title: 'Title',
       tabKey: `${index}`,
       contentUrl: ''
     };
@@ -73,19 +73,29 @@ class Admin extends Component {
     });
   };
 
-  setTabContentUrl = (url) => {
-    let currenTab = this.state.tabs.find((tab) => {
+  setTabTitle = (title) => {
+    let currentTab = this.state.tabs.find((tab) => {
       return tab.tabKey === this.state.activeKey;
     });
 
-    currenTab.contentUrl = url;
+    currentTab.title = title;
+    return currentTab.title;
+  };
+
+  setTabContentUrl = (url) => {
+    let currentTab = this.state.tabs.find((tab) => {
+      return tab.tabKey === this.state.activeKey;
+    });
+
+    currentTab.contentUrl = url;
+    return currentTab.contentUrl;
   };
 
   render () {
     return (
       <main className="configurator">
         <div className="configurator__left">
-          <EntitiesMenu activeKey={this.state.activeKey} />
+          <EntitiesMenu activeKey={this.state.activeKey} setTabTitle={this.setTabTitle}/>
         </div>
         <div className="configurator__right">
           <TabbedArea

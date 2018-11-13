@@ -6,7 +6,7 @@
         "end_date": "1572548820",
         "gender": "Муж.",
         "credit": "300",
-        "package": {
+        "paket": {
             "id": 1,
             "title": "SPECIAL ONE"
         },
@@ -95,7 +95,7 @@
         "end_date": "1572546820",
         "gender": "Жен.",
         "credit": "450",
-        "package": {
+        "paket": {
             "id": 2,
             "title": "LIFE STYLE"
         },
