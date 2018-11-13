@@ -150,9 +150,24 @@ const GridEntities = [
     recordType: 'simple',
     columns: [
       { title: 'ID', field: 'id' },
-      { title: 'Логин', field: 'username' },
-      { title: 'Роли', field: 'roles' }
-    ]
+      { title: 'Логин', field: 'username' }
+    ],
+    schema: {
+      'Title': 'Редактирование пользователя',
+      'type': 'object',
+      'required': [
+        'username'
+      ],
+      'properties': {
+        'username': {
+          'type': 'string',
+          'title': 'Логин'
+        }
+      }
+    },
+    uiSchema: {
+
+    }
   },
   {
     id: 'roles',

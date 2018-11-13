@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import './index.scss';
 import RecordTabs from './RecordTabs';
-import SimpleRecord from './SimpleRecord';
+import User from './User';
 import Client from './Client';
+import SimpleRecord from './SimpleRecord';
 import Paket from './Paket';
 import { Route } from 'react-router-dom';
 import GridEntities from '../GridEntities';
@@ -14,7 +15,13 @@ class Record extends Component {
     return GridEntities.map((entity) => {
       let route;
 
-      if (entity.id === 'clients') {
+      if (entity.id === 'users') {
+        route = (
+          <Route key={entity.id} path={ '/admin/:tabKey/' + entity.id + '/:rowId' } render={
+            (props) => <User setTabContentUrl={this.props.setTabContentUrl} entityType={entityType} {...props} />
+          } />
+        );
+      } else if (entity.id === 'clients') {
         route = (
           <Route key={entity.id} path={ '/admin/:tabKey/' + entity.id + '/:rowId' } render={
             (props) => <Client setTabContentUrl={this.props.setTabContentUrl} entityType={entityType} {...props} />
