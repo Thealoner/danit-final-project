@@ -2,8 +2,8 @@ import React, { Component, Fragment } from 'react';
 import './index.scss';
 import RecordTabs from './RecordTabs';
 import SimpleRecord from './SimpleRecord';
-import Package from './Package';
 import Client from './Client';
+import Paket from './Paket';
 import { Route } from 'react-router-dom';
 import GridEntities from '../GridEntities';
 
@@ -33,7 +33,7 @@ class Record extends Component {
               (props) => <RecordTabs entityType={entityType} {...props} />
             } />
             <Route path={ '/admin/:tabKey/' + entity.id + '/:rowId' } render={
-              (props) => <Package entityType={entityType} {...props} />
+              (props) => <Paket entityType={entityType} {...props} />
             } />
           </Fragment>
         );

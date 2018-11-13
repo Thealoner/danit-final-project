@@ -21,7 +21,7 @@
         },
         "active": true,
         "purchasable": true,
-        "parent_package_id": null,
+        "parent_paket_id": null,
         "organizations": [
             {
                 "id": 1,
@@ -167,7 +167,7 @@
         },
         "active": true,
         "purchasable": true,
-        "parent_package_id": null,
+        "parent_paket_id": null,
         "organizations": [
             {
                 "id": 1,
@@ -297,7 +297,7 @@
         "card_color": null,
         "active": null,
         "purchasable": true,
-        "parent_package_id": 1,
+        "parent_paket_id": 1,
         "organizations": [
             {
                 "id": 1,
