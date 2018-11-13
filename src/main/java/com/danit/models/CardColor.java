@@ -32,16 +32,8 @@ public class CardColor {
   @Column(name = "card_active")
   private boolean active;
 
-  @Column(name = "packet_id")
-  private Long packetId;
-
   @Column(name = "contract_id")
   private Long contractId;
-
-  @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "packet_id", updatable = false, insertable = false)
-  @JsonIgnore
-  private Paket paket;
 
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "contract_id", updatable = false, insertable = false)
@@ -72,22 +64,6 @@ public class CardColor {
     this.active = active;
   }
 
-  public Long getPacketId() {
-    return packetId;
-  }
-
-  public void setPacketId(Long packetId) {
-    this.packetId = packetId;
-  }
-
-  public Paket getPaket() {
-    return paket;
-  }
-
-  public void setPaket(Paket paket) {
-    this.paket = paket;
-  }
-
   public Contract getContract() {
     return contract;
   }
@@ -110,7 +86,6 @@ public class CardColor {
         "id=" + id +
         ", code='" + code + '\'' +
         ", active=" + active +
-        ", packetId=" + packetId +
         ", contractId=" + contractId +
         '}';
   }

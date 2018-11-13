@@ -28,40 +28,40 @@ public class Paket {
   private String title;
 
   @Column(name = "term")
-  private int term;
+  private Integer term;
 
   @Column(name = "price")
   private Float price;
 
   @Column(name = "freeze_times")
-  private int freezeTimes;
+  private Integer freezeTimes;
 
   @Column(name = "freeze_days")
-  private int freezeDays;
+  private Integer freezeDays;
 
   @Column(name = "freeze_min_term")
-  private int freezeMinTerm;
+  private Integer freezeMinTerm;
 
   @Column(name = "access_without_card_times_limit")
-  private int accessWithoutCardTimesLimit;
+  private Integer accessWithoutCardTimesLimit;
 
   @Column(name = "auto_activate_after_days")
-  private int autoActivateAfterDays;
+  private Integer autoActivateAfterDays;
 
   @Column(name = "guest_visits")
-  private int guestVisits;
+  private Integer guestVisits;
 
   @Column(name = "open_date_allowed")
   private Boolean openDateAllowed;
 
   @Column(name = "users_min")
-  private int usersMin;
+  private Integer usersMin;
 
   @Column(name = "limit_visit_time")
   private Boolean limitVisitTime;
 
   @Column(name = "visit_time")
-  private int visitTime;
+  private Integer visitTime;
 
   @Column(name = "limit_additional_services")
   private Boolean limitAdditionalServices;
@@ -77,9 +77,6 @@ public class Paket {
 
   @OneToMany(mappedBy = "packageId", fetch = FetchType.EAGER)
   private List<Contract> contracts;
-
-  @OneToMany(mappedBy = "paket", fetch = FetchType.EAGER)
-  private List<CardColor> cards;
 
   public Long getId() {
     return id;
@@ -97,11 +94,11 @@ public class Paket {
     this.title = title;
   }
 
-  public int getTerm() {
+  public Integer getTerm() {
     return term;
   }
 
-  public void setTerm(int term) {
+  public void setTerm(Integer term) {
     this.term = term;
   }
 
@@ -113,51 +110,51 @@ public class Paket {
     this.price = price;
   }
 
-  public int getFreezeTimes() {
+  public Integer getFreezeTimes() {
     return freezeTimes;
   }
 
-  public void setFreezeTimes(int freezeTimes) {
+  public void setFreezeTimes(Integer freezeTimes) {
     this.freezeTimes = freezeTimes;
   }
 
-  public int getFreezeDays() {
+  public Integer getFreezeDays() {
     return freezeDays;
   }
 
-  public void setFreezeDays(int freezeDays) {
+  public void setFreezeDays(Integer freezeDays) {
     this.freezeDays = freezeDays;
   }
 
-  public int getFreezeMinTerm() {
+  public Integer getFreezeMinTerm() {
     return freezeMinTerm;
   }
 
-  public void setFreezeMinTerm(int freezeMinTerm) {
+  public void setFreezeMinTerm(Integer freezeMinTerm) {
     this.freezeMinTerm = freezeMinTerm;
   }
 
-  public int getAccessWithoutCardTimesLimit() {
+  public Integer getAccessWithoutCardTimesLimit() {
     return accessWithoutCardTimesLimit;
   }
 
-  public void setAccessWithoutCardTimesLimit(int accessWithoutCardTimesLimit) {
+  public void setAccessWithoutCardTimesLimit(Integer accessWithoutCardTimesLimit) {
     this.accessWithoutCardTimesLimit = accessWithoutCardTimesLimit;
   }
 
-  public int getAutoActivateAfterDays() {
+  public Integer getAutoActivateAfterDays() {
     return autoActivateAfterDays;
   }
 
-  public void setAutoActivateAfterDays(int autoActivateAfterDays) {
+  public void setAutoActivateAfterDays(Integer autoActivateAfterDays) {
     this.autoActivateAfterDays = autoActivateAfterDays;
   }
 
-  public int getGuestVisits() {
+  public Integer getGuestVisits() {
     return guestVisits;
   }
 
-  public void setGuestVisits(int guestVisits) {
+  public void setGuestVisits(Integer guestVisits) {
     this.guestVisits = guestVisits;
   }
 
@@ -169,11 +166,11 @@ public class Paket {
     this.openDateAllowed = openDateAllowed;
   }
 
-  public int getUsersMin() {
+  public Integer getUsersMin() {
     return usersMin;
   }
 
-  public void setUsersMin(int usersMin) {
+  public void setUsersMin(Integer usersMin) {
     this.usersMin = usersMin;
   }
 
@@ -185,11 +182,11 @@ public class Paket {
     this.limitVisitTime = limitVisitTime;
   }
 
-  public int getVisitTime() {
+  public Integer getVisitTime() {
     return visitTime;
   }
 
-  public void setVisitTime(int visitTime) {
+  public void setVisitTime(Integer visitTime) {
     this.visitTime = visitTime;
   }
 
@@ -231,14 +228,6 @@ public class Paket {
 
   public void setContracts(List<Contract> contracts) {
     this.contracts = contracts;
-  }
-
-  public List<CardColor> getCards() {
-    return cards;
-  }
-
-  public void setCards(List<CardColor> cards) {
-    this.cards = cards;
   }
 
   @Override
