@@ -14,9 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.util.List;
-
-import static com.danit.utils.SpringSecurityUtils.getCurrentPrincipalName;
 
 @RestController
 public class RoleController {
@@ -31,22 +30,21 @@ public class RoleController {
   }
 
   @PostMapping("/roles")
-  @ResponseStatus(HttpStatus.CREATED)
-  public void createRoles(@RequestBody List<UserRoles> roles) {
-    logger.info(getCurrentPrincipalName() + " is saving new roles: " + roles);
+  public void createRoles(@RequestBody List<UserRoles> roles, Principal principal) {
+    logger.info(principal.getName() + " is saving new roles: " + roles);
     roleService.saveAllRoles(roles);
   }
 
   @GetMapping("/roles")
-  List<UserRoles> getAllRoles() {
-    logger.info(getCurrentPrincipalName() + " got all user roles data");
+  List<UserRoles> getAllRoles(Principal principal) {
+    logger.info(principal.getName() + " got all user roles data");
     return roleService.getAllRoles();
   }
 
   @DeleteMapping("/roles")
   @ResponseStatus(HttpStatus.OK)
-  void deleteRole(@RequestBody List<UserRoles> roles) {
-    logger.info(getCurrentPrincipalName() + " is trying to delete roles: " + roles);
+  void deleteRole(@RequestBody List<UserRoles> roles, Principal principal) {
+    logger.info(principal.getName() + " is trying to delete roles: " + roles);
     roleService.deleteRoles(roles);
   }
 
