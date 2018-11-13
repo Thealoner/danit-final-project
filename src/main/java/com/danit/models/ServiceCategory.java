@@ -34,8 +34,7 @@ public class ServiceCategory {
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "services_service_categories",
       joinColumns = @JoinColumn(name = "service_categories_id", referencedColumnName = "id"),
-      inverseJoinColumns = @JoinColumn(name = "services_id", referencedColumnName = "id")
-      )
+      inverseJoinColumns = @JoinColumn(name = "services_id", referencedColumnName = "id"))
   private List<Services> services;
 
   public ServiceCategory() {

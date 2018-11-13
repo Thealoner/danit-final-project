@@ -9,7 +9,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
-public class ServicesServiceImpl implements ServicesService{
+public class ServicesServiceImpl implements ServicesService {
 
   @Autowired
   ServiceRepository serviceRepository;
