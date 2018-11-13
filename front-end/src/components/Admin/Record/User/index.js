@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import './index.scss';
 import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
@@ -123,14 +123,14 @@ class SimpleRecord extends Component {
         {this.state.isLoading ? (
           <p>Loading...</p>
         ) : (
-        <Form
-          schema={entity.schema}
-          uiSchema={entity.uiSchema}
-          formData={this.state.data}
-          onChange={this.log('changed')}
-          onSubmit={this.log('submitted')}
-          onError={this.log('errors')}
-        />
+          <Form
+            schema={entity.schema}
+            uiSchema={entity.uiSchema}
+            formData={this.state.data}
+            onChange={this.log('changed')}
+            onSubmit={this.log('submitted')}
+            onError={this.log('errors')}
+          />
         )}
       </div>
     );

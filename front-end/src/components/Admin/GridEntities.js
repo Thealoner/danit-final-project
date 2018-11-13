@@ -150,14 +150,14 @@ const GridEntities = [
     recordType: 'simple',
     columns: [
       { title: 'ID', field: 'id' },
-      { title: 'Логин', field: 'username' }
+      { title: 'Логин', field: 'username' },
+      { title: 'Роль', field: 'roles.role' }
     ],
     schema: {
       Title: 'Редактирование пользователя',
       type: 'object',
       required: [
-        'username',
-        'roles'
+        'username'
       ],
       properties: {
         id: {
@@ -170,30 +170,33 @@ const GridEntities = [
         },
         roles: {
           type: 'array',
-          title: 'Роль',
+          title: '',
           items: {
-            type: 'string',
-            anyOf: [
-              {
+            type: 'object',
+            properties: {
+              role: {
                 type: 'string',
-                enum: [
-                  'ADMIN'
-                ],
-                title: 'ADMIN'
-              },
-              {
-                type: 'string',
-                enum: [
-                  'USER'
-                ],
-                title: 'USER'
+                title: 'Роль',
+                enum: ['ADMIN', 'USER'],
+                enumNames: ['Admin', 'User']
               }
-            ]
+            }
           }
         }
       }
     },
     uiSchema: {
+      roles: {
+        items: {
+          role: {
+            'ui:widget': 'radio'
+          }
+        },
+        'ui:options': {
+          addable: false,
+          removable: false
+        }
+      }
     }
   },
   {

@@ -1,11 +1,18 @@
 .client {
   input {
-    display: block;
-    width: 100%;
     padding: .5rem;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 4px;
+  }
+
+  input[type=text] {
+    display: block;
+    width: 100%;
+  }
+
+  input[type=radio] {
+    margin: 10px 20px;
   }
 
   input:focus {
