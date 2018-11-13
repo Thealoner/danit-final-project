@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import './index.scss';
 import { ReactTabulator } from 'react-tabulator';
 import 'react-tabulator/lib/styles.css';
@@ -6,22 +6,30 @@ import 'tabulator-tables/dist/css/tabulator.min.css';
 import { getEntityByType } from '../../GridEntities';
 import AuthService from '../../../Login/AuthService';
 import Settings from '../../../Settings';
-// import ClientEditor from './ClientEditor';
-import Form from 'react-jsonschema-form';
+import ClientEditor from './ClientEditor';
 
 class SimpleRecord extends Component {
-  state = {
-    entityType: '',
-    name: '',
-    simpleFields: [],
-    complexFields: [],
-    data: [],
-    columns: [
-      { title: 'Key', field: 'key', width: 150 },
-      { title: 'Value', field: 'value', align: 'left', editor: true }
-    ],
-    authService: new AuthService()
-  };
+  constructor (props) {
+    super(props);
+    this.state = {
+      entityType: '',
+      name: '',
+      editableFields: {
+        id: '',
+        firstName: '',
+        lastName: '',
+        gender: '',
+        birthDate: '',
+        phoneNumber: '',
+        email: '',
+        active: false
+      },
+      readonlyFields: {
+        contracts: []
+      },
+      authService: new AuthService()
+    };
+  }
 
   getData = () => {
     let { rowId } = this.props.match.params;
@@ -35,7 +43,7 @@ class SimpleRecord extends Component {
     }
   };
 
-  fetchEntity = (entity, entityType) => {
+  fetchEntity = (entity, rowId) => {
     const headers = {
       'Content-Type': 'application/json'
     };
@@ -44,35 +52,30 @@ class SimpleRecord extends Component {
     headers['Authorization'] = token;
 
     fetch(
-      Settings.apiServerUrl + entity.apiUrl + '/' + entityType,
+      Settings.apiServerUrl + entity.apiUrl + '/' + rowId,
       { headers }
     )
       .then(this.state.authService._checkStatus)
       .then(response => response.json())
       .then(data => {
-        let keys = Object.keys(data);
-        let simpleFields = [];
-        let complexFields = [];
-  
-        keys.forEach((key) => {
-          if (Array.isArray(data[key]) || (data[key] && typeof data[key] === 'object' && data[key].constructor === Object)) {
-            complexFields.push = {
-              key: data[key]
-            };
-          }
+        let editableDataKeys = Object.keys(this.state.editableFields);
+        let editableData = {};
 
-          simpleFields.push({
-            key: key,
-            value: data[key]
-          });
+        editableDataKeys.forEach(key => {
+          editableData[key] = data[key];
+        });
+
+        let readonlyDataKeys = Object.keys(this.state.readonlyFields);
+        let readonlyData = {};
+        
+        readonlyDataKeys.forEach(key => {
+          readonlyData[key] = data[key];
         });
 
         this.setState({
-          entityType: entityType,
-          data,
-          simpleFields,
-          complexFields
-          // ,columns: entity.columns
+          entityType: entity.id,
+          editableFields: editableData,
+          readonlyFields: readonlyData
         });
       });
   };
@@ -88,42 +91,50 @@ class SimpleRecord extends Component {
 
       let token = this.state.authService.getToken();
       headers['Authorization'] = token;
-      let array = this.state.simpleFields;
-      let dataToSave = array.reduce((obj, {key, value}) => ({ ...obj, [key]: value }), {});
+
+      // TODO:
+      // disable 'Save' button
+      // show loader
 
       fetch(
         Settings.apiServerUrl + entity.apiUrl,
         {
           method: 'PUT',
-          body: JSON.stringify(dataToSave),
+          body: JSON.stringify([this.state.editableFields]),
           headers
         }
       )
         .then(this.state.authService._checkStatus)
-        .then(response => response.json())
-        .then(data => {
-          let keys = Object.keys(data);
-          let dataArray = [];
-    
-          keys.forEach((key) => {
-            dataArray.push({
-              key: key,
-              value: data[key]
-            });
-          });
-
-          this.setState({
-            entityType: entityType,
-            data: dataArray
-          });
+        .then(response => {
+          console.log(response.status);
+          // display green 'Данные сохранены' message
+        })
+        .catch(error => {
+          console.log(error);
+          // display red 'Ошибка при сохранении' message
+        })
+        .finally(() => {
+          console.log('Finally');
+          // TODO:
+          // enable 'Save' button
+          // hide loader
         });
     } else {
       console.log('Not logged in or token is expired');
     }
   };
 
-  updateUser = (data) => {
-    console.log('user updated', data);
+  handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState(prevState => ({
+      editableFields: {
+        ...prevState.editableFields,
+        [name]: value
+      }
+    }));
   }
 
   render () {
@@ -135,22 +146,23 @@ class SimpleRecord extends Component {
       movableRows: true
     };
 
-    let data = this.state.data;
-    let entity = getEntityByType(entityType);
+    let columns = [
+      { title: 'ID', field: 'id' },
+      { title: 'Пакет', field: 'packageId' },
+      { title: 'startDate', field: 'startDate' },
+      { title: 'endDate', field: 'endDate' },
+      { title: 'Активен', field: 'active' }
+    ];
 
     return (
       <div className="client">
-        <p>Client ID: {data.id}</p>
-        {/* <ClientEditor data={data} updateUser={this.updateUser} /> */}
-        <Form
-          schema={entity.schema}
-          uiSchema={entity.uiSchema}
-          formData={data}
-        />
+        <p>Client ID: {this.state.editableFields.id}</p>
+        <ClientEditor data={this.state.editableFields} handleInputChange={this.handleInputChange} />
+        <h1>Контракты</h1>
         <ReactTabulator
           ref={ref => (this.ref = ref)}
-          columns={this.state.columns}
-          data={this.state.simpleFields}
+          columns={columns}
+          data={this.state.readonlyFields.contracts}
           rowClick={this.rowClick}
           options={options}
           data-custom-attr="test-custom-attribute"

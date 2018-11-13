@@ -38,7 +38,7 @@ public class Contract {
   @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
-      pattern = "dd-MM-yyyy")
+      pattern = "yyyy-MM-dd")
   @Temporal(TemporalType.DATE)
   private Date startDate;
 
@@ -46,7 +46,7 @@ public class Contract {
   @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
-      pattern = "dd-MM-yyyy")
+      pattern = "yyyy-MM-dd")
   @Temporal(TemporalType.DATE)
   private Date endDate;
 

@@ -109,7 +109,7 @@ const GridEntities = [
     schema: {
       title: 'Edit Client',
       type: 'object',
-      required: 'firstName',
+      required: ['firstName'],
       properties: {
         firstName: {type: 'string', title: 'Имя'},
         lastName: {type: 'string', title: 'Фамилия'},
@@ -120,14 +120,14 @@ const GridEntities = [
         active: {type: 'boolean', title: 'Активен'},
         contracts: {
           type: 'array',
-          title: 'Контракты', 
+          title: 'Контракты',
           items: {
-            type: 'object',
-            properties: {
-              startDate: {type: 'string', title: 'Дата начала'},
-              endDate: {type: 'string', title: 'Дата окончания'},
-              credit: {type: 'string', title: 'Кредит'}
-            }
+            type: 'string',
+            enum: [
+              'A',
+              'B',
+              'C'
+            ]
           }
         }
       }
@@ -137,7 +137,7 @@ const GridEntities = [
       email: {'ui:widget': 'email'},
       birthDate: {'ui:widget': 'date'},
       contracts: {
-        "ui:options": {
+        'ui:options': {
           orderable: false
         }
       }
