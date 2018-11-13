@@ -1,0 +1,66 @@
+{
+  "id": 1001,
+  "firstName": "Philippa",
+  "lastName": "Lawtie",
+  "gender": "Female",
+  "birthDate": "16-03-1979",
+  "phoneNumber": "958-143-9304",
+  "email": "plawtie0@amazonaws.com",
+  "active": true,
+  "contracts": [
+    {
+      "id": 1001,
+      "startDate": "09-01-2018",
+      "endDate": "09-01-2019",
+      "credit": 10000.0,
+      "cards": [
+        {
+          "id": 1002,
+          "code": "999777856412",
+          "active": false,
+          "packetId": 1002,
+          "contractId": 1001
+        }
+      ],
+      "packageId": 1002,
+      "clientId": 1001,
+      "active": true
+    },
+    {
+      "id": 1002,
+      "startDate": "09-01-2019",
+      "endDate": "09-01-2020",
+      "credit": 10000.0,
+      "cards": [
+        {
+          "id": 1001,
+          "code": "999666555123",
+          "active": true,
+          "packetId": 1002,
+          "contractId": 1002
+        }
+      ],
+      "packageId": 1003,
+      "clientId": 1001,
+      "active": true
+    },
+    {
+      "id": 1006,
+      "startDate": "09-01-2018",
+      "endDate": "09-01-2019",
+      "credit": 10000.0,
+      "cards": [
+        {
+          "id": 1006,
+          "code": "999447856951",
+          "active": true,
+          "packetId": 1003,
+          "contractId": 1006
+        }
+      ],
+      "packageId": 1003,
+      "clientId": 1001,
+      "active": true
+    }
+  ]
+}
