@@ -15,7 +15,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -57,7 +60,7 @@ public class ClientControllerTest {
             + "    \"phoneNumber\": \"155-846-2959\",\n"
             + "    \"active\": true\n"
             + "  }]"))
-        .andExpect(status().isCreated());
+        .andExpect(status().isOk());
 
     mockMvc.perform(get("/clients").headers(header))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))

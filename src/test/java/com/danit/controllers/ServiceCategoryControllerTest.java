@@ -1,7 +1,6 @@
 package com.danit.controllers;
 
 import com.danit.TestUtils;
-import com.danit.models.ServiceCategory;
 import com.danit.models.UserRolesEnum;
 import com.danit.services.ServiceCategoryService;
 import org.junit.Test;
@@ -17,8 +16,10 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.IsCollectionContaining.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -40,13 +41,13 @@ public class ServiceCategoryControllerTest {
   public void saveServiceCategoryIfNotExists() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.ADMIN);
     mockMvc.perform(post("/service_categories").headers(header)
-           .contentType("application/json")
-           .content("[{\n" +
-                "    \"title\": \"SPA\",\n" +
-                "    \"services\": [],\n" +
-                "    \"active\": true\n" +
-                "  }]"))
-        .andExpect(status().isCreated());
+        .contentType("application/json")
+        .content("[{\n" +
+            "    \"title\": \"SPA\",\n" +
+            "    \"services\": [],\n" +
+            "    \"active\": true\n" +
+            "  }]"))
+        .andExpect(status().isOk());
   }
 
   @Test
@@ -61,7 +62,7 @@ public class ServiceCategoryControllerTest {
             "    \"services\": [],\n" +
             "    \"active\": false\n" +
             "}]"))
-        .andExpect(status().isCreated());
+        .andExpect(status().isOk());
 
 
     mockMvc.perform(put("/service_categories").headers(header)

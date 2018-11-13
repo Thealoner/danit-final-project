@@ -1,4 +1,4 @@
-import packages from '../../SampleJson/packages.json';
+import pakets from '../../SampleJson/pakets.json';
 import services from '../../SampleJson/services.json';
 import serviceCategories from '../../SampleJson/service_categories.json';
 import serviceRules from '../../SampleJson/service_rules.json';
@@ -8,10 +8,10 @@ import clients from '../../SampleJson/clients.json';
 
 const GridEntities = [
   {
-    id: 'packages',
+    id: 'pakets',
     name: 'Пакеты',
-    sampleData: packages,
-    apiUrl: '/packages',
+    sampleData: pakets,
+    apiUrl: '/pakets',
     recordType: 'tabbed',
     recordComponent: 'Package',
     columns: [
@@ -74,7 +74,7 @@ const GridEntities = [
     recordComponent: 'Package',
     columns: [
       { title: 'ID', field: 'id' },
-      { title: 'Пакет', field: 'package.title' },
+      { title: 'Пакет', field: 'paket.title' },
       { title: 'Клиент', field: 'client.name', align: 'left' },
       { title: 'Активен', field: 'active' }
     ]
@@ -105,7 +105,43 @@ const GridEntities = [
       { title: 'Дата Рождения', field: 'birthDate' },
       { title: 'Телефон', field: 'phoneNumber' },
       { title: 'Email', field: 'email' }
-    ]
+    ],
+    schema: {
+      title: 'Edit Client',
+      type: 'object',
+      required: ['firstName'],
+      properties: {
+        firstName: {type: 'string', title: 'Имя'},
+        lastName: {type: 'string', title: 'Фамилия'},
+        gender: {type: 'string', title: 'Пол'},
+        birthDate: {type: 'string', title: 'Дата рождения'},
+        phoneNumber: {type: 'string', title: 'Телефон'},
+        email: {type: 'string', title: 'Email'},
+        active: {type: 'boolean', title: 'Активен'},
+        contracts: {
+          type: 'array',
+          title: 'Контракты',
+          items: {
+            type: 'string',
+            enum: [
+              'A',
+              'B',
+              'C'
+            ]
+          }
+        }
+      }
+    },
+    uiSchema: {
+      firstName: {'ui:autofocus': true},
+      email: {'ui:widget': 'email'},
+      birthDate: {'ui:widget': 'date'},
+      contracts: {
+        'ui:options': {
+          orderable: false
+        }
+      }
+    }
   },
   {
     id: 'users',
