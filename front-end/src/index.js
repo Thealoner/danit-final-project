@@ -11,9 +11,14 @@ import en from 'react-intl/locale-data/en';
 import ru from 'react-intl/locale-data/ru';
 import {Provider} from 'react-redux';
 import store from './store';
+import { localeSet } from './actions/localeAction';
 
 addLocaleData(en);
 addLocaleData(ru);
+
+if (localStorage.lang) {
+  store.dispatch(localeSet(localStorage.lang));
+}
 
 ReactDOM.render(
   <Provider store={store}>

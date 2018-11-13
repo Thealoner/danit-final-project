@@ -2,11 +2,13 @@ export default {
   en: {
     'home_admin': 'Admin',
     'home_manager': 'Manager',
-    'header_logout': 'Logout'
+    'user_logout': 'Logout',
+    'test': 'Test'
   },
   ru: {
     'home_admin': 'Админ',
     'home_manager': 'Менеджер',
-    'header_logout': 'Выйти'
+    'user_logout': 'Выйти',
+    'test': 'Тест'
   }
 };

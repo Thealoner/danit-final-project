@@ -7,8 +7,8 @@ class Home extends Component {
   render () {
     return (
       <div className="home">
-        <Link to="/admin" className="home__link"><FormattedMessage id="home_admin" defaultMessage="Admin"/></Link>
-        <Link to="/manager" className="home__link"><FormattedMessage id="home_manager" defaultMessage="Manager"/></Link>
+        <Link to="/admin" className="home__link"><FormattedMessage id="home_admin" defaultMessage="Админ"/></Link>
+        <Link to="/manager" className="home__link"><FormattedMessage id="home_manager" defaultMessage="Менеджер"/></Link>
       </div>
     );
   }

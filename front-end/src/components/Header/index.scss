@@ -17,30 +17,4 @@
     font-weight: bold;
     background-color: #fff;
   }
-
-  &__user {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    padding: 0 5px;
-    background-color: #fff;
-  }
-
-  &__avatar {
-    display: block;
-    margin-right: 5px;
-    cursor: pointer;
-  }
-
-  &__btn-logout {
-    padding: 0;
-    background-color: #fff;
-    border: none;
-    border-bottom: 1px solid transparent;
-
-    &:hover {
-      border-bottom: 1px solid black;
-    }
-  }
 }

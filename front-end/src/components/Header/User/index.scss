@@ -1,0 +1,61 @@
+@import "../../../variables";
+
+.user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 0 5px;
+  background-color: #fff;
+
+  &__avatar {
+    display: block;
+    margin-right: 5px;
+    cursor: pointer;
+  }
+
+  &__user-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+  }
+
+  &__intl {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 14px;
+  }
+
+  &__intl-switcher {
+    border-bottom: 1px solid transparent;
+    cursor: pointer;
+
+    &:hover {
+      border-bottom: 1px solid black;
+    }
+
+    &--active {
+      color: $main-bg;
+      cursor: default;
+
+      &:hover {
+        border-bottom: none;
+      }
+    }
+  }
+
+  &__btn-logout {
+    padding: 0;
+    font-size: 14px;
+    background-color: #fff;
+    border: none;
+    border-bottom: 1px solid transparent;
+
+    &:hover {
+      border-bottom: 1px solid black;
+    }
+  }
+}

@@ -1,5 +1,11 @@
+import { LOCALE_SET } from '../actions/types';
+
 export default function locale (state = {lang: 'ru'}, action = {}) {
   switch (action.type) {
-    default: return state;
+    case LOCALE_SET:
+      return {lang: action.lang};
+
+    default:
+      return state;
   }
 }
