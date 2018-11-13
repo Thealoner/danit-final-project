@@ -19,49 +19,6 @@
     opacity: 1;
     transition: all 1s;
   }
-
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 15px;
-    background-color: $main-bg;
-  }
-
-  &__logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 70px;
-    height: 100%;
-    color: black;
-    font-weight: bold;
-    background-color: #fff;
-  }
-
-  &__user {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 95px;
-    height: 100%;
-    background-color: #fff;
-  }
-
-  &__avatar {
-    display: block;
-    width: 30px;
-    height: 30px;
-    margin-right: 3px;
-    background-color: $main-bg;
-    border-radius: 50%;
-    cursor: pointer;
-  }
-
-  &__btn-logout {
-    background-color: $main-bg;
-    border: none;
-  }
 }
 
 
