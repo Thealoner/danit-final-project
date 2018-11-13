@@ -99,6 +99,10 @@
       -o-transform: translate(-50%, -50%) rotateZ(-45deg);
       transform: translate(-50%, -50%) rotateZ(-45deg);
     }
+
+    &--disabled {
+      display: none;
+    }
   }
 
   // override classes:
