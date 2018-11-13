@@ -7,28 +7,19 @@ import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
 import { Route, NavLink } from 'react-router-dom';
 import Grid from '../Grid';
 import Record from '../Record';
-import $ from 'jquery';
 
 class TabbedArea extends Component {
-  componentDidMount () {
-    let tabsNav = $('.rc-tabs-nav');
+  componentDidUpdate () {
+    let tabs = document.getElementsByClassName('rc-tabs-tab');
+    let tabActive = document.querySelector('.rc-tabs-tab-active');
 
-    tabsNav.removeClass('rc-tabs-nav-animated');
-    $('.rc-tabs-ink-bar').removeClass('rc-tabs-ink-bar-animated');
+    for (let i = 0; i < tabs.length; i++) {
+      tabs[i].style.borderBottomRightRadius = '0';
+    }
 
-    tabsNav.on('click', function (e) {
-      $('.rc-tabs-tab').css('border-bottom-right-radius', '0');
-
-      if ($(e.target).hasClass('rc-tabs__close-btn')) {
-        $(e.target).closest('.rc-tabs-tab').prev().css('border-bottom-right-radius', '0');
-      } else {
-        $(e.target).closest('.rc-tabs-tab').prev().css('border-bottom-right-radius', '10px');
-      }
-
-      setTimeout(function () {
-        $('.rc-tabs-tab-active').prev().css('border-bottom-right-radius', '10px');
-      }, 40);
-    });
+    if (tabActive.previousElementSibling) {
+      tabActive.previousElementSibling.style.borderBottomRightRadius = '10px';
+    }
   }
 
   construct () {
@@ -38,7 +29,8 @@ class TabbedArea extends Component {
       return <TabPane
         key={t.tabKey}
         tab={<Fragment><span className="rc-tabs__title-wrapper" title={t.title}>{t.title}</span>
-          <NavLink to={'/admin/' + t.tabKey} className='rc-tabs__close-btn'
+          <NavLink to={'/admin/' + t.tabKey}
+            className={`rc-tabs__close-btn${(this.props.tabs.length === 1) ? ' rc-tabs__close-btn--disabled' : ''}`}
             onClick={this.props.remove.bind(this, t.tabKey)}/></Fragment>}>
         <Route exact path="/admin/:tabKey/:entityType" render={
           (props) => <Grid setTabContentUrl={this.props.setTabContentUrl} {...props} />

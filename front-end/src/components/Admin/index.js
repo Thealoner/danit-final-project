@@ -106,7 +106,6 @@ class Admin extends Component {
             activeKey={this.state.activeKey}
             tabs={this.state.tabs}
             setTabContentUrl={this.setTabContentUrl}
-            setTabTitle={this.setTabTitle}
           />
         </div>
       </main>
