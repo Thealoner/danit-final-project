@@ -4,7 +4,7 @@
     "startDate": "2018-01-10",
     "endDate": "2019-01-10",
     "credit": 10000,
-    "packageId": 1002,
+    "paketId": 1002,
     "isActive": true,
     "clientId": 1001,
     "active": true
@@ -14,7 +14,7 @@
     "startDate": "2019-01-10",
     "endDate": "2020-01-10",
     "credit": 10000,
-    "packageId": 1003,
+    "paketId": 1003,
     "isActive": true,
     "clientId": 1001,
     "active": true
@@ -24,7 +24,7 @@
     "startDate": "2018-01-08",
     "endDate": "2019-01-08",
     "credit": 10000,
-    "packageId": 1003,
+    "paketId": 1003,
     "isActive": true,
     "clientId": 1002,
     "active": true
@@ -34,7 +34,7 @@
     "startDate": "2018-01-10",
     "endDate": "2019-01-10",
     "credit": 10000,
-    "packageId": 1003,
+    "paketId": 1003,
     "isActive": true,
     "clientId": 1003,
     "active": true
@@ -44,7 +44,7 @@
     "startDate": "2018-01-10",
     "endDate": "2019-01-10",
     "credit": 10000,
-    "packageId": 1003,
+    "paketId": 1003,
     "isActive": true,
     "clientId": 1004,
     "active": true
@@ -54,7 +54,7 @@
     "startDate": "2018-01-10",
     "endDate": "2019-01-10",
     "credit": 10000,
-    "packageId": 1003,
+    "paketId": 1003,
     "isActive": true,
     "clientId": 1001,
     "active": true

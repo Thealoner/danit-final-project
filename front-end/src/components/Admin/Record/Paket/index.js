@@ -7,7 +7,7 @@ class Package extends Component {
     let { entityType } = this.props;
 
     return (
-      <div className="package">
+      <div className="paket">
         Package component. Package ID: {rowId}. EntityType={entityType}.
       </div>
     );
