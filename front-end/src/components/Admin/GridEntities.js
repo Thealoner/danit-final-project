@@ -153,20 +153,47 @@ const GridEntities = [
       { title: 'Логин', field: 'username' }
     ],
     schema: {
-      'Title': 'Редактирование пользователя',
-      'type': 'object',
-      'required': [
-        'username'
+      Title: 'Редактирование пользователя',
+      type: 'object',
+      required: [
+        'username',
+        'roles'
       ],
-      'properties': {
-        'username': {
-          'type': 'string',
-          'title': 'Логин'
+      properties: {
+        id: {
+          type: 'number',
+          title: 'ID'
+        },
+        username: {
+          type: 'string',
+          title: 'Логин'
+        },
+        roles: {
+          type: 'array',
+          title: 'Роль',
+          items: {
+            type: 'string',
+            anyOf: [
+              {
+                type: 'string',
+                enum: [
+                  'ADMIN'
+                ],
+                title: 'ADMIN'
+              },
+              {
+                type: 'string',
+                enum: [
+                  'USER'
+                ],
+                title: 'USER'
+              }
+            ]
+          }
         }
       }
     },
     uiSchema: {
-
     }
   },
   {

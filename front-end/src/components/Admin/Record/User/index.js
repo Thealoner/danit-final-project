@@ -116,10 +116,7 @@ class SimpleRecord extends Component {
     let { rowId } = this.props.match.params;
     let { entityType, setTabContentUrl } = this.props;
     setTabContentUrl(entityType + '/' + rowId);
-
-    let schema = getEntityByType(entityType).schema;
-    let uiSchema = getEntityByType(entityType).uiSchema;
-    let formData = this.state.data;
+    let entity = getEntityByType(entityType);
     
     return (
       <div className="client">
@@ -127,9 +124,9 @@ class SimpleRecord extends Component {
           <p>Loading...</p>
         ) : (
         <Form
-          schema={schema}
-          uiSchema={uiSchema}
-          formData={formData}
+          schema={entity.schema}
+          uiSchema={entity.uiSchema}
+          formData={this.state.data}
           onChange={this.log('changed')}
           onSubmit={this.log('submitted')}
           onError={this.log('errors')}
