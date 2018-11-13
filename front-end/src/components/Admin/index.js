@@ -9,7 +9,7 @@ let index = 1;
 class Admin extends Component {
   state = {
     tabs: [{
-      title: 'Title',
+      title: `${localStorage.lang === 'en' ? 'New tab' : 'Новая вкладка'}`,
       tabKey: '1',
       contentUrl: ''
     }],
@@ -20,7 +20,7 @@ class Admin extends Component {
     e.stopPropagation();
     index++;
     const newTab = {
-      title: 'Title',
+      title: `${localStorage.lang === 'en' ? 'New tab' : 'Новая вкладка'}`,
       tabKey: `${index}`,
       contentUrl: ''
     };

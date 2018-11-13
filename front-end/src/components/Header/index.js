@@ -5,10 +5,11 @@ import User from './User';
 
 class Header extends Component {
   render () {
+    const {handleLogout, userName} = this.props;
     return (
       <div className="header">
         <Link to="/" className="header__logo">LOGO</Link>
-        <User/>
+        <User handleLogout={handleLogout} userName={userName}/>
       </div>
     );
   }

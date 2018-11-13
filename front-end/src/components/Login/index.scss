@@ -4,7 +4,16 @@
   align-items: center;
   height: 100%;
   background-color: #000;
-  
+
+  &__locale {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 50px;
+    margin: 30px 30px 0 0;
+    color: white !important;
+  }
+
   &__dialog {
     position: relative;
     display: flex;
@@ -23,18 +32,49 @@
     width: 80%;
   }
 
-  &__links-wrapper {
-    display: flex;
-    justify-content: space-between;
-    width: 80%;
-    margin-top: 5px;
+  &__input {
+    width: 100%;
+    height: 30px;
+    margin: 10px 0 25px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+
+    &[type="text"],
+    &[type="email"],
+    &[type="password"] {
+      padding-left: 10px;
+      box-shadow: 1px 1px 3px 1px #ccc;
+
+      &:focus {
+        box-shadow: 1px 1px 3px 2px #ccc;
+      }
+
+      &::placeholder {
+        color: #808080;
+      }
+    }
+
+    &[type="submit"] {
+      height: 30px;
+      margin-bottom: 0;
+      padding: 0;
+      color: #fff;
+      background-color: #000;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #333;
+      }
+
+      &:active {
+        transform: scale(.99);
+      }
+    }
   }
 
-  &__link {
-    color: #808080;
-    font-size: 12px;
-    border-bottom: 1px solid;
-    cursor: pointer;
+  &__label {
+    font-weight: bold !important;
   }
 
   &__data-error {
