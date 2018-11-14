@@ -7,9 +7,6 @@ import AuthService from './components/Login/AuthService';
 import Admin from './components/Admin';
 import Manager from './components/Manager';
 import withAuth from './components/Login/withAuth';
-import {IntlProvider} from 'react-intl';
-import PropTypes from 'prop-types';
-import messages from './messages';
 import Header from './components/Header';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
@@ -48,17 +45,14 @@ class App extends Component {
   preLoader = React.createRef();
 
   render () {
-    const {lang} = this.props;
     return (
-      <IntlProvider locale={lang} messages={messages[lang]}>
-        <div className="app">
-          <div className="app__preloader" ref={preLoader => (this.preLoader = preLoader)}><PreLoader/></div>
-          <Header handleLogout={this.handleLogout} userName={this.props.user.sub}/>
-          <Route exact path="/" component={Home}/>
-          <Route path="/admin" component={Admin}/>
-          <Route path="/manager" component={Manager}/>
-        </div>
-      </IntlProvider>
+      <div className="app">
+        <div className="app__preloader" ref={preLoader => (this.preLoader = preLoader)}><PreLoader/></div>
+        <Header handleLogout={this.handleLogout} userName={this.props.user.sub}/>
+        <Route exact path="/" component={Home}/>
+        <Route path="/admin" component={Admin}/>
+        <Route path="/manager" component={Manager}/>
+      </div>
     );
   }
 
@@ -73,9 +67,5 @@ class App extends Component {
     }, 3000);
   }
 }
-
-App.propTypes = {
-  lang: PropTypes.string.isRequired
-};
 
 export default withAuth(App);

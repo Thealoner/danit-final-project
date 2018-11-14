@@ -5,15 +5,6 @@
   height: 100%;
   background-color: #000;
 
-  &__locale {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 50px;
-    margin: 30px 30px 0 0;
-    color: white !important;
-  }
-
   &__dialog {
     position: relative;
     display: flex;
@@ -71,6 +62,10 @@
         transform: scale(.99);
       }
     }
+
+    &--active {
+      transform: scale(.99);
+    }
   }
 
   &__label {
@@ -86,5 +81,9 @@
     color: red;
     font-size: 12px;
     text-align: center;
+
+    &--visible {
+      display: initial;
+    }
   }
 }

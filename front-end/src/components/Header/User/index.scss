@@ -14,15 +14,6 @@
     cursor: pointer;
   }
 
-  &__wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    width: 50px;
-    height: 100%;
-  }
-
   &__btn-logout {
     padding: 0;
     font-size: 14px;

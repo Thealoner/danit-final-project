@@ -3,12 +3,6 @@ import AuthService from './AuthService';
 import Settings from '../Settings';
 import {connect} from 'react-redux';
 
-function mapStateToProps (state) {
-  return {
-    lang: state.locale.lang
-  };
-}
-
 export default function withAuth (AuthComponent) {
   const Auth = new AuthService(Settings.apiServerUrl);
 
@@ -39,7 +33,7 @@ export default function withAuth (AuthComponent) {
     render () {
       if (this.state.user) {
         return (
-          <AuthComponent history={this.props.history} user={this.state.user} lang={this.props.lang}/>
+          <AuthComponent history={this.props.history} user={this.state.user}/>
         );
       } else {
         return null;
@@ -47,5 +41,5 @@ export default function withAuth (AuthComponent) {
     }
   }
 
-  return connect(mapStateToProps)(AuthWrapped);
+  return connect()(AuthWrapped);
 }

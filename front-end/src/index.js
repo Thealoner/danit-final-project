@@ -6,19 +6,8 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import Login from './components/Login';
-import { addLocaleData } from 'react-intl';
-import en from 'react-intl/locale-data/en';
-import ru from 'react-intl/locale-data/ru';
 import {Provider} from 'react-redux';
 import store from './store';
-import { localeSet } from './actions/localeAction';
-
-addLocaleData(en);
-addLocaleData(ru);
-
-if (localStorage.lang) {
-  store.dispatch(localeSet(localStorage.lang));
-}
 
 ReactDOM.render(
   <Provider store={store}>

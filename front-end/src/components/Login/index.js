@@ -1,11 +1,6 @@
 import React, {Component} from 'react';
 import './index.scss';
 import AuthService from './AuthService';
-import Locale from '../Header/Locale';
-import { IntlProvider, FormattedMessage } from 'react-intl';
-import messages from '../../messages';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
 
 class Login extends Component {
   constructor () {
@@ -34,7 +29,7 @@ class Login extends Component {
       })
       .catch(err => {
         console.log(err);
-        this.error.style.display = 'initial';
+        this.error.classList.add('login__data-error--visible');
       });
   }
 
@@ -51,32 +46,24 @@ class Login extends Component {
   error = React.createRef();
 
   render () {
-    const {lang} = this.props;
     return (
-      <IntlProvider locale={lang} messages={messages[lang]}>
-        <div className="login" ref="login">
-          <div className="login__locale"><Locale/></div>
-          <div className="login__dialog">
-            <form action="#" className="login__form" ref={form => (this.form = form)} onSubmit={this.handleSubmit}>
-              <label htmlFor="username" className="login__label">
-                <FormattedMessage id="login_login" defaultMessage="Логин"/>
-              </label>
-              <input type="text" className="login__input" ref={username => (this.username = username)}
-                name="username" id="username" value={this.state.username} onChange={this.handleChange} required/>
-              <label htmlFor="password" className="login__label">
-                <FormattedMessage id="login_password" defaultMessage="Пароль"/>
-              </label>
-              <input type="password" className="login__input" ref={password => (this.password = password)}
-                name="password" id="password" value={this.state.password} onChange={this.handleChange} required/>
-              <input type="submit" className="login__input" ref={submitBtn => (this.submitBtn = submitBtn)}
-                name="" value="Войти"/>
-            </form>
-            <span className="login__data-error" ref={error => (this.error = error)}>
-              <FormattedMessage id="login_wrong-data" defaultMessage="неверный логин или пароль"/>
-            </span>
-          </div>
+      <div className="login" ref="login">
+        <div className="login__dialog">
+          <form action="#" className="login__form" ref={form => (this.form = form)} onSubmit={this.handleSubmit}>
+            <label htmlFor="username" className="login__label">Логин</label>
+            <input type="text" className="login__input" ref={username => (this.username = username)} name="username"
+              id="username" value={this.state.username} onChange={this.handleChange} placeholder="insert username (Admin)"
+              required/>
+            <label htmlFor="password" className="login__label">Пароль</label>
+            <input type="password" className="login__input" ref={password => (this.password = password)} name="password"
+              id="password" value={this.state.password} onChange={this.handleChange} placeholder="введите пароль (1234)"
+              required/>
+            <input type="submit" className="login__input" ref={submitBtn => (this.submitBtn = submitBtn)}
+              name="" value="Войти"/>
+          </form>
+          <span className="login__data-error" ref={error => (this.error = error)}>неверный логин или пароль</span>
         </div>
-      </IntlProvider>
+      </div>
     );
   }
 
@@ -87,70 +74,34 @@ class Login extends Component {
     let submitBtn = this.submitBtn;
     let error = this.error;
 
-    if (localStorage.lang === 'en') {
-      submitBtn.value = 'Sign in';
-      username.setAttribute('placeholder', 'insert username (Admin)');
-      password.setAttribute('placeholder', 'insert password (1234)');
-    } else {
-      submitBtn.value = 'Войти';
-      username.setAttribute('placeholder', 'введите имя пользователя (Admin)');
-      password.setAttribute('placeholder', 'введите пароль (1234)');
-    }
-
     form.onkeydown = function (event) {
       if (event.keyCode === 13) {
-        submitBtn.style.transform = 'scale(.99)';
+        submitBtn.classList.add('login__input--active');
       }
     };
 
     form.onkeyup = function (event) {
       if (event.keyCode === 13) {
-        submitBtn.style.transform = 'none';
+        submitBtn.classList.remove('login__input--active');
       }
     };
 
     submitBtn.onmousedown = function () {
-      this.style.transform = 'scale(.99)';
+      this.classList.add('login__input--active');
     };
 
     submitBtn.onmouseup = function () {
-      this.style.transform = 'none';
+      this.classList.remove('login__input--active');
     };
 
     username.onfocus = function () {
-      error.style.display = 'none';
+      error.classList.remove('login__data-error--visible');
     };
 
     password.onfocus = function () {
-      error.style.display = 'none';
+      error.classList.remove('login__data-error--visible');
     };
   };
-
-  componentDidUpdate () {
-    let username = this.username;
-    let password = this.password;
-    let submitBtn = this.submitBtn;
-
-    if (localStorage.lang === 'en') {
-      submitBtn.value = 'Sign in';
-      username.setAttribute('placeholder', 'insert username (Admin)');
-      password.setAttribute('placeholder', 'insert password (1234)');
-    } else {
-      submitBtn.value = 'Войти';
-      username.setAttribute('placeholder', 'введите имя пользователя (Admin)');
-      password.setAttribute('placeholder', 'введите пароль (1234)');
-    }
-  }
 }
 
-Login.propTypes = {
-  lang: PropTypes.string.isRequired
-};
-
-function mapStateToProps (state) {
-  return {
-    lang: state.locale.lang
-  };
-}
-
-export default connect(mapStateToProps)(Login);
+export default Login;
