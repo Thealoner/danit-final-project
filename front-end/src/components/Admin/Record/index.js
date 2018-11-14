@@ -15,19 +15,23 @@ class Record extends Component {
     return GridEntities.map((entity) => {
       let route;
 
-      if (entity.id === 'users' || entity.id === 'services' || entity.id === 'service_categories' || entity.id === 'pakets') {
-        route = (
-          <Route key={entity.id} path={ '/admin/:tabKey/' + entity.id + '/:rowId' } render={
-            (props) => <RecordEditor setTabContentUrl={this.props.setTabContentUrl} entityType={entityType} {...props} />
-          } />
-        );
-      } else if (entity.id === 'clients') {
+      if (entity.id === 'clients' || entity.id === 'contracts') { // This is just a temporary workaround condition
         route = (
           <Route key={entity.id} path={ '/admin/:tabKey/' + entity.id + '/:rowId' } render={
             (props) => <Client setTabContentUrl={this.props.setTabContentUrl} entityType={entityType} {...props} />
           } />
         );
-      } else if (entity.recordType === 'simple') {
+      } else {
+        route = (
+          <Route key={entity.id} path={ '/admin/:tabKey/' + entity.id + '/:rowId' } render={
+            (props) => <RecordEditor setTabContentUrl={this.props.setTabContentUrl} entityType={entityType} {...props} />
+          } />
+        );
+      }
+      // TODO: I will remove this in the next branch, once we're sure we won't need this.
+      // It is simply getting too complicated to remove/fix it right now.
+
+      /* if (entity.recordType === 'simple') {
         route = (
           <Route key={entity.id} path={ '/admin/:tabKey/' + entity.id + '/:rowId' } render={
             (props) => <SimpleRecord setTabContentUrl={this.props.setTabContentUrl} entityType={entityType} {...props} />
@@ -44,7 +48,7 @@ class Record extends Component {
             } />
           </Fragment>
         );
-      }
+      }*/
 
       return route;
     });

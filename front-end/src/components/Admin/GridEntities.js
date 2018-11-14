@@ -236,30 +236,13 @@ const GridEntities = [
         birthDate: {type: 'string', title: 'Дата рождения'},
         phoneNumber: {type: 'string', title: 'Телефон'},
         email: {type: 'string', title: 'Email'},
-        active: {type: 'boolean', title: 'Активен'},
-        contracts: {
-          type: 'array',
-          title: 'Контракты',
-          items: {
-            type: 'string',
-            enum: [
-              'A',
-              'B',
-              'C'
-            ]
-          }
-        }
+        active: {type: 'boolean', title: 'Активен'}
       }
     },
     uiSchema: {
       firstName: {'ui:autofocus': true},
       email: {'ui:widget': 'email'},
-      birthDate: {'ui:widget': 'date'},
-      contracts: {
-        'ui:options': {
-          orderable: false
-        }
-      }
+      birthDate: {'ui:widget': 'date'}
     }
   },
   {
@@ -325,7 +308,24 @@ const GridEntities = [
     recordType: 'simple',
     columns: [
       { title: 'ID', field: 'role' }
-    ]
+    ],
+    schema: {
+      title: 'Роль Пользователя',
+      type: 'object',
+      properties: {
+        role: {
+          title: 'Роль',
+          type: 'string',
+          enum: ['ADMIN', 'USER'],
+          enumNames: ['Admin', 'User']
+        }
+      }
+    },
+    uiSchema: {
+      role: {
+        'ui:widget': 'radio'
+      }
+    }
   }
 ];
 
