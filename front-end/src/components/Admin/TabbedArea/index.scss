@@ -170,7 +170,7 @@
 
     &:nth-last-of-type(2) {
       border-right: 1px solid $main-bg;
-      border-bottom-right-radius: 0!important;
+      border-bottom-right-radius: 0 !important;
     }
 
     &:hover {
@@ -213,9 +213,9 @@
     }
   }
 
-  &-tab-prev, &-tab-next span{
+  &-tab-prev,
+  &-tab-next {
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
     width: 100%;
