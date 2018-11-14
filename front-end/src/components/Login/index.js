@@ -51,8 +51,8 @@ class Login extends Component {
             <label htmlFor="password">Пароль</label>
             <input type="password" name="password" id="password" placeholder="введите пароль (1234)"
               value={this.state.password} onChange={this.handleChange} required/>
-            <div className="remember">
-              <input type="checkbox" className="regular-checkbox"/>
+            <div className="login__remember">
+              <input type="checkbox"/>
               <label>Запомнить меня</label>
             </div>
             <input type="submit" name="" value="Войти"/>
