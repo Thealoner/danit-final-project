@@ -55,6 +55,15 @@
     border: none;
     cursor: pointer;
   }
+
+  &__btn-logout:hover {
+    background-color: lighten($main-bg, 4);
+  }
+
+  &__btn-logout:active {
+    border: none;
+  }
+
 }
 
 
