@@ -212,4 +212,18 @@
       background-color: #fff;
     }
   }
+
+  &-tab-prev{
+    padding: 0 13px 0 8px;
+    color: #999;
+    font-size: 24px;
+    border: 1px solid #999;
+  }
+
+  &-tab-next{
+    padding: 0 10px 0 10px;
+    color: #999;
+    font-size: 24px;
+    border: 1px solid #999;
+  }
 }
