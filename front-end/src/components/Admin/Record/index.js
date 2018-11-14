@@ -1,10 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import './index.scss';
-import RecordTabs from './RecordTabs';
+// import RecordTabs from './RecordTabs';
 import RecordEditor from './RecordEditor';
 import Client from './Client';
-import SimpleRecord from './SimpleRecord';
-import Paket from './Paket';
+// import SimpleRecord from './SimpleRecord';
+// import Paket from './Paket';
 import { Route } from 'react-router-dom';
 import GridEntities from '../GridEntities';
 
@@ -48,7 +48,7 @@ class Record extends Component {
             } />
           </Fragment>
         );
-      }*/
+      } */
 
       return route;
     });
