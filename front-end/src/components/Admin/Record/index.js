@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import './index.scss';
 import RecordTabs from './RecordTabs';
-import User from './User';
+import RecordEditor from './RecordEditor';
 import Client from './Client';
 import SimpleRecord from './SimpleRecord';
 import Paket from './Paket';
@@ -15,10 +15,10 @@ class Record extends Component {
     return GridEntities.map((entity) => {
       let route;
 
-      if (entity.id === 'users') {
+      if (entity.id === 'users' || entity.id === 'services' || entity.id === 'service_categories' || entity.id === 'pakets') {
         route = (
           <Route key={entity.id} path={ '/admin/:tabKey/' + entity.id + '/:rowId' } render={
-            (props) => <User setTabContentUrl={this.props.setTabContentUrl} entityType={entityType} {...props} />
+            (props) => <RecordEditor setTabContentUrl={this.props.setTabContentUrl} entityType={entityType} {...props} />
           } />
         );
       } else if (entity.id === 'clients') {

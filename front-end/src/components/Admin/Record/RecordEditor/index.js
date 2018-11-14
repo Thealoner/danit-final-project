@@ -7,14 +7,14 @@ import AuthService from '../../../Login/AuthService';
 import Settings from '../../../Settings';
 import Form from 'react-jsonschema-form';
 
-class SimpleRecord extends Component {
+class RecordEditor extends Component {
   constructor (props) {
     super(props);
     this.state = {
       entityType: '',
       data: {},
       authService: new AuthService(),
-      isLoading: true
+      isLoading: false
     };
   }
 
@@ -38,6 +38,10 @@ class SimpleRecord extends Component {
     let token = this.state.authService.getToken();
     headers['Authorization'] = token;
 
+    this.setState({
+      isLoading: true
+    });
+
     fetch(
       Settings.apiServerUrl + entity.apiUrl + '/' + rowId,
       { headers }
@@ -45,15 +49,17 @@ class SimpleRecord extends Component {
       .then(this.state.authService._checkStatus)
       .then(response => response.json())
       .then(data => {
-        this.setState({
-          entityType: entity.id,
-          data: data,
-          isLoading: false
-        });
+        setTimeout(() =>
+          this.setState({
+            entityType: entity.id,
+            data: data,
+            isLoading: false
+          })
+        , 1000);
       });
   };
 
-  saveData = () => {
+  saveData = (form) => {
     let { entityType } = this.props;
     let entity = getEntityByType(entityType);
 
@@ -68,12 +74,15 @@ class SimpleRecord extends Component {
       // TODO:
       // disable 'Save' button
       // show loader
+      this.setState({
+        isLoading: true
+      });
 
       fetch(
         Settings.apiServerUrl + entity.apiUrl,
         {
           method: 'PUT',
-          body: JSON.stringify([this.state.editableFields]),
+          body: JSON.stringify([form.formData]),
           headers
         }
       )
@@ -91,24 +100,24 @@ class SimpleRecord extends Component {
           // TODO:
           // enable 'Save' button
           // hide loader
+          // TODO: Set state.data to PUT response
+          
+          console.log('form.formData', form.formData);
+          console.log('this.state.data', this.state.data);
+          let mergedData = {
+            ...this.state.data,
+            ...form.formdata
+          };
+          console.log('mergedData', mergedData);
+          this.setState({
+            data: mergedData,
+            isLoading: false
+          });
         });
     } else {
       console.log('Not logged in or token is expired');
     }
   };
-
-  handleInputChange = (event) => {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-
-    this.setState(prevState => ({
-      data: {
-        ...prevState.data,
-        [name]: value
-      }
-    }));
-  }
 
   log = (type) => console.log.bind(console, type);
 
@@ -128,7 +137,7 @@ class SimpleRecord extends Component {
             uiSchema={entity.uiSchema}
             formData={this.state.data}
             onChange={this.log('changed')}
-            onSubmit={this.log('submitted')}
+            onSubmit={this.saveData}
             onError={this.log('errors')}
           />
         )}
@@ -141,4 +150,4 @@ class SimpleRecord extends Component {
   }
 }
 
-export default SimpleRecord;
+export default RecordEditor;
