@@ -170,7 +170,7 @@
 
     &:nth-last-of-type(2) {
       border-right: 1px solid $main-bg;
-      border-bottom-right-radius: 0!important;
+      border-bottom-right-radius: 0 !important;
     }
 
     &:hover {
@@ -211,5 +211,15 @@
     & .rc-tabs__close-btn:hover {
       background-color: #fff;
     }
+  }
+
+  &-tab-prev,
+  &-tab-next {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #999;
+    font-size: 24px;
   }
 }
