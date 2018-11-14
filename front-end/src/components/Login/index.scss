@@ -4,7 +4,7 @@
   align-items: center;
   height: 100%;
   background-color: #000;
-  
+
   &__dialog {
     position: relative;
     display: flex;
@@ -23,18 +23,19 @@
     width: 80%;
   }
 
-  &__links-wrapper {
+  &__remember {
     display: flex;
-    justify-content: space-between;
-    width: 80%;
-    margin-top: 5px;
-  }
+    align-items: center;
+    width: 100%;
 
-  &__link {
-    color: #808080;
-    font-size: 12px;
-    border-bottom: 1px solid;
-    cursor: pointer;
+    & input {
+      width: 18px;
+      margin: 0 10px 0 0;
+    }
+
+    & label {
+      font-size: 14px;
+    }
   }
 
   &__data-error {

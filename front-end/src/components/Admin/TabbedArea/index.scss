@@ -170,7 +170,7 @@
 
     &:nth-last-of-type(2) {
       border-right: 1px solid $main-bg;
-      border-bottom-right-radius: 0!important;
+      border-bottom-right-radius: 0 !important;
     }
 
     &:hover {
@@ -213,17 +213,14 @@
     }
   }
 
-  &-tab-prev{
-    padding: 0 13px 0 8px;
+  &-tab-prev,
+  &-tab-next {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
     color: #999;
     font-size: 24px;
-    border: 1px solid #999;
-  }
-
-  &-tab-next{
-    padding: 0 10px 0 10px;
-    color: #999;
-    font-size: 24px;
-    border: 1px solid #999;
   }
 }
