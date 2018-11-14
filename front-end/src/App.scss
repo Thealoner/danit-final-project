@@ -60,10 +60,9 @@
     background-color: lighten($main-bg, 4);
   }
 
-  &__btn-logout:active {
-    border: none;
+  &__btn-logout:active{
+    outline: none;
   }
-
 }
 
 
