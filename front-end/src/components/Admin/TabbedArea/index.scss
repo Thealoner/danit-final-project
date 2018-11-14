@@ -213,17 +213,14 @@
     }
   }
 
-  &-tab-prev{
-    padding: 0 13px 0 8px;
+  &-tab-prev, &-tab-next span{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
     color: #999;
     font-size: 24px;
-    border: 1px solid #999;
-  }
-
-  &-tab-next{
-    padding: 0 10px 0 10px;
-    color: #999;
-    font-size: 24px;
-    border: 1px solid #999;
   }
 }

@@ -1,10 +1,27 @@
+.remember{
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+  width: 100%;
+}
+
+.remember input{
+  width: 18px;
+  margin: 0 10px 0 0;
+}
+
+.remember label{
+  font-size: 14px;
+}
+
 .login {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
   background-color: #000;
-  
+
   &__dialog {
     position: relative;
     display: flex;
@@ -22,6 +39,8 @@
     align-items: flex-start;
     width: 80%;
   }
+
+
 
   &__links-wrapper {
     display: flex;
