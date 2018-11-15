@@ -58,6 +58,10 @@ class Login extends Component {
             <input type="password" className="login__input" ref={password => (this.password = password)} name="password"
               id="password" value={this.state.password} onChange={this.handleChange} placeholder="введите пароль (1234)"
               required/>
+            <div className="login__remember">
+              <input type="checkbox"/>
+              <label>Запомнить меня</label>
+            </div>
             <input type="submit" className="login__input" ref={submitBtn => (this.submitBtn = submitBtn)}
               name="" value="Войти"/>
           </form>
