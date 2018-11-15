@@ -1,6 +1,10 @@
 @import "variables";
 
 .app {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 40px 1fr;
+  grid-row-gap: .7vh;
   height: 100vh;
   font-family: 'Lato', sans-serif;
 
@@ -14,54 +18,6 @@
     visibility: visible;
     opacity: 1;
     transition: all 1s;
-  }
-
-  &__user {
-    position: fixed;
-    right: 20px;
-    bottom: 20px;
-    z-index: 999;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    box-sizing: initial;
-    height: 70px;
-    padding: 5px 10px;
-    background-color: #fff;
-  }
-
-  &__user-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 50%;
-  }
-
-  &__logo {
-    height: 60%;
-    margin-right: 5px;
-  }
-
-  &__btn-logout {
-    display: inline-block;
-    padding: 10px 30px;
-    color: black;
-    font-size: 15px;
-    text-align: center;
-    text-decoration: none;
-    background-color: $main-bg;
-    border: none;
-    cursor: pointer;
-  }
-
-  &__btn-logout:hover {
-    background-color: lighten($main-bg, 4);
-  }
-
-  &__btn-logout:active{
-    outline: none;
   }
 }
 
