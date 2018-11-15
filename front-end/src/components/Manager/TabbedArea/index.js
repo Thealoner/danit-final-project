@@ -29,7 +29,7 @@ class TabbedArea extends Component {
         key={t.tabKey}
         tab={<Fragment><span className="rc-tabs__title-wrapper" title={t.title}>{t.title}</span>
           <NavLink to={'/manager/' + t.tabKey}
-            className='rc-tabs__close-btn'
+            className={`rc-tabs__close-btn${(this.props.tabs.length === 1) ? ' rc-tabs__close-btn--disabled' : ''}`}
             onClick={this.props.remove.bind(this, t.tabKey)}/></Fragment>}>
         <Route exact path="/manager/:tabKey/:entityType" render={
           (props) => <Grid setTabContentUrl={this.props.setTabContentUrl} {...props} />
