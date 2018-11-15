@@ -1,4 +1,4 @@
-import packages from '../../SampleJson/packages.json';
+import pakets from '../../SampleJson/pakets.json';
 import services from '../../SampleJson/services.json';
 import serviceCategories from '../../SampleJson/service_categories.json';
 import serviceRules from '../../SampleJson/service_rules.json';
@@ -8,10 +8,10 @@ import clients from '../../SampleJson/clients.json';
 
 const GridEntities = [
   {
-    id: 'packages',
+    id: 'pakets',
     name: 'Пакеты',
-    sampleData: packages,
-    apiUrl: '/packages',
+    sampleData: pakets,
+    apiUrl: '/pakets',
     recordType: 'tabbed',
     recordComponent: 'Package',
     columns: [
@@ -20,7 +20,81 @@ const GridEntities = [
       { title: 'Цена', field: 'price', align: 'left' },
       { title: 'Можно купить?', field: 'purchasable' },
       { title: 'Активен', field: 'active' }
-    ]
+    ],
+    schema: {
+      title: 'Пакет',
+      type: 'object',
+      properties: {
+        accessWithoutCardTimesLimit: {
+          title: 'Ограничения на вход без карты, раз',
+          type: 'number'
+        },
+        active: {
+          title: 'Активен',
+          type: 'boolean'
+        },
+        autoActivateAfterDays: {
+          title: 'Автостарт через, дней',
+          type: 'number'
+        },
+        freezeDays: {
+          title: 'Заморозка на общую длительность, дней',
+          type: 'number'
+        },
+        freezeMinTerm: {
+          title: 'Минимальная длительность заморозки, дней',
+          type: 'number'
+        },
+        freezeTimes: {
+          title: 'Количество возможных заморозок',
+          type: 'number'
+        },
+        guestVisits: {
+          title: 'Гостевые посещения',
+          type: 'number'
+        },
+        limitAdditionalServices: {
+          title: 'Ораничение по количеству доп. услуг',
+          type: 'boolean'
+        },
+        limitUsageByPaymentPercentage: {
+          title: 'Ограничение использования по проценту оплаты',
+          type: 'boolean'
+        },
+        limitVisitTime: {
+          title: 'Ограничить времени пребывания',
+          type: 'boolean'
+        },
+        openDateAllowed: {
+          title: 'Продажа с открытой датой',
+          type: 'boolean'
+        },
+        price: {
+          title: 'Цена',
+          type: 'number'
+        },
+        purchasable: {
+          title: 'Доступен для покупки',
+          type: 'boolean'
+        },
+        term: {
+          title: 'Срок действия, месяцев',
+          type: 'number'
+        },
+        title: {
+          title: 'Название',
+          type: 'string'
+        },
+        usersMin: {
+          title: 'Минимальное количество пользователей',
+          type: 'number'
+        },
+        visitTime: {
+          title: 'Ограничение времени пребывания, минут',
+          type: 'number'
+        }
+      }
+    }
   },
   {
     id: 'services',
@@ -32,14 +106,48 @@ const GridEntities = [
     columns: [
       { title: 'ID', field: 'id' },
       { title: 'Название', field: 'title' },
-      { title: 'Категория', field: 'service_category.title' },
+      { title: 'Категория', field: 'serviceCategory.title' },
       { title: 'service_qty', field: 'service_qty' },
       { title: 'Цена', field: 'price', align: 'left' },
       { title: 'Себестоимость', field: 'cost', align: 'left' },
       { title: 'Единица измерения', field: 'unit', align: 'left' },
-      { title: 'Кол-во единиц', field: 'units_number', align: 'left' },
+      { title: 'Кол-во единиц', field: 'unitsNumber', align: 'left' },
       { title: 'Активен', field: 'active' }
-    ]
+    ],
+    schema: {
+      title: 'Сервис',
+      type: 'object',
+      required: [
+        'title'
+      ],
+      properties: {
+        title: {
+          title: 'Название',
+          type: 'string'
+        },
+        unit: {
+          title: 'Единица измерения',
+          type: 'string'
+        },
+        unitsNumber: {
+          title: 'Кол-во единиц',
+          type: 'number'
+        },
+        price: {
+          title: 'Цена',
+          type: 'number'
+        },
+        cost: {
+          title: 'Себестоимость',
+          type: 'number'
+        },
+        active: {
+          title: 'Активен',
+          type: 'boolean'
+        }
+      }
+    },
+    uiSchema: {}
   },
   {
     id: 'service_categories',
@@ -51,7 +159,18 @@ const GridEntities = [
       { title: 'ID', field: 'id' },
       { title: 'Название', field: 'title' },
       { title: 'Активен', field: 'active' }
-    ]
+    ],
+    schema: {
+      title: 'Категория сервисов',
+      type: 'object',
+      properties: {
+        title: {
+          title: 'Название',
+          type: 'string'
+        }
+      }
+    },
+    uiSchema: {}
   },
   {
     id: 'service_rules',
@@ -74,7 +193,7 @@ const GridEntities = [
     recordComponent: 'Package',
     columns: [
       { title: 'ID', field: 'id' },
-      { title: 'Пакет', field: 'package.title' },
+      { title: 'Пакет', field: 'paket.title' },
       { title: 'Клиент', field: 'client.name', align: 'left' },
       { title: 'Активен', field: 'active' }
     ]
@@ -105,7 +224,26 @@ const GridEntities = [
       { title: 'Дата Рождения', field: 'birthDate' },
       { title: 'Телефон', field: 'phoneNumber' },
       { title: 'Email', field: 'email' }
-    ]
+    ],
+    schema: {
+      title: 'Edit Client',
+      type: 'object',
+      required: ['firstName'],
+      properties: {
+        firstName: {type: 'string', title: 'Имя'},
+        lastName: {type: 'string', title: 'Фамилия'},
+        gender: {type: 'string', title: 'Пол'},
+        birthDate: {type: 'string', title: 'Дата рождения'},
+        phoneNumber: {type: 'string', title: 'Телефон'},
+        email: {type: 'string', title: 'Email'},
+        active: {type: 'boolean', title: 'Активен'}
+      }
+    },
+    uiSchema: {
+      firstName: {'ui:autofocus': true},
+      email: {'ui:widget': 'email'},
+      birthDate: {'ui:widget': 'date'}
+    }
   },
   {
     id: 'users',
@@ -115,8 +253,53 @@ const GridEntities = [
     columns: [
       { title: 'ID', field: 'id' },
       { title: 'Логин', field: 'username' },
-      { title: 'Роли', field: 'roles' }
-    ]
+      { title: 'Роль', field: 'roles.role' }
+    ],
+    schema: {
+      title: 'Редактирование пользователя',
+      type: 'object',
+      required: [
+        'username'
+      ],
+      properties: {
+        id: {
+          title: 'ID',
+          type: 'number'
+        },
+        username: {
+          title: 'Логин',
+          type: 'string'
+        },
+        roles: {
+          title: '',
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              role: {
+                title: 'Роль',
+                type: 'string',
+                enum: ['ADMIN', 'USER'],
+                enumNames: ['Admin', 'User']
+              }
+            }
+          }
+        }
+      }
+    },
+    uiSchema: {
+      roles: {
+        items: {
+          role: {
+            'ui:widget': 'radio'
+          }
+        },
+        'ui:options': {
+          addable: false,
+          removable: false
+        }
+      }
+    }
   },
   {
     id: 'roles',
@@ -125,7 +308,24 @@ const GridEntities = [
     recordType: 'simple',
     columns: [
       { title: 'ID', field: 'role' }
-    ]
+    ],
+    schema: {
+      title: 'Роль Пользователя',
+      type: 'object',
+      properties: {
+        role: {
+          title: 'Роль',
+          type: 'string',
+          enum: ['ADMIN', 'USER'],
+          enumNames: ['Admin', 'User']
+        }
+      }
+    },
+    uiSchema: {
+      role: {
+        'ui:widget': 'radio'
+      }
+    }
   }
 ];
 

@@ -44,7 +44,7 @@ public class Client {
   @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
-      pattern = "dd-MM-yyyy")
+      pattern = "yyyy-MM-dd")
   @Temporal(TemporalType.DATE)
   private Date birthDate;
 

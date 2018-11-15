@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import Tabs, {TabPane} from 'rc-tabs';
 import 'rc-tabs/assets/index.css';
 import TabContent from 'rc-tabs/lib/TabContent';
@@ -6,28 +6,19 @@ import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
 import { Route, NavLink } from 'react-router-dom';
 import Grid from '../Grid';
 import Record from '../Record';
-import $ from 'jquery';
 
 class TabbedArea extends Component {
-  componentDidMount () {
-    let tabsNav = $('.rc-tabs-nav');
+  componentDidUpdate () {
+    let tab = document.querySelectorAll('.rc-tabs-tab');
+    let tabActive = document.querySelector('.rc-tabs-tab-active');
 
-    tabsNav.removeClass('rc-tabs-nav-animated');
-    $('.rc-tabs-ink-bar').removeClass('rc-tabs-ink-bar-animated');
+    for (let i = 0; i < tab.length; i++) {
+      tab[i].style.borderBottomRightRadius = '0';
+    }
 
-    tabsNav.on('click', function (e) {
-      $('.rc-tabs-tab').css('border-bottom-right-radius', '0');
-
-      if ($(e.target).hasClass('rc-tabs__close-btn')) {
-        $(e.target).closest('.rc-tabs-tab').prev().css('border-bottom-right-radius', '0');
-      } else {
-        $(e.target).closest('.rc-tabs-tab').prev().css('border-bottom-right-radius', '10px');
-      }
-
-      setTimeout(function () {
-        $('.rc-tabs-tab-active').prev().css('border-bottom-right-radius', '10px');
-      }, 40);
-    });
+    if (tabActive.previousElementSibling) {
+      tabActive.previousElementSibling.style.borderBottomRightRadius = '10px';
+    }
   }
 
   construct () {
@@ -36,10 +27,10 @@ class TabbedArea extends Component {
     return this.props.tabs.map((t) => {
       return <TabPane
         key={t.tabKey}
-        tab={<span className="rc-tabs__title-wrapper">{t.title}
-          <NavLink to={'/manager/' + t.tabKey} className='rc-tabs__close-btn'
-            onClick={this.props.remove.bind(this, t.tabKey)}/>
-        </span>}>
+        tab={<Fragment><span className="rc-tabs__title-wrapper" title={t.title}>{t.title}</span>
+          <NavLink to={'/manager/' + t.tabKey}
+            className='rc-tabs__close-btn'
+            onClick={this.props.remove.bind(this, t.tabKey)}/></Fragment>}>
         <Route exact path="/manager/:tabKey/:entityType" render={
           (props) => <Grid setTabContentUrl={this.props.setTabContentUrl} {...props} />
         }/>
