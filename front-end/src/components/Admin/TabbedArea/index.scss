@@ -109,14 +109,21 @@
 
   &-content {
     height: 95%;
-    background-color: #fff;
-    border: 15px solid $main-bg;
+    padding: 15px;
+    overflow: hidden !important;
+    background-color: $main-bg;
   }
 
   &-bar {
     height: 5%;
     background-color: #fff;
     border-bottom: none !important;
+  }
+
+  &-tabpane {
+    height: 100%;
+    overflow: auto !important;
+    background-color: #fff;
   }
 
   &-nav-container,
@@ -170,7 +177,7 @@
 
     &:nth-last-of-type(2) {
       border-right: 1px solid $main-bg;
-      border-bottom-right-radius: 0!important;
+      border-bottom-right-radius: 0 !important;
     }
 
     &:hover {
@@ -211,5 +218,15 @@
     & .rc-tabs__close-btn:hover {
       background-color: #fff;
     }
+  }
+
+  &-tab-prev,
+  &-tab-next {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #999;
+    font-size: 24px;
   }
 }
