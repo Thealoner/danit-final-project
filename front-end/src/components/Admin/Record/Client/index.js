@@ -135,7 +135,7 @@ class SimpleRecord extends Component {
         [name]: value
       }
     }));
-  }
+  };
 
   render () {
     let { rowId } = this.props.match.params;

@@ -33,6 +33,6 @@ class ClientEditor extends Component {
       </Fragment>
     );
   }
-};
+}
 
 export default ClientEditor;
