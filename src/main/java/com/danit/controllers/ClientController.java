@@ -6,12 +6,7 @@ import com.danit.models.Client;
 import com.danit.services.ClientService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,14 +38,6 @@ public class ClientController {
     log.info(principal.getName() + " is saving new clients: " + clients);
     return clientService.saveClients(clients);
   }
-
-  //  @PostMapping(path = "/clients",
-  //      consumes = MediaType.APPLICATION_JSON_VALUE,
-  //      produces = MediaType.APPLICATION_JSON_VALUE)
-  //  public ResponseEntity<ClientDto> createClient(@RequestBody ClientDto dto) throws ParseException {
-  //    return new ResponseEntity<>(
-  //        convertToDto(clientService.saveClient(convertToEntity(dto))), HttpStatus.OK);
-  //  }
 
   @GetMapping("/clients")
   List<Client> getAllClients(Principal principal) {
