@@ -1,10 +1,10 @@
 package com.danit.services;
 
+import com.danit.exceptions.EntityNotFoundException;
 import com.danit.models.Client;
 import com.danit.repositories.ClientRepository;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Set;
 
