@@ -138,9 +138,9 @@ class SimpleRecord extends Component {
   };
 
   render () {
-    let { rowId } = this.props.match.params;
+    let { mode, rowId } = this.props.match.params;
     let { entityType, setTabContentUrl } = this.props;
-    setTabContentUrl(entityType + '/' + rowId);
+    setTabContentUrl(entityType + '/' + mode + '/' + rowId);
 
     const options = {
       movableRows: true

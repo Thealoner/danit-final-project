@@ -59,7 +59,7 @@ class RecordEditor extends Component {
       });
   };
 
-  saveData = (form) => {
+  saveData = (form, mode) => {
     let { entityType } = this.props;
     let entity = getEntityByType(entityType);
 
@@ -81,7 +81,7 @@ class RecordEditor extends Component {
       fetch(
         Settings.apiServerUrl + entity.apiUrl,
         {
-          method: 'PUT',
+          method: mode === 'edit' ? 'PUT' : 'POST',
           body: JSON.stringify([form.formData]),
           headers
         }
@@ -90,27 +90,26 @@ class RecordEditor extends Component {
         .then(response => {
           console.log(response.status);
           // display green 'Данные сохранены' message
+          // enable 'Save' button
+          // hide loader
+          let stateData = this.state.data;
+          let formData = form.formData;
+          
+          this.setState({
+            data: {
+              ...stateData,
+              ...formData
+              // id: response.data.id <--- need response from the server with the ID
+            },
+            isLoading: false
+          });
         })
         .catch(error => {
           console.log(error);
           // display red 'Ошибка при сохранении' message
-        })
-        .finally(() => {
-          console.log('Finally');
-          // TODO:
           // enable 'Save' button
           // hide loader
-          // TODO: Set state.data to PUT response
-          
-          console.log('form.formData', form.formData);
-          console.log('this.state.data', this.state.data);
-          let mergedData = {
-            ...this.state.data,
-            ...form.formdata
-          };
-          console.log('mergedData', mergedData);
           this.setState({
-            data: mergedData,
             isLoading: false
           });
         });
@@ -122,9 +121,9 @@ class RecordEditor extends Component {
   log = (type) => console.log.bind(console, type);
 
   render () {
-    let { rowId } = this.props.match.params;
+    let { mode, rowId } = this.props.match.params;
     let { entityType, setTabContentUrl } = this.props;
-    setTabContentUrl(entityType + '/' + rowId);
+    setTabContentUrl(entityType + '/' + mode + '/' + rowId);
     let entity = getEntityByType(entityType);
     
     return (
@@ -137,7 +136,7 @@ class RecordEditor extends Component {
             uiSchema={entity.uiSchema}
             formData={this.state.data}
             onChange={this.log('changed')}
-            onSubmit={this.saveData}
+            onSubmit={(mode) => this.saveData(mode)}
             onError={this.log('errors')}
           />
         )}
@@ -146,7 +145,22 @@ class RecordEditor extends Component {
   }
 
   componentDidMount () {
-    this.getData();
+    let { mode } = this.props.match.params;
+    if (mode === 'edit') {
+      this.getData();
+    }
+  }
+
+  componentDidUpdate () {
+    let { tabKey, mode } = this.props.match.params;
+    let { entityType, setTabContentUrl } = this.props;
+
+    if (mode === 'add') {
+      setTabContentUrl(entityType + '/' + this.state.data.id);
+      this.props.history.push({
+        pathname: '/admin/' + tabKey + '/' + entityType + '/edit/' + this.state.data.id
+      });
+    }
   }
 }
 
