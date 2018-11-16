@@ -109,14 +109,21 @@
 
   &-content {
     height: 95%;
-    background-color: #fff;
-    border: 15px solid $main-bg;
+    padding: 15px;
+    overflow: hidden !important;
+    background-color: $main-bg;
   }
 
   &-bar {
     height: 5%;
     background-color: #fff;
     border-bottom: none !important;
+  }
+
+  &-tabpane {
+    height: 100%;
+    overflow: auto !important;
+    background-color: #fff;
   }
 
   &-nav-container,
