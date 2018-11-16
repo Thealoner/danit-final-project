@@ -1,3 +1,8 @@
 .tabulator {
   width: 100%;
+
+  &-tableHolder {
+    overflow: hidden !important;
+  }
 }
+
