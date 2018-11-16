@@ -33,6 +33,11 @@ public class ClientServiceImpl implements ClientService {
   }
 
   @Override
+  public Client saveClient(Client client) {
+    return clientRepository.save(client);
+  }
+
+  @Override
   public void updateClients(List<Client> clients) {
     Set<Long> clientsId = clientRepository.getAllClientsId();
     clients.forEach(client -> {
