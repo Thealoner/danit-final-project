@@ -82,7 +82,4 @@ public class Paket {
   @OneToMany(mappedBy = "packageId", fetch = FetchType.EAGER)
   private List<Contract> contracts;
 
-  @OneToMany(mappedBy = "paket", fetch = FetchType.EAGER)
-  private List<CardColor> cards;
-
 }

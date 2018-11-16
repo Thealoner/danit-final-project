@@ -28,7 +28,8 @@ import java.util.List;
 @Table(name = "clients")
 @NoArgsConstructor
 @ToString(exclude = {"contracts"})
-@Data public class Client {
+@Data
+public class Client {
 
   @Id
   @SequenceGenerator(name = "clientSequence", sequenceName = "clientSequence", allocationSize = 1, initialValue = 1001)
