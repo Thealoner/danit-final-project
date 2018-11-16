@@ -26,22 +26,6 @@ class App extends Component {
     this.props.history.replace('/login');
   }
 
-  componentWillMount () {
-    if (!Auth.loggedIn()) {
-      this.props.history.replace('/login');
-    } else {
-      try {
-        const profile = Auth.getProfile();
-        this.setState({
-          user: profile
-        });
-      } catch (err) {
-        Auth.logout();
-        this.props.history.replace('/login');
-      }
-    }
-  }
-
   preLoader = React.createRef();
 
   render () {

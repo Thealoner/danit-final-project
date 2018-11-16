@@ -4,13 +4,11 @@
   display: grid;
   height: 100%;
   grid-template-columns: 1fr 5fr;
-  grid-column-gap: .7vh;
-  overflow-y: auto;
-
+  grid-column-gap: 1vh;
 
   &__left {
-    height: 100%;
     padding-top: 10px;
+    overflow: hidden;
     background-color: $main-bg;
   }
 
@@ -32,8 +30,7 @@
   }
   
   &__right {
-    height: 100%;
-    overflow-y: auto;
+    overflow: hidden;
     background-color: $main-bg;
   }
 }
