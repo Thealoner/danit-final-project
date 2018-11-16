@@ -4,61 +4,50 @@ import './App.scss';
 import {Route} from 'react-router-dom';
 import Home from './components/Home';
 import AuthService from './components/Login/AuthService';
-import avatar from './img/avatar.png';
 import Admin from './components/Admin';
 import Manager from './components/Manager';
 import withAuth from './components/Login/withAuth';
+import Header from './components/Header';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faUserCircle);
 
 const Auth = new AuthService();
 
 class App extends Component {
+  constructor () {
+    super();
+    this.handleLogout = this.handleLogout.bind(this);
+  }
+
   handleLogout () {
     Auth.logout();
     this.props.history.replace('/login');
   }
 
+  preLoader = React.createRef();
+
   render () {
     return (
       <div className="app">
-        <div className="app__preloader" ref="preloader"><PreLoader/></div>
-        <div className="app__user">
-          <div className="app__user-wrapper">
-            <img className="app__logo" src={avatar} alt=""/>
-            <span>{this.props.user.sub}</span>
-          </div>
-          <button type="button" className="app__btn-logout" onClick={this.handleLogout.bind(this)}>Logout</button>
-        </div>
-        <Route exact path="/" component={Home} />
-        <Route path="/admin" component={Admin} />
-        <Route path="/manager" component={Manager} />
+        <div className="app__preloader" ref={preLoader => (this.preLoader = preLoader)}><PreLoader/></div>
+        <Header handleLogout={this.handleLogout} userName={this.props.user.sub}/>
+        <Route exact path="/" component={Home}/>
+        <Route path="/admin" component={Admin}/>
+        <Route path="/manager" component={Manager}/>
       </div>
     );
-  }
-
-  componentWillMount () {
-    if (!Auth.loggedIn()) {
-      this.props.history.replace('/login');
-    } else {
-      try {
-        const profile = Auth.getProfile();
-        this.setState({
-          user: profile
-        });
-      } catch (err) {
-        Auth.logout();
-        this.props.history.replace('/login');
-      }
-    }
   }
 
   componentDidMount () {
     let self = this;
     setTimeout(function () {
-      self.refs.preloader.style.opacity = '0';
-      self.refs.preloader.style.visibility = 'hidden';
+      self.preLoader.style.opacity = '0';
+      self.preLoader.style.visibility = 'hidden';
     }, 2000);
     setTimeout(function () {
-      self.refs.preloader.style.display = 'none';
+      self.preLoader.style.display = 'none';
     }, 3000);
   }
 }
