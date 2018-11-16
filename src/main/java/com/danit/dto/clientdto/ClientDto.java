@@ -1,6 +1,5 @@
 package com.danit.dto.clientdto;
 
-import com.danit.models.Contract;
 import com.danit.utils.CustomDateAndTimeDeserialize;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -8,7 +7,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.util.Date;
-import java.util.List;
 
 public class ClientDto {
 
@@ -33,10 +31,4 @@ public class ClientDto {
 
   @NotNull
   private String email;
-
-  @NotNull
-  private Boolean active;
-
-  @NotNull
-  private List<Contract> contracts;
 }

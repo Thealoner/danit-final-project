@@ -1,7 +1,6 @@
 package com.danit.controllers;
 
 
-import com.danit.dto.clientdto.ClientDto;
 import com.danit.models.Client;
 import com.danit.services.ClientService;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
-import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -67,16 +65,6 @@ public class ClientController {
   public void deleteClients(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is trying to delete clients: " + clients);
     clientService.deleteClients(clients);
-  }
-
-  private ClientDto convertToDto(Client client) {
-    ClientDto clientDto = modelMapper.map(client, ClientDto.class);
-    return clientDto;
-  }
-
-  private Client convertToEntity(ClientDto clientDto) throws ParseException {
-    Client client = modelMapper.map(clientDto, Client.class);
-    return client;
   }
 
 }
