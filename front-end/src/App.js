@@ -31,7 +31,9 @@ class App extends Component {
   render () {
     return (
       <div className="app">
-        <div className="app__preloader" ref={preLoader => (this.preLoader = preLoader)}><PreLoader/></div>
+        <div className="app__preloader" ref={preLoader => (this.preLoader = preLoader)}>
+          <PreLoader/>
+        </div>
         <Header handleLogout={this.handleLogout} userName={this.props.user.sub}/>
         <Route exact path="/" component={Home}/>
         <Route path="/admin" component={Admin}/>
@@ -45,10 +47,10 @@ class App extends Component {
     setTimeout(function () {
       self.preLoader.style.opacity = '0';
       self.preLoader.style.visibility = 'hidden';
-    }, 2000);
+    }, 1000);
     setTimeout(function () {
       self.preLoader.style.display = 'none';
-    }, 3000);
+    }, 2000);
   }
 }
 

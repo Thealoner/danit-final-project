@@ -6,6 +6,7 @@ import { getEntityByType } from '../../GridEntities';
 import AuthService from '../../../Login/AuthService';
 import Settings from '../../../Settings';
 import Form from 'react-jsonschema-form';
+import { FadeLoader } from 'react-spinners';
 
 class RecordEditor extends Component {
   constructor (props) {
@@ -14,7 +15,7 @@ class RecordEditor extends Component {
       entityType: '',
       data: {},
       authService: new AuthService(),
-      isLoading: false
+      loading: false
     };
   }
 
@@ -39,7 +40,7 @@ class RecordEditor extends Component {
     headers['Authorization'] = token;
 
     this.setState({
-      isLoading: true
+      loading: true
     });
 
     fetch(
@@ -53,7 +54,7 @@ class RecordEditor extends Component {
           this.setState({
             entityType: entity.id,
             data: data,
-            isLoading: false
+            loading: false
           })
         , 1000);
       });
@@ -75,7 +76,7 @@ class RecordEditor extends Component {
       // disable 'Save' button
       // show loader
       this.setState({
-        isLoading: true
+        loading: true
       });
 
       fetch(
@@ -111,7 +112,7 @@ class RecordEditor extends Component {
           console.log('mergedData', mergedData);
           this.setState({
             data: mergedData,
-            isLoading: false
+            loading: false
           });
         });
     } else {
@@ -129,8 +130,15 @@ class RecordEditor extends Component {
     
     return (
       <div className="client">
-        {this.state.isLoading ? (
-          <p>Loading...</p>
+        {this.state.loading ? (
+          <div className="loader-wrapper">
+            <FadeLoader
+              sizeUnit={'px'}
+              size={50}
+              color={'#999'}
+              loading={this.state.loading}
+            />
+          </div>
         ) : (
           <Form
             schema={entity.schema}

@@ -19,7 +19,7 @@
     border-color: #007eff;
     outline: none;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075),
-      0 0 0 3px rgba(0, 126, 255, .1);
+    0 0 0 3px rgba(0, 126, 255, .1);
   }
 
   input.error {
@@ -53,11 +53,6 @@
     -webkit-appearance: none;
   }
 
-  button:disabled {
-    cursor: not-allowed !important;
-    opacity: .5;
-  }
-
   button + button {
     margin-left: .5rem;
   }
@@ -67,4 +62,12 @@
     background-color: #eee;
     border: 1px solid #aaa;
   }
+}
+
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 300px;
 }
