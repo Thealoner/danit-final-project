@@ -93,8 +93,8 @@ class SimpleRecord extends Component {
       headers['Authorization'] = token;
 
       // TODO:
-      // disable 'Save' button
       // show loader
+      this.saveButton.setAttribute('disabled', 'true');
 
       fetch(
         Settings.apiServerUrl + entity.apiUrl,
@@ -107,17 +107,24 @@ class SimpleRecord extends Component {
         .then(this.state.authService._checkStatus)
         .then(response => {
           console.log(response.status);
-          // display green 'Данные сохранены' message
+          let success = this.success;
+          success.classList.add('visible');
+          setTimeout(function () { success.classList.remove('visible'); }, 1000);
         })
         .catch(error => {
           console.log(error);
-          // display red 'Ошибка при сохранении' message
+          let errorMessage = this.error;
+          errorMessage.classList.add('visible');
+          setTimeout(function () { errorMessage.classList.remove('visible'); }, 1000);
         })
         .finally(() => {
           console.log('Finally');
           // TODO:
-          // enable 'Save' button
           // hide loader
+          let saveButton = this.saveButton;
+          setTimeout(function () {
+            saveButton.removeAttribute('disabled', 'false');
+          }, 1000);
         });
     } else {
       console.log('Not logged in or token is expired');
@@ -136,6 +143,10 @@ class SimpleRecord extends Component {
       }
     }));
   };
+
+  saveButton = React.createRef();
+  success = React.createRef();
+  error = React.createRef();
 
   render () {
     let { rowId } = this.props.match.params;
@@ -168,7 +179,9 @@ class SimpleRecord extends Component {
           data-custom-attr="test-custom-attribute"
           className="custom-css-class"
         />
-        <button onClick={this.saveData}>Save</button>
+        <button ref={saveButton => (this.saveButton = saveButton)} onClick={this.saveData} className="saveButton">Save</button>
+        <span ref={success => (this.success = success)} className="record__save-message record__save-message--success">Данные успешно сохранены</span>
+        <span ref={error => (this.error = error)} className="record__save-message record__save-message--error">Ошибка при сохранении</span>
       </div>
     );
   }
