@@ -3,8 +3,6 @@ package com.danit.utils;
 import com.danit.dto.clientdto.ClientDto;
 import com.danit.models.Client;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeMap;
-import org.modelmapper.internal.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

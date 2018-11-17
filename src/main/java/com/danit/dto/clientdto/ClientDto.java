@@ -1,16 +1,12 @@
 package com.danit.dto.clientdto;
 
 import com.danit.dto.contractdto.ContractDto;
-import com.danit.dto.contractdto.ContractIdDto;
-import com.danit.models.Contract;
 import com.danit.utils.CustomDateAndTimeDeserialize;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import java.util.Date;
 import java.util.List;
 
