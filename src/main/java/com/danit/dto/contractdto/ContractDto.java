@@ -1,6 +1,6 @@
-package com.danit.dto.clientdto;
+package com.danit.dto.contractdto;
 
-import com.danit.dto.contractdto.ContractDto;
+import com.danit.dto.clientdto.Views;
 import com.danit.utils.CustomDateAndTimeDeserialize;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -8,39 +8,31 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.List;
 
 @Data
-public class ClientDto {
+public class ContractDto {
 
   @JsonView(Views.Extended.class)
   private Long id;
 
-  @JsonView(Views.Short.class)
-  private String firstName;
-
-  @JsonView(Views.Short.class)
-  private String lastName;
-
-  @JsonView(Views.Short.class)
-  private String gender;
-
+  @JsonView(Views.Extended.class)
   @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
       pattern = "yyyy-MM-dd")
-  @JsonView(Views.Extended.class)
-  private Date birthDate;
+  private Date startDate;
 
   @JsonView(Views.Extended.class)
-  private String phoneNumber;
+  @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
+  @JsonFormat(
+      shape = JsonFormat.Shape.STRING,
+      pattern = "yyyy-MM-dd")
+  private Date endDate;
 
   @JsonView(Views.Extended.class)
-  private String email;
+  private Float credit;
 
   @JsonView(Views.Extended.class)
-  private Boolean active;
+  private boolean isActive;
 
-  @JsonView(Views.Extended.class)
-  private List<ContractDto> contracts;
 }
