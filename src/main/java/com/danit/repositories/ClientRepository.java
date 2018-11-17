@@ -15,4 +15,5 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
   @Query("select count(*) from Client")
   int getNumberOfClients();
+
 }

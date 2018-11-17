@@ -50,9 +50,9 @@ public class ClientController {
   }
 
   @PutMapping("/clients")
-  public void addClients(@RequestBody List<Client> clients, Principal principal) {
+  public List<Client> addClients(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is updating clients data: " + clients);
-    clientService.updateClients(clients);
+    return clientService.updateClients(clients);
   }
 
   @DeleteMapping("/clients/{id}")

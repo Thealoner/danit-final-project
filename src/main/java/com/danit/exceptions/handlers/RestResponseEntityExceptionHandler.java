@@ -1,6 +1,7 @@
 package com.danit.exceptions.handlers;
 
 import com.danit.exceptions.EntityNotFoundException;
+import com.danit.exceptions.EntityParticularDataException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,8 @@ import java.util.Date;
 @Slf4j
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-  @ExceptionHandler(value = EntityNotFoundException.class)
+  @ExceptionHandler(value = {EntityNotFoundException.class,
+      EntityParticularDataException.class})
   public final ResponseEntity<ErrorDetails> handleEntityNotFoundException(EntityNotFoundException ex, WebRequest request) {
     log.error(ex.getMessage());
     ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(),

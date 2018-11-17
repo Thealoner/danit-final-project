@@ -31,7 +31,8 @@ public class ServicesServiceImpl implements ServicesService {
 
   @Override
   public void deleteServiceById(Long id) {
-    Services services = serviceRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Cant find service with id=" + id));
+    Services services = serviceRepository.findById(id).orElseThrow(() ->
+        new EntityNotFoundException("Cant find service with id=" + id));
     serviceRepository.delete(services);
   }
 
