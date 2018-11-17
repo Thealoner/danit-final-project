@@ -9,8 +9,8 @@ import java.util.Date;
 @AllArgsConstructor
 class ErrorDetails {
 
-  private Date timestamp;
-  private String message;
-  private String details;
+  private Date timestamp; // NOSONAR
+  private String message; // NOSONAR
+  private String details; // NOSONAR
 
 }

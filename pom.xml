@@ -149,19 +149,6 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok-maven-plugin</artifactId>
-                <version>1.18.4.0</version>
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>delombok</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
             <!-- Code coverage reports generator -->
             <plugin>
                 <groupId>org.jacoco</groupId>
