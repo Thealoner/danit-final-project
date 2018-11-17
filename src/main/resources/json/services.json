@@ -6,7 +6,14 @@
     "cost": "200",
     "unit": "min",
     "unitsNumber": "55",
-    "active": true
+    "active": true,
+    "serviceCategories": [
+      {
+        "id": 1001,
+        "title": "SPA",
+        "active": true
+      }
+    ]
   },
   {
     "id": 1002,
@@ -15,6 +22,18 @@
     "cost": "200",
     "unit": "min",
     "unitsNumber": "55",
-    "active": true
+    "active": true,
+    "serviceCategories": [
+      {
+        "id": 1001,
+        "title": "SPA",
+        "active": true
+      },
+      {
+        "id": 1002,
+        "title": "YOGA",
+        "active": true
+      }
+    ]
   }
 ]

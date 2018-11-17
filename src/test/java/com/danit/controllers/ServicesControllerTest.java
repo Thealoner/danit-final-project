@@ -13,7 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.util.NestedServletException;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.IsCollectionContaining.hasItem;
@@ -116,28 +115,18 @@ public class ServicesControllerTest {
     mockMvc.perform(get("/services").headers(header))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
         .andExpect(jsonPath("$", hasSize(numberOfServices - 1)));
-
   }
 
-  @Test(expected = NestedServletException.class)
+  @Test
   public void expect500WhenGetDeletedService() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
-    mockMvc.perform(delete("/services").headers(header)
-        .contentType("application/json")
-        .content("[{\n" +
-            "    \"id\": 1001,\n" +
-            "    \"title\": \"Total Body Workout\",\n" +
-            "    \"price\": \"200\",\n" +
-            "    \"cost\": \"200\",\n" +
-            "    \"unit\": \"min\",\n" +
-            "    \"unitsNumber\": \"55\",\n" +
-            "    \"active\": true\n" +
-            "  }]"))
+    mockMvc.perform(delete("/services/1002")
+        .headers(header))
         .andExpect(status().isOk());
 
-    mockMvc.perform(get("/services/1001").headers(header))
-        .andExpect(status().isInternalServerError());
+    mockMvc.perform(get("/services/1002").headers(header))
+        .andExpect(status().isNotFound());
   }
 
 }

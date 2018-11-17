@@ -47,9 +47,9 @@ public class PaketController {
   }
 
   @PutMapping("/pakets")
-  public void addPakets(@RequestBody List<Paket> pakets, Principal principal) {
+  public List<Paket> addPakets(@RequestBody List<Paket> pakets, Principal principal) {
     logger.info(principal.getName() + " is updating pakets data: " + pakets);
-    paketService.savePakets(pakets);
+    return paketService.savePakets(pakets);
   }
 
   @DeleteMapping("/pakets/{id}")

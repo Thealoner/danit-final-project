@@ -10,7 +10,6 @@ import com.danit.services.ClientService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,7 +44,7 @@ public class ClientController {
   }
 
   @PostMapping("/clients")
-  public List<Client> createClient(@RequestBody List<Client> clients, Principal principal) {
+  public List<Client> createClients(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is saving new clients: " + clients);
     return clientService.saveClients(clients);
   }
@@ -92,9 +91,9 @@ public class ClientController {
   }
 
   @PutMapping("/clients")
-  public void addClient(@RequestBody List<Client> clients, Principal principal) {
+  public List<Client> addClients(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is updating clients data: " + clients);
-    clientService.updateClients(clients);
+    return clientService.updateClients(clients);
   }
 
   @DeleteMapping("/clients/{id}")
