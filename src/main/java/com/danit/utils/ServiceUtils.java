@@ -1,5 +1,7 @@
 package com.danit.utils;
 
+import com.danit.exceptions.IllegalAccessReflectionException;
+
 import java.lang.reflect.Field;
 import java.util.Objects;
 
@@ -22,7 +24,7 @@ public class ServiceUtils {
           field.set(targetObj, value);
         }
       } catch (IllegalAccessException e) {
-        e.printStackTrace();
+        throw new IllegalAccessReflectionException(e.getMessage());
       }
     }
     return updated;

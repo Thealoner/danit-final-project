@@ -23,12 +23,9 @@ public class ClientController {
 
   private ClientService clientService;
 
-  private ModelMapper modelMapper;
-
   @Autowired
-  public ClientController(ClientService clientService, ModelMapper modelMapper) {
+  public ClientController(ClientService clientService) {
     this.clientService = clientService;
-    this.modelMapper = modelMapper;
   }
 
   @PostMapping("/clients")
