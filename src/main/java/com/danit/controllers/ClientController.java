@@ -4,7 +4,6 @@ package com.danit.controllers;
 import com.danit.models.Client;
 import com.danit.services.ClientService;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
