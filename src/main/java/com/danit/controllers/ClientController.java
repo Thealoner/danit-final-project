@@ -104,8 +104,4 @@ public class ClientController {
     return dtoClients;
   }
 
-  private Client convertToEntity(ClientDto clientDto) throws ParseException {
-    return modelMapper.map(clientDto, Client.class);
-  }
-
 }
