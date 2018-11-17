@@ -15,12 +15,12 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
 
   private ServiceCategoryRepository serviceCategoryRepository;
 
-  @Autowired
   private ServicesService servicesService;
 
   @Autowired
-  public ServiceCategoryServiceImpl(ServiceCategoryRepository serviceCategoryRepository) {
+  public ServiceCategoryServiceImpl(ServiceCategoryRepository serviceCategoryRepository, ServicesService servicesService) {
     this.serviceCategoryRepository = serviceCategoryRepository;
+    this.servicesService = servicesService;
   }
 
   @Override
@@ -59,11 +59,9 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
 
   @Override
   @Transactional
-  public void deleteServiceCategoryService(Long servCatId, Long serviceId) {
-    ServiceCategory serviceCategory = getServiceCategoryById(servCatId);
-    List<Services> services = serviceCategory.getServices();
+  public void deleteServiceCategoryService(Long serviceCatId, Long serviceId) {
     Services service = servicesService.getServiceById(serviceId);
-    services.remove(service);
+    service.getServiceCategories().removeIf(el -> el.getId().equals(serviceCatId));
   }
 
   @Override
