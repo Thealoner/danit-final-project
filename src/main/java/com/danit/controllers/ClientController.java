@@ -47,18 +47,11 @@ public class ClientController {
     return clientService.saveClients(clients);
   }
 
-/*  @PostMapping(path = "/clients")
-  public ResponseEntity<ClientDto> createClient(@RequestBody ClientDto dto) throws ParseException {
-    return new ResponseEntity<>(convertToDto(
-        clientService.saveClient(convertToEntity(dto))),
-        HttpStatus.OK);
-  }
-
   @GetMapping("/clients")
   List<Client> getAllClients(Principal principal) {
     log.info(principal.getName() + " got all clients data");
     return clientService.getAllClients();
-  }*/
+  }
 
   @JsonView(Views.Short.class)
   @GetMapping(path = "/clients/short",
@@ -74,7 +67,7 @@ public class ClientController {
     log.info(principal.getName() + " got all clients data");
     List<Client> clients = clientService.getAllClients();
     return clients.stream()
-        .map(client -> convertToDto(client))
+        .map(this::convertToDto)
         .collect(Collectors.toList());
   }
 
