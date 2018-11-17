@@ -59,7 +59,8 @@ class RecordEditor extends Component {
       });
   };
 
-  saveData = (form, mode) => {
+  saveData = (form) => {
+    let { mode } = this.props.match.params;
     let { entityType } = this.props;
     let entity = getEntityByType(entityType);
 
@@ -136,7 +137,7 @@ class RecordEditor extends Component {
             uiSchema={entity.uiSchema}
             formData={this.state.data}
             onChange={this.log('changed')}
-            onSubmit={(mode) => this.saveData(mode)}
+            onSubmit={this.saveData}
             onError={this.log('errors')}
           />
         )}
