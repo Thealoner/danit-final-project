@@ -28,9 +28,6 @@
             <AppenderRef ref="Console"/>
             <AppenderRef ref="RollingFile"/>
         </Root>
-
-        <!-- LOG "com.danit*" at TRACE level -->
-        <Logger name="com.danit" level="trace"/>
     </Loggers>
 
 </Configuration>

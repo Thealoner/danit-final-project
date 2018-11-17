@@ -103,16 +103,18 @@ public class AppStartupRunner implements ApplicationRunner {
     cardColorRepository.saveAll(cards);
 
 
+    TypeReference<List<ServiceCategory>> serviceCategoryTypeReference = new TypeReference<List<ServiceCategory>>() {
+    };
+    InputStream serviceCategoryInputStream = TypeReference.class.getResourceAsStream("/json/servicecategory.json");
+    List<ServiceCategory> serviceCategory = mapper.readValue(serviceCategoryInputStream, serviceCategoryTypeReference);
+    serviceCategoryRepository.saveAll(serviceCategory);
+
+
     TypeReference<List<Services>> servicesTypeReference = new TypeReference<List<Services>>() {
     };
     InputStream servicesInputStream = TypeReference.class.getResourceAsStream("/json/services.json");
     List<Services> services = mapper.readValue(servicesInputStream, servicesTypeReference);
     servicesRepository.saveAll(services);
 
-    TypeReference<List<ServiceCategory>> serviceCategoryTypeReference = new TypeReference<List<ServiceCategory>>() {
-    };
-    InputStream serviceCategoryInputStream = TypeReference.class.getResourceAsStream("/json/servicecategory.json");
-    List<ServiceCategory> serviceCategory = mapper.readValue(serviceCategoryInputStream, serviceCategoryTypeReference);
-    serviceCategoryRepository.saveAll(serviceCategory);
   }
 }
