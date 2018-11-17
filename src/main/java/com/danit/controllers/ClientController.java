@@ -31,6 +31,8 @@ public class ClientController {
   private final ModelMapper modelMapper;
   private ClientService clientService;
 
+  private String logMsg1 = " got all clients data";
+
   @Autowired
   public ClientController(ClientService clientService, ModelMapper modelMapper) {
     this.clientService = clientService;
@@ -47,7 +49,7 @@ public class ClientController {
 
   @GetMapping("/clients")
   List<Client> getAllClients(Principal principal) {
-    log.info(principal.getName() + " got all clients data");
+    log.info(principal.getName() + logMsg1);
     return clientService.getAllClients();
   }
 
@@ -55,14 +57,14 @@ public class ClientController {
   @GetMapping(path = "/clients/short",
       produces = MediaType.APPLICATION_JSON_VALUE)
   public List<ClientDto> getAllClientsShort(Principal principal) throws ParseException {
-    log.info(principal.getName() + " got all clients data");
+    log.info(principal.getName() + logMsg1);
     return convertToDtos(clientService.getAllClients());
   }
 
   @JsonView(Views.Extended.class)
   @GetMapping(path = "/clients/extended")
   public List<ClientDto> getAllClientsExtended(Principal principal) throws ParseException {
-    log.info(principal.getName() + " got all clients data");
+    log.info(principal.getName() + logMsg1);
     List<Client> clients = clientService.getAllClients();
     return clients.stream()
         .map(this::convertToDto)
