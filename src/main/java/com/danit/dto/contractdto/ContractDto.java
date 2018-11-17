@@ -35,10 +35,4 @@ public class ContractDto {
   @JsonView(Views.Extended.class)
   private boolean isActive;
 
-  //@JsonIgnore
-//  private ClientDto client;
-//  private Paket paket;
-//  private List<CardColor> cards;
-//  private Long packageId;
-  // private Long clientId;
 }
