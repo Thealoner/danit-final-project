@@ -13,7 +13,6 @@ class ErrorDetails {
   private String details;
 
   ErrorDetails(Date timestamp, String message, String details) {
-    super();
     this.timestamp = timestamp;
     this.message = message;
     this.details = details;

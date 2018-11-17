@@ -85,7 +85,7 @@ public class ClientController {
 
   @DeleteMapping("/clients/{id}")
   public void deleteClientById(@PathVariable(name = "id") long id, Principal principal) {
-    log.info(principal.getName() + " try to delete client with id: " + id);
+    log.info(principal.getName() + " is trying to delete client with id: " + id);
     clientService.deleteClientById(id);
   }
 
