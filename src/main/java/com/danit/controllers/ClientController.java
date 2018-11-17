@@ -98,10 +98,9 @@ public class ClientController {
   }
 
   private List<ClientDto> convertToDtos(List<Client> clients) {
-    List<ClientDto> dtoClients = new ArrayList<ClientDto>();
-    clients.forEach(client -> {
-      dtoClients.add(modelMapper.map(client, ClientDto.class));
-    });
+    List<ClientDto> dtoClients = new ArrayList<>();
+    clients.forEach(client ->
+        dtoClients.add(modelMapper.map(client, ClientDto.class)));
     return dtoClients;
   }
 

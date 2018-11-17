@@ -1,10 +1,10 @@
 package com.danit.dto.clientdto;
 
-public class Views {
+public interface Views {
 
-  public static class Short {
+  class Short {
   }
 
-  public static class Extended extends Short {
+  class Extended extends Short {
   }
 }
