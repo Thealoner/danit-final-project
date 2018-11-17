@@ -5,7 +5,6 @@ import com.danit.models.Client;
 import com.danit.models.UserRolesEnum;
 import com.danit.services.ClientService;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,7 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -95,7 +93,8 @@ public class ClientControllerTest {
         .andReturn().getResponse().getContentAsString();
 
     ObjectMapper mapper = new ObjectMapper();
-    List<Client> actualObj = mapper.readValue(responseJson, new TypeReference<List<Client>>() { });
+    List<Client> actualObj = mapper.readValue(responseJson, new TypeReference<List<Client>>() {
+    });
     long createdId = actualObj.get(0).getId();
 
     responseJson = mockMvc.perform(put("/clients/").headers(header)
@@ -107,7 +106,8 @@ public class ClientControllerTest {
         .andExpect(status().isOk())
         .andReturn().getResponse().getContentAsString();
 
-    actualObj = mapper.readValue(responseJson, new TypeReference<List<Client>>() { });
+    actualObj = mapper.readValue(responseJson, new TypeReference<List<Client>>() {
+    });
     Assert.assertEquals("TestUser2", actualObj.get(0).getFirstName());
 
   }
@@ -156,7 +156,8 @@ public class ClientControllerTest {
         .andReturn().getResponse().getContentAsString();
 
     ObjectMapper mapper = new ObjectMapper();
-    List<Client> actualObj = mapper.readValue(responseJson, new TypeReference<List<Client>>() { });
+    List<Client> actualObj = mapper.readValue(responseJson, new TypeReference<List<Client>>() {
+    });
     long createdId = actualObj.get(0).getId();
 
     mockMvc.perform(get("/clients").headers(header))
