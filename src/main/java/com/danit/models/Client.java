@@ -28,7 +28,8 @@ import java.util.List;
 @Table(name = "clients")
 @NoArgsConstructor
 @ToString(exclude = {"contracts"})
-@Data public class Client {
+@Data
+public class Client {
 
   @Id
   @SequenceGenerator(name = "clientSequence", sequenceName = "clientSequence", allocationSize = 1, initialValue = 1001)
@@ -62,8 +63,6 @@ import java.util.List;
   @Column(name = "active")
   private Boolean active;
 
-  /*@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-  @JsonIdentityReference(alwaysAsId = true)*/
   @OneToMany(mappedBy = "clientId", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
   private List<Contract> contracts;
 

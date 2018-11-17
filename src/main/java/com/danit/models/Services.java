@@ -1,6 +1,6 @@
 package com.danit.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,8 +37,8 @@ public class Services {
   @Column(name = "units_number")
   private int unitsNumber;
 
-  @ManyToMany(fetch = FetchType.EAGER, mappedBy = "services")
-  @JsonIgnore
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private List<ServiceCategory> serviceCategories;
 
   @Column(name = "active")

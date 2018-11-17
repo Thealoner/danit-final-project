@@ -18,7 +18,7 @@ import java.util.List;
 @Entity
 @Table(name = "packages")
 @NoArgsConstructor
-@ToString(exclude = {"contracts", "cards"})
+@ToString(exclude = {"contracts"})
 @Data
 public class Paket {
 
@@ -81,8 +81,5 @@ public class Paket {
 
   @OneToMany(mappedBy = "packageId", fetch = FetchType.EAGER)
   private List<Contract> contracts;
-
-  @OneToMany(mappedBy = "paket", fetch = FetchType.EAGER)
-  private List<CardColor> cards;
 
 }
