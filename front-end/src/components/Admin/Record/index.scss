@@ -1,0 +1,32 @@
+.record {
+
+  &__save-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 262px;
+    height: 87px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    transform: translate(-50%, -50%);
+
+    &--success {
+      color: #155724;
+      background: #d4edda;
+      border-color: #c3e6cb;
+    }
+
+    &--error {
+      color: #721c24;
+      background: #f8d7da;
+      border-color: #f5c6cb;
+    }
+  }
+}
+
+.visible {
+  display: flex;
+}
