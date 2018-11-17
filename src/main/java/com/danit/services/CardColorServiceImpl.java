@@ -1,11 +1,11 @@
 package com.danit.services;
 
+import com.danit.exceptions.EntityNotFoundException;
 import com.danit.models.CardColor;
 import com.danit.repositories.CardColorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Set;
 

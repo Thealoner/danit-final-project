@@ -32,7 +32,7 @@ public class ClientController {
   }
 
   @PostMapping("/clients")
-  public List<Client> createClient(@RequestBody List<Client> clients, Principal principal) {
+  public List<Client> createClients(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is saving new clients: " + clients);
     return clientService.saveClients(clients);
   }
@@ -50,7 +50,7 @@ public class ClientController {
   }
 
   @PutMapping("/clients")
-  public void addClient(@RequestBody List<Client> clients, Principal principal) {
+  public void addClients(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is updating clients data: " + clients);
     clientService.updateClients(clients);
   }

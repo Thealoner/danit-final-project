@@ -18,7 +18,7 @@ import java.util.List;
 @Entity
 @Table(name = "packages")
 @NoArgsConstructor
-@ToString(exclude = {"contracts", "cards"})
+@ToString(exclude = {"contracts"})
 @Data
 public class Paket {
 

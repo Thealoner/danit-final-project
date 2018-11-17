@@ -15,12 +15,12 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
 
   private ServiceCategoryRepository serviceCategoryRepository;
 
-  @Autowired
   private ServicesService servicesService;
 
   @Autowired
-  public ServiceCategoryServiceImpl(ServiceCategoryRepository serviceCategoryRepository) {
+  public ServiceCategoryServiceImpl(ServiceCategoryRepository serviceCategoryRepository, ServicesService servicesService) {
     this.serviceCategoryRepository = serviceCategoryRepository;
+    this.servicesService = servicesService;
   }
 
   @Override
