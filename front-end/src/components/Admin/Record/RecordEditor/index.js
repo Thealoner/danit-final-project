@@ -1,33 +1,20 @@
 import React, { Component } from 'react';
 import './index.scss';
-import { ReactTabulator } from 'react-tabulator';
 import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
 import { getEntityByType } from '../../GridEntities';
 import AuthService from '../../../Login/AuthService';
 import Settings from '../../../Settings';
-import ClientEditor from './ClientEditor';
+import Form from 'react-jsonschema-form';
 
-class SimpleRecord extends Component {
+class RecordEditor extends Component {
   constructor (props) {
     super(props);
     this.state = {
       entityType: '',
-      name: '',
-      editableFields: {
-        id: '',
-        firstName: '',
-        lastName: '',
-        gender: '',
-        birthDate: '',
-        phoneNumber: '',
-        email: '',
-        active: false
-      },
-      readonlyFields: {
-        contracts: []
-      },
-      authService: new AuthService()
+      data: {},
+      authService: new AuthService(),
+      isLoading: false
     };
   }
 
@@ -51,6 +38,10 @@ class SimpleRecord extends Component {
     let token = this.state.authService.getToken();
     headers['Authorization'] = token;
 
+    this.setState({
+      isLoading: true
+    });
+
     fetch(
       Settings.apiServerUrl + entity.apiUrl + '/' + rowId,
       { headers }
@@ -58,29 +49,17 @@ class SimpleRecord extends Component {
       .then(this.state.authService._checkStatus)
       .then(response => response.json())
       .then(data => {
-        let editableDataKeys = Object.keys(this.state.editableFields);
-        let editableData = {};
-
-        editableDataKeys.forEach(key => {
-          editableData[key] = data[key];
-        });
-
-        let readonlyDataKeys = Object.keys(this.state.readonlyFields);
-        let readonlyData = {};
-        
-        readonlyDataKeys.forEach(key => {
-          readonlyData[key] = data[key];
-        });
-
-        this.setState({
-          entityType: entity.id,
-          editableFields: editableData,
-          readonlyFields: readonlyData
-        });
+        setTimeout(() =>
+          this.setState({
+            entityType: entity.id,
+            data: data,
+            isLoading: false
+          })
+        , 1000);
       });
   };
 
-  saveData = () => {
+  saveData = (form) => {
     let { entityType } = this.props;
     let entity = getEntityByType(entityType);
 
@@ -95,12 +74,15 @@ class SimpleRecord extends Component {
       // TODO:
       // disable 'Save' button
       // show loader
+      this.setState({
+        isLoading: true
+      });
 
       fetch(
         Settings.apiServerUrl + entity.apiUrl,
         {
           method: 'PUT',
-          body: JSON.stringify([this.state.editableFields]),
+          body: JSON.stringify([form.formData]),
           headers
         }
       )
@@ -118,57 +100,47 @@ class SimpleRecord extends Component {
           // TODO:
           // enable 'Save' button
           // hide loader
+          // TODO: Set state.data to PUT response
+          
+          console.log('form.formData', form.formData);
+          console.log('this.state.data', this.state.data);
+          let mergedData = {
+            ...this.state.data,
+            ...form.formdata
+          };
+          console.log('mergedData', mergedData);
+          this.setState({
+            data: mergedData,
+            isLoading: false
+          });
         });
     } else {
       console.log('Not logged in or token is expired');
     }
   };
 
-  handleInputChange = (event) => {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-
-    this.setState(prevState => ({
-      editableFields: {
-        ...prevState.editableFields,
-        [name]: value
-      }
-    }));
-  };
+  log = (type) => console.log.bind(console, type);
 
   render () {
     let { rowId } = this.props.match.params;
     let { entityType, setTabContentUrl } = this.props;
     setTabContentUrl(entityType + '/' + rowId);
-
-    const options = {
-      movableRows: true
-    };
-
-    let columns = [
-      { title: 'ID', field: 'id' },
-      { title: 'Пакет', field: 'packageId' },
-      { title: 'startDate', field: 'startDate' },
-      { title: 'endDate', field: 'endDate' },
-      { title: 'Активен', field: 'active' }
-    ];
-
+    let entity = getEntityByType(entityType);
+    
     return (
       <div className="client">
-        <p>Client ID: {this.state.editableFields.id}</p>
-        <ClientEditor data={this.state.editableFields} handleInputChange={this.handleInputChange} />
-        <h1>Контракты</h1>
-        <ReactTabulator
-          ref={ref => (this.ref = ref)}
-          columns={columns}
-          data={this.state.readonlyFields.contracts}
-          rowClick={this.rowClick}
-          options={options}
-          data-custom-attr="test-custom-attribute"
-          className="custom-css-class"
-        />
-        <button onClick={this.saveData}>Save</button>
+        {this.state.isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <Form
+            schema={entity.schema}
+            uiSchema={entity.uiSchema}
+            formData={this.state.data}
+            onChange={this.log('changed')}
+            onSubmit={this.saveData}
+            onError={this.log('errors')}
+          />
+        )}
       </div>
     );
   }
@@ -178,4 +150,4 @@ class SimpleRecord extends Component {
   }
 }
 
-export default SimpleRecord;
+export default RecordEditor;

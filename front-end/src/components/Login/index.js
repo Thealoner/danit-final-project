@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import './index.scss';
-import $ from 'jquery';
 import AuthService from './AuthService';
 
 class Login extends Component {
@@ -30,7 +29,7 @@ class Login extends Component {
       })
       .catch(err => {
         console.log(err);
-        $('.login__data-error').fadeIn();
+        this.error.classList.add('login__data-error--visible');
       });
   }
 
@@ -40,53 +39,73 @@ class Login extends Component {
     }
   }
 
+  form = React.createRef();
+  submitBtn = React.createRef();
+  username = React.createRef();
+  password = React.createRef();
+  error = React.createRef();
+
   render () {
     return (
       <div className="login" ref="login">
         <div className="login__dialog">
-          <form action="#" className="login__form" onSubmit={this.handleSubmit}>
-            <label htmlFor="username">Логин</label>
-            <input type="text" name="username" id="username" placeholder="введите имя пользователя (Admin)"
-              value={this.state.username} onChange={this.handleChange} required/>
-            <label htmlFor="password">Пароль</label>
-            <input type="password" name="password" id="password" placeholder="введите пароль (1234)"
-              value={this.state.password} onChange={this.handleChange} required/>
-            <input type="submit" name="" value="Войти"/>
+          <form action="#" className="login__form" ref={form => (this.form = form)} onSubmit={this.handleSubmit}>
+            <label htmlFor="username" className="login__label">Логин</label>
+            <input type="text" className="login__input" ref={username => (this.username = username)} name="username"
+              id="username" value={this.state.username} onChange={this.handleChange} placeholder="insert username (Admin)"
+              required/>
+            <label htmlFor="password" className="login__label">Пароль</label>
+            <input type="password" className="login__input" ref={password => (this.password = password)} name="password"
+              id="password" value={this.state.password} onChange={this.handleChange} placeholder="введите пароль (1234)"
+              required/>
+            <div className="login__remember">
+              <input type="checkbox"/>
+              <label>Запомнить меня</label>
+            </div>
+            <input type="submit" className="login__input" ref={submitBtn => (this.submitBtn = submitBtn)}
+              name="" value="Войти"/>
           </form>
-          <span className="login__data-error">неверный логин или пароль</span>
+          <span className="login__data-error" ref={error => (this.error = error)}>неверный логин или пароль</span>
         </div>
       </div>
     );
   }
 
-    componentDidMount = () => {
-      let form = $('form');
-      let submitButton = $('input[type="submit"]');
+  componentDidMount = () => {
+    let form = this.form;
+    let username = this.username;
+    let password = this.password;
+    let submitBtn = this.submitBtn;
+    let error = this.error;
 
-      form.on('keydown', function (event) {
-        if (event.keyCode === 13) {
-          submitButton.css('transform', 'scale(.99)');
-        }
-      });
-
-      form.on('keyup', function (event) {
-        if (event.keyCode === 13) {
-          submitButton.css('transform', 'none');
-        }
-      });
-
-      submitButton.on('mousedown', function () {
-        this.style.transform = 'scale(.99)';
-      });
-
-      submitButton.on('mouseup', function () {
-        this.style.transform = 'none';
-      });
-
-      $('input:not(input:last-child)').on('focus', function () {
-        $('.login__data-error').fadeOut();
-      });
+    form.onkeydown = function (event) {
+      if (event.keyCode === 13) {
+        submitBtn.classList.add('login__input--active');
+      }
     };
+
+    form.onkeyup = function (event) {
+      if (event.keyCode === 13) {
+        submitBtn.classList.remove('login__input--active');
+      }
+    };
+
+    submitBtn.onmousedown = function () {
+      this.classList.add('login__input--active');
+    };
+
+    submitBtn.onmouseup = function () {
+      this.classList.remove('login__input--active');
+    };
+
+    username.onfocus = function () {
+      error.classList.remove('login__data-error--visible');
+    };
+
+    password.onfocus = function () {
+      error.classList.remove('login__data-error--visible');
+    };
+  };
 }
 
 export default Login;

@@ -1,18 +1,23 @@
 package com.danit.services;
 
+import com.danit.exceptions.EntityNotFoundException;
 import com.danit.models.Services;
 import com.danit.repositories.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ServicesServiceImpl implements ServicesService {
 
+  private ServiceRepository serviceRepository;
+
   @Autowired
-  ServiceRepository serviceRepository;
+  public ServicesServiceImpl(ServiceRepository serviceRepository) {
+    this.serviceRepository = serviceRepository;
+  }
 
   @Override
   public List<Services> saveServices(List<Services> services) {
@@ -26,11 +31,19 @@ public class ServicesServiceImpl implements ServicesService {
 
   @Override
   public void deleteServiceById(Long id) {
-    serviceRepository.deleteById(id);
+    Services services = serviceRepository.findById(id).orElseThrow(() ->
+        new EntityNotFoundException("Cant find service with id=" + id));
+    serviceRepository.delete(services);
   }
 
   @Override
   public void deleteServices(List<Services> services) {
+    Set<Long> servicesId = serviceRepository.getAllServicesId();
+    services.forEach(service -> {
+      if (!servicesId.contains(service.getId())) {
+        throw new EntityNotFoundException("Service with id=" + service.getId() + " is not exist");
+      }
+    });
     serviceRepository.deleteInBatch(services);
   }
 

@@ -7,8 +7,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -30,11 +28,7 @@ public class ServiceCategory {
   @Column(name = "active")
   private Boolean isActive;
 
-
-  @ManyToMany(fetch = FetchType.EAGER)
-  @JoinTable(name = "services_service_categories",
-      joinColumns = @JoinColumn(name = "service_categories_id", referencedColumnName = "id"),
-      inverseJoinColumns = @JoinColumn(name = "services_id", referencedColumnName = "id"))
+  @ManyToMany(fetch = FetchType.EAGER, mappedBy = "serviceCategories")
   private List<Services> services;
 
   public ServiceCategory() {
