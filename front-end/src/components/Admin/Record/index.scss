@@ -1,4 +1,51 @@
+@import "../../../variables";
+
 .record {
+
+  table {
+    color: $text-config;
+    border-collapse: separate;
+    border-spacing: 15px;
+  }
+
+  caption {
+    padding: 0 0 10px 20px;
+    font-weight: bold;
+    text-align: left;
+  }
+
+  input {
+    width: 90%;
+    height: 25px;
+    color: $text-config;
+    font-size: 15px;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+
+    &[type="text"],
+    &[type="password"],
+    &[type="email"],
+    &[type="date"] {
+      padding-left: 10px;
+      box-shadow: 0 0 2px 1px $text-config;
+
+      &:focus {
+        box-shadow: 0 0 2px 2px $text-config;
+      }
+    }
+
+    &[name='email'],
+    &[name='address']{
+      width: 100%;
+    }
+  }
+
+  select {
+    @extend input;
+    padding-left: 6px;
+    box-shadow: 0 0 2px 1px $text-config;
+  }
 
   &__save-message {
     position: absolute;

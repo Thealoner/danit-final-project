@@ -47,7 +47,7 @@ class App extends Component {
     setTimeout(function () {
       self.preLoader.style.opacity = '0';
       self.preLoader.style.visibility = 'hidden';
-    }, 1000);
+    }, 40);
     setTimeout(function () {
       self.preLoader.style.display = 'none';
     }, 2000);

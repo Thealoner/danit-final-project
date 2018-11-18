@@ -1,26 +1,16 @@
+@import "../../../../variables";
+
 .client {
   position: relative;
-  input {
-    padding: .5rem;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
 
-  input[type=text] {
-    display: block;
-    width: 100%;
+  &__info-block {
+    margin-bottom: 20px;
+    padding: 20px 0;
+    box-shadow: 0 11px 7px -12px $text-config;
   }
 
   input[type=radio] {
     margin: 10px 20px;
-  }
-
-  input:focus {
-    border-color: #007eff;
-    outline: none;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075),
-    0 0 0 3px rgba(0, 126, 255, .1);
   }
 
   input.error {
@@ -28,9 +18,8 @@
   }
 
   label {
-    display: block;
-    margin-bottom: .5rem;
-    font-weight: bold;
+    margin: 0;
+    cursor: pointer;
   }
 
   .input-feedback {
