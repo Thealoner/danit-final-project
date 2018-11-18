@@ -42,5 +42,25 @@ public class ClientFacadeImpl implements ClientFacade{
     return convertToDtos(clientService.saveClients(clients));
   }
 
+  @Override
+  public ClientDto getClientById(Long id) {
+    return convertToDto(clientService.getClientById(id));
+  }
+
+  @Override
+  public List<ClientDto> updateClients(List<Client> clients) {
+    return convertToDtos(clientService.updateClients(clients));
+  }
+
+  @Override
+  public void deleteClientById(Long id) {
+    clientService.deleteClientById(id);
+  }
+
+  @Override
+  public void deleteClients(List<Client> clients) {
+    clientService.deleteClients(clients);
+  }
+
 
 }

@@ -15,4 +15,12 @@ public interface ClientFacade {
 
   List<ClientDto> saveClients(List<Client> clients);
 
+  ClientDto getClientById(Long id);
+
+  List<ClientDto> updateClients(List<Client> clients);
+
+  void deleteClientById(Long id);
+
+  void deleteClients(List<Client> clients);
+
 }

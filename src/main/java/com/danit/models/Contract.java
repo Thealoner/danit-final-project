@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -27,6 +29,8 @@ import java.util.List;
 @Entity
 @Table(name = "contracts")
 @JsonIgnoreProperties(ignoreUnknown = true)
+@NoArgsConstructor
+@Data
 public class Contract {
   @Id
   @SequenceGenerator(name = "contractSequence", sequenceName = "contractSequence", allocationSize = 1, initialValue = 1001)
@@ -75,98 +79,4 @@ public class Contract {
   @Column(name = "client_id")
   private Long clientId;
 
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public Date getStartDate() {
-    return startDate;
-  }
-
-  public void setStartDate(Date startDate) {
-    this.startDate = startDate;
-  }
-
-  public Date getEndDate() {
-    return endDate;
-  }
-
-  public void setEndDate(Date endDate) {
-    this.endDate = endDate;
-  }
-
-  public Float getCredit() {
-    return credit;
-  }
-
-  public void setCredit(Float credit) {
-    this.credit = credit;
-  }
-
-  public boolean isActive() {
-    return isActive;
-  }
-
-  public void setActive(boolean active) {
-    isActive = active;
-  }
-
-  public Client getClient() {
-    return client;
-  }
-
-  public void setClient(Client client) {
-    this.client = client;
-  }
-
-  public Paket getPaket() {
-    return paket;
-  }
-
-  public void setPaket(Paket paket) {
-    this.paket = paket;
-  }
-
-  public Long getPackageId() {
-    return packageId;
-  }
-
-  public void setPackageId(Long packageId) {
-    this.packageId = packageId;
-  }
-
-  public Long getClientId() {
-    return clientId;
-  }
-
-  public void setClientId(Long clientId) {
-    this.clientId = clientId;
-  }
-
-  public List<CardColor> getCards() {
-    return cards;
-  }
-
-  public void setCards(List<CardColor> cards) {
-    this.cards = cards;
-  }
-
-  @Override
-  public String toString() {
-    return "Contract{" +
-        "id=" + id +
-        ", startDate=" + startDate +
-        ", endDate=" + endDate +
-        ", credit=" + credit +
-        ", isActive=" + isActive +
-        ", client=" + client +
-        ", paket=" + paket +
-        ", packageId=" + packageId +
-        ", clientId=" + clientId +
-        '}';
-  }
 }
