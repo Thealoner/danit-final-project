@@ -1,6 +1,6 @@
 package com.danit.repositories.employee;
 
-import com.danit.models.eployee.Company;
+import com.danit.models.employee.Company;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

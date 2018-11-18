@@ -1,7 +1,7 @@
 package com.danit.controllers.employee;
 
 import com.danit.exceptions.EntityNotFoundException;
-import com.danit.models.eployee.TrainingType;
+import com.danit.models.employee.TrainingType;
 import com.danit.repositories.employee.TrainingTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,12 +23,12 @@ public class TrainingTypeController {
   @Autowired
   private TrainingTypeRepository trainingTypeRepository;
 
-  @GetMapping("/trainingtype")
+  @GetMapping("/training_type")
   public List<TrainingType> retrieveAllTrainingType() {
     return trainingTypeRepository.findAll();
   }
 
-  @GetMapping("/trainingType/{id}")
+  @GetMapping("/training_type/{id}")
   public TrainingType retrieveStudent(@PathVariable long id) {
     Optional<TrainingType> trainingType = trainingTypeRepository.findById(id);
 
@@ -38,12 +38,12 @@ public class TrainingTypeController {
     return trainingType.get();
   }
 
-  @DeleteMapping("/trainingtype/{id}")
+  @DeleteMapping("/training_type/{id}")
   public void deleteStudent(@PathVariable long id) {
     trainingTypeRepository.deleteById(id);
   }
 
-  @PostMapping("/trainingtype")
+  @PostMapping("/training_type")
   public ResponseEntity<Object> createTrainingType(@RequestBody TrainingType trainingType) {
     TrainingType savedTrainingType = trainingTypeRepository.save(trainingType);
 
@@ -54,7 +54,7 @@ public class TrainingTypeController {
 
   }
 
-  @PutMapping("/trainingtype/{id}")
+  @PutMapping("/training_type/{id}")
   public ResponseEntity<Object> updateStudent(@RequestBody TrainingType trainingType, @PathVariable long id) {
 
     Optional<TrainingType> studentOptional = trainingTypeRepository.findById(id);

@@ -1,4 +1,4 @@
-package com.danit.models.eployee;
+package com.danit.models.employee;
 
 import com.danit.models.Services;
 import lombok.Data;
@@ -12,26 +12,30 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Data
 @Entity
-@Table(name = "grouptraining")
+@Table(name = "group_training")
 public class GroupTraining {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @SequenceGenerator(name = "groupTrainingSequence", sequenceName = "groupTrainingSequence",
+      allocationSize = 1, initialValue = 1001)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "groupTrainingSequence")
+  @Column(name = "id")
   private Long id;
 
   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinColumn(name = "employeeid")
+  @JoinColumn(name = "employeeId")
   private Employee employee;
 
   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinColumn(name = "gymid")
+  @JoinColumn(name = "gymId")
   private Gym gym;
 
   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinColumn(name = "serviceid")
+  @JoinColumn(name = "serviceId")
   private Services service;
 
   @Column(name = "amount")
@@ -44,7 +48,7 @@ public class GroupTraining {
   private String description;
 
   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinColumn(name = "trainintypeid")
+  @JoinColumn(name = "training_typeId")
   private TrainingType trainingType;
 
 }

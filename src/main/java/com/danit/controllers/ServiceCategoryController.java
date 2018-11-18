@@ -55,19 +55,19 @@ public class ServiceCategoryController {
 
   @PutMapping("/service_categories/{id}")
   void updateServiceCategory(@RequestBody ServiceCategory serviceCategory, Principal principal) {
-    logger.info(principal.getName() + " is updating service category data: " + serviceCategory);
+    logger.info(principal.getName() + " is updating service employeeCategory data: " + serviceCategory);
     serviceCategoryService.saveServiceCategory(serviceCategory);
   }
 
   @DeleteMapping("/service_categories")
   void deleteServiceCategories(@RequestBody List<ServiceCategory> serviceCategories, Principal principal) {
-    logger.info(principal.getName() + " try to delete service category data: " + serviceCategories);
+    logger.info(principal.getName() + " try to delete service employeeCategory data: " + serviceCategories);
     serviceCategoryService.deleteServiceCategories(serviceCategories);
   }
 
   @DeleteMapping("/service_categories/{id}")
   void deleteServiceCategoryById(@PathVariable(name = "id") long id, Principal principal) {
-    logger.info(principal.getName() + " try to delete service category with id: " + id);
+    logger.info(principal.getName() + " try to delete service employeeCategory with id: " + id);
     serviceCategoryService.deleteServiceCategoryById(id);
   }
 
@@ -76,13 +76,13 @@ public class ServiceCategoryController {
                                  @PathVariable(name = "serviceId") long serviceId,
                                  Principal principal) {
     logger.info(principal.getName() + " try to delete service with id: " + serviceId
-        + " in service category with id: " + servCatId);
+        + " in service employeeCategory with id: " + servCatId);
     serviceCategoryService.deleteServiceCategoryService(servCatId, serviceId);
   }
 
   @GetMapping("/service_categories/{id}/services")
   List<Services> getAllServiceCategoryServices(@PathVariable(name = "id") long id, Principal principal) {
-    logger.info(principal.getName() + " got services from service category with id: " + id);
+    logger.info(principal.getName() + " got services from service employeeCategory with id: " + id);
     return serviceCategoryService.getAllServiceCategoryServices(id);
   }
 

@@ -1,8 +1,8 @@
 package com.danit.controllers.employee;
 
 import com.danit.exceptions.EntityNotFoundException;
-import com.danit.models.eployee.Post;
-import com.danit.repositories.employee.PostRepository;
+import com.danit.models.employee.Position;
+import com.danit.repositories.employee.PositionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,19 +19,19 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class PostController {
+public class PositionController {
 
   @Autowired
-  private PostRepository postRepository;
+  private PositionRepository positionRepository;
 
-  @GetMapping("/post")
-  public List<Post> retrieveAllPost() {
-    return postRepository.findAll();
+  @GetMapping("/position")
+  public List<Position> retrieveAllPost() {
+    return positionRepository.findAll();
   }
 
-  @GetMapping("/post/{id}")
-  public Post retrievePost(@PathVariable long id) {
-    Optional<Post> post = postRepository.findById(id);
+  @GetMapping("/position/{id}")
+  public Position retrievePost(@PathVariable long id) {
+    Optional<Position> post = positionRepository.findById(id);
 
     if (!post.isPresent()) {
       throw new EntityNotFoundException("id-" + id);
@@ -39,33 +39,33 @@ public class PostController {
     return post.get();
   }
 
-  @DeleteMapping("/post/{id}")
+  @DeleteMapping("/position/{id}")
   public void deletePost(@PathVariable long id) {
-    postRepository.deleteById(id);
+    positionRepository.deleteById(id);
   }
 
-  @PostMapping("/post")
-  public ResponseEntity<Object> createPost(@RequestBody Post post) {
-    Post savedPost = postRepository.save(post);
+  @PostMapping("/position")
+  public ResponseEntity<Object> createPost(@RequestBody Position position) {
+    Position savedPosition = positionRepository.save(position);
 
     URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-        .buildAndExpand(savedPost.getId()).toUri();
+        .buildAndExpand(savedPosition.getId()).toUri();
 
     return ResponseEntity.created(location).build();
 
   }
 
-  @PutMapping("/post/{id}")
-  public ResponseEntity<Object> updatepost(@RequestBody Post post, @PathVariable long id) {
+  @PutMapping("/position/{id}")
+  public ResponseEntity<Object> updatepost(@RequestBody Position position, @PathVariable long id) {
 
-    Optional<Post> postOptional = postRepository.findById(id);
+    Optional<Position> postOptional = positionRepository.findById(id);
 
     if (!postOptional.isPresent()) {
       return ResponseEntity.notFound().build();
     }
-    post.setId(id);
+    position.setId(id);
 
-    postRepository.save(post);
+    positionRepository.save(position);
 
     return ResponseEntity.noContent().build();
   }

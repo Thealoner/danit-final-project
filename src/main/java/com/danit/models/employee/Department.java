@@ -1,4 +1,4 @@
-package com.danit.models.eployee;
+package com.danit.models.employee;
 
 import com.danit.utils.CustomDateAndTimeDeserialize;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +26,10 @@ import java.util.List;
 public class Department {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @SequenceGenerator(name = "departmentSequence", sequenceName = "departmentSequence",
+      allocationSize = 1, initialValue = 1001)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "departmentSequence")
+  @Column(name = "id")
   private Long id;
 
   @OneToMany
@@ -38,14 +42,14 @@ public class Department {
   @Column(name = "name", nullable = false)
   private String name;
 
-  @Column(name = "datefrom", nullable = false)
+  @Column(name = "date_from", nullable = false)
   @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
       pattern = "yyyy-MM-dd")
   private Date dateFrom;
 
-  @Column(name = "dateto")
+  @Column(name = "date_to")
   @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
@@ -56,11 +60,11 @@ public class Department {
   private int hierLevel;
 
   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinColumn(name = "companyid")
+  @JoinColumn(name = "companyId")
   private Company company;
 
-  @Column(name = "position")
-  private String position;
+  @Column(name = "sort_position")
+  private String sortPosition;
 
 }
 

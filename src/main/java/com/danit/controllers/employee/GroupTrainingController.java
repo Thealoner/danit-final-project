@@ -1,7 +1,7 @@
 package com.danit.controllers.employee;
 
 import com.danit.exceptions.EntityNotFoundException;
-import com.danit.models.eployee.GroupTraining;
+import com.danit.models.employee.GroupTraining;
 import com.danit.repositories.employee.GroupTrainingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,12 +23,12 @@ public class GroupTrainingController {
   @Autowired
   private GroupTrainingRepository groupTrainingRepository;
 
-  @GetMapping("/grouptraining")
+  @GetMapping("/group_training")
   public List<GroupTraining> retrieveAllGroupTraining() {
     return groupTrainingRepository.findAll();
   }
 
-  @GetMapping("/grouptraining/{id}")
+  @GetMapping("/group_training/{id}")
   public GroupTraining retrieveStudent(@PathVariable long id) {
     Optional<GroupTraining> groupTraining = groupTrainingRepository.findById(id);
 
@@ -38,12 +38,12 @@ public class GroupTrainingController {
     return groupTraining.get();
   }
 
-  @DeleteMapping("/grouptraining/{id}")
+  @DeleteMapping("/group_training/{id}")
   public void deleteStudent(@PathVariable long id) {
     groupTrainingRepository.deleteById(id);
   }
 
-  @PostMapping("/grouptraining")
+  @PostMapping("/group_training")
   public ResponseEntity<Object> createGroupTraining(@RequestBody GroupTraining groupTraining) {
     GroupTraining savedGroupTraining = groupTrainingRepository.save(groupTraining);
 
@@ -54,7 +54,7 @@ public class GroupTrainingController {
 
   }
 
-  @PutMapping("/grouptraining/{id}")
+  @PutMapping("/group_training/{id}")
   public ResponseEntity<Object> updateStudent(@RequestBody GroupTraining groupTraining, @PathVariable Long id) {
 
     Optional<GroupTraining> studentOptional = groupTrainingRepository.findById(id);

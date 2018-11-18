@@ -1,4 +1,4 @@
-package com.danit.models.eployee;
+package com.danit.models.employee;
 
 import lombok.Data;
 
@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Data
@@ -14,7 +15,10 @@ import javax.persistence.Table;
 @Table(name = "gym")
 public class Gym {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @SequenceGenerator(name = "gymSequence", sequenceName = "groupTrainingSequence",
+      allocationSize = 1, initialValue = 1001)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gymSequence")
+  @Column(name = "id")
   private Long id;
 
   @Column(name = "name")
@@ -27,5 +31,5 @@ public class Gym {
   private int capacity;
 
   @Column(name = "company")
-  private Long organization;
+  private Long company;
 }

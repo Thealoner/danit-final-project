@@ -1,7 +1,7 @@
 package com.danit.controllers.employee;
 
 import com.danit.exceptions.EntityNotFoundException;
-import com.danit.models.eployee.Discount;
+import com.danit.models.employee.Discount;
 import com.danit.repositories.employee.DiscountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

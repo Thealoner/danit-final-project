@@ -1,7 +1,7 @@
 package com.danit.controllers.employee;
 
 import com.danit.exceptions.EntityNotFoundException;
-import com.danit.models.eployee.Gym;
+import com.danit.models.employee.Gym;
 import com.danit.repositories.employee.GymRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

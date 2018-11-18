@@ -1,4 +1,4 @@
-package com.danit.models.eployee;
+package com.danit.models.employee;
 
 import com.danit.utils.CustomDateAndTimeDeserialize;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.util.Date;
 import java.util.Set;
@@ -24,19 +25,21 @@ import java.util.Set;
 @Data
 public class Employee {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @SequenceGenerator(name = "employeeSequence", sequenceName = "employeeSequence", allocationSize = 1, initialValue = 1001)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employeeSequence")
+  @Column(name = "id")
   private Long id;
 
-  @Column(name = "firstname")
+  @Column(name = "first_name")
   private String firstName;
 
-  @Column(name = "lastname")
+  @Column(name = "last_name")
   private String lastName;
 
-  @Column(name = "familyname")
+  @Column(name = "family_name")
   private String familyName;
 
-  @Column(name = "birthdate")
+  @Column(name = "birth_date")
   @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
@@ -44,17 +47,17 @@ public class Employee {
   private Date birthDate;
 
   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinColumn(name = "departmentid")
+  @JoinColumn(name = "departmentId")
   private Department department;
 
-  @Column(name = "jobbegindate")
+  @Column(name = "job_begin_date")
   @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
       pattern = "yyyy-MM-dd")
   private Date jobBeginDate;
 
-  @Column(name = "dismissdate")
+  @Column(name = "dismiss_date")
   @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
@@ -62,13 +65,13 @@ public class Employee {
   private Date dismissDate;
 
   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinColumn(name = "postid")
-  private Post post;
+  @JoinColumn(name = "postId")
+  private Position position;
 
   @Column(name = "email")
   private String email;
 
-  @Column(name = "internalnumber")
+  @Column(name = "internal_number")
   private String internalNumber;
 
   @Column(name = "phone1")
@@ -78,26 +81,26 @@ public class Employee {
   private String phone2;
 
   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinColumn(name = "categoryid")
-  private Category category;
+  @JoinColumn(name = "employee_categoryId")
+  private EmployeeCategory employeeCategory;
 
   @Column(name = "photo")
   private String photo;
 
-  @Column(name = "cardid")
+  @Column(name = "cardId")
   private String cardId;
 
   @Column(name = "dbuser")
   private String dbUser;
 
-  @Column(name = "discountid")
+  @Column(name = "discountId")
   private Long discountId;
 
   @Column(name = "gender")
   private int gender;
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinColumn(name = "employeeid", referencedColumnName = "id")
+  @JoinColumn(name = "employeeId", referencedColumnName = "id")
   private Set<EmployeeDiscount> employeeDiscountList;
 
 }

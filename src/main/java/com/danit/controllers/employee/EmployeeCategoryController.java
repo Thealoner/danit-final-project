@@ -1,8 +1,8 @@
 package com.danit.controllers.employee;
 
 import com.danit.exceptions.EntityNotFoundException;
-import com.danit.models.eployee.Category;
-import com.danit.repositories.employee.CategoryRepository;
+import com.danit.models.employee.EmployeeCategory;
+import com.danit.repositories.employee.EmployeeCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,18 +19,18 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class CategoryController {
+public class EmployeeCategoryController {
   @Autowired
-  private CategoryRepository categoryRepository;
+  private EmployeeCategoryRepository employeeCategoryRepository;
 
-  @GetMapping("/category")
-  public List<Category> retrieveAllCategory() {
-    return categoryRepository.findAll();
+  @GetMapping("/employee_category")
+  public List<EmployeeCategory> retrieveAllCategory() {
+    return employeeCategoryRepository.findAll();
   }
 
-  @GetMapping("/category/{id}")
-  public Category retrieveCategory(@PathVariable long id) {
-    Optional<Category> category = categoryRepository.findById(id);
+  @GetMapping("/employee_category/{id}")
+  public EmployeeCategory retrieveCategory(@PathVariable long id) {
+    Optional<EmployeeCategory> category = employeeCategoryRepository.findById(id);
 
     if (!category.isPresent()) {
       throw new EntityNotFoundException("Запись категории с id = " + id);
@@ -38,33 +38,33 @@ public class CategoryController {
     return category.get();
   }
 
-  @DeleteMapping("/category/{id}")
+  @DeleteMapping("/employee_category/{id}")
   public void deleteCategory(@PathVariable long id) {
-    categoryRepository.deleteById(id);
+    employeeCategoryRepository.deleteById(id);
   }
 
-  @PostMapping("/category")
-  public ResponseEntity<Object> createCategory(@RequestBody Category category) {
-    Category savedCategory = categoryRepository.save(category);
+  @PostMapping("/employee_category")
+  public ResponseEntity<Object> createCategory(@RequestBody EmployeeCategory employeeCategory) {
+    EmployeeCategory savedEmployeeCategory = employeeCategoryRepository.save(employeeCategory);
 
     URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-        .buildAndExpand(savedCategory.getId()).toUri();
+        .buildAndExpand(savedEmployeeCategory.getId()).toUri();
 
     return ResponseEntity.created(location).build();
 
   }
 
-  @PutMapping("/category/{id}")
-  public ResponseEntity<Object> updateCategory(@RequestBody Category category, @PathVariable long id) {
+  @PutMapping("/employee_category/{id}")
+  public ResponseEntity<Object> updateCategory(@RequestBody EmployeeCategory employeeCategory, @PathVariable long id) {
 
-    Optional<Category> categoryOptional = categoryRepository.findById(id);
+    Optional<EmployeeCategory> categoryOptional = employeeCategoryRepository.findById(id);
 
     if (!categoryOptional.isPresent()) {
       return ResponseEntity.notFound().build();
     }
-    category.setId(id);
+    employeeCategory.setId(id);
 
-    categoryRepository.save(category);
+    employeeCategoryRepository.save(employeeCategory);
 
     return ResponseEntity.noContent().build();
   }

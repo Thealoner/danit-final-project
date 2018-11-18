@@ -1,6 +1,6 @@
-package com.danit.models.eployee;
+package com.danit.models.employee;
 
-import com.danit.models.Services;
+
 import com.danit.utils.CustomDateAndTimeDeserialize;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -15,35 +15,33 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "category_spec")
-public class CategorySpec {
+@Table(name = "employee_discount")
+class EmployeeDiscount {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @SequenceGenerator(name = "empDiscountSequence", sequenceName = "empDiscountSequence",
+      allocationSize = 1, initialValue = 1001)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "empDiscountSequence")
+  @Column(name = "id")
   private Long id;
 
-  @Column(name = "categoryid")
-  private Long categoryId;
-
   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinColumn(name = "serviceid")
-  private Services service;
+  @JoinColumn(name = "discountId")
+  private Discount discount;
 
-  @Column(name = "datefrom")
+  @Column(name = "valid_from")
   @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
       pattern = "yyyy-MM-dd")
-  private Date dateFrom;
+  private Date validFrom;
 
-  @Column(name = "dateto")
-  @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
-  @JsonFormat(
-      shape = JsonFormat.Shape.STRING,
-      pattern = "yyyy-MM-dd")
-  private Date dateTo;
+  @Column(name = "employeeId")
+  private Long employeeId;
+
 }

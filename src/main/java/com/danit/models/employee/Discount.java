@@ -1,4 +1,4 @@
-package com.danit.models.eployee;
+package com.danit.models.employee;
 
 import com.danit.utils.CustomDateAndTimeDeserialize;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Data
@@ -17,7 +18,9 @@ import javax.persistence.Table;
 @Table(name = "discount")
 public class Discount {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @SequenceGenerator(name = "discountSequence", sequenceName = "discountSequence",
+      allocationSize = 1, initialValue = 1001)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "discountSequence")
   @Column(name = "id")
   private Long id;
 
@@ -25,16 +28,16 @@ public class Discount {
   private String name;
 
   @Column(name = "percent")
-  private String percent;
+  private float percent;
 
-  @Column(name = "datefrom")
+  @Column(name = "date_from")
   @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
       pattern = "yyyy-MM-dd")
   private String dateFrom;
 
-  @Column(name = "dateto")
+  @Column(name = "date_to")
   @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,

@@ -1,10 +1,9 @@
 package com.danit.controllers.employee;
 
-import com.danit.exceptions.EntityNotFoundException;
-import com.danit.models.eployee.Employee;
-import com.danit.repositories.employee.EmployeeRepository;
+import com.danit.models.employee.Employee;
+import com.danit.services.employee.EmployeeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,61 +11,42 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
+@Slf4j
 public class EmployeeController {
+
+  private EmployeeService employeeService;
+
   @Autowired
-  private EmployeeRepository employeeRepository;
+  public EmployeeController(EmployeeService employeeService) {
+    this.employeeService = employeeService;
+  }
 
   @GetMapping("/employee")
-  public List<Employee> retrieveAllEmployee() {
-    return employeeRepository.findAll();
+  public List<Employee> getAllEmployee() {
+    return employeeService.getAllEmployees();
   }
 
   @GetMapping("/employee/{id}")
-  public Employee retrieveStudent(@PathVariable long id) {
-    Optional<Employee> employee = employeeRepository.findById(id);
-
-    if (!employee.isPresent()) {
-      throw new EntityNotFoundException("id-" + id);
-    }
-    return employee.get();
+  public Employee getEmployeeById(@PathVariable(name = "id") long id) {
+    return employeeService.getEmployeeById(id);
   }
 
   @DeleteMapping("/employee/{id}")
-  public void deleteStudent(@PathVariable long id) {
-    employeeRepository.deleteById(id);
+  public void deleteEmployee(@PathVariable(name = "id") long id) {
+    employeeService.deleteEmployee(id);
   }
 
   @PostMapping("/employee")
-  public ResponseEntity<Object> createEmployee(@RequestBody Employee employee) {
-    Employee savedEmployee = employeeRepository.save(employee);
-
-    URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-        .buildAndExpand(savedEmployee.getId()).toUri();
-
-    return ResponseEntity.created(location).build();
-
+  public Employee createEmployee(@RequestBody Employee employee) {
+    return employeeService.createEmployee(employee);
   }
 
   @PutMapping("/employee/{id}")
-  public ResponseEntity<Object> updateStudent(@RequestBody Employee employee, @PathVariable long id) {
-
-    Optional<Employee> studentOptional = employeeRepository.findById(id);
-
-    if (!studentOptional.isPresent()) {
-      return ResponseEntity.notFound().build();
-    }
-
-    employee.setId(id);
-
-    employeeRepository.save(employee);
-
-    return ResponseEntity.noContent().build();
+  public Employee updateEmployee(@RequestBody Employee employee, @PathVariable long id) {
+    return employeeService.updateEmployee(employee);
   }
 }
