@@ -1,4 +1,4 @@
-package com.danit.dto.clientdto;
+package com.danit.dto;
 
 public interface Views {
 
@@ -7,4 +7,6 @@ public interface Views {
 
   interface Extended extends Short {
   }
+
+  interface Ids {}
 }

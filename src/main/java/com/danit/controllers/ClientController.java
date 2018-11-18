@@ -1,8 +1,9 @@
 package com.danit.controllers;
 
 
-import com.danit.dto.clientdto.ClientDto;
-import com.danit.dto.clientdto.Views;
+import com.danit.dto.ClientDto;
+import com.danit.dto.Views;
+import com.danit.facades.ClientFacade;
 import com.danit.models.Client;
 import com.danit.services.ClientService;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -20,9 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
@@ -30,21 +29,25 @@ public class ClientController {
 
   private final ModelMapper modelMapper;
   private ClientService clientService;
+  private ClientFacade clientFacade;
 
   private String logMsg1 = " got all clients data";
 
   @Autowired
-  public ClientController(ClientService clientService, ModelMapper modelMapper) {
+  public ClientController(ClientService clientService, ModelMapper modelMapper, ClientFacade clientFacade) {
     this.clientService = clientService;
     this.modelMapper = modelMapper;
+    this.clientFacade = clientFacade;
     modelMapper.getConfiguration()
         .setAmbiguityIgnored(true);
   }
 
+  //return ids of created clients
+  @JsonView(Views.Ids.class)
   @PostMapping("/clients")
-  public List<Client> createClients(@RequestBody List<Client> clients, Principal principal) {
+  public List<ClientDto> createClients(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is saving new clients: " + clients);
-    return clientService.saveClients(clients);
+    return clientFacade.saveClients(clients);
   }
 
   @GetMapping("/clients")
@@ -58,17 +61,14 @@ public class ClientController {
       produces = MediaType.APPLICATION_JSON_VALUE)
   public List<ClientDto> getAllClientsShort(Principal principal) throws ParseException {
     log.info(principal.getName() + logMsg1);
-    return convertToDtos(clientService.getAllClients());
+    return clientFacade.getAllClients();
   }
 
   @JsonView(Views.Extended.class)
   @GetMapping(path = "/clients/extended")
   public List<ClientDto> getAllClientsExtended(Principal principal) throws ParseException {
     log.info(principal.getName() + logMsg1);
-    List<Client> clients = clientService.getAllClients();
-    return clients.stream()
-        .map(this::convertToDto)
-        .collect(Collectors.toList());
+    return clientFacade.getAllClients();
   }
 
   @GetMapping("/clients/{id}")
@@ -93,17 +93,6 @@ public class ClientController {
   public void deleteClients(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is trying to delete clients: " + clients);
     clientService.deleteClients(clients);
-  }
-
-  private ClientDto convertToDto(Client client) {
-    return modelMapper.map(client, ClientDto.class);
-  }
-
-  private List<ClientDto> convertToDtos(List<Client> clients) {
-    List<ClientDto> dtoClients = new ArrayList<>();
-    clients.forEach(client ->
-        dtoClients.add(modelMapper.map(client, ClientDto.class)));
-    return dtoClients;
   }
 
 }
