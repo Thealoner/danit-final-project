@@ -75,15 +75,37 @@ class Admin extends Component {
   };
 
   setTabTitle = (title) => {
-    let currentTab = this.getCurrentTab();
-    currentTab.title = title;
-    return currentTab.title;
+    let currentTabIndex = this.state.tabs.findIndex((tab) => {
+      return tab.tabKey === this.state.activeKey;
+    });
+    
+    this.setState(prevState => ({
+      tabs: [
+        {
+          title: title,
+          data: prevState.tabs[currentTabIndex].data,
+          contentUrl: prevState.tabs[currentTabIndex].url
+        },
+        ...prevState.tabs.filter(tab => tab.tabKey !== this.state.activeKey)
+      ]
+    }));
   };
 
   setTabContentUrl = (url) => {
-    let currentTab = this.getCurrentTab();
-    currentTab.contentUrl = url;
-    return currentTab.contentUrl;
+    let currentTabIndex = this.state.tabs.findIndex((tab) => {
+      return tab.tabKey === this.state.activeKey;
+    });
+    
+    this.setState(prevState => ({
+      tabs: [
+        {
+          title: prevState.tabs[currentTabIndex].title,
+          data: prevState.tabs[currentTabIndex].data,
+          contentUrl: url
+        },
+        ...prevState.tabs.filter(tab => tab.tabKey !== this.state.activeKey)
+      ]
+    }));
   };
 
   setTabData = (tabKey, data) => {
@@ -91,9 +113,17 @@ class Admin extends Component {
       return tab.tabKey === tabKey;
     });
     
-    this.state.tabs[currentTabIndex].data = data;
-    this.forceUpdate();
-  }
+    this.setState(prevState => ({
+      tabs: [
+        {
+          title: prevState.tabs[currentTabIndex].title,
+          data: data,
+          contentUrl: prevState.tabs[currentTabIndex].contentUrl
+        },
+        ...prevState.tabs.filter(tab => tab.tabKey !== tabKey)
+      ]
+    }));
+  };
 
   getCurrentTab = () => {
     return this.state.tabs.find((tab) => {
