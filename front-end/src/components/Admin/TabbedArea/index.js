@@ -33,10 +33,19 @@ class TabbedArea extends Component {
             className={`rc-tabs__close-btn${(this.props.tabs.length === 1) ? ' rc-tabs__close-btn--disabled' : ''}`}
             onClick={this.props.remove.bind(this, t.tabKey)}/></Fragment>}>
         <Route exact path="/admin/:tabKey/:entityType" render={
-          (props) => <Grid setTabContentUrl={this.props.setTabContentUrl} {...props} />
+          (props) => <Grid
+            setTabContentUrl={this.props.setTabContentUrl}
+            {...props}
+          />
         }/>
         <Route path="/admin/:tabKey/:entityType/:mode/:rowId?" render={
-          (props) => <Record setTabContentUrl={this.props.setTabContentUrl} {...props} />}/>
+          (props) => <Record
+            setTabContentUrl={this.props.setTabContentUrl}
+            setTabData={this.props.setTabData}
+            currentTab={this.props.currentTab}
+            {...props}
+          />
+        }/>
       </TabPane>;
     }).concat([
       <TabPane key={'__add'} disabled={disabled} tab={<span className='rc-tabs__add-btn' onClick={this.props.add}/>}/>

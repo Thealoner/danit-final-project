@@ -11,7 +11,6 @@ class RecordEditor extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      data: {},
       authService: new AuthService(),
       isLoading: false
     };
@@ -30,6 +29,8 @@ class RecordEditor extends Component {
   };
 
   fetchEntity = (entity, rowId) => {
+    let { setTabData } = this.props;
+    let { tabKey } = this.props.match.params;
     const headers = {
       'Content-Type': 'application/json'
     };
@@ -48,19 +49,20 @@ class RecordEditor extends Component {
       .then(this.state.authService._checkStatus)
       .then(response => response.json())
       .then(data => {
-        setTimeout(() =>
+        setTimeout(() => {
+          setTabData(tabKey, data);
+
           this.setState({
             entityType: entity.id,
-            data: data,
             isLoading: false
           })
-        , 1000);
+        }, 1000);
       });
   };
 
   saveData = (form) => {
-    let { mode } = this.props.match.params;
-    let { entityType } = this.props;
+    let { mode, tabKey } = this.props.match.params;
+    let { entityType, setTabData } = this.props;
     let entity = getEntityByType(entityType);
 
     if (this.state.authService.loggedIn() && !this.state.authService.isTokenExpired()) {
@@ -92,15 +94,15 @@ class RecordEditor extends Component {
           // display green 'Данные сохранены' message
           // enable 'Save' button
           // hide loader
-          
-          this.setState(prevState => ({
-            data: {
-              ...prevState.data,
-              ...form.formData
-              // id: response.data.id <--- need response from the server with the ID
-            },
+          setTabData(tabKey, {
+            ...this.props.data,
+            ...form.formData
+            // id: response.data.id <--- need response from the server with the ID
+          });
+
+          this.setState({
             isLoading: false
-          }));
+          });
         })
         .catch(error => {
           console.log(error);
@@ -117,9 +119,8 @@ class RecordEditor extends Component {
   };
 
   changeDataInState = (type) => {
-    this.setState({
-      data: type.formData
-    });
+    let { tabKey } = this.props.match.params;
+    this.props.setTabData(tabKey, type.formData);
   }
 
   log = (type) => console.log.bind(console, type);
@@ -138,7 +139,7 @@ class RecordEditor extends Component {
           <Form
             schema={entity.schema}
             uiSchema={entity.uiSchema}
-            formData={this.state.data}
+            formData={this.props.currentTab.data}
             onChange={this.changeDataInState}
             onSubmit={this.saveData}
             onError={this.log('errors')}
@@ -157,12 +158,12 @@ class RecordEditor extends Component {
 
   componentDidUpdate () {
     let { tabKey, mode } = this.props.match.params;
-    let { entityType, setTabContentUrl } = this.props;
+    let { entityType, setTabContentUrl, currentTab } = this.props;
 
     if (mode === 'add') {
-      setTabContentUrl(entityType + '/' + this.state.data.id);
+      setTabContentUrl(entityType + '/' + currentTab.data.id);
       this.props.history.push({
-        pathname: '/admin/' + tabKey + '/' + entityType + '/edit/' + this.state.data.id
+        pathname: '/admin/' + tabKey + '/' + entityType + '/edit/' + currentTab.data.id
       });
     }
   }
