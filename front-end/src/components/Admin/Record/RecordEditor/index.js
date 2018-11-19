@@ -11,7 +11,6 @@ class RecordEditor extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      entityType: '',
       data: {},
       authService: new AuthService(),
       isLoading: false
@@ -119,6 +118,12 @@ class RecordEditor extends Component {
     }
   };
 
+  changeDataInState = (type) => {
+    this.setState({
+      data: type.formData
+    });
+  }
+
   log = (type) => console.log.bind(console, type);
 
   render () {
@@ -136,7 +141,7 @@ class RecordEditor extends Component {
             schema={entity.schema}
             uiSchema={entity.uiSchema}
             formData={this.state.data}
-            onChange={this.log('changed')}
+            onChange={this.changeDataInState}
             onSubmit={this.saveData}
             onError={this.log('errors')}
           />
