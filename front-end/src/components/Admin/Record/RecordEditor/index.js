@@ -92,17 +92,15 @@ class RecordEditor extends Component {
           // display green 'Данные сохранены' message
           // enable 'Save' button
           // hide loader
-          let stateData = this.state.data;
-          let formData = form.formData;
           
-          this.setState({
+          this.setState(prevState => ({
             data: {
-              ...stateData,
-              ...formData
+              ...prevState.data,
+              ...form.formData
               // id: response.data.id <--- need response from the server with the ID
             },
             isLoading: false
-          });
+          }));
         })
         .catch(error => {
           console.log(error);
