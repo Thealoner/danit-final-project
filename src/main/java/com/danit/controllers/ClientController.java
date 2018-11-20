@@ -8,7 +8,6 @@ import com.danit.models.Client;
 import com.danit.services.ClientService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,20 +26,17 @@ import java.util.List;
 @Slf4j
 public class ClientController {
 
-  private final ModelMapper modelMapper;
   private ClientService clientService;
   private ClientFacade clientFacade;
 
   private String logMsg1 = " got all clients data";
 
   @Autowired
-  public ClientController(ClientService clientService, ModelMapper modelMapper, ClientFacade clientFacade) {
+  public ClientController(ClientService clientService, ClientFacade clientFacade) {
     this.clientService = clientService;
-    this.modelMapper = modelMapper;
     this.clientFacade = clientFacade;
-    modelMapper.getConfiguration()
-        .setAmbiguityIgnored(true);
   }
+
 
   //------not dto------
   @PostMapping("/clients")
@@ -92,8 +88,8 @@ public class ClientController {
   @JsonView(Views.Extended.class)
   @GetMapping("/clients/{id}/extended")
   ClientDto getClientByIdExtended(@PathVariable(name = "id") long id, Principal principal) {
-  log.info(principal.getName() + " got client data with id: " + id);
-  return clientFacade.getClientById(id);
+    log.info(principal.getName() + " got client data with id: " + id);
+    return clientFacade.getClientById(id);
   }
 
   //------not dto------

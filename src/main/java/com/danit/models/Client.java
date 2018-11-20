@@ -22,7 +22,7 @@ import java.util.List;
 @Entity
 @Table(name = "clients")
 @NoArgsConstructor
-//@ToString(exclude = {"contracts"})
+@ToString(exclude = {"contracts"})
 @Data
 public class Client {
 
@@ -42,11 +42,11 @@ public class Client {
   private String gender;
 
   @Column(name = "birth_date")
-//  @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
-//  @JsonFormat(
-//      shape = JsonFormat.Shape.STRING,
-//      pattern = "yyyy-MM-dd")
-//  @Temporal(TemporalType.DATE)
+  //  @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
+  //  @JsonFormat(
+  //      shape = JsonFormat.Shape.STRING,
+  //      pattern = "yyyy-MM-dd")
+  //  @Temporal(TemporalType.DATE)
   private Date birthDate;
 
   @Column(name = "phone_number")

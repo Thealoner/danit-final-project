@@ -9,7 +9,7 @@ public interface ClientFacade {
 
   ClientDto convertToDto(Client client);
 
-  List<ClientDto> convertToDtos (List<Client> clients);
+  List<ClientDto> convertToDtos(List<Client> clients);
 
   List<ClientDto> getAllClients();
 
