@@ -2,11 +2,72 @@
 
 .client {
   position: relative;
+  display: grid;
+  grid-template: repeat(5, fit-content(auto)) / 72% 28%;
+  grid-gap: 5px;
 
-  &__info-block {
-    margin-bottom: 20px;
-    padding: 20px 0;
+  &__block {
+    padding: 20px;
+    background-color: #fff;
     box-shadow: 0 11px 7px -12px $text-config;
+
+    &--main {
+      display: flex;
+      flex-direction: column;
+      grid-area: 1 / 2 / 6 / 3;
+    }
+
+    &--general {
+      display: grid;
+      grid-template-rows: repeat(3, fit-content(200px));
+      grid-template-columns: repeat(3, 1fr);
+      grid-column-gap: 20px;
+    }
+
+    &--contact {
+      display: grid;
+      grid-template-rows: repeat(3, fit-content(200px));
+      grid-template-columns: repeat(3, 1fr);
+      grid-column-gap: 20px;
+    }
+
+    &--registration {
+      display: grid;
+      grid-template-rows: repeat(2, fit-content(200px));
+      grid-template-columns: repeat(3, 1fr);
+      grid-column-gap: 20px;
+    }
+
+    &--additionally {
+      display: grid;
+      grid-template-rows: repeat(2, fit-content(200px));
+      grid-template-columns: repeat(3, 1fr);
+      grid-column-gap: 20px;
+    }
+  }
+
+  &__block-title {
+    width: 100%;
+    grid-area: 1 / 1 / 2 / 4;
+    font-weight: bold;
+    font-size: 17px;
+    line-height: 17px;
+  }
+  
+  &__photo-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    overflow: hidden;
+    background-color: $config-bg;
+    box-shadow: 0 11px 7px -12px $text-config;
+  }
+
+  &__photo {
+    display: block;
+    width: auto;
+    height: 100%;
   }
 
   input[type=radio] {
@@ -15,11 +76,6 @@
 
   input.error {
     border-color: red;
-  }
-
-  label {
-    margin: 0;
-    cursor: pointer;
   }
 
   .input-feedback {

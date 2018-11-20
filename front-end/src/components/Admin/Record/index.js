@@ -7,6 +7,7 @@ import Client from './Client';
 // import Paket from './Paket';
 import { Route } from 'react-router-dom';
 import GridEntities from '../GridEntities';
+import autosize from 'autosize';
 
 class Record extends Component {
   getRoutes = () => {
@@ -62,6 +63,10 @@ class Record extends Component {
         {routes}
       </div>
     );
+  }
+
+  componentDidMount () {
+    autosize(document.querySelectorAll('textarea'));
   }
 }
 
