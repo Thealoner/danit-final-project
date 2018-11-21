@@ -31,8 +31,8 @@ class EmployeeDiscount {
   private Long id;
 
   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinColumn(name = "discountId")
-  private Discount discount;
+  @JoinColumn(name = "discountid")
+  private Discount discountList;
 
   @Column(name = "valid_from")
   @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
@@ -41,7 +41,8 @@ class EmployeeDiscount {
       pattern = "yyyy-MM-dd")
   private Date validFrom;
 
-  @Column(name = "employeeId")
+  @Column(name = "employeeid")
   private Long employeeId;
 
 }
+

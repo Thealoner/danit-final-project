@@ -42,7 +42,7 @@ public class GroupTrainingServiceImpl implements GroupTrainingService {
     GroupTraining savedGroupTraining = new GroupTraining();
     Long id = groupTraining.getId();
     if (Objects.nonNull(id)) {
-      GroupTraining targetGroupTraining = getGroupTrainingById(groupTraining.getId());
+      GroupTraining targetGroupTraining = getGroupTrainingById(id);
       if (updateNonEqualFields(groupTraining, targetGroupTraining)) {
         savedGroupTraining = groupTrainingRepository.save(targetGroupTraining);
       }

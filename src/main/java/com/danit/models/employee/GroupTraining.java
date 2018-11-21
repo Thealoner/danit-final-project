@@ -27,15 +27,15 @@ public class GroupTraining {
   private Long id;
 
   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinColumn(name = "employeeId")
+  @JoinColumn(name = "employeeid")
   private Employee employee;
 
   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinColumn(name = "gymId")
+  @JoinColumn(name = "gymid")
   private Gym gym;
 
   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinColumn(name = "serviceId")
+  @JoinColumn(name = "serviceid")
   private Services service;
 
   @Column(name = "amount")
@@ -48,7 +48,7 @@ public class GroupTraining {
   private String description;
 
   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinColumn(name = "training_typeId")
+  @JoinColumn(name = "training_typeid")
   private TrainingType trainingType;
 
 }

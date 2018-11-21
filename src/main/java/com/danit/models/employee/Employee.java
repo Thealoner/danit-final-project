@@ -47,7 +47,7 @@ public class Employee {
   private Date birthDate;
 
   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinColumn(name = "departmentId")
+  @JoinColumn(name = "departmentid")
   private Department department;
 
   @Column(name = "job_begin_date")
@@ -65,7 +65,7 @@ public class Employee {
   private Date dismissDate;
 
   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinColumn(name = "postId")
+  @JoinColumn(name = "positionid")
   private Position position;
 
   @Column(name = "email")
@@ -81,26 +81,26 @@ public class Employee {
   private String phone2;
 
   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinColumn(name = "employee_categoryId")
+  @JoinColumn(name = "employee_categoryid")
   private EmployeeCategory employeeCategory;
 
   @Column(name = "photo")
   private String photo;
 
-  @Column(name = "cardId")
+  @Column(name = "cardid")
   private String cardId;
 
   @Column(name = "dbuser")
   private String dbUser;
 
-  @Column(name = "discountId")
+  @Column(name = "discountid")
   private Long discountId;
 
   @Column(name = "gender")
   private int gender;
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinColumn(name = "employeeId", referencedColumnName = "id")
+  @JoinColumn(name = "employeeid", referencedColumnName = "id")
   private Set<EmployeeDiscount> employeeDiscountList;
 
 }

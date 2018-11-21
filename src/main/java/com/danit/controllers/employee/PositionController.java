@@ -1,10 +1,8 @@
 package com.danit.controllers.employee;
 
-import com.danit.exceptions.EntityNotFoundException;
 import com.danit.models.employee.Position;
-import com.danit.repositories.employee.PositionRepository;
+import com.danit.services.employee.PositionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,61 +10,43 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class PositionController {
 
+  private PositionService positionService;
+
   @Autowired
-  private PositionRepository positionRepository;
+  public PositionController(PositionService positionService) {
+    this.positionService = positionService;
+  }
 
   @GetMapping("/position")
   public List<Position> retrieveAllPost() {
-    return positionRepository.findAll();
+    return positionService.getAllPositions();
   }
 
   @GetMapping("/position/{id}")
   public Position retrievePost(@PathVariable long id) {
-    Optional<Position> post = positionRepository.findById(id);
+    return positionService.getPositionById(id);
 
-    if (!post.isPresent()) {
-      throw new EntityNotFoundException("id-" + id);
-    }
-    return post.get();
   }
 
   @DeleteMapping("/position/{id}")
   public void deletePost(@PathVariable long id) {
-    positionRepository.deleteById(id);
+    positionService.deletePosition(id);
   }
 
   @PostMapping("/position")
-  public ResponseEntity<Object> createPost(@RequestBody Position position) {
-    Position savedPosition = positionRepository.save(position);
-
-    URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-        .buildAndExpand(savedPosition.getId()).toUri();
-
-    return ResponseEntity.created(location).build();
+  public Position createPost(@RequestBody Position position) {
+    return positionService.createPosition(position);
 
   }
 
   @PutMapping("/position/{id}")
-  public ResponseEntity<Object> updatepost(@RequestBody Position position, @PathVariable long id) {
-
-    Optional<Position> postOptional = positionRepository.findById(id);
-
-    if (!postOptional.isPresent()) {
-      return ResponseEntity.notFound().build();
-    }
-    position.setId(id);
-
-    positionRepository.save(position);
-
-    return ResponseEntity.noContent().build();
+  public Position updatePosition(@RequestBody Position position, @PathVariable long id) {
+    return positionService.updatePosition(position);
   }
 }

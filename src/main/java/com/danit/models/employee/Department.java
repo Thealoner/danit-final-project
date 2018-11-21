@@ -60,7 +60,7 @@ public class Department {
   private int hierLevel;
 
   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinColumn(name = "companyId")
+  @JoinColumn(name = "companyid")
   private Company company;
 
   @Column(name = "sort_position")
