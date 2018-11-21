@@ -11,8 +11,7 @@ class Admin extends Component {
     tabs: [{
       title: 'Новая вкладка',
       tabKey: '1',
-      contentUrl: '',
-      data: {}
+      contentUrl: ''
     }],
     activeKey: '1'
   };
@@ -75,31 +74,22 @@ class Admin extends Component {
   };
 
   setTabTitle = (title) => {
-    let currentTab = this.getCurrentTab();
+    let currentTab = this.state.tabs.find((tab) => {
+      return tab.tabKey === this.state.activeKey;
+    });
+
     currentTab.title = title;
     return currentTab.title;
   };
 
   setTabContentUrl = (url) => {
-    let currentTab = this.getCurrentTab();
+    let currentTab = this.state.tabs.find((tab) => {
+      return tab.tabKey === this.state.activeKey;
+    });
+
     currentTab.contentUrl = url;
     return currentTab.contentUrl;
   };
-
-  setTabData = (tabKey, data) => {
-    let currentTabIndex = this.state.tabs.findIndex((tab) => {
-      return tab.tabKey === tabKey;
-    });
-    
-    this.state.tabs[currentTabIndex].data = data;
-    this.forceUpdate();
-  }
-
-  getCurrentTab = () => {
-    return this.state.tabs.find((tab) => {
-      return tab.tabKey === this.state.activeKey;
-    });
-  }
 
   render () {
     return (
@@ -115,9 +105,7 @@ class Admin extends Component {
             remove={this.remove}
             activeKey={this.state.activeKey}
             tabs={this.state.tabs}
-            currentTab={this.getCurrentTab}
             setTabContentUrl={this.setTabContentUrl}
-            setTabData={this.setTabData}
           />
         </div>
       </main>
