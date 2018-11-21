@@ -139,7 +139,7 @@ class RecordEditor extends Component {
           <Form
             schema={entity.schema}
             uiSchema={entity.uiSchema}
-            formData={this.props.currentTab().data}
+            formData={this.props.currentTab.data}
             onChange={this.changeDataInState}
             onSubmit={this.saveData}
             onError={this.log('errors')}
@@ -158,12 +158,12 @@ class RecordEditor extends Component {
 
   componentDidUpdate () {
     let { tabKey, mode } = this.props.match.params;
-    let { entityType, setTabContentUrl, getCurrentTab } = this.props;
+    let { entityType, setTabContentUrl, currentTab } = this.props;
 
     if (mode === 'add') {
-      setTabContentUrl(entityType + '/' + getCurrentTab().data.id);
+      setTabContentUrl(entityType + '/' + currentTab.data.id);
       this.props.history.push({
-        pathname: '/admin/' + tabKey + '/' + entityType + '/edit/' + getCurrentTab().data.id
+        pathname: '/admin/' + tabKey + '/' + entityType + '/edit/' + currentTab.data.id
       });
     }
   }

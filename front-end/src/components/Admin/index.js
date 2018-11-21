@@ -146,7 +146,7 @@ class Admin extends Component {
             remove={this.remove}
             activeKey={this.state.activeKey}
             tabs={this.state.tabs}
-            getCurrentTab={this.getCurrentTab}
+            currentTab={this.getCurrentTab}
             setTabContentUrl={this.setTabContentUrl}
             setTabData={this.setTabData}
           />

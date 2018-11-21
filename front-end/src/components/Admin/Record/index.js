@@ -21,7 +21,7 @@ class Record extends Component {
             (props) => <Client
               setTabContentUrl={this.props.setTabContentUrl}
               setTabData={this.props.setTabData}
-              getCurrentTab={this.props.getCurrentTab}
+              currentTab={this.props.currentTab}
               entityType={entityType}
               {...props}
             />
@@ -33,7 +33,7 @@ class Record extends Component {
             (props) => <RecordEditor
               setTabContentUrl={this.props.setTabContentUrl}
               setTabData={this.props.setTabData}
-              getCurrentTab={this.props.getCurrentTab}
+              currentTab={this.props.currentTab}
               entityType={entityType}
               {...props}
             />
