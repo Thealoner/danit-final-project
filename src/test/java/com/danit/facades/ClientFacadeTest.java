@@ -2,6 +2,7 @@ package com.danit.facades;
 
 import com.danit.Application;
 import com.danit.dto.ClientDto;
+import com.danit.exceptions.EntityNotFoundException;
 import com.danit.models.Client;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +26,6 @@ public class ClientFacadeTest {
   @Test
   public void whenConvertClientEntityToClientDto_thenCorrect() {
 
-
     Client client = new Client();
     client.setId(1020L);
     client.setFirstName("Adams");
@@ -35,6 +35,12 @@ public class ClientFacadeTest {
 
     assertEquals(client.getFirstName(), clientDto.getFirstName());
     assertEquals(client.getEmail(), clientDto.getEmail());
+  }
+
+  @Test(expected = EntityNotFoundException.class)
+  public void deleteClientByExistingId_thenSucces(){
+    clientFacade.deleteClientById(1005L);
+    ClientDto clientDto = clientFacade.getClientById(100L);
   }
 
 }
