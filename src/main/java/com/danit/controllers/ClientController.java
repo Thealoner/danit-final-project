@@ -60,15 +60,6 @@ public class ClientController {
   }
 
   //--------dto--------
-  //  @JsonView(Views.Short.class)
-  //  @GetMapping(path = "/clients/short",
-  //      produces = MediaType.APPLICATION_JSON_VALUE)
-  //  public List<ClientDto> getAllClientsShort(Principal principal) throws ParseException {
-  //    log.info(principal.getName() + logMsg1);
-  //    return clientFacade.getAllClients();
-  //  }
-
-  //--------dto--------
   @JsonView(Views.Extended.class)
   @GetMapping(path = "/clients/extended")
   public List<ClientDto> getAllClientsExtended(Principal principal) throws ParseException {
