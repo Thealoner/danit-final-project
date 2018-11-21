@@ -1,6 +1,9 @@
 package com.danit.models;
 
 
+import com.danit.utils.CustomDateAndTimeDeserialize;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -15,6 +18,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
 import java.util.List;
 
@@ -42,11 +47,11 @@ public class Client {
   private String gender;
 
   @Column(name = "birth_date")
-  //  @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
-  //  @JsonFormat(
-  //      shape = JsonFormat.Shape.STRING,
-  //      pattern = "yyyy-MM-dd")
-  //  @Temporal(TemporalType.DATE)
+  @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
+  @JsonFormat(
+      shape = JsonFormat.Shape.STRING,
+      pattern = "yyyy-MM-dd")
+  @Temporal(TemporalType.TIMESTAMP)
   private Date birthDate;
 
   @Column(name = "phone_number")
