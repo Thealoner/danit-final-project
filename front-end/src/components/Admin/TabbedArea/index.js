@@ -42,7 +42,7 @@ class TabbedArea extends Component {
           (props) => <Record
             setTabContentUrl={this.props.setTabContentUrl}
             setTabData={this.props.setTabData}
-            currentTab={this.props.currentTab}
+            getCurrentTab={this.props.getCurrentTab}
             {...props}
           />
         }/>
