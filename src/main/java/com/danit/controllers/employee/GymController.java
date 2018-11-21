@@ -2,6 +2,7 @@ package com.danit.controllers.employee;
 
 import com.danit.models.employee.Gym;
 import com.danit.services.employee.GymService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,11 @@ import java.util.List;
 public class GymController {
 
   private GymService gymService;
+
+  @Autowired
+  public GymController(GymService gymService) {
+    this.gymService = gymService;
+  }
 
   @GetMapping("/gym")
   public List<Gym> getAllGyms() {
