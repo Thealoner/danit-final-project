@@ -59,8 +59,8 @@ class RecordEditor extends Component {
   };
 
   saveData = (form) => {
-    let { mode } = this.props.match.params;
-    let { entityType } = this.props;
+    let { tabKey, mode } = this.props.match.params;
+    let { entityType, setTabContentUrl } = this.props;
     let entity = getEntityByType(entityType);
 
     if (this.state.authService.loggedIn() && !this.state.authService.isTokenExpired()) {
@@ -98,11 +98,20 @@ class RecordEditor extends Component {
           this.setState({
             data: {
               ...stateData,
-              ...formData
-              // id: response.data.id <--- need response from the server with the ID
+              ...formData,
+              id: response.data.id // <--- TODO: need response from the server with the ID
             },
             isLoading: false
           });
+          
+          // TODO: need response from the server with the ID
+          if (mode === 'add') {
+            let editorUrl = entityType + '/edit/' + response.data.id;
+            setTabContentUrl(editorUrl);
+            this.props.history.push({
+              pathname: '/admin/' + tabKey + '/' + editorUrl
+            });
+          }
         })
         .catch(error => {
           console.log(error);
@@ -129,7 +138,13 @@ class RecordEditor extends Component {
   render () {
     let { mode, rowId } = this.props.match.params;
     let { entityType, setTabContentUrl } = this.props;
-    setTabContentUrl(entityType + '/' + mode + '/' + rowId);
+    
+    if (mode === 'edit') {
+      setTabContentUrl(entityType + '/' + mode + '/' + rowId);
+    } else if (mode === 'add') {
+      setTabContentUrl(entityType + '/' + mode);
+    }
+    
     let entity = getEntityByType(entityType);
     
     return (
@@ -154,18 +169,6 @@ class RecordEditor extends Component {
     let { mode } = this.props.match.params;
     if (mode === 'edit') {
       this.getData();
-    }
-  }
-
-  componentDidUpdate () {
-    let { tabKey, mode } = this.props.match.params;
-    let { entityType, setTabContentUrl } = this.props;
-
-    if (mode === 'add') {
-      setTabContentUrl(entityType + '/' + this.state.data.id);
-      this.props.history.push({
-        pathname: '/admin/' + tabKey + '/' + entityType + '/edit/' + this.state.data.id
-      });
     }
   }
 }
