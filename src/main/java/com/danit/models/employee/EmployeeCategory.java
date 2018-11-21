@@ -15,9 +15,9 @@ import javax.persistence.Table;
 @Table(name = "employee_category")
 public class EmployeeCategory {
   @Id
-  @SequenceGenerator(name = "empCategorySequence", sequenceName = "empCategorySequence",
+  @SequenceGenerator(name = "employeeCategorySequence", sequenceName = "employeeCategorySequence",
       allocationSize = 1, initialValue = 1001)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "empCategorySequence")
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employeeCategorySequence")
   @Column(name = "id")
   private Long id;
 

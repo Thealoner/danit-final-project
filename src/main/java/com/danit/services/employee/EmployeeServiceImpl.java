@@ -28,7 +28,7 @@ public class EmployeeServiceImpl implements EmployeeService {
   @Override
   public Employee getEmployeeById(long id) {
     return employeeRepository.findById(id).orElseThrow(() ->
-        new EntityNotFoundException(String.format("Cant find ccompany with id=%d", id)));
+        new EntityNotFoundException(String.format("Cant find employee with id=%d", id)));
 
   }
 
