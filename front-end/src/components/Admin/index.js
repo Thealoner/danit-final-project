@@ -23,8 +23,7 @@ class Admin extends Component {
     const newTab = {
       title: 'Новая вкладка',
       tabKey: `${index}`,
-      contentUrl: '',
-      data: {}
+      contentUrl: ''
     };
     
     this.setState({
@@ -37,7 +36,7 @@ class Admin extends Component {
 
   onTabChange = (activeKey) => {
     this.setState({
-      activeKey: activeKey
+      activeKey
     });
 
     let clickedTab = this.state.tabs.find((tab) => {
