@@ -9,7 +9,6 @@ import com.danit.services.ClientService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,15 +57,6 @@ public class ClientController {
   List<Client> getAllClients(Principal principal) {
     log.info(principal.getName() + logMsg1);
     return clientService.getAllClients();
-  }
-
-  //--------dto--------
-  @JsonView(Views.Short.class)
-  @GetMapping(path = "/clients/short",
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<ClientDto> getAllClientsShort(Principal principal) throws ParseException {
-    log.info(principal.getName() + logMsg1);
-    return clientFacade.getAllClients();
   }
 
   //--------dto--------

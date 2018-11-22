@@ -35,7 +35,7 @@ class TabbedArea extends Component {
         <Route exact path="/admin/:tabKey/:entityType" render={
           (props) => <Grid setTabContentUrl={this.props.setTabContentUrl} {...props} />
         }/>
-        <Route path="/admin/:tabKey/:entityType/:rowId" render={
+        <Route path="/admin/:tabKey/:entityType/:mode/:rowId?" render={
           (props) => <Record setTabContentUrl={this.props.setTabContentUrl} {...props} />}/>
       </TabPane>;
     }).concat([
