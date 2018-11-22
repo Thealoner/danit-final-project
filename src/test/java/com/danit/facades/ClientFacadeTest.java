@@ -38,7 +38,7 @@ public class ClientFacadeTest {
   }
 
   @Test(expected = EntityNotFoundException.class)
-  public void deleteClientByExistingId_thenEntityNotFoundExceptionWhenGetClientById(){
+  public void deleteClientByExistingId_thenEntityNotFoundExceptionWhenGetClientById() {
     clientFacade.deleteClientById(1005L);
     clientFacade.getClientById(1005L);
   }

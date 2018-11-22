@@ -4,6 +4,8 @@ import com.danit.exceptions.EntityNotFoundException;
 import com.danit.exceptions.EntityParticularDataException;
 import com.danit.models.Client;
 import com.danit.repositories.ClientRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,8 +25,8 @@ public class ClientServiceImpl implements ClientService {
   }
 
   @Override
-  public List<Client> getAllClients() {
-    return clientRepository.findAll();
+  public Page<Client> getAllClients(int page, int size) {
+    return clientRepository.findAll(PageRequest.of(page, size));
   }
 
   @Override
@@ -34,7 +36,7 @@ public class ClientServiceImpl implements ClientService {
 
   @Override
   public List<Client> saveClients(List<Client> clients) {
-    return clientRepository.saveAll(clients);
+    return (List<Client>) clientRepository.saveAll(clients);
   }
 
   @Override
@@ -75,7 +77,7 @@ public class ClientServiceImpl implements ClientService {
         throw new EntityNotFoundException("Client with id=" + client.getId() + " is not exist");
       }
     });
-    clientRepository.deleteInBatch(clients);
+    clientRepository.deleteAll(clients);
   }
 
   @Override

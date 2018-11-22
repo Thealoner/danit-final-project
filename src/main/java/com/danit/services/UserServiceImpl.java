@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void updateUsers(List<User> users) {
+  public List<User> updateUsers(List<User> users) {
     Set<Long> usersId = userRepository.getAllUsersId();
     users.forEach(user -> {
       if (!usersId.contains(user.getId())) {
@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
       }
     });
     users.forEach(user -> user.setPassword(bcryptPasswordEncoder.encode(user.getPassword())));
-    userRepository.saveAll(users);
+    return userRepository.saveAll(users);
   }
 
   @Override
