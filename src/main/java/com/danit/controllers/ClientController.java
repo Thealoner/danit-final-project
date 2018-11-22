@@ -9,17 +9,21 @@ import com.danit.services.ClientService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @Slf4j
@@ -54,18 +58,32 @@ public class ClientController {
 
   //------not dto------
   @GetMapping("/clients")
-  List<Client> getAllClients(Principal principal) {
+  public Map<String, Object> getAllClients(@RequestParam(name = "page") int page,
+                                           @RequestParam(name = "size") int size,
+                                           Principal principal) {
     log.info(principal.getName() + logMsg1);
-    return clientService.getAllClients();
+    return convertToMap(clientService.getAllClients(page, size));
   }
+
+  //--------dto--------
+  @JsonView(Views.Short.class)
+  @GetMapping(path = "/clients/short")
+  public Map<String, Object> getAllClientsShort(@RequestParam(name = "page") int page,
+                                                @RequestParam(name = "size") int size,
+                                                Principal principal) throws ParseException {
+    log.info(principal.getName() + logMsg1); // NOSONAR
+    return convertToMap(clientFacade.getAllClients(page, size)); // NOSONAR
+  } // NOSONAR
 
   //--------dto--------
   @JsonView(Views.Extended.class)
   @GetMapping(path = "/clients/extended")
-  public List<ClientDto> getAllClientsExtended(Principal principal) throws ParseException {
-    log.info(principal.getName() + logMsg1);
-    return clientFacade.getAllClients();
-  }
+  public Map<String, Object> getAllClientsExtended(@RequestParam(name = "page") int page,
+                                                   @RequestParam(name = "size") int size,
+                                                   Principal principal) throws ParseException {
+    log.info(principal.getName() + logMsg1); // NOSONAR
+    return convertToMap(clientFacade.getAllClients(page, size)); // NOSONAR
+  } // NOSONAR
 
   //------not dto------
   @GetMapping("/clients/{id}")
@@ -124,6 +142,13 @@ public class ClientController {
   public void deleteClientsDto(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is trying to delete clients: " + clients);
     clientFacade.deleteClients(clients);
+  }
+
+  private <T> Map<String, Object> convertToMap(Page<T> pageData) {
+    Map<String, Object> outputData = new HashMap<>();
+    outputData.put("data", pageData.getContent());
+    outputData.put("last_page", pageData.getTotalPages());
+    return outputData;
   }
 
 }

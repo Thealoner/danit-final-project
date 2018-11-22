@@ -51,7 +51,7 @@ public class Client {
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
       pattern = "yyyy-MM-dd")
-  @Temporal(TemporalType.TIMESTAMP)
+  @Temporal(TemporalType.DATE)
   private Date birthDate;
 
   @Column(name = "phone_number")
@@ -63,7 +63,7 @@ public class Client {
   @Column(name = "active")
   private Boolean active;
 
-  @OneToMany(mappedBy = "clientId", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+  @OneToMany(mappedBy = "clientId", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
   private List<Contract> contracts;
 
 }

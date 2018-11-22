@@ -8,5 +8,6 @@ public interface Views {
   interface Extended extends Short {
   }
 
-  interface Ids {}
+  interface Ids {
+  }
 }

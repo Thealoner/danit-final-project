@@ -2,6 +2,7 @@ package com.danit.facades;
 
 import com.danit.dto.ClientDto;
 import com.danit.models.Client;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -9,9 +10,7 @@ public interface ClientFacade {
 
   ClientDto convertToDto(Client client);
 
-  List<ClientDto> convertToDtos(List<Client> clients);
-
-  List<ClientDto> getAllClients();
+  Page<ClientDto> getAllClients(int page, int size);
 
   List<ClientDto> saveClients(List<Client> clients);
 

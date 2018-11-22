@@ -47,9 +47,9 @@ public class CardColorController {
   }
 
   @PutMapping("/cards")
-  public void addCards(@RequestBody List<CardColor> cards, Principal principal) {
+  List<CardColor> addCards(@RequestBody List<CardColor> cards, Principal principal) {
     logger.info(principal.getName() + " is updating cards data: " + cards);
-    cardColorService.saveCardColors(cards);
+    return cardColorService.saveCardColors(cards);
   }
 
   @DeleteMapping("/cards/{id}")

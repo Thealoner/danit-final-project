@@ -5,18 +5,24 @@ import com.danit.models.Client;
 import com.danit.services.ClientService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class ClientFacadeImpl implements ClientFacade{
-  @Autowired
-  ClientService clientService;
+public class ClientFacadeImpl implements ClientFacade {
+
+  private final ClientService clientService;
+
+  private final ModelMapper modelMapper;
 
   @Autowired
-  ModelMapper modelMapper;
+  public ClientFacadeImpl(ClientService clientService, ModelMapper modelMapper) {
+    this.clientService = clientService;
+    this.modelMapper = modelMapper;
+  }
 
 
   @Override
@@ -24,17 +30,21 @@ public class ClientFacadeImpl implements ClientFacade{
     return modelMapper.map(client, ClientDto.class);
   }
 
-  @Override
-  public List<ClientDto> convertToDtos(List<Client> clients) {
+  private List<ClientDto> convertToDtos(List<Client> clients) {
     List<ClientDto> dtoClients = new ArrayList<>();
     clients.forEach(client ->
         dtoClients.add(modelMapper.map(client, ClientDto.class)));
     return dtoClients;
   }
 
+  private Page<ClientDto> convertToDtos(Page<Client> clients) {
+    return clients.map(this::convertToDto);
+  }
+
+
   @Override
-  public List<ClientDto> getAllClients() {
-    return convertToDtos(clientService.getAllClients());
+  public Page<ClientDto> getAllClients(int page, int size) {
+    return convertToDtos(clientService.getAllClients(page, size));
   }
 
   @Override
