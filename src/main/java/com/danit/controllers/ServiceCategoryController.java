@@ -61,13 +61,13 @@ public class ServiceCategoryController {
 
   @DeleteMapping("/service_categories")
   void deleteServiceCategories(@RequestBody List<ServiceCategory> serviceCategories, Principal principal) {
-    logger.info(principal.getName() + " try to delete service employeeCategory data: " + serviceCategories);
+    logger.info(principal.getName() + " try to delete service category data: " + serviceCategories);
     serviceCategoryService.deleteServiceCategories(serviceCategories);
   }
 
   @DeleteMapping("/service_categories/{id}")
   void deleteServiceCategoryById(@PathVariable(name = "id") long id, Principal principal) {
-    logger.info(principal.getName() + " try to delete service employeeCategory with id: " + id);
+    logger.info(principal.getName() + " try to delete service category with id: " + id);
     serviceCategoryService.deleteServiceCategoryById(id);
   }
 
@@ -76,13 +76,13 @@ public class ServiceCategoryController {
                                  @PathVariable(name = "serviceId") long serviceId,
                                  Principal principal) {
     logger.info(principal.getName() + " try to delete service with id: " + serviceId
-        + " in service employeeCategory with id: " + servCatId);
+        + " in service category with id: " + servCatId);
     serviceCategoryService.deleteServiceCategoryService(servCatId, serviceId);
   }
 
   @GetMapping("/service_categories/{id}/services")
   List<Services> getAllServiceCategoryServices(@PathVariable(name = "id") long id, Principal principal) {
-    logger.info(principal.getName() + " got services from service employeeCategory with id: " + id);
+    logger.info(principal.getName() + " got services from service category with id: " + id);
     return serviceCategoryService.getAllServiceCategoryServices(id);
   }
 
