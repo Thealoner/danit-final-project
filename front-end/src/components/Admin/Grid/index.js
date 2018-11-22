@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import './index.scss';
 import Tabulator from 'tabulator-tables';
 import 'react-tabulator/lib/styles.css';
@@ -6,6 +6,7 @@ import 'tabulator-tables/dist/css/tabulator.min.css';
 import { getEntityByType } from '../GridEntities';
 import AuthService from '../../Login/AuthService';
 import Settings from '../../Settings';
+import { Link } from 'react-router-dom';
 
 class Grid extends Component {
     el = React.createRef();
@@ -19,7 +20,7 @@ class Grid extends Component {
       let { entityType, tabKey } = this.props.match.params;
       this.props.setTabContentUrl(entityType + '/' + row.getData().id);
       this.props.history.push({
-        pathname: '/admin/' + tabKey + '/' + entityType + '/' + row.getData().id,
+        pathname: '/admin/' + tabKey + '/' + entityType + '/edit/' + row.getData().id,
         state: {
           rowData: row.getData(),
           entityType: entityType
@@ -68,12 +69,15 @@ class Grid extends Component {
     };
 
     render () {
-      let { entityType } = this.props.match.params;
+      let { entityType, tabKey } = this.props.match.params;
       let { setTabContentUrl } = this.props;
       setTabContentUrl(entityType);
 
       return (
-        <div ref={el => (this.el = el)} className="custom-css-class" data-custom-attr="test-custom-attribute"/>
+        <Fragment>
+          <div ref={el => (this.el = el)} className="custom-css-class" data-custom-attr="test-custom-attribute"/>
+          <Link to={'/admin/' + tabKey + '/' + entityType + '/add'}>Add {entityType}</Link>
+        </Fragment>
       );
     }
 
