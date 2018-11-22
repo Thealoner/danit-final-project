@@ -1,9 +1,11 @@
 package com.danit.models;
 
 
-import com.danit.utils.CustomDateAndTimeDeserialize;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.danit.utils.CustomDateDeserializer;
+import com.danit.utils.CustomDateSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -26,6 +28,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "clients")
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 @NoArgsConstructor
 @ToString(exclude = {"contracts"})
 @Data
@@ -47,10 +50,8 @@ public class Client {
   private String gender;
 
   @Column(name = "birth_date")
-  @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
-  @JsonFormat(
-      shape = JsonFormat.Shape.STRING,
-      pattern = "yyyy-MM-dd")
+  @JsonDeserialize(using = CustomDateDeserializer.class)
+  @JsonSerialize(using = CustomDateSerializer.class)
   @Temporal(TemporalType.DATE)
   private Date birthDate;
 

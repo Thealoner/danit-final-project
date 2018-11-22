@@ -71,8 +71,8 @@ public class ClientController {
   public Map<String, Object> getAllClientsShort(@RequestParam(name = "page") int page,
                                                 @RequestParam(name = "size") int size,
                                                 Principal principal) throws ParseException {
-    log.info(principal.getName() + logMsg1);
-    return convertToMap(clientFacade.getAllClients(page, size));
+    log.info(principal.getName() + logMsg1); // NOSONAR
+    return convertToMap(clientFacade.getAllClients(page, size)); // NOSONAR
   }
 
   //--------dto--------

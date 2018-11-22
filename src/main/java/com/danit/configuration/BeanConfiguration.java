@@ -2,7 +2,7 @@ package com.danit.configuration;
 
 import com.danit.dto.CardColorDto;
 import com.danit.dto.ContractDto;
-import com.danit.models.CardColor;
+import com.danit.models.Card;
 import com.danit.models.Contract;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -20,8 +20,8 @@ public class BeanConfiguration {
     modelMapper.createTypeMap(Contract.class, ContractDto.class)
         .addMapping(Contract::getClientId, ContractDto::setClientId);
 
-    modelMapper.createTypeMap(CardColor.class, CardColorDto.class)
-        .addMapping(CardColor::getContractId, CardColorDto::setContractId);
+    modelMapper.createTypeMap(Card.class, CardColorDto.class)
+        .addMapping(Card::getContractId, CardColorDto::setContractId);
 
     return modelMapper;
   }
