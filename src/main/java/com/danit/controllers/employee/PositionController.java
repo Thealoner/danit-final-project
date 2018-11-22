@@ -35,7 +35,7 @@ public class PositionController {
   }
 
   @DeleteMapping("/position/{id}")
-  public void deletePost(@PathVariable long id) {
+  public void deletePosition(@PathVariable long id) {
     positionService.deletePosition(id);
   }
 

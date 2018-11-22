@@ -58,4 +58,9 @@ public class PositionServiceImpl implements PositionService {
     positionRepository.deleteById(id);
 
   }
+
+  @Override
+  public int getPositionQuant() {
+    return (int) positionRepository.count();
+  }
 }

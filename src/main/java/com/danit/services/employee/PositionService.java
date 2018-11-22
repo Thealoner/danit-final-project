@@ -15,4 +15,6 @@ public interface PositionService {
   Position updatePosition(Position position);
 
   void deletePosition(long id);
+
+  int getPositionQuant();
 }

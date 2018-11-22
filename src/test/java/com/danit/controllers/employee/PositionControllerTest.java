@@ -2,8 +2,10 @@ package com.danit.controllers.employee;
 
 import com.danit.TestUtils;
 import com.danit.models.UserRolesEnum;
+import com.danit.models.employee.Position;
 import com.danit.services.ClientService;
 import com.danit.services.employee.PositionService;
+import org.hamcrest.collection.IsCollectionWithSize;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +13,17 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -41,20 +49,48 @@ public class PositionControllerTest {
         .andExpect(status().isOk());
   }
 
+
   @Test
-  public void retrieveAllPost() {
+  public void getAllPositions() throws Exception {
+    int currentQuant = positionService.getPositionQuant();
+    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
+    this.mockMvc.perform(post("/position").headers(header)
+        .contentType("application/json")
+        .content("{\n"
+            + "    \"name\": \"Boss\",\n"
+            + "    \"description\": \"Big BOSS\"\n"
+            + "  }"))
+        .andExpect(status().isOk());
+
+    mockMvc.perform(get("/position").headers(header))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(jsonPath("$", hasSize(currentQuant + 1)));
   }
 
   @Test
-  public void retrievePost() {
+  public void getPositionById() {
   }
 
   @Test
-  public void deletePost() {
+  public void deletePosition() {
+
   }
 
   @Test
-  public void createPost() {
+  public void createPosition() throws Exception {
+    int currentQuant = positionService.getPositionQuant();
+    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
+    this.mockMvc.perform(post("/position").headers(header)
+        .contentType("application/json")
+        .content("{\n"
+            + "    \"name\": \"Boss\",\n"
+            + "    \"description\": \"Big BOSS\"\n"
+            + "  }"))
+        .andExpect(status().isOk());
+
+    mockMvc.perform(get("/position").headers(header))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(jsonPath("$", hasSize(currentQuant + 1)));
   }
 
   @Test
