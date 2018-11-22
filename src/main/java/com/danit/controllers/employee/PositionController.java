@@ -24,12 +24,12 @@ public class PositionController {
   }
 
   @GetMapping("/position")
-  public List<Position> retrieveAllPost() {
+  public List<Position> getAllPositions() {
     return positionService.getAllPositions();
   }
 
   @GetMapping("/position/{id}")
-  public Position retrievePost(@PathVariable long id) {
+  public Position getPostById(@PathVariable long id) {
     return positionService.getPositionById(id);
 
   }
