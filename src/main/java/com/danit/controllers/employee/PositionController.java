@@ -29,7 +29,7 @@ public class PositionController {
   }
 
   @GetMapping("/position/{id}")
-  public Position getPostById(@PathVariable long id) {
+  public Position getPositionById(@PathVariable long id) {
     return positionService.getPositionById(id);
 
   }
@@ -40,7 +40,7 @@ public class PositionController {
   }
 
   @PostMapping("/position")
-  public Position createPost(@RequestBody Position position) {
+  public Position createPosition(@RequestBody Position position) {
     return positionService.createPosition(position);
 
   }
