@@ -76,8 +76,7 @@ public class ServiceCategoryController {
                                  @PathVariable(name = "serviceId") long serviceId,
                                  Principal principal) {
     logger.info(principal.getName() + " try to delete service with id: " + serviceId
-        + " in service category
-                with id: " + servCatId);
+        + " in service category with id: " + servCatId);
     serviceCategoryService.deleteServiceCategoryService(servCatId, serviceId);
   }
 
