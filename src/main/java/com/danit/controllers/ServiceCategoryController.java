@@ -55,7 +55,7 @@ public class ServiceCategoryController {
 
   @PutMapping("/service_categories/{id}")
   void updateServiceCategory(@RequestBody ServiceCategory serviceCategory, Principal principal) {
-    logger.info(principal.getName() + " is updating service employeeCategory data: " + serviceCategory);
+    logger.info(principal.getName() + " is updating service category data: " + serviceCategory);
     serviceCategoryService.saveServiceCategory(serviceCategory);
   }
 
