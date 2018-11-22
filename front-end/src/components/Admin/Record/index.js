@@ -17,13 +17,13 @@ class Record extends Component {
 
       if (entity.id === 'clients' || entity.id === 'contracts') { // This is just a temporary workaround condition
         route = (
-          <Route key={entity.id} path={ '/admin/:tabKey/' + entity.id + '/:rowId' } render={
+          <Route key={entity.id} path={ '/admin/:tabKey/' + entity.id + '/:mode/:rowId?' } render={
             (props) => <Client setTabContentUrl={this.props.setTabContentUrl} entityType={entityType} {...props} />
           } />
         );
       } else {
         route = (
-          <Route key={entity.id} path={ '/admin/:tabKey/' + entity.id + '/:rowId' } render={
+          <Route key={entity.id} path={ '/admin/:tabKey/' + entity.id + '/:mode/:rowId?' } render={
             (props) => <RecordEditor setTabContentUrl={this.props.setTabContentUrl} entityType={entityType} {...props} />
           } />
         );
