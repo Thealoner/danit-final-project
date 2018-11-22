@@ -24,22 +24,22 @@ import java.util.Set;
 @Table(name = "employee")
 @Data
 public class Employee {
-  @Id
+  @Id //NOSONAR
   @SequenceGenerator(name = "employeeSequence", sequenceName = "employeeSequence", allocationSize = 1, initialValue = 1001)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employeeSequence")
   @Column(name = "id")
   private Long id;
 
-  @Column(name = "first_name")
+  @Column(name = "first_name")//NOSONAR
   private String firstName;
 
-  @Column(name = "last_name")
+  @Column(name = "last_name")//NOSONAR
   private String lastName;
 
-  @Column(name = "family_name")
+  @Column(name = "family_name")//NOSONAR
   private String familyName;
 
-  @Column(name = "birth_date")
+  @Column(name = "birth_date")//NOSONAR
   @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
