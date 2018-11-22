@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component, Fragment} from 'react';
 import './index.scss';
 import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
@@ -7,6 +7,7 @@ import AuthService from '../../../Login/AuthService';
 import Settings from '../../../Settings';
 import Form from 'react-jsonschema-form';
 import { FadeLoader } from 'react-spinners';
+import {Button} from 'react-bootstrap';
 
 class RecordEditor extends Component {
   constructor (props) {
@@ -127,11 +128,11 @@ class RecordEditor extends Component {
     let { entityType, setTabContentUrl } = this.props;
     setTabContentUrl(entityType + '/' + rowId);
     let entity = getEntityByType(entityType);
-    
+
     return (
-      <div className="client">
+      <Fragment>
         {this.state.loading ? (
-          <div className="loader-wrapper">
+          <div className="record__loader-wrapper">
             <FadeLoader
               sizeUnit={'px'}
               size={50}
@@ -144,12 +145,15 @@ class RecordEditor extends Component {
             schema={entity.schema}
             uiSchema={entity.uiSchema}
             formData={this.state.data}
+            autocomplete='off'
             onChange={this.log('changed')}
             onSubmit={this.saveData}
             onError={this.log('errors')}
-          />
+          >
+            <Button type='submit'>Сохранить</Button>
+          </Form>
         )}
-      </div>
+      </Fragment>
     );
   }
 

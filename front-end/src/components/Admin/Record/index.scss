@@ -1,13 +1,62 @@
 @import "../../../variables";
 
 .record {
-  color: $text-config;
-  background-color: $config-bg;
+  color: $EG-blue-dark;
 
-  &__data-field {
+  .services .control-label {
+    width: 200px;
+  }
+
+  .pakets .control-label {
+    width: 350px;
+  }
+
+  .service_categories .control-label {
+    width: 100px;
+  }
+
+  .field-object {
+    padding: 20px;
+  }
+
+  .field-string,
+  .field-number {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+
+    & div {
+      display: none;
+    }
+  }
+
+  .field-string input {
+    width: 300px;
+  }
+
+  .field-number input {
+    width: 100px;
+    text-align: center;
+  }
+
+  .checkbox label {
+    display: flex;
+    align-items: center;
+    padding: 0;
+  }
+
+  input[type='checkbox'] {
+    position: static;
+    width: 17px;
+    height: 17px;
+    margin: 1px 10px 0 0;
+  }
+
+  button {
+    margin: 0 20px 20px !important;
+  }
+
+  /*&__data-field {
+
     margin-top: 20px;
 
     &:last-child {
@@ -33,40 +82,46 @@
     &[type='email'],
     &[type='date'] {
       padding: 0 10px;
-      box-shadow: 0 0 2px 1px $text-config;
+      border: 1px solid $EG-blue-dark;
 
-      &:focus:not(input[readonly]) {
-        box-shadow: 0 0 2px 2px $text-config;
+      &:focus {
+        box-shadow: 0 0 2px 1px $EG-blue-dark;
       }
     }
 
     &[readonly] {
-      display: flex;
-      padding: 0 10px;
-      background-color: $config-bg;
+      background-color: $EG-light-grey;
+
+      &:focus {
+        box-shadow: none;
+      }
     }
   }
 
   textarea {
+    display: block;
     width: 100%;
     padding: 5px 10px;
     color: $text-config;
     font-size: 15px;
-    border: none;
+    border: 1px solid $EG-blue-dark;
     border-radius: 5px;
     outline: none;
-    box-shadow: 0 0 2px 1px $text-config;
     resize: none;
 
     &:focus {
-      box-shadow: 0 0 2px 2px $text-config;
+      box-shadow: 0 0 2px 1px $EG-blue-dark;
     }
   }
 
   select {
     @extend input;
     padding-left: 6px;
-    box-shadow: 0 0 2px 1px $text-config;
+    border: 1px solid $EG-blue-dark;
+
+    &:focus {
+      box-shadow: 0 0 2px 1px $EG-blue-dark;
+    }
   }
 
   label {
@@ -80,7 +135,7 @@
   }
 
   &__save-message {
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     display: none;
@@ -104,6 +159,35 @@
       border-color: #f5c6cb;
     }
   }
+
+  &__loader-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 300px;
+  }
+
+  &__button {
+    display: inline-block;
+    max-width: 150px;
+    margin: 20px;
+    padding: 12px 20px;
+    color: #fff;
+    font-weight: 500;
+    font-size: 17px;
+    background-color: $EG-purple-dark;
+    border-style: none;
+    border-radius: 5px;
+    outline: none;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, .15);
+    -webkit-appearance: none;
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: .5;
+    }
+  }*/
 }
 
 .visible {
