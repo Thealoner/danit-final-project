@@ -4,10 +4,10 @@ server:
 ## Hibernate Properties
 # Enabling H2 Console
 
-#spring.datasource.url: jdbc:h2:tcp://localhost/~/test
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb
+    #url: jdbc:h2:mem:testdb
+    url: jdbc:h2:tcp://localhost/~/test
     driverClassName: org.h2.Driver
     username: sa
     password:
