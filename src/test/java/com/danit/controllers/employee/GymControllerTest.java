@@ -2,12 +2,10 @@ package com.danit.controllers.employee;
 
 import com.danit.TestUtils;
 import com.danit.models.UserRolesEnum;
-import com.danit.models.employee.Position;
-import com.danit.services.ClientService;
-import com.danit.services.employee.PositionService;
+import com.danit.models.employee.Gym;
+import com.danit.services.employee.GymService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.collection.IsCollectionWithSize;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.sql.SQLOutput;
-
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -31,91 +27,93 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class PositionControllerTest {
+public class GymControllerTest {
 
   @Autowired
   TestUtils testUtils;
   @Autowired
-  PositionService positionService;
+  GymService gymService;
   @Autowired
   private TestRestTemplate template;
   @Autowired
   private MockMvc mockMvc;
+  
+  private static final String url = "/gym";
 
 
   @Test
   public void isOkWhenAdminAccess() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.ADMIN);
     mockMvc
-        .perform(get("/position").headers(header))
+        .perform(get(url).headers(header))
         .andExpect(status().isOk());
   }
 
   @Test
-  public void getAllPositions() throws Exception {
-    int currentQuant = positionService.getPositionQuant();
+  public void getAllGyms() throws Exception {
+    int currentQuant = gymService.getGymQuant();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
-    this.mockMvc.perform(post("/position").headers(header)
+    this.mockMvc.perform(post(url).headers(header)
         .contentType("application/json")
         .content("{\n"
-            + "    \"name\": \"Boss\",\n"
-            + "    \"description\": \"Big BOSS\"\n"
+            + "    \"name\": \"Test gym\",\n"
+            + "    \"description\": \"Test gym\"\n"
             + "  }"))
         .andExpect(status().isOk());
 
-    mockMvc.perform(get("/position").headers(header))
+    mockMvc.perform(get(url).headers(header))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
         .andExpect(jsonPath("$", hasSize(currentQuant + 1)));
   }
 
   @Test
-  public void updatePositionTest() throws Exception {
+  public void updateGymTest() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
-    String responseJson = this.mockMvc.perform(post("/position").headers(header)
+    String responseJson = this.mockMvc.perform(post(url).headers(header)
         .contentType("application/json")
         .content("{\n"
-            + "    \"name\": \"Boss\",\n"
-            + "    \"description\": \"Big BOSS\"\n"
+            + "    \"name\": \"Test gym\",\n"
+            + "    \"description\": \"Test gym\"\n"
             + "  }"))
         .andExpect(status().isOk())
         .andReturn().getResponse().getContentAsString();
 
     ObjectMapper mapper = new ObjectMapper();
-    Position actualObj = mapper.readValue(responseJson, new TypeReference<Position>() {
+    Gym actualObj = mapper.readValue(responseJson, new TypeReference<Gym>() {
     });
     long createdId = actualObj.getId();
     System.out.println(actualObj);
 
-    responseJson = mockMvc.perform(put("/position/" + createdId).headers(header)
+    responseJson = mockMvc.perform(put(url+"/" + createdId).headers(header)
         .contentType("application/json")
         .content("{\n"
             + "    \"id\": " + createdId + ", \n"
-            + "    \"name\": \"TestPosition\"\n"
+            + "    \"name\": \"TestGym2\"\n"
             + "  }"))
         .andExpect(status().isOk())
         .andReturn().getResponse().getContentAsString();
 
-    actualObj = mapper.readValue(responseJson, new TypeReference<Position>() {
+    actualObj = mapper.readValue(responseJson, new TypeReference<Gym>() {
     });
     System.out.println(actualObj);
-    assertEquals("TestPosition", actualObj.getName());
+    assertEquals("TestGym2", actualObj.getName());
 
   }
 
   @Test
-  public void createPositionTest() throws Exception {
-    int currentQuant = positionService.getPositionQuant();
+  public void createGymTest() throws Exception {
+    int currentQuant = gymService.getGymQuant();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
-    this.mockMvc.perform(post("/position").headers(header)
+    this.mockMvc.perform(post(url).headers(header)
         .contentType("application/json")
         .content("{\n"
-            + "    \"name\": \"Boss\",\n"
-            + "    \"description\": \"Big BOSS\"\n"
+            + "    \"name\": \"Test gym\",\n"
+            + "    \"description\": \"Test gym\"\n"
             + "  }"))
         .andExpect(status().isOk());
 
-    mockMvc.perform(get("/position").headers(header))
+    mockMvc.perform(get("/gym").headers(header))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
         .andExpect(jsonPath("$", hasSize(currentQuant + 1)));
   }
@@ -124,7 +122,7 @@ public class PositionControllerTest {
   public void expect500WhenNoDataFoundService() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
-    mockMvc.perform(get("/position/0").headers(header))
+    mockMvc.perform(get(url+"/0").headers(header))
         .andExpect(status().isNotFound());
   }
 
@@ -132,9 +130,7 @@ public class PositionControllerTest {
   public void expect500WhenDeleteNonexistentService() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
-    mockMvc.perform(delete("/position/0").headers(header))
+    mockMvc.perform(delete(url+"/0").headers(header))
         .andExpect(status().is(500));
   }
 }
-
-
