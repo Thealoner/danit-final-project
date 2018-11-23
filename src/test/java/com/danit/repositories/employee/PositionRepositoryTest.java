@@ -14,7 +14,6 @@ import java.util.Optional;
 @DataJpaTest
 public class PositionRepositoryTest {
 
-
   @Autowired
   private PositionRepository positionRepository;
 
