@@ -46,7 +46,7 @@ public class ClientRepositoryTest {
 
     assertThat(clientRepository.getNumberOfClients()).isEqualTo(10);
 
-    List<Client> clients = this.clientRepository.findAll();
+    List<Client> clients = (List<Client>) this.clientRepository.findAll();
     for (int i = 0; i < 10; i++) {
       assertThat(clients.get(i).getFirstName()).isEqualTo("Client" + i);
     }

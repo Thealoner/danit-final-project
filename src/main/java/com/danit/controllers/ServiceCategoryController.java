@@ -48,15 +48,15 @@ public class ServiceCategoryController {
   }
 
   @PutMapping("/service_categories")
-  void updateServiceCategories(@RequestBody List<ServiceCategory> serviceCategories, Principal principal) {
+  List<ServiceCategory> updateServiceCategories(@RequestBody List<ServiceCategory> serviceCategories, Principal principal) {
     logger.info(principal.getName() + " is updating service categories data: " + serviceCategories);
-    serviceCategoryService.saveServiceCategories(serviceCategories);
+    return serviceCategoryService.saveServiceCategories(serviceCategories);
   }
 
   @PutMapping("/service_categories/{id}")
-  void updateServiceCategory(@RequestBody ServiceCategory serviceCategory, Principal principal) {
+  ServiceCategory updateServiceCategory(@RequestBody ServiceCategory serviceCategory, Principal principal) {
     logger.info(principal.getName() + " is updating service category data: " + serviceCategory);
-    serviceCategoryService.saveServiceCategory(serviceCategory);
+    return serviceCategoryService.saveServiceCategory(serviceCategory);
   }
 
   @DeleteMapping("/service_categories")

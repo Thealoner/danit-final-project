@@ -6,7 +6,6 @@ import com.danit.models.UserRolesEnum;
 import com.danit.services.ClientService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,19 +13,16 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
-import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -47,7 +43,7 @@ public class ClientControllerTest {
   public void isOkWhenAdminAccess() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.ADMIN);
     mockMvc
-        .perform(get("/clients").headers(header))
+        .perform(get("/clients?page=0&size=2").headers(header))
         .andExpect(status().isOk());
   }
 
@@ -67,11 +63,7 @@ public class ClientControllerTest {
             + "    \"active\": true\n"
             + "  }]"))
         .andExpect(status().isOk());
-
-    mockMvc.perform(get("/clients").headers(header))
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$", hasSize(numberOfClients + 1)));
-
+    assertEquals(numberOfClients + 1, clientService.getNumberOfClients());
   }
 
   @Test
@@ -108,7 +100,7 @@ public class ClientControllerTest {
 
     actualObj = mapper.readValue(responseJson, new TypeReference<List<Client>>() {
     });
-    Assert.assertEquals("TestUser2", actualObj.get(0).getFirstName());
+    assertEquals("TestUser2", actualObj.get(0).getFirstName());
 
   }
 
@@ -129,11 +121,11 @@ public class ClientControllerTest {
             "      \"email\": \"llotherington4@wikipedia.org\",\n" +
             "      \"active\": true,\n" +
             "      \"contracts\": []\n" +
-            "   }]"));
+            "   }]"))
+        .andExpect(status().isOk());
 
-    mockMvc.perform(get("/clients").headers(header))
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$", hasSize(numberOfClients - 1)));
+    assertEquals(numberOfClients - 1, clientService.getNumberOfClients());
+
   }
 
   @Test
@@ -160,18 +152,12 @@ public class ClientControllerTest {
     });
     long createdId = actualObj.get(0).getId();
 
-    mockMvc.perform(get("/clients").headers(header))
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$", hasSize(numberOfClients + 1)));
+    assertEquals(numberOfClients + 1, clientService.getNumberOfClients());
 
     mockMvc.perform(delete("/clients/" + createdId).headers(header))
         .andExpect(status().isOk());
 
-    mockMvc.perform(get("/clients").headers(header))
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$", hasSize(numberOfClients)));
-
+    assertEquals(numberOfClients, clientService.getNumberOfClients());
 
   }
-
 }

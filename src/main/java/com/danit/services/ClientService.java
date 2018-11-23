@@ -1,12 +1,13 @@
 package com.danit.services;
 
 import com.danit.models.Client;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public interface ClientService {
 
-  List<Client> getAllClients();
+  Page<Client> getAllClients(int page, int size);
 
   Client getClientById(long id);
 

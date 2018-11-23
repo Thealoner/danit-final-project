@@ -47,9 +47,9 @@ public class ContractController {
   }
 
   @PutMapping("/contracts")
-  public void addContracts(@RequestBody List<Contract> contracts, Principal principal) {
+  public List<Contract> addContracts(@RequestBody List<Contract> contracts, Principal principal) {
     logger.info(principal.getName() + " is updating contracts data: " + contracts);
-    contractService.saveContracts(contracts);
+    return contractService.saveContracts(contracts);
   }
 
   @DeleteMapping("/contracts/{id}")
