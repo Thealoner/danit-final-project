@@ -17,4 +17,6 @@ public interface DiscountService {
   void deleteDiscount(long id);
 
   boolean discountExists(long id);
+
+  int getDiscountQuant();
 }

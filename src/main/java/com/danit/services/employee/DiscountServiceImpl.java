@@ -63,6 +63,11 @@ public class DiscountServiceImpl implements DiscountService {
 
   @Override
   public boolean discountExists(long id) {
-    return false;
+    return discountRepository.existsById(id);
+  }
+
+  @Override
+  public int getDiscountQuant() {
+    return (int) discountRepository.count();
   }
 }
