@@ -43,7 +43,6 @@ public class ClientServiceImpl implements ClientService {
     return clientRepository.save(client);
   }
 
-  //TODO
   @Override
   public List<Client> updateClients(List<Client> clients) {
     List<Client> savedClients = new ArrayList<>();

@@ -146,7 +146,6 @@ public class ClientController {
     clientFacade.deleteClients(clients);
   }
 
-  //TODO
   private <T> Map<String, Object> convertToMap(Page<T> pageData) {
     Map<String, Object> outputData = new HashMap<>();
     outputData.put("data", pageData.getContent());
