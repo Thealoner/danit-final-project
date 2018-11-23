@@ -39,4 +39,11 @@ public class GymRepositoryTest {
     Assert.assertEquals(gymRepository.findById(savedId),Optional.empty());
   }
 
+  @Test
+  public void updateGymTest(){
+    Gym gymToSave = new Gym();
+    gymToSave.setName("Test gym");
+    long savedGymId = gymRepository.save(gymToSave).getId();
+    Assert.assertEquals(gymToSave.getName(), gymRepository.findById(savedGymId).get().getName());
+  }
 }
