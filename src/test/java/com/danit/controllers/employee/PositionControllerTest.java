@@ -70,6 +70,21 @@ public class PositionControllerTest {
 
   @Test
   public void getPositionByIdTest() throws Exception {
+    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
+
+    String responseJson = this.mockMvc.perform(post("/position").headers(header)
+        .contentType("application/json")
+        .content("{\n"
+            + "    \"name\": \"Boss\",\n"
+            + "    \"description\": \"Big BOSS\"\n"
+            + "  }"))
+        .andExpect(status().isOk())
+        .andReturn().getResponse().getContentAsString();
+
+    ObjectMapper mapper = new ObjectMapper();
+    Position actualObj = mapper.readValue(responseJson, new TypeReference<Position>() {
+    });
+    assertEquals(actualObj, positionService.getPositionById(actualObj.getId()));
   }
 
 
