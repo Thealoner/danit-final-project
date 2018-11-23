@@ -3,7 +3,6 @@ package ua.com.danit.configuration;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 import ua.com.danit.dto.CardColorDto;
 import ua.com.danit.dto.ContractDto;
 import ua.com.danit.models.Card;

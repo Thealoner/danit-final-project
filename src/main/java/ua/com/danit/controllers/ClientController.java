@@ -145,6 +145,7 @@ public class ClientController {
     log.info(principal.getName() + " is trying to delete clients: " + clients);
     clientFacade.deleteClients(clients);
   }
+
   //TODO
   private <T> Map<String, Object> convertToMap(Page<T> pageData) {
     Map<String, Object> outputData = new HashMap<>();
