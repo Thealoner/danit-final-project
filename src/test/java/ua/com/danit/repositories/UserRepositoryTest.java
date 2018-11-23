@@ -7,10 +7,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 import ua.com.danit.models.User;
 import ua.com.danit.models.UserRoles;
 import ua.com.danit.models.UserRolesEnum;
+import ua.com.danit.models.auditor.AuditorAwareImpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,9 +21,12 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
+import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
+@DataJpaTest(includeFilters = @ComponentScan.Filter(
+    type = ASSIGNABLE_TYPE,
+    classes = {AuditorAwareImpl.class}))
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class UserRepositoryTest {
   @Autowired

@@ -24,7 +24,6 @@ public class ClientFacadeImpl implements ClientFacade {
     this.modelMapper = modelMapper;
   }
 
-
   @Override
   public ClientDto convertToDto(Client client) {
     return modelMapper.map(client, ClientDto.class);

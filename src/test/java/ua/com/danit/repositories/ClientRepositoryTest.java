@@ -4,21 +4,22 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 import ua.com.danit.models.Client;
+import ua.com.danit.models.auditor.AuditorAwareImpl;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
+@DataJpaTest(includeFilters = @ComponentScan.Filter(
+    type = ASSIGNABLE_TYPE,
+    classes = {AuditorAwareImpl.class}))
 public class ClientRepositoryTest {
-
-  @Autowired
-  private TestEntityManager entityManager;
 
   @Autowired
   private ClientRepository clientRepository;
@@ -28,8 +29,8 @@ public class ClientRepositoryTest {
   public void findById() {
     Client client = new Client();
     client.setFirstName("Nadya");
-    this.entityManager.persist(client);
-    Optional<Client> optFound = this.clientRepository.findById(client.getId());
+    clientRepository.save(client);
+    Optional<Client> optFound = clientRepository.findById(client.getId());
     Client found = optFound.orElseThrow(RuntimeException::new);
     assertThat(found.getFirstName()).isEqualTo("Nadya");
   }
@@ -41,7 +42,7 @@ public class ClientRepositoryTest {
     for (int i = 0; i < 10; i++) {
       Client client = new Client();
       client.setFirstName("Client" + i);
-      this.entityManager.persist(client);
+      clientRepository.save(client);
     }
 
     assertThat(clientRepository.getNumberOfClients()).isEqualTo(10);
@@ -57,7 +58,7 @@ public class ClientRepositoryTest {
     for (int i = 0; i < 10; i++) {
       Client client = new Client();
       client.setFirstName("Client" + i);
-      this.entityManager.persist(client);
+      clientRepository.save(client);
     }
     clientRepository.deleteAll();
     assertThat(clientRepository.getNumberOfClients()).isEqualTo(0);

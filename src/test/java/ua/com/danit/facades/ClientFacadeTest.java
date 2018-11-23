@@ -11,13 +11,17 @@ import ua.com.danit.Application;
 import ua.com.danit.dto.ClientDto;
 import ua.com.danit.exceptions.EntityNotFoundException;
 import ua.com.danit.models.Client;
+import ua.com.danit.models.auditor.AuditorAwareImpl;
 
 import static org.junit.Assert.assertEquals;
+import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
+@DataJpaTest(includeFilters = @ComponentScan.Filter(
+    type = ASSIGNABLE_TYPE,
+    classes = {AuditorAwareImpl.class}))
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = Application.class)
-@ComponentScan("com.danit")
+@ComponentScan("ua.com.danit")
 public class ClientFacadeTest {
 
   @Autowired
