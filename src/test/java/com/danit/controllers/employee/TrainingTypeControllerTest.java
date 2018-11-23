@@ -2,8 +2,8 @@ package com.danit.controllers.employee;
 
 import com.danit.TestUtils;
 import com.danit.models.UserRolesEnum;
-import com.danit.models.employee.Gym;
-import com.danit.services.employee.GymService;
+import com.danit.models.employee.TrainingType;
+import com.danit.services.employee.TrainingTypeService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
@@ -27,18 +27,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class GymControllerTest {
+public class TrainingTypeControllerTest {
 
   @Autowired
   TestUtils testUtils;
   @Autowired
-  GymService gymService;
+  TrainingTypeService trainingTypeService;
   @Autowired
   private TestRestTemplate template;
   @Autowired
   private MockMvc mockMvc;
-  
-  private static final String url = "/gym";
+
+  private static final String url = "/training_type";
 
 
   @Test
@@ -50,14 +50,14 @@ public class GymControllerTest {
   }
 
   @Test
-  public void getAllGyms() throws Exception {
-    int currentQuant = gymService.getGymQuant();
+  public void getAllTrainingTypes() throws Exception {
+    int currentQuant = trainingTypeService.getTrainingTypeQuant();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
     this.mockMvc.perform(post(url).headers(header)
         .contentType("application/json")
         .content("{\n"
-            + "    \"name\": \"Test gym\",\n"
-            + "    \"description\": \"Test gym\"\n"
+            + "    \"name\": \"Test trainingType\",\n"
+            + "    \"description\": \"Test trainingType\"\n"
             + "  }"))
         .andExpect(status().isOk());
 
@@ -67,20 +67,20 @@ public class GymControllerTest {
   }
 
   @Test
-  public void updateGymTest() throws Exception {
+  public void updateTrainingTypeTest() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     String responseJson = this.mockMvc.perform(post(url).headers(header)
         .contentType("application/json")
         .content("{\n"
-            + "    \"name\": \"Test gym\",\n"
-            + "    \"description\": \"Test gym\"\n"
+            + "    \"name\": \"Test trainingType\",\n"
+            + "    \"description\": \"Test trainingType\"\n"
             + "  }"))
         .andExpect(status().isOk())
         .andReturn().getResponse().getContentAsString();
 
     ObjectMapper mapper = new ObjectMapper();
-    Gym actualObj = mapper.readValue(responseJson, new TypeReference<Gym>() {
+    TrainingType actualObj = mapper.readValue(responseJson, new TypeReference<TrainingType>() {
     });
     long createdId = actualObj.getId();
     System.out.println(actualObj);
@@ -89,27 +89,27 @@ public class GymControllerTest {
         .contentType("application/json")
         .content("{\n"
             + "    \"id\": " + createdId + ", \n"
-            + "    \"name\": \"TestGym2\"\n"
+            + "    \"name\": \"TestTrainingType2\"\n"
             + "  }"))
         .andExpect(status().isOk())
         .andReturn().getResponse().getContentAsString();
 
-    actualObj = mapper.readValue(responseJson, new TypeReference<Gym>() {
+    actualObj = mapper.readValue(responseJson, new TypeReference<TrainingType>() {
     });
     System.out.println(actualObj);
-    assertEquals("TestGym2", actualObj.getName());
+    assertEquals("TestTrainingType2", actualObj.getName());
 
   }
 
   @Test
-  public void createGymTest() throws Exception {
-    int currentQuant = gymService.getGymQuant();
+  public void createTrainingTypeTest() throws Exception {
+    int currentQuant = trainingTypeService.getTrainingTypeQuant();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
     this.mockMvc.perform(post(url).headers(header)
         .contentType("application/json")
         .content("{\n"
-            + "    \"name\": \"Test gym\",\n"
-            + "    \"description\": \"Test gym\"\n"
+            + "    \"name\": \"Test trainingType\",\n"
+            + "    \"description\": \"Test trainingType\"\n"
             + "  }"))
         .andExpect(status().isOk());
 
@@ -119,7 +119,7 @@ public class GymControllerTest {
   }
 
   @Test
-  public void expect500WhenNoDataFoundService() throws Exception {
+  public void expectIsNotFoundWhenNoDataFoundService() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     mockMvc.perform(get(url+"/0").headers(header))
@@ -133,4 +133,5 @@ public class GymControllerTest {
     mockMvc.perform(delete(url+"/0").headers(header))
         .andExpect(status().is(500));
   }
+
 }
