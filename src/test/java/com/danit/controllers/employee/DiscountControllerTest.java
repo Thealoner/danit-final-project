@@ -31,7 +31,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class DiscountControllerTest {
 
-
   @Autowired
   TestUtils testUtils;
   @Autowired
