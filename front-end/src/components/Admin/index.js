@@ -89,6 +89,22 @@ class Admin extends Component {
 
     currentTab.contentUrl = url;
     return currentTab.contentUrl;
+    /* let currentTabIndex = this.state.tabs.findIndex((tab) => {
+      return tab.tabKey === this.state.activeKey;
+    });
+
+    this.setState((prevState, props) => ({
+      tabs: [
+        {
+          title: prevState.tabs[currentTabIndex].title,
+          tabKey: prevState.tabs[currentTabIndex].tabKey,
+          contentUrl: url
+        },
+        ...prevState.tabs.filter((tab, index) => {
+          return index !== currentTabIndex;
+        })
+      ]
+    })); */
   };
 
   render () {
