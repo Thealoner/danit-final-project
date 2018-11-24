@@ -4,8 +4,7 @@ import { ReactTabulator } from 'react-tabulator';
 import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
 import { getEntityByType } from '../../GridEntities';
-import AuthService from '../../../Login/AuthService';
-import Settings from '../../../Settings';
+import ajaxRequest from '../../../Helpers';
 
 class SimpleRecord extends Component {
   state = {
@@ -22,88 +21,55 @@ class SimpleRecord extends Component {
     let { rowId } = this.props.match.params;
     let { entityType } = this.props;
     let entity = getEntityByType(entityType);
-    let authService = new AuthService();
 
-    if (authService.loggedIn() && !authService.isTokenExpired()) {
-      const headers = {
-        'Content-Type': 'application/json'
-      };
+    ajaxRequest(entity.apiUrl + '/' + rowId)
+      .then(data => {
+        let keys = Object.keys(data);
+        let dataArray = [];
 
-      let token = authService.getToken();
-      headers['Authorization'] = token;
-
-      fetch(
-        Settings.apiServerUrl + entity.apiUrl + '/' + rowId,
-        { headers }
-      )
-        .then(authService._checkStatus)
-        .then(response => response.json())
-        .then(data => {
-          let keys = Object.keys(data);
-          let dataArray = [];
-    
-          keys.forEach((key) => {
-            dataArray.push({
-              key: key,
-              value: data[key]
-            });
-          });
-
-          this.setState({
-            entityType: entityType,
-            data: dataArray
-            // ,columns: entity.columns
+        keys.forEach((key) => {
+          dataArray.push({
+            key: key,
+            value: data[key]
           });
         });
-    } else {
-      console.log('Not logged in or token is expired');
-    }
+
+        this.setState({
+          entityType: entityType,
+          data: dataArray
+          // ,columns: entity.columns
+        });
+      });
   };
 
   saveData = () => {
     let { entityType } = this.props;
     let entity = getEntityByType(entityType);
-    let authService = new AuthService();
 
-    if (authService.loggedIn() && !authService.isTokenExpired()) {
-      const headers = {
-        'Content-Type': 'application/json'
-      };
+    let array = this.state.data;
+    let dataToSave = array.reduce((obj, {key, value}) => ({ ...obj, [key]: value }), {});
 
-      let token = authService.getToken();
-      headers['Authorization'] = token;
-      let array = this.state.data;
-      let dataToSave = array.reduce((obj, {key, value}) => ({ ...obj, [key]: value }), {});
+    ajaxRequest(
+      entity.apiUrl,
+      'PUT',
+      JSON.stringify(dataToSave)
+    )
+      .then(data => {
+        let keys = Object.keys(data);
+        let dataArray = [];
 
-      fetch(
-        Settings.apiServerUrl + entity.apiUrl,
-        {
-          method: 'PUT',
-          body: JSON.stringify(dataToSave),
-          headers
-        }
-      )
-        .then(authService._checkStatus)
-        .then(response => response.json())
-        .then(data => {
-          let keys = Object.keys(data);
-          let dataArray = [];
-    
-          keys.forEach((key) => {
-            dataArray.push({
-              key: key,
-              value: data[key]
-            });
-          });
-
-          this.setState({
-            entityType: entityType,
-            data: dataArray
+        keys.forEach((key) => {
+          dataArray.push({
+            key: key,
+            value: data[key]
           });
         });
-    } else {
-      console.log('Not logged in or token is expired');
-    }
+
+        this.setState({
+          entityType: entityType,
+          data: dataArray
+        });
+      });
   };
 
   render () {

@@ -4,9 +4,8 @@ import Tabulator from 'tabulator-tables';
 import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
 import { getEntityByType } from '../GridEntities';
-import AuthService from '../../Login/AuthService';
-import Settings from '../../Settings';
 import { Link } from 'react-router-dom';
+import ajaxRequest from '../../Helpers';
 
 class Grid extends Component {
     el = React.createRef();
@@ -31,41 +30,24 @@ class Grid extends Component {
     getData = () => {
       let { entityType } = this.props.match.params;
       let entity = getEntityByType(entityType);
-      let authService = new AuthService();
 
-      if (authService.loggedIn() && !authService.isTokenExpired()) {
-        const headers = {
-          'Content-Type': 'application/json'
-        };
-
-        let token = authService.getToken();
-        headers['Authorization'] = token;
-
-        fetch(
-          Settings.apiServerUrl + entity.apiUrl + '?page=0&size=10',
-          { headers }
-        )
-          .then(authService._checkStatus)
-          .then(response => response.json())
-          .then(data => {
-            this.props.setTabContentUrl(entity.id);
-            this.id = entityType;
-            this.data = data.data;
-            this.columns = entity.columns;
-            this.tabulator.setColumns(this.columns);
-            this.tabulator.setData(this.data);
-          })
-          .catch(error => {
-            console.log('' + error);
-            this.id = '';
-            this.data = [];
-            this.columns = [];
-            this.tabulator.setColumns(this.columns);
-            this.tabulator.setData(this.data);
-          });
-      } else {
-        console.log('Not logged in or token is expired');
-      }
+      ajaxRequest(entity.apiUrl)
+        .then(data => {
+          this.props.setTabContentUrl(entity.id);
+          this.id = entityType;
+          this.data = data;
+          this.columns = entity.columns;
+          this.tabulator.setColumns(this.columns);
+          this.tabulator.setData(this.data);
+        })
+        .catch(error => {
+          console.log('' + error);
+          this.id = '';
+          this.data = [];
+          this.columns = [];
+          this.tabulator.setColumns(this.columns);
+          this.tabulator.setData(this.data);
+        });
     };
 
     render () {

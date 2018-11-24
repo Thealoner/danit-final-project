@@ -4,9 +4,9 @@ import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
 import { getEntityByType } from '../../GridEntities';
 import AuthService from '../../../Login/AuthService';
-import Settings from '../../../Settings';
 import Form from 'react-jsonschema-form';
 import { FadeLoader } from 'react-spinners';
+import ajaxRequest from '../../../Helpers';
 
 class RecordEditor extends Component {
   constructor (props) {
@@ -23,31 +23,11 @@ class RecordEditor extends Component {
     let { entityType } = this.props;
     let entity = getEntityByType(entityType);
 
-    if (this.state.authService.loggedIn() && !this.state.authService.isTokenExpired()) {
-      this.fetchEntity(entity, rowId);
-    } else {
-      console.log('Not logged in or token is expired');
-    }
-  };
-
-  fetchEntity = (entity, rowId) => {
-    const headers = {
-      'Content-Type': 'application/json'
-    };
-
-    let token = this.state.authService.getToken();
-    headers['Authorization'] = token;
-
     this.setState({
       loading: true
     });
 
-    fetch(
-      Settings.apiServerUrl + entity.apiUrl + '/' + rowId,
-      { headers }
-    )
-      .then(this.state.authService._checkStatus)
-      .then(response => response.json())
+    ajaxRequest(entity.apiUrl + '/' + rowId)
       .then(data => {
         setTimeout(() =>
           this.setState({
@@ -64,69 +44,42 @@ class RecordEditor extends Component {
     let { entityType, setTabContentUrl } = this.props;
     let entity = getEntityByType(entityType);
 
-    if (this.state.authService.loggedIn() && !this.state.authService.isTokenExpired()) {
-      const headers = {
-        'Content-Type': 'application/json'
-      };
+    this.setState({
+      isLoading: true
+    });
 
-      let token = this.state.authService.getToken();
-      headers['Authorization'] = token;
-
-      // TODO:
-      // disable 'Save' button
-      // show loader
-      this.setState({
-        loading: true
-      });
-
-      fetch(
-        Settings.apiServerUrl + entity.apiUrl,
-        {
-          method: mode === 'edit' ? 'PUT' : 'POST',
-          body: JSON.stringify([form.formData]),
-          headers
-        }
-      )
-        .then(this.state.authService._checkStatus)
-        .then(response => response.json())
-        .then(json => {
-          console.log(json);
-
-          // display green 'Данные сохранены' message
-          // enable 'Save' button
-          // hide loader
-          let stateData = this.state.data;
-          let formData = form.formData;
-
-          this.setState({
-            data: {
-              ...stateData,
-              ...formData,
-              id: json[0].id
-            },
-            isLoading: false
-          });
-
-          if (mode === 'add') {
-            let editorUrl = entityType + '/edit/' + json[0].id;
-            setTabContentUrl(editorUrl);
-            this.props.history.push({
-              pathname: '/admin/' + tabKey + '/' + editorUrl
-            });
-          }
-        })
-        .catch(error => {
-          console.log(error);
-          // display red 'Ошибка при сохранении' message
-          // enable 'Save' button
-          // hide loader
-          this.setState({
-            loading: false
-          });
+    ajaxRequest(
+      entity.apiUrl,
+      mode === 'edit' ? 'PUT' : 'POST',
+      JSON.stringify([form.formData])
+    )
+      .then(json => {
+        // display green 'Данные сохранены' message
+        // enable 'Save' button
+        // hide loader
+        
+        this.setState({
+          data: json[0],
+          isLoading: false
         });
-    } else {
-      console.log('Not logged in or token is expired');
-    }
+
+        if (mode === 'add') {
+          let editorUrl = entityType + '/edit/' + json[0].id;
+          setTabContentUrl(editorUrl);
+          this.props.history.push({
+            pathname: '/admin/' + tabKey + '/' + editorUrl
+          });
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        // display red 'Ошибка при сохранении' message
+        // enable 'Save' button
+        // hide loader
+        this.setState({
+          isLoading: false
+        });
+      });
   };
 
   changeDataInState = (type) => {
