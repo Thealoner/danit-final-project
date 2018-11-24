@@ -5,8 +5,8 @@ import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
 import { getEntityByType } from '../../GridEntities';
 import AuthService from '../../../Login/AuthService';
-import Settings from '../../../Settings';
 import photo from './photo.jpg';
+import ajaxRequest from '../../../Helpers';
 
 class SimpleRecord extends Component {
   constructor (props) {
@@ -37,98 +37,65 @@ class SimpleRecord extends Component {
     let entity = getEntityByType(entityType);
 
     if (this.state.authService.loggedIn() && !this.state.authService.isTokenExpired()) {
-      this.fetchEntity(entity, rowId);
+      ajaxRequest(entity.apiUrl + '/' + rowId)
+        .then(data => {
+          let editableDataKeys = Object.keys(this.state.editableFields);
+          let editableData = {};
+
+          editableDataKeys.forEach(key => {
+            editableData[key] = data[key];
+          });
+
+          let readonlyDataKeys = Object.keys(this.state.readonlyFields);
+          let readonlyData = {};
+
+          readonlyDataKeys.forEach(key => {
+            readonlyData[key] = data[key];
+          });
+
+          this.setState({
+            entityType: entity.id,
+            editableFields: editableData,
+            readonlyFields: readonlyData
+          });
+        });
     } else {
       console.log('Not logged in or token is expired');
     }
-  };
-
-  fetchEntity = (entity, rowId) => {
-    const headers = {
-      'Content-Type': 'application/json'
-    };
-
-    let token = this.state.authService.getToken();
-    headers['Authorization'] = token;
-
-    fetch(
-      Settings.apiServerUrl + entity.apiUrl + '/' + rowId,
-      { headers }
-    )
-      .then(this.state.authService._checkStatus)
-      .then(response => response.json())
-      .then(data => {
-        let editableDataKeys = Object.keys(this.state.editableFields);
-        let editableData = {};
-
-        editableDataKeys.forEach(key => {
-          editableData[key] = data[key];
-        });
-
-        let readonlyDataKeys = Object.keys(this.state.readonlyFields);
-        let readonlyData = {};
-        
-        readonlyDataKeys.forEach(key => {
-          readonlyData[key] = data[key];
-        });
-
-        this.setState({
-          entityType: entity.id,
-          editableFields: editableData,
-          readonlyFields: readonlyData
-        });
-      });
   };
 
   saveData = () => {
     let { entityType } = this.props;
     let entity = getEntityByType(entityType);
 
-    if (this.state.authService.loggedIn() && !this.state.authService.isTokenExpired()) {
-      const headers = {
-        'Content-Type': 'application/json'
-      };
+    this.saveButton.setAttribute('disabled', 'true');
 
-      let token = this.state.authService.getToken();
-      headers['Authorization'] = token;
-
-      // TODO:
-      // show loader
-      this.saveButton.setAttribute('disabled', 'true');
-
-      fetch(
-        Settings.apiServerUrl + entity.apiUrl,
-        {
-          method: 'PUT',
-          body: JSON.stringify([this.state.editableFields]),
-          headers
-        }
-      )
-        .then(this.state.authService._checkStatus)
-        .then(response => {
-          console.log(response.status);
-          let success = this.success;
-          success.classList.add('visible');
-          setTimeout(function () { success.classList.remove('visible'); }, 1000);
-        })
-        .catch(error => {
-          console.log(error);
-          let errorMessage = this.error;
-          errorMessage.classList.add('visible');
-          setTimeout(function () { errorMessage.classList.remove('visible'); }, 1000);
-        })
-        .finally(() => {
-          console.log('Finally');
-          // TODO:
-          // hide loader
-          let saveButton = this.saveButton;
-          setTimeout(function () {
-            saveButton.removeAttribute('disabled', 'false');
-          }, 1000);
-        });
-    } else {
-      console.log('Not logged in or token is expired');
-    }
+    ajaxRequest(
+      entity.apiUrl,
+      'PUT',
+      JSON.stringify([this.state.editableFields])
+    )
+      .then(response => {
+        console.log(response.status);
+        let success = this.success;
+        success.classList.add('visible');
+        setTimeout(function () { success.classList.remove('visible'); }, 1000);
+      })
+      .catch(error => {
+        console.log(error);
+        let errorMessage = this.error;
+        errorMessage.classList.add('visible');
+        setTimeout(function () { errorMessage.classList.remove('visible'); }, 1000);
+      })
+      .finally(() => {
+        console.log('Finally');
+        // TODO:
+        // hide loader
+        let saveButton = this.saveButton;
+        setTimeout(function () {
+          saveButton.removeAttribute('disabled', 'false');
+        }, 1000);
+      });
   };
 
   handleInputChange = (event) => {
