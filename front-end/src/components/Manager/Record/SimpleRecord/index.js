@@ -72,7 +72,7 @@ class SimpleRecord extends Component {
       });
   };
 
-  render() {
+  render () {
     let { rowId } = this.props.match.params;
     let { entityType, setTabContentUrl } = this.props;
     setTabContentUrl(entityType + '/' + rowId);
@@ -97,7 +97,7 @@ class SimpleRecord extends Component {
     );
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.getData();
   }
 }

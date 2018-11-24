@@ -8,7 +8,7 @@ import Form from 'react-jsonschema-form';
 import ajaxRequest from '../../../Helpers';
 
 class RecordEditor extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       data: {},
@@ -34,7 +34,7 @@ class RecordEditor extends Component {
             data: data,
             isLoading: false
           })
-          , 1000);
+        , 1000);
       });
   };
 
@@ -89,7 +89,7 @@ class RecordEditor extends Component {
 
   log = (type) => console.log.bind(console, type);
 
-  render() {
+  render () {
     let { mode, rowId } = this.props.match.params;
     let { entityType, setTabContentUrl } = this.props;
 
@@ -106,20 +106,20 @@ class RecordEditor extends Component {
         {this.state.isLoading ? (
           <p>Loading...</p>
         ) : (
-            <Form
-              schema={entity.schema}
-              uiSchema={entity.uiSchema}
-              formData={this.state.data}
-              onChange={this.changeDataInState}
-              onSubmit={this.saveData}
-              onError={this.log('errors')}
-            />
-          )}
+          <Form
+            schema={entity.schema}
+            uiSchema={entity.uiSchema}
+            formData={this.state.data}
+            onChange={this.changeDataInState}
+            onSubmit={this.saveData}
+            onError={this.log('errors')}
+          />
+        )}
       </div>
     );
   }
 
-  componentDidMount() {
+  componentDidMount () {
     let { mode } = this.props.match.params;
     if (mode === 'edit') {
       this.getData();

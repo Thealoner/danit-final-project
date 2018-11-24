@@ -31,22 +31,22 @@ class Grid extends Component {
       let entity = getEntityByType(entityType);
 
       ajaxRequest(entity.apiUrl)
-          .then(data => {
-            this.props.setTabContentUrl(entity.id);
-            this.id = entityType;
-            this.data = data;
-            this.columns = entity.columns;
-            this.tabulator.setColumns(this.columns);
-            this.tabulator.setData(this.data);
-          })
-          .catch(error => {
-            console.log('' + error);
-            this.id = '';
-            this.data = [];
-            this.columns = [];
-            this.tabulator.setColumns(this.columns);
-            this.tabulator.setData(this.data);
-          });
+        .then(data => {
+          this.props.setTabContentUrl(entity.id);
+          this.id = entityType;
+          this.data = data;
+          this.columns = entity.columns;
+          this.tabulator.setColumns(this.columns);
+          this.tabulator.setData(this.data);
+        })
+        .catch(error => {
+          console.log('' + error);
+          this.id = '';
+          this.data = [];
+          this.columns = [];
+          this.tabulator.setColumns(this.columns);
+          this.tabulator.setData(this.data);
+        });
     };
 
     render () {

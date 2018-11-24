@@ -16,7 +16,7 @@ const ajaxRequest = (relativeUrl = '', method = 'GET', body = null) => {
     let options = {
       method,
       headers
-    }
+    };
 
     if (body !== null) {
       options.body = body;
@@ -27,10 +27,10 @@ const ajaxRequest = (relativeUrl = '', method = 'GET', body = null) => {
       options
     )
       .then(authService._checkStatus)
-      .then(response => response.json())
+      .then(response => response.json());
   } else {
     console.log('Not logged in or token is expired');
   }
-}
+};
 
 export default ajaxRequest;
