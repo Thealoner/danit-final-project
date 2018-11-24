@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import './index.scss';
-// import RecordTabs from './RecordTabs';
 import RecordEditor from './RecordEditor';
 import Client from './Client';
-// import SimpleRecord from './SimpleRecord';
-// import Paket from './Paket';
 import { Route } from 'react-router-dom';
 import GridEntities from '../GridEntities';
 
@@ -28,27 +25,6 @@ class Record extends Component {
           } />
         );
       }
-      // TODO: I will remove this in the next branch, once we're sure we won't need this.
-      // It is simply getting too complicated to remove/fix it right now.
-
-      /* if (entity.recordType === 'simple') {
-        route = (
-          <Route key={entity.id} path={ '/admin/:tabKey/' + entity.id + '/:rowId' } render={
-            (props) => <SimpleRecord setTabContentUrl={this.props.setTabContentUrl} entityType={entityType} {...props} />
-          } />
-        );
-      } else if (entity.recordType === 'tabbed') {
-        route = (
-          <Fragment key={entity.id}>
-            <Route path={ '/admin/:tabKey/' + entity.id + '/:rowId' } render={
-              (props) => <RecordTabs entityType={entityType} {...props} />
-            } />
-            <Route path={ '/admin/:tabKey/' + entity.id + '/:rowId' } render={
-              (props) => <Paket entityType={entityType} {...props} />
-            } />
-          </Fragment>
-        );
-      } */
 
       return route;
     });
