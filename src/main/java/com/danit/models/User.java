@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,12 +27,13 @@ public class User {
   @Column(name = "id")
   private Long id;
 
-  @Column(unique = true)
+  @Column(name = "username", unique = true)
   private String username;
 
+  @Column(name = "password")
   private String password;
 
-  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+  @ManyToMany(fetch = FetchType.EAGER)
   private Collection<UserRoles> roles;
 
   public User(String username, String password, Collection<UserRoles> roles) {

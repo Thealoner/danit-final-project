@@ -30,13 +30,12 @@ import java.util.Date;
 import java.util.List;
 
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "clients")
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 @NoArgsConstructor
 @ToString(exclude = {"contracts"}, callSuper = true)
-@EqualsAndHashCode(callSuper = false)
-
 @EntityListeners(AuditingEntityListener.class)
 @Data
 public class Client extends Auditable {

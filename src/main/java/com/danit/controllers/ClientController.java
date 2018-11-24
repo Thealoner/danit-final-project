@@ -105,7 +105,6 @@ public class ClientController {
   public List<Client> addClients(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is updating clients data: " + clients);
     List<Client> updatedClients = clientService.updateClients(clients);
-    System.out.println(updatedClients);
     return updatedClients;
   }
 
