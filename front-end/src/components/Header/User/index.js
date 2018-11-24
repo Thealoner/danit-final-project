@@ -11,12 +11,12 @@ class User extends Component {
       <div className="user">
 
         <ButtonToolbar>
-          <Dropdown id="dropdown-custom-1" pullRight="false">
+          <Dropdown id="dropdown-custom-1" pullRight={false}>
             <Dropdown.Toggle>
               <FontAwesomeIcon className="user__avatar" icon="user-circle" size="2x" title={userName}/>
             </Dropdown.Toggle>
             <Dropdown.Menu className="super-colors" >
-              <MenuItem eventKey="1" disabled="true">
+              <MenuItem eventKey="1" disabled={true}>
                 {userName}
               </MenuItem>
               <MenuItem divider />
