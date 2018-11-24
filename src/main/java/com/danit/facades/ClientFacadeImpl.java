@@ -6,6 +6,7 @@ import com.danit.services.ClientService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -42,8 +43,8 @@ public class ClientFacadeImpl implements ClientFacade {
 
 
   @Override
-  public Page<ClientDto> getAllClients(int page, int size) {
-    return convertToDtos(clientService.getAllClients(page, size));
+  public Page<ClientDto> getAllClients(Pageable pageable) {
+    return convertToDtos(clientService.getAllClients(pageable));
   }
 
   @Override

@@ -2,15 +2,17 @@ package com.danit.controllers;
 
 
 import com.danit.dto.ClientDto;
+import com.danit.dto.PageDataDto;
 import com.danit.dto.Views;
+import com.danit.dto.service.ClientListRequestDto;
 import com.danit.facades.ClientFacade;
 import com.danit.models.Client;
-import com.danit.dto.page.PageDataDto;
 import com.danit.services.ClientService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,7 +21,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -63,34 +64,32 @@ public class ClientController {
 
   //------not dto------
   @GetMapping("/clients")
-  public ResponseEntity<Map<String, Object>> getAllClients(@RequestParam(name = "filter", required = false) String filter,
-                                                           @RequestParam(name = "page") int page,
-                                                           @RequestParam(name = "size") int size,
-                                                           Principal principal) {
+  public ResponseEntity<Map<String, Object>> getAllClients(Pageable pageable,
+                                                           Principal principal,
+                                                           ClientListRequestDto clientListRequestDto) {
     log.info(principal.getName() + logMsg1);
-    return ResponseEntity.ok(convertToMap(Objects.nonNull(filter) ?
-        clientService.getAllClients(filter, page, size) :
-        clientService.getAllClients(page, size)));
+    log.info("clientListRequestDto" + clientListRequestDto);
+    return ResponseEntity.ok(convertToMap(Objects.nonNull(clientListRequestDto) ?
+        clientService.getAllClients(clientListRequestDto, pageable) :
+        clientService.getAllClients(pageable)));
   }
 
   //--------dto--------
   @JsonView(Views.Short.class)
   @GetMapping(path = "/clients/short")
-  public ResponseEntity<Map<String, Object>> getAllClientsShort(@RequestParam(name = "page") int page,
-                                                                @RequestParam(name = "size") int size,
+  public ResponseEntity<Map<String, Object>> getAllClientsShort(Pageable pageable,
                                                                 Principal principal) throws ParseException {
     log.info(principal.getName() + logMsg1); // NOSONAR
-    return ResponseEntity.ok(convertToMap(clientFacade.getAllClients(page, size))); // NOSONAR
+    return ResponseEntity.ok(convertToMap(clientFacade.getAllClients(pageable))); // NOSONAR
   }
 
   //--------dto--------
   @JsonView(Views.Extended.class)
   @GetMapping(path = "/clients/extended")
-  public ResponseEntity<Map<String, Object>> getAllClientsExtended(@RequestParam(name = "page") int page,
-                                                                   @RequestParam(name = "size") int size,
+  public ResponseEntity<Map<String, Object>> getAllClientsExtended(Pageable pageable,
                                                                    Principal principal) throws ParseException {
     log.info(principal.getName() + logMsg1); // NOSONAR
-    return ResponseEntity.ok(convertToMap(clientFacade.getAllClients(page, size))); // NOSONAR
+    return ResponseEntity.ok(convertToMap(clientFacade.getAllClients(pageable))); // NOSONAR
   }
 
   //------not dto------
@@ -160,8 +159,8 @@ public class ClientController {
     Map<String, Object> outputData = new HashMap<>();
     outputData.put("data", pageData.getContent());
     outputData.put("meta", new PageDataDto(pageData.getTotalElements(),
-        pageData.getNumber(), pageData.getTotalPages(),
-        pageData.getNumberOfElements()));
+        pageData.getNumber() + 1, pageData.getTotalPages(),
+        pageData.getSize(), pageData.getNumberOfElements()));
     return outputData;
   }
 

@@ -1,6 +1,5 @@
-package com.danit.dto.page;
+package com.danit.dto;
 
-import com.danit.dto.Views;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,5 +21,8 @@ public class PageDataDto {
 
   @JsonView({Views.Extended.class, Views.Short.class})
   int elementsPerPage;
+
+  @JsonView({Views.Extended.class, Views.Short.class})
+  int currentElements;
 
 }
