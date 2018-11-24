@@ -104,8 +104,7 @@ public class ClientController {
   @PutMapping("/clients")
   public List<Client> addClients(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is updating clients data: " + clients);
-    List<Client> updatedClients = clientService.updateClients(clients);
-    return updatedClients;
+    return clientService.updateClients(clients);
   }
 
 
