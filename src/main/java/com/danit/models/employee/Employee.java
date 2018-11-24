@@ -1,6 +1,6 @@
 package com.danit.models.employee;
 
-import com.danit.utils.CustomDateAndTimeDeserialize;
+import com.danit.utils.CustomDateDeserializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
@@ -40,7 +40,7 @@ public class Employee {
   private String familyName;
 
   @Column(name = "birth_date")//NOSONAR
-  @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
+  @JsonDeserialize(using = CustomDateDeserializer.class)
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
       pattern = "yyyy-MM-dd")
@@ -51,14 +51,14 @@ public class Employee {
   private Department department;
 
   @Column(name = "job_begin_date")
-  @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
+  @JsonDeserialize(using = CustomDateDeserializer.class)
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
       pattern = "yyyy-MM-dd")
   private Date jobBeginDate;
 
   @Column(name = "dismiss_date")
-  @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
+  @JsonDeserialize(using = CustomDateDeserializer.class)
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
       pattern = "yyyy-MM-dd")

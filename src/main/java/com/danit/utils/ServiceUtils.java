@@ -5,7 +5,7 @@ import com.danit.exceptions.IllegalAccessReflectionException;
 import java.lang.reflect.Field;
 import java.util.Objects;
 
-public class ServiceUtils {
+public final class ServiceUtils {
 
   public static final ServiceUtils SERVICE_UTILS = new ServiceUtils();
 
