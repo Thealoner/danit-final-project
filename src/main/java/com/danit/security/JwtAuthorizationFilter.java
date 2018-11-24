@@ -19,10 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
 
-import static com.danit.security.SecurityConstants.HEADER_STRING;
-import static com.danit.security.SecurityConstants.SECRET;
-import static com.danit.security.SecurityConstants.TOKEN_PREFIX;
-
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
   private UserDetailsService userDetailsService;
@@ -36,9 +32,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
   protected void doFilterInternal(HttpServletRequest req,
                                   HttpServletResponse res,
                                   FilterChain chain) throws IOException, ServletException {
-    String header = req.getHeader(HEADER_STRING);
+    String header = req.getHeader(SecurityConstants.HEADER_STRING);
 
-    if (header == null || !header.startsWith(TOKEN_PREFIX)) {
+    if (header == null || !header.startsWith(SecurityConstants.TOKEN_PREFIX)) {
       chain.doFilter(req, res);
       return;
     }
@@ -50,13 +46,13 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
   }
 
   private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-    String token = request.getHeader(HEADER_STRING);
+    String token = request.getHeader(SecurityConstants.HEADER_STRING);
     if (token != null) {
       DecodedJWT decodedJwt;
       try {
-        decodedJwt = JWT.require(Algorithm.HMAC512(SECRET.getBytes()))
+        decodedJwt = JWT.require(Algorithm.HMAC512(SecurityConstants.SECRET.getBytes()))
             .build()
-            .verify(token.replace(TOKEN_PREFIX, ""));
+            .verify(token.replace(SecurityConstants.TOKEN_PREFIX, ""));
       } catch (JWTVerificationException e) {
         e.printStackTrace();
         return null;

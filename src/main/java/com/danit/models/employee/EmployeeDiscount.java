@@ -1,7 +1,7 @@
 package com.danit.models.employee;
 
 
-import com.danit.utils.CustomDateAndTimeDeserialize;
+import com.danit.utils.CustomDateDeserializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
@@ -35,7 +35,7 @@ class EmployeeDiscount {
   private Discount discountList;
 
   @Column(name = "valid_from")
-  @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
+  @JsonDeserialize(using = CustomDateDeserializer.class)
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
       pattern = "yyyy-MM-dd")

@@ -1,13 +1,15 @@
 package com.danit.models;
 
 
-import com.danit.utils.CustomDateAndTimeDeserialize;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.danit.utils.CustomDateDeserializer;
+import com.danit.utils.CustomDateSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,8 +30,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "contracts")
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 @NoArgsConstructor
+@ToString(exclude = {"client", "paket", "cards"})
 @Data
 public class Contract {
   @Id
@@ -39,18 +42,14 @@ public class Contract {
   private Long id;
 
   @Column(name = "start_date")
-  @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
-  @JsonFormat(
-      shape = JsonFormat.Shape.STRING,
-      pattern = "yyyy-MM-dd")
+  @JsonDeserialize(using = CustomDateDeserializer.class)
+  @JsonSerialize(using = CustomDateSerializer.class)
   @Temporal(TemporalType.TIMESTAMP)
   private Date startDate;
 
   @Column(name = "end_date")
-  @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
-  @JsonFormat(
-      shape = JsonFormat.Shape.STRING,
-      pattern = "yyyy-MM-dd")
+  @JsonDeserialize(using = CustomDateDeserializer.class)
+  @JsonSerialize(using = CustomDateSerializer.class)
   @Temporal(TemporalType.TIMESTAMP)
   private Date endDate;
 
@@ -71,7 +70,7 @@ public class Contract {
   private Paket paket;
 
   @OneToMany(mappedBy = "contract", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-  private List<CardColor> cards;
+  private List<Card> cards;
 
   @Column(name = "package_id")
   private Long packageId;
