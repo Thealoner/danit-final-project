@@ -14,7 +14,8 @@ public class CustomDateSerializer extends JsonSerializer<Date> {
       = new SimpleDateFormat("yyyy-MM-dd");
 
   @Override
-  public void serialize(Date date, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException, org.codehaus.jackson.JsonProcessingException {
+  public void serialize(Date date, JsonGenerator jsonGenerator,
+                        SerializerProvider serializerProvider) throws IOException {
     jsonGenerator.writeString(formatter.format(date));
   }
 
