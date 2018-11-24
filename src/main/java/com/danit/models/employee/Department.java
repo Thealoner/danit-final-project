@@ -42,7 +42,7 @@ public class Department {
   @Column(name = "name", nullable = false)
   private String name;
 
-  @Column(name = "date_from", nullable = false)
+  @Column(name = "date_from")
   @JsonDeserialize(using = CustomDateDeserializer.class)
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
