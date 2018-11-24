@@ -4,6 +4,7 @@ import com.danit.Application;
 import com.danit.dto.ClientDto;
 import com.danit.exceptions.EntityNotFoundException;
 import com.danit.models.Client;
+import com.danit.models.auditor.AuditorAwareImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
+import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
+@DataJpaTest(includeFilters = @ComponentScan.Filter(
+    type = ASSIGNABLE_TYPE,
+    classes = {AuditorAwareImpl.class}))
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = Application.class)
 @ComponentScan("com.danit")
 public class ClientFacadeTest {
