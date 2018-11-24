@@ -70,7 +70,12 @@ a {
 }
 
 button {
-	cursor: pointer;
 	outline: none;
+	cursor: pointer;
 	user-select: none;
+
+	&:disabled {
+		cursor: not-allowed;
+		opacity: .5;
+	}
 }

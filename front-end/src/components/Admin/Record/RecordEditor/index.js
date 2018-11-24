@@ -7,7 +7,6 @@ import AuthService from '../../../Login/AuthService';
 import Settings from '../../../Settings';
 import Form from 'react-jsonschema-form';
 import { FadeLoader } from 'react-spinners';
-import {Button} from 'react-bootstrap';
 
 class RecordEditor extends Component {
   constructor (props) {
@@ -131,28 +130,24 @@ class RecordEditor extends Component {
 
     return (
       <Fragment>
-        {this.state.loading ? (
-          <div className="record__loader-wrapper">
-            <FadeLoader
-              sizeUnit={'px'}
-              size={50}
-              color={'#999'}
-              loading={this.state.loading}
-            />
-          </div>
-        ) : (
-          <Form
-            schema={entity.schema}
-            uiSchema={entity.uiSchema}
-            formData={this.state.data}
-            autocomplete='off'
-            onChange={this.log('changed')}
-            onSubmit={this.saveData}
-            onError={this.log('errors')}
-          >
-            <Button type='submit'>Сохранить</Button>
-          </Form>
-        )}
+        {this.state.loading ? <div className="record__loader-wrapper">
+          <FadeLoader
+            sizeUnit={'px'}
+            size={50}
+            color={'#999'}
+            loading={this.state.loading}
+          />
+        </div> : <Form
+          schema={entity.schema}
+          uiSchema={entity.uiSchema}
+          formData={this.state.data}
+          autocomplete='off'
+          onChange={this.log('changed')}
+          onSubmit={this.saveData}
+          onError={this.log('errors')}
+        >
+          <button className='record__button'>Сохранить</button>
+        </Form>}
       </Fragment>
     );
   }
