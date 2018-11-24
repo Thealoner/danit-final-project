@@ -11,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
@@ -44,81 +47,82 @@ public class ClientController {
 
   //------not dto------
   @PostMapping("/clients")
-  public List<Client> createClients(@RequestBody List<Client> clients, Principal principal) {
+  public ResponseEntity<List<Client>> createClients(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is saving new clients: " + clients);
-    return clientService.saveClients(clients);
+    return ResponseEntity.status(HttpStatus.CREATED).body(clientService.saveClients(clients));
   }
 
   //--------dto--------
   @JsonView(Views.Ids.class)
   @PostMapping("/clients/ids")
-  public List<ClientDto> createClientsAndReturnIds(@RequestBody List<Client> clients, Principal principal) {
+  public ResponseEntity<List<ClientDto>> createClientsAndReturnIds(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is saving new clients: " + clients);
-    return clientFacade.saveClients(clients);
+    return ResponseEntity.status(HttpStatus.CREATED).body(clientFacade.saveClients(clients));
   }
 
   //------not dto------
   @GetMapping("/clients")
-  public Map<String, Object> getAllClients(@RequestParam(name = "page") int page,
-                                    @RequestParam(name = "size") int size,
-                                    Principal principal) {
+  public ResponseEntity<Map<String, Object>> getAllClients(@RequestParam(name = "page") int page,
+                                                           @RequestParam(name = "size") int size,
+                                                           Principal principal) {
     log.info(principal.getName() + logMsg1);
-    return convertToMap(clientService.getAllClients(page, size));
+    return ResponseEntity.ok(convertToMap(clientService.getAllClients(page, size)));
   }
 
   //--------dto--------
   @JsonView(Views.Short.class)
   @GetMapping(path = "/clients/short")
-  public Map<String, Object> getAllClientsShort(@RequestParam(name = "page") int page,
-                                                @RequestParam(name = "size") int size,
-                                                Principal principal) throws ParseException {
+  public ResponseEntity<Map<String, Object>> getAllClientsShort(@RequestParam(name = "page") int page,
+                                                                @RequestParam(name = "size") int size,
+                                                                Principal principal) throws ParseException {
     log.info(principal.getName() + logMsg1); // NOSONAR
-    return convertToMap(clientFacade.getAllClients(page, size)); // NOSONAR
+    return ResponseEntity.ok(convertToMap(clientFacade.getAllClients(page, size))); // NOSONAR
   }
 
   //--------dto--------
   @JsonView(Views.Extended.class)
   @GetMapping(path = "/clients/extended")
-  public Map<String, Object> getAllClientsExtended(@RequestParam(name = "page") int page,
-                                                   @RequestParam(name = "size") int size,
-                                                   Principal principal) throws ParseException {
+  public ResponseEntity<Map<String, Object>> getAllClientsExtended(@RequestParam(name = "page") int page,
+                                                                   @RequestParam(name = "size") int size,
+                                                                   Principal principal) throws ParseException {
     log.info(principal.getName() + logMsg1); // NOSONAR
-    return convertToMap(clientFacade.getAllClients(page, size)); // NOSONAR
+    return ResponseEntity.ok(convertToMap(clientFacade.getAllClients(page, size))); // NOSONAR
   }
 
   //------not dto------
   @GetMapping("/clients/{id}")
-  Client getClientById(@PathVariable(name = "id") long id, Principal principal) {
+  ResponseEntity<Client> getClientById(@PathVariable(name = "id") long id, Principal principal) {
     log.info(principal.getName() + " got client data with id: " + id);
-    return clientService.getClientById(id);
+    return ResponseEntity.ok(clientService.getClientById(id));
   }
 
   //--------dto--------
   @JsonView(Views.Extended.class)
   @GetMapping("/clients/{id}/extended")
-  ClientDto getClientByIdExtended(@PathVariable(name = "id") long id, Principal principal) {
+  ResponseEntity<ClientDto> getClientByIdExtended(@PathVariable(name = "id") long id, Principal principal) {
     log.info(principal.getName() + " got client data with id: " + id);
-    return clientFacade.getClientById(id);
+    return ResponseEntity.ok(clientFacade.getClientById(id));
   }
 
   //------not dto------
   @PutMapping("/clients")
-  public List<Client> addClients(@RequestBody List<Client> clients, Principal principal) {
+  public ResponseEntity<List<Client>> addClients(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is updating clients data: " + clients);
-    return clientService.updateClients(clients);
+    return ResponseEntity.ok(clientService.updateClients(clients));
   }
 
 
   //--------dto--------
   @JsonView(Views.Ids.class)
   @PutMapping("/clients/ids")
-  public List<ClientDto> addClientsAndReturnIds(@RequestBody List<Client> clients, Principal principal) {
+  public ResponseEntity<List<ClientDto>> addClientsAndReturnIds(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is updating clients data: " + clients);
-    return clientFacade.updateClients(clients);
+    return ResponseEntity.ok(clientFacade.updateClients(clients));
   }
 
   //------not dto------
   @DeleteMapping("/clients/{id}")
+  @ResponseStatus(HttpStatus.OK)
   public void deleteClientById(@PathVariable(name = "id") long id, Principal principal) {
     log.info(principal.getName() + " is trying to delete client with id: " + id);
     clientService.deleteClientById(id);
@@ -126,6 +130,7 @@ public class ClientController {
 
   //--------dto--------
   @DeleteMapping("/clients/{id}/dto")
+  @ResponseStatus(HttpStatus.OK)
   public void deleteClientByIdDto(@PathVariable(name = "id") long id, Principal principal) {
     log.info(principal.getName() + " is trying to delete client with id: " + id);
     clientFacade.deleteClientById(id);
@@ -133,6 +138,7 @@ public class ClientController {
 
   //------not dto------
   @DeleteMapping("/clients")
+  @ResponseStatus(HttpStatus.OK)
   public void deleteClients(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is trying to delete clients: " + clients);
     clientService.deleteClients(clients);
@@ -140,6 +146,7 @@ public class ClientController {
 
   //--------dto--------
   @DeleteMapping("/clients/dto")
+  @ResponseStatus(HttpStatus.OK)
   public void deleteClientsDto(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is trying to delete clients: " + clients);
     clientFacade.deleteClients(clients);
