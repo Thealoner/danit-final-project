@@ -4,9 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
   height: 100%;
-  background-color: #fff;
 
   &__avatar {
     display: block;
@@ -25,4 +23,30 @@
       border-bottom: 1px solid black;
     }
   }
+
+  .btn-toolbar,
+  .btn-group {
+    height: 100%;
+  }
+
+  #dropdown-custom-1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 55px;
+    height: 100%;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+  }
+
+  .dropdown-menu li[class="disabled"] a {
+    text-align: center;
+    cursor: initial;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
 }
