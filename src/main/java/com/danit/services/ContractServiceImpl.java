@@ -3,6 +3,8 @@ package com.danit.services;
 import com.danit.models.Contract;
 import com.danit.repositories.ContractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -20,11 +22,6 @@ public class ContractServiceImpl implements ContractService {
   }
 
   @Override
-  public List<Contract> getAllContracts() {
-    return contractRepository.findAll();
-  }
-
-  @Override
   public Contract getContractById(long id) {
     return contractRepository.findById(id).orElseThrow(() ->
         new EntityNotFoundException("Cant find Contract with id=" + id));
@@ -32,7 +29,7 @@ public class ContractServiceImpl implements ContractService {
 
   @Override
   public List<Contract> saveContracts(List<Contract> contracts) {
-    return contractRepository.saveAll(contracts);
+    return (List<Contract>)contractRepository.saveAll(contracts);
   }
 
   @Override
@@ -48,7 +45,12 @@ public class ContractServiceImpl implements ContractService {
         throw new EntityNotFoundException("Contract with id=" + contract.getId() + " is not exist");
       }
     });
-    contractRepository.deleteInBatch(contracts);
+    contractRepository.deleteAll(contracts);
+  }
+
+  @Override
+  public Page<Contract> getAllContracts(int page, int size) {
+    return contractRepository.findAll(PageRequest.of(page, size));
   }
 
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,48 +27,48 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/clients")
 @Slf4j
 public class ClientController {
 
-  private ClientService clientService;
+//  private ClientService clientService;
   private ClientFacade clientFacade;
 
   private String logMsg1 = " got all clients data";
 
   @Autowired
-  public ClientController(ClientService clientService, ClientFacade clientFacade) {
-    this.clientService = clientService;
+  public ClientController(ClientFacade clientFacade) {
     this.clientFacade = clientFacade;
   }
 
 
-  //------not dto------
-  @PostMapping("/clients")
-  public List<Client> createClients(@RequestBody List<Client> clients, Principal principal) {
-    log.info(principal.getName() + " is saving new clients: " + clients);
-    return clientService.saveClients(clients);
-  }
+//  //------not dto------
+//  @PostMapping
+//  public List<Client> createClients(@RequestBody List<Client> clients, Principal principal) {
+//    log.info(principal.getName() + " is saving new clients: " + clients);
+//    return clientService.saveClients(clients);
+//  }
 
   //--------dto--------
-  @JsonView(Views.Ids.class)
-  @PostMapping("/clients/ids")
-  public List<ClientDto> createClientsAndReturnIds(@RequestBody List<Client> clients, Principal principal) {
+  @JsonView(Views.Extended.class)
+  @PostMapping
+  public List<ClientDto> createClients(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is saving new clients: " + clients);
     return clientFacade.saveClients(clients);
   }
 
-  //------not dto------
-  @GetMapping("/clients")
-  public Map<String, Object> getAllClients(@RequestParam(name = "page") int page,
-                                           @RequestParam(name = "size") int size,
-                                           Principal principal) {
-    log.info(principal.getName() + logMsg1);
-    return convertToMap(clientService.getAllClients(page, size));
-  }
+//  //------not dto------
+//  @GetMapping
+//  public Map<String, Object> getAllClients(@RequestParam(name = "page") int page,
+//                                           @RequestParam(name = "size") int size,
+//                                           Principal principal) {
+//    log.info(principal.getName() + logMsg1);
+//    return convertToMap(clientService.getAllClients(page, size));
+//  }
 
   //--------dto--------
   @JsonView(Views.Short.class)
-  @GetMapping(path = "/clients/short")
+  @GetMapping(path = "/short")
   public Map<String, Object> getAllClientsShort(@RequestParam(name = "page") int page,
                                                 @RequestParam(name = "size") int size,
                                                 Principal principal) throws ParseException {
@@ -77,7 +78,7 @@ public class ClientController {
 
   //--------dto--------
   @JsonView(Views.Extended.class)
-  @GetMapping(path = "/clients/extended")
+  @GetMapping(path = "/extended")
   public Map<String, Object> getAllClientsExtended(@RequestParam(name = "page") int page,
                                                    @RequestParam(name = "size") int size,
                                                    Principal principal) throws ParseException {
@@ -85,60 +86,60 @@ public class ClientController {
     return convertToMap(clientFacade.getAllClients(page, size)); // NOSONAR
   }
 
-  //------not dto------
-  @GetMapping("/clients/{id}")
-  Client getClientById(@PathVariable(name = "id") long id, Principal principal) {
-    log.info(principal.getName() + " got client data with id: " + id);
-    return clientService.getClientById(id);
-  }
+//  //------not dto------
+//  @GetMapping("/{id}")
+//  Client getClientById(@PathVariable(name = "id") long id, Principal principal) {
+//    log.info(principal.getName() + " got client data with id: " + id);
+//    return clientService.getClientById(id);
+//  }
 
   //--------dto--------
   @JsonView(Views.Extended.class)
-  @GetMapping("/clients/{id}/extended")
+  @GetMapping("/{id}")
   ClientDto getClientByIdExtended(@PathVariable(name = "id") long id, Principal principal) {
     log.info(principal.getName() + " got client data with id: " + id);
     return clientFacade.getClientById(id);
   }
 
-  //------not dto------
-  @PutMapping("/clients")
-  public List<Client> addClients(@RequestBody List<Client> clients, Principal principal) {
-    log.info(principal.getName() + " is updating clients data: " + clients);
-    return clientService.updateClients(clients);
-  }
+//  //------not dto------
+//  @PutMapping
+//  public List<Client> addClients(@RequestBody List<Client> clients, Principal principal) {
+//    log.info(principal.getName() + " is updating clients data: " + clients);
+//    return clientService.updateClients(clients);
+//  }
 
 
   //--------dto--------
-  @JsonView(Views.Ids.class)
-  @PutMapping("/clients/ids")
+  @JsonView(Views.Extended.class)
+  @PutMapping
   public List<ClientDto> addClientsAndReturnIds(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is updating clients data: " + clients);
     return clientFacade.updateClients(clients);
   }
 
-  //------not dto------
-  @DeleteMapping("/clients/{id}")
-  public void deleteClientById(@PathVariable(name = "id") long id, Principal principal) {
-    log.info(principal.getName() + " is trying to delete client with id: " + id);
-    clientService.deleteClientById(id);
-  }
+//  //------not dto------
+//  @DeleteMapping("/{id}")
+//  public void deleteClientById(@PathVariable(name = "id") long id, Principal principal) {
+//    log.info(principal.getName() + " is trying to delete client with id: " + id);
+//    clientService.deleteClientById(id);
+//  }
 
   //--------dto--------
-  @DeleteMapping("/clients/{id}/dto")
+  @DeleteMapping("/{id}")
   public void deleteClientByIdDto(@PathVariable(name = "id") long id, Principal principal) {
     log.info(principal.getName() + " is trying to delete client with id: " + id);
     clientFacade.deleteClientById(id);
   }
 
-  //------not dto------
-  @DeleteMapping("/clients")
-  public void deleteClients(@RequestBody List<Client> clients, Principal principal) {
-    log.info(principal.getName() + " is trying to delete clients: " + clients);
-    clientService.deleteClients(clients);
-  }
+//  //------not dto------
+//  @DeleteMapping("/clients")
+//  public void deleteClients(@RequestBody List<Client> clients, Principal principal) {
+//    log.info(principal.getName() + " is trying to delete clients: " + clients);
+//    clientService.deleteClients(clients);
+//  }
 
   //--------dto--------
-  @DeleteMapping("/clients/dto")
+  @DeleteMapping
   public void deleteClientsDto(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is trying to delete clients: " + clients);
     clientFacade.deleteClients(clients);

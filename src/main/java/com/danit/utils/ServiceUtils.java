@@ -1,8 +1,11 @@
 package com.danit.utils;
 
 import com.danit.exceptions.IllegalAccessReflectionException;
+import org.springframework.data.domain.Page;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public final class ServiceUtils {
@@ -28,5 +31,12 @@ public final class ServiceUtils {
       }
     }
     return updated;
+  }
+
+  public static <T> Map<String, Object> convertToMap(Page<T> pageData) {
+    Map<String, Object> outputData = new HashMap<>();
+    outputData.put("data", pageData.getContent());
+    outputData.put("last_page", pageData.getTotalPages());
+    return outputData;
   }
 }
