@@ -4,11 +4,11 @@ import org.springframework.data.jpa.domain.Specification;
 
 public abstract class BaseSpecification<T, U> {
 
-  private static final String wildcard = "%";
+  private static final String WILDCARD = "%";
 
   public abstract Specification<T> getFilter(U request);
 
   protected String containsLowerCase(String searchField) {
-    return wildcard + searchField.toLowerCase() + wildcard;
+    return WILDCARD + searchField.toLowerCase() + WILDCARD;
   }
 }
