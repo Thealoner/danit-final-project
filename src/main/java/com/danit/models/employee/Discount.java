@@ -1,6 +1,6 @@
 package com.danit.models.employee;
 
-import com.danit.utils.CustomDateAndTimeDeserialize;
+import com.danit.utils.CustomDateDeserializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
@@ -31,14 +31,14 @@ public class Discount {
   private float percent;
 
   @Column(name = "date_from")
-  @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
+  @JsonDeserialize(using = CustomDateDeserializer.class)
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
       pattern = "yyyy-MM-dd")
   private String dateFrom;
 
   @Column(name = "date_to")
-  @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
+  @JsonDeserialize(using = CustomDateDeserializer.class)
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
       pattern = "yyyy-MM-dd")

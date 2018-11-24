@@ -73,7 +73,7 @@ public class ClientController {
                                                 Principal principal) throws ParseException {
     log.info(principal.getName() + logMsg1); // NOSONAR
     return convertToMap(clientFacade.getAllClients(page, size)); // NOSONAR
-  } // NOSONAR
+  }
 
   //--------dto--------
   @JsonView(Views.Extended.class)
@@ -83,7 +83,7 @@ public class ClientController {
                                                    Principal principal) throws ParseException {
     log.info(principal.getName() + logMsg1); // NOSONAR
     return convertToMap(clientFacade.getAllClients(page, size)); // NOSONAR
-  } // NOSONAR
+  }
 
   //------not dto------
   @GetMapping("/clients/{id}")

@@ -1,6 +1,7 @@
 package com.danit.security;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.danit.exceptions.UserMapInputStreamException;
 import com.danit.models.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,12 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-
-import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
-import static com.danit.security.SecurityConstants.EXPIRATION_TIME;
-import static com.danit.security.SecurityConstants.HEADER_STRING;
-import static com.danit.security.SecurityConstants.SECRET;
-import static com.danit.security.SecurityConstants.TOKEN_PREFIX;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
   private AuthenticationManager authenticationManager;
@@ -61,13 +56,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     String token = JWT.create()
         .withSubject(((UserDetails) auth.getPrincipal()).getUsername())
-        .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-        .sign(HMAC512(SECRET.getBytes()));
+        .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
+        .sign(Algorithm.HMAC512(SecurityConstants.SECRET.getBytes()));
 
     logger.info("Successful Authentication of User "
         + ((UserDetails) auth.getPrincipal()).getUsername()
     );
-    res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+    res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
     res.setContentType("application/json");
     res.setCharacterEncoding("UTF-8");
     res.getWriter().write(

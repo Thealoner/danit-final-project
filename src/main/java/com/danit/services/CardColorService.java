@@ -1,19 +1,19 @@
 package com.danit.services;
 
-import com.danit.models.CardColor;
+import com.danit.models.Card;
 
 import java.util.List;
 
 public interface CardColorService {
 
-  List<CardColor> getAllCardColors();
+  List<Card> getAllCardColors();
 
-  CardColor getCardColorById(long id);
+  Card getCardColorById(long id);
 
-  List<CardColor> saveCardColors(List<CardColor> cards);
+  List<Card> saveCardColors(List<Card> cards);
 
   void deleteCardColorById(long id);
 
-  void deleteCardColors(List<CardColor> cards);
+  void deleteCardColors(List<Card> cards);
 
 }

@@ -5,8 +5,6 @@ import com.danit.models.UserRolesEnum;
 import com.danit.models.employee.Position;
 import com.danit.services.ClientService;
 import com.danit.services.employee.PositionService;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.collection.IsCollectionWithSize;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,11 +17,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.sql.SQLOutput;
-
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -51,6 +49,7 @@ public class PositionControllerTest {
         .andExpect(status().isOk());
   }
 
+
   @Test
   public void getAllPositions() throws Exception {
     int currentQuant = positionService.getPositionQuant();
@@ -69,42 +68,16 @@ public class PositionControllerTest {
   }
 
   @Test
-  public void updatePositionTest() throws Exception {
-    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
+  public void getPositionById() {
+  }
 
-    String responseJson = this.mockMvc.perform(post("/position").headers(header)
-        .contentType("application/json")
-        .content("{\n"
-            + "    \"name\": \"Boss\",\n"
-            + "    \"description\": \"Big BOSS\"\n"
-            + "  }"))
-        .andExpect(status().isOk())
-        .andReturn().getResponse().getContentAsString();
-
-    ObjectMapper mapper = new ObjectMapper();
-    Position actualObj = mapper.readValue(responseJson, new TypeReference<Position>() {
-    });
-    long createdId = actualObj.getId();
-    System.out.println(actualObj);
-
-    responseJson = mockMvc.perform(put("/position/" + createdId).headers(header)
-        .contentType("application/json")
-        .content("{\n"
-            + "    \"id\": " + createdId + ", \n"
-            + "    \"name\": \"TestPosition\"\n"
-            + "  }"))
-        .andExpect(status().isOk())
-        .andReturn().getResponse().getContentAsString();
-
-    actualObj = mapper.readValue(responseJson, new TypeReference<Position>() {
-    });
-    System.out.println(actualObj);
-    assertEquals("TestPosition", actualObj.getName());
+  @Test
+  public void deletePosition() {
 
   }
 
   @Test
-  public void createPositionTest() throws Exception {
+  public void createPosition() throws Exception {
     int currentQuant = positionService.getPositionQuant();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
     this.mockMvc.perform(post("/position").headers(header)
@@ -121,20 +94,6 @@ public class PositionControllerTest {
   }
 
   @Test
-  public void expect500WhenNoDataFoundService() throws Exception {
-    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
-
-    mockMvc.perform(get("/position/0").headers(header))
-        .andExpect(status().isNotFound());
-  }
-
-  @Test
-  public void expect500WhenDeleteNonexistentService() throws Exception {
-    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
-
-    mockMvc.perform(delete("/position/0").headers(header))
-        .andExpect(status().is(500));
+  public void updatePosition() {
   }
 }
-
-

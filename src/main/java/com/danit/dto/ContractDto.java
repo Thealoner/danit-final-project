@@ -1,6 +1,6 @@
 package com.danit.dto;
 
-import com.danit.utils.CustomDateAndTimeDeserialize;
+import com.danit.utils.CustomDateDeserializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -21,7 +21,7 @@ public class ContractDto {
   private Long id;
 
   @JsonView(Views.Short.class)
-  @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
+  @JsonDeserialize(using = CustomDateDeserializer.class)
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
       pattern = "yyyy-MM-dd")
@@ -29,7 +29,7 @@ public class ContractDto {
   private Date startDate;
 
   @JsonView(Views.Short.class)
-  @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
+  @JsonDeserialize(using = CustomDateDeserializer.class)
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
       pattern = "yyyy-MM-dd")

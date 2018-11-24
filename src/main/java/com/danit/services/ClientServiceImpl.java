@@ -4,6 +4,7 @@ import com.danit.exceptions.EntityNotFoundException;
 import com.danit.exceptions.EntityParticularDataException;
 import com.danit.models.Client;
 import com.danit.repositories.ClientRepository;
+import com.danit.utils.ServiceUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -12,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-
-import static com.danit.utils.ServiceUtils.updateNonEqualFields;
 
 @Service
 public class ClientServiceImpl implements ClientService {
@@ -52,7 +51,7 @@ public class ClientServiceImpl implements ClientService {
       if (Objects.nonNull(id)) {
         Client targetClient = clientRepository.findById(id).orElseThrow(() ->
             new EntityNotFoundException("Cant find Client with id=" + id));
-        if (updateNonEqualFields(sourceClient, targetClient)) {
+        if (ServiceUtils.updateNonEqualFields(sourceClient, targetClient)) {
           savedClients.add(clientRepository.save(targetClient));
         }
       } else {
