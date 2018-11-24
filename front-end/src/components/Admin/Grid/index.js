@@ -42,7 +42,7 @@ class Grid extends Component {
         headers['Authorization'] = token;
 
         fetch(
-          Settings.apiServerUrl + entity.apiUrl,
+          Settings.apiServerUrl + entity.apiUrl + '?page=0&size=10',
           { headers }
         )
           .then(authService._checkStatus)
@@ -50,7 +50,7 @@ class Grid extends Component {
           .then(data => {
             this.props.setTabContentUrl(entity.id);
             this.id = entityType;
-            this.data = data;
+            this.data = data.data;
             this.columns = entity.columns;
             this.tabulator.setColumns(this.columns);
             this.tabulator.setData(this.data);

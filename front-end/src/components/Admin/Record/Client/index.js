@@ -62,14 +62,14 @@ class SimpleRecord extends Component {
         let editableData = {};
 
         editableDataKeys.forEach(key => {
-          editableData[key] = data[key];
+          editableData[key] = data.data[key];
         });
 
         let readonlyDataKeys = Object.keys(this.state.readonlyFields);
         let readonlyData = {};
         
         readonlyDataKeys.forEach(key => {
-          readonlyData[key] = data[key];
+          readonlyData[key] = data.data[key];
         });
 
         this.setState({
