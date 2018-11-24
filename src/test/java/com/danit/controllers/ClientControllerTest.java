@@ -62,7 +62,7 @@ public class ClientControllerTest {
             + "    \"phoneNumber\": \"155-846-2959\",\n"
             + "    \"active\": true\n"
             + "  }]"))
-        .andExpect(status().isOk());
+        .andExpect(status().isCreated());
     assertEquals(numberOfClients + 1, clientService.getNumberOfClients());
   }
 
@@ -81,7 +81,7 @@ public class ClientControllerTest {
             + "    \"phoneNumber\": \"155-846-2959\",\n"
             + "    \"active\": true\n"
             + "  }]"))
-        .andExpect(status().isOk())
+        .andExpect(status().isCreated())
         .andReturn().getResponse().getContentAsString();
 
     ObjectMapper mapper = new ObjectMapper();
@@ -144,7 +144,7 @@ public class ClientControllerTest {
             + "    \"phoneNumber\": \"155-846-2959\",\n"
             + "    \"active\": true\n"
             + "  }]"))
-        .andExpect(status().isOk())
+        .andExpect(status().isCreated())
         .andReturn().getResponse().getContentAsString();
 
     ObjectMapper mapper = new ObjectMapper();
