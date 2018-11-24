@@ -5,6 +5,7 @@ import com.danit.dto.ClientDto;
 import com.danit.dto.Views;
 import com.danit.facades.ClientFacade;
 import com.danit.models.Client;
+import com.danit.dto.page.PageDataDto;
 import com.danit.services.ClientService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.slf4j.Slf4j;
@@ -59,8 +60,8 @@ public class ClientController {
   //------not dto------
   @GetMapping("/clients")
   public Map<String, Object> getAllClients(@RequestParam(name = "page") int page,
-                                           @RequestParam(name = "size") int size,
-                                           Principal principal) {
+                                    @RequestParam(name = "size") int size,
+                                    Principal principal) {
     log.info(principal.getName() + logMsg1);
     return convertToMap(clientService.getAllClients(page, size));
   }
@@ -147,7 +148,9 @@ public class ClientController {
   private <T> Map<String, Object> convertToMap(Page<T> pageData) {
     Map<String, Object> outputData = new HashMap<>();
     outputData.put("data", pageData.getContent());
-    outputData.put("last_page", pageData.getTotalPages());
+    outputData.put("meta", new PageDataDto(pageData.getTotalElements(),
+        pageData.getNumber(), pageData.getTotalPages(),
+        pageData.getNumberOfElements()));
     return outputData;
   }
 
