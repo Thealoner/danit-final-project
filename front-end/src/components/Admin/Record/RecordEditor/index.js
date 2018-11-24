@@ -87,8 +87,10 @@ class RecordEditor extends Component {
         }
       )
         .then(this.state.authService._checkStatus)
-        .then(response => {
-          console.log(response.status);
+        .then(response => response.json())
+        .then(json => {
+          console.log(json);
+
           // display green 'Данные сохранены' message
           // enable 'Save' button
           // hide loader
@@ -99,14 +101,13 @@ class RecordEditor extends Component {
             data: {
               ...stateData,
               ...formData,
-              id: response.data.id // <--- TODO: need response from the server with the ID
+              id: json[0].id
             },
             isLoading: false
           });
           
-          // TODO: need response from the server with the ID
           if (mode === 'add') {
-            let editorUrl = entityType + '/edit/' + response.data.id;
+            let editorUrl = entityType + '/edit/' + json[0].id;
             setTabContentUrl(editorUrl);
             this.props.history.push({
               pathname: '/admin/' + tabKey + '/' + editorUrl
