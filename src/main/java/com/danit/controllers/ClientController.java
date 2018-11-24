@@ -28,6 +28,7 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @Slf4j
@@ -62,11 +63,14 @@ public class ClientController {
 
   //------not dto------
   @GetMapping("/clients")
-  public ResponseEntity<Map<String, Object>> getAllClients(@RequestParam(name = "page") int page,
+  public ResponseEntity<Map<String, Object>> getAllClients(@RequestParam(name = "filter", required = false) String filter,
+                                                           @RequestParam(name = "page") int page,
                                                            @RequestParam(name = "size") int size,
                                                            Principal principal) {
     log.info(principal.getName() + logMsg1);
-    return ResponseEntity.ok(convertToMap(clientService.getAllClients(page, size)));
+    return ResponseEntity.ok(convertToMap(Objects.nonNull(filter) ?
+        clientService.getAllClients(filter, page, size) :
+        clientService.getAllClients(page, size)));
   }
 
   //--------dto--------

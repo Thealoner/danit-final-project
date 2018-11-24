@@ -24,6 +24,11 @@ public class ClientServiceImpl implements ClientService {
   }
 
   @Override
+  public Page<Client> getAllClients(String filter, int page, int size) {
+    return clientRepository.findAll(filter, PageRequest.of(page, size));
+  }
+
+  @Override
   public Page<Client> getAllClients(int page, int size) {
     return clientRepository.findAll(PageRequest.of(page, size));
   }
