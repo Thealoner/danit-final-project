@@ -10,6 +10,7 @@
     padding-top: 10px;
     overflow: hidden;
     background-color: $main-bg;
+    box-shadow: -6px 6px 6px 5px $text-config;
   }
 
   &__link {

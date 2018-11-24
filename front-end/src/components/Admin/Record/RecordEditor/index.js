@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import './index.scss';
 import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
 import { getEntityByType } from '../../GridEntities';
 import AuthService from '../../../Login/AuthService';
 import Form from 'react-jsonschema-form';
+import { FadeLoader } from 'react-spinners';
 import ajaxRequest from '../../../Helpers';
 
 class RecordEditor extends Component {
@@ -13,7 +14,7 @@ class RecordEditor extends Component {
     this.state = {
       data: {},
       authService: new AuthService(),
-      isLoading: false
+      loading: false
     };
   }
 
@@ -23,7 +24,7 @@ class RecordEditor extends Component {
     let entity = getEntityByType(entityType);
 
     this.setState({
-      isLoading: true
+      loading: true
     });
 
     ajaxRequest(entity.apiUrl + '/' + rowId)
@@ -32,7 +33,7 @@ class RecordEditor extends Component {
           this.setState({
             entityType: entity.id,
             data: data,
-            isLoading: false
+            loading: false
           })
         , 1000);
       });
@@ -85,7 +86,7 @@ class RecordEditor extends Component {
     this.setState({
       data: type.formData
     });
-  }
+  };
 
   log = (type) => console.log.bind(console, type);
 
@@ -102,20 +103,26 @@ class RecordEditor extends Component {
     let entity = getEntityByType(entityType);
 
     return (
-      <div className="client">
-        {this.state.isLoading ? (
-          <p>Loading...</p>
-        ) : (
-          <Form
-            schema={entity.schema}
-            uiSchema={entity.uiSchema}
-            formData={this.state.data}
-            onChange={this.changeDataInState}
-            onSubmit={this.saveData}
-            onError={this.log('errors')}
+      <Fragment>
+        {this.state.loading ? <div className="record__loader-wrapper">
+          <FadeLoader
+            sizeUnit={'px'}
+            size={50}
+            color={'#999'}
+            loading={this.state.loading}
           />
-        )}
-      </div>
+        </div> : <Form
+          schema={entity.schema}
+          uiSchema={entity.uiSchema}
+          formData={this.state.data}
+          autocomplete='off'
+          onChange={this.log('changed')}
+          onSubmit={this.saveData}
+          onError={this.log('errors')}
+        >
+          <button className='record__button'>Сохранить</button>
+        </Form>}
+      </Fragment>
     );
   }
 

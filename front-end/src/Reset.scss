@@ -59,9 +59,23 @@ a {
 	text-decoration: none;
 	cursor: pointer;
 	user-select: none;
+	
+	&:hover,
+	&:focus
+	{
+		color: initial;
+		text-decoration: none;
+		outline: none;
+	}
 }
 
 button {
+	outline: none;
 	cursor: pointer;
 	user-select: none;
+
+	&:disabled {
+		cursor: not-allowed;
+		opacity: .5;
+	}
 }
