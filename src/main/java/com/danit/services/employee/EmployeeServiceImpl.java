@@ -47,8 +47,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     Employee savedEmployee = new Employee();
     Long id = employee.getId();
     if (Objects.nonNull(id)) {
-      Employee targetEmployee = employeeRepository.findById(id).orElseThrow(() ->
-          new EntityNotFoundException(String.format("Cant find Employee with id=%d", id)));
+      Employee targetEmployee = getEmployeeById(id);
       if (updateNonEqualFields(employee, targetEmployee)) {
         savedEmployee = employeeRepository.save(targetEmployee);
       }
