@@ -9,7 +9,7 @@ import Settings from '../../Settings';
 import { Link } from 'react-router-dom';
 
 class Grid extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       id: '',
@@ -22,7 +22,7 @@ class Grid extends Component {
         pagesTotal: 0,
         elementsPerPage: 3
       }
-    }
+    };
   }
 
   tabulator = null;
@@ -54,7 +54,7 @@ class Grid extends Component {
       headers['Authorization'] = token;
 
       fetch(
-        Settings.apiServerUrl + entity.apiUrl + '?page=' + (page || 0) + '&size=' + (size || 3),  
+        Settings.apiServerUrl + entity.apiUrl + '?page=' + (page || 0) + '&size=' + (size || 3),
         { headers }
       )
         .then(authService._checkStatus)
@@ -95,7 +95,7 @@ class Grid extends Component {
     this.getData(this.state.meta.currentPage - 1, this.state.meta.elementsPerPage);
   }
 
-  render() {
+  render () {
     let { entityType, tabKey } = this.props.match.params;
     let { setTabContentUrl } = this.props;
     let { currentPage, pagesTotal } = this.state.meta;
@@ -111,7 +111,7 @@ class Grid extends Component {
     );
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.getData();
     this.tabulator = new Tabulator(this.el, {
       data: this.state.data,
@@ -122,7 +122,7 @@ class Grid extends Component {
     });
   }
 
-  componentDidUpdate() {
+  componentDidUpdate () {
     this.tabulator.setColumns(this.state.columns);
     this.tabulator.setData(this.state.data);
 
