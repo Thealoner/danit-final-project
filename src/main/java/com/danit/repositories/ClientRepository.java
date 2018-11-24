@@ -19,8 +19,8 @@ public interface ClientRepository extends CrudRepository<Client, Long> {
   @Query("select count(*) from Client")
   int getNumberOfClients();
 
-  /*@Query("select * from Client c where c.lastName like '%:filter%' or "
-      + "c.firstName like '%:filter%'")*/
+  @Query("select c from Client c where c.lastName like '%:filter%' or "
+      + "c.firstName like '%:filter%'")
   Page<Client> findAll(@Param("filter") String filter, Pageable pageable);
 
   Page<Client> findAll(Pageable pageable);
