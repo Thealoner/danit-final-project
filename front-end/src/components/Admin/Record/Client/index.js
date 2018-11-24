@@ -6,7 +6,7 @@ import 'tabulator-tables/dist/css/tabulator.min.css';
 import { getEntityByType } from '../../GridEntities';
 import AuthService from '../../../Login/AuthService';
 import Settings from '../../../Settings';
-import photo from '../../../../temporary/photo.jpg';
+import photo from './photo.jpg';
 
 class SimpleRecord extends Component {
   constructor (props) {
