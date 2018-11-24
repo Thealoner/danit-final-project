@@ -35,23 +35,23 @@ class Record extends Component {
         // It is simply getting too complicated to remove/fix it right now.
 
         /* if (entity.recordType === 'simple') {
-              route = (
-                <Route key={entity.id} path={ '/admin/:tabKey/' + entity.id + '/:rowId' } render={
-                  (props) => <SimpleRecord setTabContentUrl={this.props.setTabContentUrl} entityType={entityType} {...props} />
-                } />
-              );
-            } else if (entity.recordType === 'tabbed') {
-              route = (
-                <Fragment key={entity.id}>
-                  <Route path={ '/admin/:tabKey/' + entity.id + '/:rowId' } render={
-                    (props) => <RecordTabs entityType={entityType} {...props} />
-                  } />
-                  <Route path={ '/admin/:tabKey/' + entity.id + '/:rowId' } render={
-                    (props) => <Paket entityType={entityType} {...props} />
-                  } />
-                </Fragment>
-              );
-            } */
+        route = (
+          <Route key={entity.id} path={ '/admin/:tabKey/' + entity.id + '/:rowId' } render={
+            (props) => <SimpleRecord setTabContentUrl={this.props.setTabContentUrl} entityType={entityType} {...props} />
+          } />
+        );
+      } else if (entity.recordType === 'tabbed') {
+        route = (
+          <Fragment key={entity.id}>
+            <Route path={ '/admin/:tabKey/' + entity.id + '/:rowId' } render={
+              (props) => <RecordTabs entityType={entityType} {...props} />
+            } />
+            <Route path={ '/admin/:tabKey/' + entity.id + '/:rowId' } render={
+              (props) => <Paket entityType={entityType} {...props} />
+            } />
+          </Fragment>
+        );
+      } */
 
         return route;
       });

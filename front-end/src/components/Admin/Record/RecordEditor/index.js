@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, { Component, Fragment } from 'react';
 import './index.scss';
 import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
@@ -12,7 +12,6 @@ class RecordEditor extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      entityType: '',
       data: {},
       authService: new AuthService(),
       loading: false
@@ -61,7 +60,8 @@ class RecordEditor extends Component {
   };
 
   saveData = (form) => {
-    let { entityType } = this.props;
+    let { tabKey, mode } = this.props.match.params;
+    let { entityType, setTabContentUrl } = this.props;
     let entity = getEntityByType(entityType);
 
     if (this.state.authService.loggedIn() && !this.state.authService.isTokenExpired()) {
@@ -82,36 +82,45 @@ class RecordEditor extends Component {
       fetch(
         Settings.apiServerUrl + entity.apiUrl,
         {
-          method: 'PUT',
+          method: mode === 'edit' ? 'PUT' : 'POST',
           body: JSON.stringify([form.formData]),
           headers
         }
       )
         .then(this.state.authService._checkStatus)
-        .then(response => {
-          console.log(response.status);
+        .then(response => response.json())
+        .then(json => {
+          console.log(json);
+
           // display green 'Данные сохранены' message
+          // enable 'Save' button
+          // hide loader
+          let stateData = this.state.data;
+          let formData = form.formData;
+
+          this.setState({
+            data: {
+              ...stateData,
+              ...formData,
+              id: json[0].id
+            },
+            isLoading: false
+          });
+
+          if (mode === 'add') {
+            let editorUrl = entityType + '/edit/' + json[0].id;
+            setTabContentUrl(editorUrl);
+            this.props.history.push({
+              pathname: '/admin/' + tabKey + '/' + editorUrl
+            });
+          }
         })
         .catch(error => {
           console.log(error);
           // display red 'Ошибка при сохранении' message
-        })
-        .finally(() => {
-          console.log('Finally');
-          // TODO:
           // enable 'Save' button
           // hide loader
-          // TODO: Set state.data to PUT response
-          
-          console.log('form.formData', form.formData);
-          console.log('this.state.data', this.state.data);
-          let mergedData = {
-            ...this.state.data,
-            ...form.formdata
-          };
-          console.log('mergedData', mergedData);
           this.setState({
-            data: mergedData,
             loading: false
           });
         });
@@ -120,12 +129,24 @@ class RecordEditor extends Component {
     }
   };
 
+  changeDataInState = (type) => {
+    this.setState({
+      data: type.formData
+    });
+  };
+
   log = (type) => console.log.bind(console, type);
 
   render () {
-    let { rowId } = this.props.match.params;
+    let { mode, rowId } = this.props.match.params;
     let { entityType, setTabContentUrl } = this.props;
-    setTabContentUrl(entityType + '/' + rowId);
+
+    if (mode === 'edit') {
+      setTabContentUrl(entityType + '/' + mode + '/' + rowId);
+    } else if (mode === 'add') {
+      setTabContentUrl(entityType + '/' + mode);
+    }
+
     let entity = getEntityByType(entityType);
 
     return (
@@ -153,7 +174,10 @@ class RecordEditor extends Component {
   }
 
   componentDidMount () {
-    this.getData();
+    let { mode } = this.props.match.params;
+    if (mode === 'edit') {
+      this.getData();
+    }
   }
 }
 

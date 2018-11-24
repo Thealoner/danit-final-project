@@ -1,19 +1,20 @@
-package com.danit.dto.clientdto;
+package com.danit.dto;
 
-import com.danit.dto.contractdto.ContractDto;
 import com.danit.utils.CustomDateAndTimeDeserialize;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
 import java.util.List;
 
 @Data
 public class ClientDto {
 
-  @JsonView(Views.Extended.class)
+  @JsonView({Views.Extended.class, Views.Ids.class})
   private Long id;
 
   @JsonView(Views.Short.class)
@@ -25,11 +26,12 @@ public class ClientDto {
   @JsonView(Views.Short.class)
   private String gender;
 
+  @JsonView(Views.Extended.class)
   @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
       pattern = "yyyy-MM-dd")
-  @JsonView(Views.Extended.class)
+  @Temporal(TemporalType.DATE)
   private Date birthDate;
 
   @JsonView(Views.Extended.class)

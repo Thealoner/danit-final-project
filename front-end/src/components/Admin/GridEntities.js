@@ -23,6 +23,19 @@ const GridEntities = [
     ],
     schema: {
       type: 'object',
+      required: [
+        'accessWithoutCardTimesLimit',
+        'autoActivateAfterDays',
+        'freezeDays',
+        'freezeMinTerm',
+        'freezeTimes',
+        'guestVisits',
+        'price',
+        'term',
+        'title',
+        'usersMin',
+        'visitTime'
+      ],
       properties: {
         accessWithoutCardTimesLimit: {
           title: 'Ограничения на вход без карты, раз',

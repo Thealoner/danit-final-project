@@ -47,9 +47,9 @@ public class UserController {
   }
 
   @PutMapping("/users")
-  void updateUser(@RequestBody List<User> users, Principal principal) {
+  List<User> updateUser(@RequestBody List<User> users, Principal principal) {
     logger.info(principal.getName() + " is updating users data: " + users);
-    userService.updateUsers(users);
+    return userService.updateUsers(users);
   }
 
   @DeleteMapping("/users/{id}")
