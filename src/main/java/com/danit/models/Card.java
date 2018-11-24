@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,8 +22,9 @@ import javax.persistence.Table;
 @Table(name = "card_colors")
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 @NoArgsConstructor
+@ToString(exclude = {"contract"})
 @Data
-public class CardColor {
+public class Card {
 
   @Id
   @SequenceGenerator(name = "cardColorSequence", allocationSize = 1, initialValue = 1001)
