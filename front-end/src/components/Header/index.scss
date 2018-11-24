@@ -8,14 +8,20 @@
   background-color: $main-bg;
   box-shadow: 0px -6px 6px 5px $EG-purple-dark;
 
-  &__logo {
+  &__logo-link {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 70px;
+    width: 150px;
     height: 100%;
     color: black;
     font-weight: bold;
-    background-color: #fff;
   }
+
+    &__logo {
+      width: 100%;
+      height: auto;
+    }
+
+
 }
