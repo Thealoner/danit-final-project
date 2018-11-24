@@ -127,7 +127,8 @@ class Grid extends Component {
     this.tabulator.setData(this.state.data);
 
     let { entityType } = this.props.match.params;
-    if (this.id !== '' && entityType !== this.id) {
+
+    if (this.state.id !== '' && entityType !== this.state.id) {
       this.getData();
     }
   }
