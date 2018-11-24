@@ -76,7 +76,7 @@ public class Paket {
   private Boolean limitUsageByPaymentPercentage;
 
   @Column(name = "active")
-  private Boolean isActive;
+  private Boolean active;
 
   @Column(name = "purchasable")
   private Boolean purchasable;

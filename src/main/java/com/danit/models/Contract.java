@@ -57,7 +57,7 @@ public class Contract {
   private Float credit;
 
   @Column(name = "active")
-  private boolean isActive;
+  private boolean active;
 
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "client_id", updatable = false, insertable = false)

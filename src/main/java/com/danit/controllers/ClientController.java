@@ -5,7 +5,6 @@ import com.danit.dto.ClientDto;
 import com.danit.dto.Views;
 import com.danit.facades.ClientFacade;
 import com.danit.models.Client;
-import com.danit.services.ClientService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,6 @@ import java.util.Map;
 @Slf4j
 public class ClientController {
 
-//  private ClientService clientService;
   private ClientFacade clientFacade;
 
   private String logMsg1 = " got all clients data";
@@ -41,15 +39,6 @@ public class ClientController {
     this.clientFacade = clientFacade;
   }
 
-
-//  //------not dto------
-//  @PostMapping
-//  public List<Client> createClients(@RequestBody List<Client> clients, Principal principal) {
-//    log.info(principal.getName() + " is saving new clients: " + clients);
-//    return clientService.saveClients(clients);
-//  }
-
-  //--------dto--------
   @JsonView(Views.Extended.class)
   @PostMapping
   public List<ClientDto> createClients(@RequestBody List<Client> clients, Principal principal) {
@@ -57,16 +46,6 @@ public class ClientController {
     return clientFacade.saveClients(clients);
   }
 
-//  //------not dto------
-//  @GetMapping
-//  public Map<String, Object> getAllClients(@RequestParam(name = "page") int page,
-//                                           @RequestParam(name = "size") int size,
-//                                           Principal principal) {
-//    log.info(principal.getName() + logMsg1);
-//    return convertToMap(clientService.getAllClients(page, size));
-//  }
-
-  //--------dto--------
   @JsonView(Views.Short.class)
   @GetMapping(path = "/short")
   public Map<String, Object> getAllClientsShort(@RequestParam(name = "page") int page,
@@ -76,7 +55,6 @@ public class ClientController {
     return convertToMap(clientFacade.getAllClients(page, size)); // NOSONAR
   }
 
-  //--------dto--------
   @JsonView(Views.Extended.class)
   @GetMapping(path = "/extended")
   public Map<String, Object> getAllClientsExtended(@RequestParam(name = "page") int page,
@@ -86,14 +64,6 @@ public class ClientController {
     return convertToMap(clientFacade.getAllClients(page, size)); // NOSONAR
   }
 
-//  //------not dto------
-//  @GetMapping("/{id}")
-//  Client getClientById(@PathVariable(name = "id") long id, Principal principal) {
-//    log.info(principal.getName() + " got client data with id: " + id);
-//    return clientService.getClientById(id);
-//  }
-
-  //--------dto--------
   @JsonView(Views.Extended.class)
   @GetMapping("/{id}")
   ClientDto getClientByIdExtended(@PathVariable(name = "id") long id, Principal principal) {
@@ -101,15 +71,6 @@ public class ClientController {
     return clientFacade.getClientById(id);
   }
 
-//  //------not dto------
-//  @PutMapping
-//  public List<Client> addClients(@RequestBody List<Client> clients, Principal principal) {
-//    log.info(principal.getName() + " is updating clients data: " + clients);
-//    return clientService.updateClients(clients);
-//  }
-
-
-  //--------dto--------
   @JsonView(Views.Extended.class)
   @PutMapping
   public List<ClientDto> addClientsAndReturnIds(@RequestBody List<Client> clients, Principal principal) {
@@ -117,28 +78,12 @@ public class ClientController {
     return clientFacade.updateClients(clients);
   }
 
-//  //------not dto------
-//  @DeleteMapping("/{id}")
-//  public void deleteClientById(@PathVariable(name = "id") long id, Principal principal) {
-//    log.info(principal.getName() + " is trying to delete client with id: " + id);
-//    clientService.deleteClientById(id);
-//  }
-
-  //--------dto--------
   @DeleteMapping("/{id}")
   public void deleteClientByIdDto(@PathVariable(name = "id") long id, Principal principal) {
     log.info(principal.getName() + " is trying to delete client with id: " + id);
     clientFacade.deleteClientById(id);
   }
 
-//  //------not dto------
-//  @DeleteMapping("/clients")
-//  public void deleteClients(@RequestBody List<Client> clients, Principal principal) {
-//    log.info(principal.getName() + " is trying to delete clients: " + clients);
-//    clientService.deleteClients(clients);
-//  }
-
-  //--------dto--------
   @DeleteMapping
   public void deleteClientsDto(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is trying to delete clients: " + clients);

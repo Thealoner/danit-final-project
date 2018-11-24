@@ -43,7 +43,7 @@ public class ClientControllerTest {
   public void isOkWhenAdminAccess() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.ADMIN);
     mockMvc
-        .perform(get("/clients?page=0&size=2").headers(header))
+        .perform(get("/clients/short?page=0&size=2").headers(header))
         .andExpect(status().isOk());
   }
 

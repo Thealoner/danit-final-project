@@ -1,6 +1,5 @@
 package com.danit.services;
 
-import com.danit.models.Client;
 import com.danit.models.Contract;
 import org.springframework.data.domain.Page;
 
