@@ -2,7 +2,10 @@ package com.danit.controllers.employee;
 
 import com.danit.TestUtils;
 import com.danit.models.UserRolesEnum;
+import com.danit.models.employee.Company;
 import com.danit.services.employee.CompanyService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -57,11 +62,30 @@ public class CompanyControllerTest {
   }
 
   @Test
-  public void getCompanyById() {
-  }
+  public void deleteCompanyById() throws Exception {
+    int currentQuant= companyService.getCompanyQuant();
+    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
-  @Test
-  public void deleteCompany() {
+    String responseJson = this.mockMvc.perform(post(url).headers(header)
+        .contentType("application/json")
+        .content("{\n"
+            + "    \"name\": \"Test Company\"\n"
+            + "  }"))
+        .andExpect(status().isOk())
+        .andReturn().getResponse().getContentAsString();
+
+    ObjectMapper mapper = new ObjectMapper();
+    Company actualObj = mapper.readValue(responseJson, new TypeReference<Company>() {
+    });
+    long createdId = actualObj.getId();
+
+    assertEquals(currentQuant + 1, companyService.getCompanyQuant());
+
+    mockMvc.perform(delete(url+"/" + createdId).headers(header))
+        .andExpect(status().isOk());
+
+    assertEquals(currentQuant, companyService.getAllCompanies().size());
+
   }
 
   @Test

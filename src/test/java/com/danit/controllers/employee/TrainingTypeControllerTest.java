@@ -134,4 +134,31 @@ public class TrainingTypeControllerTest {
         .andExpect(status().is(500));
   }
 
+  @Test
+  public void deletePositionById() throws Exception {
+    int currentQuant= trainingTypeService.getTrainingTypeQuant();
+    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
+
+    String responseJson = this.mockMvc.perform(post(url).headers(header)
+        .contentType("application/json")
+        .content("{\n"
+            + "    \"name\": \"Test gym\",\n"
+            + "    \"description\": \"Test gym\"\n"
+            + "  }"))
+        .andExpect(status().isOk())
+        .andReturn().getResponse().getContentAsString();
+
+    ObjectMapper mapper = new ObjectMapper();
+    TrainingType actualObj = mapper.readValue(responseJson, new TypeReference<TrainingType>() {
+    });
+    long createdId = actualObj.getId();
+
+    assertEquals(currentQuant + 1, trainingTypeService.getTrainingTypeQuant());
+
+    mockMvc.perform(delete(url+"/" + createdId).headers(header))
+        .andExpect(status().isOk());
+
+    assertEquals(currentQuant, trainingTypeService.getAllTrainingTypes().size());
+
+  }
 }

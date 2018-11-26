@@ -119,7 +119,7 @@ public class EmployeeCategoryControllerTest {
   }
 
   @Test
-  public void deleteClientById() throws Exception {
+  public void deleteEmployeeCategoryById() throws Exception {
     int currentQuant= employeeCategoryService.getEmployeeCategoryQuant();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 

@@ -142,7 +142,7 @@ public class DepartmentControllerTest {
   }
 
   @Test
-  public void deleteClientById() throws Exception {
+  public void deleteDepartmentById() throws Exception {
     int currentQuant= departmentService.getDepartmentQuant();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 

@@ -19,9 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -129,6 +127,33 @@ public class DiscountControllerTest {
     });
     System.out.println(actualObj);
     assertEquals("Test Discount", actualObj.getName());
+
+  }
+
+  @Test
+  public void deleteDiscountById() throws Exception {
+    int currentQuant= discountService.getDiscountQuant();
+    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
+
+    String responseJson = this.mockMvc.perform(post(url).headers(header)
+        .contentType("application/json")
+        .content("{\n"
+            + "    \"name\": \"Test Company\"\n"
+            + "  }"))
+        .andExpect(status().isOk())
+        .andReturn().getResponse().getContentAsString();
+
+    ObjectMapper mapper = new ObjectMapper();
+    Discount actualObj = mapper.readValue(responseJson, new TypeReference<Discount>() {
+    });
+    long createdId = actualObj.getId();
+
+    assertEquals(currentQuant + 1, discountService.getDiscountQuant());
+
+    mockMvc.perform(delete(url+"/" + createdId).headers(header))
+        .andExpect(status().isOk());
+
+    assertEquals(currentQuant, discountService.getAllDiscounts().size());
 
   }
 }

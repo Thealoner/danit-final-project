@@ -133,4 +133,32 @@ public class GymControllerTest {
     mockMvc.perform(delete(url+"/0").headers(header))
         .andExpect(status().is(500));
   }
+
+  @Test
+  public void deleteGymById() throws Exception {
+    int currentQuant= gymService.getGymQuant();
+    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
+
+    String responseJson = this.mockMvc.perform(post(url).headers(header)
+        .contentType("application/json")
+        .content("{\n"
+            + "    \"name\": \"Test gym\",\n"
+            + "    \"description\": \"Test gym\"\n"
+            + "  }"))
+        .andExpect(status().isOk())
+        .andReturn().getResponse().getContentAsString();
+
+    ObjectMapper mapper = new ObjectMapper();
+    Gym actualObj = mapper.readValue(responseJson, new TypeReference<Gym>() {
+    });
+    long createdId = actualObj.getId();
+
+    assertEquals(currentQuant + 1, gymService.getGymQuant());
+
+    mockMvc.perform(delete(url+"/" + createdId).headers(header))
+        .andExpect(status().isOk());
+
+    assertEquals(currentQuant, gymService.getAllGyms().size());
+
+  }
 }

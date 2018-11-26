@@ -112,8 +112,9 @@ public class EmployeeControllerTest {
     this.mockMvc.perform(post(url).headers(header)
         .contentType("application/json")
         .content("{\n"
-            + "    \"name\": \"Test employee\",\n"
-            + "    \"description\": \"Test employee\"\n"
+            + "    \"firstName\": \"TestEmployee2\",\n"
+            + "    \"jobBeginDate\": \"1978-12-22\",\n"
+            + "    \"LastName\": \"TestEmployee2\"\n"
             + "  }"))
         .andExpect(status().isOk());
 
@@ -136,6 +137,35 @@ public class EmployeeControllerTest {
 
     mockMvc.perform(delete(url+"/0").headers(header))
         .andExpect(status().is(500));
+  }
+
+  @Test
+  public void deleteEmployeeById() throws Exception {
+    int currentQuant= employeeService.getEmployeeQuant();
+    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
+
+    String responseJson = this.mockMvc.perform(post(url).headers(header)
+        .contentType("application/json")
+        .content("{\n"
+            + "    \"firstName\": \"TestEmployee2\",\n"
+            + "    \"jobBeginDate\": \"1978-12-22\",\n"
+            + "    \"LastName\": \"TestEmployee2\"\n"
+            + "  }"))
+        .andExpect(status().isOk())
+        .andReturn().getResponse().getContentAsString();
+
+    ObjectMapper mapper = new ObjectMapper();
+    Employee actualObj = mapper.readValue(responseJson, new TypeReference<Employee>() {
+    });
+    long createdId = actualObj.getId();
+
+    assertEquals(currentQuant + 1, employeeService.getEmployeeQuant());
+
+    mockMvc.perform(delete(url+"/" + createdId).headers(header))
+        .andExpect(status().isOk());
+
+    assertEquals(currentQuant, employeeService.getAllEmployees().size());
+
   }
 
 }
