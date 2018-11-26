@@ -52,7 +52,7 @@ public class EmployeeCategoryControllerTest {
 
   @Test
   public void getAllEmployeeCategorys() throws Exception {
-    int currentQuant = employeeCategoryService.getEmployeeCategoryQuant();
+    int currentQty = employeeCategoryService.getEmployeeCategoryQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
     this.mockMvc.perform(post(url).headers(header)
         .contentType("application/json")
@@ -63,7 +63,7 @@ public class EmployeeCategoryControllerTest {
 
     mockMvc.perform(get(url).headers(header))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$", hasSize(currentQuant + 1)));
+        .andExpect(jsonPath("$", hasSize(currentQty + 1)));
   }
 
   @Test
@@ -104,7 +104,7 @@ public class EmployeeCategoryControllerTest {
 
   @Test
   public void createEmployeeCategoryTest() throws Exception {
-    int currentQuant = employeeCategoryService.getEmployeeCategoryQuant();
+    int currentQty = employeeCategoryService.getEmployeeCategoryQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
     this.mockMvc.perform(post(url).headers(header)
         .contentType("application/json")
@@ -115,12 +115,12 @@ public class EmployeeCategoryControllerTest {
 
     mockMvc.perform(get(url).headers(header))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$", hasSize(currentQuant + 1)));
+        .andExpect(jsonPath("$", hasSize(currentQty + 1)));
   }
 
   @Test
   public void deleteEmployeeCategoryById() throws Exception {
-    int currentQuant= employeeCategoryService.getEmployeeCategoryQuant();
+    int currentQty= employeeCategoryService.getEmployeeCategoryQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     String responseJson = this.mockMvc.perform(post(url).headers(header)
@@ -136,13 +136,29 @@ public class EmployeeCategoryControllerTest {
     });
     long createdId = actualObj.getId();
 
-    assertEquals(currentQuant + 1, employeeCategoryService.getEmployeeCategoryQuant());
+    assertEquals(currentQty + 1, employeeCategoryService.getEmployeeCategoryQty());
 
     mockMvc.perform(delete(url+"/" + createdId).headers(header))
         .andExpect(status().isOk());
 
-    assertEquals(currentQuant, employeeCategoryService.getAllEmployeeCategories().size());
+    assertEquals(currentQty, employeeCategoryService.getAllEmployeeCategories().size());
 
+  }
+
+  @Test
+  public void expect404WhenNoDataFoundEmployeeCategory() throws Exception {
+    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
+
+    mockMvc.perform(get(url+"/0").headers(header))
+        .andExpect(status().isNotFound());
+  }
+
+  @Test
+  public void expect500WhenDeleteNonexistentEmployeeCategory() throws Exception {
+    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
+
+    mockMvc.perform(delete(url+"/0").headers(header))
+        .andExpect(status().is(500));
   }
 
 

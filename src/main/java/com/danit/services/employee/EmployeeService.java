@@ -16,7 +16,7 @@ public interface EmployeeService {
 
   Employee updateEmployee(Employee emp);
 
-  int getEmployeeQuant();
+  int getEmployeeQty();
 
 }
 

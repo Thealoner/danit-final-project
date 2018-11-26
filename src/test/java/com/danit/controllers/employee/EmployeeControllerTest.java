@@ -51,7 +51,7 @@ public class EmployeeControllerTest {
 
   @Test
   public void getAllEmployees() throws Exception {
-    int currentQuant = employeeService.getEmployeeQuant();
+    int currentQty = employeeService.getEmployeeQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
     this.mockMvc.perform(post(url).headers(header)
         .contentType("application/json")
@@ -64,7 +64,7 @@ public class EmployeeControllerTest {
 
     mockMvc.perform(get(url).headers(header))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$", hasSize(currentQuant + 1)));
+        .andExpect(jsonPath("$", hasSize(currentQty + 1)));
   }
 
   @Test
@@ -107,7 +107,7 @@ public class EmployeeControllerTest {
 
   @Test
   public void createEmployeeTest() throws Exception {
-    int currentQuant = employeeService.getEmployeeQuant();
+    int currentQty = employeeService.getEmployeeQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
     this.mockMvc.perform(post(url).headers(header)
         .contentType("application/json")
@@ -120,11 +120,11 @@ public class EmployeeControllerTest {
 
     mockMvc.perform(get(url).headers(header))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$", hasSize(currentQuant + 1)));
+        .andExpect(jsonPath("$", hasSize(currentQty + 1)));
   }
 
   @Test
-  public void expect500WhenNoDataFoundService() throws Exception {
+  public void expect404WhenNoDataFoundService() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     mockMvc.perform(get(url+"/0").headers(header))
@@ -141,7 +141,7 @@ public class EmployeeControllerTest {
 
   @Test
   public void deleteEmployeeById() throws Exception {
-    int currentQuant= employeeService.getEmployeeQuant();
+    int currentQty= employeeService.getEmployeeQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     String responseJson = this.mockMvc.perform(post(url).headers(header)
@@ -159,12 +159,12 @@ public class EmployeeControllerTest {
     });
     long createdId = actualObj.getId();
 
-    assertEquals(currentQuant + 1, employeeService.getEmployeeQuant());
+    assertEquals(currentQty + 1, employeeService.getEmployeeQty());
 
     mockMvc.perform(delete(url+"/" + createdId).headers(header))
         .andExpect(status().isOk());
 
-    assertEquals(currentQuant, employeeService.getAllEmployees().size());
+    assertEquals(currentQty, employeeService.getAllEmployees().size());
 
   }
 

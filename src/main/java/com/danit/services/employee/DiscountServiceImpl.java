@@ -67,7 +67,7 @@ public class DiscountServiceImpl implements DiscountService {
   }
 
   @Override
-  public int getDiscountQuant() {
+  public int getDiscountQty() {
     return (int) discountRepository.count();
   }
 }

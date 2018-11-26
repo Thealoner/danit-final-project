@@ -66,7 +66,7 @@ public class DepartmentServiceImpl implements DepartmentService {
   }
 
   @Override
-  public int getDepartmentQuant() {
+  public int getDepartmentQty() {
     return (int) departmentRepository.count();
   }
 }

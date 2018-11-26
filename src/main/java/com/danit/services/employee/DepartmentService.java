@@ -18,6 +18,6 @@ public interface DepartmentService {
 
   boolean departmentExists(long id);
 
-  int getDepartmentQuant();
+  int getDepartmentQty();
 
 }

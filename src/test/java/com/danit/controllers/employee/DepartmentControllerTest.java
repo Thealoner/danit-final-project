@@ -54,13 +54,13 @@ public class DepartmentControllerTest {
 
   @Test
   public void getAllDepartments() throws Exception {
-    int currentQuant = departmentService.getDepartmentQuant();
+    int currentQty = departmentService.getDepartmentQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
     this.mockMvc.perform(post(url).headers(header)
         .contentType("application/json")
         .content("{\n"
             + "    \"name\": \"Test department\",\n"
-            + "    \"sname\": \"Test department\",\n"
+            + "    \"shortName\": \"Test department\",\n"
             + "    \"dateFrom\": \"1978-12-22\",\n"
             + "    \"dateTo\": \"2200-12-31\",\n"
             + "    \"hierLevel\": 1,\n"
@@ -71,7 +71,7 @@ public class DepartmentControllerTest {
 
     mockMvc.perform(get(url).headers(header))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$", hasSize(currentQuant + 1)));
+        .andExpect(jsonPath("$", hasSize(currentQty + 1)));
   }
 
   @Test
@@ -82,7 +82,7 @@ public class DepartmentControllerTest {
         .contentType("application/json")
         .content("{\n"
             + "    \"name\": \"Test department\",\n"
-            + "    \"sname\": \"Test department\",\n"
+            + "    \"shortName\": \"Test department\",\n"
             + "    \"dateFrom\": \"1978-12-22\",\n"
             + "    \"dateTo\": \"2200-12-31\",\n"
             + "    \"hierLevel\": 1,\n"
@@ -104,7 +104,7 @@ public class DepartmentControllerTest {
         .content("{\n"
             + "    \"id\": " + createdId + ",\n"
             + "    \"name\": \"Test department2\",\n"
-            + "    \"sname\": \"Test department2\",\n"
+            + "    \"shortName\": \"Test department2\",\n"
             + "    \"dateFrom\": \"2000-02-01\",\n"
             + "    \"dateTo\": \"2200-12-31\",\n"
             + "    \"hierLevel\": 1\n"
@@ -121,13 +121,13 @@ public class DepartmentControllerTest {
 
   @Test
   public void createDepartmentTest() throws Exception {
-    int currentQuant = departmentService.getDepartmentQuant();
+    int currentQty = departmentService.getDepartmentQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
     this.mockMvc.perform(post(url).headers(header)
         .contentType("application/json")
         .content("{\n"
             + "    \"name\": \"Test department\",\n"
-            + "    \"sname\": \"Test department\",\n"
+            + "    \"shortName\": \"Test department\",\n"
             + "    \"dateFrom\": \"1978-12-22\",\n"
             + "    \"dateTo\": \"2200-12-31\",\n"
             + "    \"hierLevel\": 1,\n"
@@ -138,19 +138,19 @@ public class DepartmentControllerTest {
 
     mockMvc.perform(get(url).headers(header))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$", hasSize(currentQuant + 1)));
+        .andExpect(jsonPath("$", hasSize(currentQty + 1)));
   }
 
   @Test
   public void deleteDepartmentById() throws Exception {
-    int currentQuant= departmentService.getDepartmentQuant();
+    int currentQty= departmentService.getDepartmentQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     String responseJson = this.mockMvc.perform(post(url).headers(header)
         .contentType("application/json")
         .content("{\n"
             + "    \"name\": \"Test department\",\n"
-            + "    \"sname\": \"Test department\",\n"
+            + "    \"shortName\": \"Test department\",\n"
             + "    \"dateFrom\": \"1978-12-22\",\n"
             + "    \"dateTo\": \"2200-12-31\",\n"
             + "    \"hierLevel\": 1,\n"
@@ -165,13 +165,30 @@ public class DepartmentControllerTest {
     });
     long createdId = actualObj.getId();
 
-    assertEquals(currentQuant + 1, departmentService.getDepartmentQuant());
+    assertEquals(currentQty + 1, departmentService.getDepartmentQty());
 
     mockMvc.perform(delete(url+"/" + createdId).headers(header))
         .andExpect(status().isOk());
 
-    assertEquals(currentQuant, departmentService.getAllDepartments().size());
+    assertEquals(currentQty, departmentService.getAllDepartments().size());
 
   }
+
+  @Test
+  public void expect404WhenNoDataFoundDepartment() throws Exception {
+    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
+
+    mockMvc.perform(get(url+"/0").headers(header))
+        .andExpect(status().isNotFound());
+  }
+
+  @Test
+  public void expect500WhenDeleteNonexistentDepartment() throws Exception {
+    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
+
+    mockMvc.perform(delete(url+"/0").headers(header))
+        .andExpect(status().is(500));
+  }
+
 
 }

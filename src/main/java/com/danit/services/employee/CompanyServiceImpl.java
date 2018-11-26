@@ -66,7 +66,7 @@ public class CompanyServiceImpl implements CompanyService {
   }
 
   @Override
-  public int getCompanyQuant() {
+  public int getCompanyQty() {
     return (int) companyRepository.count();
   }
 }

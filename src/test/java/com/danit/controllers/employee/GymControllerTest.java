@@ -51,7 +51,7 @@ public class GymControllerTest {
 
   @Test
   public void getAllGyms() throws Exception {
-    int currentQuant = gymService.getGymQuant();
+    int currentQty = gymService.getGymQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
     this.mockMvc.perform(post(url).headers(header)
         .contentType("application/json")
@@ -63,7 +63,7 @@ public class GymControllerTest {
 
     mockMvc.perform(get(url).headers(header))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$", hasSize(currentQuant + 1)));
+        .andExpect(jsonPath("$", hasSize(currentQty + 1)));
   }
 
   @Test
@@ -103,7 +103,7 @@ public class GymControllerTest {
 
   @Test
   public void createGymTest() throws Exception {
-    int currentQuant = gymService.getGymQuant();
+    int currentQty = gymService.getGymQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
     this.mockMvc.perform(post(url).headers(header)
         .contentType("application/json")
@@ -115,11 +115,11 @@ public class GymControllerTest {
 
     mockMvc.perform(get(url).headers(header))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$", hasSize(currentQuant + 1)));
+        .andExpect(jsonPath("$", hasSize(currentQty + 1)));
   }
 
   @Test
-  public void expect500WhenNoDataFoundService() throws Exception {
+  public void expect404WhenNoDataFoundGym() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     mockMvc.perform(get(url+"/0").headers(header))
@@ -127,7 +127,7 @@ public class GymControllerTest {
   }
 
   @Test
-  public void expect500WhenDeleteNonexistentService() throws Exception {
+  public void expect500WhenDeleteNonexistentGym() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     mockMvc.perform(delete(url+"/0").headers(header))
@@ -136,7 +136,7 @@ public class GymControllerTest {
 
   @Test
   public void deleteGymById() throws Exception {
-    int currentQuant= gymService.getGymQuant();
+    int currentQty= gymService.getGymQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     String responseJson = this.mockMvc.perform(post(url).headers(header)
@@ -153,12 +153,12 @@ public class GymControllerTest {
     });
     long createdId = actualObj.getId();
 
-    assertEquals(currentQuant + 1, gymService.getGymQuant());
+    assertEquals(currentQty + 1, gymService.getGymQty());
 
     mockMvc.perform(delete(url+"/" + createdId).headers(header))
         .andExpect(status().isOk());
 
-    assertEquals(currentQuant, gymService.getAllGyms().size());
+    assertEquals(currentQty, gymService.getAllGyms().size());
 
   }
 }

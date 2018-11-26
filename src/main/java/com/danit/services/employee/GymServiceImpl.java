@@ -59,7 +59,7 @@ public class GymServiceImpl implements GymService {
   }
 
   @Override
-  public int getGymQuant() {
+  public int getGymQty() {
     return (int) gymRepository.count();
   }
 }

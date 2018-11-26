@@ -64,7 +64,7 @@ public class TrainingTypeServiceImpl implements TrainingTypeService {
   }
 
   @Override
-  public int getTrainingTypeQuant() {
+  public int getTrainingTypeQty() {
     return (int) trainingTypeRepository.count();
   }
 }

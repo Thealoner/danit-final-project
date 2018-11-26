@@ -61,7 +61,7 @@ public class EmployeeCategoryServiceImpl implements EmployeeCategoryService {
   }
 
   @Override
-  public int getEmployeeCategoryQuant() {
+  public int getEmployeeCategoryQty() {
     return (int) employeeCategoryRepository.count();
   }
 }

@@ -18,5 +18,5 @@ public interface DiscountService {
 
   boolean discountExists(long id);
 
-  int getDiscountQuant();
+  int getDiscountQty();
 }

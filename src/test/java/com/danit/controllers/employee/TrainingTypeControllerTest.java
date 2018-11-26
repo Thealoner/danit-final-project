@@ -51,7 +51,7 @@ public class TrainingTypeControllerTest {
 
   @Test
   public void getAllTrainingTypes() throws Exception {
-    int currentQuant = trainingTypeService.getTrainingTypeQuant();
+    int currentQty = trainingTypeService.getTrainingTypeQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
     this.mockMvc.perform(post(url).headers(header)
         .contentType("application/json")
@@ -63,7 +63,7 @@ public class TrainingTypeControllerTest {
 
     mockMvc.perform(get(url).headers(header))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$", hasSize(currentQuant + 1)));
+        .andExpect(jsonPath("$", hasSize(currentQty + 1)));
   }
 
   @Test
@@ -103,7 +103,7 @@ public class TrainingTypeControllerTest {
 
   @Test
   public void createTrainingTypeTest() throws Exception {
-    int currentQuant = trainingTypeService.getTrainingTypeQuant();
+    int currentQty = trainingTypeService.getTrainingTypeQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
     this.mockMvc.perform(post(url).headers(header)
         .contentType("application/json")
@@ -115,11 +115,11 @@ public class TrainingTypeControllerTest {
 
     mockMvc.perform(get(url).headers(header))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$", hasSize(currentQuant + 1)));
+        .andExpect(jsonPath("$", hasSize(currentQty + 1)));
   }
 
   @Test
-  public void expectIsNotFoundWhenNoDataFoundService() throws Exception {
+  public void expect404WhenNoDataFoundTrainingType() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     mockMvc.perform(get(url+"/0").headers(header))
@@ -127,7 +127,7 @@ public class TrainingTypeControllerTest {
   }
 
   @Test
-  public void expect500WhenDeleteNonexistentService() throws Exception {
+  public void expect500WhenDeleteNonexistentTrainingType() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     mockMvc.perform(delete(url+"/0").headers(header))
@@ -136,7 +136,7 @@ public class TrainingTypeControllerTest {
 
   @Test
   public void deletePositionById() throws Exception {
-    int currentQuant= trainingTypeService.getTrainingTypeQuant();
+    int currentQty= trainingTypeService.getTrainingTypeQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     String responseJson = this.mockMvc.perform(post(url).headers(header)
@@ -153,12 +153,12 @@ public class TrainingTypeControllerTest {
     });
     long createdId = actualObj.getId();
 
-    assertEquals(currentQuant + 1, trainingTypeService.getTrainingTypeQuant());
+    assertEquals(currentQty + 1, trainingTypeService.getTrainingTypeQty());
 
     mockMvc.perform(delete(url+"/" + createdId).headers(header))
         .andExpect(status().isOk());
 
-    assertEquals(currentQuant, trainingTypeService.getAllTrainingTypes().size());
+    assertEquals(currentQty, trainingTypeService.getAllTrainingTypes().size());
 
   }
 }

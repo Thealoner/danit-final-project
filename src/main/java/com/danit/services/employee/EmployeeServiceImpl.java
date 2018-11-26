@@ -60,7 +60,7 @@ public class EmployeeServiceImpl implements EmployeeService {
   }
 
   @Override
-  public int getEmployeeQuant() {
+  public int getEmployeeQty() {
     return (int) employeeRepository.count();
   }
 }

@@ -18,5 +18,5 @@ public interface TrainingTypeService {
 
   boolean trainingTypeExists(long id);
 
-  int getTrainingTypeQuant();
+  int getTrainingTypeQty();
 }

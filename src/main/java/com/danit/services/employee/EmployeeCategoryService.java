@@ -16,5 +16,5 @@ public interface EmployeeCategoryService {
 
   void deleteEmployeeCategory(long id);
 
-  int getEmployeeCategoryQuant();
+  int getEmployeeCategoryQty();
 }

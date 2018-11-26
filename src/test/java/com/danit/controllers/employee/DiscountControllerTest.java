@@ -49,7 +49,7 @@ public class DiscountControllerTest {
 
   @Test
   public void getAllDiscount() throws Exception {
-    int currentQuant = discountService.getDiscountQuant();
+    int currentQty = discountService.getDiscountQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
     this.mockMvc.perform(post(url).headers(header)
         .contentType("application/json")
@@ -63,7 +63,7 @@ public class DiscountControllerTest {
 
     mockMvc.perform(get(url).headers(header))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$", hasSize(currentQuant + 1)));
+        .andExpect(jsonPath("$", hasSize(currentQty + 1)));
   }
 
   @Test
@@ -76,7 +76,7 @@ public class DiscountControllerTest {
 
   @Test
   public void createDiscount() throws Exception {
-    int currentQuant = discountService.getDiscountQuant();
+    int currentQty = discountService.getDiscountQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
     this.mockMvc.perform(post(url).headers(header)
         .contentType("application/json")
@@ -90,7 +90,7 @@ public class DiscountControllerTest {
 
     mockMvc.perform(get(url).headers(header))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$", hasSize(currentQuant + 1)));
+        .andExpect(jsonPath("$", hasSize(currentQty + 1)));
   }
 
   @Test
@@ -132,7 +132,7 @@ public class DiscountControllerTest {
 
   @Test
   public void deleteDiscountById() throws Exception {
-    int currentQuant= discountService.getDiscountQuant();
+    int currentQty= discountService.getDiscountQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     String responseJson = this.mockMvc.perform(post(url).headers(header)
@@ -148,12 +148,29 @@ public class DiscountControllerTest {
     });
     long createdId = actualObj.getId();
 
-    assertEquals(currentQuant + 1, discountService.getDiscountQuant());
+    assertEquals(currentQty + 1, discountService.getDiscountQty());
 
     mockMvc.perform(delete(url+"/" + createdId).headers(header))
         .andExpect(status().isOk());
 
-    assertEquals(currentQuant, discountService.getAllDiscounts().size());
+    assertEquals(currentQty, discountService.getAllDiscounts().size());
 
   }
+
+  @Test
+  public void expect404WhenNoDataFoundDiscount() throws Exception {
+    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
+
+    mockMvc.perform(get(url+"/0").headers(header))
+        .andExpect(status().isNotFound());
+  }
+
+  @Test
+  public void expect500WhenDeleteNonexistentDiscount() throws Exception {
+    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
+
+    mockMvc.perform(delete(url+"/0").headers(header))
+        .andExpect(status().is(500));
+  }
+
 }

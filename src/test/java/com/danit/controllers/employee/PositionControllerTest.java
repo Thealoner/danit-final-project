@@ -52,7 +52,7 @@ public class PositionControllerTest {
 
   @Test
   public void getAllPositions() throws Exception {
-    int currentQuant = positionService.getPositionQuant();
+    int currentQty = positionService.getPositionQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
     this.mockMvc.perform(post("/position").headers(header)
         .contentType("application/json")
@@ -64,12 +64,12 @@ public class PositionControllerTest {
 
     mockMvc.perform(get("/position").headers(header))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$", hasSize(currentQuant + 1)));
+        .andExpect(jsonPath("$", hasSize(currentQty + 1)));
   }
 
   @Test
   public void createPosition() throws Exception {
-    int currentQuant = positionService.getPositionQuant();
+    int currentQty = positionService.getPositionQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
     this.mockMvc.perform(post("/position").headers(header)
         .contentType("application/json")
@@ -81,7 +81,7 @@ public class PositionControllerTest {
 
     mockMvc.perform(get("/position").headers(header))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$", hasSize(currentQuant + 1)));
+        .andExpect(jsonPath("$", hasSize(currentQty + 1)));
   }
 
   @Test
@@ -120,7 +120,7 @@ public class PositionControllerTest {
 
   @Test
   public void deletePositionById() throws Exception {
-    int currentQuant= positionService.getPositionQuant();
+    int currentQty= positionService.getPositionQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     String responseJson = this.mockMvc.perform(post(url).headers(header)
@@ -137,12 +137,28 @@ public class PositionControllerTest {
     });
     long createdId = actualObj.getId();
 
-    assertEquals(currentQuant + 1, positionService.getPositionQuant());
+    assertEquals(currentQty + 1, positionService.getPositionQty());
 
     mockMvc.perform(delete(url+"/" + createdId).headers(header))
         .andExpect(status().isOk());
 
-    assertEquals(currentQuant, positionService.getAllPositions().size());
+    assertEquals(currentQty, positionService.getAllPositions().size());
 
+  }
+
+  @Test
+  public void expect404WhenNoDataFoundPosition() throws Exception {
+    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
+
+    mockMvc.perform(get(url+"/0").headers(header))
+        .andExpect(status().isNotFound());
+  }
+
+  @Test
+  public void expect500WhenDeleteNonexistentSPosition() throws Exception {
+    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
+
+    mockMvc.perform(delete(url+"/0").headers(header))
+        .andExpect(status().is(500));
   }
 }

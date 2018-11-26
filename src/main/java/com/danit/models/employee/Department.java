@@ -39,8 +39,8 @@ public class Department {
   @JoinColumn(name = "pid")
   private List<Department> child;
 
-  @Column(name = "sname", nullable = false)
-  private String sname;
+  @Column(name = "short_name", nullable = false)
+  private String shortName;
 
   @Column(name = "name", nullable = false)
   private String name;
