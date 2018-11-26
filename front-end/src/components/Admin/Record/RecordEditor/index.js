@@ -5,6 +5,7 @@ import 'tabulator-tables/dist/css/tabulator.min.css';
 import { getEntityByType } from '../../GridEntities';
 import AuthService from '../../../Login/AuthService';
 import Form from 'react-jsonschema-form';
+import { FadeLoader } from 'react-spinners';
 import ajaxRequest from '../../../Helpers';
 import { FadeLoader } from 'react-spinners';
 
