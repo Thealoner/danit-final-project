@@ -1,8 +1,11 @@
 package com.danit.controllers;
 
 import com.danit.TestUtils;
+import com.danit.models.Client;
 import com.danit.models.UserRolesEnum;
 import com.danit.services.ClientService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,17 +13,16 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.hamcrest.Matchers.hasSize;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -41,7 +43,7 @@ public class ClientControllerTest {
   public void isOkWhenAdminAccess() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.ADMIN);
     mockMvc
-        .perform(get("/clients").headers(header))
+        .perform(get("/clients?page=0&size=2").headers(header))
         .andExpect(status().isOk());
   }
 
@@ -60,39 +62,45 @@ public class ClientControllerTest {
             + "    \"phoneNumber\": \"155-846-2959\",\n"
             + "    \"active\": true\n"
             + "  }]"))
-        .andExpect(status().isOk());
-
-    mockMvc.perform(get("/clients").headers(header))
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$", hasSize(numberOfClients + 1)));
-
+        .andExpect(status().isCreated());
+    assertEquals(numberOfClients + 1, clientService.getNumberOfClients());
   }
 
   @Test
-  public void updateClientIfExists() throws Exception {
-    int numberOfClients = clientService.getNumberOfClients();
+  public void updateClientData() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
-    mockMvc.perform(put("/clients").headers(header)
+    String responseJson = this.mockMvc.perform(post("/clients").headers(header)
         .contentType("application/json")
         .content("[{\n"
-            + "    \"id\": 1001, \n"
-            + "    \"birthDate\": \"1978-12-22\",\n"
             + "    \"birthDate\": \"1978-12-22\",\n"
             + "    \"email\": \"alex2021@gmail.com\",\n"
-            + "    \"firstName\": \"Alexey\",\n"
-            + "    \"gender\": \"Male\",\n"
+            + "    \"firstName\": \"TestUser1\",\n"
+            + "    \"gender\": \"Female\",\n"
             + "    \"lastName\": \"Grinkov\",\n"
             + "    \"phoneNumber\": \"155-846-2959\",\n"
             + "    \"active\": true\n"
             + "  }]"))
-        .andExpect(status().isOk());
+        .andExpect(status().isCreated())
+        .andReturn().getResponse().getContentAsString();
 
-    mockMvc.perform(get("/clients").headers(header))
+    ObjectMapper mapper = new ObjectMapper();
+    List<Client> actualObj = mapper.readValue(responseJson, new TypeReference<List<Client>>() {
+    });
+    long createdId = actualObj.get(0).getId();
+
+    responseJson = mockMvc.perform(put("/clients/").headers(header)
+        .contentType("application/json")
+        .content("[{\n"
+            + "    \"id\": " + createdId + ", \n"
+            + "    \"firstName\": \"TestUser2\"\n"
+            + "  }]"))
         .andExpect(status().isOk())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$", hasSize(numberOfClients)))
-        .andExpect(jsonPath("$[?(@.id == 1001)].gender").value("Male"));
+        .andReturn().getResponse().getContentAsString();
+
+    actualObj = mapper.readValue(responseJson, new TypeReference<List<Client>>() {
+    });
+    assertEquals("TestUser2", actualObj.get(0).getFirstName());
 
   }
 
@@ -113,11 +121,43 @@ public class ClientControllerTest {
             "      \"email\": \"llotherington4@wikipedia.org\",\n" +
             "      \"active\": true,\n" +
             "      \"contracts\": []\n" +
-            "   }]"));
+            "   }]"))
+        .andExpect(status().isOk());
 
-    mockMvc.perform(get("/clients").headers(header))
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$", hasSize(numberOfClients - 1)));
+    assertEquals(numberOfClients - 1, clientService.getNumberOfClients());
+
   }
 
+  @Test
+  public void deleteClientById() throws Exception {
+    int numberOfClients = clientService.getNumberOfClients();
+    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
+
+    String responseJson = this.mockMvc.perform(post("/clients").headers(header)
+        .contentType("application/json")
+        .content("[{\n"
+            + "    \"birthDate\": \"1978-12-22\",\n"
+            + "    \"email\": \"alex2021@gmail.com\",\n"
+            + "    \"firstName\": \"TestUser1\",\n"
+            + "    \"gender\": \"Female\",\n"
+            + "    \"lastName\": \"Grinkov\",\n"
+            + "    \"phoneNumber\": \"155-846-2959\",\n"
+            + "    \"active\": true\n"
+            + "  }]"))
+        .andExpect(status().isCreated())
+        .andReturn().getResponse().getContentAsString();
+
+    ObjectMapper mapper = new ObjectMapper();
+    List<Client> actualObj = mapper.readValue(responseJson, new TypeReference<List<Client>>() {
+    });
+    long createdId = actualObj.get(0).getId();
+
+    assertEquals(numberOfClients + 1, clientService.getNumberOfClients());
+
+    mockMvc.perform(delete("/clients/" + createdId).headers(header))
+        .andExpect(status().isOk());
+
+    assertEquals(numberOfClients, clientService.getNumberOfClients());
+
+  }
 }

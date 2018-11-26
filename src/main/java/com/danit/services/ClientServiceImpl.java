@@ -1,25 +1,43 @@
 package com.danit.services;
 
+import com.danit.dto.service.ClientListRequestDto;
+import com.danit.exceptions.EntityNotFoundException;
+import com.danit.exceptions.EntityParticularDataException;
 import com.danit.models.Client;
 import com.danit.repositories.ClientRepository;
+import com.danit.repositories.specifications.ClientListSpecification;
+import com.danit.utils.ServiceUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Service
 public class ClientServiceImpl implements ClientService {
 
-  private ClientRepository clientRepository;
+  private final ClientRepository clientRepository;
 
-  ClientServiceImpl(ClientRepository clientRepository) {
+  private final ClientListSpecification clientListSpecification;
+
+  @Autowired
+  ClientServiceImpl(ClientRepository clientRepository, ClientListSpecification clientListSpecification) {
     this.clientRepository = clientRepository;
+    this.clientListSpecification = clientListSpecification;
   }
 
   @Override
-  public List<Client> getAllClients() {
-    return clientRepository.findAll();
+  public Page<Client> getAllClients(ClientListRequestDto clientListRequestDto, Pageable pageable) {
+    return clientRepository.findAll(clientListSpecification.getFilter(clientListRequestDto), pageable);
+  }
+
+  @Override
+  public Page<Client> getAllClients(Pageable pageable) {
+    return clientRepository.findAll(pageable);
   }
 
   @Override
@@ -29,23 +47,37 @@ public class ClientServiceImpl implements ClientService {
 
   @Override
   public List<Client> saveClients(List<Client> clients) {
-    return clientRepository.saveAll(clients);
+    return (List<Client>) clientRepository.saveAll(clients);
   }
 
   @Override
-  public void updateClients(List<Client> clients) {
-    Set<Long> clientsId = clientRepository.getAllClientsId();
-    clients.forEach(client -> {
-      if (!clientsId.contains(client.getId())) {
-        throw new EntityNotFoundException("Client with id=" + client.getId() + " is not exist");
+  public Client saveClient(Client client) {
+    return clientRepository.save(client);
+  }
+
+  @Override
+  public List<Client> updateClients(List<Client> clients) {
+    List<Client> savedClients = new ArrayList<>();
+    clients.forEach(sourceClient -> {
+      Long id = sourceClient.getId();
+      if (Objects.nonNull(id)) {
+        Client targetClient = clientRepository.findById(id).orElseThrow(() ->
+            new EntityNotFoundException("Cant find Client with id=" + id));
+        if (ServiceUtils.updateNonEqualFields(sourceClient, targetClient)) {
+          savedClients.add(clientRepository.save(targetClient));
+        }
+      } else {
+        throw new EntityParticularDataException("id field is empty");
       }
     });
-    clientRepository.saveAll(clients);
+    return savedClients;
   }
 
   @Override
   public void deleteClientById(long id) {
-    clientRepository.deleteById(id);
+    Client client = clientRepository.findById(id).orElseThrow(() ->
+        new EntityNotFoundException("Cant find client with id=" + id));
+    clientRepository.delete(client);
   }
 
   @Override
@@ -56,7 +88,7 @@ public class ClientServiceImpl implements ClientService {
         throw new EntityNotFoundException("Client with id=" + client.getId() + " is not exist");
       }
     });
-    clientRepository.deleteInBatch(clients);
+    clientRepository.deleteAll(clients);
   }
 
   @Override

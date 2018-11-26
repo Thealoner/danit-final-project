@@ -1,11 +1,15 @@
 package com.danit.models;
 
 
-import com.danit.utils.CustomDateAndTimeDeserialize;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.danit.utils.CustomDateDeserializer;
+import com.danit.utils.CustomDateSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,7 +30,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "contracts")
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
+@NoArgsConstructor
+@ToString(exclude = {"client", "paket", "cards"})
+@Data
 public class Contract {
   @Id
   @SequenceGenerator(name = "contractSequence", sequenceName = "contractSequence", allocationSize = 1, initialValue = 1001)
@@ -35,19 +42,15 @@ public class Contract {
   private Long id;
 
   @Column(name = "start_date")
-  @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
-  @JsonFormat(
-      shape = JsonFormat.Shape.STRING,
-      pattern = "yyyy-MM-dd")
-  @Temporal(TemporalType.DATE)
+  @JsonDeserialize(using = CustomDateDeserializer.class)
+  @JsonSerialize(using = CustomDateSerializer.class)
+  @Temporal(TemporalType.TIMESTAMP)
   private Date startDate;
 
   @Column(name = "end_date")
-  @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
-  @JsonFormat(
-      shape = JsonFormat.Shape.STRING,
-      pattern = "yyyy-MM-dd")
-  @Temporal(TemporalType.DATE)
+  @JsonDeserialize(using = CustomDateDeserializer.class)
+  @JsonSerialize(using = CustomDateSerializer.class)
+  @Temporal(TemporalType.TIMESTAMP)
   private Date endDate;
 
   @Column(name = "credit")
@@ -67,7 +70,7 @@ public class Contract {
   private Paket paket;
 
   @OneToMany(mappedBy = "contract", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-  private List<CardColor> cards;
+  private List<Card> cards;
 
   @Column(name = "package_id")
   private Long packageId;
@@ -75,98 +78,4 @@ public class Contract {
   @Column(name = "client_id")
   private Long clientId;
 
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public Date getStartDate() {
-    return startDate;
-  }
-
-  public void setStartDate(Date startDate) {
-    this.startDate = startDate;
-  }
-
-  public Date getEndDate() {
-    return endDate;
-  }
-
-  public void setEndDate(Date endDate) {
-    this.endDate = endDate;
-  }
-
-  public Float getCredit() {
-    return credit;
-  }
-
-  public void setCredit(Float credit) {
-    this.credit = credit;
-  }
-
-  public boolean isActive() {
-    return isActive;
-  }
-
-  public void setActive(boolean active) {
-    isActive = active;
-  }
-
-  public Client getClient() {
-    return client;
-  }
-
-  public void setClient(Client client) {
-    this.client = client;
-  }
-
-  public Paket getPaket() {
-    return paket;
-  }
-
-  public void setPaket(Paket paket) {
-    this.paket = paket;
-  }
-
-  public Long getPackageId() {
-    return packageId;
-  }
-
-  public void setPackageId(Long packageId) {
-    this.packageId = packageId;
-  }
-
-  public Long getClientId() {
-    return clientId;
-  }
-
-  public void setClientId(Long clientId) {
-    this.clientId = clientId;
-  }
-
-  public List<CardColor> getCards() {
-    return cards;
-  }
-
-  public void setCards(List<CardColor> cards) {
-    this.cards = cards;
-  }
-
-  @Override
-  public String toString() {
-    return "Contract{" +
-        "id=" + id +
-        ", startDate=" + startDate +
-        ", endDate=" + endDate +
-        ", credit=" + credit +
-        ", isActive=" + isActive +
-        ", client=" + client +
-        ", paket=" + paket +
-        ", packageId=" + packageId +
-        ", clientId=" + clientId +
-        '}';
-  }
 }

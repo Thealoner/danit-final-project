@@ -1,6 +1,6 @@
 package com.danit.controllers;
 
-import com.danit.models.CardColor;
+import com.danit.models.Card;
 import com.danit.services.CardColorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,27 +29,27 @@ public class CardColorController {
   }
 
   @PostMapping("/cards")
-  List<CardColor> createCards(@RequestBody List<CardColor> cards, Principal principal) {
+  List<Card> createCards(@RequestBody List<Card> cards, Principal principal) {
     logger.info(principal.getName() + " is saving new cards: " + cards);
     return cardColorService.saveCardColors(cards);
   }
 
   @GetMapping("/cards")
-  List<CardColor> getAllCards(Principal principal) {
+  List<Card> getAllCards(Principal principal) {
     logger.info(principal.getName() + " got all cards data");
     return cardColorService.getAllCardColors();
   }
 
   @GetMapping("/cards/{id}")
-  CardColor getCardById(@PathVariable(name = "id") long id, Principal principal) {
+  Card getCardById(@PathVariable(name = "id") long id, Principal principal) {
     logger.info(principal.getName() + " got card data with id: " + id);
     return cardColorService.getCardColorById(id);
   }
 
   @PutMapping("/cards")
-  public void addCards(@RequestBody List<CardColor> cards, Principal principal) {
+  List<Card> addCards(@RequestBody List<Card> cards, Principal principal) {
     logger.info(principal.getName() + " is updating cards data: " + cards);
-    cardColorService.saveCardColors(cards);
+    return cardColorService.saveCardColors(cards);
   }
 
   @DeleteMapping("/cards/{id}")
@@ -59,7 +59,7 @@ public class CardColorController {
   }
 
   @DeleteMapping("/cards")
-  public void deleteCards(@RequestBody List<CardColor> cards, Principal principal) {
+  public void deleteCards(@RequestBody List<Card> cards, Principal principal) {
     logger.info(principal.getName() + " is trying to delete cards: " + cards);
     cardColorService.deleteCardColors(cards);
   }

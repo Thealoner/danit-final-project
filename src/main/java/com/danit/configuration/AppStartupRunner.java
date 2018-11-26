@@ -1,6 +1,6 @@
 package com.danit.configuration;
 
-import com.danit.models.CardColor;
+import com.danit.models.Card;
 import com.danit.models.Client;
 import com.danit.models.Contract;
 import com.danit.models.Paket;
@@ -96,11 +96,18 @@ public class AppStartupRunner implements ApplicationRunner {
     contractRepository.saveAll(contracts);
 
 
-    TypeReference<List<CardColor>> cardColorTypeReference = new TypeReference<List<CardColor>>() {
+    TypeReference<List<Card>> cardColorTypeReference = new TypeReference<List<Card>>() {
     };
     InputStream cardColorInputStream = TypeReference.class.getResourceAsStream("/json/cards.json");
-    List<CardColor> cards = mapper.readValue(cardColorInputStream, cardColorTypeReference);
+    List<Card> cards = mapper.readValue(cardColorInputStream, cardColorTypeReference);
     cardColorRepository.saveAll(cards);
+
+
+    TypeReference<List<ServiceCategory>> serviceCategoryTypeReference = new TypeReference<List<ServiceCategory>>() {
+    };
+    InputStream serviceCategoryInputStream = TypeReference.class.getResourceAsStream("/json/servicecategory.json");
+    List<ServiceCategory> serviceCategory = mapper.readValue(serviceCategoryInputStream, serviceCategoryTypeReference);
+    serviceCategoryRepository.saveAll(serviceCategory);
 
 
     TypeReference<List<Services>> servicesTypeReference = new TypeReference<List<Services>>() {
@@ -109,10 +116,5 @@ public class AppStartupRunner implements ApplicationRunner {
     List<Services> services = mapper.readValue(servicesInputStream, servicesTypeReference);
     servicesRepository.saveAll(services);
 
-    TypeReference<List<ServiceCategory>> serviceCategoryTypeReference = new TypeReference<List<ServiceCategory>>() {
-    };
-    InputStream serviceCategoryInputStream = TypeReference.class.getResourceAsStream("/json/servicecategory.json");
-    List<ServiceCategory> serviceCategory = mapper.readValue(serviceCategoryInputStream, serviceCategoryTypeReference);
-    serviceCategoryRepository.saveAll(serviceCategory);
   }
 }

@@ -47,15 +47,15 @@ public class ServicesController {
   }
 
   @PutMapping("/services")
-  void updateServices(@RequestBody List<Services> services, Principal principal) {
+  List<Services> updateServices(@RequestBody List<Services> services, Principal principal) {
     logger.info(principal.getName() + " is updating services data: " + services);
-    servicesService.saveServices(services);
+    return servicesService.saveServices(services);
   }
 
   @PutMapping("/services/{id}")
-  void updateService(@PathVariable(name = "id") long id, @RequestBody Services service, Principal principal) {
+  Services updateService(@PathVariable(name = "id") long id, @RequestBody Services service, Principal principal) {
     logger.info(principal.getName() + " is updating service data: " + service);
-    servicesService.saveService(service);
+    return servicesService.saveService(service);
   }
 
   @DeleteMapping("/services/{id}")

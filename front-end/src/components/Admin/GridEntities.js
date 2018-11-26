@@ -22,8 +22,20 @@ const GridEntities = [
       { title: 'Активен', field: 'active' }
     ],
     schema: {
-      title: 'Пакет',
       type: 'object',
+      required: [
+        'accessWithoutCardTimesLimit',
+        'autoActivateAfterDays',
+        'freezeDays',
+        'freezeMinTerm',
+        'freezeTimes',
+        'guestVisits',
+        'price',
+        'term',
+        'title',
+        'usersMin',
+        'visitTime'
+      ],
       properties: {
         accessWithoutCardTimesLimit: {
           title: 'Ограничения на вход без карты, раз',
@@ -115,11 +127,7 @@ const GridEntities = [
       { title: 'Активен', field: 'active' }
     ],
     schema: {
-      title: 'Сервис',
       type: 'object',
-      required: [
-        'title'
-      ],
       properties: {
         title: {
           title: 'Название',
@@ -130,7 +138,7 @@ const GridEntities = [
           type: 'string'
         },
         unitsNumber: {
-          title: 'Кол-во единиц',
+          title: 'Количество единиц',
           type: 'number'
         },
         price: {
@@ -161,7 +169,6 @@ const GridEntities = [
       { title: 'Активен', field: 'active' }
     ],
     schema: {
-      title: 'Категория сервисов',
       type: 'object',
       properties: {
         title: {

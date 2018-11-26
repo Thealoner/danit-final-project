@@ -1,4 +1,4 @@
-@import "variables";
+@import 'variables';
 
 .app {
   display: grid;
@@ -6,7 +6,6 @@
   grid-template-rows: 5vh 94vh;
   grid-row-gap: 1vh;
   height: 100vh;
-  font-family: 'Lato', sans-serif;
 
   &__preloader {
     position: fixed;
