@@ -11,7 +11,7 @@ class User extends Component {
       <div className="user">
 
         <ButtonToolbar>
-          <Dropdown id="dropdown-custom-1" pullRight={false}>
+          <Dropdown id="dropdown-custom-1" pullRight={true}>
             <Dropdown.Toggle>
               <FontAwesomeIcon className="user__avatar" icon="user-circle" size="2x" title={userName}/>
             </Dropdown.Toggle>

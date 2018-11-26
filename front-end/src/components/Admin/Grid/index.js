@@ -4,9 +4,8 @@ import Tabulator from 'tabulator-tables';
 import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
 import { getEntityByType } from '../GridEntities';
-import AuthService from '../../Login/AuthService';
-import Settings from '../../Settings';
 import { Link } from 'react-router-dom';
+import ajaxRequest from '../../Helpers';
 
 class Grid extends Component {
   constructor (props) {
@@ -43,57 +42,40 @@ class Grid extends Component {
   getData = (page, size) => {
     let { entityType } = this.props.match.params;
     let entity = getEntityByType(entityType);
-    let authService = new AuthService();
 
-    if (authService.loggedIn() && !authService.isTokenExpired()) {
-      const headers = {
-        'Content-Type': 'application/json'
-      };
-
-      let token = authService.getToken();
-      headers['Authorization'] = token;
-
-      fetch(
-        Settings.apiServerUrl + entity.apiUrl + '?page=' + (page || 0) + '&size=' + (size || 3),
-        { headers }
-      )
-        .then(authService._checkStatus)
-        .then(response => response.json())
-        .then(response => {
-          this.props.setTabContentUrl(entity.id);
-          this.setState({
-            id: entityType,
-            data: response.data,
-            columns: entity.columns,
-            meta: response.meta
-          });
-        })
-        .catch(error => {
-          console.log('' + error);
-          this.setState({
-            id: '',
-            data: [],
-            columns: [],
-            meta: {
-              totalElements: 0,
-              currentPage: 0,
-              pagesTotal: 0,
-              elementsPerPage: 3
-            }
-          });
+    ajaxRequest(entity.apiUrl + '?page=' + (page || 0) + '&size=' + (size || 3))
+      .then(response => {
+        this.props.setTabContentUrl(entity.id);
+        this.setState({
+          id: entityType,
+          data: response.data,
+          columns: entity.columns,
+          meta: response.meta
         });
-    } else {
-      console.log('Not logged in or token is expired');
-    }
+      })
+      .catch(error => {
+        console.log('' + error);
+        this.setState({
+          id: '',
+          data: [],
+          columns: [],
+          meta: {
+            totalElements: 0,
+            currentPage: 0,
+            pagesTotal: 0,
+            elementsPerPage: 3
+          }
+        });
+      });
   };
 
   pageNext = () => {
     this.getData(this.state.meta.currentPage + 1, this.state.meta.elementsPerPage);
-  }
+  };
 
   pagePrev = () => {
     this.getData(this.state.meta.currentPage - 1, this.state.meta.elementsPerPage);
-  }
+  };
 
   render () {
     let { entityType, tabKey } = this.props.match.params;

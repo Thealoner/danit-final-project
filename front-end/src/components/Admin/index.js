@@ -8,13 +8,19 @@ let index = 1;
 
 class Admin extends Component {
   state = {
-    recordData: 'sayonara',
+    recordData: '',
     tabs: [{
       title: 'Новая вкладка',
       tabKey: '1',
       contentUrl: ''
     }],
     activeKey: '1'
+  };
+
+  setRecordData = (data) => {
+    this.setState({
+      recordData: data
+    });
   };
 
   add = (e) => {
@@ -124,6 +130,7 @@ class Admin extends Component {
             tabs={this.state.tabs}
             setTabContentUrl={this.setTabContentUrl}
             recordData={this.state.recordData}
+            setRecordData={this.setRecordData}
           />
         </div>
       </main>

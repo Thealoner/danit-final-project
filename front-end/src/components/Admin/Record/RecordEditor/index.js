@@ -7,13 +7,11 @@ import AuthService from '../../../Login/AuthService';
 import Form from 'react-jsonschema-form';
 import { FadeLoader } from 'react-spinners';
 import ajaxRequest from '../../../Helpers';
-import { FadeLoader } from 'react-spinners';
 
 class RecordEditor extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      data: {},
       authService: new AuthService(),
       loading: false
     };
@@ -30,13 +28,13 @@ class RecordEditor extends Component {
 
     ajaxRequest(entity.apiUrl + '/' + rowId)
       .then(data => {
-        setTimeout(() =>
+        setTimeout(() => {
+          this.props.setRecordData(data);
           this.setState({
             entityType: entity.id,
-            data: data,
             loading: false
-          })
-        , 1000);
+          });
+        }, 1000);
       });
   };
 
@@ -59,9 +57,9 @@ class RecordEditor extends Component {
         // enable 'Save' button
         // hide loader
 
+        this.props.setRecordData(json[0]);
         this.setState({
-          data: json[0],
-          isLoading: false
+          loading: false
         });
 
         if (mode === 'add') {
@@ -78,22 +76,20 @@ class RecordEditor extends Component {
         // enable 'Save' button
         // hide loader
         this.setState({
-          isLoading: false
+          loading: false
         });
       });
   };
 
-  changeDataInState = (type) => {
-    this.setState({
-      data: type.formData
-    });
+  changeData = (type) => {
+    this.props.setRecordData(type.formData);
   };
 
   log = (type) => console.log.bind(console, type);
 
   render () {
     let { mode, rowId } = this.props.match.params;
-    let { entityType, setTabContentUrl } = this.props;
+    let { entityType, setTabContentUrl, recordData } = this.props;
 
     if (mode === 'edit') {
       setTabContentUrl(entityType + '/' + mode + '/' + rowId);
@@ -115,7 +111,7 @@ class RecordEditor extends Component {
         </div> : <Form
           schema={entity.schema}
           uiSchema={entity.uiSchema}
-          formData={this.state.data}
+          formData={recordData}
           autocomplete='off'
           onChange={this.log('changed')}
           onSubmit={this.saveData}
