@@ -16,4 +16,6 @@ public interface GymService {
 
   void deleteGym(long id);
 
+  int getGymQuant();
+
 }

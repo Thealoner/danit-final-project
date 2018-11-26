@@ -18,4 +18,6 @@ public interface CompanyService {
 
   boolean companyExists(long id);
 
+  int getCompanyQuant();
+
 }

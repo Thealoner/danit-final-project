@@ -62,4 +62,9 @@ public class TrainingTypeServiceImpl implements TrainingTypeService {
   public boolean trainingTypeExists(long id) {
     return false;
   }
+
+  @Override
+  public int getTrainingTypeQuant() {
+    return (int) trainingTypeRepository.count();
+  }
 }
