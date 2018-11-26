@@ -55,7 +55,7 @@ public class Client extends Auditable {
   @Column(name = "gender")
   private String gender;
 
-  @Column(name = "birth_date", nullable = false)
+  @Column(name = "birth_date")
   @JsonDeserialize(using = CustomDateDeserializer.class)
   @JsonSerialize(using = CustomDateSerializer.class)
   @Temporal(TemporalType.DATE)
