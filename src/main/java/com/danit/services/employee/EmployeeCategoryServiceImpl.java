@@ -59,4 +59,9 @@ public class EmployeeCategoryServiceImpl implements EmployeeCategoryService {
     employeeCategoryRepository.deleteById(id);
 
   }
+
+  @Override
+  public int getEmployeeCategoryQuant() {
+    return (int) employeeCategoryRepository.count();
+  }
 }
