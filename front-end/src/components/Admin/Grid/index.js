@@ -5,6 +5,7 @@ import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
 import { getEntityByType } from '../GridEntities';
 import { Link } from 'react-router-dom';
+import Filter from './Filter';
 import ajaxRequest from '../../Helpers';
 
 class Grid extends Component {
@@ -39,13 +40,25 @@ class Grid extends Component {
     });
   };
 
-  getData = (page, size) => {
+  getData = (page = 0, size = 3, filterString = '') => {
     let { entityType } = this.props.match.params;
     let entity = getEntityByType(entityType);
 
-    ajaxRequest(entity.apiUrl + '?page=' + (page || 0) + '&size=' + (size || 3))
+    ajaxRequest(entity.apiUrl + '?page=' + page + '&size=' + size + filterString)
       .then(response => {
         this.props.setTabContentUrl(entity.id);
+          
+        // Temporary fix, until all entities are returned with data and meta wrappers from server;
+        if (response.data === undefined) {
+          response.data = response;
+          response.meta = {
+            totalElements: 0,
+            currentPage: 0,
+            pagesTotal: 0,
+            elementsPerPage: 3
+          };
+        }
+        
         this.setState({
           id: entityType,
           data: response.data,
@@ -77,6 +90,14 @@ class Grid extends Component {
     this.getData(this.state.meta.currentPage - 1, this.state.meta.elementsPerPage);
   };
 
+  applyFilter = (filterString) => {
+    this.getData(0, 20, filterString);
+  }
+
+  clearFilter = () => {
+    this.getData();
+  }
+
   render () {
     let { entityType, tabKey } = this.props.match.params;
     let { setTabContentUrl } = this.props;
@@ -85,6 +106,7 @@ class Grid extends Component {
 
     return (
       <Fragment>
+        <Filter applyFilter={this.applyFilter} clearFilter={this.clearFilter} columns={this.state.columns} />
         <div ref={el => (this.el = el)} className="custom-css-class" data-custom-attr="test-custom-attribute" />
         <Link to={'/admin/' + tabKey + '/' + entityType + '/add'}>Add {entityType}</Link>
         <button onClick={this.pagePrev} disabled={currentPage <= 0}>Previous Page</button>
