@@ -48,16 +48,16 @@ class Filter extends Component {
     return (
       <form onSubmit={this.onSubmit}>
         <span>
-          <label>Field: </label>
+          <label>Поле: </label>
           <select name="field" value={this.state.field} onChange={this.handleInputChange}>
-            <option></option>
+            <option value="search">Все</option>
             {this.renderFields()}
           </select>
         </span>
 
         <span>
-          <label>Value: </label>
-          <input name="value" type="text" placeholder="value to filter" value={this.state.value} onChange={this.handleInputChange} />
+          <label>Значение: </label>
+          <input name="value" type="text" placeholder="" value={this.state.value} onChange={this.handleInputChange} />
         </span>
 
         <button name="filter" type="submit">Apply Filter</button>
