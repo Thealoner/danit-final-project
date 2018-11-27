@@ -8,19 +8,35 @@ let index = 1;
 
 class Admin extends Component {
   state = {
-    recordData: '',
     tabs: [{
       title: 'Новая вкладка',
       tabKey: '1',
-      contentUrl: ''
+      contentUrl: '',
+      recordData: {}
     }],
     activeKey: '1'
   };
 
   setRecordData = (data) => {
-    this.setState({
-      recordData: data
+    let tabs = this.state.tabs;
+
+    let currentTabIndex = tabs.findIndex((tab) => {
+      return tab.tabKey === this.state.activeKey;
     });
+
+    tabs[currentTabIndex].recordData = data;
+
+    this.setState({
+      tabs: tabs
+    });
+  };
+
+  getRecordData = () => {
+    let currentTab = this.state.tabs.find((tab) => {
+      return tab.tabKey === this.state.activeKey;
+    });
+
+    return currentTab.recordData;
   };
 
   add = (e) => {
@@ -96,22 +112,6 @@ class Admin extends Component {
 
     currentTab.contentUrl = url;
     return currentTab.contentUrl;
-    /* let currentTabIndex = this.state.tabs.findIndex((tab) => {
-      return tab.tabKey === this.state.activeKey;
-    });
-
-    this.setState((prevState, props) => ({
-      tabs: [
-        {
-          title: prevState.tabs[currentTabIndex].title,
-          tabKey: prevState.tabs[currentTabIndex].tabKey,
-          contentUrl: url
-        },
-        ...prevState.tabs.filter((tab, index) => {
-          return index !== currentTabIndex;
-        })
-      ]
-    })); */
   };
 
   render () {
@@ -129,7 +129,7 @@ class Admin extends Component {
             activeKey={this.state.activeKey}
             tabs={this.state.tabs}
             setTabContentUrl={this.setTabContentUrl}
-            recordData={this.state.recordData}
+            getRecordData={this.getRecordData}
             setRecordData={this.setRecordData}
           />
         </div>

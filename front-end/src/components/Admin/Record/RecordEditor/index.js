@@ -89,7 +89,7 @@ class RecordEditor extends Component {
 
   render () {
     let { mode, rowId } = this.props.match.params;
-    let { entityType, setTabContentUrl, recordData } = this.props;
+    let { entityType, setTabContentUrl, getRecordData } = this.props;
 
     if (mode === 'edit') {
       setTabContentUrl(entityType + '/' + mode + '/' + rowId);
@@ -111,7 +111,7 @@ class RecordEditor extends Component {
         </div> : <Form
           schema={entity.schema}
           uiSchema={entity.uiSchema}
-          formData={recordData}
+          formData={getRecordData}
           autocomplete='off'
           onChange={this.log('changed')}
           onSubmit={this.saveData}

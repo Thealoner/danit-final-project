@@ -23,7 +23,7 @@ class Record extends Component {
         route = (
           <Route key={entity.id} path={'/admin/:tabKey/' + entity.id + '/:mode/:rowId?'} render={
             (props) => <div className={entity.id}><RecordEditor setTabContentUrl={this.props.setTabContentUrl}
-              entityType={entityType} recordData={this.props.recordData} setRecordData={this.props.setRecordData}
+              entityType={entityType} getRecordData={this.props.getRecordData} setRecordData={this.props.setRecordData}
               {...props} /></div>
           }/>
         );
