@@ -22,13 +22,9 @@ class Filter extends Component {
   }
 
   onSubmit = (event) => {
-    // this.tabulator.setFilter('id', '>', 1001);
     event.preventDefault();
-
-    this.props.applyFilter({
-      field: this.state.field,
-      value: this.state.value
-    });
+    let filterString = '&' + this.state.field + '=' + this.state.value;
+    this.props.applyFilter(filterString);
   }
 
   clearFilter = () => {

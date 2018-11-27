@@ -78,8 +78,7 @@ class Grid extends Component {
     this.getData(this.state.meta.currentPage - 1, this.state.meta.elementsPerPage);
   }
 
-  applyFilter = (filter) => {
-    let filterString = '&' + filter.field + '=' + filter.value;
+  applyFilter = (filterString) => {
     this.getData(0, 20, filterString);
   }
 
