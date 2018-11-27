@@ -1,10 +1,12 @@
 package com.danit.services;
 
+import com.danit.dto.service.ContractListRequestDto;
 import com.danit.models.Contract;
 import com.danit.repositories.ContractRepository;
+import com.danit.repositories.specifications.ContractListSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -15,10 +17,12 @@ import java.util.Set;
 public class ContractServiceImpl implements ContractService {
 
   private ContractRepository contractRepository;
+  private ContractListSpecification contractListSpecification;
 
   @Autowired
-  public ContractServiceImpl(ContractRepository contractRepository) {
+  public ContractServiceImpl(ContractRepository contractRepository, ContractListSpecification contractListSpecification) {
     this.contractRepository = contractRepository;
+    this.contractListSpecification = contractListSpecification;
   }
 
   @Override
@@ -49,8 +53,13 @@ public class ContractServiceImpl implements ContractService {
   }
 
   @Override
-  public Page<Contract> getAllContracts(int page, int size) {
-    return contractRepository.findAll(PageRequest.of(page, size));
+  public Page<Contract> getAllContracts(Pageable pageable) {
+    return contractRepository.findAll(pageable);
+  }
+
+  @Override
+  public Page<Contract> getAllContracts(ContractListRequestDto contractListRequestDto, Pageable pageable) {
+    return contractRepository.findAll(contractListSpecification.getFilter(contractListRequestDto), pageable);
   }
 
 }

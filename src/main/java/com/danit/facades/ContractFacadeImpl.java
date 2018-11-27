@@ -1,11 +1,13 @@
 package com.danit.facades;
 
 import com.danit.dto.ContractDto;
+import com.danit.dto.service.ContractListRequestDto;
 import com.danit.models.Contract;
 import com.danit.services.ContractService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -41,11 +43,6 @@ public class ContractFacadeImpl implements ContractFacade{
   }
 
   @Override
-  public Page<ContractDto> getAllContracts(int page, int size) {
-    return convertToDtos(contractService.getAllContracts(page, size));
-  }
-
-  @Override
   public List<ContractDto> saveContracts(List<Contract> contracts) {
     return convertToDtos(contractService.saveContracts(contracts));
   }
@@ -68,5 +65,15 @@ public class ContractFacadeImpl implements ContractFacade{
   @Override
   public void deleteContracts(List<Contract> contracts) {
     contractService.deleteContracts(contracts);
+  }
+
+  @Override
+  public Page<ContractDto> getAllContracts(Pageable pageable) {
+    return convertToDtos(contractService.getAllContracts(pageable));
+  }
+
+  @Override
+  public Page<ContractDto> getAllContracts(ContractListRequestDto contractListRequestDto, Pageable pageable) {
+    return convertToDtos(contractService.getAllContracts(contractListRequestDto, pageable));
   }
 }

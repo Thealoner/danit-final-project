@@ -57,6 +57,6 @@ public class ContractDto {
   private Long clientId;
 
   @JsonView(Views.Short.class)
-  private boolean active;
+  private Boolean active;
 
 }

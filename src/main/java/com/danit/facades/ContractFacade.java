@@ -1,16 +1,16 @@
 package com.danit.facades;
 
 import com.danit.dto.ContractDto;
+import com.danit.dto.service.ContractListRequestDto;
 import com.danit.models.Contract;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface ContractFacade {
 
   ContractDto convertToDto(Contract contract);
-
-  Page<ContractDto> getAllContracts(int page, int size);
 
   List<ContractDto> saveContracts(List<Contract> contracts);
 
@@ -21,4 +21,8 @@ public interface ContractFacade {
   void deleteContractById(Long id);
 
   void deleteContracts(List<Contract> contracts);
+
+  Page<ContractDto> getAllContracts(Pageable pageable);
+
+  Page<ContractDto> getAllContracts(ContractListRequestDto contractListRequestDto, Pageable pageable);
 }
