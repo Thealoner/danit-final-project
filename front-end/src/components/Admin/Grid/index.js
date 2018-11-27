@@ -47,6 +47,18 @@ class Grid extends Component {
     ajaxRequest(entity.apiUrl + '?page=' + page + '&size=' + size + filterString)
       .then(response => {
         this.props.setTabContentUrl(entity.id);
+          
+        // Temporary fix, until all entities are returned with data and meta wrappers from server;
+        if (response.data === undefined) {
+          response.data = response;
+          response.meta = {
+            totalElements: 0,
+            currentPage: 0,
+            pagesTotal: 0,
+            elementsPerPage: 3
+          };
+        }
+        
         this.setState({
           id: entityType,
           data: response.data,
