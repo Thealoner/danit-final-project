@@ -40,6 +40,14 @@ class Filter extends Component {
     });
   }
 
+  renderFields = () => {
+    let { columns } = this.props;
+    
+    return columns.map(column => (
+      <option value={column.field}>{column.title}</option>
+    ));
+  }
+
   render () {
     return (
       <form onSubmit={this.onSubmit}>
@@ -47,13 +55,7 @@ class Filter extends Component {
           <label>Field: </label>
           <select name="field" value={this.state.field} onChange={this.handleInputChange}>
             <option></option>
-            <option value="id">id</option>
-            <option value="firstName">firstName</option>
-            <option value="gender">gender</option>
-            <option value="birthDate">birthDate</option>
-            <option value="phoneNumber">phoneNumber</option>
-            <option value="email">Date Of Birth</option>
-            <option value="active">Drives</option>
+            {this.renderFields()}
           </select>
         </span>
 
