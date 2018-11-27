@@ -111,9 +111,9 @@ class RecordEditor extends Component {
         </div> : <Form
           schema={entity.schema}
           uiSchema={entity.uiSchema}
-          formData={getRecordData}
+          formData={getRecordData()}
           autocomplete='off'
-          onChange={this.log('changed')}
+          onChange={this.changeData}
           onSubmit={this.saveData}
           onError={this.log('errors')}
         >
