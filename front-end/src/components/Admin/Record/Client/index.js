@@ -68,7 +68,7 @@ class SimpleRecord extends Component {
     let { entityType } = this.props;
     let entity = getEntityByType(entityType);
 
-    this.saveButton.setAttribute('disabled', 'true');
+    this.saveButton.disabled = true;
 
     ajaxRequest(
       entity.apiUrl,
@@ -77,24 +77,19 @@ class SimpleRecord extends Component {
     )
       .then(response => {
         console.log(response.status);
-        let success = this.success;
-        success.classList.add('visible');
-        setTimeout(function () { success.classList.remove('visible'); }, 1000);
+        this.successMessage.classList.add('visible');
+        setTimeout(() => this.successMessage.classList.remove('visible'), 1000);
       })
       .catch(error => {
         console.log(error);
-        let errorMessage = this.error;
-        errorMessage.classList.add('visible');
-        setTimeout(function () { errorMessage.classList.remove('visible'); }, 1000);
+        this.errorMessage.classList.add('visible');
+        setTimeout(() => this.errorMessage.classList.remove('visible'), 1000);
       })
       .finally(() => {
         console.log('Finally');
         // TODO:
         // hide loader
-        let saveButton = this.saveButton;
-        setTimeout(function () {
-          saveButton.removeAttribute('disabled', 'false');
-        }, 1000);
+        setTimeout(() => this.saveButton.disabled = false, 1000);
       });
   };
 
@@ -112,8 +107,8 @@ class SimpleRecord extends Component {
   };
 
   saveButton = React.createRef();
-  success = React.createRef();
-  error = React.createRef();
+  successMessage = React.createRef();
+  errorMessage = React.createRef();
 
   render () {
     let { mode, rowId } = this.props.match.params;
@@ -247,8 +242,8 @@ class SimpleRecord extends Component {
           </div>
         </div>
         <button ref={saveButton => (this.saveButton = saveButton)} onClick={this.saveData} className="record__button">Сохранить</button>
-        <span ref={success => (this.success = success)} className="record__save-message record__save-message--success">Данные успешно сохранены</span>
-        <span ref={error => (this.error = error)} className="record__save-message record__save-message--error">Ошибка при сохранении</span>
+        <span ref={success => (this.successMessage = success)} className="record__save-message record__save-message--success">Данные успешно сохранены</span>
+        <span ref={error => (this.errorMessage = error)} className="record__save-message record__save-message--error">Ошибка при сохранении</span>
       </div>
     );
   }
