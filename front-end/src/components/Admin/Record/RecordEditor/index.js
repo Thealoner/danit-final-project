@@ -28,13 +28,11 @@ class RecordEditor extends Component {
 
     ajaxRequest(entity.apiUrl + '/' + rowId)
       .then(data => {
-        setTimeout(() => {
-          this.props.setRecordData(data, false);
-          this.setState({
-            entityType: entity.id,
-            loading: false
-          });
-        }, 1000);
+        this.props.setRecordData(data, false);
+        this.setState({
+          entityType: entity.id,
+          loading: false
+        });
       });
   };
 

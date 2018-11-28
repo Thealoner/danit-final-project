@@ -48,11 +48,9 @@ class Record extends Component {
   };
 
   render () {
-    let routes = this.getRoutes();
-
     return (
       <div className="record">
-        {routes}
+        {this.getRoutes()}
       </div>
     );
   }
