@@ -40,7 +40,7 @@ class Filter extends Component {
     let { columns } = this.props;
     
     return columns.map(column => (
-      <option value={column.field}>{column.title}</option>
+      <option key={column.field} value={column.field}>{column.title}</option>
     ));
   }
 
