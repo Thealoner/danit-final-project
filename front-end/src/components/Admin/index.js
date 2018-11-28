@@ -11,24 +11,28 @@ class Admin extends Component {
     tabs: [{
       title: 'Новая вкладка',
       tabKey: '1',
-      contentUrl: '',
-      recordData: {}
+      contentUrl: ''
     }],
     activeKey: '1'
   };
 
-  setRecordData = (data) => {
+  setRecordData = (data, edited) => {
     let tabs = this.state.tabs;
 
     let currentTabIndex = tabs.findIndex((tab) => {
       return tab.tabKey === this.state.activeKey;
     });
 
-    tabs[currentTabIndex].recordData = data;
-
-    this.setState({
-      tabs: tabs
-    });
+    this.setState(prevState => ({
+      tabs: [
+        ...prevState.tabs.filter((tab, index) => index !== currentTabIndex),
+        {
+          ...prevState.tabs[currentTabIndex],
+          recordData: data,
+          recordDataEdited: edited
+        }
+      ]
+    }));
   };
 
   getRecordData = () => {
@@ -114,6 +118,12 @@ class Admin extends Component {
     return currentTab.contentUrl;
   };
 
+  getCurrentTab = () => {
+    return this.state.tabs.find((tab) => {
+      return tab.tabKey === this.state.activeKey;
+    });
+  }
+
   render () {
     return (
       <main className="configurator">
@@ -127,6 +137,7 @@ class Admin extends Component {
             onTabChange={this.onTabChange}
             remove={this.remove}
             activeKey={this.state.activeKey}
+            currentTab={this.getCurrentTab()}
             tabs={this.state.tabs}
             setTabContentUrl={this.setTabContentUrl}
             getRecordData={this.getRecordData}

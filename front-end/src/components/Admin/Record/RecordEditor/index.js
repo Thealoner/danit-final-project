@@ -29,7 +29,7 @@ class RecordEditor extends Component {
     ajaxRequest(entity.apiUrl + '/' + rowId)
       .then(data => {
         setTimeout(() => {
-          this.props.setRecordData(data);
+          this.props.setRecordData(data, false);
           this.setState({
             entityType: entity.id,
             loading: false
@@ -57,7 +57,7 @@ class RecordEditor extends Component {
         // enable 'Save' button
         // hide loader
 
-        this.props.setRecordData(json[0]);
+        this.props.setRecordData(json[0], false);
         this.setState({
           loading: false
         });
@@ -82,7 +82,8 @@ class RecordEditor extends Component {
   };
 
   changeData = (type) => {
-    this.props.setRecordData(type.formData);
+    console.log('change data');
+    this.props.setRecordData(type.formData, true);
   };
 
   log = (type) => console.log.bind(console, type);
@@ -125,6 +126,7 @@ class RecordEditor extends Component {
 
   componentDidMount () {
     let { mode } = this.props.match.params;
+
     if (mode === 'edit') {
       this.getData();
     }

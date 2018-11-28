@@ -16,15 +16,29 @@ class Record extends Component {
       if (entity.id === 'clients' || entity.id === 'contracts') { // This is just a temporary workaround condition
         route = (
           <Route key={entity.id} path={'/admin/:tabKey/' + entity.id + '/:mode/:rowId?'} render={
-            (props) => <Client setTabContentUrl={this.props.setTabContentUrl} entityType={entityType} {...props} />
+            (props) => <Client
+              setTabContentUrl={this.props.setTabContentUrl}
+              entityType={entityType}
+              currentTab={this.props.currentTab}
+              getRecordData={this.props.getRecordData}
+              setRecordData={this.props.setRecordData}
+              {...props}
+            />
           }/>
         );
       } else {
         route = (
           <Route key={entity.id} path={'/admin/:tabKey/' + entity.id + '/:mode/:rowId?'} render={
-            (props) => <div className={entity.id}><RecordEditor setTabContentUrl={this.props.setTabContentUrl}
-              entityType={entityType} getRecordData={this.props.getRecordData} setRecordData={this.props.setRecordData}
-              {...props} /></div>
+            (props) => <div className={entity.id}>
+              <RecordEditor
+                setTabContentUrl={this.props.setTabContentUrl}
+                entityType={entityType}
+                currentTab={this.props.currentTab}
+                getRecordData={this.props.getRecordData}
+                setRecordData={this.props.setRecordData}
+                {...props}
+              />
+            </div>
           }/>
         );
       }
