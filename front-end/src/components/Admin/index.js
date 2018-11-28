@@ -16,6 +16,33 @@ class Admin extends Component {
     activeKey: '1'
   };
 
+  setRecordData = (data, edited) => {
+    let tabs = this.state.tabs;
+
+    let currentTabIndex = tabs.findIndex((tab) => {
+      return tab.tabKey === this.state.activeKey;
+    });
+
+    this.setState(prevState => ({
+      tabs: [
+        ...prevState.tabs.filter((tab, index) => index !== currentTabIndex),
+        {
+          ...prevState.tabs[currentTabIndex],
+          recordData: data,
+          recordDataEdited: edited
+        }
+      ]
+    }));
+  };
+
+  getRecordData = () => {
+    let currentTab = this.state.tabs.find((tab) => {
+      return tab.tabKey === this.state.activeKey;
+    });
+
+    return currentTab.recordData;
+  };
+
   add = (e) => {
     e.stopPropagation();
     index++;
@@ -91,6 +118,12 @@ class Admin extends Component {
     return currentTab.contentUrl;
   };
 
+  getCurrentTab = () => {
+    return this.state.tabs.find((tab) => {
+      return tab.tabKey === this.state.activeKey;
+    });
+  }
+
   render () {
     return (
       <main className="configurator">
@@ -104,8 +137,11 @@ class Admin extends Component {
             onTabChange={this.onTabChange}
             remove={this.remove}
             activeKey={this.state.activeKey}
+            currentTab={this.getCurrentTab()}
             tabs={this.state.tabs}
             setTabContentUrl={this.setTabContentUrl}
+            getRecordData={this.getRecordData}
+            setRecordData={this.setRecordData}
           />
         </div>
       </main>
