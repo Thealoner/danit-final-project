@@ -12,7 +12,6 @@ class RecordEditor extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      data: {},
       authService: new AuthService(),
       loading: false
     };
@@ -29,13 +28,11 @@ class RecordEditor extends Component {
 
     ajaxRequest(entity.apiUrl + '/' + rowId)
       .then(data => {
-        setTimeout(() =>
-          this.setState({
-            entityType: entity.id,
-            data: data,
-            loading: false
-          })
-        , 1000);
+        this.props.setRecordData(data, false);
+        this.setState({
+          entityType: entity.id,
+          loading: false
+        });
       });
   };
 
@@ -45,7 +42,7 @@ class RecordEditor extends Component {
     let entity = getEntityByType(entityType);
 
     this.setState({
-      isLoading: true
+      loading: true
     });
 
     ajaxRequest(
@@ -57,10 +54,10 @@ class RecordEditor extends Component {
         // display green 'Данные сохранены' message
         // enable 'Save' button
         // hide loader
-        
+
+        this.props.setRecordData(json[0], false);
         this.setState({
-          data: json[0],
-          isLoading: false
+          loading: false
         });
 
         if (mode === 'add') {
@@ -77,22 +74,21 @@ class RecordEditor extends Component {
         // enable 'Save' button
         // hide loader
         this.setState({
-          isLoading: false
+          loading: false
         });
       });
   };
 
-  changeDataInState = (type) => {
-    this.setState({
-      data: type.formData
-    });
+  changeData = (type) => {
+    console.log('change data');
+    this.props.setRecordData(type.formData, true);
   };
 
   log = (type) => console.log.bind(console, type);
 
   render () {
     let { mode, rowId } = this.props.match.params;
-    let { entityType, setTabContentUrl } = this.props;
+    let { entityType, setTabContentUrl, getRecordData } = this.props;
 
     if (mode === 'edit') {
       setTabContentUrl(entityType + '/' + mode + '/' + rowId);
@@ -114,9 +110,9 @@ class RecordEditor extends Component {
         </div> : <Form
           schema={entity.schema}
           uiSchema={entity.uiSchema}
-          formData={this.state.data}
+          formData={getRecordData()}
           autocomplete='off'
-          onChange={this.log('changed')}
+          onChange={this.changeData}
           onSubmit={this.saveData}
           onError={this.log('errors')}
         >
@@ -128,6 +124,7 @@ class RecordEditor extends Component {
 
   componentDidMount () {
     let { mode } = this.props.match.params;
+
     if (mode === 'edit') {
       this.getData();
     }

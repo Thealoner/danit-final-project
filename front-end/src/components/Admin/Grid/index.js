@@ -84,11 +84,11 @@ class Grid extends Component {
 
   pageNext = () => {
     this.getData(this.state.meta.currentPage + 1, this.state.meta.elementsPerPage);
-  }
+  };
 
   pagePrev = () => {
     this.getData(this.state.meta.currentPage - 1, this.state.meta.elementsPerPage);
-  }
+  };
 
   applyFilter = (filterString) => {
     this.getData(0, 20, filterString);
