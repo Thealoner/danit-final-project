@@ -7,6 +7,7 @@ import { getEntityByType } from '../../GridEntities';
 import AuthService from '../../../Login/AuthService';
 import photo from './photo.jpg';
 import ajaxRequest from '../../../Helpers';
+import autoSize from 'autosize';
 
 class SimpleRecord extends Component {
   constructor (props) {
@@ -35,6 +36,7 @@ class SimpleRecord extends Component {
     let { rowId } = this.props.match.params;
     let { entityType } = this.props;
     let entity = getEntityByType(entityType);
+    let textareas = document.getElementsByTagName('textarea');
 
     if (this.state.authService.loggedIn() && !this.state.authService.isTokenExpired()) {
       ajaxRequest(entity.apiUrl + '/' + rowId)
@@ -58,6 +60,8 @@ class SimpleRecord extends Component {
             editableFields: editableData,
             readonlyFields: readonlyData
           });
+
+          autoSize(textareas);
         });
     } else {
       console.log('Not logged in or token is expired');
@@ -79,16 +83,12 @@ class SimpleRecord extends Component {
         console.log(response.status);
         this.successMessage.classList.add('visible');
         setTimeout(() => this.successMessage.classList.remove('visible'), 1000);
+        setTimeout(() => this.saveButton.disabled = false, 1000);
       })
       .catch(error => {
         console.log(error);
         this.errorMessage.classList.add('visible');
         setTimeout(() => this.errorMessage.classList.remove('visible'), 1000);
-      })
-      .finally(() => {
-        console.log('Finally');
-        // TODO:
-        // hide loader
         setTimeout(() => this.saveButton.disabled = false, 1000);
       });
   };
