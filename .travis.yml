@@ -13,7 +13,7 @@ before_script:
 - mvn clean install
 script:
 - mvn clean test jacoco:report coveralls:report
-- npm run lint --prefix front-end/
+- npm run eslint --prefix front-end/
 - npm run build --prefix front-end/
 - sonar-scanner
 addons:
