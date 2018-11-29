@@ -28,14 +28,27 @@
     & div {
       display: none;
     }
+
+    span {
+      position: absolute;
+      right: 0;
+      font-size: 15px;
+      opacity: 0;
+    }
   }
 
   .field-string input {
+    box-sizing: initial;
     width: 300px;
+    min-width: 30px;
+    text-align: center;
   }
 
   .field-number input {
+    position: relative;
+    box-sizing: initial;
     width: 100px;
+    min-width: 30px;
     text-align: center;
   }
 
