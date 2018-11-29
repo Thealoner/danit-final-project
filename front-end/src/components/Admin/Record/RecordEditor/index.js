@@ -11,7 +11,8 @@ class RecordEditor extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      authService: new AuthService()
+      authService: new AuthService(),
+      loading: false
     };
   }
 
@@ -21,12 +22,17 @@ class RecordEditor extends Component {
     let entity = getEntityByType(entityType);
     let formInputs = document.getElementsByClassName('form-control');
 
+    this.setState({
+      loading: true
+    });
+
     ajaxRequest(entity.apiUrl + '/' + rowId)
       .then(data => {
         this.props.setRecordData(data, false);
 
         this.setState({
-          entityType: entity.id
+          entityType: entity.id,
+          loading: false
         });
 
         for (let i = 0; i < formInputs.length; i++) {
@@ -40,7 +46,9 @@ class RecordEditor extends Component {
     let { entityType, setTabContentUrl } = this.props;
     let entity = getEntityByType(entityType);
 
-    this.saveButton.disabled = true;
+    this.setState({
+      loading: true
+    });
 
     ajaxRequest(
       entity.apiUrl,
@@ -51,6 +59,10 @@ class RecordEditor extends Component {
         this.props.setRecordData(json[0], false);
         this.successMessage.classList.add('visible');
         setTimeout(() => this.successMessage.classList.remove('visible'), 1000);
+
+        this.setState({
+          loading: false
+        });
 
         if (mode === 'add') {
           let editorUrl = entityType + '/edit/' + json[0].id;
@@ -64,7 +76,10 @@ class RecordEditor extends Component {
         console.log(error);
         this.errorMessage.classList.add('visible');
         setTimeout(() => this.errorMessage.classList.remove('visible'), 1000);
-        setTimeout(() => this.saveButton.disabled = false, 1000);
+
+        this.setState({
+          loading: false
+        });
       });
   };
 
@@ -75,7 +90,6 @@ class RecordEditor extends Component {
 
   log = (type) => console.log.bind(console, type);
 
-  saveButton = React.createRef();
   successMessage = React.createRef();
   errorMessage = React.createRef();
 
@@ -101,7 +115,7 @@ class RecordEditor extends Component {
           onChange={this.changeData}
           onSubmit={this.saveData}
           onError={this.log('errors')}>
-          <button ref={saveButton => (this.saveButton = saveButton)} onClick={this.saveData} className='record__button'>Сохранить</button>
+          <button disabled={this.state.loading} onClick={this.saveData} className='record__button'>Сохранить</button>
         </Form>
         <span ref={success => (this.successMessage = success)} className="record__save-message record__save-message--success">Данные успешно сохранены</span>
         <span ref={error => (this.errorMessage = error)} className="record__save-message record__save-message--error">Ошибка при сохранении</span>
