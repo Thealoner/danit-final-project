@@ -14,6 +14,7 @@ import java.util.Set;
 
 @Repository
 public interface ClientRepository extends CrudRepository<Client, Long>, JpaSpecificationExecutor<Client> {
+
   @Query("select c.id from Client c")
   Set<Long> getAllClientsId();
 
@@ -23,4 +24,5 @@ public interface ClientRepository extends CrudRepository<Client, Long>, JpaSpeci
   Page<Client> findAll(Specification<Client> spec, Pageable pageable);
 
   Page<Client> findAll(Pageable pageable);
+
 }
