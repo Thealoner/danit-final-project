@@ -13,6 +13,8 @@ spring:
     password:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+  data:
+    web.pageable.one-indexed-parameters: true
 
 #spring.jpa.show-sql: true
 #spring.jpa.properties.hibernate.format_sql: true
