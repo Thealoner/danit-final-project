@@ -23,15 +23,20 @@ class TabbedArea extends Component {
   }
 
   construct () {
-    const disabled = true;
+    // const disabled = true;
 
     return this.props.tabs.map((t) => {
       return <TabPane
         key={t.tabKey}
-        tab={<Fragment><span className="rc-tabs__title-wrapper" title={t.title}>{t.title}</span>
-          <NavLink to={'/admin/' + t.tabKey}
-            className={`rc-tabs__close-btn${(this.props.tabs.length === 1) ? ' rc-tabs__close-btn--disabled' : ''}`}
-            onClick={this.props.remove.bind(this, t.tabKey)}/></Fragment>}>
+        tab={
+          <Fragment><span className="rc-tabs__title-wrapper" title={t.title}>{t.title}</span>
+            <NavLink
+              to={'/admin/' + t.tabKey}
+              className={`rc-tabs__close-btn${(this.props.tabs.length === 1) ? ' rc-tabs__close-btn--disabled' : ''}`}
+              onClick={this.props.closeTab.bind(this, t.tabKey)}
+            />
+          </Fragment>
+        }>
         <Route exact path="/admin/:tabKey/:entityType" render={
           (props) => <Grid
             setTabContentUrl={this.props.setTabContentUrl}
@@ -51,9 +56,10 @@ class TabbedArea extends Component {
           />
         }/>
       </TabPane>;
-    }).concat([
-      <TabPane key={'__add'} disabled={disabled} tab={<span className='rc-tabs__add-btn' onClick={this.props.add}/>}/>
-    ]);
+    });
+    // .concat([
+    //   <TabPane key={'__add'} disabled={disabled} tab={<span className='rc-tabs__add-btn' onClick={this.props.addTab}/>}/>
+    // ]);
   }
 
   render () {

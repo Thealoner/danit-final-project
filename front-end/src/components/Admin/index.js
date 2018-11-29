@@ -4,16 +4,12 @@ import './index.scss';
 import TabbedArea from './TabbedArea';
 import EntitiesMenu from './EntitiesMenu';
 
-let index = 1;
+let index = 0;
 
 class Admin extends Component {
   state = {
-    tabs: [{
-      title: 'Новая вкладка',
-      tabKey: '1',
-      contentUrl: ''
-    }],
-    activeKey: '1'
+    tabs: [],
+    activeKey: '0'
   };
 
   setRecordData = (data, edited) => {
@@ -43,13 +39,13 @@ class Admin extends Component {
     return currentTab.recordData;
   };
 
-  add = (e) => {
+  addTab = (e, url = '', title = 'Новая вкладка') => {
     e.stopPropagation();
     index++;
     const newTab = {
-      title: 'Новая вкладка',
+      title: title,
       tabKey: `${index}`,
-      contentUrl: ''
+      contentUrl: url
     };
     
     this.setState({
@@ -72,13 +68,13 @@ class Admin extends Component {
     this.props.history.push('/admin/' + activeKey + '/' + clickedTab.contentUrl);
   };
 
-  remove = (tabKey, e) => {
+  closeTab = (tabKey, e) => {
     e.stopPropagation();
     if (this.state.tabs.length === 1) {
       alert('Error. You cannot delete this tab');
       return;
     }
-    let foundIndex = 0;
+    let foundIndex = -1;
     const after = this.state.tabs.filter((t, i) => {
       if (t.tabKey !== tabKey) {
         return true;
@@ -94,10 +90,13 @@ class Admin extends Component {
       }
       activeKey = after[foundIndex].tabKey;
     }
+    
+    this.props.history.push('/admin/' + activeKey + '/' + after[foundIndex].contentUrl);
     this.setState({
       tabs: after,
       activeKey
     });
+
   };
 
   setTabTitle = (title) => {
@@ -128,14 +127,18 @@ class Admin extends Component {
     return (
       <main className="configurator">
         <div className="configurator__left">
-          <EntitiesMenu activeKey={this.state.activeKey} setTabTitle={this.setTabTitle}/>
+          <EntitiesMenu
+            activeKey={this.state.activeKey}
+            addTab={this.addTab}
+            setTabTitle={this.setTabTitle}
+          />
         </div>
         <div className="configurator__right">
           <TabbedArea
             className="tabs"
-            add={this.add}
+            addTab={this.addTab}
             onTabChange={this.onTabChange}
-            remove={this.remove}
+            closeTab={this.closeTab}
             activeKey={this.state.activeKey}
             currentTab={this.getCurrentTab()}
             tabs={this.state.tabs}

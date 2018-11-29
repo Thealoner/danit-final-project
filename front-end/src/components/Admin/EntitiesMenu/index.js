@@ -6,10 +6,17 @@ function EntitiesMenu (props) {
   let links = [];
 
   GridEntities.forEach((entity) => {
+    let url = '/admin/' + props.activeKey + '/' + entity.id;
+    
     links.push(
-      <NavLink to={'/admin/' + props.activeKey + '/' + entity.id} key={entity.id} className="configurator__link"
+      <NavLink
+        to={url}
+        key={entity.id}
+        className="configurator__link"
         activeClassName="configurator__link--active"
-        onClick={() => props.setTabTitle(entity.name)}>{entity.name}</NavLink>
+        onClick={(e) => props.addTab(e, url, entity.name)}>
+        {entity.name}
+      </NavLink>
     );
   });
 
