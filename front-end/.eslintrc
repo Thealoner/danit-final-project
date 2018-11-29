@@ -4,7 +4,12 @@
     "browser": true,
     "mocha": true
   },
-  "extends": ["standard", "eslint:recommended", "plugin:react/recommended"],
+  "extends": [
+    "standard",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:import/recommended"
+  ],
   "rules": {
     "no-trailing-spaces": ["error", { "skipBlankLines": true } ],
     "no-return-assign": 0,
@@ -23,6 +28,7 @@
     "propWrapperFunctions": [ "forbidExtraProps" ]
   },
   "plugins": [
+    "import",
     "react"
   ]
 }
