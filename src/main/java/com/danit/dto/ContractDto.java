@@ -1,6 +1,5 @@
 package com.danit.dto;
 
-import com.danit.dto.service.PaketDto;
 import com.danit.utils.CustomDateDeserializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;

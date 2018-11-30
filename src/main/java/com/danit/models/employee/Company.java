@@ -22,8 +22,8 @@ public class Company {
   @Column(name = "id")
   private Long id;
 
-  @Column(name = "sname")
-  private String sname;
+  @Column(name = "short_name")
+  private String shortName;
 
   @Column(name = "name")
   private String name;

@@ -17,4 +17,6 @@ public interface TrainingTypeService {
   void deleteTrainingType(long id);
 
   boolean trainingTypeExists(long id);
+
+  int getTrainingTypeQty();
 }

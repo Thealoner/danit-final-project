@@ -7,13 +7,17 @@
   grid-row-gap: 1vh;
   height: 100vh;
 
-  &__preloader {
+  &__loader-wrapper {
     position: fixed;
     top: 0;
     left: 0;
     z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100vw;
     height: 100vh;
+    background-color: #fff;
     visibility: visible;
     opacity: 1;
     transition: all 1s;

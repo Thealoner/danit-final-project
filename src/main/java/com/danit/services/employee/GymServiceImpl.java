@@ -57,4 +57,9 @@ public class GymServiceImpl implements GymService {
     gymRepository.deleteById(id);
 
   }
+
+  @Override
+  public int getGymQty() {
+    return (int) gymRepository.count();
+  }
 }
