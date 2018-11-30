@@ -115,7 +115,7 @@ class RecordEditor extends Component {
           onChange={this.changeData}
           onSubmit={this.saveData}
           onError={this.log('errors')}>
-          <button disabled={this.state.loading} onClick={this.saveData} className='record__button'>Сохранить</button>
+          <button disabled={this.state.loading} type='submit' className='record__button'>Сохранить</button>
         </Form>
         <span ref={success => (this.successMessage = success)} className="record__save-message record__save-message--success">Данные успешно сохранены</span>
         <span ref={error => (this.errorMessage = error)} className="record__save-message record__save-message--error">Ошибка при сохранении</span>
