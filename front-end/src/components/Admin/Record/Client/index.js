@@ -7,6 +7,7 @@ import { getEntityByType } from '../../GridEntities';
 import AuthService from '../../../Login/AuthService';
 import photo from './photo.jpg';
 import ajaxRequest from '../../../Helpers';
+import autoSize from 'autosize';
 
 class SimpleRecord extends Component {
   constructor (props) {
@@ -27,7 +28,8 @@ class SimpleRecord extends Component {
       readonlyFields: {
         contracts: []
       },
-      authService: new AuthService()
+      authService: new AuthService(),
+      loading: false
     };
   }
 
@@ -35,6 +37,11 @@ class SimpleRecord extends Component {
     let { rowId } = this.props.match.params;
     let { entityType } = this.props;
     let entity = getEntityByType(entityType);
+    let textareas = document.getElementsByTagName('textarea');
+
+    this.setState({
+      loading: true
+    });
 
     if (this.state.authService.loggedIn() && !this.state.authService.isTokenExpired()) {
       ajaxRequest(entity.apiUrl + '/' + rowId)
@@ -56,8 +63,11 @@ class SimpleRecord extends Component {
           this.setState({
             entityType: entity.id,
             editableFields: editableData,
-            readonlyFields: readonlyData
+            readonlyFields: readonlyData,
+            loading: false
           });
+
+          autoSize(textareas);
         });
     } else {
       console.log('Not logged in or token is expired');
@@ -68,7 +78,9 @@ class SimpleRecord extends Component {
     let { entityType } = this.props;
     let entity = getEntityByType(entityType);
 
-    this.saveButton.disabled = true;
+    this.setState({
+      loading: true
+    });
 
     ajaxRequest(
       entity.apiUrl,
@@ -79,17 +91,19 @@ class SimpleRecord extends Component {
         console.log(response.status);
         this.successMessage.classList.add('visible');
         setTimeout(() => this.successMessage.classList.remove('visible'), 1000);
+
+        this.setState({
+          loading: false
+        });
       })
       .catch(error => {
         console.log(error);
         this.errorMessage.classList.add('visible');
         setTimeout(() => this.errorMessage.classList.remove('visible'), 1000);
-      })
-      .finally(() => {
-        console.log('Finally');
-        // TODO:
-        // hide loader
-        setTimeout(() => this.saveButton.disabled = false, 1000);
+
+        this.setState({
+          loading: false
+        });
       });
   };
 
@@ -106,7 +120,6 @@ class SimpleRecord extends Component {
     }));
   };
 
-  saveButton = React.createRef();
   successMessage = React.createRef();
   errorMessage = React.createRef();
 
@@ -241,7 +254,7 @@ class SimpleRecord extends Component {
             </div>
           </div>
         </div>
-        <button ref={saveButton => (this.saveButton = saveButton)} onClick={this.saveData} className="record__button">Сохранить</button>
+        <button disabled={this.state.loading} onClick={this.saveData} className="record__button">Сохранить</button>
         <span ref={success => (this.successMessage = success)} className="record__save-message record__save-message--success">Данные успешно сохранены</span>
         <span ref={error => (this.errorMessage = error)} className="record__save-message record__save-message--error">Ошибка при сохранении</span>
       </div>

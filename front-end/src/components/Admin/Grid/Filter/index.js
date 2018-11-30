@@ -64,7 +64,7 @@ class Filter extends Component {
         <button name="clear" onClick={this.clearFilter} type="button">Clear Filter</button>
       </form>
     );
-  };
+  }
 }
 
 export default Filter;

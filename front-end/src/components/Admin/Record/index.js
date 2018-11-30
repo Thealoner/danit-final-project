@@ -4,7 +4,6 @@ import RecordEditor from './RecordEditor';
 import Client from './Client';
 import { Route } from 'react-router-dom';
 import GridEntities from '../GridEntities';
-import autoSize from 'autosize';
 
 class Record extends Component {
   getRoutes = () => {
@@ -53,15 +52,6 @@ class Record extends Component {
         {this.getRoutes()}
       </div>
     );
-  }
-
-  componentDidMount () {
-    let textareas = document.getElementsByTagName('textarea');
-    autoSize(textareas);
-
-    for (let i = 0; i < textareas.length; i++) {
-      textareas[i].style.height = textareas[i].scrollHeight + 50 + 'px';
-    }
   }
 }
 

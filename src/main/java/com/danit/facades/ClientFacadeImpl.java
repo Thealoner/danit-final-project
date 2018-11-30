@@ -30,18 +30,6 @@ public class ClientFacadeImpl implements ClientFacade {
     return modelMapper.map(client, ClientDto.class);
   }
 
-  private List<ClientDto> convertToDtos(List<Client> clients) {
-    List<ClientDto> dtoClients = new ArrayList<>();
-    clients.forEach(client ->
-        dtoClients.add(modelMapper.map(client, ClientDto.class)));
-    return dtoClients;
-  }
-
-  private Page<ClientDto> convertToDtos(Page<Client> clients) {
-    return clients.map(this::convertToDto);
-  }
-
-
   @Override
   public Page<ClientDto> getAllClients(Pageable pageable) {
     return convertToDtos(clientService.getAllClients(pageable));
@@ -72,5 +60,15 @@ public class ClientFacadeImpl implements ClientFacade {
     clientService.deleteClients(clients);
   }
 
+  private List<ClientDto> convertToDtos(List<Client> clients) {
+    List<ClientDto> dtoClients = new ArrayList<>();
+    clients.forEach(client ->
+        dtoClients.add(modelMapper.map(client, ClientDto.class)));
+    return dtoClients;
+  }
+
+  private Page<ClientDto> convertToDtos(Page<Client> clients) {
+    return clients.map(this::convertToDto);
+  }
 
 }
