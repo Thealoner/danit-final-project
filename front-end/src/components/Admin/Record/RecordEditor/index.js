@@ -12,7 +12,9 @@ class RecordEditor extends Component {
     super(props);
     this.state = {
       authService: new AuthService(),
-      loading: false
+      loading: false,
+      messageType: '',
+      messageText: ''
     };
   }
 
@@ -41,57 +43,100 @@ class RecordEditor extends Component {
       });
   };
 
-  saveData = (form) => {
-    let { tabKey, mode } = this.props.match.params;
-    let { entityType, setTabContentUrl } = this.props;
-    let entity = getEntityByType(entityType);
+  putData = (form) => {
+    let entity = getEntityByType(this.props.entityType);
 
     this.setState({
-      loading: true
+      loading: true,
+      messageType: ''
     });
 
     ajaxRequest(
       entity.apiUrl,
-      mode === 'edit' ? 'PUT' : 'POST',
+      'PUT',
       JSON.stringify([form.formData])
     )
       .then(json => {
         this.props.setRecordData(json[0], false);
-        this.successMessage.classList.add('visible');
-        setTimeout(() => this.successMessage.classList.remove('visible'), 1000);
-
+        
         this.setState({
-          loading: false
+          loading: false,
+          messageText: 'Данные успешно сохранены',
+          messageType: 'success'
         });
-
-        if (mode === 'add') {
-          let editorUrl = entityType + '/edit/' + json[0].id;
-          setTabContentUrl(editorUrl);
-          this.props.history.push({
-            pathname: '/admin/' + tabKey + '/' + editorUrl
-          });
-        }
+        
+        this.hideMessageAfterTimeout();
       })
       .catch(error => {
         console.log(error);
-        this.errorMessage.classList.add('visible');
-        setTimeout(() => this.errorMessage.classList.remove('visible'), 1000);
 
         this.setState({
-          loading: false
+          loading: false,
+          messageText: 'Ошибка при сохранении',
+          messageType: 'error'
         });
+        
+        this.hideMessageAfterTimeout();
       });
   };
 
-  changeData = (type) => {
-    console.log('change data');
-    this.props.setRecordData(type.formData, true);
+  postData = (form) => {
+    let { tabKey } = this.props.match.params;
+    let { entityType, setTabContentUrl } = this.props;
+    let entity = getEntityByType(entityType);
+
+    this.setState({
+      loading: true,
+      messageType: ''
+    });
+
+    ajaxRequest(
+      entity.apiUrl,
+      'POST',
+      JSON.stringify([form.formData])
+    )
+      .then(json => {
+        this.props.setRecordData(json[0], false);
+        this.showMessage('success', 'Данные успешно сохранены');
+        this.hideMessageAfterTimeout();
+        
+        let editorUrl = entityType + '/edit/' + json[0].id;
+        setTabContentUrl(editorUrl);
+        this.props.history.push({
+          pathname: '/admin/' + tabKey + '/' + editorUrl
+        });
+      })
+      .catch(error => {
+        console.log(error);
+        this.showMessage('error', 'Ошибка при сохранении');
+        this.hideMessageAfterTimeout();
+      });
   };
 
-  log = (type) => console.log.bind(console, type);
+  changeData = (form) => {
+    this.props.setRecordData(form.formData, true);
+  };
 
-  successMessage = React.createRef();
-  errorMessage = React.createRef();
+  log = (form) => console.log.bind(console, form);
+
+  showMessage = (type, text) => {
+    this.setState({
+      loading: false,
+      messageText: text,
+      messageType: type
+    });
+  }
+
+  renderMessage = () => this.state.messageType !== '' ?
+      <span className={"record__save-message record__save-message--" + this.state.messageType}>{this.state.messageText}</span>
+      : '';
+
+  hideMessageAfterTimeout = (timeout = 1000) => {
+    setTimeout(() => this.setState({
+      messageText: '',
+      messageType: ''
+    }), timeout);
+  }
 
   render () {
     let { mode, rowId } = this.props.match.params;
@@ -113,12 +158,11 @@ class RecordEditor extends Component {
           formData={getRecordData()}
           autocomplete='off'
           onChange={this.changeData}
-          onSubmit={this.saveData}
+          onSubmit={mode === 'edit' ? this.putData : this.postData}
           onError={this.log('errors')}>
           <button disabled={this.state.loading} type='submit' className='record__button'>Сохранить</button>
         </Form>
-        <span ref={success => (this.successMessage = success)} className="record__save-message record__save-message--success">Данные успешно сохранены</span>
-        <span ref={error => (this.errorMessage = error)} className="record__save-message record__save-message--error">Ошибка при сохранении</span>
+        {this.renderMessage()}
       </Fragment>
     );
   }
