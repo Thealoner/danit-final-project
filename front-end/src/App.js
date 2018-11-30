@@ -9,9 +9,11 @@ import Manager from './components/Manager';
 import withAuth from './components/Login/withAuth';
 import Header from './components/Header';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle, faPlus, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faUserCircle);
+library.add(faPlus);
+library.add(faSignOutAlt);
 
 const Auth = new AuthService();
 
