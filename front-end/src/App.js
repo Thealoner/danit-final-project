@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './App.scss';
-import {Route} from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import Home from './components/Home';
 import AuthService from './components/Login/AuthService';
 import Admin from './components/Admin';
@@ -10,8 +10,10 @@ import Header from './components/Header';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPlus, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
-library.add(faPlus);
-library.add(faSignOutAlt);
+library.add(
+  faPlus,
+  faSignOutAlt
+);
 
 const Auth = new AuthService();
 
