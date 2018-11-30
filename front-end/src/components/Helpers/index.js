@@ -33,4 +33,23 @@ const ajaxRequest = (relativeUrl = '', method = 'GET', body = null) => {
   }
 };
 
+export const resizeInput = (el) => {
+  let events = 'keyup,keypress,focus,blur,change,input'.split(',');
+  let spanEl = document.createElement('span');
+  spanEl.innerHTML = el.value;
+  el.after(spanEl);
+  el.style.width = spanEl.clientWidth + 'px';
+  spanEl.remove();
+
+  events.forEach(function (item) {
+    el.addEventListener(item, function () {
+      let spanEl = document.createElement('span');
+      spanEl.innerHTML = el.value;
+      el.after(spanEl);
+      el.style.width = spanEl.clientWidth + 'px';
+      spanEl.remove();
+    });
+  });
+};
+
 export default ajaxRequest;

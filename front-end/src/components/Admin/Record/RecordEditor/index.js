@@ -5,8 +5,7 @@ import 'tabulator-tables/dist/css/tabulator.min.css';
 import { getEntityByType } from '../../GridEntities';
 import AuthService from '../../../Login/AuthService';
 import Form from 'react-jsonschema-form';
-import { FadeLoader } from 'react-spinners';
-import ajaxRequest from '../../../Helpers';
+import ajaxRequest, {resizeInput} from '../../../Helpers';
 
 class RecordEditor extends Component {
   constructor (props) {
@@ -21,6 +20,7 @@ class RecordEditor extends Component {
     let { rowId } = this.props.match.params;
     let { entityType } = this.props;
     let entity = getEntityByType(entityType);
+    let formInputs = document.getElementsByClassName('form-control');
 
     this.setState({
       loading: true
@@ -29,10 +29,15 @@ class RecordEditor extends Component {
     ajaxRequest(entity.apiUrl + '/' + rowId)
       .then(data => {
         this.props.setRecordData(data, false);
+
         this.setState({
           entityType: entity.id,
           loading: false
         });
+
+        for (let i = 0; i < formInputs.length; i++) {
+          resizeInput(formInputs[i]);
+        }
       });
   };
 
@@ -51,11 +56,10 @@ class RecordEditor extends Component {
       JSON.stringify([form.formData])
     )
       .then(json => {
-        // display green 'Данные сохранены' message
-        // enable 'Save' button
-        // hide loader
-
         this.props.setRecordData(json[0], false);
+        this.successMessage.classList.add('visible');
+        setTimeout(() => this.successMessage.classList.remove('visible'), 1000);
+
         this.setState({
           loading: false
         });
@@ -70,9 +74,9 @@ class RecordEditor extends Component {
       })
       .catch(error => {
         console.log(error);
-        // display red 'Ошибка при сохранении' message
-        // enable 'Save' button
-        // hide loader
+        this.errorMessage.classList.add('visible');
+        setTimeout(() => this.errorMessage.classList.remove('visible'), 1000);
+
         this.setState({
           loading: false
         });
@@ -85,6 +89,9 @@ class RecordEditor extends Component {
   };
 
   log = (type) => console.log.bind(console, type);
+
+  successMessage = React.createRef();
+  errorMessage = React.createRef();
 
   render () {
     let { mode, rowId } = this.props.match.params;
@@ -100,24 +107,18 @@ class RecordEditor extends Component {
 
     return (
       <Fragment>
-        {this.state.loading ? <div className="record__loader-wrapper">
-          <FadeLoader
-            sizeUnit={'px'}
-            size={50}
-            color={'#999'}
-            loading={this.state.loading}
-          />
-        </div> : <Form
+        <Form
           schema={entity.schema}
           uiSchema={entity.uiSchema}
           formData={getRecordData()}
           autocomplete='off'
           onChange={this.changeData}
           onSubmit={this.saveData}
-          onError={this.log('errors')}
-        >
-          <button className='record__button'>Сохранить</button>
-        </Form>}
+          onError={this.log('errors')}>
+          <button disabled={this.state.loading} onClick={this.saveData} className='record__button'>Сохранить</button>
+        </Form>
+        <span ref={success => (this.successMessage = success)} className="record__save-message record__save-message--success">Данные успешно сохранены</span>
+        <span ref={error => (this.errorMessage = error)} className="record__save-message record__save-message--error">Ошибка при сохранении</span>
       </Fragment>
     );
   }

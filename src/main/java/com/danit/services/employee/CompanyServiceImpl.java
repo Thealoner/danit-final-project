@@ -64,4 +64,9 @@ public class CompanyServiceImpl implements CompanyService {
   public boolean companyExists(long id) {
     return companyRepository.existsById(id);
   }
+
+  @Override
+  public int getCompanyQty() {
+    return (int) companyRepository.count();
+  }
 }

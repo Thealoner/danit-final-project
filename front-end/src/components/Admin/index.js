@@ -122,7 +122,7 @@ class Admin extends Component {
     return this.state.tabs.find((tab) => {
       return tab.tabKey === this.state.activeKey;
     });
-  }
+  };
 
   render () {
     return (

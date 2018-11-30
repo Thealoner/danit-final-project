@@ -60,7 +60,7 @@ public class PositionServiceImpl implements PositionService {
   }
 
   @Override
-  public int getPositionQuant() {
+  public int getPositionQty() {
     return (int) positionRepository.count();
   }
 }
