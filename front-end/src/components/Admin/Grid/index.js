@@ -18,8 +18,8 @@ class Grid extends Component {
       columns: [],
       meta: {
         totalElements: 0,
-        currentPage: 0,
-        pagesTotal: 0,
+        currentPage: 1,
+        pagesTotal: 1,
         elementsPerPage: 3
       }
     };
@@ -40,7 +40,7 @@ class Grid extends Component {
     });
   };
 
-  getData = (page = 0, size = 3, filterString = '') => {
+  getData = (page = 1, size = 3, filterString = '') => {
     let { entityType } = this.props.match.params;
     let entity = getEntityByType(entityType);
 
@@ -53,8 +53,8 @@ class Grid extends Component {
           response.data = response;
           response.meta = {
             totalElements: 0,
-            currentPage: 0,
-            pagesTotal: 0,
+            currentPage: 1,
+            pagesTotal: 1,
             elementsPerPage: 3
           };
         }
@@ -74,8 +74,8 @@ class Grid extends Component {
           columns: [],
           meta: {
             totalElements: 0,
-            currentPage: 0,
-            pagesTotal: 0,
+            currentPage: 1,
+            pagesTotal: 1,
             elementsPerPage: 3
           }
         });
@@ -109,7 +109,7 @@ class Grid extends Component {
         <Filter applyFilter={this.applyFilter} clearFilter={this.clearFilter} columns={this.state.columns} />
         <div ref={el => (this.el = el)} className="custom-css-class" data-custom-attr="test-custom-attribute" />
         <Link to={'/admin/' + tabKey + '/' + entityType + '/add'}>Add {entityType}</Link>
-        <button onClick={this.pagePrev} disabled={currentPage <= 0}>Previous Page</button>
+        <button onClick={this.pagePrev} disabled={currentPage <= 1}>Previous Page</button>
         <button onClick={this.pageNext} disabled={currentPage >= pagesTotal}>Next Page</button>
       </Fragment>
     );

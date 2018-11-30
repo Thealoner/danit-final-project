@@ -158,12 +158,14 @@
     transform: translate(-50%, -50%);
 
     &--success {
+      display: flex;
       color: #155724;
       background: #d4edda;
       border-color: #c3e6cb;
     }
 
     &--error {
+      display: flex;
       color: #721c24;
       background: #f8d7da;
       border-color: #f5c6cb;
