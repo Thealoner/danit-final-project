@@ -16,5 +16,5 @@ public interface PositionService {
 
   void deletePosition(long id);
 
-  int getPositionQuant();
+  int getPositionQty();
 }
