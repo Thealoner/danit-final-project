@@ -29,16 +29,14 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @RestController
 @Slf4j
 public class ClientController {
 
+  private static final String LOG_MSG_GOT_ALL_DATA = " got all clients data";
   private ClientService clientService;
   private ClientFacade clientFacade;
-
-  private String logMsg1 = " got all clients data";
 
   @Autowired
   public ClientController(ClientService clientService, ClientFacade clientFacade) {
@@ -67,11 +65,9 @@ public class ClientController {
   public ResponseEntity<Map<String, Object>> getAllClients(Pageable pageable,
                                                            Principal principal,
                                                            ClientListRequestDto clientListRequestDto) {
-    log.info(principal.getName() + logMsg1);
-    log.info("clientListRequestDto" + clientListRequestDto);
-    return ResponseEntity.ok(convertToMap(Objects.nonNull(clientListRequestDto) ?
-        clientService.getAllClients(clientListRequestDto, pageable) :
-        clientService.getAllClients(pageable)));
+    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
+    log.info("clientListRequestDto=" + clientListRequestDto);
+    return ResponseEntity.ok(convertToMap(clientService.getAllClients(clientListRequestDto, pageable)));
   }
 
   //--------dto--------
@@ -79,7 +75,7 @@ public class ClientController {
   @GetMapping(path = "/clients/short")
   public ResponseEntity<Map<String, Object>> getAllClientsShort(Pageable pageable,
                                                                 Principal principal) throws ParseException {
-    log.info(principal.getName() + logMsg1); // NOSONAR
+    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
     return ResponseEntity.ok(convertToMap(clientFacade.getAllClients(pageable))); // NOSONAR
   }
 
@@ -88,7 +84,7 @@ public class ClientController {
   @GetMapping(path = "/clients/extended")
   public ResponseEntity<Map<String, Object>> getAllClientsExtended(Pageable pageable,
                                                                    Principal principal) throws ParseException {
-    log.info(principal.getName() + logMsg1); // NOSONAR
+    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
     return ResponseEntity.ok(convertToMap(clientFacade.getAllClients(pageable))); // NOSONAR
   }
 

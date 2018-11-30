@@ -15,4 +15,6 @@ public interface EmployeeCategoryService {
   EmployeeCategory updateEmployeeCategory(EmployeeCategory employeeCategory);
 
   void deleteEmployeeCategory(long id);
+
+  int getEmployeeCategoryQty();
 }

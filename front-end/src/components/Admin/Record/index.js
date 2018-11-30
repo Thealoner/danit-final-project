@@ -1,54 +1,58 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './index.scss';
 import RecordEditor from './RecordEditor';
 import Client from './Client';
 import { Route } from 'react-router-dom';
 import GridEntities from '../GridEntities';
-import autoSize from 'autosize';
 
 class Record extends Component {
-    getRoutes = () => {
-      let {entityType} = this.props.match.params;
+  getRoutes = () => {
+    let {entityType} = this.props.match.params;
 
-      return GridEntities.map((entity) => {
-        let route;
+    return GridEntities.map((entity) => {
+      let route;
 
-        if (entity.id === 'clients' || entity.id === 'contracts') { // This is just a temporary workaround condition
-          route = (
-            <Route key={entity.id} path={ '/admin/:tabKey/' + entity.id + '/:mode/:rowId?' } render={
-              (props) => <Client setTabContentUrl={this.props.setTabContentUrl} entityType={entityType} {...props} />
-            } />
-          );
-        } else {
-          route = (
-            <Route key={entity.id} path={ '/admin/:tabKey/' + entity.id + '/:mode/:rowId?' } render={
-              (props) => <RecordEditor setTabContentUrl={this.props.setTabContentUrl} entityType={entityType} {...props} />
-            } />
-          );
-        }
-
-        return route;
-      });
-    };
-
-    render () {
-      let routes = this.getRoutes();
-
-      return (
-        <div className="record">
-          {routes}
-        </div>
-      );
-    }
-
-    componentDidMount () {
-      let textareas = document.getElementsByTagName('textarea');
-      autoSize(textareas);
-
-      for (let i = 0; i < textareas.length; i++) {
-        textareas[i].style.height = textareas[i].scrollHeight + 50 + 'px';
+      if (entity.id === 'clients' || entity.id === 'contracts') { // This is just a temporary workaround condition
+        route = (
+          <Route key={entity.id} path={'/admin/:tabKey/' + entity.id + '/:mode/:rowId?'} render={
+            (props) => <Client
+              setTabContentUrl={this.props.setTabContentUrl}
+              entityType={entityType}
+              currentTab={this.props.currentTab}
+              getRecordData={this.props.getRecordData}
+              setRecordData={this.props.setRecordData}
+              {...props}
+            />
+          }/>
+        );
+      } else {
+        route = (
+          <Route key={entity.id} path={'/admin/:tabKey/' + entity.id + '/:mode/:rowId?'} render={
+            (props) => <div className={entity.id}>
+              <RecordEditor
+                setTabContentUrl={this.props.setTabContentUrl}
+                entityType={entityType}
+                currentTab={this.props.currentTab}
+                getRecordData={this.props.getRecordData}
+                setRecordData={this.props.setRecordData}
+                {...props}
+              />
+            </div>
+          }/>
+        );
       }
-    }
+
+      return route;
+    });
+  };
+
+  render () {
+    return (
+      <div className="record">
+        {this.getRoutes()}
+      </div>
+    );
+  }
 }
 
 export default Record;

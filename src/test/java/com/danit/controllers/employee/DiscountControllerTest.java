@@ -2,8 +2,8 @@ package com.danit.controllers.employee;
 
 import com.danit.TestUtils;
 import com.danit.models.UserRolesEnum;
-import com.danit.models.employee.Position;
-import com.danit.services.employee.PositionService;
+import com.danit.models.employee.Discount;
+import com.danit.services.employee.DiscountService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
@@ -18,7 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -27,127 +27,138 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class PositionControllerTest {
+public class DiscountControllerTest {
 
   @Autowired
   TestUtils testUtils;
   @Autowired
-  PositionService positionService;
+  DiscountService discountService;
   @Autowired
   private TestRestTemplate template;
   @Autowired
   private MockMvc mockMvc;
-
-  private  static  final String url= "/position";
-
+  private static final String url = "/discount";
 
   @Test
   public void isOkWhenAdminAccess() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.ADMIN);
     mockMvc
-        .perform(get("/position").headers(header))
+        .perform(get(url).headers(header))
         .andExpect(status().isOk());
   }
 
-
   @Test
-  public void getAllPositions() throws Exception {
-    int currentQty = positionService.getPositionQty();
+  public void getAllDiscount() throws Exception {
+    int currentQty = discountService.getDiscountQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
-    this.mockMvc.perform(post("/position").headers(header)
+    this.mockMvc.perform(post(url).headers(header)
         .contentType("application/json")
         .content("{\n"
-            + "    \"name\": \"Boss\",\n"
-            + "    \"description\": \"Big BOSS\"\n"
+            + "    \"name\": \"10% discount\",\n"
+            + "    \"percent\": 10,\n"
+            + "    \"dateFrom\": \"2005-08-30\",\n"
+            + "    \"dateTo\": \"2005-08-30\"\n"
             + "  }"))
         .andExpect(status().isOk());
 
-    mockMvc.perform(get("/position").headers(header))
+    mockMvc.perform(get(url).headers(header))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
         .andExpect(jsonPath("$", hasSize(currentQty + 1)));
   }
 
   @Test
-  public void createPosition() throws Exception {
-    int currentQty = positionService.getPositionQty();
+  public void getDiscountById() {
+  }
+
+  @Test
+  public void deleteDiscount() {
+  }
+
+  @Test
+  public void createDiscount() throws Exception {
+    int currentQty = discountService.getDiscountQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
-    this.mockMvc.perform(post("/position").headers(header)
+    this.mockMvc.perform(post(url).headers(header)
         .contentType("application/json")
         .content("{\n"
-            + "    \"name\": \"Boss\",\n"
-            + "    \"description\": \"Big BOSS\"\n"
+            + "    \"name\": \"10% discount\",\n"
+            + "    \"percent\": 10,\n"
+            + "    \"dateFrom\": \"2005-08-30\",\n"
+            + "    \"dateTo\": \"2005-08-30\"\n"
             + "  }"))
         .andExpect(status().isOk());
 
-    mockMvc.perform(get("/position").headers(header))
+    mockMvc.perform(get(url).headers(header))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
         .andExpect(jsonPath("$", hasSize(currentQty + 1)));
   }
 
   @Test
-  public void updatePosition() throws Exception {
+  public void updateDiscount() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     String responseJson = this.mockMvc.perform(post(url).headers(header)
         .contentType("application/json")
         .content("{\n"
-            + "    \"name\": \"Test position\"\n"
+            + "    \"name\": \"10% discount\",\n"
+            + "    \"percent\": 10,\n"
+            + "    \"dateFrom\": \"2005-08-30\",\n"
+            + "    \"dateTo\": \"2005-08-30\"\n"
             + "  }"))
         .andExpect(status().isOk())
         .andReturn().getResponse().getContentAsString();
 
     ObjectMapper mapper = new ObjectMapper();
-    Position actualObj = mapper.readValue(responseJson, new TypeReference<Position>() {
+    Discount actualObj = mapper.readValue(responseJson, new TypeReference<Discount>() {
     });
     long createdId = actualObj.getId();
     System.out.println(actualObj);
 
-    responseJson = mockMvc.perform(put(url+"/" + createdId).headers(header)
+    responseJson = mockMvc.perform(put(url + "/" + createdId).headers(header)
         .contentType("application/json")
         .content("{\n"
             + "    \"id\": " + createdId + ", \n"
-            + "    \"name\": \"TestPosition\"\n"
+            + "    \"name\": \"Test Discount\"\n"
             + "  }"))
         .andExpect(status().isOk())
         .andReturn().getResponse().getContentAsString();
 
-    actualObj = mapper.readValue(responseJson, new TypeReference<Position>() {
+    actualObj = mapper.readValue(responseJson, new TypeReference<Discount>() {
     });
     System.out.println(actualObj);
-    assertEquals("TestPosition", actualObj.getName());
+    assertEquals("Test Discount", actualObj.getName());
 
   }
 
   @Test
-  public void deletePositionById() throws Exception {
-    int currentQty= positionService.getPositionQty();
+  public void deleteDiscountById() throws Exception {
+    int currentQty= discountService.getDiscountQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     String responseJson = this.mockMvc.perform(post(url).headers(header)
         .contentType("application/json")
         .content("{\n"
-            + "    \"name\": \"Test gym\",\n"
-            + "    \"description\": \"Test gym\"\n"
+            + "    \"name\": \"Test Company\"\n"
             + "  }"))
         .andExpect(status().isOk())
         .andReturn().getResponse().getContentAsString();
 
     ObjectMapper mapper = new ObjectMapper();
-    Position actualObj = mapper.readValue(responseJson, new TypeReference<Position>() {
+    Discount actualObj = mapper.readValue(responseJson, new TypeReference<Discount>() {
     });
     long createdId = actualObj.getId();
 
-    assertEquals(currentQty + 1, positionService.getPositionQty());
+    assertEquals(currentQty + 1, discountService.getDiscountQty());
 
     mockMvc.perform(delete(url+"/" + createdId).headers(header))
         .andExpect(status().isOk());
 
-    assertEquals(currentQty, positionService.getAllPositions().size());
+    assertEquals(currentQty, discountService.getAllDiscounts().size());
 
   }
 
   @Test
-  public void expect404WhenNoDataFoundPosition() throws Exception {
+  public void expect404WhenNoDataFoundDiscount() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     mockMvc.perform(get(url+"/0").headers(header))
@@ -155,10 +166,11 @@ public class PositionControllerTest {
   }
 
   @Test
-  public void expect500WhenDeleteNonexistentSPosition() throws Exception {
+  public void expect500WhenDeleteNonexistentDiscount() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     mockMvc.perform(delete(url+"/0").headers(header))
         .andExpect(status().is(500));
   }
+
 }

@@ -1,7 +1,5 @@
-package com.danit.dto.service;
+package com.danit.dto;
 
-import com.danit.dto.ContractDto;
-import com.danit.dto.Views;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 

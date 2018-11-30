@@ -33,7 +33,7 @@ class Login extends Component {
       });
   }
 
-  componentWillMount () {
+  UNSAFE_componentWillMount () {
     if (this.Auth.loggedIn()) {
       this.props.history.replace('/');
     }
@@ -47,7 +47,7 @@ class Login extends Component {
 
   render () {
     return (
-      <div className="login" ref="login">
+      <div className="login">
         <div className="login__dialog">
           <form action="#" className="login__form" ref={form => (this.form = form)} onSubmit={this.handleSubmit}>
             <label htmlFor="username" className="login__label">Логин</label>

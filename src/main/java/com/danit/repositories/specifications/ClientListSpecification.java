@@ -31,26 +31,26 @@ public class ClientListSpecification extends BaseSpecification<Client, ClientLis
   }
 
   private Specification<Client> firstNameContains(String firstName) {
-    return userAttributeContains("firstName", firstName);
+    return attributeContains("firstName", firstName);
   }
 
   private Specification<Client> lastNameContains(String lastName) {
-    return userAttributeContains("lastName", lastName);
+    return attributeContains("lastName", lastName);
   }
 
   private Specification<Client> genderContains(String gender) {
-    return userAttributeContains("gender", gender);
+    return attributeContains("gender", gender);
   }
 
   private Specification<Client> emailContains(String email) {
-    return userAttributeContains("email", email);
+    return attributeContains("email", email);
   }
 
   private Specification<Client> phoneNumberContains(String phoneNumber) {
-    return userAttributeContains("phoneNumber", phoneNumber);
+    return attributeContains("phoneNumber", phoneNumber);
   }
 
-  private Specification<Client> userAttributeContains(String attribute, String value) {
+  private Specification<Client> attributeContains(String attribute, String value) {
     return (root, query, cb) -> {
       if (value == null) {
         return null;
