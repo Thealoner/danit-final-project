@@ -60,9 +60,11 @@ class RecordEditor extends Component {
         this.successMessage.classList.add('visible');
         setTimeout(() => this.successMessage.classList.remove('visible'), 1000);
 
-        this.setState({
-          loading: false
-        });
+        setTimeout(() => {
+          this.setState({
+            loading: false
+          });
+        }, 1000);
 
         if (mode === 'add') {
           let editorUrl = entityType + '/edit/' + json[0].id;
@@ -77,9 +79,11 @@ class RecordEditor extends Component {
         this.errorMessage.classList.add('visible');
         setTimeout(() => this.errorMessage.classList.remove('visible'), 1000);
 
-        this.setState({
-          loading: false
-        });
+        setTimeout(() => {
+          this.setState({
+            loading: false
+          });
+        }, 1000);
       });
   };
 

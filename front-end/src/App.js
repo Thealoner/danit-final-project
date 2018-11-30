@@ -7,25 +7,25 @@ import Admin from './components/Admin';
 import Manager from './components/Manager';
 import withAuth from './components/Login/withAuth';
 import Header from './components/Header';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import {library} from '@fortawesome/fontawesome-svg-core';
+import {faUserCircle} from '@fortawesome/free-solid-svg-icons';
 
 library.add(faUserCircle);
 
 const Auth = new AuthService();
 
 class App extends Component {
-  constructor () {
+  constructor() {
     super();
     this.handleLogout = this.handleLogout.bind(this);
   }
 
-  handleLogout () {
+  handleLogout() {
     Auth.logout();
     this.props.history.replace('/login');
   }
 
-  render () {
+  render() {
     return (
       <div className="app">
         <Header handleLogout={this.handleLogout} userName={this.props.user.sub}/>

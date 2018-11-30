@@ -92,18 +92,22 @@ class SimpleRecord extends Component {
         this.successMessage.classList.add('visible');
         setTimeout(() => this.successMessage.classList.remove('visible'), 1000);
 
-        this.setState({
-          loading: false
-        });
+        setTimeout(() => {
+          this.setState({
+            loading: false
+          });
+        }, 1000);
       })
       .catch(error => {
         console.log(error);
         this.errorMessage.classList.add('visible');
         setTimeout(() => this.errorMessage.classList.remove('visible'), 1000);
 
-        this.setState({
-          loading: false
-        });
+        setTimeout(() => {
+          this.setState({
+            loading: false
+          });
+        }, 1000);
       });
   };
 
