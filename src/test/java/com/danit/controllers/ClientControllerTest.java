@@ -170,20 +170,4 @@ public class ClientControllerTest {
     assertEquals(numberOfClients, clientService.getNumberOfClients());
 
   }
-
-  @Test
-  public void whenGetOnePageWithTreeItemsRequestedReturnsOnePAgeWithThreeItems() throws Exception {
-    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
-    mockMvc.perform(get("/clients?page=1&size=3").headers(header))
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$.data[*]", hasSize(3)));
-  }
-
-  @Test
-  public void searchByNameReturnsValidResult() throws Exception {
-    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
-    mockMvc.perform(get("/clients?page=1&size=3&firstName=Camille").headers(header))
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$.data[*].firstName", hasItem("Camille")));
-  }
 }

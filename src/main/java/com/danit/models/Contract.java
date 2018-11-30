@@ -34,11 +34,11 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "clients")
+@Table(name = "contracts")
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-@ToString(exclude = {"client", "paket", "cards"})
+@ToString(exclude = {"client", "paket", "cards"}, callSuper = true)
 @Data
 public class Contract extends Auditable {
   @Id
