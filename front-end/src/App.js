@@ -1,16 +1,19 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './App.scss';
-import {Route} from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import Home from './components/Home';
 import AuthService from './components/Login/AuthService';
 import Admin from './components/Admin';
 import Manager from './components/Manager';
 import withAuth from './components/Login/withAuth';
 import Header from './components/Header';
-import {library} from '@fortawesome/fontawesome-svg-core';
-import {faUserCircle} from '@fortawesome/free-solid-svg-icons';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faPlus, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
-library.add(faUserCircle);
+library.add(
+  faPlus,
+  faSignOutAlt
+);
 
 const Auth = new AuthService();
 
