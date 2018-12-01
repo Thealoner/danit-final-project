@@ -1,34 +1,24 @@
 import React, {Component} from 'react';
 import './index.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {ButtonToolbar, Dropdown, MenuItem} from 'react-bootstrap';
+import photo from './user-avatar.png';
 
 class User extends Component {
   render () {
     const {handleLogout, userName} = this.props;
-
     return (
+
       <div className="user">
+        <img src={photo} className="user__avatar" title={userName} alt="user-avatar"/>
+        <div className="user__info">
+          <p className="user__name"> {userName}</p>
+          <p className="user__position"> Менеджер продаж</p>
+        </div>
 
-        <ButtonToolbar>
-          <Dropdown id="dropdown-custom-1" pullRight={true}>
-            <Dropdown.Toggle>
-              <FontAwesomeIcon className="user__avatar" icon="user-circle" size="2x" title={userName}/>
-            </Dropdown.Toggle>
-            <Dropdown.Menu className="super-colors" >
-              <MenuItem eventKey="1" disabled={true}>
-                {userName}
-              </MenuItem>
-              <MenuItem divider />
-              <MenuItem eventKey="2" onClick={handleLogout}>
-               Выйти
-              </MenuItem>
-            </Dropdown.Menu>
-          </Dropdown>
-
-        </ButtonToolbar>
+        <button className="user__btn-logout" onClick={handleLogout}>
+          <FontAwesomeIcon icon="sign-out-alt" size="1x"/>
+        </button>
       </div>
-
     );
   }
 }
