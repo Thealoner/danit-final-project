@@ -5,9 +5,10 @@ import com.danit.dto.ClientDto;
 import com.danit.dto.PageDataDto;
 import com.danit.dto.Views;
 import com.danit.dto.service.ClientListRequestDto;
-import com.danit.facades.ClientFacade;
 import com.danit.models.Client;
 import com.danit.services.ClientService;
+import com.danit.services.ClientServiceImpl;
+import com.danit.services.EntityService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,17 +36,22 @@ import java.util.Map;
 public class ClientController {
 
   private static final String LOG_MSG_GOT_ALL_DATA = " got all clients data";
-  private ClientService clientService;
-  private ClientFacade clientFacade;
+  private ClientServiceImpl clientService;
 
   @Autowired
-  public ClientController(ClientService clientService, ClientFacade clientFacade) {
+  public ClientController(ClientServiceImpl clientService) {
     this.clientService = clientService;
-    this.clientFacade = clientFacade;
+  }
+
+  //------not dto------
+  @GetMapping("/clients/{id}")
+  ResponseEntity<Client> getClientById(@PathVariable(name = "id") long id, Principal principal) {
+    log.info(principal.getName() + " got client data with id: " + id);
+    return ResponseEntity.ok(clientService.getEntityById(id));
   }
 
 
-  //------not dto------
+  /*//------not dto------
   @PostMapping("/clients")
   public ResponseEntity<List<Client>> createClients(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is saving new clients: " + clients);
@@ -158,6 +164,6 @@ public class ClientController {
         pageData.getNumber() + 1, pageData.getTotalPages(),
         pageData.getSize(), pageData.getNumberOfElements()));
     return outputData;
-  }
+  }*/
 
 }

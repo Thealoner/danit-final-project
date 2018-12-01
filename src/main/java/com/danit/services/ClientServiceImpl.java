@@ -18,7 +18,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Service
-public class ClientServiceImpl implements ClientService {
+public class ClientServiceImpl extends AbstractEntityService<Client, ClientListRequestDto> {
 
   private final ClientRepository clientRepository;
 
@@ -30,32 +30,26 @@ public class ClientServiceImpl implements ClientService {
     this.clientListSpecification = clientListSpecification;
   }
 
-  @Override
   public Page<Client> getAllClients(ClientListRequestDto clientListRequestDto, Pageable pageable) {
     return clientRepository.findAll(clientListSpecification.getFilter(clientListRequestDto), pageable);
   }
 
-  @Override
   public Page<Client> getAllClients(Pageable pageable) {
     return clientRepository.findAll(pageable);
   }
 
-  @Override
-  public Client getClientById(long id) {
+  /*public Client getClientById(long id) {
     return clientRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Cant find client with id=" + id));
-  }
+  }*/
 
-  @Override
   public List<Client> saveClients(List<Client> clients) {
     return (List<Client>) clientRepository.saveAll(clients);
   }
 
-  @Override
   public Client saveClient(Client client) {
     return clientRepository.save(client);
   }
 
-  @Override
   public List<Client> updateClients(List<Client> clients) {
     List<Client> savedClients = new ArrayList<>();
     clients.forEach(sourceClient -> {
@@ -73,14 +67,12 @@ public class ClientServiceImpl implements ClientService {
     return savedClients;
   }
 
-  @Override
   public void deleteClientById(long id) {
     Client client = clientRepository.findById(id).orElseThrow(() ->
         new EntityNotFoundException("Cant find client with id=" + id));
     clientRepository.delete(client);
   }
 
-  @Override
   public void deleteClients(List<Client> clients) {
     Set<Long> clientsId = clientRepository.getAllClientsId();
     clients.forEach(client -> {
@@ -91,7 +83,6 @@ public class ClientServiceImpl implements ClientService {
     clientRepository.deleteAll(clients);
   }
 
-  @Override
   public int getNumberOfClients() {
     return clientRepository.getNumberOfClients();
   }
