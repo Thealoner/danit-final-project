@@ -6,9 +6,6 @@ import com.danit.models.UserRolesEnum;
 import com.danit.services.ClientService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.jsonpath.JsonPath;
-import com.jayway.jsonpath.TypeRef;
-import org.json.JSONArray;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +18,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
-import java.util.Map;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.IsCollectionContaining.hasItem;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -169,5 +164,21 @@ public class ClientControllerTest {
 
     assertEquals(numberOfClients, clientService.getNumberOfClients());
 
+  }
+
+  @Test
+  public void whenGetOnePageWithThreeItemsRequestedReturnsOnePageWithThreeItems() throws Exception {
+    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
+    mockMvc.perform(get("/clients?page=1&size=3").headers(header))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(jsonPath("$.data[*]", hasSize(3)));
+  }
+
+  @Test
+  public void searchByNameReturnsValidResult() throws Exception {
+    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
+    mockMvc.perform(get("/clients?page=1&size=3&firstName=Camille").headers(header))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(jsonPath("$.data[*].firstName", hasItem("Camille")));
   }
 }

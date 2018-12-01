@@ -1,18 +1,13 @@
-package com.danit.facades;
+package com.danit.models;
 
 import com.danit.Application;
-import com.danit.dto.ContractDto;
-import com.danit.models.Contract;
 import com.danit.models.auditor.AuditorAwareImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import javax.persistence.EntityNotFoundException;
 
 import static org.junit.Assert.assertEquals;
 import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
@@ -23,29 +18,15 @@ import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
     classes = {AuditorAwareImpl.class}))
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = Application.class)
 @ComponentScan("com.danit")
-public class ContractFacadeTest {
-
-  @Autowired
-  ContractFacade contractFacade;
+public class ContractTest {
 
   @Test
-  public void whenConvertContractEntityToContractDto_thenCorrect() {
-
+  public void gettersAndSettersContractTest() {
     Contract contract = new Contract();
-    contract.setId(10020L);
+    contract.setPackageId(3009L);
     contract.setActive(true);
-    contract.setPackageId(1001L);
 
-    ContractDto contractDto = contractFacade.convertToDto(contract);
-
-    assertEquals(contract.getId(), contractDto.getId());
-    assertEquals(contract.getPackageId(), contractDto.getPackageId());
+    assertEquals(java.util.Optional.of(3009L), java.util.Optional.of(contract.getPackageId()));
+    assertEquals(true, contract.isActive());
   }
-
-  @Test(expected = EntityNotFoundException.class)
-  public void deleteContractByExistingId_thenEntityNotFoundExceptionWhenGetContractById() {
-    contractFacade.deleteContractById(1005L);
-    contractFacade.getContractById(1005L);
-  }
-
 }
