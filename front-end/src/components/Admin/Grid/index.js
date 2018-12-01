@@ -1,8 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import './index.scss';
 import Tabulator from 'tabulator-tables';
-import 'react-tabulator/lib/styles.css';
-import 'tabulator-tables/dist/css/tabulator.min.css';
+import './index.scss';
 import { getEntityByType } from '../GridEntities';
 import { Link } from 'react-router-dom';
 import Filter from './Filter';
@@ -92,11 +90,11 @@ class Grid extends Component {
 
   applyFilter = (filterString) => {
     this.getData(0, 20, filterString);
-  }
+  };
 
   clearFilter = () => {
     this.getData();
-  }
+  };
 
   render () {
     let { entityType, tabKey } = this.props.match.params;
