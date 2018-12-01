@@ -15,14 +15,4 @@ import java.util.Set;
 @Repository
 public interface ClientRepository extends EntityRepository<Client> {
 
-  @Query("select c.id from Client c")
-  Set<Long> getAllClientsId();
-
-  @Query("select count(*) from Client")
-  int getNumberOfClients();
-
-  Page<Client> findAll(Specification<Client> spec, Pageable pageable);
-
-  Page<Client> findAll(Pageable pageable);
-
 }

@@ -50,8 +50,18 @@ public class ClientController {
     return ResponseEntity.ok(clientService.getEntityById(id));
   }
 
+  //------not dto------
+  @GetMapping("/clients")
+  public ResponseEntity<Map<String, Object>> getAllClients(Pageable pageable,
+                                                           Principal principal,
+                                                           ClientListRequestDto clientListRequestDto) {
+    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
+    log.info("clientListRequestDto=" + clientListRequestDto);
+    return ResponseEntity.ok(convertToMap(clientService.getAllEntities(clientListRequestDto, pageable)));
+  }
 
-  /*//------not dto------
+/*
+  //------not dto------
   @PostMapping("/clients")
   public ResponseEntity<List<Client>> createClients(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is saving new clients: " + clients);
@@ -108,14 +118,14 @@ public class ClientController {
     log.info(principal.getName() + " got client data with id: " + id);
     return ResponseEntity.ok(clientFacade.getClientById(id));
   }
-
+*/
   //------not dto------
   @PutMapping("/clients")
   public ResponseEntity<List<Client>> addClients(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is updating clients data: " + clients);
-    return ResponseEntity.ok(clientService.updateClients(clients));
+    return ResponseEntity.ok(clientService.updateEntities(clients));
   }
-
+/*
 
   //--------dto--------
   @JsonView(Views.Ids.class)
@@ -124,15 +134,15 @@ public class ClientController {
     log.info(principal.getName() + " is updating clients data: " + clients);
     return ResponseEntity.ok(clientFacade.updateClients(clients));
   }
-
+*/
   //------not dto------
   @DeleteMapping("/clients/{id}")
   @ResponseStatus(HttpStatus.OK)
   public void deleteClientById(@PathVariable(name = "id") long id, Principal principal) {
     log.info(principal.getName() + " is trying to delete client with id: " + id);
-    clientService.deleteClientById(id);
+    clientService.deleteEntityById(id);
   }
-
+/*
   //--------dto--------
   @DeleteMapping("/clients/{id}/dto")
   @ResponseStatus(HttpStatus.OK)
@@ -156,7 +166,7 @@ public class ClientController {
     log.info(principal.getName() + " is trying to delete clients: " + clients);
     clientFacade.deleteClients(clients);
   }
-
+  */
   private <T> Map<String, Object> convertToMap(Page<T> pageData) {
     Map<String, Object> outputData = new HashMap<>();
     outputData.put("data", pageData.getContent());
@@ -164,6 +174,6 @@ public class ClientController {
         pageData.getNumber() + 1, pageData.getTotalPages(),
         pageData.getSize(), pageData.getNumberOfElements()));
     return outputData;
-  }*/
+  }
 
 }
