@@ -123,8 +123,8 @@ class SimpleRecord extends Component {
     });
   };
 
-  renderMessage = () => this.state.messageType !== '' ?
-    <span className={"record__save-message record__save-message--" + this.state.messageType}>{this.state.messageText}</span>
+  renderMessage = () => this.state.messageType !== ''
+    ? <span className={'record__save-message record__save-message--' + this.state.messageType}>{this.state.messageText}</span>
     : '';
 
   hideMessageAfterTimeout = (timeout = 1000) => {

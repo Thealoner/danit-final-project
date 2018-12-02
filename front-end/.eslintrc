@@ -6,17 +6,13 @@
   },
   "extends": [
     "standard",
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:import/recommended"
+    "react-app"
   ],
   "rules": {
     "no-trailing-spaces": ["error", { "skipBlankLines": true } ],
     "no-return-assign": 0,
     "eol-last": 0,
-    "semi": [1, "always"],
-    "react/prop-types": 0,
-    "no-console": 0
+    "semi": [1, "always"]
   },
   "settings": {
     "react": {
@@ -26,9 +22,5 @@
       "flowVersion": "0.86"
     },
     "propWrapperFunctions": [ "forbidExtraProps" ]
-  },
-  "plugins": [
-    "import",
-    "react"
-  ]
+  }
 }
