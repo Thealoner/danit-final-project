@@ -1,12 +1,13 @@
 package com.danit.services;
 
+import com.danit.dto.service.ContractListRequestDto;
 import com.danit.models.Contract;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface ContractService {
-
-  List<Contract> getAllContracts();
 
   Contract getContractById(long id);
 
@@ -16,4 +17,7 @@ public interface ContractService {
 
   void deleteContracts(List<Contract> contracts);
 
+  Page<Contract> getAllContracts(Pageable pageable);
+
+  Page<Contract> getAllContracts(ContractListRequestDto contractListRequestDto, Pageable pageable);
 }
