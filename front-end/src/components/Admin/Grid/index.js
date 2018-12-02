@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import './index.scss';
 import Tabulator from 'tabulator-tables';
+import './index.scss';
 import { getEntityByType } from '../GridEntities';
 import { Link } from 'react-router-dom';
 import Filter from './Filter';
@@ -90,11 +90,11 @@ class Grid extends Component {
 
   applyFilter = (filterString) => {
     this.getData(0, 20, filterString);
-  }
+  };
 
   clearFilter = () => {
     this.getData();
-  }
+  };
 
   render () {
     let { entityType, tabKey } = this.props.match.params;
@@ -106,15 +106,9 @@ class Grid extends Component {
       <Fragment>
         <Filter applyFilter={this.applyFilter} clearFilter={this.clearFilter} columns={this.state.columns} />
         <div ref={el => (this.el = el)} className="custom-css-class" data-custom-attr="test-custom-attribute" />
-        <div className="grid-footer">
-          <div className="grid-footer__left-col">
-            <Link className="grid-footer__add-btn" to={'/admin/' + tabKey + '/' + entityType + '/add'}>Добавить {getEntityByType(entityType).nameForAddBtn}</Link>
-          </div>
-          <div className="grid-footer__right-col">
-            <button className="grid-footer__prev-btn" onClick={this.pagePrev} disabled={currentPage <= 1}>Предыдущая страница</button>
-            <button className="grid-footer__next-btn" onClick={this.pageNext} disabled={currentPage >= pagesTotal}>Следующая страница</button>
-          </div>
-        </div>
+        <Link to={'/admin/' + tabKey + '/' + entityType + '/add'}>Add {entityType}</Link>
+        <button onClick={this.pagePrev} disabled={currentPage <= 1}>Previous Page</button>
+        <button onClick={this.pageNext} disabled={currentPage >= pagesTotal}>Next Page</button>
       </Fragment>
     );
   }
@@ -125,9 +119,8 @@ class Grid extends Component {
       data: this.state.data,
       columns: this.state.columns,
       rowClick: this.rowClick,
-      movableRows: false
-      // layout: 'fitDataFill',
-      // responsiveLayout:"hide"
+      movableRows: false,
+      layout: 'fitColumns'
     });
   }
 
