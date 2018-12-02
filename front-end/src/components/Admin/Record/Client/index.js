@@ -29,7 +29,9 @@ class SimpleRecord extends Component {
         contracts: []
       },
       authService: new AuthService(),
-      loading: false
+      loading: false,
+      messageType: '',
+      messageText: ''
     };
   }
 
@@ -79,7 +81,8 @@ class SimpleRecord extends Component {
     let entity = getEntityByType(entityType);
 
     this.setState({
-      loading: true
+      loading: true,
+      messageType: ''
     });
 
     ajaxRequest(
@@ -89,21 +92,13 @@ class SimpleRecord extends Component {
     )
       .then(response => {
         console.log(response.status);
-        this.successMessage.classList.add('visible');
-        setTimeout(() => this.successMessage.classList.remove('visible'), 1000);
-
-        this.setState({
-          loading: false
-        });
+        this.showMessage('success', 'Данные успешно сохранены');
+        this.hideMessageAfterTimeout();
       })
       .catch(error => {
         console.log(error);
-        this.errorMessage.classList.add('visible');
-        setTimeout(() => this.errorMessage.classList.remove('visible'), 1000);
-
-        this.setState({
-          loading: false
-        });
+        this.showMessage('error', 'Ошибка при сохранении');
+        this.hideMessageAfterTimeout();
       });
   };
 
@@ -120,8 +115,24 @@ class SimpleRecord extends Component {
     }));
   };
 
-  successMessage = React.createRef();
-  errorMessage = React.createRef();
+  showMessage = (type, text) => {
+    this.setState({
+      loading: false,
+      messageText: text,
+      messageType: type
+    });
+  };
+
+  renderMessage = () => this.state.messageType !== ''
+    ? <span className={'record__save-message record__save-message--' + this.state.messageType}>{this.state.messageText}</span>
+    : '';
+
+  hideMessageAfterTimeout = (timeout = 1000) => {
+    setTimeout(() => this.setState({
+      messageText: '',
+      messageType: ''
+    }), timeout);
+  };
 
   render () {
     let { mode, rowId } = this.props.match.params;
@@ -255,8 +266,7 @@ class SimpleRecord extends Component {
           </div>
         </div>
         <button disabled={this.state.loading} onClick={this.saveData} className="record__button">Сохранить</button>
-        <span ref={success => (this.successMessage = success)} className="record__save-message record__save-message--success">Данные успешно сохранены</span>
-        <span ref={error => (this.errorMessage = error)} className="record__save-message record__save-message--error">Ошибка при сохранении</span>
+        {this.renderMessage()}
       </div>
     );
   }
