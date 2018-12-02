@@ -1,8 +1,113 @@
+@import "../../../variables";
+
 .tabulator {
   width: 100%;
+  border-left: 1px solid $EG-white !important;
+
+  &-header {
+    height: 40px;
+    font-size: 14px;
+    line-height: normal;
+    border-bottom: 1px solid $EG-white !important;
+  }
+
+  &-headers {
+    display: flex;
+    height: 100%;
+
+  }
+  &-table {
+    width: 100%;
+  }
 
   &-tableHolder {
     overflow: hidden !important;
   }
+
+  &-sortable {
+    display: inline-flex !important;
+    flex-grow: 1;
+    justify-content: left;
+    align-items: center;
+    height: 100%;
+  }
+
+  &-cell {
+    display: inline-flex !important;
+    flex-grow: 1;
+    justify-content: left;
+    align-items: center;
+    height: 40px;
+    font-size: 13px;
+
+    &[tabulator-field="firstName"],
+    &[tabulator-field="lastName"] {
+      color: $purple-text !important;
+      font-weight: bold;
+    }
+
+    &[tabulator-field="email"] {
+      color: $medium-purple !important;
+    }
+  }
+
+  &-row {
+    display: flex;
+    background-color: $EG-white;
+
+    &-even {
+      background-color: #C4C4C4;
+      border-top: 3px solid $main-bg;
+      border-bottom: 3px solid $main-bg;
+    }
+
+    &:hover {
+      background-color: $main-bg !important;
+    }
+  }
 }
 
+.grid-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  background-color: $main-bg;
+
+  &__add-btn,
+  &__prev-btn,
+  &__next-btn {
+    height: 35px;
+    padding: 10px 0;
+    color: $EG-white;
+    background-color: $pink-bg;
+    border: 1px solid $pink-bg;
+    border-radius: 3px;
+  }
+
+  &__prev-btn,
+  &__next-btn {
+    width: 180px;
+    color: $pink-bg;
+    background-color: $EG-white;
+
+    &:hover {
+      color: $EG-white;
+      background-color: $pink-bg;
+    }
+  }
+
+  &__prev-btn {
+    margin-right: 20px;
+  }
+  &__add-btn {
+    padding: 10px 20px;
+
+    &:hover {
+      color: $pink-bg;
+      background-color: $EG-white;
+    }
+  }
+}
