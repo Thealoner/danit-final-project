@@ -51,12 +51,12 @@ class Admin extends Component {
       tabKey: `${index}`,
       contentUrl: ''
     };
-    
+
     this.setState({
       tabs: this.state.tabs.concat(newTab),
       activeKey: `${index}`
     });
-    
+
     this.props.history.push('/admin/' + index + '/');
   };
 
@@ -75,7 +75,6 @@ class Admin extends Component {
   remove = (tabKey, e) => {
     e.stopPropagation();
     if (this.state.tabs.length === 1) {
-      alert('Error. You cannot delete this tab');
       return;
     }
     let foundIndex = 0;
