@@ -18,17 +18,17 @@ library.add(
 const Auth = new AuthService();
 
 class App extends Component {
-  constructor() {
+  constructor () {
     super();
     this.handleLogout = this.handleLogout.bind(this);
   }
 
-  handleLogout() {
+  handleLogout () {
     Auth.logout();
     this.props.history.replace('/login');
   }
 
-  render() {
+  render () {
     return (
       <div className="app">
         <Header handleLogout={this.handleLogout} userName={this.props.user.sub}/>

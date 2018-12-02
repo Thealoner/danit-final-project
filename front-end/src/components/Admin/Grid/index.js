@@ -125,9 +125,9 @@ class Grid extends Component {
       data: this.state.data,
       columns: this.state.columns,
       rowClick: this.rowClick,
-      movableRows: false,
-      //layout: 'fitDataFill',
-      //responsiveLayout:"hide"
+      movableRows: false
+      // layout: 'fitDataFill',
+      // responsiveLayout:"hide"
     });
   }
 

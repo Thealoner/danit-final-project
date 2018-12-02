@@ -4,18 +4,18 @@ import Settings from '../Settings';
 import {FadeLoader} from 'react-spinners';
 import {connect} from 'react-redux';
 
-export default function withAuth(AuthComponent) {
+export default function withAuth (AuthComponent) {
   const Auth = new AuthService(Settings.apiServerUrl);
 
   class AuthWrapped extends Component {
-    constructor() {
+    constructor () {
       super();
       this.state = {
         user: null
       };
     }
 
-    UNSAFE_componentWillMount() {
+    UNSAFE_componentWillMount () {
       if (!Auth.loggedIn()) {
         this.props.history.replace('/login');
       } else {
@@ -31,16 +31,15 @@ export default function withAuth(AuthComponent) {
       }
     }
 
-    render() {
+    render () {
       if (this.state.user) {
         return (
           <Fragment>
-            {this.props.loading ?
-              <div className="app__loader-wrapper">
+            {this.props.loading
+              ? <div className="app__loader-wrapper">
                 <FadeLoader sizeUnit={'px'} size={50} color={'#000'} loading={this.props.loading}/>
               </div>
-              :
-              <AuthComponent history={this.props.history} user={this.state.user}/>}
+              : <AuthComponent history={this.props.history} user={this.state.user}/>}
           </Fragment>
         );
       } else {
