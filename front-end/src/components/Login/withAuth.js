@@ -31,16 +31,15 @@ export default function withAuth(AuthComponent) {
       }
     }
 
-    render() {
+    render () {
       if (this.state.user) {
         return (
           <Fragment>
-            {this.props.loading ?
-              <div className="app__loader-wrapper">
+            {this.props.loading
+              ? <div className="app__loader-wrapper">
                 <FadeLoader sizeUnit={'px'} size={50} color={'#000'} loading={this.props.loading}/>
               </div>
-              :
-              <AuthComponent history={this.props.history} user={this.state.user}/>}
+              : <AuthComponent history={this.props.history} user={this.state.user}/>}
           </Fragment>
         );
       } else {

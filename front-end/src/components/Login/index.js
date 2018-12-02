@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import './index.scss';
 import AuthService from './AuthService';
-import {connect} from "react-redux";
-import {LOADING_STATUS} from "../../actions/types";
+import {connect} from 'react-redux';
+import {LOADING_STATUS} from '../../actions/types';
 
 class Login extends Component {
   constructor() {
