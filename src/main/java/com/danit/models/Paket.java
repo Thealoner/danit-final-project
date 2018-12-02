@@ -82,7 +82,7 @@ public class Paket extends Auditable {
   private Boolean limitUsageByPaymentPercentage;
 
   @Column(name = "active")
-  private Boolean isActive;
+  private Boolean active;
 
   @Column(name = "purchasable")
   private Boolean purchasable;
