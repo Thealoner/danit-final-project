@@ -14,7 +14,7 @@ class Admin extends Component {
       contentUrl: ''
     }],
     activeKey: '1'
-  }
+  };
 
   setRecordData = (data, edited) => {
     let tabs = this.state.tabs;
@@ -33,7 +33,7 @@ class Admin extends Component {
         }
       ]
     }));
-  }
+  };
 
   getRecordData = () => {
     let currentTab = this.state.tabs.find((tab) => {
@@ -41,7 +41,7 @@ class Admin extends Component {
     });
 
     return currentTab.recordData;
-  }
+  };
 
   add = (e) => {
     e.stopPropagation();
@@ -58,7 +58,7 @@ class Admin extends Component {
     });
 
     this.props.history.push('/admin/' + index + '/');
-  }
+  };
 
   onTabChange = (activeKey) => {
     this.setState({
@@ -70,7 +70,7 @@ class Admin extends Component {
     });
 
     this.props.history.push('/admin/' + activeKey + '/' + clickedTab.contentUrl);
-  }
+  };
 
   remove = (tabKey, e) => {
     e.stopPropagation();
@@ -97,7 +97,7 @@ class Admin extends Component {
       tabs: after,
       activeKey
     });
-  }
+  };
 
   setTabTitle = (title) => {
     let currentTabIndex = this.state.tabs.findIndex((tab) => {
@@ -113,7 +113,7 @@ class Admin extends Component {
         }
       ]
     }));
-  }
+  };
 
   setTabContentUrl = (url) => {
     let currentTab = this.state.tabs.find((tab) => {
@@ -122,13 +122,13 @@ class Admin extends Component {
 
     currentTab.contentUrl = url;
     return currentTab.contentUrl;
-  }
+  };
 
   getCurrentTab = () => {
     return this.state.tabs.find((tab) => {
       return tab.tabKey === this.state.activeKey;
     });
-  }
+  };
 
   render () {
     return (
