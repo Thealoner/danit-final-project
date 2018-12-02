@@ -18,7 +18,8 @@ public class BeanConfiguration {
         .setAmbiguityIgnored(true);
 
     modelMapper.createTypeMap(Contract.class, ContractDto.class)
-        .addMapping(Contract::getClientId, ContractDto::setClientId);
+        .addMapping(Contract::getClientId, ContractDto::setClientId)
+        .addMapping(Contract::isActive, ContractDto::setActive);
 
     modelMapper.createTypeMap(Card.class, CardColorDto.class)
         .addMapping(Card::getContractId, CardColorDto::setContractId);
