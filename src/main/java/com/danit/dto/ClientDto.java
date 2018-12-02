@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class ClientDto {
+public class ClientDto extends BaseDto{
 
   @JsonView({Views.Extended.class, Views.Ids.class})
   private Long id;
@@ -45,4 +45,5 @@ public class ClientDto {
 
   @JsonView(Views.Extended.class)
   private List<ContractDto> contracts;
+
 }

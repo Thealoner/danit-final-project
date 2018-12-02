@@ -2,22 +2,8 @@ package com.danit.services;
 
 import com.danit.dto.service.ContractListRequestDto;
 import com.danit.models.Contract;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
-
-public interface ContractService {
-
-  Contract getContractById(long id);
-
-  List<Contract> saveContracts(List<Contract> contracts);
-
-  void deleteContractById(long id);
-
-  void deleteContracts(List<Contract> contracts);
-
-  Page<Contract> getAllContracts(Pageable pageable);
-
-  Page<Contract> getAllContracts(ContractListRequestDto contractListRequestDto, Pageable pageable);
+@Service
+public class ContractService extends AbstractEntityService<Contract, ContractListRequestDto>{
 }

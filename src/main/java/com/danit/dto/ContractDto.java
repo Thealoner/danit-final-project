@@ -14,7 +14,7 @@ import java.util.List;
 
 @Data
 @ToString(exclude = "client")
-public class ContractDto {
+public class ContractDto extends BaseDto{
 
   @JsonView(Views.Extended.class)
   private Long id;

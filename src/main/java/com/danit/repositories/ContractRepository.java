@@ -12,12 +12,5 @@ import org.springframework.stereotype.Repository;
 import java.util.Set;
 
 @Repository
-public interface ContractRepository extends CrudRepository<Contract, Long>, JpaSpecificationExecutor<Contract> {
-  @Query("select c.id from Client c")
-  Set<Long> getAllContractsId();
-
-  Page<Contract> findAll(Pageable pageable);
-
-  Page<Contract> findAll(Specification<Contract> spec, Pageable pageable);
-
+public interface ContractRepository extends EntityRepository<Contract> {
 }
