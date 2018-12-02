@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './index.scss';
 
 class Filter extends Component {
   constructor (props) {
@@ -46,22 +47,22 @@ class Filter extends Component {
 
   render () {
     return (
-      <form onSubmit={this.onSubmit}>
+      <form onSubmit={this.onSubmit} className="filter">
         <span>
-          <label>Поле: </label>
-          <select name="field" value={this.state.field} onChange={this.handleInputChange}>
+          <label className="filter__label">Поле: </label>
+          <select className="filter__selector" name="field" value={this.state.field} onChange={this.handleInputChange}>
             <option value="search">Все</option>
             {this.renderFields()}
           </select>
         </span>
 
         <span>
-          <label>Значение: </label>
-          <input name="value" type="text" placeholder="" value={this.state.value} onChange={this.handleInputChange} />
+          <label className="filter__label">Значение: </label>
+          <input className="filter__input" name="value" type="text" placeholder="" value={this.state.value} onChange={this.handleInputChange} />
         </span>
 
-        <button name="filter" type="submit">Apply Filter</button>
-        <button name="clear" onClick={this.clearFilter} type="button">Clear Filter</button>
+        <button className="filter__btn" name="filter" type="submit">Применить фильтр</button>
+        <button className="filter__btn" name="clear" onClick={this.clearFilter} type="button">Очистить фильтр</button>
       </form>
     );
   }

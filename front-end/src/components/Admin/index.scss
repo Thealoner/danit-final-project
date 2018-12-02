@@ -17,7 +17,7 @@
     display: flex;
     align-items: center;
     padding: 15px 0 15px 15px;
-    color: black;
+    color: $dark-grey;
     transition: padding .5s;
 
     &:hover {
@@ -27,7 +27,9 @@
   
   &__link--active {
     padding-left: 20px;
-    background-color: #fff;
+    color: $EG-white !important;
+    background-color: $purple-bg;
+    
   }
   
   &__right {

@@ -10,6 +10,7 @@ const GridEntities = [
   {
     id: 'pakets',
     name: 'Пакеты',
+    nameForAddBtn: 'пакет',
     sampleData: pakets,
     apiUrl: '/pakets',
     recordType: 'tabbed',
@@ -111,6 +112,7 @@ const GridEntities = [
   {
     id: 'services',
     name: 'Сервисы',
+    nameForAddBtn: 'сервис',
     sampleData: services,
     apiUrl: '/services',
     recordType: 'tabbed',
@@ -160,6 +162,7 @@ const GridEntities = [
   {
     id: 'service_categories',
     name: 'Категории сервисов',
+    nameForAddBtn: 'категорию сервиса',
     sampleData: serviceCategories,
     apiUrl: '/service_categories',
     recordType: 'simple',
@@ -182,6 +185,7 @@ const GridEntities = [
   {
     id: 'service_rules',
     name: 'Условия сервисов',
+    nameForAddBtn: 'условие сервиса',
     sampleData: serviceRules,
     apiUrl: '/service_rules',
     recordType: 'simple',
@@ -194,6 +198,7 @@ const GridEntities = [
   {
     id: 'contracts',
     name: 'Контракты',
+    nameForAddBtn: 'контракт',
     sampleData: contracts,
     apiUrl: '/contracts',
     recordType: 'tabbed',
@@ -208,6 +213,7 @@ const GridEntities = [
   {
     id: 'organizations',
     name: 'Организации',
+    nameForAddBtn: 'организацию',
     sampleData: organizations,
     apiUrl: '/organizations',
     recordType: 'simple',
@@ -220,6 +226,7 @@ const GridEntities = [
   {
     id: 'clients',
     name: 'Клиенты',
+    nameForAddBtn: 'клиента',
     sampleData: clients,
     apiUrl: '/clients',
     recordType: 'simple',
@@ -255,6 +262,7 @@ const GridEntities = [
   {
     id: 'users',
     name: 'Пользователи',
+    nameForAddBtn: 'пользователя',
     apiUrl: '/users',
     recordType: 'simple',
     columns: [
@@ -310,7 +318,8 @@ const GridEntities = [
   },
   {
     id: 'roles',
-    name: 'Роли Пользователей',
+    name: 'Роли пользователей',
+    nameForAddBtn: 'роль пользователя',
     apiUrl: '/roles',
     recordType: 'simple',
     columns: [
