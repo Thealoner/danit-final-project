@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 import java.util.List;
 
 @RestController
+@RequestMapping("/service_categories")
 public class ServiceCategoryController {
 
   private Logger logger = LoggerFactory.getLogger(ServiceCategoryController.class);
@@ -29,49 +31,49 @@ public class ServiceCategoryController {
     this.serviceCategoryService = serviceCategoryService;
   }
 
-  @PostMapping("/service_categories")
+  @PostMapping
   List<ServiceCategory> createServiceCategories(@RequestBody List<ServiceCategory> serviceCategories, Principal principal) {
     logger.info(principal.getName() + " is saving new service categories: " + serviceCategories);
     return serviceCategoryService.saveServiceCategories(serviceCategories);
   }
 
-  @GetMapping("/service_categories")
+  @GetMapping
   List<ServiceCategory> getAllServiceCategories(Principal principal) {
     logger.info(principal.getName() + " got all service categories data");
     return serviceCategoryService.getAllServiceCategories();
   }
 
-  @GetMapping("/service_categories/{id}")
+  @GetMapping("/{id}")
   ServiceCategory getServiceCategoryById(@PathVariable(name = "id") long id, Principal principal) {
     logger.info(principal.getName() + " got service categories data with id: " + id);
     return serviceCategoryService.getServiceCategoryById(id);
   }
 
-  @PutMapping("/service_categories")
+  @PutMapping
   List<ServiceCategory> updateServiceCategories(@RequestBody List<ServiceCategory> serviceCategories, Principal principal) {
     logger.info(principal.getName() + " is updating service categories data: " + serviceCategories);
     return serviceCategoryService.saveServiceCategories(serviceCategories);
   }
 
-  @PutMapping("/service_categories/{id}")
+  @PutMapping("/{id}")
   ServiceCategory updateServiceCategory(@RequestBody ServiceCategory serviceCategory, Principal principal) {
     logger.info(principal.getName() + " is updating service category data: " + serviceCategory);
     return serviceCategoryService.saveServiceCategory(serviceCategory);
   }
 
-  @DeleteMapping("/service_categories")
+  @DeleteMapping
   void deleteServiceCategories(@RequestBody List<ServiceCategory> serviceCategories, Principal principal) {
     logger.info(principal.getName() + " try to delete service category data: " + serviceCategories);
     serviceCategoryService.deleteServiceCategories(serviceCategories);
   }
 
-  @DeleteMapping("/service_categories/{id}")
+  @DeleteMapping("/{id}")
   void deleteServiceCategoryById(@PathVariable(name = "id") long id, Principal principal) {
     logger.info(principal.getName() + " try to delete service category with id: " + id);
     serviceCategoryService.deleteServiceCategoryById(id);
   }
 
-  @DeleteMapping("/service_categories/{servCatId}/services/{serviceId}")
+  @DeleteMapping("/{servCatId}/services/{serviceId}")
   void deleteServiceCategoryById(@PathVariable(name = "servCatId") long servCatId,
                                  @PathVariable(name = "serviceId") long serviceId,
                                  Principal principal) {
@@ -80,7 +82,7 @@ public class ServiceCategoryController {
     serviceCategoryService.deleteServiceCategoryService(servCatId, serviceId);
   }
 
-  @GetMapping("/service_categories/{id}/services")
+  @GetMapping("/{id}/services")
   List<Services> getAllServiceCategoryServices(@PathVariable(name = "id") long id, Principal principal) {
     logger.info(principal.getName() + " got services from service category with id: " + id);
     return serviceCategoryService.getAllServiceCategoryServices(id);
