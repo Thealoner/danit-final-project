@@ -12,7 +12,7 @@ class Record extends Component {
     return GridEntities.map((entity) => {
       let route;
 
-      if (entity.id === 'clients' || entity.id === 'contracts') { // This is just a temporary workaround condition
+      if (entity.id === 'clients') { // This is just a temporary workaround condition
         route = (
           <Route key={entity.id} path={'/admin/:tabKey/' + entity.id + '/:mode/:rowId?'} render={
             (props) => <Client

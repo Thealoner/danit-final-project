@@ -8,7 +8,7 @@
 
   &__left {
     padding-top: 10px;
-    overflow: hidden;
+    overflow: scroll;
     background-color: $main-bg;
     box-shadow: -6px 6px 6px 5px $text-config;
   }
