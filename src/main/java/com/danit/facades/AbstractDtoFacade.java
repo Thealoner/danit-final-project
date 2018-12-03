@@ -4,7 +4,6 @@ import com.danit.dto.BaseDto;
 import com.danit.models.BaseEntity;
 import com.danit.services.AbstractEntityService;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,20 +15,15 @@ import java.util.List;
 
 @Component
 public abstract class AbstractDtoFacade<D extends BaseDto, E extends BaseEntity, R> implements DtoFacade<D, E> {
-
-  private final AbstractEntityService<E, R> entityService;
-
-  private final ModelMapper modelMapper;
+  @Autowired
+  private AbstractEntityService<E, R> entityService;
 
   @Autowired
-  public AbstractDtoFacade(AbstractEntityService<E, R> entityService, ModelMapper modelMapper) {
-    this.entityService = entityService;
-    this.modelMapper = modelMapper;
-  }
+  private ModelMapper modelMapper;
 
   @Override
   public D convertToDto(E entity) {
-    return modelMapper.map(entity, new TypeToken<D>(){}.getType());
+    return modelMapper.map(entity, (Class<D>)((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
   }
 
   private List<D> convertToDtos(List<E> entities) {
