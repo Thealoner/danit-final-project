@@ -1,11 +1,10 @@
 import React, { Component, Fragment } from 'react';
-import './index.scss';
-import 'react-tabulator/lib/styles.css';
-import 'tabulator-tables/dist/css/tabulator.min.css';
 import { getEntityByType } from '../../GridEntities';
 import AuthService from '../../../Login/AuthService';
 import Form from 'react-jsonschema-form';
 import ajaxRequest, {resizeInput} from '../../../Helpers';
+
+let formInputs = document.getElementsByClassName('form-control');
 
 class RecordEditor extends Component {
   constructor (props) {
@@ -22,7 +21,6 @@ class RecordEditor extends Component {
     let { rowId } = this.props.match.params;
     let { entityType } = this.props;
     let entity = getEntityByType(entityType);
-    let formInputs = document.getElementsByClassName('form-control');
 
     this.setState({
       loading: true
@@ -160,6 +158,10 @@ class RecordEditor extends Component {
 
     if (mode === 'edit') {
       this.getData();
+    }
+
+    for (let i = 0; i < formInputs.length; i++) {
+      resizeInput(formInputs[i]);
     }
   }
 }
