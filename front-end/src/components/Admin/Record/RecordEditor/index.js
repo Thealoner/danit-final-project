@@ -58,24 +58,12 @@ class RecordEditor extends Component {
     )
       .then(json => {
         this.props.setRecordData(json[0], false);
-        
-        this.setState({
-          loading: false,
-          messageText: 'Данные успешно сохранены',
-          messageType: 'success'
-        });
-        
+        this.showMessage('success', 'Данные успешно сохранены');
         this.hideMessageAfterTimeout();
       })
       .catch(error => {
         console.log(error);
-
-        this.setState({
-          loading: false,
-          messageText: 'Ошибка при сохранении',
-          messageType: 'error'
-        });
-        
+        this.showMessage('error', 'Ошибка при сохранении');
         this.hideMessageAfterTimeout();
       });
   };
@@ -125,18 +113,18 @@ class RecordEditor extends Component {
       messageText: text,
       messageType: type
     });
-  }
+  };
 
-  renderMessage = () => this.state.messageType !== '' ?
-      <span className={"record__save-message record__save-message--" + this.state.messageType}>{this.state.messageText}</span>
-      : '';
+  renderMessage = () => this.state.messageType !== ''
+    ? <span className={'record__save-message record__save-message--' + this.state.messageType}>{this.state.messageText}</span>
+    : '';
 
   hideMessageAfterTimeout = (timeout = 1000) => {
     setTimeout(() => this.setState({
       messageText: '',
       messageType: ''
     }), timeout);
-  }
+  };
 
   render () {
     let { mode, rowId } = this.props.match.params;

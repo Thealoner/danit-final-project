@@ -1,8 +1,9 @@
-$main-bg: #e6e6e6;
+$main-bg:#F5F4F8;
 $config-bg: #e3e9f3;
 $text-config: #4c5a75;
 $pink-bg: #FF659E;
 $purple-bg: #584B82;
+$white: #ffffff;
 
 $EG-purple-dark: #5b205c;
 $EG-purple-light: #652e66;
@@ -13,3 +14,18 @@ $EG-light-grey: #f2f2f2;
 $EG-white: #ffffff;
 $pink-text: #EF6298;
 $light-text: #DFDFFF;
+$medium-purple:#7573A3;
+$purple-text:#62568F;
+$dark-grey:#444444;
+
+
+$borderColor: $main-bg;
+$rowBorderColor: $EG-white;
+$headerBackgroundColor: $main-bg;
+$headerBorderColor: $EG-white;
+$sortArrowActive: $EG-purple-dark;
+$sortArrowInactive: $purple-text;
+$headerTextColor: $dark-grey;
+
+
+@import "~tabulator-tables/src/scss/tabulator";
