@@ -1,8 +1,7 @@
 package com.danit.dto;
 
-import com.danit.utils.CustomDateAndTimeDeserialize;
+import com.danit.utils.CustomDateDeserializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
@@ -21,7 +20,7 @@ public class ContractDto {
   private Long id;
 
   @JsonView(Views.Short.class)
-  @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
+  @JsonDeserialize(using = CustomDateDeserializer.class)
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
       pattern = "yyyy-MM-dd")
@@ -29,7 +28,7 @@ public class ContractDto {
   private Date startDate;
 
   @JsonView(Views.Short.class)
-  @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
+  @JsonDeserialize(using = CustomDateDeserializer.class)
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
       pattern = "yyyy-MM-dd")
@@ -39,13 +38,13 @@ public class ContractDto {
   @JsonView(Views.Extended.class)
   private Float credit;
 
-  @JsonView(Views.Extended.class)
-  @JsonIgnore
-  private ClientDto client;
-
-  @JsonView(Views.Extended.class)
-  @JsonIgnore
-  private PaketDto paket;
+  //  @JsonView(Views.Extended.class)
+  //  @JsonIgnore
+  //  private ClientDto client;
+  //
+  //  @JsonView(Views.Extended.class)
+  //  @JsonIgnore
+  //  private PaketDto paket;
 
   @JsonView(Views.Extended.class)
   private List<CardColorDto> cards;
@@ -57,6 +56,6 @@ public class ContractDto {
   private Long clientId;
 
   @JsonView(Views.Short.class)
-  private boolean isActive;
+  private Boolean active;
 
 }

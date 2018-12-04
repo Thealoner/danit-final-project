@@ -1,16 +1,22 @@
 package com.danit.models;
 
 
-import com.danit.utils.CustomDateAndTimeDeserialize;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.danit.models.auditor.Auditable;
+import com.danit.utils.CustomDateDeserializer;
+import com.danit.utils.CustomDateSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,12 +30,15 @@ import java.util.Date;
 import java.util.List;
 
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "clients")
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 @NoArgsConstructor
-@ToString(exclude = {"contracts"})
+@ToString(exclude = {"contracts"}, callSuper = true)
+@EntityListeners(AuditingEntityListener.class)
 @Data
-public class Client {
+public class Client extends Auditable {
 
   @Id
   @SequenceGenerator(name = "clientSequence", sequenceName = "clientSequence", allocationSize = 1, initialValue = 1001)
@@ -47,10 +56,8 @@ public class Client {
   private String gender;
 
   @Column(name = "birth_date")
-  @JsonDeserialize(using = CustomDateAndTimeDeserialize.class)
-  @JsonFormat(
-      shape = JsonFormat.Shape.STRING,
-      pattern = "yyyy-MM-dd")
+  @JsonDeserialize(using = CustomDateDeserializer.class)
+  @JsonSerialize(using = CustomDateSerializer.class)
   @Temporal(TemporalType.DATE)
   private Date birthDate;
 

@@ -16,6 +16,33 @@ class Admin extends Component {
     activeKey: '1'
   };
 
+  setRecordData = (data, edited) => {
+    let tabs = this.state.tabs;
+
+    let currentTabIndex = tabs.findIndex((tab) => {
+      return tab.tabKey === this.state.activeKey;
+    });
+
+    this.setState(prevState => ({
+      tabs: [
+        ...prevState.tabs.filter((tab, index) => index !== currentTabIndex),
+        {
+          ...prevState.tabs[currentTabIndex],
+          recordData: data,
+          recordDataEdited: edited
+        }
+      ]
+    }));
+  };
+
+  getRecordData = () => {
+    let currentTab = this.state.tabs.find((tab) => {
+      return tab.tabKey === this.state.activeKey;
+    });
+
+    return currentTab.recordData;
+  };
+
   add = (e) => {
     e.stopPropagation();
     index++;
@@ -24,12 +51,12 @@ class Admin extends Component {
       tabKey: `${index}`,
       contentUrl: ''
     };
-    
+
     this.setState({
       tabs: this.state.tabs.concat(newTab),
       activeKey: `${index}`
     });
-    
+
     this.props.history.push('/admin/' + index + '/');
   };
 
@@ -48,7 +75,6 @@ class Admin extends Component {
   remove = (tabKey, e) => {
     e.stopPropagation();
     if (this.state.tabs.length === 1) {
-      alert('Error. You cannot delete this tab');
       return;
     }
     let foundIndex = 0;
@@ -74,12 +100,19 @@ class Admin extends Component {
   };
 
   setTabTitle = (title) => {
-    let currentTab = this.state.tabs.find((tab) => {
+    let currentTabIndex = this.state.tabs.findIndex((tab) => {
       return tab.tabKey === this.state.activeKey;
     });
 
-    currentTab.title = title;
-    return currentTab.title;
+    this.setState(prevState => ({
+      tabs: [
+        ...prevState.tabs.filter((tab, index) => index !== currentTabIndex),
+        {
+          ...prevState.tabs[currentTabIndex],
+          title: title
+        }
+      ]
+    }));
   };
 
   setTabContentUrl = (url) => {
@@ -89,6 +122,12 @@ class Admin extends Component {
 
     currentTab.contentUrl = url;
     return currentTab.contentUrl;
+  };
+
+  getCurrentTab = () => {
+    return this.state.tabs.find((tab) => {
+      return tab.tabKey === this.state.activeKey;
+    });
   };
 
   render () {
@@ -104,8 +143,11 @@ class Admin extends Component {
             onTabChange={this.onTabChange}
             remove={this.remove}
             activeKey={this.state.activeKey}
+            currentTab={this.getCurrentTab()}
             tabs={this.state.tabs}
             setTabContentUrl={this.setTabContentUrl}
+            getRecordData={this.getRecordData}
+            setRecordData={this.setRecordData}
           />
         </div>
       </main>

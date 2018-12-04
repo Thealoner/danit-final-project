@@ -1,104 +1,139 @@
 import React, { Component, Fragment } from 'react';
-import './index.scss';
 import Tabulator from 'tabulator-tables';
-import 'react-tabulator/lib/styles.css';
-import 'tabulator-tables/dist/css/tabulator.min.css';
+import './index.scss';
 import { getEntityByType } from '../GridEntities';
-import AuthService from '../../Login/AuthService';
-import Settings from '../../Settings';
 import { Link } from 'react-router-dom';
+import Filter from './Filter';
+import ajaxRequest from '../../Helpers';
 
 class Grid extends Component {
-    el = React.createRef();
-    id = '';
-    name = '';
-    data = [];
-    columns = [];
-    tabulator = null;
+  constructor (props) {
+    super(props);
+    this.state = {
+      id: '',
+      name: '',
+      data: [],
+      columns: [],
+      meta: {
+        totalElements: 0,
+        currentPage: 1,
+        pagesTotal: 1,
+        elementsPerPage: 5
+      }
+    };
+  }
 
-    rowClick = (e, row) => {
-      let { entityType, tabKey } = this.props.match.params;
-      this.props.setTabContentUrl(entityType + '/' + row.getData().id);
-      this.props.history.push({
-        pathname: '/admin/' + tabKey + '/' + entityType + '/edit/' + row.getData().id,
-        state: {
-          rowData: row.getData(),
-          entityType: entityType
+  tabulator = null;
+  el = React.createRef();
+
+  rowClick = (e, row) => {
+    let { entityType, tabKey } = this.props.match.params;
+    this.props.setTabContentUrl(entityType + '/' + row.getData().id);
+    this.props.history.push({
+      pathname: '/admin/' + tabKey + '/' + entityType + '/edit/' + row.getData().id,
+      state: {
+        rowData: row.getData(),
+        entityType: entityType
+      }
+    });
+  };
+
+  getData = (page = 1, size = 5, filterString = '') => {
+    let { entityType } = this.props.match.params;
+    let entity = getEntityByType(entityType);
+
+    ajaxRequest(entity.apiUrl + '?page=' + page + '&size=' + size + filterString)
+      .then(response => {
+        this.props.setTabContentUrl(entity.id);
+          
+        // Temporary fix, until all entities are returned with data and meta wrappers from server;
+        if (response.data === undefined) {
+          response.data = response;
+          response.meta = {
+            totalElements: 0,
+            currentPage: 1,
+            pagesTotal: 1,
+            elementsPerPage: 5
+          };
         }
+        
+        this.setState({
+          id: entityType,
+          data: response.data,
+          columns: entity.columns,
+          meta: response.meta
+        });
+      })
+      .catch(error => {
+        console.log('' + error);
+        this.setState({
+          id: '',
+          data: [],
+          columns: [],
+          meta: {
+            totalElements: 0,
+            currentPage: 1,
+            pagesTotal: 1,
+            elementsPerPage: 5
+          }
+        });
       });
-    };
+  };
 
-    getData = () => {
-      let { entityType } = this.props.match.params;
-      let entity = getEntityByType(entityType);
-      let authService = new AuthService();
+  pageNext = () => {
+    this.getData(this.state.meta.currentPage + 1, this.state.meta.elementsPerPage);
+  };
 
-      if (authService.loggedIn() && !authService.isTokenExpired()) {
-        const headers = {
-          'Content-Type': 'application/json'
-        };
+  pagePrev = () => {
+    this.getData(this.state.meta.currentPage - 1, this.state.meta.elementsPerPage);
+  };
 
-        let token = authService.getToken();
-        headers['Authorization'] = token;
+  applyFilter = (filterString) => {
+    this.getData(0, 20, filterString);
+  };
 
-        fetch(
-          Settings.apiServerUrl + entity.apiUrl,
-          { headers }
-        )
-          .then(authService._checkStatus)
-          .then(response => response.json())
-          .then(data => {
-            this.props.setTabContentUrl(entity.id);
-            this.id = entityType;
-            this.data = data;
-            this.columns = entity.columns;
-            this.tabulator.setColumns(this.columns);
-            this.tabulator.setData(this.data);
-          })
-          .catch(error => {
-            console.log('' + error);
-            this.id = '';
-            this.data = [];
-            this.columns = [];
-            this.tabulator.setColumns(this.columns);
-            this.tabulator.setData(this.data);
-          });
-      } else {
-        console.log('Not logged in or token is expired');
-      }
-    };
+  clearFilter = () => {
+    this.getData();
+  };
 
-    render () {
-      let { entityType, tabKey } = this.props.match.params;
-      let { setTabContentUrl } = this.props;
-      setTabContentUrl(entityType);
+  render () {
+    let { entityType, tabKey } = this.props.match.params;
+    let { setTabContentUrl } = this.props;
+    let { currentPage, pagesTotal } = this.state.meta;
+    setTabContentUrl(entityType);
 
-      return (
-        <Fragment>
-          <div ref={el => (this.el = el)} className="custom-css-class" data-custom-attr="test-custom-attribute"/>
-          <Link to={'/admin/' + tabKey + '/' + entityType + '/add'}>Add {entityType}</Link>
-        </Fragment>
-      );
-    }
+    return (
+      <Fragment>
+        <Filter applyFilter={this.applyFilter} clearFilter={this.clearFilter} columns={this.state.columns} />
+        <div ref={el => (this.el = el)} className="grid" data-custom-attr="test-custom-attribute" />
+        <Link to={'/admin/' + tabKey + '/' + entityType + '/add'}>Add {entityType}</Link>
+        <button onClick={this.pagePrev} disabled={currentPage <= 1}>Previous Page</button>
+        <button onClick={this.pageNext} disabled={currentPage >= pagesTotal}>Next Page</button>
+      </Fragment>
+    );
+  }
 
-    componentDidMount () {
+  componentDidMount () {
+    this.getData();
+    this.tabulator = new Tabulator(this.el, {
+      data: this.state.data,
+      columns: this.state.columns,
+      rowClick: this.rowClick,
+      movableRows: false,
+      layout: 'fitColumns'
+    });
+  }
+
+  componentDidUpdate () {
+    this.tabulator.setColumns(this.state.columns);
+    this.tabulator.setData(this.state.data);
+
+    let { entityType } = this.props.match.params;
+
+    if (this.state.id !== '' && entityType !== this.state.id) {
       this.getData();
-      this.tabulator = new Tabulator(this.el, {
-        data: this.data,
-        columns: this.columns,
-        rowClick: this.rowClick,
-        movableRows: true,
-        layout: 'fitColumns'
-      });
     }
-
-    componentDidUpdate () {
-      let { entityType } = this.props.match.params;
-
-      if (entityType !== this.id) {
-        this.getData();
-      }
-    }
+  }
 }
 
 export default Grid;

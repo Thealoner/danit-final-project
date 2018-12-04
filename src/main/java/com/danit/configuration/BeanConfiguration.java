@@ -2,13 +2,13 @@ package com.danit.configuration;
 
 import com.danit.dto.CardColorDto;
 import com.danit.dto.ContractDto;
-import com.danit.models.CardColor;
+import com.danit.models.Card;
 import com.danit.models.Contract;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
-@Component
+@Configuration
 public class BeanConfiguration {
 
   @Bean
@@ -18,10 +18,11 @@ public class BeanConfiguration {
         .setAmbiguityIgnored(true);
 
     modelMapper.createTypeMap(Contract.class, ContractDto.class)
-        .addMapping(Contract::getClientId, ContractDto::setClientId);
+        .addMapping(Contract::getClientId, ContractDto::setClientId)
+        .addMapping(Contract::isActive, ContractDto::setActive);
 
-    modelMapper.createTypeMap(CardColor.class, CardColorDto.class)
-        .addMapping(CardColor::getContractId, CardColorDto::setContractId);
+    modelMapper.createTypeMap(Card.class, CardColorDto.class)
+        .addMapping(Card::getContractId, CardColorDto::setContractId);
 
     return modelMapper;
   }

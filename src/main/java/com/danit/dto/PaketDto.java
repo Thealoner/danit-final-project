@@ -57,7 +57,7 @@ public class PaketDto {
   private Boolean limitUsageByPaymentPercentage;
 
   @JsonView(Views.Short.class)
-  private Boolean isActive;
+  private Boolean active;
 
   @JsonView(Views.Extended.class)
   private Boolean purchasable;
