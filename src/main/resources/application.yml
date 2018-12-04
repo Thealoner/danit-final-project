@@ -1,7 +1,7 @@
 server:
   port: 9000
     #ssl:
-    #key-store: classpath:keystore.p12
+  #key-store: classpath:keystore.p12
   #key-store-password: danit123456
   #keyStoreType: PKCS12
   #keyAlias: tomcat
