@@ -4,11 +4,11 @@
   display: grid;
   height: 100%;
   grid-template-columns: 1fr 5fr;
-  grid-column-gap: 1vh;
+  grid-column-gap: 10px;
 
   &__left {
     padding-top: 10px;
-    overflow: scroll;
+    overflow: auto;
     background-color: $main-bg;
     box-shadow: -6px 6px 6px 5px $text-config;
   }

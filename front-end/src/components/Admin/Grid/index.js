@@ -105,7 +105,7 @@ class Grid extends Component {
     return (
       <Fragment>
         <Filter applyFilter={this.applyFilter} clearFilter={this.clearFilter} columns={this.state.columns} />
-        <div ref={el => (this.el = el)} className="grid" data-custom-attr="test-custom-attribute" />
+        <div ref={el => (this.el = el)} className="tabulator" data-custom-attr="test-custom-attribute" />
         <Link to={'/admin/' + tabKey + '/' + entityType + '/add'}>Add {entityType}</Link>
         <button onClick={this.pagePrev} disabled={currentPage <= 1}>Previous Page</button>
         <button onClick={this.pageNext} disabled={currentPage >= pagesTotal}>Next Page</button>
