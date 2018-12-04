@@ -22,16 +22,17 @@ import java.util.stream.Collectors;
 @Service
 public abstract class AbstractEntityService<E extends BaseEntity, R> implements EntityService<E> {
 
+  private static final String LOG_MSG1 = "Cant find ";
+  private static final String LOG_MSG2 = " with id=";
   @Autowired
   private EntityRepository<E> entityRepository;
-
   @Autowired
   private BaseSpecification<E, R> baseSpecification;
 
   @Override
   public E getEntityById(long id) {
     return entityRepository.findById(id).orElseThrow(() ->
-        new EntityNotFoundException("Cant find " + "entity with id=" + id));
+        new EntityNotFoundException(LOG_MSG1 + getEntityName() + LOG_MSG2 + id));
   }
 
   @Override
@@ -75,7 +76,7 @@ public abstract class AbstractEntityService<E extends BaseEntity, R> implements 
           iterator.remove();
         }
       } else {
-        throw new EntityNotFoundException("Cant find " + getEntityName() + " with id=" + s.getId());
+        throw new EntityNotFoundException(LOG_MSG1 + getEntityName() + LOG_MSG2 + s.getId());
       }
     }
     return (List<E>) entityRepository.saveAll(entitiesToSave);
@@ -84,7 +85,7 @@ public abstract class AbstractEntityService<E extends BaseEntity, R> implements 
   @Override
   public void deleteEntityById(long id) {
     E e = entityRepository.findById(id).orElseThrow(() ->
-        new EntityNotFoundException("Cant find " + getEntityName() + " with id=" + id));
+        new EntityNotFoundException(LOG_MSG1 + getEntityName() + LOG_MSG2 + id));
     entityRepository.delete(e);
   }
 

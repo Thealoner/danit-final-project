@@ -1,6 +1,6 @@
 server:
   port: 9000
-    #ssl:
+  #ssl:
   #key-store: classpath:keystore.p12
   #key-store-password: danit123456
   #keyStoreType: PKCS12
