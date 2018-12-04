@@ -205,10 +205,41 @@ const GridEntities = [
     recordComponent: 'Package',
     columns: [
       { title: 'ID', field: 'id' },
-      { title: 'Пакет', field: 'paket.title' },
-      { title: 'Клиент', field: 'client.name', align: 'left' },
+      { title: 'Дата начала', field: 'startDate' },
+      { title: 'Дана окончания', field: 'endDate' },
+      { title: 'ID клиента', field: 'clientId', align: 'left' },
       { title: 'Активен', field: 'active' }
-    ]
+    ],
+    schema: {
+      type: 'object',
+      properties: {
+        packageId: {
+          title: 'ID пакета',
+          type: 'number'
+        },
+        startDate: {
+          title: 'Дата начала срока действия',
+          type: 'string'
+        },
+        endDate: {
+          title: 'Дата окончания срока действия',
+          type: 'string'
+        },
+        credit: {
+          title: 'Кредит',
+          type: 'number'
+        },
+        clientId: {
+          title: 'ID клиента',
+          type: 'number'
+        },
+        active: {
+          title: 'Активен',
+          type: 'boolean'
+        }
+      }
+    },
+    uiSchema: {}
   },
   {
     id: 'organizations',
