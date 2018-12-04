@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public abstract class AbstractDtoFacade<D extends BaseDto, E extends BaseEntity, R> implements DtoFacade<D, E> {
+public abstract class AbstractDtoFacade<D extends BaseDto, E extends BaseEntity, R> implements DtoFacade<D, E, R> {
   @Autowired
   private AbstractEntityService<E, R> entityService;
 
@@ -22,8 +22,10 @@ public abstract class AbstractDtoFacade<D extends BaseDto, E extends BaseEntity,
   private ModelMapper modelMapper;
 
   @Override
+  @SuppressWarnings("unchecked")
   public D convertToDto(E entity) {
-    return modelMapper.map(entity, (Class<D>)((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
+    return modelMapper.map(entity, (Class<D>) ((ParameterizedType) getClass()
+        .getGenericSuperclass()).getActualTypeArguments()[0]);
   }
 
   private List<D> convertToDtos(List<E> entities) {

@@ -5,5 +5,5 @@ import com.danit.models.Contract;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ContractService extends AbstractEntityService<Contract, ContractListRequestDto>{
+public class ContractService extends AbstractEntityService<Contract, ContractListRequestDto> {
 }

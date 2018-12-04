@@ -56,8 +56,8 @@ public class ClientController {
   @JsonView(Views.Short.class)
   @GetMapping(path = "/short")
   public ResponseEntity<Map<String, Object>> getAllClientsDtoShort(Pageable pageable,
-                                                                Principal principal,
-                                                                ClientListRequestDto clientListRequestDto) {
+                                                                   Principal principal,
+                                                                   ClientListRequestDto clientListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
     return ResponseEntity.ok(convertToMap(Objects.nonNull(clientListRequestDto) ?
         clientFacade.getAllEntities(clientListRequestDto, pageable) :
@@ -67,8 +67,8 @@ public class ClientController {
   @JsonView(Views.Extended.class)
   @GetMapping("/extended")
   public ResponseEntity<Map<String, Object>> getAllClientsDtoExtended(Pageable pageable,
-                                                                   Principal principal,
-                                                                   ClientListRequestDto clientListRequestDto){
+                                                                      Principal principal,
+                                                                      ClientListRequestDto clientListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
     return ResponseEntity.ok(convertToMap(Objects.nonNull(clientListRequestDto) ?
         clientFacade.getAllEntities(clientListRequestDto, pageable) :
@@ -120,26 +120,26 @@ public class ClientController {
     return ResponseEntity.ok(clientService.getEntityById(id));
   }
 
-  @PostMapping("/clients")
+  @PostMapping
   public ResponseEntity<List<Client>> createClients(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is saving new clients: " + clients);
     return ResponseEntity.status(HttpStatus.CREATED).body(clientService.saveEntities(clients));
   }
 
-  @PutMapping("/clients")
+  @PutMapping
   public ResponseEntity<List<Client>> addClients(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is updating clients data: " + clients);
     return ResponseEntity.ok(clientService.updateEntities(clients));
   }
 
-  @DeleteMapping("/clients/{id}")
+  @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   public void deleteClientById(@PathVariable(name = "id") long id, Principal principal) {
     log.info(principal.getName() + " is trying to delete client with id: " + id);
     clientService.deleteEntityById(id);
   }
 
-  @DeleteMapping("/clients")
+  @DeleteMapping
   @ResponseStatus(HttpStatus.OK)
   public void deleteClients(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is trying to delete clients: " + clients);

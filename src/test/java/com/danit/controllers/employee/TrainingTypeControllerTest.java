@@ -32,6 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class TrainingTypeControllerTest {
 
+  private static final String url = "/training_type";
   @Autowired
   TestUtils testUtils;
   @Autowired
@@ -40,9 +41,6 @@ public class TrainingTypeControllerTest {
   private TestRestTemplate template;
   @Autowired
   private MockMvc mockMvc;
-
-  private static final String url = "/training_type";
-
 
   @Test
   public void isOkWhenAdminAccess() throws Exception {
@@ -88,7 +86,7 @@ public class TrainingTypeControllerTest {
     long createdId = actualObj.getId();
     System.out.println(actualObj);
 
-    responseJson = mockMvc.perform(put(url+"/" + createdId).headers(header)
+    responseJson = mockMvc.perform(put(url + "/" + createdId).headers(header)
         .contentType("application/json")
         .content("{\n"
             + "    \"id\": " + createdId + ", \n"
@@ -125,7 +123,7 @@ public class TrainingTypeControllerTest {
   public void expect404WhenNoDataFoundTrainingType() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
-    mockMvc.perform(get(url+"/0").headers(header))
+    mockMvc.perform(get(url + "/0").headers(header))
         .andExpect(status().isNotFound());
   }
 
@@ -133,13 +131,13 @@ public class TrainingTypeControllerTest {
   public void expect500WhenDeleteNonexistentTrainingType() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
-    mockMvc.perform(delete(url+"/0").headers(header))
+    mockMvc.perform(delete(url + "/0").headers(header))
         .andExpect(status().is(500));
   }
 
   @Test
   public void deletePositionById() throws Exception {
-    int currentQty= trainingTypeService.getTrainingTypeQty();
+    int currentQty = trainingTypeService.getTrainingTypeQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     String responseJson = this.mockMvc.perform(post(url).headers(header)
@@ -158,7 +156,7 @@ public class TrainingTypeControllerTest {
 
     assertEquals(currentQty + 1, trainingTypeService.getTrainingTypeQty());
 
-    mockMvc.perform(delete(url+"/" + createdId).headers(header))
+    mockMvc.perform(delete(url + "/" + createdId).headers(header))
         .andExpect(status().isOk());
 
     assertEquals(currentQty, trainingTypeService.getAllTrainingTypes().size());

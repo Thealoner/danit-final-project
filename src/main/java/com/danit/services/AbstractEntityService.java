@@ -16,8 +16,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 
@@ -32,7 +30,8 @@ public abstract class AbstractEntityService<E extends BaseEntity, R> implements 
 
   @Override
   public E getEntityById(long id) {
-    return entityRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Cant find " +  "entity with id=" + id));
+    return entityRepository.findById(id).orElseThrow(() ->
+        new EntityNotFoundException("Cant find " + "entity with id=" + id));
   }
 
   @Override
@@ -63,14 +62,14 @@ public abstract class AbstractEntityService<E extends BaseEntity, R> implements 
 
     List<E> entitiesToSave = new ArrayList<>();
     Iterator<E> iterator = entityList.iterator();
-    while(iterator.hasNext()) {
+    while (iterator.hasNext()) {
       E s = iterator.next();
       Optional<E> result = targetEntities.stream()
           .filter(v -> v.getId().equals(s.getId()))
           .findFirst();
-      if(result.isPresent()) {
+      if (result.isPresent()) {
         E e = result.get();
-        if(ServiceUtils.updateNonEqualFields(s, e)) {
+        if (ServiceUtils.updateNonEqualFields(s, e)) {
           entitiesToSave.add(e);
         } else {
           iterator.remove();
@@ -99,8 +98,9 @@ public abstract class AbstractEntityService<E extends BaseEntity, R> implements 
     return entityRepository.count();
   }
 
+  @SuppressWarnings("unchecked")
   private String getEntityName() {
-    return ((Class<E>)((ParameterizedType) getClass().getGenericSuperclass())
+    return ((Class<E>) ((ParameterizedType) getClass().getGenericSuperclass())
         .getActualTypeArguments()[0]).getSimpleName().toLowerCase();
   }
 }
