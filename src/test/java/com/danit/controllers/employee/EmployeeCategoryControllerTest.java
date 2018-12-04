@@ -33,6 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class EmployeeCategoryControllerTest {
 
 
+  private static final String url = "/employee_category";
   @Autowired
   TestUtils testUtils;
   @Autowired
@@ -41,9 +42,6 @@ public class EmployeeCategoryControllerTest {
   private TestRestTemplate template;
   @Autowired
   private MockMvc mockMvc;
-
-  private static final String url = "/employee_category";
-
 
   @Test
   public void isOkWhenAdminAccess() throws Exception {
@@ -123,7 +121,7 @@ public class EmployeeCategoryControllerTest {
 
   @Test
   public void deleteEmployeeCategoryById() throws Exception {
-    int currentQty= employeeCategoryService.getEmployeeCategoryQty();
+    int currentQty = employeeCategoryService.getEmployeeCategoryQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     String responseJson = this.mockMvc.perform(post(url).headers(header)
@@ -141,7 +139,7 @@ public class EmployeeCategoryControllerTest {
 
     assertEquals(currentQty + 1, employeeCategoryService.getEmployeeCategoryQty());
 
-    mockMvc.perform(delete(url+"/" + createdId).headers(header))
+    mockMvc.perform(delete(url + "/" + createdId).headers(header))
         .andExpect(status().isOk());
 
     assertEquals(currentQty, employeeCategoryService.getAllEmployeeCategories().size());
@@ -152,7 +150,7 @@ public class EmployeeCategoryControllerTest {
   public void expect404WhenNoDataFoundEmployeeCategory() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
-    mockMvc.perform(get(url+"/0").headers(header))
+    mockMvc.perform(get(url + "/0").headers(header))
         .andExpect(status().isNotFound());
   }
 
@@ -160,7 +158,7 @@ public class EmployeeCategoryControllerTest {
   public void expect500WhenDeleteNonexistentEmployeeCategory() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
-    mockMvc.perform(delete(url+"/0").headers(header))
+    mockMvc.perform(delete(url + "/0").headers(header))
         .andExpect(status().is(500));
   }
 

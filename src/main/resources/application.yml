@@ -1,5 +1,10 @@
 server:
   port: 9000
+  #ssl:
+  #key-store: classpath:keystore.p12
+  #key-store-password: danit123456
+  #keyStoreType: PKCS12
+  #keyAlias: tomcat
 
 ## Hibernate Properties
 # Enabling H2 Console
@@ -7,7 +12,7 @@ server:
 spring:
   datasource:
     url: jdbc:h2:mem:testdb
-#    url: jdbc:h2:tcp://localhost/~/test
+    #    url: jdbc:h2:tcp://localhost/~/test
     driverClassName: org.h2.Driver
     username: sa
     password:
@@ -15,6 +20,7 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
   data:
     web.pageable.one-indexed-parameters: true
+
 
 #spring.jpa.show-sql: true
 #spring.jpa.properties.hibernate.format_sql: true

@@ -33,6 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class DepartmentControllerTest {
 
 
+  private static final String url = "/department";
   @Autowired
   TestUtils testUtils;
   @Autowired
@@ -41,9 +42,6 @@ public class DepartmentControllerTest {
   private TestRestTemplate template;
   @Autowired
   private MockMvc mockMvc;
-
-  private static final String url = "/department";
-
 
   @Test
   public void isOkWhenAdminAccess() throws Exception {
@@ -144,7 +142,7 @@ public class DepartmentControllerTest {
 
   @Test
   public void deleteDepartmentById() throws Exception {
-    int currentQty= departmentService.getDepartmentQty();
+    int currentQty = departmentService.getDepartmentQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     String responseJson = this.mockMvc.perform(post(url).headers(header)
@@ -168,7 +166,7 @@ public class DepartmentControllerTest {
 
     assertEquals(currentQty + 1, departmentService.getDepartmentQty());
 
-    mockMvc.perform(delete(url+"/" + createdId).headers(header))
+    mockMvc.perform(delete(url + "/" + createdId).headers(header))
         .andExpect(status().isOk());
 
     assertEquals(currentQty, departmentService.getAllDepartments().size());
@@ -179,7 +177,7 @@ public class DepartmentControllerTest {
   public void expect404WhenNoDataFoundDepartment() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
-    mockMvc.perform(get(url+"/0").headers(header))
+    mockMvc.perform(get(url + "/0").headers(header))
         .andExpect(status().isNotFound());
   }
 
@@ -187,7 +185,7 @@ public class DepartmentControllerTest {
   public void expect500WhenDeleteNonexistentDepartment() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
-    mockMvc.perform(delete(url+"/0").headers(header))
+    mockMvc.perform(delete(url + "/0").headers(header))
         .andExpect(status().is(500));
   }
 

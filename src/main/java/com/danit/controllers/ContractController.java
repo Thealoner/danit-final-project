@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
@@ -45,7 +46,7 @@ public class ContractController {
   ResponseEntity<List<ContractDto>> createContracts(@RequestBody List<Contract> contracts, Principal principal) {
     log.info(principal.getName() + " is saving new contracts: " + contracts);
     return ResponseEntity.status(HttpStatus.CREATED)
-        .body(contractFacade.saveContracts(contracts));
+        .body(contractFacade.saveEntities(contracts));
   }
 
   @JsonView(Views.Extended.class)
@@ -56,8 +57,8 @@ public class ContractController {
     log.info(principal.getName() + " got all Contract data");
     log.info("clientListRequestDto" + contractListRequestDto);
     return ResponseEntity.ok(convertToMap(Objects.nonNull(contractListRequestDto) ?
-        contractFacade.getAllContracts(contractListRequestDto, pageable) :
-        contractFacade.getAllContracts(pageable)));
+        contractFacade.getAllEntities(contractListRequestDto, pageable) :
+        contractFacade.getAllEntities(pageable)));
   }
 
   @JsonView(Views.Extended.class)
@@ -65,7 +66,7 @@ public class ContractController {
   ResponseEntity<ContractDto> getContractById(@PathVariable(name = "id") long id, Principal principal) {
     log.info(principal.getName() + " got contract data with id: " + id);
     return ResponseEntity.status(HttpStatus.OK)
-        .body(contractFacade.getContractById(id));
+        .body(contractFacade.getEntityById(id));
   }
 
   @JsonView(Views.Extended.class)
@@ -73,23 +74,23 @@ public class ContractController {
   public ResponseEntity<List<ContractDto>> updateContracts(@RequestBody List<Contract> contracts, Principal principal) {
     log.info(principal.getName() + " is updating contracts data: " + contracts);
     return ResponseEntity.status(HttpStatus.OK)
-        .body(contractFacade.saveContracts(contracts));
+        .body(contractFacade.saveEntities(contracts));
   }
 
   @JsonView(Views.Extended.class)
   @DeleteMapping("/{id}")
-  public ResponseEntity deleteContractById(@PathVariable(name = "id") long id, Principal principal) {
+  @ResponseStatus(HttpStatus.OK)
+  public void deleteContractById(@PathVariable(name = "id") long id, Principal principal) {
     log.info(principal.getName() + " try to delete contract with id: " + id);
-    contractFacade.deleteContractById(id);
-    return (ResponseEntity) ResponseEntity.status(HttpStatus.OK);
+    contractFacade.deleteEntityById(id);
   }
 
   @JsonView(Views.Extended.class)
   @DeleteMapping
-  public ResponseEntity deleteContracts(@RequestBody List<Contract> contracts, Principal principal) {
+  @ResponseStatus(HttpStatus.OK)
+  public void deleteContracts(@RequestBody List<Contract> contracts, Principal principal) {
     log.info(principal.getName() + " is trying to delete contracts: " + contracts);
-    contractFacade.deleteContracts(contracts);
-    return (ResponseEntity) ResponseEntity.status(HttpStatus.OK);
+    contractFacade.deleteEntities(contracts);
   }
 
 }

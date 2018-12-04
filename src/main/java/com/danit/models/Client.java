@@ -38,7 +38,7 @@ import java.util.List;
 @ToString(exclude = {"contracts"}, callSuper = true)
 @EntityListeners(AuditingEntityListener.class)
 @Data
-public class Client extends Auditable {
+public class Client extends Auditable implements BaseEntity {
 
   @Id
   @SequenceGenerator(name = "clientSequence", sequenceName = "clientSequence", allocationSize = 1, initialValue = 1001)
