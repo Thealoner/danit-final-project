@@ -120,7 +120,7 @@ class Grid extends Component {
       columns: this.state.columns,
       rowClick: this.rowClick,
       movableRows: false,
-      layout: 'fitColumns'
+      layout: 'fitDataFill'
     });
   }
 

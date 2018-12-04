@@ -3,16 +3,8 @@
 .record {
   color: $EG-blue-dark;
 
-  .services .control-label {
-    width: 200px;
-  }
-
-  .pakets .control-label {
-    width: 350px;
-  }
-
-  .service_categories .control-label {
-    width: 100px;
+  .control-label {
+    margin-right: 20px;
   }
 
   .field-object {
@@ -108,6 +100,19 @@
     }
   }
 
+  .radio label span {
+    display: flex;
+    align-items: center;
+  }
+
+  input[type='radio'] {
+    position: static;
+    width: 17px;
+    height: 17px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+  }
+
   textarea {
     display: block;
     width: 100%;
@@ -135,8 +140,6 @@
   }
 
   label {
-    display: block;
-    margin-bottom: 10px;
     cursor: pointer;
   }
 
@@ -200,8 +203,4 @@
       opacity: .5;
     }
   }
-}
-
-.visible {
-  display: flex;
 }
