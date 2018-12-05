@@ -3,6 +3,10 @@
 .client {
   background-color: $EG-light-grey;
 
+  label {
+    margin-bottom: 10px;
+  }
+
   &__container {
     display: grid;
     grid-template: repeat(5, auto) / 72% 27%;
@@ -74,16 +78,7 @@
     height: 100%;
   }
 
-  input[type=radio] {
-    margin: 10px 20px;
-  }
-
   input.error {
     border-color: red;
-  }
-
-  .input-feedback {
-    margin-top: .25rem;
-    color: red;
   }
 }

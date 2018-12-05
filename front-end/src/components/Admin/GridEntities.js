@@ -357,14 +357,12 @@ const GridEntities = [
       { title: 'ID', field: 'role' }
     ],
     schema: {
-      title: 'Роль Пользователя',
       type: 'object',
       properties: {
         role: {
-          title: 'Роль',
-          type: 'string',
+          title: 'Роль пользователя:',
           enum: ['ADMIN', 'USER'],
-          enumNames: ['Admin', 'User']
+          enumNames: ['Администратор', 'Пользователь']
         }
       }
     },
