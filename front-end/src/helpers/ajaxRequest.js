@@ -1,5 +1,5 @@
-import Settings from '../Settings';
-import AuthService from '../Login/AuthService';
+import Settings from '../components/Settings';
+import AuthService from '../components/Login/AuthService';
 
 const ajaxRequest = (relativeUrl = '', method = 'GET', body = null) => {
   const authService = new AuthService();

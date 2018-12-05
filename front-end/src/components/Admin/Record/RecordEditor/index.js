@@ -1,8 +1,10 @@
 import React, { Component, Fragment } from 'react';
-import { getEntityByType } from '../../GridEntities';
+import 'react-tabulator/lib/styles.css';
+import 'tabulator-tables/dist/css/tabulator.min.css';
+import { getEntityByType } from '../../gridEntities';
 import AuthService from '../../../Login/AuthService';
 import Form from 'react-jsonschema-form';
-import ajaxRequest, {resizeInput} from '../../../Helpers';
+import ajaxRequest, {resizeInput} from '../../../../helpers/ajaxRequest';
 
 const formInputs = document.getElementsByClassName('form-control');
 
