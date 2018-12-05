@@ -7,6 +7,8 @@ import AuthService from '../../../Login/AuthService';
 import Form from 'react-jsonschema-form';
 import ajaxRequest, {resizeInput} from '../../../../helpers/ajaxRequest';
 
+let formInputs = document.getElementsByClassName('form-control');
+
 class RecordEditor extends Component {
   constructor (props) {
     super(props);
@@ -22,7 +24,6 @@ class RecordEditor extends Component {
     let { rowId } = this.props.match.params;
     let { entityType } = this.props;
     let entity = getEntityByType(entityType);
-    let formInputs = document.getElementsByClassName('form-control');
 
     this.setState({
       loading: true
@@ -160,6 +161,10 @@ class RecordEditor extends Component {
 
     if (mode === 'edit') {
       this.getData();
+    }
+
+    for (let i = 0; i < formInputs.length; i++) {
+      resizeInput(formInputs[i]);
     }
   }
 }
