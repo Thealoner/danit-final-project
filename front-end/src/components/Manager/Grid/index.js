@@ -3,8 +3,8 @@ import './index.scss';
 import Tabulator from 'tabulator-tables';
 import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
-import { getEntityByType } from '../GridEntities';
-import ajaxRequest from '../../Helpers';
+import { getEntityByType } from '../gridEntities';
+import ajaxRequest from '../../../helpers/ajaxRequest';
 
 class Grid extends Component {
     el = React.createRef();

@@ -3,10 +3,10 @@ import './index.scss';
 import { ReactTabulator } from 'react-tabulator';
 import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
-import { getEntityByType } from '../../GridEntities';
+import { getEntityByType } from '../../gridEntities';
 import AuthService from '../../../Login/AuthService';
 import photo from './photo.jpg';
-import ajaxRequest from '../../../Helpers';
+import ajaxRequest from '../../../../helpers/ajaxRequest';
 import autoSize from 'autosize';
 
 class SimpleRecord extends Component {
