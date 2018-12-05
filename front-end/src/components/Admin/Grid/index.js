@@ -5,6 +5,8 @@ import { getEntityByType } from '../GridEntities';
 import { Link } from 'react-router-dom';
 import Filter from './Filter';
 import ajaxRequest from '../../Helpers';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Pagination } from 'react-bootstrap';
 
 class Grid extends Component {
   constructor (props) {
@@ -101,15 +103,29 @@ class Grid extends Component {
     let { setTabContentUrl } = this.props;
     let { currentPage, pagesTotal } = this.state.meta;
     setTabContentUrl(entityType);
-
+    let active = 1;
+    let items = [];
+    for (let number = 1; number <= pagesTotal; number++) {
+      items.push(
+        <Pagination.Item active={number === currentPage} onClick={this.getData(number, this.state.meta.elementsPerPage)}>{number}</Pagination.Item>
+      );
+    }
     return (
       <Fragment>
         <Filter applyFilter={this.applyFilter} clearFilter={this.clearFilter} columns={this.state.columns} />
         <div ref={el => (this.el = el)} className="grid" data-custom-attr="test-custom-attribute" />
-        <Link to={'/admin/' + tabKey + '/' + entityType + '/add'}>Add {entityType}</Link>
-        <button onClick={this.pagePrev} disabled={currentPage <= 1}>Previous Page</button>
-        <button onClick={this.pageNext} disabled={currentPage >= pagesTotal}>Next Page</button>
+        <div className="grid-footer">
+          <Link to={'/admin/' + tabKey + '/' + entityType + '/add'} className="grid-footer__add-btn">
+            <FontAwesomeIcon className="header__plus-icon" icon="plus" size="1x"/>
+        Новый {entityType}</Link>
+          <Pagination>
+            <Pagination.Prev onClick={this.pagePrev} disabled={currentPage <= 1} />
+            {items}
+            <Pagination.Next onClick={this.pageNext} disabled={currentPage >= pagesTotal}/>
+          </Pagination>;
+        </div>
       </Fragment>
+
     );
   }
 
