@@ -1,12 +1,12 @@
-import React, { Component, Fragment } from 'react';
+import React, {Component, Fragment} from 'react';
 import Tabulator from 'tabulator-tables';
 import './index.scss';
-import { getEntityByType } from '../GridEntities';
-import { Link } from 'react-router-dom';
+import {getEntityByType} from '../GridEntities';
+import {Link} from 'react-router-dom';
 import Filter from './Filter';
 import ajaxRequest from '../../Helpers';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Pagination } from 'react-bootstrap';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {Pagination} from 'react-bootstrap';
 
 class Grid extends Component {
   constructor (props) {
@@ -29,7 +29,7 @@ class Grid extends Component {
   el = React.createRef();
 
   rowClick = (e, row) => {
-    let { entityType, tabKey } = this.props.match.params;
+    let {entityType, tabKey} = this.props.match.params;
     this.props.setTabContentUrl(entityType + '/' + row.getData().id);
     this.props.history.push({
       pathname: '/admin/' + tabKey + '/' + entityType + '/edit/' + row.getData().id,
@@ -41,13 +41,13 @@ class Grid extends Component {
   };
 
   getData = (page = 1, size = 5, filterString = '') => {
-    let { entityType } = this.props.match.params;
+    let {entityType} = this.props.match.params;
     let entity = getEntityByType(entityType);
 
     ajaxRequest(entity.apiUrl + '?page=' + page + '&size=' + size + filterString)
       .then(response => {
         this.props.setTabContentUrl(entity.id);
-          
+
         // Temporary fix, until all entities are returned with data and meta wrappers from server;
         if (response.data === undefined) {
           response.data = response;
@@ -58,7 +58,7 @@ class Grid extends Component {
             elementsPerPage: 5
           };
         }
-        
+
         this.setState({
           id: entityType,
           data: response.data,
@@ -99,28 +99,30 @@ class Grid extends Component {
   };
 
   render () {
-    let { entityType, tabKey } = this.props.match.params;
-    let { setTabContentUrl } = this.props;
-    let { currentPage, pagesTotal } = this.state.meta;
+    let {entityType, tabKey} = this.props.match.params;
+    let {setTabContentUrl} = this.props;
+    let {currentPage, pagesTotal, elementsPerPage} = this.state.meta;
+    const paginationPages = [];
     setTabContentUrl(entityType);
-    let active = 1;
-    let items = [];
+
     for (let number = 1; number <= pagesTotal; number++) {
-      items.push(
-        <Pagination.Item active={number === currentPage} onClick={this.getData(number, this.state.meta.elementsPerPage)}>{number}</Pagination.Item>
+      paginationPages.push(
+        <Pagination.Item active={number === currentPage}
+          onClick={() => this.getData(number, elementsPerPage)}>{number}</Pagination.Item>
       );
     }
+
     return (
       <Fragment>
-        <Filter applyFilter={this.applyFilter} clearFilter={this.clearFilter} columns={this.state.columns} />
-        <div ref={el => (this.el = el)} className="grid" data-custom-attr="test-custom-attribute" />
+        <Filter applyFilter={this.applyFilter} clearFilter={this.clearFilter} columns={this.state.columns}/>
+        <div ref={el => (this.el = el)} className="grid" data-custom-attr="test-custom-attribute"/>
         <div className="grid-footer">
           <Link to={'/admin/' + tabKey + '/' + entityType + '/add'} className="grid-footer__add-btn">
             <FontAwesomeIcon className="header__plus-icon" icon="plus" size="1x"/>
-        Новый {entityType}</Link>
+            Добавить {getEntityByType(entityType).nameForAddBtn}</Link>
           <Pagination>
-            <Pagination.Prev onClick={this.pagePrev} disabled={currentPage <= 1} />
-            {items}
+            <Pagination.Prev onClick={this.pagePrev} disabled={currentPage <= 1}/>
+            {paginationPages}
             <Pagination.Next onClick={this.pageNext} disabled={currentPage >= pagesTotal}/>
           </Pagination>;
         </div>
@@ -136,7 +138,7 @@ class Grid extends Component {
       columns: this.state.columns,
       rowClick: this.rowClick,
       movableRows: false,
-      layout: 'fitColumns'
+      layout: 'fitDataFill'
     });
   }
 
@@ -144,7 +146,7 @@ class Grid extends Component {
     this.tabulator.setColumns(this.state.columns);
     this.tabulator.setData(this.state.data);
 
-    let { entityType } = this.props.match.params;
+    let {entityType} = this.props.match.params;
 
     if (this.state.id !== '' && entityType !== this.state.id) {
       this.getData();
