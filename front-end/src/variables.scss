@@ -18,6 +18,7 @@ $medium-purple:#7573A3;
 $purple-text:#62568F;
 $dark-grey:#444444;
 
+// override tabulator variables:
 
 $borderColor: $main-bg;
 $rowBorderColor: $EG-white;
@@ -26,6 +27,5 @@ $headerBorderColor: $EG-white;
 $sortArrowActive: $EG-purple-dark;
 $sortArrowInactive: $purple-text;
 $headerTextColor: $dark-grey;
-
 
 @import "~tabulator-tables/src/scss/tabulator";
