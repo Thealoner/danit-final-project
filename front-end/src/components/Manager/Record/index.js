@@ -3,13 +3,13 @@ import './index.scss';
 import RecordTabs from './RecordTabs';
 import SimpleRecord from './SimpleRecord';
 import { Route } from 'react-router-dom';
-import GridEntities from '../GridEntities';
+import gridEntities from '../gridEntities';
 
 class Record extends Component {
   getRoutes = () => {
     const { entityType } = this.props.match.params;
 
-    return GridEntities.map((entity) => {
+    return gridEntities.map((entity) => {
       let route;
 
       if (entity.recordType === 'simple') {

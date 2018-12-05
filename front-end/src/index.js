@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import ReactDOM from 'react-dom';
+import './reset.scss';
 import './index.scss';
-import './Reset.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';

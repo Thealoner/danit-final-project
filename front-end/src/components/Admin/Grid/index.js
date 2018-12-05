@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import Tabulator from 'tabulator-tables';
 import './index.scss';
-import { getEntityByType } from '../GridEntities';
+import { getEntityByType } from '../gridEntities';
 import { Link } from 'react-router-dom';
 import Filter from './Filter';
-import ajaxRequest from '../../Helpers';
+import ajaxRequest from '../../../helpers/ajaxRequest';
 
 class Grid extends Component {
   constructor (props) {
