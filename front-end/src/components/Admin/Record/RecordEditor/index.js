@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import './index.scss';
 import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
 import { getEntityByType } from '../../gridEntities';
