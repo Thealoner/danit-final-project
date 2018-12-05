@@ -1,10 +1,8 @@
 package com.danit.dto;
 
 import com.danit.utils.CustomDateDeserializer;
-import com.danit.utils.CustomDateSerializer;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -31,7 +29,6 @@ public class ClientDto extends BaseDto {
 
   @JsonView(Views.Extended.class)
   @JsonDeserialize(using = CustomDateDeserializer.class)
-  @JsonSerialize(using = CustomDateSerializer.class)
   private Date birthDate;
 
   @JsonView(Views.Extended.class)

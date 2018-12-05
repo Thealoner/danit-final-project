@@ -3,6 +3,7 @@ package com.danit.utils;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
@@ -14,14 +15,14 @@ public class CustomDateTimeSerializer extends JsonSerializer<Date> {
   @Value("${global.date-time.pattern}")
   private String dateTimePattern;
 
+  @Autowired
+  private SimpleDateFormat simpleDateFormat;
+
   @Override
   public void serialize(Date date, JsonGenerator jsonGenerator,
                         SerializerProvider serializerProvider) throws IOException {
-    jsonGenerator.writeString(getSimpleDateFormat().format(date));
-  }
-
-  private SimpleDateFormat getSimpleDateFormat() {
-    return new SimpleDateFormat(dateTimePattern);
+    simpleDateFormat.applyPattern(dateTimePattern);
+    jsonGenerator.writeString(simpleDateFormat.format(date));
   }
 
 }

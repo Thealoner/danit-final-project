@@ -4,17 +4,21 @@ import com.danit.dto.CardColorDto;
 import com.danit.dto.ContractDto;
 import com.danit.models.Card;
 import com.danit.models.Contract;
-import com.danit.utils.CustomDateDeserializer;
 import com.danit.utils.CustomDateSerializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Configuration
 public class BeanConfiguration {
+
+  @Autowired
+  CustomDateSerializer customDateSerializer;
 
   @Bean
   public ModelMapper modelMapper() {
@@ -35,9 +39,13 @@ public class BeanConfiguration {
   @Bean
   public SimpleModule dateModule() {
     SimpleModule module = new SimpleModule();
-    module.addSerializer(Date.class, new CustomDateSerializer());
-    module.addDeserializer(Date.class, new CustomDateDeserializer());
+    module.addSerializer(Date.class, customDateSerializer);
     return module;
+  }
+
+  @Bean
+  public SimpleDateFormat simpleDateFormat() {
+    return new SimpleDateFormat();
   }
 
 }
