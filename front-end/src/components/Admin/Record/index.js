@@ -7,7 +7,7 @@ import gridEntities from '../gridEntities';
 
 class Record extends Component {
   getRoutes = () => {
-    let {entityType} = this.props.match.params;
+    const {entityType} = this.props.match.params;
 
     return gridEntities.map((entity) => {
       let route;
