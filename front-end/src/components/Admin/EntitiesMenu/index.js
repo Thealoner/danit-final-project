@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import GridEntities from '../GridEntities';
 
 function EntitiesMenu (props) {
-  let links = [];
+  const links = [];
 
   GridEntities.forEach((entity) => {
     links.push(

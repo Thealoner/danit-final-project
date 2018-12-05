@@ -2,7 +2,7 @@ import Settings from '../Settings';
 import AuthService from '../Login/AuthService';
 
 const ajaxRequest = (relativeUrl = '', method = 'GET', body = null) => {
-  let authService = new AuthService();
+  const authService = new AuthService();
 
   if (authService.loggedIn() && !authService.isTokenExpired()) {
     const headers = {
@@ -10,10 +10,10 @@ const ajaxRequest = (relativeUrl = '', method = 'GET', body = null) => {
       'Accept': 'application/json'
     };
 
-    let token = authService.getToken();
+    const token = authService.getToken();
     headers['Authorization'] = token;
 
-    let options = {
+    const options = {
       method,
       headers
     };
@@ -34,8 +34,8 @@ const ajaxRequest = (relativeUrl = '', method = 'GET', body = null) => {
 };
 
 export const resizeInput = (el) => {
-  let events = 'keyup,keypress,focus,blur,change,input'.split(',');
-  let spanEl = document.createElement('span');
+  const events = 'keyup,keypress,focus,blur,change,input'.split(',');
+  const spanEl = document.createElement('span');
   spanEl.className = 'span-helper';
   spanEl.innerHTML = el.value;
   el.after(spanEl);
@@ -44,7 +44,7 @@ export const resizeInput = (el) => {
 
   events.forEach(function (item) {
     el.addEventListener(item, function () {
-      let spanEl = document.createElement('span');
+      const spanEl = document.createElement('span');
       spanEl.className = 'span-helper';
       spanEl.innerHTML = el.value;
       el.after(spanEl);
