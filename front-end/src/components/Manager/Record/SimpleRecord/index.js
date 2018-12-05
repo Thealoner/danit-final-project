@@ -18,14 +18,14 @@ class SimpleRecord extends Component {
   };
 
   getData = () => {
-    let { rowId } = this.props.match.params;
-    let { entityType } = this.props;
-    let entity = getEntityByType(entityType);
+    const { rowId } = this.props.match.params;
+    const { entityType } = this.props;
+    const entity = getEntityByType(entityType);
 
     ajaxRequest(entity.apiUrl + '/' + rowId)
       .then(data => {
-        let keys = Object.keys(data);
-        let dataArray = [];
+        const keys = Object.keys(data);
+        const dataArray = [];
 
         keys.forEach((key) => {
           dataArray.push({
@@ -43,11 +43,11 @@ class SimpleRecord extends Component {
   };
 
   saveData = () => {
-    let { entityType } = this.props;
-    let entity = getEntityByType(entityType);
+    const { entityType } = this.props;
+    const entity = getEntityByType(entityType);
 
-    let array = this.state.data;
-    let dataToSave = array.reduce((obj, {key, value}) => ({ ...obj, [key]: value }), {});
+    const array = this.state.data;
+    const dataToSave = array.reduce((obj, {key, value}) => ({ ...obj, [key]: value }), {});
 
     ajaxRequest(
       entity.apiUrl,
@@ -55,8 +55,8 @@ class SimpleRecord extends Component {
       JSON.stringify(dataToSave)
     )
       .then(data => {
-        let keys = Object.keys(data);
-        let dataArray = [];
+        const keys = Object.keys(data);
+        const dataArray = [];
 
         keys.forEach((key) => {
           dataArray.push({
@@ -73,8 +73,8 @@ class SimpleRecord extends Component {
   };
 
   render () {
-    let { rowId } = this.props.match.params;
-    let { entityType, setTabContentUrl } = this.props;
+    const { rowId } = this.props.match.params;
+    const { entityType, setTabContentUrl } = this.props;
     setTabContentUrl(entityType + '/' + rowId);
 
     const options = {

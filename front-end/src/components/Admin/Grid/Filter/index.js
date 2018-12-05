@@ -24,7 +24,7 @@ class Filter extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    let filterString = '&' + this.state.field + '=' + this.state.value;
+    const filterString = '&' + this.state.field + '=' + this.state.value;
     this.props.applyFilter(filterString);
   };
 
@@ -38,7 +38,7 @@ class Filter extends Component {
   };
 
   renderFields = () => {
-    let { columns } = this.props;
+    const { columns } = this.props;
     
     return columns.map(column => (
       <option key={column.field} value={column.field}>{column.title}</option>

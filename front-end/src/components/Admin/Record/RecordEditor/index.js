@@ -4,7 +4,7 @@ import AuthService from '../../../Login/AuthService';
 import Form from 'react-jsonschema-form';
 import ajaxRequest, {resizeInput} from '../../../Helpers';
 
-let formInputs = document.getElementsByClassName('form-control');
+const formInputs = document.getElementsByClassName('form-control');
 
 class RecordEditor extends Component {
   constructor (props) {
@@ -18,9 +18,9 @@ class RecordEditor extends Component {
   }
 
   getData = () => {
-    let { rowId } = this.props.match.params;
-    let { entityType } = this.props;
-    let entity = getEntityByType(entityType);
+    const { rowId } = this.props.match.params;
+    const { entityType } = this.props;
+    const entity = getEntityByType(entityType);
 
     this.setState({
       loading: true
@@ -42,7 +42,7 @@ class RecordEditor extends Component {
   };
 
   putData = (form) => {
-    let entity = getEntityByType(this.props.entityType);
+    const entity = getEntityByType(this.props.entityType);
 
     this.setState({
       loading: true,
@@ -67,9 +67,9 @@ class RecordEditor extends Component {
   };
 
   postData = (form) => {
-    let { tabKey } = this.props.match.params;
-    let { entityType, setTabContentUrl } = this.props;
-    let entity = getEntityByType(entityType);
+    const { tabKey } = this.props.match.params;
+    const { entityType, setTabContentUrl } = this.props;
+    const entity = getEntityByType(entityType);
 
     this.setState({
       loading: true,
@@ -86,7 +86,7 @@ class RecordEditor extends Component {
         this.showMessage('success', 'Данные успешно сохранены');
         this.hideMessageAfterTimeout();
         
-        let editorUrl = entityType + '/edit/' + json[0].id;
+        const editorUrl = entityType + '/edit/' + json[0].id;
         setTabContentUrl(editorUrl);
         this.props.history.push({
           pathname: '/admin/' + tabKey + '/' + editorUrl
@@ -125,8 +125,8 @@ class RecordEditor extends Component {
   };
 
   render () {
-    let { mode, rowId } = this.props.match.params;
-    let { entityType, setTabContentUrl, getRecordData } = this.props;
+    const { mode, rowId } = this.props.match.params;
+    const { entityType, setTabContentUrl, getRecordData } = this.props;
 
     if (mode === 'edit') {
       setTabContentUrl(entityType + '/' + mode + '/' + rowId);
@@ -134,7 +134,7 @@ class RecordEditor extends Component {
       setTabContentUrl(entityType + '/' + mode);
     }
 
-    let entity = getEntityByType(entityType);
+    const entity = getEntityByType(entityType);
 
     return (
       <Fragment>
@@ -154,7 +154,7 @@ class RecordEditor extends Component {
   }
 
   componentDidMount () {
-    let { mode } = this.props.match.params;
+    const { mode } = this.props.match.params;
 
     if (mode === 'edit') {
       this.getData();
