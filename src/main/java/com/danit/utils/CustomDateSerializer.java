@@ -3,6 +3,7 @@ package com.danit.utils;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -10,16 +11,17 @@ import java.util.Date;
 
 public class CustomDateSerializer extends JsonSerializer<Date> {
 
-  private final SimpleDateFormat dateFormat;
-
-  public CustomDateSerializer(SimpleDateFormat dateFormat) {
-    this.dateFormat = dateFormat;
-  }
+  @Value("${global.date.pattern}")
+  private String datePattern;
 
   @Override
   public void serialize(Date date, JsonGenerator jsonGenerator,
                         SerializerProvider serializerProvider) throws IOException {
-    jsonGenerator.writeString(dateFormat.format(date));
+    jsonGenerator.writeString(getSimpleDateFormat().format(date));
+  }
+
+  private SimpleDateFormat getSimpleDateFormat() {
+    return new SimpleDateFormat(datePattern);
   }
 
 }

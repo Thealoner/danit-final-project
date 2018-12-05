@@ -1,7 +1,6 @@
 package com.danit.models.auditor;
 
 
-import com.danit.utils.CustomDateSerializer;
 import com.danit.utils.CustomDateTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
