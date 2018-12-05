@@ -40,7 +40,7 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 @ToString(exclude = {"client", "paket", "cards"}, callSuper = true)
 @Data
-public class Contract extends Auditable {
+public class Contract extends Auditable implements BaseEntity {
   @Id
   @SequenceGenerator(name = "contractSequence", sequenceName = "contractSequence", allocationSize = 1, initialValue = 1001)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "contractSequence")

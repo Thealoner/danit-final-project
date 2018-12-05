@@ -32,6 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class CompanyControllerTest {
 
+  private final static String url = "/company";
   @Autowired
   TestUtils testUtils;
   @Autowired
@@ -40,8 +41,6 @@ public class CompanyControllerTest {
   private TestRestTemplate template;
   @Autowired
   private MockMvc mockMvc;
-
-  private final static String url = "/company";
 
   @Test
   public void getAllCompanies() throws Exception {
@@ -63,7 +62,7 @@ public class CompanyControllerTest {
 
   @Test
   public void deleteCompanyById() throws Exception {
-    int currentQty= companyService.getCompanyQty();
+    int currentQty = companyService.getCompanyQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     String responseJson = this.mockMvc.perform(post(url).headers(header)
@@ -81,7 +80,7 @@ public class CompanyControllerTest {
 
     assertEquals(currentQty + 1, companyService.getCompanyQty());
 
-    mockMvc.perform(delete(url+"/" + createdId).headers(header))
+    mockMvc.perform(delete(url + "/" + createdId).headers(header))
         .andExpect(status().isOk());
 
     assertEquals(currentQty, companyService.getAllCompanies().size());
@@ -123,7 +122,7 @@ public class CompanyControllerTest {
     long createdId = actualObj.getId();
     System.out.println(actualObj);
 
-    responseJson = mockMvc.perform(put(url+"/" + createdId).headers(header)
+    responseJson = mockMvc.perform(put(url + "/" + createdId).headers(header)
         .contentType("application/json")
         .content("{\n"
             + "    \"id\": " + createdId + ", \n"
@@ -143,7 +142,7 @@ public class CompanyControllerTest {
   public void expect404WhenNoDataFoundCompany() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
-    mockMvc.perform(get(url+"/0").headers(header))
+    mockMvc.perform(get(url + "/0").headers(header))
         .andExpect(status().isNotFound());
   }
 
@@ -151,7 +150,7 @@ public class CompanyControllerTest {
   public void expect500WhenDeleteNonexistentCompany() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
-    mockMvc.perform(delete(url+"/0").headers(header))
+    mockMvc.perform(delete(url + "/0").headers(header))
         .andExpect(status().is(500));
   }
 
