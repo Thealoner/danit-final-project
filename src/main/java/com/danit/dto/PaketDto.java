@@ -2,9 +2,12 @@ package com.danit.dto;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.List;
 
+
+@ToString(exclude = "contracts")
 @Data
 public class PaketDto {
 
