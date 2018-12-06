@@ -1,8 +1,6 @@
 package com.danit.dto;
 
-import com.danit.utils.CustomDateDeserializer;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -15,7 +13,7 @@ import java.util.List;
 @Data
 public class ClientDto extends BaseDto {
 
-  @JsonView({Views.Extended.class, Views.Ids.class})
+  @JsonView({Views.Ids.class, Views.Short.class})
   private Long id;
 
   @JsonView(Views.Short.class)
@@ -27,20 +25,19 @@ public class ClientDto extends BaseDto {
   @JsonView(Views.Short.class)
   private String gender;
 
-  @JsonView(Views.Extended.class)
-  @JsonDeserialize(using = CustomDateDeserializer.class)
+  @JsonView(Views.Short.class)
   private Date birthDate;
 
-  @JsonView(Views.Extended.class)
+  @JsonView(Views.Short.class)
   private String phoneNumber;
 
-  @JsonView(Views.Extended.class)
+  @JsonView(Views.Short.class)
   private String email;
 
-  @JsonView(Views.Extended.class)
+  @JsonView(Views.Short.class)
   private Boolean active;
 
-  @JsonView(Views.Extended.class)
+  @JsonView({Views.Extended.class, Views.Ids.class})
   private List<ContractDto> contracts;
 
 }
