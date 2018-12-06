@@ -5,6 +5,7 @@ import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
 import { getEntityByType } from '../gridEntities';
 import ajaxRequest from '../../../helpers/ajaxRequest';
+import {toastr} from 'react-redux-toastr';
 
 class Grid extends Component {
     el = React.createRef();
@@ -40,7 +41,7 @@ class Grid extends Component {
           this.tabulator.setData(this.data);
         })
         .catch(error => {
-          console.log('' + error);
+          toastr.error('' + error);
           this.id = '';
           this.data = [];
           this.columns = [];

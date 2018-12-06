@@ -3,6 +3,7 @@ import './index.scss';
 import AuthService from './AuthService';
 import {connect} from 'react-redux';
 import {LOADING_STATUS} from '../../actions/types';
+import {toastr} from 'react-redux-toastr';
 
 class Login extends Component {
   constructor () {
@@ -41,7 +42,7 @@ class Login extends Component {
         }, 1000);
       })
       .catch(err => {
-        console.log(err);
+        toastr.error(err);
         this.error.classList.add('login__data-error--visible');
       });
   }
