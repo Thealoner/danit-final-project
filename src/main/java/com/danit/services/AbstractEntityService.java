@@ -24,6 +24,7 @@ public abstract class AbstractEntityService<E extends BaseEntity, R> implements 
 
   private static final String LOG_MSG1 = "Cant find ";
   private static final String LOG_MSG2 = " with id=";
+
   @Autowired
   private EntityRepository<E> entityRepository;
   @Autowired

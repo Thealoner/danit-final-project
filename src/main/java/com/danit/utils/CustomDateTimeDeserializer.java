@@ -11,10 +11,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CustomDateDeserializer extends JsonDeserializer<Date> {
+public class CustomDateTimeDeserializer extends JsonDeserializer<Date> {
 
-  private SimpleDateFormat dateFormat
-      = new SimpleDateFormat("yyyy-MM-dd");
+  private SimpleDateFormat dateFormat = new SimpleDateFormat(
+      "yyyy-MM-dd hh-mm-ss");
 
   @Override
   public Date deserialize(JsonParser paramJsonParser,
