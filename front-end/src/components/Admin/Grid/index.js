@@ -66,7 +66,7 @@ class Grid extends Component {
         });
       })
       .catch(error => {
-        toastr.error('' + error);
+        toastr.error(error);
         this.setState({
           id: '',
           data: [],

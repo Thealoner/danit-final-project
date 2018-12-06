@@ -68,7 +68,7 @@ class RecordEditor extends Component {
         this.setState({
           loading: false
         });
-        toastr.error('шибка при сохранении', error);
+        toastr.error('Ошибка при сохранении', error);
       });
   };
 
