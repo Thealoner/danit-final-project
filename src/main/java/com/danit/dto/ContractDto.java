@@ -1,38 +1,33 @@
 package com.danit.dto;
 
 import com.danit.utils.CustomDateDeserializer;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.danit.utils.CustomDateSerializer;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import java.util.Date;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
+@ToString(exclude = "cards")
 @Data
-@ToString(exclude = "client")
-public class ContractDto {
+public class ContractDto extends BaseDto {
 
   @JsonView(Views.Extended.class)
   private Long id;
 
   @JsonView(Views.Short.class)
   @JsonDeserialize(using = CustomDateDeserializer.class)
-  @JsonFormat(
-      shape = JsonFormat.Shape.STRING,
-      pattern = "yyyy-MM-dd")
-  @Temporal(TemporalType.DATE)
+  @JsonSerialize(using = CustomDateSerializer.class)
   private Date startDate;
 
   @JsonView(Views.Short.class)
   @JsonDeserialize(using = CustomDateDeserializer.class)
-  @JsonFormat(
-      shape = JsonFormat.Shape.STRING,
-      pattern = "yyyy-MM-dd")
-  @Temporal(TemporalType.DATE)
+  @JsonSerialize(using = CustomDateSerializer.class)
   private Date endDate;
 
   @JsonView(Views.Extended.class)

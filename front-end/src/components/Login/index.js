@@ -87,11 +87,11 @@ class Login extends Component {
   }
 
   componentDidMount = () => {
-    let form = this.form;
-    let username = this.username;
-    let password = this.password;
-    let submitBtn = this.submitBtn;
-    let error = this.error;
+    const form = this.form;
+    const username = this.username;
+    const password = this.password;
+    const submitBtn = this.submitBtn;
+    const error = this.error;
 
     form.onkeydown = function (event) {
       if (event.keyCode === 13) {
