@@ -8,7 +8,7 @@ import com.danit.models.ServiceCategory;
 import com.danit.models.Services;
 import com.danit.models.User;
 import com.danit.models.UserRoles;
-import com.danit.repositories.CardColorRepository;
+import com.danit.repositories.CardRepository;
 import com.danit.repositories.ClientRepository;
 import com.danit.repositories.ContractRepository;
 import com.danit.repositories.PaketRepository;
@@ -58,7 +58,7 @@ public class AppStartupRunner implements ApplicationRunner {
   private PaketRepository paketRepository;
 
   @Autowired
-  private CardColorRepository cardColorRepository;
+  private CardRepository cardRepository;
 
   @Override
   public void run(ApplicationArguments args) throws IOException {
@@ -100,7 +100,7 @@ public class AppStartupRunner implements ApplicationRunner {
     };
     InputStream cardColorInputStream = TypeReference.class.getResourceAsStream("/json/cards.json");
     List<Card> cards = mapper.readValue(cardColorInputStream, cardColorTypeReference);
-    cardColorRepository.saveAll(cards);
+    cardRepository.saveAll(cards);
 
 
     TypeReference<List<ServiceCategory>> serviceCategoryTypeReference = new TypeReference<List<ServiceCategory>>() {

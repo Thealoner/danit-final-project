@@ -1,6 +1,6 @@
 package com.danit.configuration;
 
-import com.danit.dto.CardColorDto;
+import com.danit.dto.CardDto;
 import com.danit.dto.ContractDto;
 import com.danit.models.Card;
 import com.danit.models.Contract;
@@ -30,8 +30,8 @@ public class BeanConfiguration {
         .addMapping(Contract::getClientId, ContractDto::setClientId)
         .addMapping(Contract::isActive, ContractDto::setActive);
 
-    modelMapper.createTypeMap(Card.class, CardColorDto.class)
-        .addMapping(Card::getContractId, CardColorDto::setContractId);
+    modelMapper.createTypeMap(Card.class, CardDto.class)
+        .addMapping(Card::getContractId, CardDto::setContractId);
 
     return modelMapper;
   }
