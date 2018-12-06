@@ -3,10 +3,10 @@ import './index.scss';
 import { ReactTabulator } from 'react-tabulator';
 import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
-import { getEntityByType } from '../../GridEntities';
+import { getEntityByType } from '../../gridEntities';
 import AuthService from '../../../Login/AuthService';
 import photo from './photo.jpg';
-import ajaxRequest from '../../../Helpers';
+import ajaxRequest from '../../../../helpers/ajaxRequest';
 import autoSize from 'autosize';
 
 class SimpleRecord extends Component {
@@ -36,10 +36,10 @@ class SimpleRecord extends Component {
   }
 
   getData = () => {
-    let { rowId } = this.props.match.params;
-    let { entityType } = this.props;
-    let entity = getEntityByType(entityType);
-    let textareas = document.getElementsByTagName('textarea');
+    const { rowId } = this.props.match.params;
+    const { entityType } = this.props;
+    const entity = getEntityByType(entityType);
+    const textareas = document.getElementsByTagName('textarea');
 
     this.setState({
       loading: true
@@ -48,15 +48,15 @@ class SimpleRecord extends Component {
     if (this.state.authService.loggedIn() && !this.state.authService.isTokenExpired()) {
       ajaxRequest(entity.apiUrl + '/' + rowId)
         .then(data => {
-          let editableDataKeys = Object.keys(this.state.editableFields);
-          let editableData = {};
+          const editableDataKeys = Object.keys(this.state.editableFields);
+          const editableData = {};
 
           editableDataKeys.forEach(key => {
             editableData[key] = data[key];
           });
 
-          let readonlyDataKeys = Object.keys(this.state.readonlyFields);
-          let readonlyData = {};
+          const readonlyDataKeys = Object.keys(this.state.readonlyFields);
+          const readonlyData = {};
 
           readonlyDataKeys.forEach(key => {
             readonlyData[key] = data[key];
@@ -77,8 +77,8 @@ class SimpleRecord extends Component {
   };
 
   saveData = () => {
-    let { entityType } = this.props;
-    let entity = getEntityByType(entityType);
+    const { entityType } = this.props;
+    const entity = getEntityByType(entityType);
 
     this.setState({
       loading: true,
@@ -135,15 +135,15 @@ class SimpleRecord extends Component {
   };
 
   render () {
-    let { mode, rowId } = this.props.match.params;
-    let { entityType, setTabContentUrl } = this.props;
+    const { mode, rowId } = this.props.match.params;
+    const { entityType, setTabContentUrl } = this.props;
     setTabContentUrl(entityType + '/' + mode + '/' + rowId);
 
     const options = {
       movableRows: true
     };
 
-    let columns = [
+    const columns = [
       { title: 'ID', field: 'id' },
       { title: 'Пакет', field: 'packageId' },
       { title: 'startDate', field: 'startDate' },
