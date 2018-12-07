@@ -69,7 +69,7 @@ public class ContractController {
   }
 
   @JsonView(Views.Extended.class)
-  @GetMapping("/extended")
+  @GetMapping
   public ResponseEntity<Map<String, Object>> getAllContractsDtoExtended(Pageable pageable,
                                                              Principal principal,
                                                              ContractListRequestDto contractListRequestDto) {
