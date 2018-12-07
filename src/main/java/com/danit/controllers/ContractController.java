@@ -1,6 +1,5 @@
 package com.danit.controllers;
 
-import com.danit.dto.ContractDto;
 import com.danit.dto.Views;
 import com.danit.dto.service.ContractListRequestDto;
 import com.danit.facades.ContractFacade;
@@ -25,8 +24,8 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
-import static com.danit.utils.ControllerUtils.convertPageToMap;
 import static com.danit.utils.ControllerUtils.convertDtoToMap;
+import static com.danit.utils.ControllerUtils.convertPageToMap;
 
 
 @RestController
@@ -51,8 +50,8 @@ public class ContractController {
   @JsonView(Views.Ids.class)
   @GetMapping("/ids")
   public ResponseEntity<Map<String, Object>> getAllContractsDtoIds(Pageable pageable,
-                                                                     Principal principal,
-                                                                     ContractListRequestDto contractListRequestDto) {
+                                                                   Principal principal,
+                                                                   ContractListRequestDto contractListRequestDto) {
     log.info(principal.getName() + " got all Contract data");
     log.info("clientListRequestDto" + contractListRequestDto);
     return ResponseEntity.ok(convertPageToMap(contractFacade.getAllEntities(contractListRequestDto, pageable)));
@@ -61,8 +60,8 @@ public class ContractController {
   @JsonView(Views.Short.class)
   @GetMapping("/short")
   public ResponseEntity<Map<String, Object>> getAllContractsDtoShort(Pageable pageable,
-                                                             Principal principal,
-                                                             ContractListRequestDto contractListRequestDto) {
+                                                                     Principal principal,
+                                                                     ContractListRequestDto contractListRequestDto) {
     log.info(principal.getName() + " got all Contract data");
     log.info("clientListRequestDto" + contractListRequestDto);
     return ResponseEntity.ok(convertPageToMap(contractFacade.getAllEntities(contractListRequestDto, pageable)));
@@ -71,8 +70,8 @@ public class ContractController {
   @JsonView(Views.Extended.class)
   @GetMapping
   public ResponseEntity<Map<String, Object>> getAllContractsDtoExtended(Pageable pageable,
-                                                             Principal principal,
-                                                             ContractListRequestDto contractListRequestDto) {
+                                                                        Principal principal,
+                                                                        ContractListRequestDto contractListRequestDto) {
     log.info(principal.getName() + " got all Contract data");
     log.info("clientListRequestDto" + contractListRequestDto);
     return ResponseEntity.ok(convertPageToMap(contractFacade.getAllEntities(contractListRequestDto, pageable)));

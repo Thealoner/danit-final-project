@@ -10,7 +10,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @ToString(exclude = "contracts")
 @Data
-public class PaketDto extends BaseDto{
+public class PaketDto extends BaseDto {
 
   @JsonView({Views.Extended.class, Views.Ids.class, Views.Short.class})
   private Long id;

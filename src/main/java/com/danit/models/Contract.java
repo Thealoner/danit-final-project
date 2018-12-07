@@ -48,14 +48,10 @@ public class Contract extends Auditable implements BaseEntity {
   private Long id;
 
   @Column(name = "start_date")
-  @JsonDeserialize(using = CustomDateDeserializer.class)
-  @JsonSerialize(using = CustomDateSerializer.class)
   @Temporal(TemporalType.TIMESTAMP)
   private Date startDate;
 
   @Column(name = "end_date")
-  @JsonDeserialize(using = CustomDateDeserializer.class)
-  @JsonSerialize(using = CustomDateSerializer.class)
   @Temporal(TemporalType.TIMESTAMP)
   private Date endDate;
 
@@ -75,7 +71,7 @@ public class Contract extends Auditable implements BaseEntity {
   @JsonIgnore
   private Paket paket;
 
-  @OneToMany(mappedBy = "contract", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+  @OneToMany(mappedBy = "contract", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, orphanRemoval = true)
   private List<Card> cards;
 
   @Column(name = "package_id")

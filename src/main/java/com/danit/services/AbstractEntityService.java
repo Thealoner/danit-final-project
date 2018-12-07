@@ -91,7 +91,8 @@ public abstract class AbstractEntityService<E extends BaseEntity, R> implements 
 
   @Override
   public void deleteEntities(List<E> entityList) {
-    entityRepository.deleteAll(entityList);
+    List<E> list = reloadEntities(entityList);
+    entityRepository.deleteAll(list);
   }
 
   @Override
