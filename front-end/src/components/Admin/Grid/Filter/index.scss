@@ -2,7 +2,6 @@
 
 .filter {
   display: flex;
-  //justify-content:center;
   align-items: center;
   padding: 10px;
   font-size: 14px;
@@ -23,9 +22,8 @@
   }
 
   &__btn {
-    height: 35px;
+    height: 30px;
     margin-right: 20px;
-    padding: 10px;
     color: $pink-bg;
     background-color: $EG-white;
     border: 1px solid $pink-bg;

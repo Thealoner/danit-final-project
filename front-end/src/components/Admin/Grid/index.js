@@ -124,7 +124,7 @@ class Grid extends Component {
             <Pagination.Prev onClick={this.pagePrev} disabled={currentPage <= 1}/>
             {paginationPages}
             <Pagination.Next onClick={this.pageNext} disabled={currentPage >= pagesTotal}/>
-          </Pagination>;
+          </Pagination>
         </div>
       </Fragment>
 
