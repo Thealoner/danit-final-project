@@ -48,9 +48,29 @@ public class ContractController {
         .body(contractFacade.saveEntities(contracts));
   }
 
+  @JsonView(Views.Ids.class)
+  @GetMapping("/ids")
+  public ResponseEntity<Map<String, Object>> getAllContractsDtoIds(Pageable pageable,
+                                                                     Principal principal,
+                                                                     ContractListRequestDto contractListRequestDto) {
+    log.info(principal.getName() + " got all Contract data");
+    log.info("clientListRequestDto" + contractListRequestDto);
+    return ResponseEntity.ok(convertToMap(contractFacade.getAllEntities(contractListRequestDto, pageable)));
+  }
+
+  @JsonView(Views.Short.class)
+  @GetMapping("/short")
+  public ResponseEntity<Map<String, Object>> getAllContractsDtoShort(Pageable pageable,
+                                                             Principal principal,
+                                                             ContractListRequestDto contractListRequestDto) {
+    log.info(principal.getName() + " got all Contract data");
+    log.info("clientListRequestDto" + contractListRequestDto);
+    return ResponseEntity.ok(convertToMap(contractFacade.getAllEntities(contractListRequestDto, pageable)));
+  }
+
   @JsonView(Views.Extended.class)
-  @GetMapping
-  public ResponseEntity<Map<String, Object>> getAllContracts(Pageable pageable,
+  @GetMapping("/extended")
+  public ResponseEntity<Map<String, Object>> getAllContractsDtoExtended(Pageable pageable,
                                                              Principal principal,
                                                              ContractListRequestDto contractListRequestDto) {
     log.info(principal.getName() + " got all Contract data");
@@ -74,7 +94,6 @@ public class ContractController {
         .body(contractFacade.saveEntities(contracts));
   }
 
-  @JsonView(Views.Extended.class)
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   public void deleteContractById(@PathVariable(name = "id") long id, Principal principal) {
@@ -82,7 +101,6 @@ public class ContractController {
     contractFacade.deleteEntityById(id);
   }
 
-  @JsonView(Views.Extended.class)
   @DeleteMapping
   @ResponseStatus(HttpStatus.OK)
   public void deleteContracts(@RequestBody List<Contract> contracts, Principal principal) {
