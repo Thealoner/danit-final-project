@@ -6,7 +6,7 @@ import contracts from '../../SampleJson/contracts.json';
 import organizations from '../../SampleJson/organizations.json';
 import clients from '../../SampleJson/clients.json';
 
-const GridEntities = [
+const gridEntities = [
   {
     id: 'pakets',
     name: 'Пакеты',
@@ -357,14 +357,12 @@ const GridEntities = [
       { title: 'ID', field: 'role' }
     ],
     schema: {
-      title: 'Роль Пользователя',
       type: 'object',
       properties: {
         role: {
-          title: 'Роль',
-          type: 'string',
+          title: 'Роль пользователя:',
           enum: ['ADMIN', 'USER'],
-          enumNames: ['Admin', 'User']
+          enumNames: ['Администратор', 'Пользователь']
         }
       }
     },
@@ -377,10 +375,10 @@ const GridEntities = [
 ];
 
 function getEntityByType (entityType) {
-  return GridEntities.find((el) => {
+  return gridEntities.find((el) => {
     return el.id === entityType;
   });
 }
 
 export { getEntityByType };
-export default GridEntities;
+export default gridEntities;

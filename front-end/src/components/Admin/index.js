@@ -17,9 +17,9 @@ class Admin extends Component {
   };
 
   setRecordData = (data, edited) => {
-    let tabs = this.state.tabs;
+    const tabs = this.state.tabs;
 
-    let currentTabIndex = tabs.findIndex((tab) => {
+    const currentTabIndex = tabs.findIndex((tab) => {
       return tab.tabKey === this.state.activeKey;
     });
 
@@ -36,7 +36,7 @@ class Admin extends Component {
   };
 
   getRecordData = () => {
-    let currentTab = this.state.tabs.find((tab) => {
+    const currentTab = this.state.tabs.find((tab) => {
       return tab.tabKey === this.state.activeKey;
     });
 
@@ -65,7 +65,7 @@ class Admin extends Component {
       activeKey
     });
 
-    let clickedTab = this.state.tabs.find((tab) => {
+    const clickedTab = this.state.tabs.find((tab) => {
       return tab.tabKey === activeKey;
     });
 
@@ -100,7 +100,7 @@ class Admin extends Component {
   };
 
   setTabTitle = (title) => {
-    let currentTabIndex = this.state.tabs.findIndex((tab) => {
+    const currentTabIndex = this.state.tabs.findIndex((tab) => {
       return tab.tabKey === this.state.activeKey;
     });
 
@@ -116,7 +116,7 @@ class Admin extends Component {
   };
 
   setTabContentUrl = (url) => {
-    let currentTab = this.state.tabs.find((tab) => {
+    const currentTab = this.state.tabs.find((tab) => {
       return tab.tabKey === this.state.activeKey;
     });
 

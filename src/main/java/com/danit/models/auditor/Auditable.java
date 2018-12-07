@@ -1,6 +1,8 @@
 package com.danit.models.auditor;
 
 
+import com.danit.utils.CustomDateTimeSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -25,6 +27,7 @@ public abstract class Auditable {
 
   @CreatedDate
   @Temporal(TIMESTAMP)
+  @JsonSerialize(using = CustomDateTimeSerializer.class)
   protected Date creationDate;
 
   @LastModifiedBy
@@ -32,6 +35,7 @@ public abstract class Auditable {
 
   @LastModifiedDate
   @Temporal(TIMESTAMP)
+  @JsonSerialize(using = CustomDateTimeSerializer.class)
   protected Date lastModifiedDate;
 
 }

@@ -3,8 +3,8 @@
 .app {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 9vh 90vh;
-  grid-row-gap: 1vh;
+  grid-template-rows: 60px calc(100vh - 70px);
+  grid-row-gap: 10px;
   height: 100vh;
 
   &__loader-wrapper {
