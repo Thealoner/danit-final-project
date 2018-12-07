@@ -59,8 +59,7 @@ public abstract class AbstractEntityService<E extends BaseEntity, R> implements 
   public List<E> updateEntities(List<E> entityList) {
     entityList.removeIf(e -> Objects.isNull(e.getId()));
 
-    List<Long> listIds = entityList.stream().map(E::getId).collect(Collectors.toList());
-    List<E> targetEntities = entityRepository.findAllEntitiesByIds(listIds);
+    List<E> targetEntities = reloadEntities(entityList);
 
     List<E> entitiesToSave = new ArrayList<>();
     Iterator<E> iterator = entityList.iterator();
@@ -104,5 +103,10 @@ public abstract class AbstractEntityService<E extends BaseEntity, R> implements 
   private String getEntityName() {
     return ((Class<E>) ((ParameterizedType) getClass().getGenericSuperclass())
         .getActualTypeArguments()[0]).getSimpleName().toLowerCase();
+  }
+
+  List<E> reloadEntities(List<E> entityList) {
+    List<Long> listIds = entityList.stream().map(E::getId).collect(Collectors.toList());
+    return entityRepository.findAllEntitiesByIds(listIds);
   }
 }

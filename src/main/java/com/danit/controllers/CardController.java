@@ -26,7 +26,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
-import static com.danit.utils.ControllerUtils.convertToMap;
+import static com.danit.utils.ControllerUtils.convertPageToMap;
 
 @Slf4j
 @RestController
@@ -57,7 +57,7 @@ public class CardController {
                                                                Principal principal,
                                                                CardListRequestDto cardListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
-    return ResponseEntity.ok(convertToMap(cardFacade.getAllEntities(cardListRequestDto, pageable)));
+    return ResponseEntity.ok(convertPageToMap(cardFacade.getAllEntities(cardListRequestDto, pageable)));
   }
 
   @JsonView(Views.Short.class)
@@ -66,7 +66,7 @@ public class CardController {
                                                                  Principal principal,
                                                                  CardListRequestDto cardListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
-    return ResponseEntity.ok(convertToMap(cardFacade.getAllEntities(cardListRequestDto, pageable)));
+    return ResponseEntity.ok(convertPageToMap(cardFacade.getAllEntities(cardListRequestDto, pageable)));
   }
 
   @JsonView(Views.Extended.class)
@@ -75,7 +75,7 @@ public class CardController {
                                                                     Principal principal,
                                                                     CardListRequestDto cardListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
-    return ResponseEntity.ok(convertToMap(cardFacade.getAllEntities(cardListRequestDto, pageable)));
+    return ResponseEntity.ok(convertPageToMap(cardFacade.getAllEntities(cardListRequestDto, pageable)));
   }
 
   @JsonView(Views.Extended.class)
@@ -114,7 +114,7 @@ public class CardController {
                                                          CardListRequestDto cardListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
     log.info("cardListRequestDto=" + cardListRequestDto);
-    return ResponseEntity.ok(convertToMap(cardService.getAllEntities(cardListRequestDto, pageable)));
+    return ResponseEntity.ok(convertPageToMap(cardService.getAllEntities(cardListRequestDto, pageable)));
   }
 
   @GetMapping("/{id}")

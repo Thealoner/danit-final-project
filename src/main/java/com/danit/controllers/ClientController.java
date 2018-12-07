@@ -27,7 +27,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
-import static com.danit.utils.ControllerUtils.convertToMap;
+import static com.danit.utils.ControllerUtils.convertPageToMap;
 
 @RestController
 @RequestMapping("/clients")
@@ -58,7 +58,7 @@ public class ClientController {
                                                                  Principal principal,
                                                                  ClientListRequestDto clientListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
-    return ResponseEntity.ok(convertToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
+    return ResponseEntity.ok(convertPageToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
   }
 
   @JsonView(Views.Short.class)
@@ -67,7 +67,7 @@ public class ClientController {
                                                                    Principal principal,
                                                                    ClientListRequestDto clientListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
-    return ResponseEntity.ok(convertToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
+    return ResponseEntity.ok(convertPageToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
   }
 
   @JsonView(Views.Extended.class)
@@ -76,7 +76,7 @@ public class ClientController {
                                                                       Principal principal,
                                                                       ClientListRequestDto clientListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
-    return ResponseEntity.ok(convertToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
+    return ResponseEntity.ok(convertPageToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
   }
 
   @JsonView(Views.Extended.class)
@@ -115,7 +115,7 @@ public class ClientController {
                                                            ClientListRequestDto clientListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
     log.info("clientListRequestDto=" + clientListRequestDto);
-    return ResponseEntity.ok(convertToMap(clientService.getAllEntities(clientListRequestDto, pageable)));
+    return ResponseEntity.ok(convertPageToMap(clientService.getAllEntities(clientListRequestDto, pageable)));
   }
 
   @GetMapping("/{id}")
