@@ -5,6 +5,7 @@ import com.danit.models.BaseEntity;
 import com.danit.repositories.EntityRepository;
 import com.danit.repositories.specifications.BaseSpecification;
 import com.danit.utils.ServiceUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +19,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
+@Slf4j
 @Service
 public abstract class AbstractEntityService<E extends BaseEntity, R> implements EntityService<E> {
 
@@ -106,7 +107,7 @@ public abstract class AbstractEntityService<E extends BaseEntity, R> implements 
         .getActualTypeArguments()[0]).getSimpleName().toLowerCase();
   }
 
-  List<E> reloadEntities(List<E> entityList) {
+  private List<E> reloadEntities(List<E> entityList) {
     List<Long> listIds = entityList.stream().map(E::getId).collect(Collectors.toList());
     return entityRepository.findAllEntitiesByIds(listIds);
   }

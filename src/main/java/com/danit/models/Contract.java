@@ -2,12 +2,8 @@ package com.danit.models;
 
 
 import com.danit.models.auditor.Auditable;
-import com.danit.utils.CustomDateDeserializer;
-import com.danit.utils.CustomDateSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

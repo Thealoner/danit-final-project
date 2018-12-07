@@ -38,6 +38,8 @@ public class DiscountControllerTest {
   @Autowired
   DiscountService discountService;
   @Autowired
+  ObjectMapper objectMapper;
+  @Autowired
   private TestRestTemplate template;
   @Autowired
   private MockMvc mockMvc;
@@ -105,14 +107,13 @@ public class DiscountControllerTest {
         .content("{\n"
             + "    \"name\": \"10% discount\",\n"
             + "    \"percent\": 10,\n"
-            + "    \"dateFrom\": \"2005-08-30\",\n"
-            + "    \"dateTo\": \"2005-08-30\"\n"
+            + "    \"dateFrom\": \"30-08-2005\",\n"
+            + "    \"dateTo\": \"30-08-2005\"\n"
             + "  }"))
         .andExpect(status().isOk())
         .andReturn().getResponse().getContentAsString();
 
-    ObjectMapper mapper = new ObjectMapper();
-    Discount actualObj = mapper.readValue(responseJson, new TypeReference<Discount>() {
+    Discount actualObj = objectMapper.readValue(responseJson, new TypeReference<Discount>() {
     });
     long createdId = actualObj.getId();
     System.out.println(actualObj);
@@ -126,7 +127,7 @@ public class DiscountControllerTest {
         .andExpect(status().isOk())
         .andReturn().getResponse().getContentAsString();
 
-    actualObj = mapper.readValue(responseJson, new TypeReference<Discount>() {
+    actualObj = objectMapper.readValue(responseJson, new TypeReference<Discount>() {
     });
     System.out.println(actualObj);
     assertEquals("Test Discount", actualObj.getName());

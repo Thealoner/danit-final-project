@@ -88,7 +88,7 @@ public class ContractController {
   @PutMapping
   public ResponseEntity<Map<String, Object>> updateContracts(@RequestBody List<Contract> contracts, Principal principal) {
     log.info(principal.getName() + " is updating contracts data: " + contracts);
-    return ResponseEntity.ok(convertDtoToMap(contractFacade.saveEntities(contracts)));
+    return ResponseEntity.ok(convertDtoToMap(contractFacade.updateEntities(contracts)));
   }
 
   @DeleteMapping("/{id}")
