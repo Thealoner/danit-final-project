@@ -46,7 +46,8 @@ public class ClientController {
 
   @JsonView(Views.Extended.class)
   @PostMapping
-  public ResponseEntity<Map<String, Object>> createClientsDtoExtended(@RequestBody List<Client> clients, Principal principal) {
+  public ResponseEntity<Map<String, Object>> createClientsDtoExtended(@RequestBody List<Client> clients,
+                                                                      Principal principal) {
     log.info(principal.getName() + " is saving new clients: " + clients);
     return ResponseEntity.ok(convertDtoToMap(clientFacade.saveEntities(clients)));
   }
