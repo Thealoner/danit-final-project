@@ -4,7 +4,7 @@ import './index.scss';
 import {getEntityByType} from '../GridEntities';
 import {Link} from 'react-router-dom';
 import Filter from './Filter';
-import ajaxRequest from '../../Helpers';
+import ajaxRequest from '../../../helpers/ajaxRequest';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Pagination} from 'react-bootstrap';
 
@@ -29,7 +29,7 @@ class Grid extends Component {
   el = React.createRef();
 
   rowClick = (e, row) => {
-    let {entityType, tabKey} = this.props.match.params;
+    const { entityType, tabKey } = this.props.match.params;
     this.props.setTabContentUrl(entityType + '/' + row.getData().id);
     this.props.history.push({
       pathname: '/admin/' + tabKey + '/' + entityType + '/edit/' + row.getData().id,
@@ -41,8 +41,8 @@ class Grid extends Component {
   };
 
   getData = (page = 1, size = 5, filterString = '') => {
-    let {entityType} = this.props.match.params;
-    let entity = getEntityByType(entityType);
+    const { entityType } = this.props.match.params;
+    const entity = getEntityByType(entityType);
 
     ajaxRequest(entity.apiUrl + '?page=' + page + '&size=' + size + filterString)
       .then(response => {
@@ -99,10 +99,11 @@ class Grid extends Component {
   };
 
   render () {
-    let {entityType, tabKey} = this.props.match.params;
-    let {setTabContentUrl} = this.props;
-    let {currentPage, pagesTotal, elementsPerPage} = this.state.meta;
+    const { entityType, tabKey } = this.props.match.params;
+    const { setTabContentUrl } = this.props;
+    const { currentPage, pagesTotal } = this.state.meta;
     const paginationPages = [];
+
     setTabContentUrl(entityType);
 
     for (let number = 1; number <= pagesTotal; number++) {
@@ -145,8 +146,7 @@ class Grid extends Component {
   componentDidUpdate () {
     this.tabulator.setColumns(this.state.columns);
     this.tabulator.setData(this.state.data);
-
-    let {entityType} = this.props.match.params;
+    const { entityType } = this.props.match.params;
 
     if (this.state.id !== '' && entityType !== this.state.id) {
       this.getData();
