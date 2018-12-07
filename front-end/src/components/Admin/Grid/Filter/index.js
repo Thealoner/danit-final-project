@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './index.scss';
 
 class Filter extends Component {
   constructor (props) {
@@ -23,9 +24,9 @@ class Filter extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    let filterString = '&' + this.state.field + '=' + this.state.value;
+    const filterString = '&' + this.state.field + '=' + this.state.value;
     this.props.applyFilter(filterString);
-  }
+  };
 
   clearFilter = () => {
     this.props.clearFilter();
@@ -34,23 +35,23 @@ class Filter extends Component {
       field: '',
       value: ''
     });
-  }
+  };
 
   renderFields = () => {
-    let { columns } = this.props;
+    const { columns } = this.props;
     
     return columns.map(column => (
       <option key={column.field} value={column.field}>{column.title}</option>
     ));
-  }
+  };
 
   render () {
     return (
-      <form onSubmit={this.onSubmit}>
+      <form onSubmit={this.onSubmit} className="filter">
         <span>
           <label>Поле: </label>
           <select name="field" value={this.state.field} onChange={this.handleInputChange}>
-            <option value="search">Все</option>
+            <option>Все</option>
             {this.renderFields()}
           </select>
         </span>
@@ -60,8 +61,8 @@ class Filter extends Component {
           <input name="value" type="text" placeholder="" value={this.state.value} onChange={this.handleInputChange} />
         </span>
 
-        <button name="filter" type="submit">Apply Filter</button>
-        <button name="clear" onClick={this.clearFilter} type="button">Clear Filter</button>
+        <button name="filter" type="submit">Применить фильтр</button>
+        <button name="clear" onClick={this.clearFilter} type="button">Очистить фильтр</button>
       </form>
     );
   }

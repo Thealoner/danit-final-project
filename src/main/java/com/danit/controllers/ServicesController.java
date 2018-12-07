@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 import java.util.List;
 
 @RestController
+@RequestMapping("/services")
 public class ServicesController {
 
   private Logger logger = LoggerFactory.getLogger(ServicesController.class);
@@ -28,43 +30,43 @@ public class ServicesController {
     this.servicesService = servicesService;
   }
 
-  @PostMapping("/services")
+  @PostMapping
   List<Services> createServices(@RequestBody List<Services> services, Principal principal) {
     logger.info(principal.getName() + " is saving new services: " + services);
     return servicesService.saveServices(services);
   }
 
-  @GetMapping("/services/{id}")
+  @GetMapping("/{id}")
   Services getServiceById(@PathVariable(name = "id") long id, Principal principal) {
     logger.info(principal.getName() + " got service data with id: " + id);
     return servicesService.getServiceById(id);
   }
 
-  @GetMapping("/services")
+  @GetMapping
   List<Services> getAllServices(Principal principal) {
     logger.info(principal.getName() + " got all services data");
     return servicesService.getAllServices();
   }
 
-  @PutMapping("/services")
+  @PutMapping
   List<Services> updateServices(@RequestBody List<Services> services, Principal principal) {
     logger.info(principal.getName() + " is updating services data: " + services);
     return servicesService.saveServices(services);
   }
 
-  @PutMapping("/services/{id}")
+  @PutMapping("/{id}")
   Services updateService(@PathVariable(name = "id") long id, @RequestBody Services service, Principal principal) {
     logger.info(principal.getName() + " is updating service data: " + service);
     return servicesService.saveService(service);
   }
 
-  @DeleteMapping("/services/{id}")
+  @DeleteMapping("/{id}")
   void deleteServiceById(@PathVariable(name = "id") long id, Principal principal) {
     logger.info(principal.getName() + " try to delete service with id: " + id);
     servicesService.deleteServiceById(id);
   }
 
-  @DeleteMapping("/services")
+  @DeleteMapping
   void deleteServices(@RequestBody List<Services> services, Principal principal) {
     logger.info(principal.getName() + " is trying to delete services: " + services);
     servicesService.deleteServices(services);

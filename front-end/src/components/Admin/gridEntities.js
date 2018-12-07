@@ -6,10 +6,11 @@ import contracts from '../../SampleJson/contracts.json';
 import organizations from '../../SampleJson/organizations.json';
 import clients from '../../SampleJson/clients.json';
 
-const GridEntities = [
+const gridEntities = [
   {
     id: 'pakets',
     name: 'Пакеты',
+    nameForAddBtn: 'пакет',
     sampleData: pakets,
     apiUrl: '/pakets',
     recordType: 'tabbed',
@@ -111,6 +112,7 @@ const GridEntities = [
   {
     id: 'services',
     name: 'Сервисы',
+    nameForAddBtn: 'сервис',
     sampleData: services,
     apiUrl: '/services',
     recordType: 'tabbed',
@@ -160,6 +162,7 @@ const GridEntities = [
   {
     id: 'service_categories',
     name: 'Категории сервисов',
+    nameForAddBtn: 'категорию сервиса',
     sampleData: serviceCategories,
     apiUrl: '/service_categories',
     recordType: 'simple',
@@ -182,6 +185,7 @@ const GridEntities = [
   {
     id: 'service_rules',
     name: 'Условия сервисов',
+    nameForAddBtn: 'условие сервиса',
     sampleData: serviceRules,
     apiUrl: '/service_rules',
     recordType: 'simple',
@@ -194,20 +198,53 @@ const GridEntities = [
   {
     id: 'contracts',
     name: 'Контракты',
+    nameForAddBtn: 'контракт',
     sampleData: contracts,
     apiUrl: '/contracts',
     recordType: 'tabbed',
     recordComponent: 'Package',
     columns: [
       { title: 'ID', field: 'id' },
-      { title: 'Пакет', field: 'paket.title' },
-      { title: 'Клиент', field: 'client.name', align: 'left' },
+      { title: 'Дата начала', field: 'startDate' },
+      { title: 'Дана окончания', field: 'endDate' },
+      { title: 'ID клиента', field: 'clientId', align: 'left' },
       { title: 'Активен', field: 'active' }
-    ]
+    ],
+    schema: {
+      type: 'object',
+      properties: {
+        packageId: {
+          title: 'ID пакета',
+          type: 'number'
+        },
+        startDate: {
+          title: 'Дата начала срока действия',
+          type: 'string'
+        },
+        endDate: {
+          title: 'Дата окончания срока действия',
+          type: 'string'
+        },
+        credit: {
+          title: 'Кредит',
+          type: 'number'
+        },
+        clientId: {
+          title: 'ID клиента',
+          type: 'number'
+        },
+        active: {
+          title: 'Активен',
+          type: 'boolean'
+        }
+      }
+    },
+    uiSchema: {}
   },
   {
     id: 'organizations',
     name: 'Организации',
+    nameForAddBtn: 'организацию',
     sampleData: organizations,
     apiUrl: '/organizations',
     recordType: 'simple',
@@ -220,6 +257,7 @@ const GridEntities = [
   {
     id: 'clients',
     name: 'Клиенты',
+    nameForAddBtn: 'клиента',
     sampleData: clients,
     apiUrl: '/clients',
     recordType: 'simple',
@@ -255,6 +293,7 @@ const GridEntities = [
   {
     id: 'users',
     name: 'Пользователи',
+    nameForAddBtn: 'пользователя',
     apiUrl: '/users',
     recordType: 'simple',
     columns: [
@@ -310,21 +349,20 @@ const GridEntities = [
   },
   {
     id: 'roles',
-    name: 'Роли Пользователей',
+    name: 'Роли пользователей',
+    nameForAddBtn: 'роль пользователя',
     apiUrl: '/roles',
     recordType: 'simple',
     columns: [
       { title: 'ID', field: 'role' }
     ],
     schema: {
-      title: 'Роль Пользователя',
       type: 'object',
       properties: {
         role: {
-          title: 'Роль',
-          type: 'string',
+          title: 'Роль пользователя:',
           enum: ['ADMIN', 'USER'],
-          enumNames: ['Admin', 'User']
+          enumNames: ['Администратор', 'Пользователь']
         }
       }
     },
@@ -337,10 +375,10 @@ const GridEntities = [
 ];
 
 function getEntityByType (entityType) {
-  return GridEntities.find((el) => {
+  return gridEntities.find((el) => {
     return el.id === entityType;
   });
 }
 
 export { getEntityByType };
-export default GridEntities;
+export default gridEntities;

@@ -28,7 +28,7 @@ import java.util.List;
 @ToString(exclude = {"contracts"}, callSuper = true)
 @EntityListeners(AuditingEntityListener.class)
 @Data
-public class Paket extends Auditable {
+public class Paket extends Auditable implements BaseEntity {
 
   @Id
   @SequenceGenerator(name = "paketSequence", sequenceName = "paketSequence", allocationSize = 1, initialValue = 1001)
@@ -82,7 +82,7 @@ public class Paket extends Auditable {
   private Boolean limitUsageByPaymentPercentage;
 
   @Column(name = "active")
-  private Boolean isActive;
+  private Boolean active;
 
   @Column(name = "purchasable")
   private Boolean purchasable;

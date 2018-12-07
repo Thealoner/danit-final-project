@@ -18,8 +18,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.junit.Assert.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -29,6 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class DiscountControllerTest {
 
+  private static final String url = "/discount";
   @Autowired
   TestUtils testUtils;
   @Autowired
@@ -37,7 +41,6 @@ public class DiscountControllerTest {
   private TestRestTemplate template;
   @Autowired
   private MockMvc mockMvc;
-  private static final String url = "/discount";
 
   @Test
   public void isOkWhenAdminAccess() throws Exception {
@@ -132,7 +135,7 @@ public class DiscountControllerTest {
 
   @Test
   public void deleteDiscountById() throws Exception {
-    int currentQty= discountService.getDiscountQty();
+    int currentQty = discountService.getDiscountQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     String responseJson = this.mockMvc.perform(post(url).headers(header)
@@ -150,7 +153,7 @@ public class DiscountControllerTest {
 
     assertEquals(currentQty + 1, discountService.getDiscountQty());
 
-    mockMvc.perform(delete(url+"/" + createdId).headers(header))
+    mockMvc.perform(delete(url + "/" + createdId).headers(header))
         .andExpect(status().isOk());
 
     assertEquals(currentQty, discountService.getAllDiscounts().size());
@@ -161,7 +164,7 @@ public class DiscountControllerTest {
   public void expect404WhenNoDataFoundDiscount() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
-    mockMvc.perform(get(url+"/0").headers(header))
+    mockMvc.perform(get(url + "/0").headers(header))
         .andExpect(status().isNotFound());
   }
 
@@ -169,7 +172,7 @@ public class DiscountControllerTest {
   public void expect500WhenDeleteNonexistentDiscount() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
-    mockMvc.perform(delete(url+"/0").headers(header))
+    mockMvc.perform(delete(url + "/0").headers(header))
         .andExpect(status().is(500));
   }
 

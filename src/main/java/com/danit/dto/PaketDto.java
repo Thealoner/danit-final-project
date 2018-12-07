@@ -2,13 +2,17 @@ package com.danit.dto;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
+@ToString(exclude = "contracts")
 @Data
-public class PaketDto {
+public class PaketDto extends BaseDto{
 
-  @JsonView({Views.Extended.class, Views.Ids.class})
+  @JsonView({Views.Extended.class, Views.Ids.class, Views.Short.class})
   private Long id;
 
   @JsonView(Views.Short.class)
@@ -57,7 +61,7 @@ public class PaketDto {
   private Boolean limitUsageByPaymentPercentage;
 
   @JsonView(Views.Short.class)
-  private Boolean isActive;
+  private Boolean active;
 
   @JsonView(Views.Extended.class)
   private Boolean purchasable;

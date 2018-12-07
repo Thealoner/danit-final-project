@@ -17,9 +17,9 @@ class Admin extends Component {
   };
 
   setRecordData = (data, edited) => {
-    let tabs = this.state.tabs;
+    const tabs = this.state.tabs;
 
-    let currentTabIndex = tabs.findIndex((tab) => {
+    const currentTabIndex = tabs.findIndex((tab) => {
       return tab.tabKey === this.state.activeKey;
     });
 
@@ -36,7 +36,7 @@ class Admin extends Component {
   };
 
   getRecordData = () => {
-    let currentTab = this.state.tabs.find((tab) => {
+    const currentTab = this.state.tabs.find((tab) => {
       return tab.tabKey === this.state.activeKey;
     });
 
@@ -51,12 +51,12 @@ class Admin extends Component {
       tabKey: `${index}`,
       contentUrl: ''
     };
-    
+
     this.setState({
       tabs: this.state.tabs.concat(newTab),
       activeKey: `${index}`
     });
-    
+
     this.props.history.push('/admin/' + index + '/');
   };
 
@@ -65,7 +65,7 @@ class Admin extends Component {
       activeKey
     });
 
-    let clickedTab = this.state.tabs.find((tab) => {
+    const clickedTab = this.state.tabs.find((tab) => {
       return tab.tabKey === activeKey;
     });
 
@@ -75,7 +75,6 @@ class Admin extends Component {
   remove = (tabKey, e) => {
     e.stopPropagation();
     if (this.state.tabs.length === 1) {
-      alert('Error. You cannot delete this tab');
       return;
     }
     let foundIndex = 0;
@@ -101,16 +100,23 @@ class Admin extends Component {
   };
 
   setTabTitle = (title) => {
-    let currentTab = this.state.tabs.find((tab) => {
+    const currentTabIndex = this.state.tabs.findIndex((tab) => {
       return tab.tabKey === this.state.activeKey;
     });
 
-    currentTab.title = title;
-    return currentTab.title;
+    this.setState(prevState => ({
+      tabs: [
+        ...prevState.tabs.filter((tab, index) => index !== currentTabIndex),
+        {
+          ...prevState.tabs[currentTabIndex],
+          title: title
+        }
+      ]
+    }));
   };
 
   setTabContentUrl = (url) => {
-    let currentTab = this.state.tabs.find((tab) => {
+    const currentTab = this.state.tabs.find((tab) => {
       return tab.tabKey === this.state.activeKey;
     });
 

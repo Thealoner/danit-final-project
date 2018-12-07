@@ -1,11 +1,11 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import GridEntities from '../GridEntities';
+import gridEntities from '../gridEntities';
 
 function EntitiesMenu (props) {
-  let links = [];
+  const links = [];
 
-  GridEntities.forEach((entity) => {
+  gridEntities.forEach((entity) => {
     links.push(
       <NavLink to={'/manager/' + props.activeKey + '/' + entity.id} key={entity.id} className="configurator__link"
         activeClassName="configurator__link--active" onClick={() => props.setTabTitle(entity.name)}>{entity.name}</NavLink>

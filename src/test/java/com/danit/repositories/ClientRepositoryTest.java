@@ -45,7 +45,7 @@ public class ClientRepositoryTest {
       clientRepository.save(client);
     }
 
-    assertThat(clientRepository.getNumberOfClients()).isEqualTo(10);
+    assertThat(clientRepository.count()).isEqualTo(10);
 
     List<Client> clients = (List<Client>) this.clientRepository.findAll();
     for (int i = 0; i < 10; i++) {
@@ -61,7 +61,7 @@ public class ClientRepositoryTest {
       clientRepository.save(client);
     }
     clientRepository.deleteAll();
-    assertThat(clientRepository.getNumberOfClients()).isEqualTo(0);
+    assertThat(clientRepository.count()).isEqualTo(0);
   }
 
 }

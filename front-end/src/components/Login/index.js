@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import './index.scss';
 import AuthService from './AuthService';
+import {connect} from 'react-redux';
+import {LOADING_STATUS} from '../../actions/types';
 
 class Login extends Component {
   constructor () {
@@ -23,9 +25,20 @@ class Login extends Component {
 
   handleSubmit (e) {
     e.preventDefault();
+
+    this.props.dispatch({
+      type: LOADING_STATUS
+    });
+
     this.Auth.login(this.state.username, this.state.password)
       .then(res => {
         this.props.history.replace('/');
+
+        setTimeout(() => {
+          this.props.dispatch({
+            type: LOADING_STATUS
+          });
+        }, 1000);
       })
       .catch(err => {
         console.log(err);
@@ -52,11 +65,13 @@ class Login extends Component {
           <form action="#" className="login__form" ref={form => (this.form = form)} onSubmit={this.handleSubmit}>
             <label htmlFor="username" className="login__label">Логин</label>
             <input type="text" className="login__input" ref={username => (this.username = username)} name="username"
-              id="username" value={this.state.username} onChange={this.handleChange} placeholder="insert username (Admin)"
+              id="username" value={this.state.username} onChange={this.handleChange}
+              placeholder="insert username (Admin)"
               required/>
             <label htmlFor="password" className="login__label">Пароль</label>
             <input type="password" className="login__input" ref={password => (this.password = password)} name="password"
-              id="password" value={this.state.password} onChange={this.handleChange} placeholder="введите пароль (1234)"
+              id="password" value={this.state.password} onChange={this.handleChange}
+              placeholder="введите пароль (1234)"
               required/>
             <div className="login__remember">
               <input type="checkbox"/>
@@ -72,11 +87,11 @@ class Login extends Component {
   }
 
   componentDidMount = () => {
-    let form = this.form;
-    let username = this.username;
-    let password = this.password;
-    let submitBtn = this.submitBtn;
-    let error = this.error;
+    const form = this.form;
+    const username = this.username;
+    const password = this.password;
+    const submitBtn = this.submitBtn;
+    const error = this.error;
 
     form.onkeydown = function (event) {
       if (event.keyCode === 13) {
@@ -108,4 +123,4 @@ class Login extends Component {
   };
 }
 
-export default Login;
+export default connect()(Login);
