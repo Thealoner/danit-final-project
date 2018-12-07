@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import static com.danit.utils.ControllerUtils.convertToMap;
 
@@ -53,15 +52,22 @@ public class ClientController {
     return ResponseEntity.status(HttpStatus.CREATED).body(clientFacade.saveEntities(clients));
   }
 
+  @JsonView(Views.Ids.class)
+  @GetMapping(path = "/ids")
+  public ResponseEntity<Map<String, Object>> getAllClientsDtoIds(Pageable pageable,
+                                                                 Principal principal,
+                                                                 ClientListRequestDto clientListRequestDto) {
+    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
+    return ResponseEntity.ok(convertToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
+  }
+
   @JsonView(Views.Short.class)
   @GetMapping(path = "/short")
   public ResponseEntity<Map<String, Object>> getAllClientsDtoShort(Pageable pageable,
                                                                    Principal principal,
                                                                    ClientListRequestDto clientListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
-    return ResponseEntity.ok(convertToMap(Objects.nonNull(clientListRequestDto) ?
-        clientFacade.getAllEntities(clientListRequestDto, pageable) :
-        clientFacade.getAllEntities(pageable)));
+    return ResponseEntity.ok(convertToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
   }
 
   @JsonView(Views.Extended.class)
@@ -70,9 +76,7 @@ public class ClientController {
                                                                       Principal principal,
                                                                       ClientListRequestDto clientListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
-    return ResponseEntity.ok(convertToMap(Objects.nonNull(clientListRequestDto) ?
-        clientFacade.getAllEntities(clientListRequestDto, pageable) :
-        clientFacade.getAllEntities(pageable)));
+    return ResponseEntity.ok(convertToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
   }
 
   @JsonView(Views.Extended.class)

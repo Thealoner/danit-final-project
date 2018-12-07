@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import static com.danit.utils.ControllerUtils.convertToMap;
 
@@ -56,9 +55,7 @@ public class ContractController {
                                                              ContractListRequestDto contractListRequestDto) {
     log.info(principal.getName() + " got all Contract data");
     log.info("clientListRequestDto" + contractListRequestDto);
-    return ResponseEntity.ok(convertToMap(Objects.nonNull(contractListRequestDto) ?
-        contractFacade.getAllEntities(contractListRequestDto, pageable) :
-        contractFacade.getAllEntities(pageable)));
+    return ResponseEntity.ok(convertToMap(contractFacade.getAllEntities(contractListRequestDto, pageable)));
   }
 
   @JsonView(Views.Extended.class)
