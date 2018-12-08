@@ -1,11 +1,17 @@
 package com.danit.controllers;
 
+import com.danit.dto.Views;
+import com.danit.dto.service.ServiceCategoryListRequestDto;
+import com.danit.facades.ServiceCategoryFacade;
 import com.danit.models.ServiceCategory;
-import com.danit.models.Services;
-import com.danit.services.ServiceCategoryService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.annotation.JsonView;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,79 +19,122 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
+
+import static com.danit.utils.ControllerUtils.DEFAULT_PAGE_NUMBER;
+import static com.danit.utils.ControllerUtils.DEFAULT_PAGE_SIZE;
+import static com.danit.utils.ControllerUtils.convertDtoToMap;
+import static com.danit.utils.ControllerUtils.convertPageToMap;
 
 @RestController
 @RequestMapping("/service_categories")
+@Slf4j
 public class ServiceCategoryController {
 
-  private Logger logger = LoggerFactory.getLogger(ServiceCategoryController.class);
+  private static final String LOG_MSG_GOT_ALL_DATA = " got all service categories data";
+  private ServiceCategoryFacade serviceCategoryFacade;
 
-  private ServiceCategoryService serviceCategoryService;
-
-  @Autowired
-  public ServiceCategoryController(ServiceCategoryService serviceCategoryService) {
-    this.serviceCategoryService = serviceCategoryService;
+  public ServiceCategoryController(ServiceCategoryFacade serviceCategoryFacade) {
+    this.serviceCategoryFacade = serviceCategoryFacade;
   }
 
+  @JsonView(Views.Extended.class)
   @PostMapping
-  List<ServiceCategory> createServiceCategories(@RequestBody List<ServiceCategory> serviceCategories, Principal principal) {
-    logger.info(principal.getName() + " is saving new service categories: " + serviceCategories);
-    return serviceCategoryService.saveServiceCategories(serviceCategories);
+  public ResponseEntity<Map<String, Object>> createServiceCategoriesDto(@RequestBody List<ServiceCategory> serviceCategories,
+                                                                        Principal principal) {
+    log.info(principal.getName() + " is saving new service categories: " + serviceCategories);
+    return ResponseEntity.ok(convertDtoToMap(serviceCategoryFacade.saveEntities(serviceCategories)));
   }
 
+  @JsonView(Views.Ids.class)
+  @GetMapping(path = "/ids")
+  public ResponseEntity<Map<String, Object>> getAllServiceCategoriesDtoIds(
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal,
+      ServiceCategoryListRequestDto serviceCategoryListRequestDto) {
+    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
+    return ResponseEntity.ok(convertPageToMap(serviceCategoryFacade.getAllEntities(serviceCategoryListRequestDto,pageable)));
+  }
+
+  @JsonView(Views.Short.class)
+  @GetMapping(path = "/short")
+  public ResponseEntity<Map<String, Object>> getAllServiceCategoriesDtoShort(
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal,
+      ServiceCategoryListRequestDto serviceCategoryListRequestDto) {
+    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
+    return ResponseEntity.ok(convertPageToMap(serviceCategoryFacade.getAllEntities(serviceCategoryListRequestDto,pageable)));
+  }
+
+  @JsonView(Views.Extended.class)
   @GetMapping
-  List<ServiceCategory> getAllServiceCategories(Principal principal) {
-    logger.info(principal.getName() + " got all service categories data");
-    return serviceCategoryService.getAllServiceCategories();
+  public ResponseEntity<Map<String, Object>> getAllServiceCategoriesDtoExtended(
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal,
+      ServiceCategoryListRequestDto serviceCategoryListRequestDto) {
+    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
+    return ResponseEntity
+        .ok(convertPageToMap(serviceCategoryFacade.getAllEntities(serviceCategoryListRequestDto, pageable)));
   }
 
+  @JsonView(Views.Extended.class)
   @GetMapping("/{id}")
-  ServiceCategory getServiceCategoryById(@PathVariable(name = "id") long id, Principal principal) {
-    logger.info(principal.getName() + " got service categories data with id: " + id);
-    return serviceCategoryService.getServiceCategoryById(id);
+  public ResponseEntity<Map<String, Object>> getServiceCategoryByIdDto(@PathVariable(name = "id") long id,
+                                                                       Principal principal) {
+    log.info(principal.getName() + " got service categories data with id: " + id);
+    return ResponseEntity.ok(convertDtoToMap(serviceCategoryFacade.getEntityById(id)));
   }
 
+  @JsonView(Views.Extended.class)
   @PutMapping
-  List<ServiceCategory> updateServiceCategories(@RequestBody List<ServiceCategory> serviceCategories, Principal principal) {
-    logger.info(principal.getName() + " is updating service categories data: " + serviceCategories);
-    return serviceCategoryService.saveServiceCategories(serviceCategories);
+  public ResponseEntity<Map<String, Object>> updateServiceCategoriesDto(
+      @RequestBody List<ServiceCategory> serviceCategories,
+      Principal principal) {
+    log.info(principal.getName() + " is updating service categories data: " + serviceCategories);
+    return ResponseEntity.ok(convertDtoToMap(serviceCategoryFacade.updateEntities(serviceCategories)));
   }
 
-  @PutMapping("/{id}")
-  ServiceCategory updateServiceCategory(@RequestBody ServiceCategory serviceCategory, Principal principal) {
-    logger.info(principal.getName() + " is updating service category data: " + serviceCategory);
-    return serviceCategoryService.saveServiceCategory(serviceCategory);
-  }
-
+  @ResponseStatus(HttpStatus.OK)
   @DeleteMapping
   void deleteServiceCategories(@RequestBody List<ServiceCategory> serviceCategories, Principal principal) {
-    logger.info(principal.getName() + " try to delete service category data: " + serviceCategories);
-    serviceCategoryService.deleteServiceCategories(serviceCategories);
+    log.info(principal.getName() + " try to delete service category data: " + serviceCategories);
+    serviceCategoryFacade.deleteEntities(serviceCategories);
   }
 
+  @ResponseStatus(HttpStatus.OK)
   @DeleteMapping("/{id}")
   void deleteServiceCategoryById(@PathVariable(name = "id") long id, Principal principal) {
-    logger.info(principal.getName() + " try to delete service category with id: " + id);
-    serviceCategoryService.deleteServiceCategoryById(id);
+    log.info(principal.getName() + " try to delete service category with id: " + id);
+    serviceCategoryFacade.deleteEntityById(id);
   }
 
-  @DeleteMapping("/{servCatId}/services/{serviceId}")
-  void deleteServiceCategoryById(@PathVariable(name = "servCatId") long servCatId,
-                                 @PathVariable(name = "serviceId") long serviceId,
-                                 Principal principal) {
-    logger.info(principal.getName() + " try to delete service with id: " + serviceId
-        + " in service category with id: " + servCatId);
-    serviceCategoryService.deleteServiceCategoryService(servCatId, serviceId);
-  }
+//  @DeleteMapping("/{servCatId}/services/{serviceId}")
+//  void deleteServiceCategoryById(@PathVariable(name = "servCatId") long servCatId,
+//                                 @PathVariable(name = "serviceId") long serviceId,
+//                                 Principal principal) {
+//    logger.info(principal.getName() + " try to delete service with id: " + serviceId
+//        + " in service category with id: " + servCatId);
+//    serviceCategoryService.deleteServiceCategoryService(servCatId, serviceId);
+//  }
 
-  @GetMapping("/{id}/services")
-  List<Services> getAllServiceCategoryServices(@PathVariable(name = "id") long id, Principal principal) {
-    logger.info(principal.getName() + " got services from service category with id: " + id);
-    return serviceCategoryService.getAllServiceCategoryServices(id);
-  }
+//  @GetMapping("/{id}/services")
+//  List<Services> getAllServiceCategoryServices(@PathVariable(name = "id") long id, Principal principal) {
+//    logger.info(principal.getName() + " got services from service category with id: " + id);
+//    return serviceCategoryService.getAllServiceCategoryServices(id);
+//  }
 
 }
