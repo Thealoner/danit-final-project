@@ -5,19 +5,19 @@ import lombok.Data;
 @Data
 public class ServiceListRequestDto {
 
-  String search;
+  public String search;
 
-  private Long id;
+  public Long id;
 
-  private String title;
+  public String title;
 
-  private Float price;
+  public Float price;
 
-  private Float cost;
+  public Float cost;
 
-  private String unit;
+  public String unit;
 
-  private int unitsNumber;
+  public int unitsNumber;
 
-  private Boolean isActive;
+  public Boolean isActive;
 }

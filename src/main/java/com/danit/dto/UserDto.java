@@ -7,7 +7,6 @@ import lombok.ToString;
 
 
 @EqualsAndHashCode(callSuper = true)
-@ToString(exclude = "roles")
 @Data
 public class UserDto extends BaseDto {
 

@@ -5,12 +5,12 @@ import lombok.Data;
 @Data
 public class ServiceCategoryListRequestDto {
 
-  String search;
+  public String search;
 
-  private Long id;
+  public Long id;
 
-  private String title;
+  public String title;
 
-  private Boolean isActive;
+  public Boolean isActive;
 
 }
