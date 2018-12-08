@@ -10,6 +10,10 @@ public class ControllerUtils {
 
   public static final ControllerUtils CONTROLLER_UTILS = new ControllerUtils();
 
+  public static final int DEFAULT_PAGE_SIZE = 6;
+
+  public static final int DEFAULT_PAGE_NUMBER = 1;
+
   private ControllerUtils() {
   }
 
