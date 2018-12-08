@@ -8,11 +8,11 @@ import org.springframework.stereotype.Repository;
 import java.util.Set;
 
 @Repository
-public interface ServiceRepository extends JpaRepository<Services, Long> {
+public interface ServiceRepository extends EntityRepository<Services> {
   @Query("select s.id from Services s")
   Set<Long> getAllServicesId();
 
-  @Query("select count(*) from Services")
-  int getTotalQuantityOfServices();
+//  @Query("select count(*) from Services")
+//  int getTotalQuantityOfServices();
 
 }

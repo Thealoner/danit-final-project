@@ -1,11 +1,13 @@
 package com.danit.controllers;
 
+import com.danit.dto.ServiceCategoryDto;
+import com.danit.dto.ServiceDto;
+import com.danit.dto.service.ServiceCategoryListRequestDto;
+import com.danit.facades.ServiceCategoryFacade;
 import com.danit.models.ServiceCategory;
-import com.danit.models.Services;
-import com.danit.services.ServiceCategoryService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,34 +19,37 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
+
+import static com.danit.utils.ControllerUtils.convertToMap;
 
 @RestController
 @RequestMapping("/service_categories")
+@Slf4j
 public class ServiceCategoryController {
 
-  private Logger logger = LoggerFactory.getLogger(ServiceCategoryController.class);
+  private ServiceCategoryFacade serviceCategoryFacade;
 
-  private ServiceCategoryService serviceCategoryService;
-
-  @Autowired
-  public ServiceCategoryController(ServiceCategoryService serviceCategoryService) {
-    this.serviceCategoryService = serviceCategoryService;
+  public ServiceCategoryController(ServiceCategoryFacade serviceCategoryFacade) {
+    this.serviceCategoryFacade = serviceCategoryFacade;
   }
 
   @PostMapping
-  List<ServiceCategory> createServiceCategories(@RequestBody List<ServiceCategory> serviceCategories, Principal principal) {
-    logger.info(principal.getName() + " is saving new service categories: " + serviceCategories);
-    return serviceCategoryService.saveServiceCategories(serviceCategories);
+  public ResponseEntity<List<ServiceCategoryDto>> createServiceCategories(@RequestBody List<ServiceCategory> serviceCategories, Principal principal) {
+    log.info(principal.getName() + " is saving new service categories: " + serviceCategories);
+    return ResponseEntity.ok(serviceCategoryFacade.saveEntities(serviceCategories));
   }
 
   @GetMapping
-  List<ServiceCategory> getAllServiceCategories(Principal principal) {
-    logger.info(principal.getName() + " got all service categories data");
-    return serviceCategoryService.getAllServiceCategories();
+  public ResponseEntity<Map<String, Object>> getAllServiceCategories(Pageable pageable,
+                                                                     Principal principal,
+                                                                     ServiceCategoryListRequestDto serviceCategoryListRequestDto) {
+    log.info(principal.getName() + " got all service categories data");
+    return ResponseEntity.ok(convertToMap(serviceCategoryFacade.getAllEntities(serviceCategoryListRequestDto,pageable)));
   }
 
   @GetMapping("/{id}")
-  ServiceCategory getServiceCategoryById(@PathVariable(name = "id") long id, Principal principal) {
+  public ResponseEntity<ServiceCategoryDto> getServiceCategoryById(@PathVariable(name = "id") long id, Principal principal) {
     logger.info(principal.getName() + " got service categories data with id: " + id);
     return serviceCategoryService.getServiceCategoryById(id);
   }
@@ -82,10 +87,10 @@ public class ServiceCategoryController {
     serviceCategoryService.deleteServiceCategoryService(servCatId, serviceId);
   }
 
-  @GetMapping("/{id}/services")
-  List<Services> getAllServiceCategoryServices(@PathVariable(name = "id") long id, Principal principal) {
-    logger.info(principal.getName() + " got services from service category with id: " + id);
-    return serviceCategoryService.getAllServiceCategoryServices(id);
-  }
+//  @GetMapping("/{id}/services")
+//  List<Services> getAllServiceCategoryServices(@PathVariable(name = "id") long id, Principal principal) {
+//    logger.info(principal.getName() + " got services from service category with id: " + id);
+//    return serviceCategoryService.getAllServiceCategoryServices(id);
+//  }
 
 }
