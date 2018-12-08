@@ -39,6 +39,8 @@ public class DepartmentControllerTest {
   @Autowired
   DepartmentService departmentService;
   @Autowired
+  ObjectMapper objectMapper;
+  @Autowired
   private TestRestTemplate template;
   @Autowired
   private MockMvc mockMvc;
@@ -60,8 +62,8 @@ public class DepartmentControllerTest {
         .content("{\n"
             + "    \"name\": \"Test department\",\n"
             + "    \"shortName\": \"Test department\",\n"
-            + "    \"dateFrom\": \"1978-12-22\",\n"
-            + "    \"dateTo\": \"2200-12-31\",\n"
+            + "    \"dateFrom\": \"22-12-1978\",\n"
+            + "    \"dateTo\": \"31-12-2200\",\n"
             + "    \"hierLevel\": 1,\n"
             + "    \"companyid\": 1,\n"
             + "    \"sortPosition\": \"0001\"\n"
@@ -82,8 +84,8 @@ public class DepartmentControllerTest {
         .content("{\n"
             + "    \"name\": \"Test department\",\n"
             + "    \"shortName\": \"Test department\",\n"
-            + "    \"dateFrom\": \"1978-12-22\",\n"
-            + "    \"dateTo\": \"2200-12-31\",\n"
+            + "    \"dateFrom\": \"22-12-1978\",\n"
+            + "    \"dateTo\": \"31-12-2200\",\n"
             + "    \"hierLevel\": 1,\n"
             + "    \"companyid\": 1,\n"
             + "    \"sortPosition\": \"0001\"\n"
@@ -91,8 +93,7 @@ public class DepartmentControllerTest {
         .andExpect(status().isOk())
         .andReturn().getResponse().getContentAsString();
 
-    ObjectMapper mapper = new ObjectMapper();
-    Department actualObj = mapper.readValue(responseJson, new TypeReference<Department>() {
+    Department actualObj = objectMapper.readValue(responseJson, new TypeReference<Department>() {
     });
     long createdId = actualObj.getId();
     System.out.println(actualObj);
@@ -104,14 +105,14 @@ public class DepartmentControllerTest {
             + "    \"id\": " + createdId + ",\n"
             + "    \"name\": \"Test department2\",\n"
             + "    \"shortName\": \"Test department2\",\n"
-            + "    \"dateFrom\": \"2000-02-01\",\n"
-            + "    \"dateTo\": \"2200-12-31\",\n"
+            + "    \"dateFrom\": \"01-02-2000\",\n"
+            + "    \"dateTo\": \"31-12-2200\",\n"
             + "    \"hierLevel\": 1\n"
             + "  }"))
         .andExpect(status().isOk())
         .andReturn().getResponse().getContentAsString();
 
-    actualObj = mapper.readValue(responseJson, new TypeReference<Department>() {
+    actualObj = objectMapper.readValue(responseJson, new TypeReference<Department>() {
     });
     System.out.println(actualObj);
     assertEquals("Test department2", actualObj.getName());
@@ -127,8 +128,8 @@ public class DepartmentControllerTest {
         .content("{\n"
             + "    \"name\": \"Test department\",\n"
             + "    \"shortName\": \"Test department\",\n"
-            + "    \"dateFrom\": \"1978-12-22\",\n"
-            + "    \"dateTo\": \"2200-12-31\",\n"
+            + "    \"dateFrom\": \"22-12-1978\",\n"
+            + "    \"dateTo\": \"31-12-2200\",\n"
             + "    \"hierLevel\": 1,\n"
             + "    \"companyid\": 1,\n"
             + "    \"sortPosition\": \"0001\"\n"
@@ -150,8 +151,8 @@ public class DepartmentControllerTest {
         .content("{\n"
             + "    \"name\": \"Test department\",\n"
             + "    \"shortName\": \"Test department\",\n"
-            + "    \"dateFrom\": \"1978-12-22\",\n"
-            + "    \"dateTo\": \"2200-12-31\",\n"
+            + "    \"dateFrom\": \"22-12-1978\",\n"
+            + "    \"dateTo\": \"31-12-2200\",\n"
             + "    \"hierLevel\": 1,\n"
             + "    \"companyid\": 1,\n"
             + "    \"sortPosition\": \"0001\"\n"
@@ -159,8 +160,7 @@ public class DepartmentControllerTest {
         .andExpect(status().isOk())
         .andReturn().getResponse().getContentAsString();
 
-    ObjectMapper mapper = new ObjectMapper();
-    Department actualObj = mapper.readValue(responseJson, new TypeReference<Department>() {
+    Department actualObj = objectMapper.readValue(responseJson, new TypeReference<Department>() {
     });
     long createdId = actualObj.getId();
 
