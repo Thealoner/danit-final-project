@@ -65,7 +65,7 @@ class Login extends Component {
             <label htmlFor="username" className="login__label">Логин</label>
             <input type="text" className="login__input" ref={username => (this.username = username)} name="username"
               id="username" value={this.state.username} onChange={this.handleChange}
-              placeholder="insert username (Admin)"
+              placeholder="введите логин (Admin)"
               required/>
             <label htmlFor="password" className="login__label">Пароль</label>
             <input type="password" className="login__input" ref={password => (this.password = password)} name="password"
