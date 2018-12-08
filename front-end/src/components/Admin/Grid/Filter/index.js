@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import './index.scss';
 
+let defaultFilter = {
+  field: 'search',
+  value: ''
+};
 class Filter extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      field: '',
-      value: ''
+      ...defaultFilter
     };
-
-    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
-  handleInputChange (event) {
+  handleInputChange = (event) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
@@ -32,17 +33,20 @@ class Filter extends Component {
     this.props.clearFilter();
 
     this.setState({
-      field: '',
-      value: ''
+      ...defaultFilter
     });
   };
 
   renderFields = () => {
     const { columns } = this.props;
     
-    return columns.map(column => (
+    let fields = columns.map(column => (
       <option key={column.field} value={column.field}>{column.title}</option>
     ));
+
+    fields.unshift(<option key="search" value="search">Все</option>);
+      
+    return fields;
   };
 
   render () {
@@ -51,7 +55,6 @@ class Filter extends Component {
         <span>
           <label>Поле: </label>
           <select name="field" value={this.state.field} onChange={this.handleInputChange}>
-            <option>Все</option>
             {this.renderFields()}
           </select>
         </span>
