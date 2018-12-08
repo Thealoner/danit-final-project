@@ -32,15 +32,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class DiscountControllerTest {
 
+  private static final String url = "/discount";
   @Autowired
   TestUtils testUtils;
   @Autowired
   DiscountService discountService;
   @Autowired
+  ObjectMapper objectMapper;
+  @Autowired
   private TestRestTemplate template;
   @Autowired
   private MockMvc mockMvc;
-  private static final String url = "/discount";
 
   @Test
   public void isOkWhenAdminAccess() throws Exception {
@@ -105,14 +107,13 @@ public class DiscountControllerTest {
         .content("{\n"
             + "    \"name\": \"10% discount\",\n"
             + "    \"percent\": 10,\n"
-            + "    \"dateFrom\": \"2005-08-30\",\n"
-            + "    \"dateTo\": \"2005-08-30\"\n"
+            + "    \"dateFrom\": \"30-08-2005\",\n"
+            + "    \"dateTo\": \"30-08-2005\"\n"
             + "  }"))
         .andExpect(status().isOk())
         .andReturn().getResponse().getContentAsString();
 
-    ObjectMapper mapper = new ObjectMapper();
-    Discount actualObj = mapper.readValue(responseJson, new TypeReference<Discount>() {
+    Discount actualObj = objectMapper.readValue(responseJson, new TypeReference<Discount>() {
     });
     long createdId = actualObj.getId();
     System.out.println(actualObj);
@@ -126,7 +127,7 @@ public class DiscountControllerTest {
         .andExpect(status().isOk())
         .andReturn().getResponse().getContentAsString();
 
-    actualObj = mapper.readValue(responseJson, new TypeReference<Discount>() {
+    actualObj = objectMapper.readValue(responseJson, new TypeReference<Discount>() {
     });
     System.out.println(actualObj);
     assertEquals("Test Discount", actualObj.getName());
@@ -135,7 +136,7 @@ public class DiscountControllerTest {
 
   @Test
   public void deleteDiscountById() throws Exception {
-    int currentQty= discountService.getDiscountQty();
+    int currentQty = discountService.getDiscountQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     String responseJson = this.mockMvc.perform(post(url).headers(header)
@@ -153,7 +154,7 @@ public class DiscountControllerTest {
 
     assertEquals(currentQty + 1, discountService.getDiscountQty());
 
-    mockMvc.perform(delete(url+"/" + createdId).headers(header))
+    mockMvc.perform(delete(url + "/" + createdId).headers(header))
         .andExpect(status().isOk());
 
     assertEquals(currentQty, discountService.getAllDiscounts().size());
@@ -164,7 +165,7 @@ public class DiscountControllerTest {
   public void expect404WhenNoDataFoundDiscount() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
-    mockMvc.perform(get(url+"/0").headers(header))
+    mockMvc.perform(get(url + "/0").headers(header))
         .andExpect(status().isNotFound());
   }
 
@@ -172,7 +173,7 @@ public class DiscountControllerTest {
   public void expect500WhenDeleteNonexistentDiscount() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
-    mockMvc.perform(delete(url+"/0").headers(header))
+    mockMvc.perform(delete(url + "/0").headers(header))
         .andExpect(status().is(500));
   }
 

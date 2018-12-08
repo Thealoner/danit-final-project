@@ -8,11 +8,12 @@
   background-color: $main-bg;
   border: 1px solid $EG-white;
 
-  &__label {
+  label {
     margin-right: 10px;
   }
-  &__input,
-  &__selector {
+
+  input,
+  select {
     width: 150px;
     height: 30px;
     margin-right: 20px;
@@ -21,7 +22,7 @@
     border-radius: 3px;
   }
 
-  &__btn {
+  button {
     height: 30px;
     margin-right: 20px;
     color: $pink-bg;

@@ -33,17 +33,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class DepartmentControllerTest {
 
 
+  private static final String url = "/department";
   @Autowired
   TestUtils testUtils;
   @Autowired
   DepartmentService departmentService;
   @Autowired
+  ObjectMapper objectMapper;
+  @Autowired
   private TestRestTemplate template;
   @Autowired
   private MockMvc mockMvc;
-
-  private static final String url = "/department";
-
 
   @Test
   public void isOkWhenAdminAccess() throws Exception {
@@ -62,8 +62,8 @@ public class DepartmentControllerTest {
         .content("{\n"
             + "    \"name\": \"Test department\",\n"
             + "    \"shortName\": \"Test department\",\n"
-            + "    \"dateFrom\": \"1978-12-22\",\n"
-            + "    \"dateTo\": \"2200-12-31\",\n"
+            + "    \"dateFrom\": \"22-12-1978\",\n"
+            + "    \"dateTo\": \"31-12-2200\",\n"
             + "    \"hierLevel\": 1,\n"
             + "    \"companyid\": 1,\n"
             + "    \"sortPosition\": \"0001\"\n"
@@ -84,8 +84,8 @@ public class DepartmentControllerTest {
         .content("{\n"
             + "    \"name\": \"Test department\",\n"
             + "    \"shortName\": \"Test department\",\n"
-            + "    \"dateFrom\": \"1978-12-22\",\n"
-            + "    \"dateTo\": \"2200-12-31\",\n"
+            + "    \"dateFrom\": \"22-12-1978\",\n"
+            + "    \"dateTo\": \"31-12-2200\",\n"
             + "    \"hierLevel\": 1,\n"
             + "    \"companyid\": 1,\n"
             + "    \"sortPosition\": \"0001\"\n"
@@ -93,8 +93,7 @@ public class DepartmentControllerTest {
         .andExpect(status().isOk())
         .andReturn().getResponse().getContentAsString();
 
-    ObjectMapper mapper = new ObjectMapper();
-    Department actualObj = mapper.readValue(responseJson, new TypeReference<Department>() {
+    Department actualObj = objectMapper.readValue(responseJson, new TypeReference<Department>() {
     });
     long createdId = actualObj.getId();
     System.out.println(actualObj);
@@ -106,14 +105,14 @@ public class DepartmentControllerTest {
             + "    \"id\": " + createdId + ",\n"
             + "    \"name\": \"Test department2\",\n"
             + "    \"shortName\": \"Test department2\",\n"
-            + "    \"dateFrom\": \"2000-02-01\",\n"
-            + "    \"dateTo\": \"2200-12-31\",\n"
+            + "    \"dateFrom\": \"01-02-2000\",\n"
+            + "    \"dateTo\": \"31-12-2200\",\n"
             + "    \"hierLevel\": 1\n"
             + "  }"))
         .andExpect(status().isOk())
         .andReturn().getResponse().getContentAsString();
 
-    actualObj = mapper.readValue(responseJson, new TypeReference<Department>() {
+    actualObj = objectMapper.readValue(responseJson, new TypeReference<Department>() {
     });
     System.out.println(actualObj);
     assertEquals("Test department2", actualObj.getName());
@@ -129,8 +128,8 @@ public class DepartmentControllerTest {
         .content("{\n"
             + "    \"name\": \"Test department\",\n"
             + "    \"shortName\": \"Test department\",\n"
-            + "    \"dateFrom\": \"1978-12-22\",\n"
-            + "    \"dateTo\": \"2200-12-31\",\n"
+            + "    \"dateFrom\": \"22-12-1978\",\n"
+            + "    \"dateTo\": \"31-12-2200\",\n"
             + "    \"hierLevel\": 1,\n"
             + "    \"companyid\": 1,\n"
             + "    \"sortPosition\": \"0001\"\n"
@@ -144,7 +143,7 @@ public class DepartmentControllerTest {
 
   @Test
   public void deleteDepartmentById() throws Exception {
-    int currentQty= departmentService.getDepartmentQty();
+    int currentQty = departmentService.getDepartmentQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     String responseJson = this.mockMvc.perform(post(url).headers(header)
@@ -152,8 +151,8 @@ public class DepartmentControllerTest {
         .content("{\n"
             + "    \"name\": \"Test department\",\n"
             + "    \"shortName\": \"Test department\",\n"
-            + "    \"dateFrom\": \"1978-12-22\",\n"
-            + "    \"dateTo\": \"2200-12-31\",\n"
+            + "    \"dateFrom\": \"22-12-1978\",\n"
+            + "    \"dateTo\": \"31-12-2200\",\n"
             + "    \"hierLevel\": 1,\n"
             + "    \"companyid\": 1,\n"
             + "    \"sortPosition\": \"0001\"\n"
@@ -161,14 +160,13 @@ public class DepartmentControllerTest {
         .andExpect(status().isOk())
         .andReturn().getResponse().getContentAsString();
 
-    ObjectMapper mapper = new ObjectMapper();
-    Department actualObj = mapper.readValue(responseJson, new TypeReference<Department>() {
+    Department actualObj = objectMapper.readValue(responseJson, new TypeReference<Department>() {
     });
     long createdId = actualObj.getId();
 
     assertEquals(currentQty + 1, departmentService.getDepartmentQty());
 
-    mockMvc.perform(delete(url+"/" + createdId).headers(header))
+    mockMvc.perform(delete(url + "/" + createdId).headers(header))
         .andExpect(status().isOk());
 
     assertEquals(currentQty, departmentService.getAllDepartments().size());
@@ -179,7 +177,7 @@ public class DepartmentControllerTest {
   public void expect404WhenNoDataFoundDepartment() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
-    mockMvc.perform(get(url+"/0").headers(header))
+    mockMvc.perform(get(url + "/0").headers(header))
         .andExpect(status().isNotFound());
   }
 
@@ -187,7 +185,7 @@ public class DepartmentControllerTest {
   public void expect500WhenDeleteNonexistentDepartment() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
-    mockMvc.perform(delete(url+"/0").headers(header))
+    mockMvc.perform(delete(url + "/0").headers(header))
         .andExpect(status().is(500));
   }
 

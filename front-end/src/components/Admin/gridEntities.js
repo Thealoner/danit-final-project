@@ -6,7 +6,7 @@ import contracts from '../../SampleJson/contracts.json';
 import organizations from '../../SampleJson/organizations.json';
 import clients from '../../SampleJson/clients.json';
 
-const GridEntities = [
+const gridEntities = [
   {
     id: 'pakets',
     name: 'Пакеты',
@@ -205,10 +205,41 @@ const GridEntities = [
     recordComponent: 'Package',
     columns: [
       { title: 'ID', field: 'id' },
-      { title: 'Пакет', field: 'paket.title' },
-      { title: 'Клиент', field: 'client.name', align: 'left' },
+      { title: 'Дата начала', field: 'startDate' },
+      { title: 'Дана окончания', field: 'endDate' },
+      { title: 'ID клиента', field: 'clientId', align: 'left' },
       { title: 'Активен', field: 'active' }
-    ]
+    ],
+    schema: {
+      type: 'object',
+      properties: {
+        packageId: {
+          title: 'ID пакета',
+          type: 'number'
+        },
+        startDate: {
+          title: 'Дата начала срока действия',
+          type: 'string'
+        },
+        endDate: {
+          title: 'Дата окончания срока действия',
+          type: 'string'
+        },
+        credit: {
+          title: 'Кредит',
+          type: 'number'
+        },
+        clientId: {
+          title: 'ID клиента',
+          type: 'number'
+        },
+        active: {
+          title: 'Активен',
+          type: 'boolean'
+        }
+      }
+    },
+    uiSchema: {}
   },
   {
     id: 'organizations',
@@ -326,14 +357,12 @@ const GridEntities = [
       { title: 'ID', field: 'role' }
     ],
     schema: {
-      title: 'Роль Пользователя',
       type: 'object',
       properties: {
         role: {
-          title: 'Роль',
-          type: 'string',
+          title: 'Роль пользователя:',
           enum: ['ADMIN', 'USER'],
-          enumNames: ['Admin', 'User']
+          enumNames: ['Администратор', 'Пользователь']
         }
       }
     },
@@ -346,10 +375,10 @@ const GridEntities = [
 ];
 
 function getEntityByType (entityType) {
-  return GridEntities.find((el) => {
+  return gridEntities.find((el) => {
     return el.id === entityType;
   });
 }
 
 export { getEntityByType };
-export default GridEntities;
+export default gridEntities;

@@ -1,9 +1,11 @@
 package com.danit.models;
 
 
+import com.danit.models.auditor.Auditable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -18,13 +20,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "card_colors")
+@Table(name = "cards")
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 @NoArgsConstructor
 @ToString(exclude = {"contract"})
 @Data
-public class Card {
+public class Card extends Auditable implements BaseEntity {
 
   @Id
   @SequenceGenerator(name = "cardColorSequence", allocationSize = 1, initialValue = 1001)
@@ -36,7 +39,7 @@ public class Card {
   private String code;
 
   @Column(name = "card_active")
-  private boolean active;
+  private Boolean active;
 
   @Column(name = "contract_id")
   private Long contractId;

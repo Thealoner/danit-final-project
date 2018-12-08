@@ -17,3 +17,8 @@ code {
   height: 100vh;
   font-family: 'Lato', sans-serif;
 }
+
+.redux-toastr .top-center {
+  top: 50% !important;
+  transform: translateY(-60%);
+}

@@ -57,7 +57,7 @@ public class BidirectionalRelationshipCLientContractRestTest {
         new HttpEntity<Object>(header),
         String.class);
 
-    assertEquals(result1.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+    assertEquals(HttpStatus.NOT_FOUND, result1.getStatusCode());
   }
 
   @Test

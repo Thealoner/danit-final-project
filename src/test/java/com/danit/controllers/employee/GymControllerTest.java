@@ -32,6 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class GymControllerTest {
 
+  private static final String url = "/gym";
   @Autowired
   TestUtils testUtils;
   @Autowired
@@ -40,9 +41,6 @@ public class GymControllerTest {
   private TestRestTemplate template;
   @Autowired
   private MockMvc mockMvc;
-  
-  private static final String url = "/gym";
-
 
   @Test
   public void isOkWhenAdminAccess() throws Exception {
@@ -88,7 +86,7 @@ public class GymControllerTest {
     long createdId = actualObj.getId();
     System.out.println(actualObj);
 
-    responseJson = mockMvc.perform(put(url+"/" + createdId).headers(header)
+    responseJson = mockMvc.perform(put(url + "/" + createdId).headers(header)
         .contentType("application/json")
         .content("{\n"
             + "    \"id\": " + createdId + ", \n"
@@ -125,7 +123,7 @@ public class GymControllerTest {
   public void expect404WhenNoDataFoundGym() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
-    mockMvc.perform(get(url+"/0").headers(header))
+    mockMvc.perform(get(url + "/0").headers(header))
         .andExpect(status().isNotFound());
   }
 
@@ -133,13 +131,13 @@ public class GymControllerTest {
   public void expect500WhenDeleteNonexistentGym() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
-    mockMvc.perform(delete(url+"/0").headers(header))
+    mockMvc.perform(delete(url + "/0").headers(header))
         .andExpect(status().is(500));
   }
 
   @Test
   public void deleteGymById() throws Exception {
-    int currentQty= gymService.getGymQty();
+    int currentQty = gymService.getGymQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     String responseJson = this.mockMvc.perform(post(url).headers(header)
@@ -158,7 +156,7 @@ public class GymControllerTest {
 
     assertEquals(currentQty + 1, gymService.getGymQty());
 
-    mockMvc.perform(delete(url+"/" + createdId).headers(header))
+    mockMvc.perform(delete(url + "/" + createdId).headers(header))
         .andExpect(status().isOk());
 
     assertEquals(currentQty, gymService.getAllGyms().size());

@@ -3,8 +3,9 @@ import './index.scss';
 import Tabulator from 'tabulator-tables';
 import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
-import { getEntityByType } from '../GridEntities';
-import ajaxRequest from '../../Helpers';
+import { getEntityByType } from '../gridEntities';
+import ajaxRequest from '../../../helpers/ajaxRequest';
+import {toastr} from 'react-redux-toastr';
 
 class Grid extends Component {
     el = React.createRef();
@@ -15,7 +16,7 @@ class Grid extends Component {
     tabulator = null;
 
     rowClick = (e, row) => {
-      let { entityType, tabKey } = this.props.match.params;
+      const { entityType, tabKey } = this.props.match.params;
       this.props.setTabContentUrl(entityType + '/' + row.getData().id);
       this.props.history.push({
         pathname: '/manager/' + tabKey + '/' + entityType + '/' + row.getData().id,
@@ -27,8 +28,8 @@ class Grid extends Component {
     };
 
     getData = () => {
-      let { entityType } = this.props.match.params;
-      let entity = getEntityByType(entityType);
+      const { entityType } = this.props.match.params;
+      const entity = getEntityByType(entityType);
 
       ajaxRequest(entity.apiUrl)
         .then(data => {
@@ -40,7 +41,7 @@ class Grid extends Component {
           this.tabulator.setData(this.data);
         })
         .catch(error => {
-          console.log('' + error);
+          toastr.error(error);
           this.id = '';
           this.data = [];
           this.columns = [];
@@ -50,8 +51,8 @@ class Grid extends Component {
     };
 
     render () {
-      let { entityType } = this.props.match.params;
-      let { setTabContentUrl } = this.props;
+      const { entityType } = this.props.match.params;
+      const { setTabContentUrl } = this.props;
       setTabContentUrl(entityType);
 
       return (
@@ -71,7 +72,7 @@ class Grid extends Component {
     }
 
     componentDidUpdate () {
-      let { entityType } = this.props.match.params;
+      const { entityType } = this.props.match.params;
 
       if (entityType !== this.id) {
         this.getData();
