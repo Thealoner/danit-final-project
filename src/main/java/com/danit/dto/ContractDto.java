@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 public class ContractDto extends BaseDto {
 
-  @JsonView(Views.Ids.class)
+  @JsonView({Views.Ids.class, Views.Short.class})
   private Long id;
 
   @JsonView(Views.Short.class)
@@ -42,8 +42,7 @@ public class ContractDto extends BaseDto {
   //  @JsonIgnore
   //  private PaketDto paket;
 
-  @JsonView(Views.Extended.class)
+  @JsonView({Views.Extended.class, Views.Ids.class})
   private List<CardDto> cards;
-
 
 }

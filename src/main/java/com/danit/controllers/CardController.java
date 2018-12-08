@@ -1,6 +1,5 @@
 package com.danit.controllers;
 
-import com.danit.dto.CardDto;
 import com.danit.dto.Views;
 import com.danit.dto.service.CardListRequestDto;
 import com.danit.facades.CardFacade;
@@ -26,7 +25,8 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
-import static com.danit.utils.ControllerUtils.convertToMap;
+import static com.danit.utils.ControllerUtils.convertDtoToMap;
+import static com.danit.utils.ControllerUtils.convertPageToMap;
 
 @Slf4j
 @RestController
@@ -43,12 +43,11 @@ public class CardController {
     this.cardService = cardService;
   }
 
-  //--------dto---------------------------------------------------------------------------------------------------------
   @JsonView(Views.Extended.class)
-  @PostMapping("/extended")
-  public ResponseEntity<List<CardDto>> createCardsDtoExtended(@RequestBody List<Card> cards, Principal principal) {
+  @PostMapping
+  public ResponseEntity<Map<String, Object>> createCardsDtoExtended(@RequestBody List<Card> cards, Principal principal) {
     log.info(principal.getName() + " is saving new cards: " + cards);
-    return ResponseEntity.status(HttpStatus.CREATED).body(cardFacade.saveEntities(cards));
+    return ResponseEntity.ok(convertDtoToMap(cardFacade.saveEntities(cards)));
   }
 
   @JsonView(Views.Ids.class)
@@ -57,7 +56,7 @@ public class CardController {
                                                                Principal principal,
                                                                CardListRequestDto cardListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
-    return ResponseEntity.ok(convertToMap(cardFacade.getAllEntities(cardListRequestDto, pageable)));
+    return ResponseEntity.ok(convertPageToMap(cardFacade.getAllEntities(cardListRequestDto, pageable)));
   }
 
   @JsonView(Views.Short.class)
@@ -66,87 +65,44 @@ public class CardController {
                                                                  Principal principal,
                                                                  CardListRequestDto cardListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
-    return ResponseEntity.ok(convertToMap(cardFacade.getAllEntities(cardListRequestDto, pageable)));
+    return ResponseEntity.ok(convertPageToMap(cardFacade.getAllEntities(cardListRequestDto, pageable)));
   }
 
   @JsonView(Views.Extended.class)
-  @GetMapping("/extended")
+  @GetMapping
   public ResponseEntity<Map<String, Object>> getAllCardsDtoExtended(Pageable pageable,
                                                                     Principal principal,
                                                                     CardListRequestDto cardListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
-    return ResponseEntity.ok(convertToMap(cardFacade.getAllEntities(cardListRequestDto, pageable)));
+    return ResponseEntity.ok(convertPageToMap(cardFacade.getAllEntities(cardListRequestDto, pageable)));
   }
 
   @JsonView(Views.Extended.class)
-  @GetMapping("/{id}/extended")
-  ResponseEntity<CardDto> getCardByIdDtoExtended(@PathVariable(name = "id") long id, Principal principal) {
+  @GetMapping("/{id}")
+  ResponseEntity<Map<String, Object>> getCardByIdDtoExtended(@PathVariable(name = "id") long id, Principal principal) {
     log.info(principal.getName() + " got card data with id: " + id);
-    return ResponseEntity.ok(cardFacade.getEntityById(id));
+    return ResponseEntity.ok(convertDtoToMap(cardFacade.getEntityById(id)));
   }
 
   @JsonView(Views.Extended.class)
-  @PutMapping("/extended")
-  public ResponseEntity<List<CardDto>> updateCardsDto(@RequestBody List<Card> cards, Principal principal) {
+  @PutMapping
+  public ResponseEntity<Map<String, Object>> updateCardsDto(@RequestBody List<Card> cards, Principal principal) {
     log.info(principal.getName() + " is updating cards data: " + cards);
-    return ResponseEntity.ok(cardFacade.updateEntities(cards));
+    return ResponseEntity.ok(convertDtoToMap(cardFacade.updateEntities(cards)));
   }
 
-  @DeleteMapping("/{id}/dto")
+  @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   public void deleteCardByIdDto(@PathVariable(name = "id") long id, Principal principal) {
     log.info(principal.getName() + " is trying to delete card with id: " + id);
     cardFacade.deleteEntityById(id);
   }
 
-  @DeleteMapping("/dto")
+  @DeleteMapping
   @ResponseStatus(HttpStatus.OK)
   public void deleteCardsDto(@RequestBody List<Card> cards, Principal principal) {
     log.info(principal.getName() + " is trying to delete cards: " + cards);
     cardFacade.deleteEntities(cards);
-  }
-
-  //------not dto-------------------------------------------------------------------------------------------------------
-
-  @GetMapping
-  public ResponseEntity<Map<String, Object>> getAllCards(Pageable pageable,
-                                                         Principal principal,
-                                                         CardListRequestDto cardListRequestDto) {
-    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
-    log.info("cardListRequestDto=" + cardListRequestDto);
-    return ResponseEntity.ok(convertToMap(cardService.getAllEntities(cardListRequestDto, pageable)));
-  }
-
-  @GetMapping("/{id}")
-  ResponseEntity<Card> getCardById(@PathVariable(name = "id") long id, Principal principal) {
-    log.info(principal.getName() + " got card data with id: " + id);
-    return ResponseEntity.ok(cardService.getEntityById(id));
-  }
-
-  @PostMapping
-  public ResponseEntity<List<Card>> createClients(@RequestBody List<Card> cards, Principal principal) {
-    log.info(principal.getName() + " is saving new cards: " + cards);
-    return ResponseEntity.status(HttpStatus.CREATED).body(cardService.saveEntities(cards));
-  }
-
-  @PutMapping
-  public ResponseEntity<List<Card>> addCards(@RequestBody List<Card> cards, Principal principal) {
-    log.info(principal.getName() + " is updating cards data: " + cards);
-    return ResponseEntity.ok(cardService.updateEntities(cards));
-  }
-
-  @DeleteMapping("/{id}")
-  @ResponseStatus(HttpStatus.OK)
-  public void deleteCardById(@PathVariable(name = "id") long id, Principal principal) {
-    log.info(principal.getName() + " is trying to delete card with id: " + id);
-    cardService.deleteEntityById(id);
-  }
-
-  @DeleteMapping
-  @ResponseStatus(HttpStatus.OK)
-  public void deleteCards(@RequestBody List<Card> cards, Principal principal) {
-    log.info(principal.getName() + " is trying to delete cards: " + cards);
-    cardService.deleteEntities(cards);
   }
 
 }

@@ -22,7 +22,7 @@ import javax.persistence.Table;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "card_colors")
+@Table(name = "cards")
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 @NoArgsConstructor
 @ToString(exclude = {"contract"})
