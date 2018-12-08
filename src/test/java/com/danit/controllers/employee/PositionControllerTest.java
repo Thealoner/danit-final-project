@@ -32,6 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class PositionControllerTest {
 
+  private static final String url = "/position";
   @Autowired
   TestUtils testUtils;
   @Autowired
@@ -40,9 +41,6 @@ public class PositionControllerTest {
   private TestRestTemplate template;
   @Autowired
   private MockMvc mockMvc;
-
-  private  static  final String url= "/position";
-
 
   @Test
   public void isOkWhenAdminAccess() throws Exception {
@@ -105,7 +103,7 @@ public class PositionControllerTest {
     long createdId = actualObj.getId();
     System.out.println(actualObj);
 
-    responseJson = mockMvc.perform(put(url+"/" + createdId).headers(header)
+    responseJson = mockMvc.perform(put(url + "/" + createdId).headers(header)
         .contentType("application/json")
         .content("{\n"
             + "    \"id\": " + createdId + ", \n"
@@ -123,7 +121,7 @@ public class PositionControllerTest {
 
   @Test
   public void deletePositionById() throws Exception {
-    int currentQty= positionService.getPositionQty();
+    int currentQty = positionService.getPositionQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     String responseJson = this.mockMvc.perform(post(url).headers(header)
@@ -142,7 +140,7 @@ public class PositionControllerTest {
 
     assertEquals(currentQty + 1, positionService.getPositionQty());
 
-    mockMvc.perform(delete(url+"/" + createdId).headers(header))
+    mockMvc.perform(delete(url + "/" + createdId).headers(header))
         .andExpect(status().isOk());
 
     assertEquals(currentQty, positionService.getAllPositions().size());
@@ -153,7 +151,7 @@ public class PositionControllerTest {
   public void expect404WhenNoDataFoundPosition() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
-    mockMvc.perform(get(url+"/0").headers(header))
+    mockMvc.perform(get(url + "/0").headers(header))
         .andExpect(status().isNotFound());
   }
 
@@ -161,7 +159,7 @@ public class PositionControllerTest {
   public void expect500WhenDeleteNonexistentSPosition() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
-    mockMvc.perform(delete(url+"/0").headers(header))
+    mockMvc.perform(delete(url + "/0").headers(header))
         .andExpect(status().is(500));
   }
 }

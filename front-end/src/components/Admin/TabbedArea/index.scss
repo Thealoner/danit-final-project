@@ -108,14 +108,14 @@
   // override classes:
 
   &-content {
-    height: 95%;
+    height: calc(100% - 35px);
     padding: 15px;
     overflow: hidden !important;
     background-color: $main-bg;
   }
 
   &-bar {
-    height: 5%;
+    height: 35px;
     background-color: #fff;
     border-bottom: none !important;
   }
