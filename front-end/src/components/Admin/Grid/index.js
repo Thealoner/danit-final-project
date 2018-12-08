@@ -7,13 +7,13 @@ import Filter from './Filter';
 import ajaxRequest from '../../../helpers/ajaxRequest';
 import {toastr} from 'react-redux-toastr';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Pagination} from 'react-bootstrap';
+import { Pagination } from 'react-bootstrap';
 
 const defaultMeta = {
   totalElements: 0,
   currentPage: 1,
   pagesTotal: 1,
-  elementsPerPage: 5
+  elementsPerPage: 2
 };
 class Grid extends Component {
   constructor (props) {
@@ -44,7 +44,7 @@ class Grid extends Component {
     });
   };
 
-  getData = (page = 1, size = 5, filterString = '') => {
+  getData = (page = 1, size = 2, filterString = '') => {
     const { entityType } = this.props.match.params;
     const entity = getEntityByType(entityType);
 
@@ -103,10 +103,20 @@ class Grid extends Component {
     const paginationPages = [];
     setTabContentUrl(entityType);
 
-    for (let number = 1; number <= pagesTotal; number++) {
+    if (currentPage > 2) {
       paginationPages.push(
-        <Pagination.Item active={number === currentPage}
-          onClick={() => this.getData(number, elementsPerPage)}>{number}</Pagination.Item>
+        <Pagination.Item onClick={() => this.getData( currentPage-1, elementsPerPage )}>{currentPage-1}</Pagination.Item>
+      );
+    }
+
+    if (currentPage > 1 && currentPage < pagesTotal) {
+      paginationPages.push(
+        <Pagination.Item onClick={() => this.getData( currentPage, elementsPerPage )}>{currentPage}</Pagination.Item>
+      );
+    }
+    if (currentPage < pagesTotal - 2) {
+      paginationPages.push(
+        <Pagination.Item onClick={() => this.getData( currentPage+1, elementsPerPage )}>{currentPage+1}</Pagination.Item>
       );
     }
 
@@ -120,8 +130,13 @@ class Grid extends Component {
             Добавить {getEntityByType(entityType).nameForAddBtn}</Link>
           <Pagination>
             <Pagination.Prev onClick={this.pagePrev} disabled={currentPage <= 1}/>
+            <Pagination.Item onClick={() => this.getData(1, elementsPerPage)}>{1}</Pagination.Item>
+            <Pagination.Ellipsis />
             {paginationPages}
+            <Pagination.Ellipsis />
+            <Pagination.Item onClick={() => this.getData(pagesTotal, elementsPerPage)}>{pagesTotal}</Pagination.Item>
             <Pagination.Next onClick={this.pageNext} disabled={currentPage >= pagesTotal}/>
+
           </Pagination>
         </div>
       </Fragment>
