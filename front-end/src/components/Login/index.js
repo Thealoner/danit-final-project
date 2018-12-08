@@ -40,8 +40,7 @@ class Login extends Component {
           });
         }, 1000);
       })
-      .catch(err => {
-        console.log(err);
+      .catch(() => {
         this.error.classList.add('login__data-error--visible');
       });
   }
@@ -66,17 +65,13 @@ class Login extends Component {
             <label htmlFor="username" className="login__label">Логин</label>
             <input type="text" className="login__input" ref={username => (this.username = username)} name="username"
               id="username" value={this.state.username} onChange={this.handleChange}
-              placeholder="insert username (Admin)"
+              placeholder="введите логин (Admin)"
               required/>
             <label htmlFor="password" className="login__label">Пароль</label>
             <input type="password" className="login__input" ref={password => (this.password = password)} name="password"
               id="password" value={this.state.password} onChange={this.handleChange}
               placeholder="введите пароль (1234)"
               required/>
-            <div className="login__remember">
-              <input type="checkbox"/>
-              <label>Запомнить меня</label>
-            </div>
             <input type="submit" className="login__input" ref={submitBtn => (this.submitBtn = submitBtn)}
               name="" value="Войти"/>
           </form>

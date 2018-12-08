@@ -5,6 +5,7 @@ import { getEntityByType } from '../../gridEntities';
 import AuthService from '../../../Login/AuthService';
 import Form from 'react-jsonschema-form';
 import ajaxRequest, {resizeInput} from '../../../../helpers/ajaxRequest';
+import {toastr} from 'react-redux-toastr';
 
 const formInputs = document.getElementsByClassName('form-control');
 
@@ -58,13 +59,16 @@ class RecordEditor extends Component {
     )
       .then(json => {
         this.props.setRecordData(json[0], false);
-        this.showMessage('success', 'Данные успешно сохранены');
-        this.hideMessageAfterTimeout();
+        this.setState({
+          loading: false
+        });
+        toastr.success('Данные успешно сохранены');
       })
       .catch(error => {
-        console.log(error);
-        this.showMessage('error', 'Ошибка при сохранении');
-        this.hideMessageAfterTimeout();
+        this.setState({
+          loading: false
+        });
+        toastr.error('Ошибка при сохранении', error);
       });
   };
 
@@ -85,9 +89,11 @@ class RecordEditor extends Component {
     )
       .then(json => {
         this.props.setRecordData(json[0], false);
-        this.showMessage('success', 'Данные успешно сохранены');
-        this.hideMessageAfterTimeout();
-        
+        this.setState({
+          loading: false
+        });
+        toastr.success('Данные успешно сохранены');
+
         const editorUrl = entityType + '/edit/' + json[0].id;
         setTabContentUrl(editorUrl);
         this.props.history.push({
@@ -95,9 +101,10 @@ class RecordEditor extends Component {
         });
       })
       .catch(error => {
-        console.log(error);
-        this.showMessage('error', 'Ошибка при сохранении');
-        this.hideMessageAfterTimeout();
+        this.setState({
+          loading: false
+        });
+        toastr.error('Oшибка при сохранении', error);
       });
   };
 
@@ -106,25 +113,6 @@ class RecordEditor extends Component {
   };
 
   log = (form) => console.log.bind(console, form);
-
-  showMessage = (type, text) => {
-    this.setState({
-      loading: false,
-      messageText: text,
-      messageType: type
-    });
-  };
-
-  renderMessage = () => this.state.messageType !== ''
-    ? <span className={'record__save-message record__save-message--' + this.state.messageType}>{this.state.messageText}</span>
-    : '';
-
-  hideMessageAfterTimeout = (timeout = 1000) => {
-    setTimeout(() => this.setState({
-      messageText: '',
-      messageType: ''
-    }), timeout);
-  };
 
   render () {
     const { mode, rowId } = this.props.match.params;
@@ -150,7 +138,6 @@ class RecordEditor extends Component {
           onError={this.log('errors')}>
           <button disabled={this.state.loading} type='submit' className='record__button'>Сохранить</button>
         </Form>
-        {this.renderMessage()}
       </Fragment>
     );
   }
