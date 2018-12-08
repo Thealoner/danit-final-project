@@ -1,13 +1,13 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import GridEntities from '../GridEntities';
+import gridEntities from '../gridEntities';
 
 function EntitiesMenu (props) {
-  let links = [];
+  const links = [];
 
-  GridEntities.forEach((entity) => {
+  gridEntities.forEach((entity) => {
     let url = '/admin/' + props.activeKey + '/' + entity.id;
-    
+
     links.push(
       <NavLink
         to={url}

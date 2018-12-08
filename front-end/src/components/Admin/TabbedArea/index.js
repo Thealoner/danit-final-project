@@ -10,8 +10,8 @@ import Record from '../Record';
 
 class TabbedArea extends Component {
   componentDidUpdate () {
-    let tabs = document.getElementsByClassName('rc-tabs-tab');
-    let tabActive = document.querySelector('.rc-tabs-tab-active');
+    const tabs = document.getElementsByClassName('rc-tabs-tab');
+    const tabActive = document.querySelector('.rc-tabs-tab-active');
 
     for (let i = 0; i < tabs.length; i++) {
       tabs[i].style.borderBottomRightRadius = '0';
