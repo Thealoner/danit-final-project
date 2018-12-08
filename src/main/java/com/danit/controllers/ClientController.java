@@ -5,11 +5,13 @@ import com.danit.dto.Views;
 import com.danit.dto.service.ClientListRequestDto;
 import com.danit.facades.ClientFacade;
 import com.danit.models.Client;
-import com.danit.services.ClientService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,6 +28,8 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
+import static com.danit.utils.ControllerUtils.DEFAULT_PAGE_NUMBER;
+import static com.danit.utils.ControllerUtils.DEFAULT_PAGE_SIZE;
 import static com.danit.utils.ControllerUtils.convertDtoToMap;
 import static com.danit.utils.ControllerUtils.convertPageToMap;
 
@@ -35,12 +39,11 @@ import static com.danit.utils.ControllerUtils.convertPageToMap;
 public class ClientController {
 
   private static final String LOG_MSG_GOT_ALL_DATA = " got all clients data";
-  private ClientService clientService;
+
   private ClientFacade clientFacade;
 
   @Autowired
-  public ClientController(ClientService clientService, ClientFacade clientFacade) {
-    this.clientService = clientService;
+  public ClientController(ClientFacade clientFacade) {
     this.clientFacade = clientFacade;
   }
 
@@ -54,27 +57,40 @@ public class ClientController {
 
   @JsonView(Views.Ids.class)
   @GetMapping(path = "/ids")
-  public ResponseEntity<Map<String, Object>> getAllClientsDtoIds(Pageable pageable,
-                                                                 Principal principal,
-                                                                 ClientListRequestDto clientListRequestDto) {
+  public ResponseEntity<Map<String, Object>> getAllClientsDtoIds(
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal,
+      ClientListRequestDto clientListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
     return ResponseEntity.ok(convertPageToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
   }
 
   @JsonView(Views.Short.class)
   @GetMapping(path = "/short")
-  public ResponseEntity<Map<String, Object>> getAllClientsDtoShort(Pageable pageable,
-                                                                   Principal principal,
-                                                                   ClientListRequestDto clientListRequestDto) {
+  public ResponseEntity<Map<String, Object>> getAllClientsDtoShort(
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal,
+      ClientListRequestDto clientListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
+    log.info("pageable: " + pageable);
     return ResponseEntity.ok(convertPageToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
   }
 
   @JsonView(Views.Extended.class)
   @GetMapping
-  public ResponseEntity<Map<String, Object>> getAllClientsDtoExtended(Pageable pageable,
-                                                                      Principal principal,
-                                                                      ClientListRequestDto clientListRequestDto) {
+  public ResponseEntity<Map<String, Object>> getAllClientsDtoExtended(
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal,
+      ClientListRequestDto clientListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
     return ResponseEntity.ok(convertPageToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
   }

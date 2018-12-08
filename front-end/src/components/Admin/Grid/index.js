@@ -9,6 +9,12 @@ import {toastr} from 'react-redux-toastr';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Pagination} from 'react-bootstrap';
 
+const defaultMeta = {
+  totalElements: 0,
+  currentPage: 1,
+  pagesTotal: 1,
+  elementsPerPage: 5
+};
 class Grid extends Component {
   constructor (props) {
     super(props);
@@ -18,10 +24,7 @@ class Grid extends Component {
       data: [],
       columns: [],
       meta: {
-        totalElements: 0,
-        currentPage: 1,
-        pagesTotal: 1,
-        elementsPerPage: 5
+        ...defaultMeta
       }
     };
   }
@@ -53,10 +56,7 @@ class Grid extends Component {
         if (response.data === undefined) {
           response.data = response;
           response.meta = {
-            totalElements: 0,
-            currentPage: 1,
-            pagesTotal: 1,
-            elementsPerPage: 5
+            ...defaultMeta
           };
         }
 
@@ -74,10 +74,7 @@ class Grid extends Component {
           data: [],
           columns: [],
           meta: {
-            totalElements: 0,
-            currentPage: 1,
-            pagesTotal: 1,
-            elementsPerPage: 5
+            ...defaultMeta
           }
         });
       });

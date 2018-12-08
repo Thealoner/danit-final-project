@@ -31,8 +31,8 @@ import java.util.List;
 public class Paket extends Auditable implements BaseEntity {
 
   @Id
-  @SequenceGenerator(name = "paketSequence", sequenceName = "paketSequence", allocationSize = 1, initialValue = 1001)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "paketSequence")
+  @SequenceGenerator(name = "paket_sequence", sequenceName = "paket_sequence", allocationSize = 1, initialValue = 1001)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "paket_sequence")
   @Column(name = "id")
   private Long id;
 
