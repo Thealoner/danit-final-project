@@ -8,6 +8,7 @@ import AuthService from '../../../Login/AuthService';
 import photo from './photo.jpg';
 import ajaxRequest from '../../../../helpers/ajaxRequest';
 import autoSize from 'autosize';
+import {toastr} from 'react-redux-toastr';
 
 class SimpleRecord extends Component {
   constructor (props) {
@@ -72,7 +73,7 @@ class SimpleRecord extends Component {
           autoSize(textareas);
         });
     } else {
-      console.log('Not logged in or token is expired');
+      toastr.error('Not logged in or token is expired');
     }
   };
 
@@ -91,14 +92,16 @@ class SimpleRecord extends Component {
       JSON.stringify([this.state.editableFields])
     )
       .then(response => {
-        console.log(response.status);
-        this.showMessage('success', 'Данные успешно сохранены');
-        this.hideMessageAfterTimeout();
+        this.setState({
+          loading: false
+        });
+        toastr.success('Данные успешно сохранены', response.status);
       })
       .catch(error => {
-        console.log(error);
-        this.showMessage('error', 'Ошибка при сохранении');
-        this.hideMessageAfterTimeout();
+        this.setState({
+          loading: false
+        });
+        toastr.error('Ошибка при сохранении', error);
       });
   };
 
@@ -113,25 +116,6 @@ class SimpleRecord extends Component {
         [name]: value
       }
     }));
-  };
-
-  showMessage = (type, text) => {
-    this.setState({
-      loading: false,
-      messageText: text,
-      messageType: type
-    });
-  };
-
-  renderMessage = () => this.state.messageType !== ''
-    ? <span className={'record__save-message record__save-message--' + this.state.messageType}>{this.state.messageText}</span>
-    : '';
-
-  hideMessageAfterTimeout = (timeout = 1000) => {
-    setTimeout(() => this.setState({
-      messageText: '',
-      messageType: ''
-    }), timeout);
   };
 
   render () {
@@ -266,7 +250,6 @@ class SimpleRecord extends Component {
           </div>
         </div>
         <button disabled={this.state.loading} onClick={this.saveData} className="record__button">Сохранить</button>
-        {this.renderMessage()}
       </div>
     );
   }

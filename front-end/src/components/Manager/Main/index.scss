@@ -1,0 +1,30 @@
+.main {
+  display: grid;
+  height: 100%;
+  grid-template-columns: 1fr 5fr;
+  grid-column-gap: .7vh;
+  overflow-y: auto;
+
+
+  &__left {
+    height: 100%;
+    background-color: whitesmoke;
+  }
+
+  &__menu {
+      margin: 1em;
+  }
+
+  &__menuitem {
+      margin: 2em .6em;
+  }
+
+  &__right {
+    overflow-y: auto;
+    background-color: whitesmoke;
+  }
+}
+
+.tabs{
+  width: 100%;
+}
