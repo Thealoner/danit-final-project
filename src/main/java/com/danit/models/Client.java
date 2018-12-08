@@ -2,11 +2,7 @@ package com.danit.models;
 
 
 import com.danit.models.auditor.Auditable;
-import com.danit.utils.CustomDateDeserializer;
-import com.danit.utils.CustomDateSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -38,7 +34,7 @@ import java.util.List;
 @ToString(exclude = {"contracts"}, callSuper = true)
 @EntityListeners(AuditingEntityListener.class)
 @Data
-public class Client extends Auditable {
+public class Client extends Auditable implements BaseEntity {
 
   @Id
   @SequenceGenerator(name = "clientSequence", sequenceName = "clientSequence", allocationSize = 1, initialValue = 1001)
@@ -56,8 +52,6 @@ public class Client extends Auditable {
   private String gender;
 
   @Column(name = "birth_date")
-  @JsonDeserialize(using = CustomDateDeserializer.class)
-  @JsonSerialize(using = CustomDateSerializer.class)
   @Temporal(TemporalType.DATE)
   private Date birthDate;
 
@@ -70,7 +64,7 @@ public class Client extends Auditable {
   @Column(name = "active")
   private Boolean active;
 
-  @OneToMany(mappedBy = "clientId", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+  @OneToMany(mappedBy = "clientId", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, orphanRemoval = true)
   private List<Contract> contracts;
 
 }

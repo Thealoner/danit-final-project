@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component, Fragment} from 'react';
 import AuthService from './AuthService';
 import Settings from '../Settings';
+import {FadeLoader} from 'react-spinners';
 import {connect} from 'react-redux';
 
 export default function withAuth (AuthComponent) {
@@ -14,7 +15,7 @@ export default function withAuth (AuthComponent) {
       };
     }
 
-    componentWillMount () {
+    UNSAFE_componentWillMount () {
       if (!Auth.loggedIn()) {
         this.props.history.replace('/login');
       } else {
@@ -33,7 +34,13 @@ export default function withAuth (AuthComponent) {
     render () {
       if (this.state.user) {
         return (
-          <AuthComponent history={this.props.history} user={this.state.user}/>
+          <Fragment>
+            {this.props.loading
+              ? <div className="app__loader-wrapper">
+                <FadeLoader sizeUnit={'px'} size={50} color={'#000'} loading={this.props.loading}/>
+              </div>
+              : <AuthComponent history={this.props.history} user={this.state.user}/>}
+          </Fragment>
         );
       } else {
         return null;
@@ -41,5 +48,11 @@ export default function withAuth (AuthComponent) {
     }
   }
 
-  return connect()(AuthWrapped);
+  const mapStateToProps = (store) => {
+    return {
+      loading: store.loading
+    };
+  };
+
+  return connect(mapStateToProps)(AuthWrapped);
 }

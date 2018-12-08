@@ -1,18 +1,17 @@
 package com.danit.controllers;
 
 
-import com.danit.dto.ClientDto;
-import com.danit.dto.PageDataDto;
 import com.danit.dto.Views;
 import com.danit.dto.service.ClientListRequestDto;
 import com.danit.facades.ClientFacade;
 import com.danit.models.Client;
-import com.danit.services.ClientService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,147 +20,107 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
-import java.text.ParseException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+
+import static com.danit.utils.ControllerUtils.DEFAULT_PAGE_NUMBER;
+import static com.danit.utils.ControllerUtils.DEFAULT_PAGE_SIZE;
+import static com.danit.utils.ControllerUtils.convertDtoToMap;
+import static com.danit.utils.ControllerUtils.convertPageToMap;
 
 @RestController
+@RequestMapping("/clients")
 @Slf4j
 public class ClientController {
 
-  private ClientService clientService;
+  private static final String LOG_MSG_GOT_ALL_DATA = " got all clients data";
+
   private ClientFacade clientFacade;
 
-  private String logMsg1 = " got all clients data";
-
   @Autowired
-  public ClientController(ClientService clientService, ClientFacade clientFacade) {
-    this.clientService = clientService;
+  public ClientController(ClientFacade clientFacade) {
     this.clientFacade = clientFacade;
   }
 
-
-  //------not dto------
-  @PostMapping("/clients")
-  public ResponseEntity<List<Client>> createClients(@RequestBody List<Client> clients, Principal principal) {
+  @JsonView(Views.Extended.class)
+  @PostMapping
+  public ResponseEntity<Map<String, Object>> createClientsDtoExtended(@RequestBody List<Client> clients,
+                                                                      Principal principal) {
     log.info(principal.getName() + " is saving new clients: " + clients);
-    return ResponseEntity.status(HttpStatus.CREATED).body(clientService.saveClients(clients));
+    return ResponseEntity.ok(convertDtoToMap(clientFacade.saveEntities(clients)));
   }
 
-  //--------dto--------
   @JsonView(Views.Ids.class)
-  @PostMapping("/clients/ids")
-  public ResponseEntity<List<ClientDto>> createClientsAndReturnIds(@RequestBody List<Client> clients, Principal principal) {
-    log.info(principal.getName() + " is saving new clients: " + clients);
-    return ResponseEntity.status(HttpStatus.CREATED).body(clientFacade.saveClients(clients));
+  @GetMapping(path = "/ids")
+  public ResponseEntity<Map<String, Object>> getAllClientsDtoIds(
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal,
+      ClientListRequestDto clientListRequestDto) {
+    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
+    return ResponseEntity.ok(convertPageToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
   }
 
-  //------not dto------
-  @GetMapping("/clients")
-  public ResponseEntity<Map<String, Object>> getAllClients(Pageable pageable,
-                                                           Principal principal,
-                                                           ClientListRequestDto clientListRequestDto) {
-    log.info(principal.getName() + logMsg1);
-    log.info("clientListRequestDto" + clientListRequestDto);
-    return ResponseEntity.ok(convertToMap(Objects.nonNull(clientListRequestDto) ?
-        clientService.getAllClients(clientListRequestDto, pageable) :
-        clientService.getAllClients(pageable)));
-  }
-
-  //--------dto--------
   @JsonView(Views.Short.class)
-  @GetMapping(path = "/clients/short")
-  public ResponseEntity<Map<String, Object>> getAllClientsShort(Pageable pageable,
-                                                                Principal principal) throws ParseException {
-    log.info(principal.getName() + logMsg1); // NOSONAR
-    return ResponseEntity.ok(convertToMap(clientFacade.getAllClients(pageable))); // NOSONAR
+  @GetMapping(path = "/short")
+  public ResponseEntity<Map<String, Object>> getAllClientsDtoShort(
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal,
+      ClientListRequestDto clientListRequestDto) {
+    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
+    log.info("pageable: " + pageable);
+    return ResponseEntity.ok(convertPageToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
   }
 
-  //--------dto--------
   @JsonView(Views.Extended.class)
-  @GetMapping(path = "/clients/extended")
-  public ResponseEntity<Map<String, Object>> getAllClientsExtended(Pageable pageable,
-                                                                   Principal principal) throws ParseException {
-    log.info(principal.getName() + logMsg1); // NOSONAR
-    return ResponseEntity.ok(convertToMap(clientFacade.getAllClients(pageable))); // NOSONAR
+  @GetMapping
+  public ResponseEntity<Map<String, Object>> getAllClientsDtoExtended(
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal,
+      ClientListRequestDto clientListRequestDto) {
+    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
+    return ResponseEntity.ok(convertPageToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
   }
 
-  //------not dto------
-  @GetMapping("/clients/{id}")
-  ResponseEntity<Client> getClientById(@PathVariable(name = "id") long id, Principal principal) {
-    log.info(principal.getName() + " got client data with id: " + id);
-    return ResponseEntity.ok(clientService.getClientById(id));
-  }
-
-  //--------dto--------
   @JsonView(Views.Extended.class)
-  @GetMapping("/clients/{id}/extended")
-  ResponseEntity<ClientDto> getClientByIdExtended(@PathVariable(name = "id") long id, Principal principal) {
+  @GetMapping("/{id}")
+  ResponseEntity<Map<String, Object>> getClientByIdDtoExtended(@PathVariable(name = "id") long id, Principal principal) {
     log.info(principal.getName() + " got client data with id: " + id);
-    return ResponseEntity.ok(clientFacade.getClientById(id));
+    return ResponseEntity.ok(convertDtoToMap(clientFacade.getEntityById(id)));
   }
 
-  //------not dto------
-  @PutMapping("/clients")
-  public ResponseEntity<List<Client>> addClients(@RequestBody List<Client> clients, Principal principal) {
+  @JsonView(Views.Extended.class)
+  @PutMapping
+  public ResponseEntity<Map<String, Object>> updateClientsDto(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is updating clients data: " + clients);
-    return ResponseEntity.ok(clientService.updateClients(clients));
+    return ResponseEntity.ok(convertDtoToMap(clientFacade.updateEntities(clients)));
   }
 
-
-  //--------dto--------
-  @JsonView(Views.Ids.class)
-  @PutMapping("/clients/ids")
-  public ResponseEntity<List<ClientDto>> addClientsAndReturnIds(@RequestBody List<Client> clients, Principal principal) {
-    log.info(principal.getName() + " is updating clients data: " + clients);
-    return ResponseEntity.ok(clientFacade.updateClients(clients));
-  }
-
-  //------not dto------
-  @DeleteMapping("/clients/{id}")
-  @ResponseStatus(HttpStatus.OK)
-  public void deleteClientById(@PathVariable(name = "id") long id, Principal principal) {
-    log.info(principal.getName() + " is trying to delete client with id: " + id);
-    clientService.deleteClientById(id);
-  }
-
-  //--------dto--------
-  @DeleteMapping("/clients/{id}/dto")
+  @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   public void deleteClientByIdDto(@PathVariable(name = "id") long id, Principal principal) {
     log.info(principal.getName() + " is trying to delete client with id: " + id);
-    clientFacade.deleteClientById(id);
+    clientFacade.deleteEntityById(id);
   }
 
-  //------not dto------
-  @DeleteMapping("/clients")
-  @ResponseStatus(HttpStatus.OK)
-  public void deleteClients(@RequestBody List<Client> clients, Principal principal) {
-    log.info(principal.getName() + " is trying to delete clients: " + clients);
-    clientService.deleteClients(clients);
-  }
-
-  //--------dto--------
-  @DeleteMapping("/clients/dto")
+  @DeleteMapping
   @ResponseStatus(HttpStatus.OK)
   public void deleteClientsDto(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is trying to delete clients: " + clients);
-    clientFacade.deleteClients(clients);
-  }
-
-  private <T> Map<String, Object> convertToMap(Page<T> pageData) {
-    Map<String, Object> outputData = new HashMap<>();
-    outputData.put("data", pageData.getContent());
-    outputData.put("meta", new PageDataDto(pageData.getTotalElements(),
-        pageData.getNumber() + 1, pageData.getTotalPages(),
-        pageData.getSize(), pageData.getNumberOfElements()));
-    return outputData;
+    clientFacade.deleteEntities(clients);
   }
 
 }

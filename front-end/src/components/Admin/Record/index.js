@@ -3,17 +3,16 @@ import './index.scss';
 import RecordEditor from './RecordEditor';
 import Client from './Client';
 import { Route } from 'react-router-dom';
-import GridEntities from '../GridEntities';
-import autoSize from 'autosize';
+import gridEntities from '../gridEntities';
 
 class Record extends Component {
   getRoutes = () => {
-    let {entityType} = this.props.match.params;
+    const {entityType} = this.props.match.params;
 
-    return GridEntities.map((entity) => {
+    return gridEntities.map((entity) => {
       let route;
 
-      if (entity.id === 'clients' || entity.id === 'contracts') { // This is just a temporary workaround condition
+      if (entity.id === 'clients') { // This is just a temporary workaround condition
         route = (
           <Route key={entity.id} path={'/admin/:tabKey/' + entity.id + '/:mode/:rowId?'} render={
             (props) => <Client
@@ -53,15 +52,6 @@ class Record extends Component {
         {this.getRoutes()}
       </div>
     );
-  }
-
-  componentDidMount () {
-    let textareas = document.getElementsByTagName('textarea');
-    autoSize(textareas);
-
-    for (let i = 0; i < textareas.length; i++) {
-      textareas[i].style.height = textareas[i].scrollHeight + 50 + 'px';
-    }
   }
 }
 

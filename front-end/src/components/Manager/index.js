@@ -37,7 +37,7 @@ class Manager extends Component {
       activeKey
     });
 
-    let clickedTab = this.state.tabs.find((tab) => {
+    const clickedTab = this.state.tabs.find((tab) => {
       return tab.tabKey === activeKey;
     });
 
@@ -73,7 +73,7 @@ class Manager extends Component {
   };
 
   setTabTitle = (title) => {
-    let currentTab = this.state.tabs.find((tab) => {
+    const currentTab = this.state.tabs.find((tab) => {
       return tab.tabKey === this.state.activeKey;
     });
 
@@ -82,7 +82,7 @@ class Manager extends Component {
   };
 
   setTabContentUrl = (url) => {
-    let currentTab = this.state.tabs.find((tab) => {
+    const currentTab = this.state.tabs.find((tab) => {
       return tab.tabKey === this.state.activeKey;
     });
 

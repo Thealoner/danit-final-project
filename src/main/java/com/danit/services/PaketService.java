@@ -1,19 +1,9 @@
 package com.danit.services;
 
+import com.danit.dto.service.PaketListRequestDto;
 import com.danit.models.Paket;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
-
-public interface PaketService {
-
-  List<Paket> getAllPakets();
-
-  Paket getPaketById(long id);
-
-  List<Paket> savePakets(List<Paket> pakets);
-
-  void deletePaketById(long id);
-
-  void deletePakets(List<Paket> pakets);
-
+@Service
+public class PaketService extends AbstractEntityService<Paket, PaketListRequestDto> {
 }

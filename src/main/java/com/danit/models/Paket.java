@@ -1,12 +1,16 @@
 package com.danit.models;
 
+import com.danit.models.auditor.Auditable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,13 +20,15 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "packages")
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 @NoArgsConstructor
-@ToString(exclude = {"contracts"})
+@ToString(exclude = {"contracts"}, callSuper = true)
+@EntityListeners(AuditingEntityListener.class)
 @Data
-public class Paket {
+public class Paket extends Auditable implements BaseEntity {
 
   @Id
   @SequenceGenerator(name = "paketSequence", sequenceName = "paketSequence", allocationSize = 1, initialValue = 1001)
@@ -76,7 +82,7 @@ public class Paket {
   private Boolean limitUsageByPaymentPercentage;
 
   @Column(name = "active")
-  private Boolean isActive;
+  private Boolean active;
 
   @Column(name = "purchasable")
   private Boolean purchasable;

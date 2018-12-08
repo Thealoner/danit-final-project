@@ -1,0 +1,39 @@
+@import "../../../../variables.scss";
+
+.filter {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  font-size: 14px;
+  background-color: $main-bg;
+  border: 1px solid $EG-white;
+
+  label {
+    margin-right: 10px;
+  }
+
+  input,
+  select {
+    width: 150px;
+    height: 30px;
+    margin-right: 20px;
+    padding-left: 10px;
+    background-color: $EG-white;
+    border: none;
+    border-radius: 3px;
+  }
+
+  button {
+    height: 35px;
+    margin-right: 20px;
+    color: $pink-bg;
+    background-color: $EG-white;
+    border: 1px solid $pink-bg;
+    border-radius: 3px;
+
+    &:hover {
+      color: $EG-white;
+      background-color: $pink-bg;
+    }
+  }
+}

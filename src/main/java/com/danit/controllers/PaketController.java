@@ -1,66 +1,122 @@
 package com.danit.controllers;
 
+import com.danit.dto.PaketDto;
+import com.danit.dto.Views;
+import com.danit.dto.service.PaketListRequestDto;
+import com.danit.facades.PaketFacade;
 import com.danit.models.Paket;
-import com.danit.services.PaketService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.annotation.JsonView;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
+
+import static com.danit.utils.ControllerUtils.DEFAULT_PAGE_NUMBER;
+import static com.danit.utils.ControllerUtils.DEFAULT_PAGE_SIZE;
+import static com.danit.utils.ControllerUtils.convertPageToMap;
 
 @RestController
+@RequestMapping("/pakets")
+@Slf4j
 public class PaketController {
 
-  private Logger logger = LoggerFactory.getLogger(PaketController.class);
+  private static final String LOG_MSG_GOT_ALL_DATA = " got all pakets data";
 
-  private PaketService paketService;
 
-  @Autowired
-  public PaketController(PaketService paketService) {
-    this.paketService = paketService;
+  private final PaketFacade paketFacade;
+
+  public PaketController(PaketFacade paketFacade) {
+    this.paketFacade = paketFacade;
   }
 
-  @PostMapping("/pakets")
-  List<Paket> createPakets(@RequestBody List<Paket> pakets, Principal principal) {
-    logger.info(principal.getName() + " is saving new pakets: " + pakets);
-    return paketService.savePakets(pakets);
+  @JsonView(Views.Extended.class)
+  @PostMapping
+  public ResponseEntity<List<PaketDto>> createPakets(@RequestBody List<Paket> pakets, Principal principal) {
+    log.info(principal.getName() + " is saving new clients: " + pakets);
+    return ResponseEntity.status(HttpStatus.CREATED).body(paketFacade.saveEntities(pakets));
   }
 
-  @GetMapping("/pakets")
-  List<Paket> getAllPakets(Principal principal) {
-    logger.info(principal.getName() + " got all pakets data");
-    return paketService.getAllPakets();
+  @JsonView(Views.Ids.class)
+  @GetMapping(path = "/ids")
+  public ResponseEntity<Map<String, Object>> getAllPaketsIds(
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal,
+      PaketListRequestDto paketListRequestDto) {
+    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
+    return ResponseEntity.ok(convertPageToMap(paketFacade.getAllEntities(paketListRequestDto, pageable)));
   }
 
-  @GetMapping("/pakets/{id}")
-  Paket getPaketById(@PathVariable(name = "id") long id, Principal principal) {
-    logger.info(principal.getName() + " got paket data with id: " + id);
-    return paketService.getPaketById(id);
+  @JsonView(Views.Short.class)
+  @GetMapping(path = "/short")
+  public ResponseEntity<Map<String, Object>> getAllPaketsShort(
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal,
+      PaketListRequestDto paketListRequestDto) {
+    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
+    return ResponseEntity.ok(convertPageToMap(paketFacade.getAllEntities(paketListRequestDto, pageable)));
   }
 
-  @PutMapping("/pakets")
-  List<Paket> addPakets(@RequestBody List<Paket> pakets, Principal principal) {
-    logger.info(principal.getName() + " is updating pakets data: " + pakets);
-    return paketService.savePakets(pakets);
+  @JsonView(Views.Extended.class)
+  @GetMapping
+  public ResponseEntity<Map<String, Object>> getAllPaketsExtended(
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal,
+      PaketListRequestDto paketListRequestDto) {
+    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
+    return ResponseEntity.ok(convertPageToMap(paketFacade.getAllEntities(paketListRequestDto, pageable)));
   }
 
-  @DeleteMapping("/pakets/{id}")
+  @JsonView(Views.Extended.class)
+  @GetMapping("/{id}")
+  ResponseEntity<PaketDto> getPaketByIdExtended(@PathVariable(name = "id") long id, Principal principal) {
+    log.info(principal.getName() + " got paket data with id: " + id);
+    return ResponseEntity.ok(paketFacade.getEntityById(id));
+  }
+
+  @JsonView(Views.Extended.class)
+  @PutMapping
+  public ResponseEntity<List<PaketDto>> addPakets(@RequestBody List<Paket> pakets, Principal principal) {
+    log.info(principal.getName() + " is updating pakets data: " + pakets);
+    return ResponseEntity.ok(paketFacade.updateEntities(pakets));
+  }
+
+  @DeleteMapping("/{id}")
+  @ResponseStatus(HttpStatus.OK)
   public void deletePaketById(@PathVariable(name = "id") long id, Principal principal) {
-    logger.info(principal.getName() + " try to delete paket with id: " + id);
-    paketService.deletePaketById(id);
+    log.info(principal.getName() + " is trying to delete paket with id: " + id);
+    paketFacade.deleteEntityById(id);
   }
 
-  @DeleteMapping("/pakets")
+  @DeleteMapping
+  @ResponseStatus(HttpStatus.OK)
   public void deletePakets(@RequestBody List<Paket> pakets, Principal principal) {
-    logger.info(principal.getName() + " is trying to delete pakets: " + pakets);
-    paketService.deletePakets(pakets);
+    log.info(principal.getName() + " is trying to delete pakets: " + pakets);
+    paketFacade.deleteEntities(pakets);
   }
+
 }

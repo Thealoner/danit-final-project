@@ -3,10 +3,12 @@ import './index.scss';
 import { ReactTabulator } from 'react-tabulator';
 import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
-import { getEntityByType } from '../../GridEntities';
+import { getEntityByType } from '../../gridEntities';
 import AuthService from '../../../Login/AuthService';
 import photo from './photo.jpg';
-import ajaxRequest from '../../../Helpers';
+import ajaxRequest from '../../../../helpers/ajaxRequest';
+import autoSize from 'autosize';
+import {toastr} from 'react-redux-toastr';
 
 class SimpleRecord extends Component {
   constructor (props) {
@@ -27,27 +29,35 @@ class SimpleRecord extends Component {
       readonlyFields: {
         contracts: []
       },
-      authService: new AuthService()
+      authService: new AuthService(),
+      loading: false,
+      messageType: '',
+      messageText: ''
     };
   }
 
   getData = () => {
-    let { rowId } = this.props.match.params;
-    let { entityType } = this.props;
-    let entity = getEntityByType(entityType);
+    const { rowId } = this.props.match.params;
+    const { entityType } = this.props;
+    const entity = getEntityByType(entityType);
+    const textareas = document.getElementsByTagName('textarea');
+
+    this.setState({
+      loading: true
+    });
 
     if (this.state.authService.loggedIn() && !this.state.authService.isTokenExpired()) {
       ajaxRequest(entity.apiUrl + '/' + rowId)
         .then(data => {
-          let editableDataKeys = Object.keys(this.state.editableFields);
-          let editableData = {};
+          const editableDataKeys = Object.keys(this.state.editableFields);
+          const editableData = {};
 
           editableDataKeys.forEach(key => {
             editableData[key] = data[key];
           });
 
-          let readonlyDataKeys = Object.keys(this.state.readonlyFields);
-          let readonlyData = {};
+          const readonlyDataKeys = Object.keys(this.state.readonlyFields);
+          const readonlyData = {};
 
           readonlyDataKeys.forEach(key => {
             readonlyData[key] = data[key];
@@ -56,19 +66,25 @@ class SimpleRecord extends Component {
           this.setState({
             entityType: entity.id,
             editableFields: editableData,
-            readonlyFields: readonlyData
+            readonlyFields: readonlyData,
+            loading: false
           });
+
+          autoSize(textareas);
         });
     } else {
-      console.log('Not logged in or token is expired');
+      toastr.error('Not logged in or token is expired');
     }
   };
 
   saveData = () => {
-    let { entityType } = this.props;
-    let entity = getEntityByType(entityType);
+    const { entityType } = this.props;
+    const entity = getEntityByType(entityType);
 
-    this.saveButton.disabled = true;
+    this.setState({
+      loading: true,
+      messageType: ''
+    });
 
     ajaxRequest(
       entity.apiUrl,
@@ -76,20 +92,16 @@ class SimpleRecord extends Component {
       JSON.stringify([this.state.editableFields])
     )
       .then(response => {
-        console.log(response.status);
-        this.successMessage.classList.add('visible');
-        setTimeout(() => this.successMessage.classList.remove('visible'), 1000);
+        this.setState({
+          loading: false
+        });
+        toastr.success('Данные успешно сохранены', response.status);
       })
       .catch(error => {
-        console.log(error);
-        this.errorMessage.classList.add('visible');
-        setTimeout(() => this.errorMessage.classList.remove('visible'), 1000);
-      })
-      .finally(() => {
-        console.log('Finally');
-        // TODO:
-        // hide loader
-        setTimeout(() => this.saveButton.disabled = false, 1000);
+        this.setState({
+          loading: false
+        });
+        toastr.error('Ошибка при сохранении', error);
       });
   };
 
@@ -106,20 +118,16 @@ class SimpleRecord extends Component {
     }));
   };
 
-  saveButton = React.createRef();
-  successMessage = React.createRef();
-  errorMessage = React.createRef();
-
   render () {
-    let { mode, rowId } = this.props.match.params;
-    let { entityType, setTabContentUrl } = this.props;
+    const { mode, rowId } = this.props.match.params;
+    const { entityType, setTabContentUrl } = this.props;
     setTabContentUrl(entityType + '/' + mode + '/' + rowId);
 
     const options = {
       movableRows: true
     };
 
-    let columns = [
+    const columns = [
       { title: 'ID', field: 'id' },
       { title: 'Пакет', field: 'packageId' },
       { title: 'startDate', field: 'startDate' },
@@ -241,9 +249,7 @@ class SimpleRecord extends Component {
             </div>
           </div>
         </div>
-        <button ref={saveButton => (this.saveButton = saveButton)} onClick={this.saveData} className="record__button">Сохранить</button>
-        <span ref={success => (this.successMessage = success)} className="record__save-message record__save-message--success">Данные успешно сохранены</span>
-        <span ref={error => (this.errorMessage = error)} className="record__save-message record__save-message--error">Ошибка при сохранении</span>
+        <button disabled={this.state.loading} onClick={this.saveData} className="record__button">Сохранить</button>
       </div>
     );
   }

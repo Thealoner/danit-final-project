@@ -2,7 +2,10 @@ package com.danit.controllers.employee;
 
 import com.danit.TestUtils;
 import com.danit.models.UserRolesEnum;
+import com.danit.models.employee.Position;
 import com.danit.services.employee.PositionService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +18,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -26,6 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class PositionControllerTest {
 
+  private static final String url = "/position";
   @Autowired
   TestUtils testUtils;
   @Autowired
@@ -34,7 +41,6 @@ public class PositionControllerTest {
   private TestRestTemplate template;
   @Autowired
   private MockMvc mockMvc;
-
 
   @Test
   public void isOkWhenAdminAccess() throws Exception {
@@ -47,7 +53,7 @@ public class PositionControllerTest {
 
   @Test
   public void getAllPositions() throws Exception {
-    int currentQuant = positionService.getPositionQuant();
+    int currentQty = positionService.getPositionQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
     this.mockMvc.perform(post("/position").headers(header)
         .contentType("application/json")
@@ -59,21 +65,12 @@ public class PositionControllerTest {
 
     mockMvc.perform(get("/position").headers(header))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$", hasSize(currentQuant + 1)));
-  }
-
-  @Test
-  public void getPositionById() {
-  }
-
-  @Test
-  public void deletePosition() {
-
+        .andExpect(jsonPath("$", hasSize(currentQty + 1)));
   }
 
   @Test
   public void createPosition() throws Exception {
-    int currentQuant = positionService.getPositionQuant();
+    int currentQty = positionService.getPositionQty();
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
     this.mockMvc.perform(post("/position").headers(header)
         .contentType("application/json")
@@ -85,10 +82,84 @@ public class PositionControllerTest {
 
     mockMvc.perform(get("/position").headers(header))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$", hasSize(currentQuant + 1)));
+        .andExpect(jsonPath("$", hasSize(currentQty + 1)));
   }
 
   @Test
-  public void updatePosition() {
+  public void updatePosition() throws Exception {
+    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
+
+    String responseJson = this.mockMvc.perform(post(url).headers(header)
+        .contentType("application/json")
+        .content("{\n"
+            + "    \"name\": \"Test position\"\n"
+            + "  }"))
+        .andExpect(status().isOk())
+        .andReturn().getResponse().getContentAsString();
+
+    ObjectMapper mapper = new ObjectMapper();
+    Position actualObj = mapper.readValue(responseJson, new TypeReference<Position>() {
+    });
+    long createdId = actualObj.getId();
+    System.out.println(actualObj);
+
+    responseJson = mockMvc.perform(put(url + "/" + createdId).headers(header)
+        .contentType("application/json")
+        .content("{\n"
+            + "    \"id\": " + createdId + ", \n"
+            + "    \"name\": \"TestPosition\"\n"
+            + "  }"))
+        .andExpect(status().isOk())
+        .andReturn().getResponse().getContentAsString();
+
+    actualObj = mapper.readValue(responseJson, new TypeReference<Position>() {
+    });
+    System.out.println(actualObj);
+    assertEquals("TestPosition", actualObj.getName());
+
+  }
+
+  @Test
+  public void deletePositionById() throws Exception {
+    int currentQty = positionService.getPositionQty();
+    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
+
+    String responseJson = this.mockMvc.perform(post(url).headers(header)
+        .contentType("application/json")
+        .content("{\n"
+            + "    \"name\": \"Test gym\",\n"
+            + "    \"description\": \"Test gym\"\n"
+            + "  }"))
+        .andExpect(status().isOk())
+        .andReturn().getResponse().getContentAsString();
+
+    ObjectMapper mapper = new ObjectMapper();
+    Position actualObj = mapper.readValue(responseJson, new TypeReference<Position>() {
+    });
+    long createdId = actualObj.getId();
+
+    assertEquals(currentQty + 1, positionService.getPositionQty());
+
+    mockMvc.perform(delete(url + "/" + createdId).headers(header))
+        .andExpect(status().isOk());
+
+    assertEquals(currentQty, positionService.getAllPositions().size());
+
+  }
+
+  @Test
+  public void expect404WhenNoDataFoundPosition() throws Exception {
+    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
+
+    mockMvc.perform(get(url + "/0").headers(header))
+        .andExpect(status().isNotFound());
+  }
+
+  @Test
+  public void expect500WhenDeleteNonexistentSPosition() throws Exception {
+    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
+
+    mockMvc.perform(delete(url + "/0").headers(header))
+        .andExpect(status().is(500));
   }
 }

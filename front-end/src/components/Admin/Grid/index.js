@@ -1,12 +1,11 @@
 import React, { Component, Fragment } from 'react';
-import './index.scss';
 import Tabulator from 'tabulator-tables';
-import 'react-tabulator/lib/styles.css';
-import 'tabulator-tables/dist/css/tabulator.min.css';
-import { getEntityByType } from '../GridEntities';
+import './index.scss';
+import { getEntityByType } from '../gridEntities';
 import { Link } from 'react-router-dom';
 import Filter from './Filter';
-import ajaxRequest from '../../Helpers';
+import ajaxRequest from '../../../helpers/ajaxRequest';
+import {toastr} from 'react-redux-toastr';
 
 class Grid extends Component {
   constructor (props) {
@@ -18,9 +17,9 @@ class Grid extends Component {
       columns: [],
       meta: {
         totalElements: 0,
-        currentPage: 0,
-        pagesTotal: 0,
-        elementsPerPage: 3
+        currentPage: 1,
+        pagesTotal: 1,
+        elementsPerPage: 5
       }
     };
   }
@@ -29,7 +28,7 @@ class Grid extends Component {
   el = React.createRef();
 
   rowClick = (e, row) => {
-    let { entityType, tabKey } = this.props.match.params;
+    const { entityType, tabKey } = this.props.match.params;
     this.props.setTabContentUrl(entityType + '/' + row.getData().id);
     this.props.history.push({
       pathname: '/admin/' + tabKey + '/' + entityType + '/edit/' + row.getData().id,
@@ -40,9 +39,9 @@ class Grid extends Component {
     });
   };
 
-  getData = (page = 0, size = 3, filterString = '') => {
-    let { entityType } = this.props.match.params;
-    let entity = getEntityByType(entityType);
+  getData = (page = 1, size = 5, filterString = '') => {
+    const { entityType } = this.props.match.params;
+    const entity = getEntityByType(entityType);
 
     ajaxRequest(entity.apiUrl + '?page=' + page + '&size=' + size + filterString)
       .then(response => {
@@ -53,9 +52,9 @@ class Grid extends Component {
           response.data = response;
           response.meta = {
             totalElements: 0,
-            currentPage: 0,
-            pagesTotal: 0,
-            elementsPerPage: 3
+            currentPage: 1,
+            pagesTotal: 1,
+            elementsPerPage: 5
           };
         }
         
@@ -67,16 +66,16 @@ class Grid extends Component {
         });
       })
       .catch(error => {
-        console.log('' + error);
+        toastr.error(error);
         this.setState({
           id: '',
           data: [],
           columns: [],
           meta: {
             totalElements: 0,
-            currentPage: 0,
-            pagesTotal: 0,
-            elementsPerPage: 3
+            currentPage: 1,
+            pagesTotal: 1,
+            elementsPerPage: 5
           }
         });
       });
@@ -92,24 +91,24 @@ class Grid extends Component {
 
   applyFilter = (filterString) => {
     this.getData(0, 20, filterString);
-  }
+  };
 
   clearFilter = () => {
     this.getData();
-  }
+  };
 
   render () {
-    let { entityType, tabKey } = this.props.match.params;
-    let { setTabContentUrl } = this.props;
-    let { currentPage, pagesTotal } = this.state.meta;
+    const { entityType, tabKey } = this.props.match.params;
+    const { setTabContentUrl } = this.props;
+    const { currentPage, pagesTotal } = this.state.meta;
     setTabContentUrl(entityType);
 
     return (
       <Fragment>
         <Filter applyFilter={this.applyFilter} clearFilter={this.clearFilter} columns={this.state.columns} />
-        <div ref={el => (this.el = el)} className="custom-css-class" data-custom-attr="test-custom-attribute" />
+        <div ref={el => (this.el = el)} className="tabulator" data-custom-attr="test-custom-attribute" />
         <Link to={'/admin/' + tabKey + '/' + entityType + '/add'}>Add {entityType}</Link>
-        <button onClick={this.pagePrev} disabled={currentPage <= 0}>Previous Page</button>
+        <button onClick={this.pagePrev} disabled={currentPage <= 1}>Previous Page</button>
         <button onClick={this.pageNext} disabled={currentPage >= pagesTotal}>Next Page</button>
       </Fragment>
     );
@@ -122,7 +121,7 @@ class Grid extends Component {
       columns: this.state.columns,
       rowClick: this.rowClick,
       movableRows: false,
-      layout: 'fitColumns'
+      layout: 'fitDataFill'
     });
   }
 
@@ -130,7 +129,7 @@ class Grid extends Component {
     this.tabulator.setColumns(this.state.columns);
     this.tabulator.setData(this.state.data);
 
-    let { entityType } = this.props.match.params;
+    const { entityType } = this.props.match.params;
 
     if (this.state.id !== '' && entityType !== this.state.id) {
       this.getData();

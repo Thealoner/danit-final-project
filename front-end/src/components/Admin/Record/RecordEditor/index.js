@@ -1,26 +1,29 @@
 import React, { Component, Fragment } from 'react';
-import './index.scss';
 import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
-import { getEntityByType } from '../../GridEntities';
+import { getEntityByType } from '../../gridEntities';
 import AuthService from '../../../Login/AuthService';
 import Form from 'react-jsonschema-form';
-import { FadeLoader } from 'react-spinners';
-import ajaxRequest from '../../../Helpers';
+import ajaxRequest, {resizeInput} from '../../../../helpers/ajaxRequest';
+import {toastr} from 'react-redux-toastr';
+
+const formInputs = document.getElementsByClassName('form-control');
 
 class RecordEditor extends Component {
   constructor (props) {
     super(props);
     this.state = {
       authService: new AuthService(),
-      loading: false
+      loading: false,
+      messageType: '',
+      messageText: ''
     };
   }
 
   getData = () => {
-    let { rowId } = this.props.match.params;
-    let { entityType } = this.props;
-    let entity = getEntityByType(entityType);
+    const { rowId } = this.props.match.params;
+    const { entityType } = this.props;
+    const entity = getEntityByType(entityType);
 
     this.setState({
       loading: true
@@ -29,66 +32,91 @@ class RecordEditor extends Component {
     ajaxRequest(entity.apiUrl + '/' + rowId)
       .then(data => {
         this.props.setRecordData(data, false);
+
         this.setState({
           entityType: entity.id,
           loading: false
         });
+
+        for (let i = 0; i < formInputs.length; i++) {
+          resizeInput(formInputs[i]);
+        }
       });
   };
 
-  saveData = (form) => {
-    let { tabKey, mode } = this.props.match.params;
-    let { entityType, setTabContentUrl } = this.props;
-    let entity = getEntityByType(entityType);
+  putData = (form) => {
+    const entity = getEntityByType(this.props.entityType);
 
     this.setState({
-      loading: true
+      loading: true,
+      messageType: ''
     });
 
     ajaxRequest(
       entity.apiUrl,
-      mode === 'edit' ? 'PUT' : 'POST',
+      'PUT',
       JSON.stringify([form.formData])
     )
       .then(json => {
-        // display green 'Данные сохранены' message
-        // enable 'Save' button
-        // hide loader
-
         this.props.setRecordData(json[0], false);
         this.setState({
           loading: false
         });
-
-        if (mode === 'add') {
-          let editorUrl = entityType + '/edit/' + json[0].id;
-          setTabContentUrl(editorUrl);
-          this.props.history.push({
-            pathname: '/admin/' + tabKey + '/' + editorUrl
-          });
-        }
+        toastr.success('Данные успешно сохранены');
       })
       .catch(error => {
-        console.log(error);
-        // display red 'Ошибка при сохранении' message
-        // enable 'Save' button
-        // hide loader
         this.setState({
           loading: false
         });
+        toastr.error('Ошибка при сохранении', error);
       });
   };
 
-  changeData = (type) => {
-    console.log('change data');
-    this.props.setRecordData(type.formData, true);
+  postData = (form) => {
+    const { tabKey } = this.props.match.params;
+    const { entityType, setTabContentUrl } = this.props;
+    const entity = getEntityByType(entityType);
+
+    this.setState({
+      loading: true,
+      messageType: ''
+    });
+
+    ajaxRequest(
+      entity.apiUrl,
+      'POST',
+      JSON.stringify([form.formData])
+    )
+      .then(json => {
+        this.props.setRecordData(json[0], false);
+        this.setState({
+          loading: false
+        });
+        toastr.success('Данные успешно сохранены');
+
+        const editorUrl = entityType + '/edit/' + json[0].id;
+        setTabContentUrl(editorUrl);
+        this.props.history.push({
+          pathname: '/admin/' + tabKey + '/' + editorUrl
+        });
+      })
+      .catch(error => {
+        this.setState({
+          loading: false
+        });
+        toastr.error('Oшибка при сохранении', error);
+      });
   };
 
-  log = (type) => console.log.bind(console, type);
+  changeData = (form) => {
+    this.props.setRecordData(form.formData, true);
+  };
+
+  log = (form) => console.log.bind(console, form);
 
   render () {
-    let { mode, rowId } = this.props.match.params;
-    let { entityType, setTabContentUrl, getRecordData } = this.props;
+    const { mode, rowId } = this.props.match.params;
+    const { entityType, setTabContentUrl, getRecordData } = this.props;
 
     if (mode === 'edit') {
       setTabContentUrl(entityType + '/' + mode + '/' + rowId);
@@ -96,37 +124,33 @@ class RecordEditor extends Component {
       setTabContentUrl(entityType + '/' + mode);
     }
 
-    let entity = getEntityByType(entityType);
+    const entity = getEntityByType(entityType);
 
     return (
       <Fragment>
-        {this.state.loading ? <div className="record__loader-wrapper">
-          <FadeLoader
-            sizeUnit={'px'}
-            size={50}
-            color={'#999'}
-            loading={this.state.loading}
-          />
-        </div> : <Form
+        <Form
           schema={entity.schema}
           uiSchema={entity.uiSchema}
           formData={getRecordData()}
           autocomplete='off'
           onChange={this.changeData}
-          onSubmit={this.saveData}
-          onError={this.log('errors')}
-        >
-          <button className='record__button'>Сохранить</button>
-        </Form>}
+          onSubmit={mode === 'edit' ? this.putData : this.postData}
+          onError={this.log('errors')}>
+          <button disabled={this.state.loading} type='submit' className='record__button'>Сохранить</button>
+        </Form>
       </Fragment>
     );
   }
 
   componentDidMount () {
-    let { mode } = this.props.match.params;
+    const { mode } = this.props.match.params;
 
     if (mode === 'edit') {
       this.getData();
+    }
+
+    for (let i = 0; i < formInputs.length; i++) {
+      resizeInput(formInputs[i]);
     }
   }
 }

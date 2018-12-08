@@ -8,7 +8,7 @@ import com.danit.models.ServiceCategory;
 import com.danit.models.Services;
 import com.danit.models.User;
 import com.danit.models.UserRoles;
-import com.danit.repositories.CardColorRepository;
+import com.danit.repositories.CardRepository;
 import com.danit.repositories.ClientRepository;
 import com.danit.repositories.ContractRepository;
 import com.danit.repositories.PaketRepository;
@@ -18,6 +18,7 @@ import com.danit.repositories.UserRepository;
 import com.danit.repositories.UserRolesRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -58,11 +59,16 @@ public class AppStartupRunner implements ApplicationRunner {
   private PaketRepository paketRepository;
 
   @Autowired
-  private CardColorRepository cardColorRepository;
+  private CardRepository cardRepository;
+
+  @Autowired
+  private SimpleModule dateModule;
 
   @Override
   public void run(ApplicationArguments args) throws IOException {
     ObjectMapper mapper = new ObjectMapper();
+
+    mapper.registerModule(dateModule);
 
     TypeReference<Set<UserRoles>> roleTypeReference = new TypeReference<Set<UserRoles>>() {
     };
@@ -100,7 +106,7 @@ public class AppStartupRunner implements ApplicationRunner {
     };
     InputStream cardColorInputStream = TypeReference.class.getResourceAsStream("/json/cards.json");
     List<Card> cards = mapper.readValue(cardColorInputStream, cardColorTypeReference);
-    cardColorRepository.saveAll(cards);
+    cardRepository.saveAll(cards);
 
 
     TypeReference<List<ServiceCategory>> serviceCategoryTypeReference = new TypeReference<List<ServiceCategory>>() {

@@ -2,8 +2,9 @@ package com.danit.models.employee;
 
 
 import com.danit.utils.CustomDateDeserializer;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.danit.utils.CustomDateSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 
 import javax.persistence.CascadeType;
@@ -17,6 +18,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
 
 @Data
@@ -36,9 +39,8 @@ class EmployeeDiscount {
 
   @Column(name = "valid_from")
   @JsonDeserialize(using = CustomDateDeserializer.class)
-  @JsonFormat(
-      shape = JsonFormat.Shape.STRING,
-      pattern = "yyyy-MM-dd")
+  @JsonSerialize(using = CustomDateSerializer.class)
+  @Temporal(TemporalType.DATE)
   private Date validFrom;
 
   @Column(name = "employeeid")
