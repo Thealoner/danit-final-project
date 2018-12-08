@@ -32,8 +32,8 @@ import java.util.List;
 public class Services extends Auditable implements BaseEntity {
   @Id
   @Column(name = "id")
-  @SequenceGenerator(name = "servicesSequence", sequenceName = "servicesSequence", allocationSize = 1, initialValue = 1001)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "servicesSequence")
+  @SequenceGenerator(name = "services_sequence", sequenceName = "services_sequence", allocationSize = 1, initialValue = 1001)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "services_sequence")
   private Long id;
 
   @Column(name = "title")
