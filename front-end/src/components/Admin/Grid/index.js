@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import Tabulator from 'tabulator-tables';
 import './index.scss';
-import {getEntityByType} from '../GridEntities';
+import {getEntityByType} from '../gridEntities';
 import {Link} from 'react-router-dom';
 import Filter from './Filter';
 import ajaxRequest from '../../../helpers/ajaxRequest';
@@ -125,7 +125,7 @@ class Grid extends Component {
             <Pagination.Prev onClick={this.pagePrev} disabled={currentPage <= 1}/>
             {paginationPages}
             <Pagination.Next onClick={this.pageNext} disabled={currentPage >= pagesTotal}/>
-          </Pagination>;
+          </Pagination>
         </div>
       </Fragment>
     );
@@ -145,7 +145,6 @@ class Grid extends Component {
   componentDidUpdate () {
     this.tabulator.setColumns(this.state.columns);
     this.tabulator.setData(this.state.data);
-
     const { entityType } = this.props.match.params;
 
     if (this.state.id !== '' && entityType !== this.state.id) {
