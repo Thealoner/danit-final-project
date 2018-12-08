@@ -5,6 +5,7 @@ import com.danit.models.BaseEntity;
 import com.danit.repositories.EntityRepository;
 import com.danit.repositories.specifications.BaseSpecification;
 import com.danit.utils.ServiceUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +19,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
+@Slf4j
 @Service
 public abstract class AbstractEntityService<E extends BaseEntity, R> implements EntityService<E> {
 
@@ -59,8 +60,7 @@ public abstract class AbstractEntityService<E extends BaseEntity, R> implements 
   public List<E> updateEntities(List<E> entityList) {
     entityList.removeIf(e -> Objects.isNull(e.getId()));
 
-    List<Long> listIds = entityList.stream().map(E::getId).collect(Collectors.toList());
-    List<E> targetEntities = entityRepository.findAllEntitiesByIds(listIds);
+    List<E> targetEntities = reloadEntities(entityList);
 
     List<E> entitiesToSave = new ArrayList<>();
     Iterator<E> iterator = entityList.iterator();
@@ -92,7 +92,8 @@ public abstract class AbstractEntityService<E extends BaseEntity, R> implements 
 
   @Override
   public void deleteEntities(List<E> entityList) {
-    entityRepository.deleteAll(entityList);
+    List<E> list = reloadEntities(entityList);
+    entityRepository.deleteAll(list);
   }
 
   @Override
@@ -104,5 +105,10 @@ public abstract class AbstractEntityService<E extends BaseEntity, R> implements 
   private String getEntityName() {
     return ((Class<E>) ((ParameterizedType) getClass().getGenericSuperclass())
         .getActualTypeArguments()[0]).getSimpleName().toLowerCase();
+  }
+
+  private List<E> reloadEntities(List<E> entityList) {
+    List<Long> listIds = entityList.stream().map(E::getId).collect(Collectors.toList());
+    return entityRepository.findAllEntitiesByIds(listIds);
   }
 }
