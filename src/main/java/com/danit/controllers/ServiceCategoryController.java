@@ -7,6 +7,9 @@ import com.danit.models.ServiceCategory;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,6 +26,8 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
+import static com.danit.utils.ControllerUtils.DEFAULT_PAGE_NUMBER;
+import static com.danit.utils.ControllerUtils.DEFAULT_PAGE_SIZE;
 import static com.danit.utils.ControllerUtils.convertDtoToMap;
 import static com.danit.utils.ControllerUtils.convertPageToMap;
 
@@ -48,30 +53,39 @@ public class ServiceCategoryController {
 
   @JsonView(Views.Ids.class)
   @GetMapping(path = "/ids")
-  public ResponseEntity<Map<String, Object>> getAllServiceCategoriesDtoIds(Pageable pageable,
-                                                                     Principal principal,
-                                                                     ServiceCategoryListRequestDto
-                                                                                 serviceCategoryListRequestDto) {
+  public ResponseEntity<Map<String, Object>> getAllServiceCategoriesDtoIds(
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal,
+      ServiceCategoryListRequestDto serviceCategoryListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
     return ResponseEntity.ok(convertPageToMap(serviceCategoryFacade.getAllEntities(serviceCategoryListRequestDto,pageable)));
   }
 
   @JsonView(Views.Short.class)
   @GetMapping(path = "/short")
-  public ResponseEntity<Map<String, Object>> getAllServiceCategoriesDtoShort(Pageable pageable,
-                                                                     Principal principal,
-                                                                     ServiceCategoryListRequestDto
-                                                                                   serviceCategoryListRequestDto) {
+  public ResponseEntity<Map<String, Object>> getAllServiceCategoriesDtoShort(
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal,
+      ServiceCategoryListRequestDto serviceCategoryListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
     return ResponseEntity.ok(convertPageToMap(serviceCategoryFacade.getAllEntities(serviceCategoryListRequestDto,pageable)));
   }
 
   @JsonView(Views.Extended.class)
   @GetMapping
-  public ResponseEntity<Map<String, Object>> getAllServiceCategoriesDtoExtended(Pageable pageable,
-                                                                     Principal principal,
-                                                                     ServiceCategoryListRequestDto
-                                                                                      serviceCategoryListRequestDto) {
+  public ResponseEntity<Map<String, Object>> getAllServiceCategoriesDtoExtended(
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal,
+      ServiceCategoryListRequestDto serviceCategoryListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
     return ResponseEntity
         .ok(convertPageToMap(serviceCategoryFacade.getAllEntities(serviceCategoryListRequestDto, pageable)));

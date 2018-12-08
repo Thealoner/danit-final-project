@@ -7,6 +7,9 @@ import com.danit.models.User;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,6 +26,8 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
+import static com.danit.utils.ControllerUtils.DEFAULT_PAGE_NUMBER;
+import static com.danit.utils.ControllerUtils.DEFAULT_PAGE_SIZE;
 import static com.danit.utils.ControllerUtils.convertDtoToMap;
 import static com.danit.utils.ControllerUtils.convertPageToMap;
 
@@ -48,27 +53,39 @@ public class UserController {
 
   @JsonView(Views.Ids.class)
   @GetMapping(path = "/ids")
-  public ResponseEntity<Map<String, Object>> getAllUsersDtoIds(Principal principal,
-                                                                 Pageable pageable,
-                                                                 UserListRequestDto userListRequestDto) {
+  public ResponseEntity<Map<String, Object>> getAllUsersDtoIds(
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal,
+      UserListRequestDto userListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
     return ResponseEntity.ok(convertPageToMap(userFacade.getAllEntities(userListRequestDto, pageable)));
   }
 
   @JsonView(Views.Short.class)
   @GetMapping(path = "/short")
-  public ResponseEntity<Map<String, Object>> getAllUsersDtoShort(Principal principal,
-                                                                 Pageable pageable,
-                                                                 UserListRequestDto userListRequestDto) {
+  public ResponseEntity<Map<String, Object>> getAllUsersDtoShort(
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal,
+      UserListRequestDto userListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
     return ResponseEntity.ok(convertPageToMap(userFacade.getAllEntities(userListRequestDto, pageable)));
   }
 
   @JsonView(Views.Extended.class)
   @GetMapping
-  public ResponseEntity<Map<String, Object>> getAllUsersDtoExtended(Principal principal,
-                                                  Pageable pageable,
-                                                  UserListRequestDto userListRequestDto) {
+  public ResponseEntity<Map<String, Object>> getAllUsersDtoExtended(
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal,
+      UserListRequestDto userListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
     return ResponseEntity.ok(convertPageToMap(userFacade.getAllEntities(userListRequestDto, pageable)));
   }
