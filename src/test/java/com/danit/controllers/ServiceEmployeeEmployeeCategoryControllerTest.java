@@ -68,7 +68,7 @@ public class ServiceEmployeeEmployeeCategoryControllerTest {
     mockMvc.perform(put("/service_categories").headers(header)
         .contentType("application/json")
         .content("[{\n" +
-            "    \"id\": 1004,\n" +
+            "    \"id\": 1001,\n" +
             "    \"title\": \"BAR\",\n" +
             "    \"active\": true\n" +
             "}]"))
@@ -76,7 +76,7 @@ public class ServiceEmployeeEmployeeCategoryControllerTest {
 
     mockMvc.perform(get("/service_categories").headers(header))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$[?(@.id == 1004)].active", hasItem(true)));
+        .andExpect(jsonPath("$[?(@.id == 1001)].active", hasItem(true)));
 
   }
 
@@ -88,11 +88,11 @@ public class ServiceEmployeeEmployeeCategoryControllerTest {
     mockMvc.perform(delete("/service_categories").headers(header)
         .contentType("application/json")
         .content("[{\n" +
-            "    \"id\": 1001,\n" +
+            "    \"id\": 1,\n" +
             "    \"title\": \"SPA\",\n" +
             "    \"services\": [\n" +
             "      {\n" +
-            "        \"id\": 1001,\n" +
+            "        \"id\": 1,\n" +
             "        \"title\": \"Total Body Workout\",\n" +
             "        \"price\": \"200\",\n" +
             "        \"cost\": \"200\",\n" +

@@ -16,9 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
@@ -37,13 +35,8 @@ public class UserRepositoryTest {
   private List<User> users = new ArrayList<>();
 
   @Before
-  public void setUp() throws Exception {
-    Set<UserRoles> userRolesSet = new HashSet<>();
-    userRolesSet.add(new UserRoles(UserRolesEnum.USER));
-    userRolesSet.add(new UserRoles(UserRolesEnum.ADMIN));
-    userRolesSet.add(new UserRoles(UserRolesEnum.TEST));
-    userRolesRepository.saveAll(userRolesSet);
-    for (int i = 0; i < 100; i++) {
+  public void setUp() {
+    for (int i = 0; i < 30; i++) {
       users.add(new User("testUser" + String.valueOf(i), "123", Arrays.asList(new UserRoles(UserRolesEnum.USER))));
     }
   }
@@ -62,16 +55,19 @@ public class UserRepositoryTest {
   @Test
   public void findAllUsers() {
     userRepository.saveAll(users);
+    long oldUserQnt = userRepository.count();
     List<User> newUsers = userRepository.findAll();
-    assertEquals(users.size(), newUsers.size());
+    assertEquals(oldUserQnt, newUsers.size());
   }
 
   @Test
   public void removeOneUsers() {
     userRepository.saveAll(users);
+    long oldUserQnt = userRepository.count();
     userRepository.delete(users.get(0));
+
     List<User> newUsers = userRepository.findAll();
-    assertEquals(users.size() - 1, newUsers.size());
+    assertEquals(oldUserQnt - 1, newUsers.size());
   }
 
   @Test

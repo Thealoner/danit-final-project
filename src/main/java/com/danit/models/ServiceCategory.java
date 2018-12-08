@@ -17,9 +17,9 @@ import java.util.List;
 public class ServiceCategory {
   @Id
   @Column(name = "id")
-  @SequenceGenerator(name = "serviceCategorySequence", sequenceName = "serviceCategorySequence",
+  @SequenceGenerator(name = "service_category_sequence", sequenceName = "service_category_sequence",
       allocationSize = 1, initialValue = 1001)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "serviceCategorySequence")
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "service_category_sequence")
   private Long id;
 
   @Column(name = "title")

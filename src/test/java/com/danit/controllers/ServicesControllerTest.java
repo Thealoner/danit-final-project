@@ -76,7 +76,7 @@ public class ServicesControllerTest {
     mockMvc.perform(put("/services").headers(header)
         .contentType("application/json")
         .content("[{\n" +
-            "    \"id\": 1001,\n" +
+            "    \"id\": 1,\n" +
             "    \"title\": \"Total Body Workout\",\n" +
             "    \"price\": \"200\",\n" +
             "    \"cost\": \"200\",\n" +
@@ -90,7 +90,7 @@ public class ServicesControllerTest {
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
         .andExpect(jsonPath("$", hasSize(numberOfServices)))
-        .andExpect(jsonPath("$[?(@.id == 1001)].active", hasItem(false)));
+        .andExpect(jsonPath("$[?(@.id == 1)].active", hasItem(false)));
 
   }
 
@@ -102,7 +102,7 @@ public class ServicesControllerTest {
     mockMvc.perform(delete("/services").headers(header)
         .contentType("application/json")
         .content("[{\n" +
-            "    \"id\": 1001,\n" +
+            "    \"id\": 1,\n" +
             "    \"title\": \"Total Body Workout\",\n" +
             "    \"price\": \"200\",\n" +
             "    \"cost\": \"200\",\n" +
@@ -121,11 +121,11 @@ public class ServicesControllerTest {
   public void expect500WhenGetDeletedService() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
-    mockMvc.perform(delete("/services/1002")
+    mockMvc.perform(delete("/services/2")
         .headers(header))
         .andExpect(status().isOk());
 
-    mockMvc.perform(get("/services/1002").headers(header))
+    mockMvc.perform(get("/services/2").headers(header))
         .andExpect(status().isNotFound());
   }
 
