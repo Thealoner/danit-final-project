@@ -43,7 +43,7 @@ class Admin extends Component {
     const entityTab = this.state.tabs.find((tab) => {
       return tab.tabKey === entityId;
     });
-
+    debugger;
     if (entityTab) {
       this.setState({
         activeKey: entityTab
@@ -62,7 +62,7 @@ class Admin extends Component {
         activeKey: entityId
       });
 
-      this.props.history.push('/admin/' + entityTab + '/');
+      this.props.history.push(url);
     }
   };
 

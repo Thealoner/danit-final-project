@@ -6,7 +6,7 @@ function EntitiesMenu (props) {
   const links = [];
 
   gridEntities.forEach((entity) => {
-    let url = '/admin/' + props.activeKey + '/' + entity.id;
+    let url = '/admin/' + entity.id;
 
     links.push(
       <NavLink
