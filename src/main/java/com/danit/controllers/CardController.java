@@ -4,11 +4,13 @@ import com.danit.dto.Views;
 import com.danit.dto.service.CardListRequestDto;
 import com.danit.facades.CardFacade;
 import com.danit.models.Card;
-import com.danit.services.CardService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +27,8 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
+import static com.danit.utils.ControllerUtils.DEFAULT_PAGE_NUMBER;
+import static com.danit.utils.ControllerUtils.DEFAULT_PAGE_SIZE;
 import static com.danit.utils.ControllerUtils.convertDtoToMap;
 import static com.danit.utils.ControllerUtils.convertPageToMap;
 
@@ -34,13 +38,11 @@ import static com.danit.utils.ControllerUtils.convertPageToMap;
 public class CardController {
 
   private static final String LOG_MSG_GOT_ALL_DATA = " got all card data";
-  private final CardService cardService;
   private final CardFacade cardFacade;
 
   @Autowired
-  public CardController(CardFacade cardFacade, CardService cardService) {
+  public CardController(CardFacade cardFacade) {
     this.cardFacade = cardFacade;
-    this.cardService = cardService;
   }
 
   @JsonView(Views.Extended.class)
@@ -52,27 +54,39 @@ public class CardController {
 
   @JsonView(Views.Ids.class)
   @GetMapping(path = "/ids")
-  public ResponseEntity<Map<String, Object>> getAllCardsDtoIds(Pageable pageable,
-                                                               Principal principal,
-                                                               CardListRequestDto cardListRequestDto) {
+  public ResponseEntity<Map<String, Object>> getAllCardsDtoIds(
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal,
+      CardListRequestDto cardListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
     return ResponseEntity.ok(convertPageToMap(cardFacade.getAllEntities(cardListRequestDto, pageable)));
   }
 
   @JsonView(Views.Short.class)
   @GetMapping(path = "/short")
-  public ResponseEntity<Map<String, Object>> getAllCardsDtoShort(Pageable pageable,
-                                                                 Principal principal,
-                                                                 CardListRequestDto cardListRequestDto) {
+  public ResponseEntity<Map<String, Object>> getAllCardsDtoShort(
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal,
+      CardListRequestDto cardListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
     return ResponseEntity.ok(convertPageToMap(cardFacade.getAllEntities(cardListRequestDto, pageable)));
   }
 
   @JsonView(Views.Extended.class)
   @GetMapping
-  public ResponseEntity<Map<String, Object>> getAllCardsDtoExtended(Pageable pageable,
-                                                                    Principal principal,
-                                                                    CardListRequestDto cardListRequestDto) {
+  public ResponseEntity<Map<String, Object>> getAllCardsDtoExtended(
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal,
+      CardListRequestDto cardListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
     return ResponseEntity.ok(convertPageToMap(cardFacade.getAllEntities(cardListRequestDto, pageable)));
   }
