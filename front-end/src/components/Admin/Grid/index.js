@@ -1,12 +1,12 @@
 import React, {Component, Fragment} from 'react';
 import Tabulator from 'tabulator-tables';
 import './index.scss';
-import { getEntityByType } from '../gridEntities';
-import { Link } from 'react-router-dom';
+import {getEntityByType} from '../GridEntities';
+import {Link} from 'react-router-dom';
 import Filter from './Filter';
+import ajaxRequest from '../../../helpers/ajaxRequest';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Pagination} from 'react-bootstrap';
-import ajaxRequest from '../../../helpers/ajaxRequest';
 import {toastr} from 'react-redux-toastr';
 
 class Grid extends Component {
@@ -102,8 +102,9 @@ class Grid extends Component {
   render () {
     const { entityType, tabKey } = this.props.match.params;
     const { setTabContentUrl } = this.props;
-    const { currentPage, pagesTotal, elementsPerPage } = this.state.meta;
+    const { currentPage, pagesTotal } = this.state.meta;
     const paginationPages = [];
+
     setTabContentUrl(entityType);
 
     for (let number = 1; number <= pagesTotal; number++) {
