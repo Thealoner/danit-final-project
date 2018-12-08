@@ -7,6 +7,7 @@ import Filter from './Filter';
 import ajaxRequest from '../../../helpers/ajaxRequest';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Pagination} from 'react-bootstrap';
+import {toastr} from 'react-redux-toastr';
 
 class Grid extends Component {
   constructor (props) {
@@ -67,7 +68,7 @@ class Grid extends Component {
         });
       })
       .catch(error => {
-        console.log('' + error);
+        toastr.error(error);
         this.setState({
           id: '',
           data: [],
