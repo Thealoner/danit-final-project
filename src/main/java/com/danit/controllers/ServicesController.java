@@ -1,9 +1,10 @@
 package com.danit.controllers;
 
-import com.danit.dto.ServiceDto;
+import com.danit.dto.Views;
 import com.danit.dto.service.ServiceListRequestDto;
 import com.danit.facades.ServiceFacade;
 import com.danit.models.Services;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -22,43 +23,66 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
-import static com.danit.utils.ControllerUtils.convertToMap;
+import static com.danit.utils.ControllerUtils.convertDtoToMap;
+import static com.danit.utils.ControllerUtils.convertPageToMap;
 
 @RestController
 @RequestMapping("/services")
 @Slf4j
 public class ServicesController {
 
+  private static final String LOG_MSG_GOT_ALL_DATA = " got all services data";
   private ServiceFacade serviceFacade;
 
   public ServicesController(ServiceFacade serviceFacade) {
     this.serviceFacade = serviceFacade;
   }
 
+  @JsonView(Views.Extended.class)
   @PostMapping
-  public ResponseEntity<List<ServiceDto>> createServices(@RequestBody List<Services> services, Principal principal) {
+  public ResponseEntity<Map<String, Object>> createServicesDto(@RequestBody List<Services> services, Principal principal) {
     log.info(principal.getName() + " is saving new services: " + services);
-    return ResponseEntity.status(HttpStatus.CREATED).body(serviceFacade.saveEntities(services));
+    return ResponseEntity.ok(convertDtoToMap(serviceFacade.saveEntities(services)));
   }
 
+  @JsonView(Views.Extended.class)
   @GetMapping("/{id}")
-  public ResponseEntity<ServiceDto> getServiceById(@PathVariable(name = "id") long id, Principal principal) {
+  public ResponseEntity<Map<String, Object>> getServiceByIdDto(@PathVariable(name = "id") long id, Principal principal) {
     log.info(principal.getName() + " got service data with id: " + id);
-    return ResponseEntity.ok(serviceFacade.getEntityById(id));
+    return ResponseEntity.ok(convertDtoToMap(serviceFacade.getEntityById(id)));
   }
 
+  @JsonView(Views.Ids.class)
+  @GetMapping(path = "/ids")
+  public ResponseEntity<Map<String, Object>> getAllServicesDtoIds(Pageable pageable,
+                                                                       Principal principal,
+                                                                       ServiceListRequestDto serviceListRequestDto) {
+    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
+    return ResponseEntity.ok(convertPageToMap(serviceFacade.getAllEntities(serviceListRequestDto, pageable)));
+  }
+
+  @JsonView(Views.Short.class)
+  @GetMapping(path = "/short")
+  public ResponseEntity<Map<String, Object>> getAllServicesDtoShort(Pageable pageable,
+                                                                       Principal principal,
+                                                                       ServiceListRequestDto serviceListRequestDto) {
+    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
+    return ResponseEntity.ok(convertPageToMap(serviceFacade.getAllEntities(serviceListRequestDto, pageable)));
+  }
+
+  @JsonView(Views.Extended.class)
   @GetMapping
-  public ResponseEntity<Map<String, Object>> getAllServices(Pageable pageable,
+  public ResponseEntity<Map<String, Object>> getAllServicesDtoExtended(Pageable pageable,
                                                             Principal principal,
                                                             ServiceListRequestDto serviceListRequestDto) {
-    log.info(principal.getName() + " got all services data");
-    return ResponseEntity.ok(convertToMap(serviceFacade.getAllEntities(serviceListRequestDto, pageable)));
+    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
+    return ResponseEntity.ok(convertPageToMap(serviceFacade.getAllEntities(serviceListRequestDto, pageable)));
   }
 
   @PutMapping
-  public ResponseEntity<List<ServiceDto>> updateServices(@RequestBody List<Services> services, Principal principal) {
+  public ResponseEntity<Map<String, Object>> updateServices(@RequestBody List<Services> services, Principal principal) {
     log.info(principal.getName() + " is updating services data: " + services);
-    return ResponseEntity.ok(serviceFacade.saveEntities(services));
+    return ResponseEntity.ok(convertDtoToMap(serviceFacade.saveEntities(services)));
   }
 
   @DeleteMapping("/{id}")
@@ -74,6 +98,5 @@ public class ServicesController {
     log.info(principal.getName() + " is trying to delete services: " + services);
     serviceFacade.deleteEntities(services);
   }
-
 
 }

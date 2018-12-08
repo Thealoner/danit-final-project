@@ -5,7 +5,6 @@ import com.danit.dto.Views;
 import com.danit.dto.service.ClientListRequestDto;
 import com.danit.facades.ClientFacade;
 import com.danit.models.Client;
-import com.danit.services.ClientService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +34,10 @@ import static com.danit.utils.ControllerUtils.convertPageToMap;
 public class ClientController {
 
   private static final String LOG_MSG_GOT_ALL_DATA = " got all clients data";
-  private ClientService clientService;
   private ClientFacade clientFacade;
 
   @Autowired
-  public ClientController(ClientService clientService, ClientFacade clientFacade) {
-    this.clientService = clientService;
+  public ClientController(ClientFacade clientFacade) {
     this.clientFacade = clientFacade;
   }
 

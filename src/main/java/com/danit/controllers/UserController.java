@@ -1,9 +1,10 @@
 package com.danit.controllers;
 
-import com.danit.dto.UserDto;
+import com.danit.dto.Views;
 import com.danit.dto.service.UserListRequestDto;
 import com.danit.facades.UserFacade;
 import com.danit.models.User;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -22,43 +23,68 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
-import static com.danit.utils.ControllerUtils.convertToMap;
+import static com.danit.utils.ControllerUtils.convertDtoToMap;
+import static com.danit.utils.ControllerUtils.convertPageToMap;
 
 @RestController
 @RequestMapping("/users")
 @Slf4j
 public class UserController {
 
+  private static final String LOG_MSG_GOT_ALL_DATA = " got all users data";
   private UserFacade userFacade;
 
   public UserController(UserFacade userFacade) {
     this.userFacade = userFacade;
   }
 
+  @JsonView(Views.Extended.class)
   @PostMapping
-  public ResponseEntity<List<UserDto>> createUsers(@RequestBody List<User> users, Principal principal) {
+  public ResponseEntity<Map<String, Object>> createUsersDto(@RequestBody List<User> users,
+                                                         Principal principal) {
     log.info(principal.getName() + " is saving new users: " + users);
-    return ResponseEntity.status(HttpStatus.CREATED).body(userFacade.saveEntities(users));
+    return ResponseEntity.ok(convertDtoToMap(userFacade.saveEntities(users)));
   }
 
+  @JsonView(Views.Ids.class)
+  @GetMapping(path = "/ids")
+  public ResponseEntity<Map<String, Object>> getAllUsersDtoIds(Principal principal,
+                                                                 Pageable pageable,
+                                                                 UserListRequestDto userListRequestDto) {
+    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
+    return ResponseEntity.ok(convertPageToMap(userFacade.getAllEntities(userListRequestDto, pageable)));
+  }
+
+  @JsonView(Views.Short.class)
+  @GetMapping(path = "/short")
+  public ResponseEntity<Map<String, Object>> getAllUsersDtoShort(Principal principal,
+                                                                 Pageable pageable,
+                                                                 UserListRequestDto userListRequestDto) {
+    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
+    return ResponseEntity.ok(convertPageToMap(userFacade.getAllEntities(userListRequestDto, pageable)));
+  }
+
+  @JsonView(Views.Extended.class)
   @GetMapping
-  public ResponseEntity<Map<String, Object>> getAllUsers(Principal principal,
+  public ResponseEntity<Map<String, Object>> getAllUsersDtoExtended(Principal principal,
                                                   Pageable pageable,
                                                   UserListRequestDto userListRequestDto) {
-    log.info(principal.getName() + " got all users data");
-    return ResponseEntity.ok(convertToMap(userFacade.getAllEntities(userListRequestDto, pageable)));
+    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
+    return ResponseEntity.ok(convertPageToMap(userFacade.getAllEntities(userListRequestDto, pageable)));
   }
 
+  @JsonView(Views.Extended.class)
   @GetMapping("/{id}")
-  public ResponseEntity<UserDto> getUserById(@PathVariable(name = "id") long id, Principal principal) {
+  ResponseEntity<Map<String, Object>> getUserByIdDto(@PathVariable(name = "id") long id, Principal principal) {
     log.info(principal.getName() + " got user data with id: " + id);
-    return ResponseEntity.ok(userFacade.getEntityById(id));
+    return ResponseEntity.ok(convertDtoToMap(userFacade.getEntityById(id)));
   }
 
+  @JsonView(Views.Extended.class)
   @PutMapping
-  public ResponseEntity<List<UserDto>> updateUser(@RequestBody List<User> users, Principal principal) {
+  public ResponseEntity<Map<String, Object>> updateUsersDto(@RequestBody List<User> users, Principal principal) {
     log.info(principal.getName() + " is updating users data: " + users);
-    return ResponseEntity.ok(userFacade.updateEntities(users));
+    return ResponseEntity.ok(convertDtoToMap(userFacade.updateEntities(users)));
   }
 
   @DeleteMapping("/{id}")
