@@ -42,7 +42,7 @@ public class ServiceCategory extends Auditable implements BaseEntity {
   private String title;
 
   @Column(name = "active")
-  private Boolean isActive;
+  private Boolean active;
 
   @ManyToMany(fetch = FetchType.EAGER, mappedBy = "serviceCategories")
   private List<Services> services;

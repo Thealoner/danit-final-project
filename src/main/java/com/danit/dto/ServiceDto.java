@@ -27,5 +27,5 @@ public class ServiceDto extends BaseDto {
   private int unitsNumber;
 
   @JsonView(Views.Short.class)
-  private Boolean isActive;
+  private Boolean active;
 }

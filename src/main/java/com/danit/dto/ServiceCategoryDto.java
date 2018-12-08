@@ -19,7 +19,7 @@ public class ServiceCategoryDto extends BaseDto {
   private String title;
 
   @JsonView(Views.Short.class)
-  private Boolean isActive;
+  private Boolean active;
 
   @JsonView({Views.Extended.class, Views.Ids.class})
   private List<ServiceDto> services;

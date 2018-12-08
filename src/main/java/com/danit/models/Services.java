@@ -56,7 +56,7 @@ public class Services extends Auditable implements BaseEntity {
   private List<ServiceCategory> serviceCategories;
 
   @Column(name = "active")
-  private Boolean isActive;
+  private Boolean active;
 
 
 }
