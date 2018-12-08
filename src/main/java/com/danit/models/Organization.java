@@ -16,7 +16,7 @@ public class Organization {
       allocationSize = 1, initialValue = 1001)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "organizationSequence")
   @Column(name = "id")
-  private Long organizationId;
+  private Long id;
 
   @Column(name = "title")
   private String organizationTitle;

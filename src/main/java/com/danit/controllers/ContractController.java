@@ -8,6 +8,9 @@ import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +27,8 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
+import static com.danit.utils.ControllerUtils.DEFAULT_PAGE_NUMBER;
+import static com.danit.utils.ControllerUtils.DEFAULT_PAGE_SIZE;
 import static com.danit.utils.ControllerUtils.convertDtoToMap;
 import static com.danit.utils.ControllerUtils.convertPageToMap;
 
@@ -49,9 +54,13 @@ public class ContractController {
 
   @JsonView(Views.Ids.class)
   @GetMapping("/ids")
-  public ResponseEntity<Map<String, Object>> getAllContractsDtoIds(Pageable pageable,
-                                                                   Principal principal,
-                                                                   ContractListRequestDto contractListRequestDto) {
+  public ResponseEntity<Map<String, Object>> getAllContractsDtoIds(
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal,
+      ContractListRequestDto contractListRequestDto) {
     log.info(principal.getName() + " got all Contract data");
     log.info("clientListRequestDto" + contractListRequestDto);
     return ResponseEntity.ok(convertPageToMap(contractFacade.getAllEntities(contractListRequestDto, pageable)));
@@ -59,9 +68,13 @@ public class ContractController {
 
   @JsonView(Views.Short.class)
   @GetMapping("/short")
-  public ResponseEntity<Map<String, Object>> getAllContractsDtoShort(Pageable pageable,
-                                                                     Principal principal,
-                                                                     ContractListRequestDto contractListRequestDto) {
+  public ResponseEntity<Map<String, Object>> getAllContractsDtoShort(
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal,
+      ContractListRequestDto contractListRequestDto) {
     log.info(principal.getName() + " got all Contract data");
     log.info("clientListRequestDto" + contractListRequestDto);
     return ResponseEntity.ok(convertPageToMap(contractFacade.getAllEntities(contractListRequestDto, pageable)));
@@ -69,9 +82,13 @@ public class ContractController {
 
   @JsonView(Views.Extended.class)
   @GetMapping
-  public ResponseEntity<Map<String, Object>> getAllContractsDtoExtended(Pageable pageable,
-                                                                        Principal principal,
-                                                                        ContractListRequestDto contractListRequestDto) {
+  public ResponseEntity<Map<String, Object>> getAllContractsDtoExtended(
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal,
+      ContractListRequestDto contractListRequestDto) {
     log.info(principal.getName() + " got all Contract data");
     log.info("clientListRequestDto" + contractListRequestDto);
     return ResponseEntity.ok(convertPageToMap(contractFacade.getAllEntities(contractListRequestDto, pageable)));
