@@ -30,8 +30,8 @@ import java.util.Collection;
 @Data
 public class User extends Auditable implements BaseEntity {
   @Id
-  @SequenceGenerator(name = "userSequence", sequenceName = "userSequence", allocationSize = 1, initialValue = 1001)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userSequence")
+  @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 1, initialValue = 1001)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
   @Column(name = "id")
   private Long id;
 
