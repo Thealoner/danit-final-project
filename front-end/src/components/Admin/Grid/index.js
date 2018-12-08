@@ -101,7 +101,7 @@ class Grid extends Component {
     const { entityType, tabKey } = this.props.match.params;
     const { setTabContentUrl } = this.props;
     const { currentPage, pagesTotal } = this.state.meta;
-    setTabContentUrl(entityType);
+    // setTabContentUrl(entityType);
 
     return (
       <Fragment>

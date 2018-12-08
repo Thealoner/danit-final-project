@@ -4,12 +4,10 @@ import './index.scss';
 import TabbedArea from './TabbedArea';
 import EntitiesMenu from './EntitiesMenu';
 
-let index = 0;
-
 class Admin extends Component {
   state = {
     tabs: [],
-    activeKey: '0'
+    activeKey: null
   };
 
   setRecordData = (data, edited) => {
@@ -39,21 +37,33 @@ class Admin extends Component {
     return currentTab.recordData;
   };
 
-  addTab = (e, url = '', title = 'Новая вкладка') => {
+  addTab = (e, url = '', entityId, entityName) => {
     e.stopPropagation();
-    index++;
-    const newTab = {
-      title: title,
-      tabKey: `${index}`,
-      contentUrl: url
-    };
 
-    this.setState({
-      tabs: this.state.tabs.concat(newTab),
-      activeKey: `${index}`
+    const entityTab = this.state.tabs.find((tab) => {
+      return tab.tabKey === entityId;
     });
 
-    this.props.history.push('/admin/' + index + '/');
+    if (entityTab) {
+      this.setState({
+        activeKey: entityTab
+      });
+
+      this.props.history.push('/admin/' + entityTab + '/');
+    } else {
+      const newTab = {
+        title: entityName,
+        tabKey: entityId,
+        contentUrl: url
+      };
+
+      this.setState({
+        tabs: this.state.tabs.concat(newTab),
+        activeKey: entityId
+      });
+
+      this.props.history.push('/admin/' + entityTab + '/');
+    }
   };
 
   onTabChange = (activeKey) => {
@@ -95,7 +105,6 @@ class Admin extends Component {
       tabs: after,
       activeKey
     });
-
   };
 
   setTabTitle = (title) => {
@@ -115,12 +124,21 @@ class Admin extends Component {
   };
 
   setTabContentUrl = (url) => {
-    const currentTab = this.state.tabs.find((tab) => {
+    const tabs = this.state.tabs;
+
+    const currentTabIndex = tabs.findIndex((tab) => {
       return tab.tabKey === this.state.activeKey;
     });
 
-    currentTab.contentUrl = url;
-    return currentTab.contentUrl;
+    this.setState(prevState => ({
+      tabs: [
+        ...prevState.tabs.filter((tab, index) => index !== currentTabIndex),
+        {
+          ...prevState.tabs[currentTabIndex],
+          contentUrl: url
+        }
+      ]
+    }));
   };
 
   getCurrentTab = () => {

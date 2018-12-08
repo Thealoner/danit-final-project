@@ -14,7 +14,7 @@ function EntitiesMenu (props) {
         key={entity.id}
         className="configurator__link"
         activeClassName="configurator__link--active"
-        onClick={(e) => props.addTab(e, url, entity.name)}>
+        onClick={(e) => props.addTab(e, url, entity.id, entity.name)}>
         {entity.name}
       </NavLink>
     );
