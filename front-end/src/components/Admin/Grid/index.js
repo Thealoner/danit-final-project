@@ -5,6 +5,7 @@ import { getEntityByType } from '../gridEntities';
 import { Link } from 'react-router-dom';
 import Filter from './Filter';
 import ajaxRequest from '../../../helpers/ajaxRequest';
+import {toastr} from 'react-redux-toastr';
 
 class Grid extends Component {
   constructor (props) {
@@ -65,7 +66,7 @@ class Grid extends Component {
         });
       })
       .catch(error => {
-        console.log('' + error);
+        toastr.error(error);
         this.setState({
           id: '',
           data: [],

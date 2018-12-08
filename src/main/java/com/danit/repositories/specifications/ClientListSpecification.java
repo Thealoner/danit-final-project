@@ -55,11 +55,11 @@ public class ClientListSpecification extends BaseSpecification<Client, ClientLis
       if (value == null) {
         return null;
       }
-
       return cb.like(
-          cb.lower(root.get(attribute)),
+          cb.lower(root.get(attribute).as(String.class)),
           containsLowerCase(value)
       );
     };
   }
+
 }

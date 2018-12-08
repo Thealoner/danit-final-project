@@ -1,6 +1,5 @@
 package com.danit.controllers;
 
-import com.danit.dto.ContractDto;
 import com.danit.dto.Views;
 import com.danit.dto.service.ContractListRequestDto;
 import com.danit.facades.ContractFacade;
@@ -24,9 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
-import static com.danit.utils.ControllerUtils.convertToMap;
+import static com.danit.utils.ControllerUtils.convertDtoToMap;
+import static com.danit.utils.ControllerUtils.convertPageToMap;
 
 
 @RestController
@@ -43,41 +42,55 @@ public class ContractController {
 
   @JsonView(Views.Extended.class)
   @PostMapping
-  ResponseEntity<List<ContractDto>> createContracts(@RequestBody List<Contract> contracts, Principal principal) {
+  ResponseEntity<Map<String, Object>> createContracts(@RequestBody List<Contract> contracts, Principal principal) {
     log.info(principal.getName() + " is saving new contracts: " + contracts);
-    return ResponseEntity.status(HttpStatus.CREATED)
-        .body(contractFacade.saveEntities(contracts));
+    return ResponseEntity.ok(convertDtoToMap(contractFacade.saveEntities(contracts)));
+  }
+
+  @JsonView(Views.Ids.class)
+  @GetMapping("/ids")
+  public ResponseEntity<Map<String, Object>> getAllContractsDtoIds(Pageable pageable,
+                                                                   Principal principal,
+                                                                   ContractListRequestDto contractListRequestDto) {
+    log.info(principal.getName() + " got all Contract data");
+    log.info("clientListRequestDto" + contractListRequestDto);
+    return ResponseEntity.ok(convertPageToMap(contractFacade.getAllEntities(contractListRequestDto, pageable)));
+  }
+
+  @JsonView(Views.Short.class)
+  @GetMapping("/short")
+  public ResponseEntity<Map<String, Object>> getAllContractsDtoShort(Pageable pageable,
+                                                                     Principal principal,
+                                                                     ContractListRequestDto contractListRequestDto) {
+    log.info(principal.getName() + " got all Contract data");
+    log.info("clientListRequestDto" + contractListRequestDto);
+    return ResponseEntity.ok(convertPageToMap(contractFacade.getAllEntities(contractListRequestDto, pageable)));
   }
 
   @JsonView(Views.Extended.class)
   @GetMapping
-  public ResponseEntity<Map<String, Object>> getAllContracts(Pageable pageable,
-                                                             Principal principal,
-                                                             ContractListRequestDto contractListRequestDto) {
+  public ResponseEntity<Map<String, Object>> getAllContractsDtoExtended(Pageable pageable,
+                                                                        Principal principal,
+                                                                        ContractListRequestDto contractListRequestDto) {
     log.info(principal.getName() + " got all Contract data");
     log.info("clientListRequestDto" + contractListRequestDto);
-    return ResponseEntity.ok(convertToMap(Objects.nonNull(contractListRequestDto) ?
-        contractFacade.getAllEntities(contractListRequestDto, pageable) :
-        contractFacade.getAllEntities(pageable)));
+    return ResponseEntity.ok(convertPageToMap(contractFacade.getAllEntities(contractListRequestDto, pageable)));
   }
 
   @JsonView(Views.Extended.class)
   @GetMapping("/{id}")
-  ResponseEntity<ContractDto> getContractById(@PathVariable(name = "id") long id, Principal principal) {
+  ResponseEntity<Map<String, Object>> getContractById(@PathVariable(name = "id") long id, Principal principal) {
     log.info(principal.getName() + " got contract data with id: " + id);
-    return ResponseEntity.status(HttpStatus.OK)
-        .body(contractFacade.getEntityById(id));
+    return ResponseEntity.ok(convertDtoToMap(contractFacade.getEntityById(id)));
   }
 
   @JsonView(Views.Extended.class)
   @PutMapping
-  public ResponseEntity<List<ContractDto>> updateContracts(@RequestBody List<Contract> contracts, Principal principal) {
+  public ResponseEntity<Map<String, Object>> updateContracts(@RequestBody List<Contract> contracts, Principal principal) {
     log.info(principal.getName() + " is updating contracts data: " + contracts);
-    return ResponseEntity.status(HttpStatus.OK)
-        .body(contractFacade.saveEntities(contracts));
+    return ResponseEntity.ok(convertDtoToMap(contractFacade.updateEntities(contracts)));
   }
 
-  @JsonView(Views.Extended.class)
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   public void deleteContractById(@PathVariable(name = "id") long id, Principal principal) {
@@ -85,7 +98,6 @@ public class ContractController {
     contractFacade.deleteEntityById(id);
   }
 
-  @JsonView(Views.Extended.class)
   @DeleteMapping
   @ResponseStatus(HttpStatus.OK)
   public void deleteContracts(@RequestBody List<Contract> contracts, Principal principal) {

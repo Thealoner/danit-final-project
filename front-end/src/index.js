@@ -1,24 +1,37 @@
 import React, {Fragment} from 'react';
 import ReactDOM from 'react-dom';
-import './reset.scss';
-import './index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import Login from './components/Login';
 import {Provider} from 'react-redux';
 import store from './store';
+import ReduxToastr from 'react-redux-toastr';
+import './reset.scss';
+import './index.scss';
+import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
-      <Fragment>
-        <Switch>
-          <Route path="/login" component={Login} />
-          <Route path="/" component={App} />
-        </Switch>
-      </Fragment>
-    </BrowserRouter>
+    <Fragment>
+      <BrowserRouter>
+        <Fragment>
+          <Switch>
+            <Route path="/login" component={Login}/>
+            <Route path="/" component={App}/>
+          </Switch>
+        </Fragment>
+      </BrowserRouter>
+      <ReduxToastr
+        timeOut={1500}
+        newestOnTop={false}
+        preventDuplicates
+        position="top-center"
+        transitionIn="fadeIn"
+        transitionOut="fadeOut"
+        progressBar
+        closeOnToastrClick/>
+    </Fragment>
   </Provider>,
   document.getElementById('root')
 );
