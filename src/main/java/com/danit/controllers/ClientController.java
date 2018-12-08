@@ -1,7 +1,6 @@
 package com.danit.controllers;
 
 
-import com.danit.dto.ClientDto;
 import com.danit.dto.Views;
 import com.danit.dto.service.ClientListRequestDto;
 import com.danit.facades.ClientFacade;
@@ -27,7 +26,8 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
-import static com.danit.utils.ControllerUtils.convertToMap;
+import static com.danit.utils.ControllerUtils.convertDtoToMap;
+import static com.danit.utils.ControllerUtils.convertPageToMap;
 
 @RestController
 @RequestMapping("/clients")
@@ -44,12 +44,12 @@ public class ClientController {
     this.clientFacade = clientFacade;
   }
 
-  //--------dto---------------------------------------------------------------------------------------------------------
   @JsonView(Views.Extended.class)
-  @PostMapping("/extended")
-  public ResponseEntity<List<ClientDto>> createClientsDtoExtended(@RequestBody List<Client> clients, Principal principal) {
+  @PostMapping
+  public ResponseEntity<Map<String, Object>> createClientsDtoExtended(@RequestBody List<Client> clients,
+                                                                      Principal principal) {
     log.info(principal.getName() + " is saving new clients: " + clients);
-    return ResponseEntity.status(HttpStatus.CREATED).body(clientFacade.saveEntities(clients));
+    return ResponseEntity.ok(convertDtoToMap(clientFacade.saveEntities(clients)));
   }
 
   @JsonView(Views.Ids.class)
@@ -58,7 +58,7 @@ public class ClientController {
                                                                  Principal principal,
                                                                  ClientListRequestDto clientListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
-    return ResponseEntity.ok(convertToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
+    return ResponseEntity.ok(convertPageToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
   }
 
   @JsonView(Views.Short.class)
@@ -67,87 +67,44 @@ public class ClientController {
                                                                    Principal principal,
                                                                    ClientListRequestDto clientListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
-    return ResponseEntity.ok(convertToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
+    return ResponseEntity.ok(convertPageToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
   }
 
   @JsonView(Views.Extended.class)
-  @GetMapping("/extended")
+  @GetMapping
   public ResponseEntity<Map<String, Object>> getAllClientsDtoExtended(Pageable pageable,
                                                                       Principal principal,
                                                                       ClientListRequestDto clientListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
-    return ResponseEntity.ok(convertToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
+    return ResponseEntity.ok(convertPageToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
   }
 
   @JsonView(Views.Extended.class)
-  @GetMapping("/{id}/extended")
-  ResponseEntity<ClientDto> getClientByIdDtoExtended(@PathVariable(name = "id") long id, Principal principal) {
+  @GetMapping("/{id}")
+  ResponseEntity<Map<String, Object>> getClientByIdDtoExtended(@PathVariable(name = "id") long id, Principal principal) {
     log.info(principal.getName() + " got client data with id: " + id);
-    return ResponseEntity.ok(clientFacade.getEntityById(id));
+    return ResponseEntity.ok(convertDtoToMap(clientFacade.getEntityById(id)));
   }
 
   @JsonView(Views.Extended.class)
-  @PutMapping("/extended")
-  public ResponseEntity<List<ClientDto>> updateClientsDto(@RequestBody List<Client> clients, Principal principal) {
+  @PutMapping
+  public ResponseEntity<Map<String, Object>> updateClientsDto(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is updating clients data: " + clients);
-    return ResponseEntity.ok(clientFacade.updateEntities(clients));
+    return ResponseEntity.ok(convertDtoToMap(clientFacade.updateEntities(clients)));
   }
 
-  @DeleteMapping("/{id}/dto")
+  @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   public void deleteClientByIdDto(@PathVariable(name = "id") long id, Principal principal) {
     log.info(principal.getName() + " is trying to delete client with id: " + id);
     clientFacade.deleteEntityById(id);
   }
 
-  @DeleteMapping("/dto")
+  @DeleteMapping
   @ResponseStatus(HttpStatus.OK)
   public void deleteClientsDto(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is trying to delete clients: " + clients);
     clientFacade.deleteEntities(clients);
-  }
-
-  //------not dto-------------------------------------------------------------------------------------------------------
-
-  @GetMapping
-  public ResponseEntity<Map<String, Object>> getAllClients(Pageable pageable,
-                                                           Principal principal,
-                                                           ClientListRequestDto clientListRequestDto) {
-    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
-    log.info("clientListRequestDto=" + clientListRequestDto);
-    return ResponseEntity.ok(convertToMap(clientService.getAllEntities(clientListRequestDto, pageable)));
-  }
-
-  @GetMapping("/{id}")
-  ResponseEntity<Client> getClientById(@PathVariable(name = "id") long id, Principal principal) {
-    log.info(principal.getName() + " got client data with id: " + id);
-    return ResponseEntity.ok(clientService.getEntityById(id));
-  }
-
-  @PostMapping
-  public ResponseEntity<List<Client>> createClients(@RequestBody List<Client> clients, Principal principal) {
-    log.info(principal.getName() + " is saving new clients: " + clients);
-    return ResponseEntity.status(HttpStatus.CREATED).body(clientService.saveEntities(clients));
-  }
-
-  @PutMapping
-  public ResponseEntity<List<Client>> addClients(@RequestBody List<Client> clients, Principal principal) {
-    log.info(principal.getName() + " is updating clients data: " + clients);
-    return ResponseEntity.ok(clientService.updateEntities(clients));
-  }
-
-  @DeleteMapping("/{id}")
-  @ResponseStatus(HttpStatus.OK)
-  public void deleteClientById(@PathVariable(name = "id") long id, Principal principal) {
-    log.info(principal.getName() + " is trying to delete client with id: " + id);
-    clientService.deleteEntityById(id);
-  }
-
-  @DeleteMapping
-  @ResponseStatus(HttpStatus.OK)
-  public void deleteClients(@RequestBody List<Client> clients, Principal principal) {
-    log.info(principal.getName() + " is trying to delete clients: " + clients);
-    clientService.deleteEntities(clients);
   }
 
 }

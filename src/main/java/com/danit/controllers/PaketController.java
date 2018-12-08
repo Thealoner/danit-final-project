@@ -24,7 +24,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
-import static com.danit.utils.ControllerUtils.convertToMap;
+import static com.danit.utils.ControllerUtils.convertPageToMap;
 
 @RestController
 @RequestMapping("/pakets")
@@ -53,7 +53,7 @@ public class PaketController {
                                                                Principal principal,
                                                                PaketListRequestDto paketListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
-    return ResponseEntity.ok(convertToMap(paketFacade.getAllEntities(paketListRequestDto, pageable)));
+    return ResponseEntity.ok(convertPageToMap(paketFacade.getAllEntities(paketListRequestDto, pageable)));
   }
 
   @JsonView(Views.Extended.class)
@@ -62,7 +62,7 @@ public class PaketController {
                                                                   Principal principal,
                                                                   PaketListRequestDto paketListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
-    return ResponseEntity.ok(convertToMap(paketFacade.getAllEntities(paketListRequestDto, pageable)));
+    return ResponseEntity.ok(convertPageToMap(paketFacade.getAllEntities(paketListRequestDto, pageable)));
   }
 
   @JsonView(Views.Extended.class)

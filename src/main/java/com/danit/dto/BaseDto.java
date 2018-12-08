@@ -1,7 +1,9 @@
 package com.danit.dto;
 
+import com.danit.utils.CustomDateTimeDeserializer;
 import com.danit.utils.CustomDateTimeSerializer;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 
@@ -15,6 +17,7 @@ public class BaseDto {
 
   @JsonView(Views.Extended.class)
   @JsonSerialize(using = CustomDateTimeSerializer.class)
+  @JsonDeserialize(using = CustomDateTimeDeserializer.class)
   private Date creationDate;
 
   @JsonView(Views.Extended.class)
@@ -22,6 +25,7 @@ public class BaseDto {
 
   @JsonView(Views.Extended.class)
   @JsonSerialize(using = CustomDateTimeSerializer.class)
+  @JsonDeserialize(using = CustomDateTimeDeserializer.class)
   private Date lastModifiedDate;
 
 }

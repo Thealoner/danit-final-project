@@ -18,6 +18,7 @@ import com.danit.repositories.UserRepository;
 import com.danit.repositories.UserRolesRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -60,9 +61,14 @@ public class AppStartupRunner implements ApplicationRunner {
   @Autowired
   private CardRepository cardRepository;
 
+  @Autowired
+  private SimpleModule dateModule;
+
   @Override
   public void run(ApplicationArguments args) throws IOException {
     ObjectMapper mapper = new ObjectMapper();
+
+    mapper.registerModule(dateModule);
 
     TypeReference<Set<UserRoles>> roleTypeReference = new TypeReference<Set<UserRoles>>() {
     };

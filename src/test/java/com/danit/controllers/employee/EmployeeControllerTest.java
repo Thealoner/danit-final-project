@@ -38,6 +38,8 @@ public class EmployeeControllerTest {
   @Autowired
   EmployeeService employeeService;
   @Autowired
+  ObjectMapper objectMapper;
+  @Autowired
   private TestRestTemplate template;
   @Autowired
   private MockMvc mockMvc;
@@ -82,8 +84,7 @@ public class EmployeeControllerTest {
         .andExpect(status().isOk())
         .andReturn().getResponse().getContentAsString();
 
-    ObjectMapper mapper = new ObjectMapper();
-    Employee actualObj = mapper.readValue(responseJson, new TypeReference<Employee>() {
+    Employee actualObj = objectMapper.readValue(responseJson, new TypeReference<Employee>() {
     });
     long createdId = actualObj.getId();
     System.out.println(actualObj);
@@ -99,7 +100,7 @@ public class EmployeeControllerTest {
         .andExpect(status().isOk())
         .andReturn().getResponse().getContentAsString();
 
-    actualObj = mapper.readValue(responseJson, new TypeReference<Employee>() {
+    actualObj = objectMapper.readValue(responseJson, new TypeReference<Employee>() {
     });
     System.out.println(actualObj);
     assertEquals("TestEmployee2", actualObj.getFirstName());
@@ -155,8 +156,7 @@ public class EmployeeControllerTest {
         .andExpect(status().isOk())
         .andReturn().getResponse().getContentAsString();
 
-    ObjectMapper mapper = new ObjectMapper();
-    Employee actualObj = mapper.readValue(responseJson, new TypeReference<Employee>() {
+    Employee actualObj = objectMapper.readValue(responseJson, new TypeReference<Employee>() {
     });
     long createdId = actualObj.getId();
 
