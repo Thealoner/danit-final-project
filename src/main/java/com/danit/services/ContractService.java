@@ -6,4 +6,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ContractService extends AbstractEntityService<Contract, ContractListRequestDto> {
+
 }

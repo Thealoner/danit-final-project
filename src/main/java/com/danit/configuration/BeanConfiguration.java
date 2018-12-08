@@ -4,6 +4,7 @@ import com.danit.dto.CardDto;
 import com.danit.dto.ContractDto;
 import com.danit.models.Card;
 import com.danit.models.Contract;
+import com.danit.utils.CustomDateDeserializer;
 import com.danit.utils.CustomDateSerializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.modelmapper.ModelMapper;
@@ -19,6 +20,9 @@ public class BeanConfiguration {
 
   @Autowired
   CustomDateSerializer customDateSerializer;
+
+  @Autowired
+  CustomDateDeserializer customDateDeserializer;
 
   @Bean
   public ModelMapper modelMapper() {
@@ -40,6 +44,7 @@ public class BeanConfiguration {
   public SimpleModule dateModule() {
     SimpleModule module = new SimpleModule();
     module.addSerializer(Date.class, customDateSerializer);
+    module.addDeserializer(Date.class, customDateDeserializer);
     return module;
   }
 
