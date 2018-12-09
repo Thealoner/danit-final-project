@@ -1,0 +1,8 @@
+.tab {
+  float: left;
+  padding: 10px 20px;
+
+  &--active {
+    color: red;
+  }
+}

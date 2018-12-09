@@ -1,6 +1,8 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import gridEntities from '../gridEntities';
+import { connect } from 'react-redux';
+import { openTab } from '../../../redux/actionCreators';
 
 function EntitiesMenu (props) {
   const links = [];
@@ -14,7 +16,7 @@ function EntitiesMenu (props) {
         key={entity.id}
         className="configurator__link"
         activeClassName="configurator__link--active"
-        onClick={(e) => props.addTab(e, url, entity.id, entity.name)}>
+        onClick={() => props.openTab(entity.id)}>
         {entity.name}
       </NavLink>
     );
@@ -23,4 +25,18 @@ function EntitiesMenu (props) {
   return links;
 }
 
-export default EntitiesMenu;
+const mapStateToProps = state => {
+  return {
+    tabs: state.tabs
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    openTab: tabKey => {
+      dispatch(openTab(tabKey));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EntitiesMenu);

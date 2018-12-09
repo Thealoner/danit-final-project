@@ -1,48 +1,50 @@
 import { tab } from './actionTypes';
 
-export function openTab (tabKey) {
+export const openTab = tabKey => {
   return {
     type: tab.OPEN,
-    payload: {
-      tabKey
-    }
+    tabKey
   };
-}
+};
 
-export function closeTab (tabKey) {
+export const closeTab = tabKey => {
   return {
     type: tab.CLOSE,
-    payload: {
-      tabKey
-    }
+    tabKey
   };
-}
+};
 
-export function storeTabFormData (tabKey, formData) {
+export const setTabContent = (tabKey, payload) => {
+  return {
+    type: tab.SET_CONTENT,
+    tabKey,
+    payload
+  };
+};
+
+export const storeTabFormData = (tabKey, formData) => {
   return {
     type: tab.STORE_TMP_FORM_DATA,
+    tabKey,
     payload: {
-      tabKey,
       formData
     }
   };
-}
+};
 
-export function clearTabFormData (tabKey) {
+export const clearTabFormData = tabKey => {
   return {
     type: tab.CLEAR_FORM_DATA,
-    payload: {
-      tabKey
-    }
+    tabKey
   };
-}
+};
 
-export function resetTabFormData (tabKey, formData) {
+export const resetTabFormData = (tabKey, formData) => {
   return {
     type: tab.RESET_FORM_DATA,
+    tabKey,
     payload: {
-      tabKey,
       formData
     }
   };
-}
+};
