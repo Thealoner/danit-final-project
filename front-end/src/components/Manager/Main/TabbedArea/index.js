@@ -5,7 +5,7 @@ import 'rc-tabs/assets/index.css';
 import TabContent from 'rc-tabs/lib/TabContent';
 import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
 import { Route, NavLink } from 'react-router-dom';
-import Grid from '../Grid';
+import Grid from '../../Grid';
 import Record from '../Record';
 
 class TabbedArea extends Component {

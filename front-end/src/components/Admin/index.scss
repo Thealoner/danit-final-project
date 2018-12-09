@@ -17,22 +17,22 @@
     display: flex;
     align-items: center;
     padding: 15px 0 15px 15px;
-    color: $dark-grey;
+    color: $text-config;
     transition: padding .5s;
 
     &:hover {
       padding-left: 20px;
-      color: $dark-grey;
+      color: $text-config;
     }
   }
-  
+
   &__link--active {
     padding-left: 20px;
-    color: $EG-white !important;
+    color: $white !important;
     background-color: $purple-bg;
-    
+
   }
-  
+
   &__right {
     overflow: hidden;
     background-color: $main-bg;
