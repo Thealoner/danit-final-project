@@ -47,12 +47,12 @@ public class BidirectionalRelationshipCLientContractRestTest {
 
     HttpHeaders header = setHeader();
 
-    template.exchange("/clients/1002",
+    template.exchange("/clients/2",
         HttpMethod.DELETE,
         new HttpEntity<Object>(header),
         Void.class);
 
-    ResponseEntity<String> result1 = template.exchange("/contracts/1003",
+    ResponseEntity<String> result1 = template.exchange("/contracts/3",
         HttpMethod.GET,
         new HttpEntity<Object>(header),
         String.class);
@@ -65,12 +65,12 @@ public class BidirectionalRelationshipCLientContractRestTest {
 
     HttpHeaders header = setHeader();
 
-    template.exchange("/contracts/1004",
+    template.exchange("/contracts/4",
         HttpMethod.DELETE,
         new HttpEntity<Object>(header),
         Void.class);
 
-    ResponseEntity<String> result1 = template.exchange("/clients/1003",
+    ResponseEntity<String> result1 = template.exchange("/clients/3",
         HttpMethod.GET,
         new HttpEntity<Object>(header),
         String.class);

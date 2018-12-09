@@ -38,8 +38,8 @@ import java.util.List;
 @Data
 public class Contract extends Auditable implements BaseEntity {
   @Id
-  @SequenceGenerator(name = "contractSequence", sequenceName = "contractSequence", allocationSize = 1, initialValue = 1001)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "contractSequence")
+  @SequenceGenerator(name = "contract_sequence", sequenceName = "contract_sequence", allocationSize = 1, initialValue = 1001)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "contract_sequence")
   @Column(name = "id")
   private Long id;
 
