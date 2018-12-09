@@ -15,9 +15,6 @@ class Header extends Component {
         </Link>
       </div>
       <div className="header__right-col">
-        <button className="header__addClient">
-          <FontAwesomeIcon className="header__plus-icon" icon="plus" size="1x"/>
-        Новый клиент</button>
         <User handleLogout={handleLogout} userName={userName}/>
       </div>
 
