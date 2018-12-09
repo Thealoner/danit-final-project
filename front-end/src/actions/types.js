@@ -1,9 +1,0 @@
-export const LOADING_STATUS = 'LOADING_STATUS';
-
-export const OPEN_TAB = 'OPEN_TAB';
-export const CLOSE_TAB = 'CLOSE_TAB';
-export const GET_CURRENT_TAB_KEY = 'GET_CURRENT_TAB_KEY';
-export const STORE_TAB_FORM_DATA = 'STORE_TAB_FORM_DATA';
-export const SUBMIT_TAB_FORM_DATA = 'SUBMIT_TAB_FORM_DATA';
-export const GET_TAB_FORM_DATA = 'GET_TAB_FORM_DATA';
-export const CLEAR_TAB_FORM_DATA = 'CLEAR_TAB_FORM_DATA';

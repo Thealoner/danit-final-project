@@ -1,4 +1,4 @@
-import {LOADING_STATUS} from '../actions/types';
+import {LOADING_STATUS} from '../actionTypes';
 
 function loadingReducer (state = false, action) {
   switch (action.type) {

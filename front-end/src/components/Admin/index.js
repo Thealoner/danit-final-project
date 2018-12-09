@@ -43,7 +43,7 @@ class Admin extends Component {
     const entityTab = this.state.tabs.find((tab) => {
       return tab.tabKey === entityId;
     });
-    debugger;
+    
     if (entityTab) {
       this.setState({
         activeKey: entityTab
