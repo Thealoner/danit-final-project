@@ -17,6 +17,7 @@
 
   &__btn-logout {
     padding: 0;
+    color: $white;
     font-size: 17px;
     background-color: $purple-bg;
     border: none;
@@ -30,6 +31,9 @@
   &__info {
     margin-right: 30px;
     font-size: 16px;
+  }
+  &__name {
+    margin: 0;
   }
 
   &__position {

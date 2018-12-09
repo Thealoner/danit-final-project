@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import GridEntities from '../GridEntities';
+import GridEntities from '../../gridEntities';
 
 function EntitiesMenu (props) {
   let links = [];
