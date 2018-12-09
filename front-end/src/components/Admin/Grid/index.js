@@ -7,14 +7,15 @@ import Filter from './Filter';
 import ajaxRequest from '../../../helpers/ajaxRequest';
 import {toastr} from 'react-redux-toastr';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import { Pagination } from 'react-bootstrap';
+import { Pagination } from 'semantic-ui-react';
 
 const defaultMeta = {
   totalElements: 0,
   currentPage: 1,
   pagesTotal: 1,
-  elementsPerPage: 2
+  elementsPerPage: 1
 };
+
 class Grid extends Component {
   constructor (props) {
     super(props);
@@ -25,12 +26,15 @@ class Grid extends Component {
       columns: [],
       meta: {
         ...defaultMeta
-      }
+      },
+      showEllipsis: true,
+      showFirstAndLastNav: true,
+      showPreviousAndNextNav: true
     };
   }
 
   tabulator = null;
-  el = React.createRef();
+  tabulatorTable = React.createRef();
 
   rowClick = (e, row) => {
     const { entityType, tabKey } = this.props.match.params;
@@ -44,7 +48,7 @@ class Grid extends Component {
     });
   };
 
-  getData = (page = 1, size = 2, filterString = '') => {
+  getData = (page = 1, size = 1, filterString = '') => {
     const { entityType } = this.props.match.params;
     const entity = getEntityByType(entityType);
 
@@ -80,14 +84,6 @@ class Grid extends Component {
       });
   };
 
-  pageNext = () => {
-    this.getData(this.state.meta.currentPage + 1, this.state.meta.elementsPerPage);
-  };
-
-  pagePrev = () => {
-    this.getData(this.state.meta.currentPage - 1, this.state.meta.elementsPerPage);
-  };
-
   applyFilter = (filterString) => {
     this.getData(0, 20, filterString);
   };
@@ -96,48 +92,38 @@ class Grid extends Component {
     this.getData();
   };
 
+  handlePaginationChange = (e, { activePage }) => {
+    this.getData(activePage, this.state.meta.elementsPerPage);
+  };
+
   render () {
     const { entityType, tabKey } = this.props.match.params;
     const { setTabContentUrl } = this.props;
-    const { currentPage, pagesTotal, elementsPerPage } = this.state.meta;
-    const paginationPages = [];
+    const { currentPage, pagesTotal } = this.state.meta;
+    const {showEllipsis, showFirstAndLastNav, showPreviousAndNextNav} = this.state;
     setTabContentUrl(entityType);
-
-    if (currentPage > 2) {
-      paginationPages.push(
-        <Pagination.Item onClick={() => this.getData( currentPage-1, elementsPerPage )}>{currentPage-1}</Pagination.Item>
-      );
-    }
-
-    if (currentPage > 1 && currentPage < pagesTotal) {
-      paginationPages.push(
-        <Pagination.Item onClick={() => this.getData( currentPage, elementsPerPage )}>{currentPage}</Pagination.Item>
-      );
-    }
-    if (currentPage < pagesTotal - 2) {
-      paginationPages.push(
-        <Pagination.Item onClick={() => this.getData( currentPage+1, elementsPerPage )}>{currentPage+1}</Pagination.Item>
-      );
-    }
 
     return (
       <Fragment>
         <Filter applyFilter={this.applyFilter} clearFilter={this.clearFilter} columns={this.state.columns}/>
-        <div ref={el => (this.el = el)} className="grid" data-custom-attr="test-custom-attribute"/>
+        <div ref={el => (this.tabulatorTable = el)} className="grid" data-custom-attr="test-custom-attribute"/>
         <div className="grid-footer">
           <Link to={'/admin/' + tabKey + '/' + entityType + '/add'} className="grid-footer__add-btn">
-            <FontAwesomeIcon className="header__plus-icon" icon="plus" size="1x"/>
+            <FontAwesomeIcon className="grid-footer__plus-icon" icon="plus" size="1x"/>
             Добавить {getEntityByType(entityType).nameForAddBtn}</Link>
-          <Pagination>
-            <Pagination.Prev onClick={this.pagePrev} disabled={currentPage <= 1}/>
-            <Pagination.Item onClick={() => this.getData(1, elementsPerPage)}>{1}</Pagination.Item>
-            <Pagination.Ellipsis />
-            {paginationPages}
-            <Pagination.Ellipsis />
-            <Pagination.Item onClick={() => this.getData(pagesTotal, elementsPerPage)}>{pagesTotal}</Pagination.Item>
-            <Pagination.Next onClick={this.pageNext} disabled={currentPage >= pagesTotal}/>
-
-          </Pagination>
+          <Pagination
+            activePage={currentPage}
+            boundaryRange={1}
+            onPageChange={this.handlePaginationChange}
+            siblingRange={1}
+            size='mini'
+            totalPages={pagesTotal}
+            ellipsisItem={showEllipsis ? undefined : null}
+            firstItem={showFirstAndLastNav ? undefined : null}
+            lastItem={showFirstAndLastNav ? undefined : null}
+            prevItem={showPreviousAndNextNav ? undefined : null}
+            nextItem={showPreviousAndNextNav ? undefined : null}
+          />
         </div>
       </Fragment>
     );
@@ -145,7 +131,7 @@ class Grid extends Component {
 
   componentDidMount () {
     this.getData();
-    this.tabulator = new Tabulator(this.el, {
+    this.tabulator = new Tabulator(this.tabulatorTable, {
       data: this.state.data,
       columns: this.state.columns,
       rowClick: this.rowClick,
@@ -157,7 +143,6 @@ class Grid extends Component {
   componentDidUpdate () {
     this.tabulator.setColumns(this.state.columns);
     this.tabulator.setData(this.state.data);
-
     const { entityType } = this.props.match.params;
 
     if (this.state.id !== '' && entityType !== this.state.id) {
