@@ -4,6 +4,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 50px;
   padding: 0 30px;
   background-color: $purple-bg;
   box-shadow: 0px -6px 6px 5px $EG-purple-dark;
@@ -25,23 +26,5 @@
   &__logo {
     width: 100%;
     height: auto;
-  }
-
-  &__addClient {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 35px;
-    margin-right: 30px;
-    padding: 0 15px;
-    color: $EG-white;
-    font-size: 16px;
-    background-color: $pink-bg;
-    border: 1px solid $pink-bg;
-    border-radius: 3px;
-  }
-
-  &__plus-icon {
-    margin-right: 10px;
   }
 }

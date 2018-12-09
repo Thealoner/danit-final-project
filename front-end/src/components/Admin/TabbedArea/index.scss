@@ -181,7 +181,7 @@
     }
 
     &:hover {
-      color: black !important;
+      color: $text-config !important;
     }
   }
 
@@ -202,7 +202,7 @@
   }
 
   &-tab-active {
-    color: black !important;
+    color: $text-config !important;
     background-color: $main-bg !important;
     border-bottom-right-radius: 0 !important;
     border-bottom-left-radius: 0 !important;

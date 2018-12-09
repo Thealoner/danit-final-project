@@ -3,10 +3,12 @@
 .filter {
   display: flex;
   align-items: center;
-  padding: 10px;
+  height: 50px;
+  padding: 0 10px;
+  color: $text-config;
   font-size: 14px;
   background-color: $main-bg;
-  border: 1px solid $EG-white;
+  border: 1px solid $white;
 
   label {
     margin-right: 10px;
@@ -17,22 +19,21 @@
     width: 150px;
     height: 30px;
     margin-right: 20px;
-    padding-left: 10px;
-    background-color: $EG-white;
+    background-color: $white;
     border: none;
     border-radius: 3px;
   }
 
   button {
-    height: 35px;
     margin-right: 20px;
+    padding: 6px 5px;
     color: $pink-bg;
-    background-color: $EG-white;
+    background-color: $white;
     border: 1px solid $pink-bg;
     border-radius: 3px;
 
     &:hover {
-      color: $EG-white;
+      color: $white;
       background-color: $pink-bg;
     }
   }

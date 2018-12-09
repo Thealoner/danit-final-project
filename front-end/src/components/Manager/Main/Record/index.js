@@ -4,7 +4,7 @@ import RecordTabs from './RecordTabs';
 import SimpleRecord from './SimpleRecord';
 import Package from './Package';
 import { Route } from 'react-router-dom';
-import GridEntities from '../GridEntities';
+import GridEntities from '../../gridEntities';
 
 class Record extends Component {
   getRoutes = () => {
