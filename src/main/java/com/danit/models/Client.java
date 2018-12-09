@@ -37,8 +37,8 @@ import java.util.List;
 public class Client extends Auditable implements BaseEntity {
 
   @Id
-  @SequenceGenerator(name = "clientSequence", sequenceName = "clientSequence", allocationSize = 1, initialValue = 1001)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "clientSequence")
+  @SequenceGenerator(name = "client_sequence", sequenceName = "client_sequence", allocationSize = 1, initialValue = 1001)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_sequence")
   @Column(name = "id")
   private Long id;
 
@@ -64,7 +64,7 @@ public class Client extends Auditable implements BaseEntity {
   @Column(name = "active")
   private Boolean active;
 
-  @OneToMany(mappedBy = "clientId", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+  @OneToMany(mappedBy = "clientId", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, orphanRemoval = true)
   private List<Contract> contracts;
 
 }
