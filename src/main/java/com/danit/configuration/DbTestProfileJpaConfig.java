@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableJpaRepositories(basePackages = "com.danit.repositories")
 @EnableTransactionManagement
-public class H2TestProfileJPAConfig {
+public class DbTestProfileJpaConfig {
 
   @Value("${spring.datasource.driverClassName}")
   private String driverClassName;

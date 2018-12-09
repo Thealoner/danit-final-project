@@ -1,7 +1,7 @@
 package com.danit.repositories;
 
 import com.danit.Application;
-import com.danit.configuration.H2TestProfileJPAConfig;
+import com.danit.configuration.DbTestProfileJpaConfig;
 import com.danit.models.Client;
 import com.danit.models.auditor.AuditorAwareImpl;
 import org.junit.Test;
@@ -22,7 +22,7 @@ import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {
     Application.class,
-    H2TestProfileJPAConfig.class})
+    DbTestProfileJpaConfig.class})
 @ActiveProfiles("test")
 @DataJpaTest(includeFilters = @ComponentScan.Filter(
     type = ASSIGNABLE_TYPE,
