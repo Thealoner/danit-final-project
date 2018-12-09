@@ -1,5 +1,5 @@
 import decodeJWT from 'jwt-decode';
-import Settings from '../Settings';
+import Settings from '../components/Settings/index';
 
 export default class AuthService {
   constructor (domain) {

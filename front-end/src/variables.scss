@@ -11,19 +11,18 @@ $EG-pink: #ed1261;
 $EG-blue: #00a0df;
 $EG-blue-dark: #4a326c;
 $EG-light-grey: #f2f2f2;
-$EG-white: #ffffff;
 $pink-text: #EF6298;
 $light-text: #DFDFFF;
-$medium-purple:#7573A3;
-$purple-text:#62568F;
-$dark-grey:#444444;
+$medium-purple: #7573A3;
+$purple-text: #62568F;
+$dark-grey: #444444;
 
 // override tabulator variables:
 
 $borderColor: $main-bg;
-$rowBorderColor: $EG-white;
+$rowBorderColor: $white;
 $headerBackgroundColor: $main-bg;
-$headerBorderColor: $EG-white;
+$headerBorderColor: $white;
 $sortArrowActive: $EG-purple-dark;
 $sortArrowInactive: $purple-text;
 $headerTextColor: $dark-grey;

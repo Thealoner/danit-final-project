@@ -1,6 +1,6 @@
-@import 'variables';
+@import '../../variables';
 
-.app {
+.home {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 50px calc(100vh - 60px);
@@ -23,5 +23,3 @@
     transition: all 1s;
   }
 }
-
-

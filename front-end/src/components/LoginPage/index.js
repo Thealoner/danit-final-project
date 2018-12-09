@@ -1,14 +1,11 @@
 import React, {Component} from 'react';
 import './index.scss';
-import AuthService from './AuthService';
-import {connect} from 'react-redux';
-import {LOADING_STATUS} from '../../actions/types';
+import AuthService from '../../helpers/authService';
+import {toastr} from 'react-redux-toastr';
 
 class Login extends Component {
-  constructor () {
-    super();
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+  constructor (props) {
+    super(props);
     this.Auth = new AuthService();
 
     this.state = {
@@ -17,33 +14,23 @@ class Login extends Component {
     };
   }
 
-  handleChange (e) {
+  handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value
     });
-  }
+  };
 
-  handleSubmit (e) {
+  handleSubmit = (e) => {
     e.preventDefault();
-
-    this.props.dispatch({
-      type: LOADING_STATUS
-    });
 
     this.Auth.login(this.state.username, this.state.password)
       .then(res => {
         this.props.history.replace('/');
-
-        setTimeout(() => {
-          this.props.dispatch({
-            type: LOADING_STATUS
-          });
-        }, 1000);
       })
       .catch(() => {
-        this.error.classList.add('login__data-error--visible');
+        toastr.error('Неверный логин или пароль');
       });
-  }
+  };
 
   UNSAFE_componentWillMount () {
     if (this.Auth.loggedIn()) {
@@ -75,18 +62,14 @@ class Login extends Component {
             <input type="submit" className="login__input" ref={submitBtn => (this.submitBtn = submitBtn)}
               name="" value="Войти"/>
           </form>
-          <span className="login__data-error" ref={error => (this.error = error)}>неверный логин или пароль</span>
         </div>
       </div>
     );
-  }
+  };
 
   componentDidMount = () => {
     const form = this.form;
-    const username = this.username;
-    const password = this.password;
     const submitBtn = this.submitBtn;
-    const error = this.error;
 
     form.onkeydown = function (event) {
       if (event.keyCode === 13) {
@@ -107,15 +90,7 @@ class Login extends Component {
     submitBtn.onmouseup = function () {
       this.classList.remove('login__input--active');
     };
-
-    username.onfocus = function () {
-      error.classList.remove('login__data-error--visible');
-    };
-
-    password.onfocus = function () {
-      error.classList.remove('login__data-error--visible');
-    };
   };
 }
 
-export default connect()(Login);
+export default Login;
