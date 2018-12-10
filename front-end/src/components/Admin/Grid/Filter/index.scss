@@ -5,10 +5,10 @@
   align-items: center;
   height: 50px;
   padding: 0 10px;
-  color: $text-config;
+  color: $configText;
   font-size: 14px;
-  background-color: $main-bg;
-  border: 1px solid $white;
+  background-color: $tabulatorBg;
+  border: 1px solid $tabulatorRowBorderColor;
 
   label {
     margin-right: 10px;
@@ -19,7 +19,7 @@
     width: 150px;
     height: 30px;
     margin-right: 20px;
-    background-color: $white;
+    background-color: $configBtnColorTwo;
     border: none;
     border-radius: 3px;
   }

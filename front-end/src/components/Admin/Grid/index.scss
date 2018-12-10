@@ -3,13 +3,13 @@
 .tabulator {
   width: 100%;
   background-color: #fff !important;
-  border-left: 1px solid $white !important;
+  border-left: 1px solid $tabulatorRowBorderColor !important;
 
   &-header {
     height: 40px;
     font-size: 14px;
     line-height: normal;
-    border-bottom: 1px solid $white !important;
+    border-bottom: 1px solid $tabulatorRowBorderColor !important;
   }
 
   &-headers {
@@ -54,17 +54,17 @@
 
   &-row {
     display: flex;
-    background-color: $gridRowBgColor;
+    background-color: $tabulatorRowBgColor;
     border-radius: 3px;
 
     &-even {
       background-color: #f9f9f9 !important;
-      border-top: 3px solid $main-bg;
-      border-bottom: 3px solid $main-bg;
+      border-top: 3px solid $tabulatorEvenRowBorderColor;
+      border-bottom: 3px solid $tabulatorEvenRowBorderColor;
     }
 
     &:hover {
-      background-color: $main-bg !important;
+      background-color: $tabulatorBg !important;
     }
   }
 }
@@ -75,7 +75,8 @@
   align-items: center;
   width: 100%;
   height: 50px;
-  background-color: $main-bg;
+  background-color: $tabulatorBg;
+  border: 1px solid $tabulatorRowBorderColor;
 
   &__add-btn {
     display: flex;
@@ -99,6 +100,6 @@
     font-size: 12px;
   }
   .pagination a {
-    color: $text-config !important;
+    color: $configText !important;
   }
 }

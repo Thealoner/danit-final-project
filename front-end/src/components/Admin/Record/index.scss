@@ -55,7 +55,7 @@
   input {
     width: 100%;
     height: 27px;
-    color: $text-config;
+    color: $configText;
     font-size: 15px;
     border: none;
     border-radius: 5px;
@@ -74,7 +74,7 @@
     }
 
     &[readonly] {
-      background-color: $main-bg;
+      background-color: $tabulatorBg;
 
       &:focus {
         box-shadow: none;
@@ -99,7 +99,7 @@
     display: block;
     width: 100%;
     padding: 10px;
-    color: $text-config;
+    color: $configText;
     font-size: 15px;
     border: 1px solid $saveButton;
     border-radius: 5px;
