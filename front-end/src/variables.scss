@@ -1,31 +1,40 @@
 $main-bg:#F5F4F8;
 $config-bg: #e3e9f3;
 $text-config: #4c5a75;
-$pink-bg: #FF659E;
-$purple-bg: #584B82;
+$configBtnColorOne:#FF659E;
+$configBtnColorTwo:#ffffff;
+$config-link-active-bg: #584B82;
+$header-bg: #584B82;
+
 $white: #ffffff;
 
-$EG-purple-dark: #5b205c;
-$EG-purple-light: #652e66;
-$EG-pink: #ed1261;
-$EG-blue: #00a0df;
-$EG-blue-dark: #4a326c;
+//$EG-purple-dark: #5b205c;
+//$EG-purple-light: #652e66;
+//$EG-pink: #ed1261;
+//$EG-blue: #00a0df;
+$saveButton: #4a326c;
 $EG-light-grey: #f2f2f2;
-$EG-white: #ffffff;
-$pink-text: #EF6298;
-$light-text: #DFDFFF;
-$medium-purple:#7573A3;
-$purple-text:#62568F;
-$dark-grey:#444444;
+//$EG-white: #ffffff;
+$headerText: #ffffff;
+$headerBtnColorHover: #DFDFFF;
+//$pink-text: #EF6298;
+//$light-text: #DFDFFF;
+//$medium-purple:#7573A3;
+$tabulatorEmailColor: #7573A3;
+$tabulatorNameColor: #62568F;
+//$purple-text:#62568F;
+//$tabulatorHeaderColor:#444444;
 
+//tabulator text name
 // override tabulator variables:
+$gridRowBgColor: #ffffff;
 
 $borderColor: $main-bg;
-$rowBorderColor: $EG-white;
+$rowBorderColor: #ffffff;
 $headerBackgroundColor: $main-bg;
-$headerBorderColor: $EG-white;
-$sortArrowActive: $EG-purple-dark;
-$sortArrowInactive: $purple-text;
-$headerTextColor: $dark-grey;
+$headerBorderColor: #ffffff;
+$sortArrowActive: #584B82;
+$sortArrowInactive: #62568F;
+$headerTextColor: #444444;
 
 @import "~tabulator-tables/src/scss/tabulator";

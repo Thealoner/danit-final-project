@@ -27,14 +27,14 @@
   button {
     margin-right: 20px;
     padding: 6px 5px;
-    color: $pink-bg;
-    background-color: $white;
-    border: 1px solid $pink-bg;
+    color: $configBtnColorOne;
+    background-color: $configBtnColorTwo;
+    border: 1px solid $configBtnColorOne;
     border-radius: 3px;
 
     &:hover {
-      color: $white;
-      background-color: $pink-bg;
+      color: $configBtnColorTwo;
+      background-color: $configBtnColorOne;
     }
   }
 }

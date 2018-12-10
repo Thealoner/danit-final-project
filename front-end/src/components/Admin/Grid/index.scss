@@ -43,18 +43,18 @@
 
     &[tabulator-field="firstName"],
     &[tabulator-field="lastName"] {
-      color: $purple-text !important;
+      color: $tabulatorNameColor !important;
       font-weight: bold;
     }
 
     &[tabulator-field="email"] {
-      color: $medium-purple !important;
+      color: $tabulatorEmailColor !important;
     }
   }
 
   &-row {
     display: flex;
-    background-color: $EG-white;
+    background-color: $gridRowBgColor;
     border-radius: 3px;
 
     &-even {
@@ -83,15 +83,15 @@
     align-items: center;
     margin-right: 30px;
     padding: 5px 5px;
-    color: #ffffff;
+    color: $configBtnColorTwo;
     font-size: 14px;
-    background-color: #FF659E;
-    border: 1px solid #FF659E;
+    background-color: $configBtnColorOne;
+    border: 1px solid $configBtnColorOne;
     border-radius: 3px;
 
     &:hover {
-      color: $pink-bg;
-      background-color: $white;
+      color: $configBtnColorOne;
+      background-color: $configBtnColorTwo;
     }
   }
   &__plus-icon {
