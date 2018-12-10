@@ -1,9 +1,14 @@
 import decodeJWT from 'jwt-decode';
 import Settings from '../components/Settings/index';
 
+function setToken (idToken) {
+  localStorage.setItem('id_token', idToken);
+}
+
 export default class AuthService {
   constructor (domain) {
     this.domain = domain || Settings.apiServerUrl;
+    setToken.bind(this);
   };
 
   login = (username, password) => {
@@ -14,7 +19,7 @@ export default class AuthService {
         password
       })
     }).then(data => {
-      this.setToken(data);
+      setToken(data);
       return Promise.resolve(data);
     });
   };
@@ -31,10 +36,6 @@ export default class AuthService {
     } catch (err) {
       return false;
     }
-  };
-
-  setToken (idToken) {
-    localStorage.setItem('id_token', idToken);
   };
 
   getToken () {
