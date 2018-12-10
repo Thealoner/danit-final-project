@@ -4,13 +4,10 @@ import Settings from '../components/Settings/index';
 export default class AuthService {
   constructor (domain) {
     this.domain = domain || Settings.apiServerUrl;
-    this.fetch = this.fetch.bind(this);
-    this.login = this.login.bind(this);
-    this.getProfile = this.getProfile.bind(this);
-  }
+  };
 
-  login (username, password) {
-    return this.fetch(`${this.domain}/login`, {
+  login = (username, password) => {
+    return this.fetchMethod(`${this.domain}/login`, {
       method: 'POST',
       body: JSON.stringify({
         username,
@@ -20,12 +17,12 @@ export default class AuthService {
       this.setToken(data);
       return Promise.resolve(data);
     });
-  }
+  };
 
   loggedIn () {
     const token = this.getToken();
     return !!token && !this.isTokenExpired(token);
-  }
+  };
 
   isTokenExpired (token) {
     try {
@@ -34,25 +31,25 @@ export default class AuthService {
     } catch (err) {
       return false;
     }
-  }
+  };
 
   setToken (idToken) {
     localStorage.setItem('id_token', idToken);
-  }
+  };
 
   getToken () {
     return localStorage.getItem('id_token');
-  }
+  };
 
   logout () {
     localStorage.removeItem('id_token');
-  }
+  };
 
-  getProfile () {
+  getProfile = () => {
     return decodeJWT(this.getToken());
-  }
+  };
 
-  fetch (url, options) {
+  fetchMethod = (url, options) => {
     const headers = {
       'Content-Type': 'application/json'
     };
@@ -68,7 +65,7 @@ export default class AuthService {
       .then(this._checkStatus)
       .then(response => response.json())
       .then(data => data.Authorization);
-  }
+  };
 
   _checkStatus (response) {
     if (response.status >= 200 && response.status < 300) {
@@ -78,5 +75,5 @@ export default class AuthService {
       error.response = response;
       throw error;
     }
-  }
+  };
 }

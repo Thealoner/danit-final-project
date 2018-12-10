@@ -32,12 +32,6 @@ class Login extends Component {
       });
   };
 
-  UNSAFE_componentWillMount () {
-    if (this.Auth.loggedIn()) {
-      this.props.history.replace('/');
-    }
-  }
-
   form = React.createRef();
   submitBtn = React.createRef();
   username = React.createRef();
