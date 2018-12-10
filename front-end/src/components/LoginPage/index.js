@@ -2,88 +2,76 @@ import React, {Component} from 'react';
 import './index.scss';
 import AuthService from '../../helpers/authService';
 import {toastr} from 'react-redux-toastr';
+import {Form, Button} from 'semantic-ui-react';
 
 class Login extends Component {
   constructor (props) {
     super(props);
-    this.Auth = new AuthService();
+    this.auth = new AuthService();
 
     this.state = {
-      username: '',
-      password: ''
+      data: {
+        username: '',
+        password: ''
+      },
+      loading: false,
+      error: false
     };
   }
 
-  handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-  };
+  handleChange = (e) => this.setState({
+    data: {...this.state.data, [e.target.name]: e.target.value}
+  });
 
   handleSubmit = (e) => {
     e.preventDefault();
+    const {data} = this.state;
 
-    this.Auth.login(this.state.username, this.state.password)
+    this.setState({loading: true});
+
+    this.auth.login(data.username, data.password)
       .then(res => {
         this.props.history.replace('/');
       })
       .catch(() => {
         toastr.error('Неверный логин или пароль');
+        this.setState({
+          loading: false,
+          error: true
+        });
       });
   };
 
-  form = React.createRef();
-  submitBtn = React.createRef();
-  username = React.createRef();
-  password = React.createRef();
-  error = React.createRef();
-
   render () {
+    const {data, error, loading} = this.state;
+
     return (
-      <div className="login">
-        <div className="login__dialog">
-          <form action="#" className="login__form" ref={form => (this.form = form)} onSubmit={this.handleSubmit}>
-            <label htmlFor="username" className="login__label">Логин</label>
-            <input type="text" className="login__input" ref={username => (this.username = username)} name="username"
-              id="username" value={this.state.username} onChange={this.handleChange}
-              placeholder="введите логин (Admin)"
+      <div className='login'>
+        <Form onSubmit={this.handleSubmit} className='login__form' loading={loading}>
+          <Form.Field error={error}>
+            <label htmlFor='username'>Логин</label>
+            <input type='text'
+              id='username'
+              name='username'
+              placeholder='введите логин (Admin)'
+              value={data.username}
+              onChange={this.handleChange}
               required/>
-            <label htmlFor="password" className="login__label">Пароль</label>
-            <input type="password" className="login__input" ref={password => (this.password = password)} name="password"
-              id="password" value={this.state.password} onChange={this.handleChange}
-              placeholder="введите пароль (1234)"
+          </Form.Field>
+          <Form.Field error={error}>
+            <label htmlFor='password'>Пароль</label>
+            <input type='password'
+              id='password'
+              name='password'
+              placeholder='введите пароль (1234)'
+              value={data.password}
+              onChange={this.handleChange}
               required/>
-            <input type="submit" className="login__input" ref={submitBtn => (this.submitBtn = submitBtn)}
-              name="" value="Войти"/>
-          </form>
-        </div>
+          </Form.Field>
+          <Button>Войти</Button>
+        </Form>
       </div>
     );
-  };
-
-  componentDidMount = () => {
-    const form = this.form;
-    const submitBtn = this.submitBtn;
-
-    form.onkeydown = function (event) {
-      if (event.keyCode === 13) {
-        submitBtn.classList.add('login__input--active');
-      }
-    };
-
-    form.onkeyup = function (event) {
-      if (event.keyCode === 13) {
-        submitBtn.classList.remove('login__input--active');
-      }
-    };
-
-    submitBtn.onmousedown = function () {
-      this.classList.add('login__input--active');
-    };
-
-    submitBtn.onmouseup = function () {
-      this.classList.remove('login__input--active');
-    };
   };
 }
 
