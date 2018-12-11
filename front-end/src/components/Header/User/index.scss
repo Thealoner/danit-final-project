@@ -5,7 +5,7 @@
   justify-content: center;
   align-items: center;
   height: 100%;
-  color: $EG-white;
+  color: $white;
 
   &__avatar {
     width: 35px;
@@ -19,12 +19,12 @@
     padding: 0;
     color: $white;
     font-size: 17px;
-    background-color: $purple-bg;
+    background-color: $victoria;
     border: none;
     border-bottom: 1px solid transparent;
 
     &:hover {
-      color: $light-text;
+      color: $fog;
     }
   }
 
