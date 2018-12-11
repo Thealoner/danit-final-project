@@ -5,5 +5,5 @@ import com.danit.models.User;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService extends AbstractEntityService<User, UserListRequestDto> {
+public class UserService extends AbstractBaseEntityService<User, UserListRequestDto> {
 }

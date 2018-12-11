@@ -22,7 +22,7 @@ import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
 public class ClientRepositoryTest {
 
   @Autowired
-  private ClientRepository clientRepository;
+  private ClientRepositoryBase clientRepository;
 
 
   @Test

@@ -1,6 +1,6 @@
 package com.danit.repositories;
 
-import com.danit.models.Services;
+import com.danit.models.Service;
 import com.danit.models.auditor.AuditorAwareImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,22 +19,22 @@ import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
 @DataJpaTest(includeFilters = @ComponentScan.Filter(
     type = ASSIGNABLE_TYPE,
     classes = {AuditorAwareImpl.class}))
-public class ServicesRepositoryTest {
+public class ServiceRepositoryTest {
 
   @Autowired
   private TestEntityManager entityManager;
 
   @Autowired
-  private ServiceRepository serviceRepository;
+  private ServiceRepositoryBase serviceRepository;
 
 
   @Test
   public void findById() {
-    Services service = new Services();
+    Service service = new Service();
     service.setTitle("Yoga");
     this.entityManager.persist(service);
-    Optional<Services> optFound = this.serviceRepository.findById(service.getId());
-    Services found = optFound.orElseThrow(RuntimeException::new);
+    Optional<Service> optFound = this.serviceRepository.findById(service.getId());
+    Service found = optFound.orElseThrow(RuntimeException::new);
     assertThat(found.getTitle()).isEqualTo("Yoga");
   }
 }
