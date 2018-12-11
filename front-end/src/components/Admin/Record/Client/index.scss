@@ -1,7 +1,7 @@
 @import "../../../../variables";
 
 .client {
-  background-color: $clientBgColor;
+  background-color: $concrete;
 
   label {
     margin-bottom: 10px;
@@ -17,7 +17,7 @@
   &__block {
     padding: 20px;
     background-color: #fff;
-    box-shadow: 0 11px 7px -12px $configText;
+    box-shadow: 0 11px 7px -12px $blue-bayoux;
 
     &--main {
       display: flex;
@@ -68,8 +68,8 @@
     align-items: center;
     height: 200px;
     overflow: hidden;
-    background-color: $clientBgColor;
-    box-shadow: 0 11px 7px -12px $configText;
+    background-color: $concrete;
+    box-shadow: 0 11px 7px -12px $blue-bayoux;
   }
 
   &__photo {

@@ -16,7 +16,7 @@
     transition: background-color .3s;
 
     &:hover {
-      background-color: $configBg;
+      background-color: $gallery;
     }
 
     &:active {
@@ -68,7 +68,7 @@
     cursor: pointer;
 
     &:hover {
-      background-color: $configBg;
+      background-color: $gallery;
     }
 
     &:active {
@@ -111,7 +111,7 @@
     height: calc(100% - 35px);
     padding: 15px;
     overflow: hidden !important;
-    background-color: $configBg;
+    background-color: $gallery;
   }
 
   &-bar {
@@ -121,6 +121,7 @@
   }
 
   &-tabpane {
+    position: relative;
     height: 100%;
     overflow: auto !important;
     background-color: #fff;
@@ -154,7 +155,7 @@
       display: block;
       width: 100%;
       height: 50%;
-      background-color: $configBg;
+      background-color: $gallery;
     }
   }
 
@@ -170,18 +171,18 @@
     padding: 0 5px 0 15px !important;
     color: #999;
     background-color: #fff;
-    border-top: 1px solid $configBg;
-    border-left: 1px solid $configBg;
+    border-top: 1px solid $gallery;
+    border-left: 1px solid $gallery;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 
     &:nth-last-of-type(2) {
-      border-right: 1px solid $configBg;
+      border-right: 1px solid $gallery;
       border-bottom-right-radius: 0 !important;
     }
 
     &:hover {
-      color: $configText!important;
+      color: $blue-bayoux!important;
     }
   }
 
@@ -202,8 +203,8 @@
   }
 
   &-tab-active {
-    color: $configText !important;
-    background-color: $configBg !important;
+    color: $blue-bayoux !important;
+    background-color: $gallery !important;
     border-bottom-right-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
 
@@ -212,7 +213,7 @@
     }
 
     & .rc-tabs__close-btn {
-      box-shadow: -5px 0 10px 3px $configBg;
+      box-shadow: -5px 0 10px 3px $gallery;
     }
 
     & .rc-tabs__close-btn:hover {

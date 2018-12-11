@@ -9,32 +9,32 @@
   &__left {
     padding: 15px 0;
     overflow: auto;
-    background-color: $configBg;
-    box-shadow: -6px 6px 6px 5px $configText;
+    background-color: $gallery;
+    box-shadow: -6px 6px 6px 5px $blue-bayoux;
   }
 
   &__link {
     display: flex;
     align-items: center;
     padding: 15px 0 15px 15px;
-    color: $configText;
+    color: $blue-bayoux;
     transition: padding .5s;
 
     &:hover {
       padding-left: 20px;
-      color: $configText;
+      color: $blue-bayoux;
     }
   }
 
   &__link--active {
     padding-left: 20px;
-    color: $configLinkActiveTextColor !important;
-    background-color: $configLinkActiveBg;
+    color: $white!important;
+    background-color: $victoria;
 
   }
 
   &__right {
     overflow: hidden;
-    background-color: $configBg;
+    background-color: $gallery;
   }
 }

@@ -5,7 +5,7 @@
   justify-content: center;
   align-items: center;
   height: 100%;
-  color: $headerText;
+  color: $white;
 
   &__avatar {
     width: 35px;
@@ -17,14 +17,14 @@
 
   &__btn-logout {
     padding: 0;
-    color: $headerText;
+    color: $white;
     font-size: 17px;
-    background-color: $headerBg;
+    background-color: $victoria;
     border: none;
     border-bottom: 1px solid transparent;
 
     &:hover {
-      color: $headerBtnColorHover;
+      color: $fog;
     }
   }
 
