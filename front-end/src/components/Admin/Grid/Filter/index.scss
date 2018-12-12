@@ -1,13 +1,18 @@
 @import "../../../../variables.scss";
 
 .filter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
   display: flex;
   align-items: center;
+  width: 100%;
   height: 50px;
   padding: 0 10px;
-  color: $text-config;
+  color: $blue-bayoux;
   font-size: 14px;
-  background-color: $main-bg;
+  background-color: $gallery;
   border: 1px solid $white;
 
   label {
@@ -28,14 +33,14 @@
   button {
     margin-right: 20px;
     padding: 6px 5px;
-    color: $pink-bg;
+    color: $hot-pink;
     background-color: $white;
-    border: 1px solid $pink-bg;
+    border: 1px solid $hot-pink;
     border-radius: 3px;
 
     &:hover {
       color: $white;
-      background-color: $pink-bg;
+      background-color: $hot-pink;
     }
   }
 }

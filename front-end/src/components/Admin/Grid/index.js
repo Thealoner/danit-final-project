@@ -106,7 +106,7 @@ class Grid extends Component {
     return (
       <Fragment>
         <Filter applyFilter={this.applyFilter} clearFilter={this.clearFilter} columns={this.state.columns}/>
-        <div ref={el => (this.tabulatorTable = el)} className="grid" data-custom-attr="test-custom-attribute"/>
+        <div ref={el => (this.tabulatorTable = el)} className="tabulator" data-custom-attr="test-custom-attribute"/>
         <div className="grid-footer">
           <Link to={'/admin/' + tabKey + '/' + entityType + '/add'} className="grid-footer__add-btn">
             <FontAwesomeIcon className="grid-footer__plus-icon" icon="plus" size="1x"/>

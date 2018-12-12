@@ -2,6 +2,8 @@
 
 .tabulator {
   width: 100%;
+  height: calc(100% - 100px);
+  margin: 50px 0;
   background-color: #fff !important;
   border-left: 1px solid $white !important;
 
@@ -22,7 +24,7 @@
   }
 
   &-tableHolder {
-    overflow: hidden !important;
+    overflow: auto !important;
   }
 
   &-sortable {
@@ -43,12 +45,12 @@
 
     &[tabulator-field="firstName"],
     &[tabulator-field="lastName"] {
-      color: $purple-text !important;
+      color: $butterfly-bush!important;
       font-weight: bold;
     }
 
     &[tabulator-field="email"] {
-      color: $medium-purple !important;
+      color: $kimberly !important;
     }
   }
 
@@ -59,23 +61,28 @@
 
     &-even {
       background-color: #f9f9f9 !important;
-      border-top: 3px solid $main-bg;
-      border-bottom: 3px solid $main-bg;
+      border-top: 3px solid $whisper;
+      border-bottom: 3px solid $whisper;
     }
 
     &:hover {
-      background-color: $main-bg !important;
+      background-color: $gallery !important;
     }
   }
 }
 
 .grid-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 50px;
-  background-color: $main-bg;
+  background-color: $gallery;
+  border: 1px solid $white;
 
   &__add-btn {
     display: flex;
@@ -83,14 +90,14 @@
     align-items: center;
     margin-right: 30px;
     padding: 5px 5px;
-    color: #ffffff;
+    color: $white;
     font-size: 14px;
-    background-color: #FF659E;
-    border: 1px solid #FF659E;
+    background-color: $hot-pink;
+    border: 1px solid $hot-pink;
     border-radius: 3px;
 
     &:hover {
-      color: $pink-bg;
+      color: $hot-pink;
       background-color: $white;
     }
   }
@@ -99,6 +106,6 @@
     font-size: 12px;
   }
   .pagination a {
-    color: $text-config !important;
+    color: $blue-bayoux !important;
   }
 }
