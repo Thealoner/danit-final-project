@@ -1,7 +1,7 @@
 import {
   GET_CURRENT_TAB_KEY,
   GET_TAB_FORM_DATA
-} from '../actionTypes';
+} from '../actions/types';
 
 export function getCurrentTabKey () {
   return {

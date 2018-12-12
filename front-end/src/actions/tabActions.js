@@ -1,4 +1,4 @@
-import { tab } from './actionTypes';
+import { tab } from './types';
 
 export const openTab = tabKey => {
   return {

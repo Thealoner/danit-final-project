@@ -1,4 +1,4 @@
-import { tab } from '../actionTypes';
+import { tab } from '../actions/types';
 
 const initialState = {
   tabsArray: [],

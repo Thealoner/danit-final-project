@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { closeTab } from '../../../../../redux/actionCreators';
+import { closeTab } from '../../../../../actions/tabActions';
 import './index.scss';
 
 const Tab = ({ tabKey, title, activeKey, onSelect, closeTab }) => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import gridEntities from '../gridEntities';
 import { connect } from 'react-redux';
-import { openTab } from '../../../redux/actionCreators';
+import { openTab } from '../../../actions/tabActions';
 
 function EntitiesMenu (props) {
   const links = [];

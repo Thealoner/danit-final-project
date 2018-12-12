@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { openTab, setTabContent } from '../../../redux/actionCreators';
+import { openTab, setTabContent } from '../../../actions/tabActions';
 import { connect } from 'react-redux';
 import ajaxRequest from '../../../helpers/ajaxRequest';
 import TabPane from './TabPane';
