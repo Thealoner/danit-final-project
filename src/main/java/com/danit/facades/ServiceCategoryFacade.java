@@ -6,6 +6,6 @@ import com.danit.models.ServiceCategory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ServiceCategoryFacade extends AbstractDtoFacade<ServiceCategoryDto,ServiceCategory,
+public class ServiceCategoryFacade extends AbstractDtoFacade<ServiceCategoryDto, ServiceCategory,
     ServiceCategoryListRequestDto> {
 }

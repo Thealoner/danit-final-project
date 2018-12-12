@@ -2,7 +2,7 @@ package com.danit.services;
 
 import com.danit.exceptions.EntityNotFoundException;
 import com.danit.models.BaseEntity;
-import com.danit.repositories.EntityRepository;
+import com.danit.repositories.BaseEntityRepository;
 import com.danit.repositories.specifications.BaseSpecification;
 import com.danit.utils.ServiceUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -21,39 +21,39 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public abstract class AbstractEntityService<E extends BaseEntity, R> implements EntityService<E> {
+public abstract class AbstractBaseEntityService<E extends BaseEntity, R> implements BaseEntityService<E> {
 
   private static final String LOG_MSG1 = "Cant find ";
   private static final String LOG_MSG2 = " with id=";
 
   @Autowired
-  private EntityRepository<E> entityRepository;
+  private BaseEntityRepository<E> baseEntityRepository;
   @Autowired
   private BaseSpecification<E, R> baseSpecification;
 
   @Override
   public E getEntityById(long id) {
-    return entityRepository.findById(id).orElseThrow(() ->
+    return baseEntityRepository.findById(id).orElseThrow(() ->
         new EntityNotFoundException(LOG_MSG1 + getEntityName() + LOG_MSG2 + id));
   }
 
   @Override
   public Page<E> getAllEntities(Pageable pageable) {
-    return entityRepository.findAll(pageable);
+    return baseEntityRepository.findAll(pageable);
   }
 
   public Page<E> getAllEntities(R listRequestDto, Pageable pageable) {
-    return entityRepository.findAll(baseSpecification.getFilter(listRequestDto), pageable);
+    return baseEntityRepository.findAll(baseSpecification.getFilter(listRequestDto), pageable);
   }
 
   @Override
   public List<E> saveEntities(List<E> entityList) {
-    return (List<E>) entityRepository.saveAll(entityList);
+    return (List<E>) baseEntityRepository.saveAll(entityList);
   }
 
   @Override
   public E saveEntity(E entity) {
-    return entityRepository.save(entity);
+    return baseEntityRepository.save(entity);
   }
 
   @Override
@@ -80,25 +80,25 @@ public abstract class AbstractEntityService<E extends BaseEntity, R> implements 
         throw new EntityNotFoundException(LOG_MSG1 + getEntityName() + LOG_MSG2 + s.getId());
       }
     }
-    return (List<E>) entityRepository.saveAll(entitiesToSave);
+    return (List<E>) baseEntityRepository.saveAll(entitiesToSave);
   }
 
   @Override
   public void deleteEntityById(long id) {
-    E e = entityRepository.findById(id).orElseThrow(() ->
+    E e = baseEntityRepository.findById(id).orElseThrow(() ->
         new EntityNotFoundException(LOG_MSG1 + getEntityName() + LOG_MSG2 + id));
-    entityRepository.delete(e);
+    baseEntityRepository.delete(e);
   }
 
   @Override
   public void deleteEntities(List<E> entityList) {
     List<E> list = reloadEntities(entityList);
-    entityRepository.deleteAll(list);
+    baseEntityRepository.deleteAll(list);
   }
 
   @Override
   public long getNumberOfEntities() {
-    return entityRepository.count();
+    return baseEntityRepository.count();
   }
 
   @SuppressWarnings("unchecked")
@@ -109,6 +109,6 @@ public abstract class AbstractEntityService<E extends BaseEntity, R> implements 
 
   private List<E> reloadEntities(List<E> entityList) {
     List<Long> listIds = entityList.stream().map(E::getId).collect(Collectors.toList());
-    return entityRepository.findAllEntitiesByIds(listIds);
+    return baseEntityRepository.findAllEntitiesByIds(listIds);
   }
 }

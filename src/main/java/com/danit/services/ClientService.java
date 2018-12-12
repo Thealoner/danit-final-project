@@ -5,5 +5,5 @@ import com.danit.models.Client;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ClientService extends AbstractEntityService<Client, ClientListRequestDto> {
+public class ClientService extends AbstractBaseEntityService<Client, ClientListRequestDto> {
 }

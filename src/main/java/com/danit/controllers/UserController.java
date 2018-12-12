@@ -46,7 +46,7 @@ public class UserController {
   @JsonView(Views.Extended.class)
   @PostMapping
   public ResponseEntity<Map<String, Object>> createUsersDto(@RequestBody List<User> users,
-                                                         Principal principal) {
+                                                            Principal principal) {
     log.info(principal.getName() + " is saving new users: " + users);
     return ResponseEntity.ok(convertDtoToMap(userFacade.saveEntities(users)));
   }
@@ -87,6 +87,7 @@ public class UserController {
       Principal principal,
       UserListRequestDto userListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
+    log.info("data " + userFacade.getAllEntities(userListRequestDto, pageable).getContent());
     return ResponseEntity.ok(convertPageToMap(userFacade.getAllEntities(userListRequestDto, pageable)));
   }
 

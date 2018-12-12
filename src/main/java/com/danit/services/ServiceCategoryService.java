@@ -5,5 +5,5 @@ import com.danit.models.ServiceCategory;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ServiceCategoryService extends AbstractEntityService<ServiceCategory, ServiceCategoryListRequestDto> {
+public class ServiceCategoryService extends AbstractBaseEntityService<ServiceCategory, ServiceCategoryListRequestDto> {
 }

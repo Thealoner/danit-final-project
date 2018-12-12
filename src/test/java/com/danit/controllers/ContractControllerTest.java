@@ -1,7 +1,7 @@
 //package com.danit.controllers;
 //
 //import com.danit.TestUtils;
-//import com.danit.services.ClientService;
+//import com.danit.services.ClientServiceBase;
 //import com.fasterxml.jackson.databind.ObjectMapper;
 //import org.junit.Test;
 //import org.junit.runner.RunWith;
@@ -21,7 +21,7 @@
 //  @Autowired
 //  TestUtils testUtils;
 //  @MockBean
-//  ClientService clientServiceMock;
+//  ClientServiceBase clientServiceMock;
 //  @Autowired
 //  ObjectMapper objectMapper;
 //  @Autowired
