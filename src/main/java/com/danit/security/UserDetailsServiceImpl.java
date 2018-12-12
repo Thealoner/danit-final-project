@@ -1,7 +1,7 @@
 package com.danit.security;
 
 import com.danit.models.User;
-import com.danit.repositories.UserRepository;
+import com.danit.repositories.UserRepositoryBase;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 @Primary
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-  private UserRepository userRepository;
+  private UserRepositoryBase userRepository;
 
-  UserDetailsServiceImpl(UserRepository userRepository) {
+  UserDetailsServiceImpl(UserRepositoryBase userRepository) {
     this.userRepository = userRepository;
   }
 

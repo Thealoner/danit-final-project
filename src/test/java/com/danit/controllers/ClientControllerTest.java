@@ -32,7 +32,7 @@
 //  @Autowired
 //  TestUtils testUtils;
 //  @Autowired
-//  ClientService clientService;
+//  ClientServiceBase clientService;
 //  @Autowired
 //  private TestRestTemplate template;
 //  @Autowired

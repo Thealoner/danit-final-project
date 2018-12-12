@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-public interface EntityService<E extends BaseEntity> {
+public interface BaseEntityService<E extends BaseEntity> {
 
   Page<E> getAllEntities(Pageable pageable);
 

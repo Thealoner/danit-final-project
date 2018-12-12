@@ -3,7 +3,7 @@ package com.danit.controllers;
 import com.danit.dto.Views;
 import com.danit.dto.service.ServiceListRequestDto;
 import com.danit.facades.ServiceFacade;
-import com.danit.models.Services;
+import com.danit.models.Service;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -45,7 +45,7 @@ public class ServicesController {
 
   @JsonView(Views.Extended.class)
   @PostMapping
-  public ResponseEntity<Map<String, Object>> createServicesDto(@RequestBody List<Services> services, Principal principal) {
+  public ResponseEntity<Map<String, Object>> createServicesDto(@RequestBody List<Service> services, Principal principal) {
     log.info(principal.getName() + " is saving new services: " + services);
     return ResponseEntity.ok(convertDtoToMap(serviceFacade.saveEntities(services)));
   }
@@ -97,7 +97,7 @@ public class ServicesController {
   }
 
   @PutMapping
-  public ResponseEntity<Map<String, Object>> updateServices(@RequestBody List<Services> services, Principal principal) {
+  public ResponseEntity<Map<String, Object>> updateServices(@RequestBody List<Service> services, Principal principal) {
     log.info(principal.getName() + " is updating services data: " + services);
     return ResponseEntity.ok(convertDtoToMap(serviceFacade.saveEntities(services)));
   }
@@ -111,7 +111,7 @@ public class ServicesController {
 
   @DeleteMapping
   @ResponseStatus(HttpStatus.OK)
-  void deleteServices(@RequestBody List<Services> services, Principal principal) {
+  void deleteServices(@RequestBody List<Service> services, Principal principal) {
     log.info(principal.getName() + " is trying to delete services: " + services);
     serviceFacade.deleteEntities(services);
   }

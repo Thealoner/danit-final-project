@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface ClientRepository extends EntityRepository<Client> {
+public interface ClientRepositoryBase extends BaseEntityRepository<Client> {
 
 }

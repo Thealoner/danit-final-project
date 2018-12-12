@@ -4,8 +4,8 @@
 //import com.danit.exceptions.EntityNotFoundException;
 //import com.danit.facades.ServiceFacade;
 //import com.danit.models.UserRolesEnum;
-//import com.danit.repositories.ServiceRepository;
-//import com.danit.services.ServiceCategoryService;
+//import com.danit.repositories.ServiceRepositoryBase;
+//import com.danit.services.ServiceCategoryServiceBase;
 //import org.junit.Test;
 //import org.junit.runner.RunWith;
 //import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@
 //  @Autowired
 //  ServiceFacade serviceFacade;
 //  @Autowired
-//  ServiceRepository serviceRepository;
+//  ServiceRepositoryBase serviceRepository;
 //  @Autowired
 //  private TestRestTemplate template;
 //  @Autowired

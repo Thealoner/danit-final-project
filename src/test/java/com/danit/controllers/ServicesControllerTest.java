@@ -2,7 +2,7 @@
 //
 //import com.danit.TestUtils;
 //import com.danit.models.UserRolesEnum;
-//import com.danit.services.ServicesService;
+//import com.danit.services.ServicesServiceBase;
 //import org.junit.Test;
 //import org.junit.runner.RunWith;
 //import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@
 //  @Autowired
 //  TestUtils testUtils;
 //  @Autowired
-//  ServicesService servicesService;
+//  ServicesServiceBase servicesService;
 //  @Autowired
 //  private TestRestTemplate template;
 //  @Autowired

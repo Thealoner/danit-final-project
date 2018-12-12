@@ -1,7 +1,7 @@
 //package com.danit.repositories;
 //
 //import com.danit.models.User;
-//import com.danit.models.UserRoles;
+//import com.danit.models.UserRole;
 //import com.danit.models.UserRolesEnum;
 //import com.danit.models.auditor.AuditorAwareImpl;
 //import org.junit.After;
@@ -30,21 +30,21 @@
 //@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 //public class UserRepositoryTest {
 //  @Autowired
-//  UserRepository userRepository;
+//  UserRepositoryBase userRepository;
 //  @Autowired
-//  UserRolesRepository userRolesRepository;
+//  UserRoleRepository userRolesRepository;
 //
 //  private List<User> users = new ArrayList<>();
 //
 //  @Before
 //  public void setUp() throws Exception {
-//    Set<UserRoles> userRolesSet = new HashSet<>();
-//    userRolesSet.add(new UserRoles(UserRolesEnum.USER));
-//    userRolesSet.add(new UserRoles(UserRolesEnum.ADMIN));
-//    userRolesSet.add(new UserRoles(UserRolesEnum.TEST));
+//    Set<UserRole> userRolesSet = new HashSet<>();
+//    userRolesSet.add(new UserRole(UserRolesEnum.USER));
+//    userRolesSet.add(new UserRole(UserRolesEnum.ADMIN));
+//    userRolesSet.add(new UserRole(UserRolesEnum.TEST));
 //    userRolesRepository.saveAll(userRolesSet);
 //    for (int i = 0; i < 100; i++) {
-//      users.add(new User("testUser" + String.valueOf(i), "123", Arrays.asList(new UserRoles(UserRolesEnum.USER))));
+//      users.add(new User("testUser" + String.valueOf(i), "123", Arrays.asList(new UserRole(UserRolesEnum.USER))));
 //    }
 //  }
 //
