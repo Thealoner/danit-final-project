@@ -64,7 +64,7 @@ public class Client extends Auditable implements BaseEntity {
   @Column(name = "active")
   private Boolean active;
 
-  @OneToMany(mappedBy = "clientId", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, orphanRemoval = true)
+  @OneToMany(mappedBy = "client", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE /*orphanRemoval = true*/)
   private List<Contract> contracts;
 
 }

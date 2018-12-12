@@ -43,7 +43,7 @@ public class UserRole extends Auditable implements BaseEntity {
   @Column(name = "role")
   private UserRolesEnum role;
 
-  @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
+  @ManyToMany(mappedBy = "roles", cascade = CascadeType.PERSIST)
   @JsonIgnore
   private List<User> users;
 

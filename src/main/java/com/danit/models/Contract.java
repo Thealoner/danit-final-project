@@ -31,7 +31,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "contracts")
-@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
+@JsonIgnoreProperties(value = {"client", "paket"}, allowSetters = true, ignoreUnknown = true)
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @ToString(exclude = {"client", "paket", "cards"}, callSuper = true)
@@ -58,22 +58,16 @@ public class Contract extends Auditable implements BaseEntity {
   private boolean active;
 
   @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "client_id", updatable = false, insertable = false)
-  @JsonIgnore
   private Client client;
 
-  @ManyToOne(fetch = FetchType.EAGER)
+  /*@ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "package_id", updatable = false, insertable = false)
-  @JsonIgnore
-  private Paket paket;
+  private Paket paket;*/
 
   @OneToMany(mappedBy = "contract", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, orphanRemoval = true)
   private List<Card> cards;
 
   @Column(name = "package_id")
   private Long packageId;
-
-  @Column(name = "client_id")
-  private Long clientId;
 
 }
