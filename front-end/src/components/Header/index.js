@@ -4,7 +4,7 @@ import './index.scss';
 import User from './User';
 import logo from './EG-logo.svg';
 
-const Header = (props) =>
+const Header = ({handleLogout, userName}) =>
   <div className="header">
     <div className="header__left-col">
       <Link to="/" className="header__logo-link">
@@ -12,7 +12,7 @@ const Header = (props) =>
       </Link>
     </div>
     <div className="header__right-col">
-      <User handleLogout={props.handleLogout} userName={props.userName}/>
+      <User handleLogout={handleLogout} userName={userName}/>
     </div>
   </div>;
 
