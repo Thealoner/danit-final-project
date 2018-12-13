@@ -10,6 +10,7 @@ import ReduxToastr from 'react-redux-toastr';
 import './reset.scss';
 import './index.scss';
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
+import 'semantic-ui-css/semantic.min.css';
 
 ReactDOM.render(
   <Provider store={store}>

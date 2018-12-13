@@ -1,18 +1,19 @@
 package com.danit.models;
 
-
 import com.danit.models.auditor.Auditable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,29 +22,29 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.util.List;
 
-
 @EqualsAndHashCode(callSuper = true)
+@Entity
+@Table(name = "user_roles")
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 @NoArgsConstructor
-@ToString(exclude = {"services"}, callSuper = true)
-@EntityListeners(AuditingEntityListener.class)
+@AllArgsConstructor
+@ToString(exclude = "users")
 @Data
-@Entity
-@Table(name = "service_categories")
-public class ServiceCategory extends Auditable implements BaseEntity {
+public class UserRole extends Auditable implements BaseEntity {
+
   @Id
   @Column(name = "id")
-  @SequenceGenerator(name = "service_category_sequence", sequenceName = "service_category_sequence",
+  @SequenceGenerator(name = "user_role_sequence", sequenceName = "user_role_sequence",
       allocationSize = 1, initialValue = 1001)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "service_category_sequence")
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_role_sequence")
   private Long id;
 
-  @Column(name = "title")
-  private String title;
+  @Enumerated(value = EnumType.STRING)
+  @Column(name = "role")
+  private UserRolesEnum role;
 
-  @Column(name = "active")
-  private Boolean active;
+  @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
+  @JsonIgnore
+  private List<User> users;
 
-  @ManyToMany(fetch = FetchType.EAGER, mappedBy = "serviceCategories")
-  private List<Service> services;
 }

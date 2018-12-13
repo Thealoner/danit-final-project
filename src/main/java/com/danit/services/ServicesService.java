@@ -1,9 +1,8 @@
 package com.danit.services;
 
 import com.danit.dto.service.ServiceListRequestDto;
-import com.danit.models.Services;
-import org.springframework.stereotype.Service;
+import com.danit.models.Service;
 
-@Service
-public class ServicesService extends AbstractEntityService<Services, ServiceListRequestDto> {
+@org.springframework.stereotype.Service
+public class ServicesService extends AbstractBaseEntityService<Service, ServiceListRequestDto> {
 }

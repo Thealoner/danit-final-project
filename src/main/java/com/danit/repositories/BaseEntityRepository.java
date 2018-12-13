@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 @NoRepositoryBean
-public interface EntityRepository<E extends BaseEntity> extends CrudRepository<E, Long>, JpaSpecificationExecutor<E> {
+public interface BaseEntityRepository<E extends BaseEntity> extends CrudRepository<E, Long>, JpaSpecificationExecutor<E> {
 
   @Query("select e from #{#entityName} e where e.id in :idList")
   List<E> findAllEntitiesByIds(@Param(value = "idList") List<Long> idList);

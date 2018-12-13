@@ -61,7 +61,8 @@ public class ServiceCategoryController {
       Principal principal,
       ServiceCategoryListRequestDto serviceCategoryListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
-    return ResponseEntity.ok(convertPageToMap(serviceCategoryFacade.getAllEntities(serviceCategoryListRequestDto,pageable)));
+    return ResponseEntity.ok(convertPageToMap(serviceCategoryFacade
+        .getAllEntities(serviceCategoryListRequestDto, pageable)));
   }
 
   @JsonView(Views.Short.class)
@@ -74,7 +75,8 @@ public class ServiceCategoryController {
       Principal principal,
       ServiceCategoryListRequestDto serviceCategoryListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
-    return ResponseEntity.ok(convertPageToMap(serviceCategoryFacade.getAllEntities(serviceCategoryListRequestDto,pageable)));
+    return ResponseEntity.ok(convertPageToMap(serviceCategoryFacade
+        .getAllEntities(serviceCategoryListRequestDto, pageable)));
   }
 
   @JsonView(Views.Extended.class)
@@ -132,7 +134,7 @@ public class ServiceCategoryController {
 //  }
 
 //  @GetMapping("/{id}/services")
-//  List<Services> getAllServiceCategoryServices(@PathVariable(name = "id") long id, Principal principal) {
+//  List<Service> getAllServiceCategoryServices(@PathVariable(name = "id") long id, Principal principal) {
 //    logger.info(principal.getName() + " got services from service category with id: " + id);
 //    return serviceCategoryService.getAllServiceCategoryServices(id);
 //  }
