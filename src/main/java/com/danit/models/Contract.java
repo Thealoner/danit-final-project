@@ -67,7 +67,7 @@ public class Contract extends Auditable implements BaseEntity {
   @JoinColumn(name = "package_id")
   private Paket paket;
 
-  @OneToMany(mappedBy = "contract", orphanRemoval = true)
+  @OneToMany(mappedBy = "contract", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
   private List<Card> cards;
 
 }
