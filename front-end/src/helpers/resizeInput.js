@@ -1,22 +1,25 @@
-const resizeInput = (el) => {
+const resizeInput = (arr) => {
   const events = 'keyup,keypress,focus,blur,change,input'.split(',');
-  const spanEl = document.createElement('span');
-  spanEl.className = 'span-helper';
-  spanEl.innerHTML = el.value;
-  el.after(spanEl);
-  el.style.width = spanEl.clientWidth + 1 + 'px';
-  spanEl.remove();
 
-  events.forEach(function (item) {
-    el.addEventListener(item, function () {
-      const spanEl = document.createElement('span');
-      spanEl.className = 'span-helper';
-      spanEl.innerHTML = el.value;
-      el.after(spanEl);
-      el.style.width = spanEl.clientWidth + 1 + 'px';
-      spanEl.remove();
+  for (let i = 0; i < arr.length; i++) {
+    const spanEl = document.createElement('span');
+    spanEl.className = 'span-helper';
+    spanEl.innerHTML = arr[i].value;
+    arr[i].after(spanEl);
+    arr[i].style.width = spanEl.clientWidth + 'px';
+    spanEl.remove();
+
+    events.forEach(function (item) {
+      arr[i].addEventListener(item, function () {
+        const spanEl = document.createElement('span');
+        spanEl.className = 'span-helper';
+        spanEl.innerHTML = arr[i].value;
+        arr[i].after(spanEl);
+        arr[i].style.width = spanEl.clientWidth + 'px';
+        spanEl.remove();
+      });
     });
-  });
+  }
 };
 
 export default resizeInput;

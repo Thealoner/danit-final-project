@@ -39,9 +39,7 @@ class RecordEditor extends Component {
           loading: false
         });
 
-        for (let i = 0; i < formInputs.length; i++) {
-          resizeInput(formInputs[i]);
-        }
+        resizeInput(formInputs);
       });
   };
 
@@ -65,9 +63,7 @@ class RecordEditor extends Component {
         });
         toastr.success('Данные успешно сохранены');
 
-        for (let i = 0; i < formInputs.length; i++) {
-          resizeInput(formInputs[i]);
-        }
+        resizeInput(formInputs);
       })
       .catch(error => {
         this.setState({
@@ -98,16 +94,13 @@ class RecordEditor extends Component {
           loading: false
         });
         toastr.success('Данные успешно сохранены');
+        resizeInput(formInputs);
 
         const editorUrl = entityType + '/edit/' + json[0].id;
         setTabContentUrl(editorUrl);
         this.props.history.push({
           pathname: '/admin/' + tabKey + '/' + editorUrl
         });
-
-        for (let i = 0; i < formInputs.length; i++) {
-          resizeInput(formInputs[i]);
-        }
       })
       .catch(error => {
         this.setState({
@@ -158,9 +151,7 @@ class RecordEditor extends Component {
       this.getData();
     }
 
-    for (let i = 0; i < formInputs.length; i++) {
-      resizeInput(formInputs[i]);
-    }
+    resizeInput(formInputs);
   }
 }
 

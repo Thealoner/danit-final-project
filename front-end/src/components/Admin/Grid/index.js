@@ -13,7 +13,7 @@ const defaultMeta = {
   totalElements: 0,
   currentPage: 1,
   pagesTotal: 1,
-  elementsPerPage: 1
+  elementsPerPage: 3
 };
 
 class Grid extends Component {
@@ -48,7 +48,7 @@ class Grid extends Component {
     });
   };
 
-  getData = (page = 1, size = 1, filterString = '') => {
+  getData = (page = 1, size = 3, filterString = '') => {
     const { entityType } = this.props.match.params;
     const entity = getEntityByType(entityType);
 
@@ -85,7 +85,7 @@ class Grid extends Component {
   };
 
   applyFilter = (filterString) => {
-    this.getData(0, 20, filterString);
+    this.getData(0, 30, filterString);
   };
 
   clearFilter = () => {
