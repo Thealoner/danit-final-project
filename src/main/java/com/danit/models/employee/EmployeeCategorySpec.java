@@ -1,6 +1,6 @@
 package com.danit.models.employee;
 
-import com.danit.models.Services;
+import com.danit.models.Service;
 import com.danit.utils.CustomDateDeserializer;
 import com.danit.utils.CustomDateSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -38,7 +38,7 @@ public class EmployeeCategorySpec {
 
   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @JoinColumn(name = "serviceId")
-  private Services service;
+  private Service service;
 
   @Column(name = "date_from")
   @JsonDeserialize(using = CustomDateDeserializer.class)

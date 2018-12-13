@@ -2,7 +2,7 @@ package com.danit.facades;
 
 import com.danit.dto.BaseDto;
 import com.danit.models.BaseEntity;
-import com.danit.services.AbstractEntityService;
+import com.danit.services.AbstractBaseEntityService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,7 +16,7 @@ import java.util.List;
 @Component
 public abstract class AbstractDtoFacade<D extends BaseDto, E extends BaseEntity, R> implements DtoFacade<D, E, R> {
   @Autowired
-  private AbstractEntityService<E, R> entityService;
+  private AbstractBaseEntityService<E, R> entityService;
 
   @Autowired
   private ModelMapper modelMapper;

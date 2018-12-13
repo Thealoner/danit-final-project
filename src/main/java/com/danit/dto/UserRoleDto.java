@@ -1,25 +1,32 @@
 package com.danit.dto;
 
+import com.danit.models.User;
+import com.danit.models.UserRolesEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.util.List;
 
 
 @EqualsAndHashCode(callSuper = true)
-@ToString(exclude = "roles")
+@ToString(exclude = "users")
 @Data
-public class UserDto extends BaseDto {
+public class UserRoleDto extends BaseDto {
 
   @JsonView({Views.Ids.class, Views.Short.class})
   private Long id;
 
   @JsonView(Views.Short.class)
-  private String username;
+  @Enumerated(value = EnumType.STRING)
+  private UserRolesEnum role;
 
   @JsonView({Views.Extended.class, Views.Ids.class})
-  private List<UserRoleDto> roles;
+  @JsonIgnore
+  private List<User> users;
 
 }

@@ -29,7 +29,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "services")
-public class Services extends Auditable implements BaseEntity {
+public class Service extends Auditable implements BaseEntity {
   @Id
   @Column(name = "id")
   @SequenceGenerator(name = "services_sequence", sequenceName = "services_sequence", allocationSize = 1, initialValue = 1001)
