@@ -101,6 +101,10 @@ class RecordEditor extends Component {
         this.props.history.push({
           pathname: '/admin/' + tabKey + '/' + editorUrl
         });
+
+        for (let i = 0; i < formInputs.length; i++) {
+          resizeInput(formInputs[i]);
+        }
       })
       .catch(error => {
         this.setState({
