@@ -1,1 +1,0 @@
-export const LOADING_STATUS = 'LOADING_STATUS';

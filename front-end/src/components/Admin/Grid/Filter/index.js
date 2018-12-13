@@ -21,7 +21,7 @@ class Filter extends Component {
     this.setState({
       [name]: value
     });
-  }
+  };
 
   onSubmit = (event) => {
     event.preventDefault();
