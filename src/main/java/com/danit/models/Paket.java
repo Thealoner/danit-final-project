@@ -88,7 +88,8 @@ public class Paket extends Auditable implements BaseEntity {
   @Column(name = "purchasable")
   private Boolean purchasable;
 
-  @OneToMany(mappedBy = "packageId")
+  @OneToMany(mappedBy = "paket", cascade = {CascadeType.PERSIST,
+      CascadeType.REMOVE, CascadeType.MERGE})
   private List<Contract> contracts;
 
 }

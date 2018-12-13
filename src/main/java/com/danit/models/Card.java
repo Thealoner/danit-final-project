@@ -23,7 +23,7 @@ import javax.persistence.Table;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "cards")
-@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
+@JsonIgnoreProperties(value = {"contract"}, allowSetters = true, ignoreUnknown = true)
 @NoArgsConstructor
 @ToString(exclude = {"contract"})
 @Data
@@ -41,12 +41,8 @@ public class Card extends Auditable implements BaseEntity {
   @Column(name = "card_active")
   private Boolean active;
 
-  @Column(name = "contract_id")
-  private Long contractId;
-
   @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "contract_id", updatable = false, insertable = false)
-  @JsonIgnore
+  @JoinColumn(name = "contract_id")
   private Contract contract;
 
 }

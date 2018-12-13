@@ -31,10 +31,11 @@ public class BeanConfiguration {
         .setAmbiguityIgnored(true);
 
     modelMapper.createTypeMap(Contract.class, ContractDto.class)
-        .addMapping(Contract::isActive, ContractDto::setActive);
+        .addMapping(Contract::isActive, ContractDto::setActive)
+        .addMapping(contract -> contract.getPaket().getId(), ContractDto::setPackageId)
+        .addMapping(contract -> contract.getClient().getId(), ContractDto::setClientId);
 
-    modelMapper.createTypeMap(Card.class, CardDto.class)
-        .addMapping(Card::getContractId, CardDto::setContractId);
+    modelMapper.createTypeMap(Card.class, CardDto.class);
 
     return modelMapper;
   }

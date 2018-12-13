@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.CascadeType;
@@ -58,16 +60,14 @@ public class Contract extends Auditable implements BaseEntity {
   private boolean active;
 
   @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "client_id")
   private Client client;
 
-  /*@ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "package_id", updatable = false, insertable = false)
-  private Paket paket;*/
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "package_id")
+  private Paket paket;
 
-  @OneToMany(mappedBy = "contract", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, orphanRemoval = true)
+  @OneToMany(mappedBy = "contract", orphanRemoval = true)
   private List<Card> cards;
-
-  @Column(name = "package_id")
-  private Long packageId;
 
 }
