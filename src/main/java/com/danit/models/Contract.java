@@ -2,14 +2,10 @@ package com.danit.models;
 
 
 import com.danit.models.auditor.Auditable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.CascadeType;
@@ -33,7 +29,6 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "contracts")
-@JsonIgnoreProperties(value = {"client", "paket"}, allowSetters = true, ignoreUnknown = true)
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @ToString(exclude = {"client", "paket", "cards"}, callSuper = true)
@@ -67,7 +62,7 @@ public class Contract extends Auditable implements BaseEntity {
   @JoinColumn(name = "package_id")
   private Paket paket;
 
-  @OneToMany(mappedBy = "contract", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+  @OneToMany(mappedBy = "contract", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
   private List<Card> cards;
 
 }

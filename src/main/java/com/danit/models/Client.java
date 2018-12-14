@@ -2,7 +2,6 @@ package com.danit.models;
 
 
 import com.danit.models.auditor.Auditable;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -13,7 +12,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,7 +27,6 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "clients")
-@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 @NoArgsConstructor
 @ToString(exclude = {"contracts"}, callSuper = true)
 @EntityListeners(AuditingEntityListener.class)
@@ -64,8 +61,7 @@ public class Client extends Auditable implements BaseEntity {
   @Column(name = "active")
   private Boolean active;
 
-  @OneToMany(mappedBy = "client", cascade = {CascadeType.PERSIST,
-      CascadeType.REMOVE, CascadeType.MERGE})
+  @OneToMany(mappedBy = "client", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
   private List<Contract> contracts;
 
 }

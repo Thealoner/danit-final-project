@@ -25,7 +25,6 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "user_roles")
-@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = "users")
@@ -43,7 +42,7 @@ public class UserRole extends Auditable implements BaseEntity {
   @Column(name = "role")
   private UserRolesEnum role;
 
-  @ManyToMany(mappedBy = "roles", cascade = CascadeType.PERSIST)
+  @ManyToMany(mappedBy = "roles", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @JsonIgnore
   private List<User> users;
 

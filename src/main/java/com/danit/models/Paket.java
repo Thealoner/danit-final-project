@@ -12,7 +12,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,7 +23,6 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "packages")
-@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 @NoArgsConstructor
 @ToString(exclude = {"contracts"}, callSuper = true)
 @EntityListeners(AuditingEntityListener.class)
@@ -88,8 +86,7 @@ public class Paket extends Auditable implements BaseEntity {
   @Column(name = "purchasable")
   private Boolean purchasable;
 
-  @OneToMany(mappedBy = "paket", cascade = {CascadeType.PERSIST,
-      CascadeType.REMOVE, CascadeType.MERGE})
+  @OneToMany(mappedBy = "paket", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
   private List<Contract> contracts;
 
 }

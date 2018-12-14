@@ -22,7 +22,6 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
 @NoArgsConstructor

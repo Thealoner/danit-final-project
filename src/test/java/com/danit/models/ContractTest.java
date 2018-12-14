@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.assertEquals;
 import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
 
 @RunWith(SpringRunner.class)

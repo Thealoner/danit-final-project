@@ -22,7 +22,6 @@ import javax.persistence.Table;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
-@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 @NoArgsConstructor
 @ToString(exclude = {"serviceCategories"}, callSuper = true)
 @EntityListeners(AuditingEntityListener.class)

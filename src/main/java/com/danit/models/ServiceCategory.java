@@ -23,7 +23,6 @@ import java.util.List;
 
 
 @EqualsAndHashCode(callSuper = true)
-@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 @NoArgsConstructor
 @ToString(exclude = {"services"}, callSuper = true)
 @EntityListeners(AuditingEntityListener.class)
