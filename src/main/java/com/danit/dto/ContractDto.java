@@ -1,5 +1,6 @@
 package com.danit.dto;
 
+import com.danit.models.Client;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
@@ -10,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(value = {"client"}, allowSetters = true, ignoreUnknown = true)
 @ToString(exclude = "cards")
 @Data
 public class ContractDto extends BaseDto {
@@ -32,6 +33,8 @@ public class ContractDto extends BaseDto {
 
   @JsonView(Views.Short.class)
   private Long clientId;
+
+  private Client client;
 
   @JsonView(Views.Short.class)
   private Boolean active;

@@ -29,7 +29,6 @@ public class DbTestProfileJpaConfig {
   private String password;
 
 
-
   @Bean
   @Profile("test")
   public DataSource dataSource() {

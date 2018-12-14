@@ -1,7 +1,6 @@
 package com.danit.models;
 
 import com.danit.models.auditor.Auditable;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -12,6 +11,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -39,40 +39,40 @@ public class Paket extends Auditable implements BaseEntity {
   private String title;
 
   @Column(name = "term")
-  private int term;
+  private Integer term;
 
   @Column(name = "price")
   private Float price;
 
   @Column(name = "freeze_times")
-  private int freezeTimes;
+  private Integer freezeTimes;
 
   @Column(name = "freeze_days")
-  private int freezeDays;
+  private Integer freezeDays;
 
   @Column(name = "freeze_min_term")
-  private int freezeMinTerm;
+  private Integer freezeMinTerm;
 
   @Column(name = "access_without_card_times_limit")
-  private int accessWithoutCardTimesLimit;
+  private Integer accessWithoutCardTimesLimit;
 
   @Column(name = "auto_activate_after_days")
-  private int autoActivateAfterDays;
+  private Integer autoActivateAfterDays;
 
   @Column(name = "guest_visits")
-  private int guestVisits;
+  private Integer guestVisits;
 
   @Column(name = "open_date_allowed")
   private Boolean openDateAllowed;
 
   @Column(name = "users_min")
-  private int usersMin;
+  private Integer usersMin;
 
   @Column(name = "limit_visit_time")
   private Boolean limitVisitTime;
 
   @Column(name = "visit_time")
-  private int visitTime;
+  private Integer visitTime;
 
   @Column(name = "limit_additional_services")
   private Boolean limitAdditionalServices;
@@ -86,7 +86,8 @@ public class Paket extends Auditable implements BaseEntity {
   @Column(name = "purchasable")
   private Boolean purchasable;
 
-  @OneToMany(mappedBy = "paket", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+  @OneToMany(mappedBy = "paket", fetch = FetchType.EAGER,
+      cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
   private List<Contract> contracts;
 
 }

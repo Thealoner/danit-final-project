@@ -2,6 +2,7 @@ package com.danit.models;
 
 
 import com.danit.models.auditor.Auditable;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,7 @@ import java.util.List;
 @Entity
 @Table(name = "contracts")
 @NoArgsConstructor
+@JsonIgnoreProperties(value = {"paket", "client"}, allowSetters = true, ignoreUnknown = true)
 @EntityListeners(AuditingEntityListener.class)
 @ToString(exclude = {"client", "paket", "cards"}, callSuper = true)
 @Data
@@ -52,7 +54,7 @@ public class Contract extends Auditable implements BaseEntity {
   private Float credit;
 
   @Column(name = "active")
-  private boolean active;
+  private Boolean active;
 
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "client_id")
@@ -62,7 +64,8 @@ public class Contract extends Auditable implements BaseEntity {
   @JoinColumn(name = "package_id")
   private Paket paket;
 
-  @OneToMany(mappedBy = "contract", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+  @OneToMany(mappedBy = "contract", fetch = FetchType.EAGER,
+      cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
   private List<Card> cards;
 
 }
