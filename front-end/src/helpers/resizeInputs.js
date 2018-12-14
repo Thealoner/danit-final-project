@@ -1,4 +1,4 @@
-const resizeInput = (arr) => {
+const resizeInputs = (arr) => {
   const events = 'keyup,keypress,focus,blur,change,input'.split(',');
 
   for (let i = 0; i < arr.length; i++) {
@@ -22,4 +22,4 @@ const resizeInput = (arr) => {
   }
 };
 
-export default resizeInput;
+export default resizeInputs;
