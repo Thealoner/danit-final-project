@@ -1,12 +1,12 @@
 @import "../../variables";
 
-.home {
+.user-navigation {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-color: $main-bg;
+  background-color: $gallery;
 
   &__link {
     display: flex;
@@ -14,10 +14,11 @@
     align-items: center;
     width: 150px;
     padding: 10px 0;
-    color: #000;
+    color: $blue-bayoux;
 
     &:hover {
-      background-color: #fff;
+      color: $blue-bayoux;
+      background-color: $white;
     }
   }
 }

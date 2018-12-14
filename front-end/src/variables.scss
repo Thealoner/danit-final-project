@@ -1,31 +1,22 @@
-$main-bg:#F5F4F8;
-$config-bg: #e3e9f3;
-$text-config: #4c5a75;
-$pink-bg: #FF659E;
-$purple-bg: #584B82;
+$gallery: #EAEAEA;
+$blue-bayoux: #4c5a75;
+$hot-pink: #FF659E;
 $white: #ffffff;
-
-$EG-purple-dark: #5b205c;
-$EG-purple-light: #652e66;
-$EG-pink: #ed1261;
-$EG-blue: #00a0df;
-$EG-blue-dark: #4a326c;
-$EG-light-grey: #f2f2f2;
-$EG-white: #ffffff;
-$pink-text: #EF6298;
-$light-text: #DFDFFF;
-$medium-purple:#7573A3;
-$purple-text:#62568F;
-$dark-grey:#444444;
+$victoria: #584B82;
+$fog: #DFDFFF;
+$concrete: #f2f2f2;
+$kimberly: #7573A3;
+$butterfly-bush: #62568F;
+$whisper:#F5F4F8;
 
 // override tabulator variables:
 
-$borderColor: $main-bg;
-$rowBorderColor: $EG-white;
-$headerBackgroundColor: $main-bg;
-$headerBorderColor: $EG-white;
-$sortArrowActive: $EG-purple-dark;
-$sortArrowInactive: $purple-text;
-$headerTextColor: $dark-grey;
+$borderColor: #F5F4F8 ;
+$rowBorderColor: #ffffff;
+$headerBackgroundColor: #F5F4F8;
+$headerBorderColor: #ffffff;
+$sortArrowActive: #584B82;
+$sortArrowInactive: #62568F;
+$headerTextColor: #444444;
 
 @import "~tabulator-tables/src/scss/tabulator";
