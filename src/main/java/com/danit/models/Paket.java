@@ -86,8 +86,8 @@ public class Paket extends Auditable implements BaseEntity {
   @Column(name = "purchasable")
   private Boolean purchasable;
 
-  @OneToMany(mappedBy = "paket", fetch = FetchType.EAGER,
-      cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+  @OneToMany(mappedBy = "paket", fetch = FetchType.EAGER,/*
+      cascade = {CascadeType.PERSIST, CascadeType.MERGE},*/ orphanRemoval = true)
   private List<Contract> contracts;
 
 }
