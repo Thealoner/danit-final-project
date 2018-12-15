@@ -1,8 +1,7 @@
 package com.danit.models;
 
 import com.danit.models.auditor.Auditable;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -22,7 +21,6 @@ import javax.persistence.Table;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
-@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 @NoArgsConstructor
 @ToString(exclude = {"serviceCategories"}, callSuper = true)
 @EntityListeners(AuditingEntityListener.class)
@@ -52,7 +50,7 @@ public class Service extends Auditable implements BaseEntity {
   private int unitsNumber;
 
   @ManyToMany(fetch = FetchType.EAGER)
-  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+  @JsonIgnore
   private List<ServiceCategory> serviceCategories;
 
   @Column(name = "active")

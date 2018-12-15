@@ -7,8 +7,10 @@ import com.danit.dto.ContractDto;
 import com.danit.facades.ContractFacade;
 import com.danit.models.Contract;
 import com.danit.models.UserRolesEnum;
-import com.danit.repositories.ContractRepositoryBase;
+import com.danit.repositories.ContractRepository;
+import com.danit.services.ClientService;
 import com.danit.services.ContractService;
+import com.danit.services.PaketService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.jayway.jsonpath.JsonPath;
@@ -50,31 +52,28 @@ public class ContractControllerTest {
 
   @Autowired
   ObjectMapper objectMapper;
-
+  @Autowired
+  ContractFacade contractFacade;
+  @Autowired
+  ContractRepository contractRepository;
+  @Autowired
+  ClientService clientService;
+  @Autowired
+  PaketService paketService;
+  @Autowired
+  ContractService contractService;
   @Autowired
   private MockMvc mockMvc;
-
   @Autowired
   private TestRestTemplate template;
 
-  @Autowired
-  ContractFacade contractFacade;
-
-  @Autowired
-  ContractRepositoryBase contractRepositoryBase;
-
-  @Autowired
-  ContractService contractService;
-
   @Test
-  public void createOneContractWithExistingClientAndExistingPaketAndWithoutCard() throws Exception{
+  public void createOneContractWithExistingClientAndExistingPaketAndWithoutCard() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     Contract contract = new Contract();
-    contract.setClientId(27L);
-    contract.setPackageId(2L);
 
-    ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+    ObjectWriter ow = objectMapper.writer();
     String json = ow.writeValueAsString(contract);
 
     String responseJson = this.mockMvc.perform(post(url).headers(header)
@@ -86,46 +85,58 @@ public class ContractControllerTest {
     LinkedHashMap object = JsonPath.read(responseJson, "$.data[0]");
     Long id = new Long(String.valueOf(object.get("id")));
 
+    this.mockMvc.perform(put(url + "/" + id + "/client/20").headers(header))
+        .andExpect(status().isOk());
+    this.mockMvc.perform(put(url + "/" + id + "/paket/1").headers(header))
+        .andExpect(status().isOk());
+
     Contract createdContract = contractService.getEntityById(id);
 
-    assertEquals(2L, (long)createdContract.getPackageId());
-    assertEquals(27L, (long)createdContract.getClientId());
+    assertEquals(1L, (long) createdContract.getPaket().getId());
+    assertEquals(20L, (long) createdContract.getClient().getId());
 
   }
 
   @Test
-  public void createOneContractWithNotExistingClientAndNotExistingPaketAndNotExistingCard() throws Exception{
+  public void createOneContractWithNotExistingClientAndNotExistingPaketAndNotExistingCard() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     Contract contract = new Contract();
-    contract.setClientId(90L);
-    contract.setPackageId(90L);
 
-    ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+    ObjectWriter ow = objectMapper.writer();
     String json = ow.writeValueAsString(contract);
 
-    mockMvc.perform(post(url).headers(header)
+    String responseJson = this.mockMvc.perform(post(url).headers(header)
         .contentType("application/json")
         .content("[" + json + "]"))
-        .andExpect(status().isInternalServerError());
+        .andExpect(status().isOk())
+        .andReturn().getResponse().getContentAsString();
+
+    LinkedHashMap object = JsonPath.read(responseJson, "$.data[0]");
+    Long id = new Long(String.valueOf(object.get("id")));
+
+    this.mockMvc.perform(put(url + "/" + id + "/client/2000").headers(header))
+        .andExpect(status().isNotFound());
+    this.mockMvc.perform(put(url + "/" + id + "/paket/2000").headers(header))
+        .andExpect(status().isNotFound());
   }
 
   @Test
   public void getAllContracts() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
-    long contractQuantity = contractRepositoryBase.count();
+    long contractQuantity = contractRepository.count();
 
     mockMvc.perform(get(url).headers(header))
         .andExpect(status().isOk())
         .andExpect(content()
-          .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+            .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.meta.totalElements").value(contractQuantity));
   }
 
   @Test
   public void getAllContractsShort() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
-    long contractQuantity = contractRepositoryBase.count();
+    long contractQuantity = contractRepository.count();
 
     mockMvc.perform(get(url + "/short").headers(header))
         .andExpect(status().isOk())
@@ -137,7 +148,7 @@ public class ContractControllerTest {
   @Test
   public void getAllContractsIds() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
-    long contractQuantity = contractRepositoryBase.count();
+    long contractQuantity = contractRepository.count();
 
     mockMvc.perform(get(url + "/ids").headers(header))
         .andExpect(status().isOk())
@@ -167,19 +178,17 @@ public class ContractControllerTest {
   @Test
   public void getContractByNotExistingId() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
-    long notExistingId = contractRepositoryBase.count() + 1;
+    long notExistingId = contractRepository.count() + 1;
 
     mockMvc.perform(get(url + "/" + notExistingId).headers(header))
-           .andExpect(status().isNotFound());
+        .andExpect(status().isNotFound());
   }
 
   @Test
-  public void updateExistingContractByPartialFields() throws Exception{
+  public void updateExistingContractByPartialFields() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
 
     Contract contract = new Contract();
-    contract.setClientId(27L);
-    contract.setPackageId(2L);
 
     ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
     String json = ow.writeValueAsString(contract);
@@ -192,12 +201,28 @@ public class ContractControllerTest {
 
     LinkedHashMap object = JsonPath.read(responseJson, "$.data[0]");
     Long id = new Long(String.valueOf(object.get("id")));
+
+    this.mockMvc.perform(put(url + "/" + id + "/client/20").headers(header))
+        .andExpect(status().isOk());
+    this.mockMvc.perform(put(url + "/" + id + "/paket/1").headers(header))
+        .andExpect(status().isOk());
+
     ContractDto createdContract = contractFacade.getEntityById(id);
 
-    assertEquals(new Long(2), createdContract.getPackageId());
-    assertEquals(new Long(27), createdContract.getClientId());
+    assertEquals(new Long(1L), createdContract.getPackageId());
+    assertEquals(new Long(20L), createdContract.getClientId());
 
-    String responseJson1 = this.mockMvc.perform(put(url).headers(header)
+    this.mockMvc.perform(put(url + "/" + id + "/client/28").headers(header))
+        .andExpect(status().isOk());
+    this.mockMvc.perform(put(url + "/" + id + "/paket/3").headers(header))
+        .andExpect(status().isOk());
+
+    ContractDto updatedContract = contractFacade.getEntityById(id);
+
+    assertEquals(new Long(3L), updatedContract.getPackageId());
+    assertEquals(new Long(28L), updatedContract.getClientId());
+
+    this.mockMvc.perform(put(url).headers(header)
         .contentType("application/json")
         .content("[{\n" +
             "    \"id\":" + id + ",\n" +
@@ -206,13 +231,12 @@ public class ContractControllerTest {
             "    \"credit\": 10000,\n" +
             "    \"active\": true\n" +
             "  }]"))
-        .andExpect(status().isOk())
-        .andReturn().getResponse().getContentAsString();
+        .andExpect(status().isOk());
 
-    ContractDto updatedContract = contractFacade.getEntityById(id);
+    updatedContract = contractFacade.getEntityById(id);
 
-    assertEquals(new Long(2), updatedContract.getPackageId());
-    assertEquals(new Long(27), updatedContract.getClientId());
+    assertEquals(new Long(3L), updatedContract.getPackageId());
+    assertEquals(new Long(28L), updatedContract.getClientId());
     assertEquals(true, updatedContract.getActive());
     assertEquals(new Float(10000), updatedContract.getCredit());
   }

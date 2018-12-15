@@ -1,7 +1,6 @@
 package com.danit.models;
 
 import com.danit.models.auditor.Auditable;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -22,7 +21,6 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
 @NoArgsConstructor

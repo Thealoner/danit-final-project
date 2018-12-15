@@ -25,7 +25,7 @@ public class ServiceRepositoryTest {
   private TestEntityManager entityManager;
 
   @Autowired
-  private ServiceRepositoryBase serviceRepository;
+  private ServiceRepository serviceRepository;
 
 
   @Test

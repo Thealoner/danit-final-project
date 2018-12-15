@@ -3,7 +3,9 @@ package com.danit.controllers;
 import com.danit.dto.Views;
 import com.danit.dto.service.ContractListRequestDto;
 import com.danit.facades.ContractFacade;
+import com.danit.models.Card;
 import com.danit.models.Contract;
+import com.danit.services.ContractService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +42,12 @@ public class ContractController {
 
   private ContractFacade contractFacade;
 
+  private ContractService contractService;
+
   @Autowired
-  public ContractController(ContractFacade contractFacade) {
+  public ContractController(ContractFacade contractFacade, ContractService contractService) {
     this.contractFacade = contractFacade;
+    this.contractService = contractService;
   }
 
   @JsonView(Views.Extended.class)
@@ -54,7 +59,7 @@ public class ContractController {
 
   @JsonView(Views.Ids.class)
   @GetMapping("/ids")
-  public ResponseEntity<Map<String, Object>> getAllContractsDtoIds(
+  ResponseEntity<Map<String, Object>> getAllContractsDtoIds(
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
@@ -68,7 +73,7 @@ public class ContractController {
 
   @JsonView(Views.Short.class)
   @GetMapping("/short")
-  public ResponseEntity<Map<String, Object>> getAllContractsDtoShort(
+  ResponseEntity<Map<String, Object>> getAllContractsDtoShort(
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
@@ -82,7 +87,7 @@ public class ContractController {
 
   @JsonView(Views.Extended.class)
   @GetMapping
-  public ResponseEntity<Map<String, Object>> getAllContractsDtoExtended(
+  ResponseEntity<Map<String, Object>> getAllContractsDtoExtended(
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
@@ -103,23 +108,99 @@ public class ContractController {
 
   @JsonView(Views.Extended.class)
   @PutMapping
-  public ResponseEntity<Map<String, Object>> updateContracts(@RequestBody List<Contract> contracts, Principal principal) {
+  ResponseEntity<Map<String, Object>> updateContracts(@RequestBody List<Contract> contracts, Principal principal) {
     log.info(principal.getName() + " is updating contracts data: " + contracts);
     return ResponseEntity.ok(convertDtoToMap(contractFacade.updateEntities(contracts)));
   }
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public void deleteContractById(@PathVariable(name = "id") long id, Principal principal) {
+  void deleteContractById(@PathVariable(name = "id") long id, Principal principal) {
     log.info(principal.getName() + " try to delete contract with id: " + id);
     contractFacade.deleteEntityById(id);
   }
 
   @DeleteMapping
   @ResponseStatus(HttpStatus.OK)
-  public void deleteContracts(@RequestBody List<Contract> contracts, Principal principal) {
+  void deleteContracts(@RequestBody List<Contract> contracts, Principal principal) {
     log.info(principal.getName() + " is trying to delete contracts: " + contracts);
     contractFacade.deleteEntities(contracts);
+  }
+
+  //related entities methods
+  //Clients
+  @PutMapping("/{contractId}/client/{clientId}")
+  @ResponseStatus(HttpStatus.OK)
+  void assignClientToContract(@PathVariable(name = "contractId") Long contractId,
+                              @PathVariable(name = "clientId") Long clientId,
+                              Principal principal) {
+    log.info(principal.getName() + " is trying to assign clientId=" + clientId + " to contractId= " + contractId);
+    contractService.assignClientToContract(contractId, clientId);
+  }
+
+  @DeleteMapping("/{contractId}/client/{clientId}")
+  @ResponseStatus(HttpStatus.OK)
+  void deleteClientFromContract(@PathVariable(name = "contractId") Long contractId,
+                                @PathVariable(name = "clientId") Long clientId,
+                                Principal principal) {
+    log.info(principal.getName() + " is trying to delete clientId=" + clientId + " from contractId= " + contractId);
+    contractService.deleteClientFromContract(contractId, clientId);
+  }
+
+  //Pakets
+  @PutMapping("/{contractId}/paket/{paketId}")
+  @ResponseStatus(HttpStatus.OK)
+  void assignPaketToContract(@PathVariable(name = "contractId") Long contractId,
+                             @PathVariable(name = "paketId") Long paketId,
+                             Principal principal) {
+    log.info(principal.getName() + " is trying to assign paketId=" + paketId + " to contractId= " + contractId);
+    contractService.assignPaketToContract(contractId, paketId);
+  }
+
+  @DeleteMapping("/{contractId}/paket/{paketId}")
+  @ResponseStatus(HttpStatus.OK)
+  void deletePaketFromContract(@PathVariable(name = "contractId") Long contractId,
+                               @PathVariable(name = "paketId") Long paketId,
+                               Principal principal) {
+    log.info(principal.getName() + " is trying to delete paketId=" + paketId + " from contractId= " + contractId);
+    contractService.deletePaketFromContract(contractId, paketId);
+  }
+
+  //Cards
+  @PutMapping("/{contractId}/card/{cardId}")
+  @ResponseStatus(HttpStatus.OK)
+  void assignCardToContract(@PathVariable(name = "contractId") Long contractId,
+                            @PathVariable(name = "cardId") Long cardId,
+                            Principal principal) {
+    log.info(principal.getName() + " is trying to assign cardId=" + cardId + " to contractId= " + contractId);
+    contractService.assignCardToContract(contractId, cardId);
+  }
+
+  @PutMapping("/{contractId}/cards")
+  @ResponseStatus(HttpStatus.OK)
+  void assignCardsToContract(@PathVariable(name = "contractId") Long contractId,
+                             @RequestBody List<Card> cards,
+                             Principal principal) {
+    log.info(principal.getName() + " is trying to assign cards" + cards + " to contractId= " + contractId);
+    contractService.assignCardsToContract(contractId, cards);
+  }
+
+  @DeleteMapping("/{contractId}/card/{cardId}")
+  @ResponseStatus(HttpStatus.OK)
+  void deleteCardFromContract(@PathVariable(name = "contractId") Long contractId,
+                              @PathVariable(name = "cardId") Long cardId,
+                              Principal principal) {
+    log.info(principal.getName() + " is trying to delete cardId=" + cardId + " from contractId= " + contractId);
+    contractService.deleteCardFromContract(contractId, cardId);
+  }
+
+  @DeleteMapping("/{contractId}/cards")
+  @ResponseStatus(HttpStatus.OK)
+  void deleteCardsToContract(@PathVariable(name = "contractId") Long contractId,
+                             @RequestBody List<Card> cards,
+                             Principal principal) {
+    log.info(principal.getName() + " is trying to delete cards" + cards + " from contractId= " + contractId);
+    contractService.deleteCardsFromContract(contractId, cards);
   }
 
 }

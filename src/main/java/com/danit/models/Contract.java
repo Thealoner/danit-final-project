@@ -2,7 +2,6 @@ package com.danit.models;
 
 
 import com.danit.models.auditor.Auditable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,8 +30,8 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "contracts")
-@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 @NoArgsConstructor
+@JsonIgnoreProperties(value = {"paket", "client"}, allowSetters = true, ignoreUnknown = true)
 @EntityListeners(AuditingEntityListener.class)
 @ToString(exclude = {"client", "paket", "cards"}, callSuper = true)
 @Data
@@ -55,25 +54,18 @@ public class Contract extends Auditable implements BaseEntity {
   private Float credit;
 
   @Column(name = "active")
-  private boolean active;
+  private Boolean active;
 
   @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "client_id", updatable = false, insertable = false)
-  @JsonIgnore
+  @JoinColumn(name = "client_id")
   private Client client;
 
   @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "package_id", updatable = false, insertable = false)
-  @JsonIgnore
+  @JoinColumn(name = "package_id")
   private Paket paket;
 
-  @OneToMany(mappedBy = "contract", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, orphanRemoval = true)
+  @OneToMany(mappedBy = "contract", fetch = FetchType.EAGER,
+      cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
   private List<Card> cards;
-
-  @Column(name = "package_id")
-  private Long packageId;
-
-  @Column(name = "client_id")
-  private Long clientId;
 
 }

@@ -48,7 +48,7 @@ class Grid extends Component {
   };
 
   applyFilter = (filterString) => {
-    this.getData(0, 20, filterString);
+    this.getData(0, 30, filterString);
   };
 
   clearFilter = () => {
