@@ -123,4 +123,17 @@ public class ClientController {
     clientFacade.deleteEntities(clients);
   }
 
+  /*
+  //related entities methods
+  //Contracts
+  @PutMapping("/{clientId}/contracts/{contractId}")
+  @ResponseStatus(HttpStatus.OK)
+  public void assignClientToContract(@PathVariable(name = "clienttId") Long clientId,
+                                     @PathVariable(name = "pcontractId") Long contractId,
+                                     Principal principal) {
+      log.info(principal.getName() + " is trying to assign clientId=" + clientId + " to contractId= " + contractId);
+      clientService.assignClientToContract(contractId, paketId);
+  }
+  */
+
 }
