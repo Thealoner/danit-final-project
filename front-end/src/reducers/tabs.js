@@ -42,8 +42,9 @@ export default function tabsReducer (state = initialState, action) {
         return {
           ...state,
           tabsArray: [
-            ...state.tabsArray,
+            ...state.tabsArray.filter(tab => tab.tabKey !== action.tabKey),
             {
+              ...state.tabsArray[tabIndex],
               title: action.tabKey,
               tabKey: action.tabKey,
               type: action.payload.type,
@@ -90,21 +91,28 @@ export default function tabsReducer (state = initialState, action) {
     }
 
     case tab.SET_GRID_CONTENT: {
-      const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey !== action.tabKey);
+      const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === action.tabKey);
+      let newTabData = {};
+      if (action.payload.type) {
+        newTabData.type = action.payload.type;
+      }
+      if (action.payload.type) {
+        newTabData.type = action.payload.type;
+      }
+
+      if (action.payload.meta) {
+        newTabData.grid = {
+          data: action.payload.data,
+          meta: action.payload.meta,
+          columns: action.payload.columns
+        }
+      }
 
       return {
         ...state,
         tabsArray: [
-          ...state.tabsArray,
-          {
-            type: action.payload.type,
-            grid: {
-              ...state.tabsArray[tabIndex],
-              data: action.payload.data,
-              meta: action.payload.meta,
-              columns: action.payload.columns
-            }
-          }
+          ...state.tabsArray.filter(tab => tab.tabKey !== action.tabKey),
+          newTabData
         ]
       };
     }
