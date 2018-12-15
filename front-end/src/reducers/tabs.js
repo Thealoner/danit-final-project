@@ -9,7 +9,7 @@ const initialState = {
 const initialStateExample = {
   tabsArray: [
     {
-      tabKey: 'package',
+      tabKey: 'packets',
       title: 'Пакеты',
       type: 'grid', // OR 'form'
       grid: {
@@ -25,15 +25,15 @@ const initialStateExample = {
       status: 'done' // OR 'loading'
     }
   ],
-  activeKey: 'package'
-}
+  activeKey: 'packets'
+};
 
 export default function tabsReducer (state = initialState, action) {
   switch (action.type) {
     case tab.OPEN: {
-      const tabIndex = state.tabsArray.some(tab => tab.tabKey === action.tabKey);
+      const tabIndex = state.tabsArray.filter(tab => tab.tabKey === action.tabKey);
       
-      if (tabIndex) {
+      if (tabIndex !== -1) {
         return {
           ...state,
           activeKey: action.tabKey
