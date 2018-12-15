@@ -32,7 +32,7 @@ export default function tabsReducer (state = initialState, action) {
 
     case tab.CLOSE: {
       let foundIndex = 0;
-      const newTabsArray = state.tabsArray.filter((t, i) => {
+      const after = state.tabsArray.filter((t, i) => {
         if (t.tabKey !== action.tabKey) {
           return true;
         }
@@ -45,12 +45,12 @@ export default function tabsReducer (state = initialState, action) {
         if (foundIndex) {
           foundIndex--;
         }
-        activeKey = newTabsArray.length > 0 ? newTabsArray[foundIndex].tabKey : null;
+        activeKey = after.length > 0 ? after[foundIndex].tabKey : null;
       }
 
       return {
         ...state,
-        tabsArray: newTabsArray,
+        tabsArray: after,
         activeKey: activeKey
       };
     }

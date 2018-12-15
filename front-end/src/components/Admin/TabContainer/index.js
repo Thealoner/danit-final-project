@@ -7,33 +7,49 @@ import TabContent from './TabContent';
 
 class TabContainer extends Component {
   render () {
+    let {tabs, openTab} = this.props;
+    if (tabs.activeKey && tabs.tabsArray[tabs.activeKey] && tabs.tabsArray[tabs.activeKey].status === 'loading') {
+      return (
+        <div className="tab-container">loading...</div>
+      );
+    }
+
+    let currentTab = null;
+    
+    if (tabs.activeKey && tabs.tabsArray.length > 0) {
+      currentTab = tabs.tabsArray.filter(t => t.tabKey === tabs.activeKey);
+    }
+
     return (
       <div className="tab-container">
         <TabPane
-          tabs={this.props.tabs}
-          onSelect={this.props.openTab}
+          tabs={tabs}
+          onSelect={openTab}
         />
-        <TabContent content={this.props.tabs.activeKey} />
+        <TabContent currentTab={currentTab} />
       </div>
     );
   }
 
-  componentDidUpdate () {
-    const { activeKey } = this.props.tabs;
+  componentDidMount () {
+    const { tabs } = this.props;
+    const { activeKey } = tabs;
     
-    // ajaxRequest('/' + activeKey)
-    //   .then(response => {
-    //     console.log(response);
-    //     this.props.setTabContent(activeKey, {
-    //       type: 'grid',
-    //       data: response.data,
-    //       meta: response.meta,
-    //       status: 'loaded'
-    //     });
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
+    if (activeKey) {
+      ajaxRequest('/' + activeKey)
+        .then(response => {
+          console.log(response);
+          this.props.setTabContent(activeKey, {
+            type: 'grid',
+            data: response.data,
+            meta: response.meta,
+            status: 'done'
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   }
 }
 
