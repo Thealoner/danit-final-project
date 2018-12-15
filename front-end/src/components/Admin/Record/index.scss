@@ -7,6 +7,11 @@
     margin-right: 20px;
   }
 
+  .form-control {
+    font-size: 15px;
+    font-family: 'Lato', sans-serif;
+  }
+
   .field-object {
     margin-bottom: 0;
     padding: 20px;
@@ -65,7 +70,7 @@
     &[type='password'],
     &[type='email'],
     &[type='date'] {
-      padding: 0 10px;
+      padding: 0;
       border: 1px solid $victoria;
 
       &:focus {
@@ -129,34 +134,6 @@
     margin-top: 20px;
   }
 
-  &__save-message {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    width: 262px;
-    height: 87px;
-    border: 1px solid transparent;
-    border-radius: 10px;
-    transform: translate(-50%, -50%);
-
-    &--success {
-      display: flex;
-      color: #155724;
-      background: #d4edda;
-      border-color: #c3e6cb;
-    }
-
-    &--error {
-      display: flex;
-      color: #721c24;
-      background: #f8d7da;
-      border-color: #f5c6cb;
-    }
-  }
-
   &__loader-wrapper {
     display: flex;
     justify-content: center;
@@ -190,6 +167,7 @@
   .span-helper {
     position: absolute;
     right: 0;
+    padding: 0 10px;
     font-size: 15px;
     opacity: 0;
   }
