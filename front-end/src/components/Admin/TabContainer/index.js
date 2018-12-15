@@ -20,7 +20,7 @@ class TabContainer extends Component {
 
   componentDidUpdate () {
     const { activeKey } = this.props.tabs;
-    console.log(activeKey, this.props.tabs);
+    
     // ajaxRequest('/' + activeKey)
     //   .then(response => {
     //     console.log(response);
