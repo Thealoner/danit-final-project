@@ -16,9 +16,11 @@ class TabContent extends Component {
 
     if (currentTab.type === 'grid') {
       return (
-        <Grid
-          currentTab={currentTab}
-        />
+        <div className="tab-content">
+          <Grid
+            currentTab={currentTab}
+          />
+        </div>
       );
     }
     
