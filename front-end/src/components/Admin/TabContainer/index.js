@@ -7,17 +7,11 @@ import TabContent from './TabContent';
 
 class TabContainer extends Component {
   render () {
-    let {tabs, openTab} = this.props;
+    let {tabs, currentTab, openTab} = this.props;
     if (tabs.activeKey && tabs.tabsArray[tabs.activeKey] && tabs.tabsArray[tabs.activeKey].status === 'loading') {
       return (
         <div className="tab-container">loading...</div>
       );
-    }
-
-    let currentTab = null;
-    
-    if (tabs.activeKey && tabs.tabsArray.length > 0) {
-      currentTab = tabs.tabsArray.filter(t => t.tabKey === tabs.activeKey);
     }
 
     return (
@@ -54,8 +48,15 @@ class TabContainer extends Component {
 }
 
 const mapStateToProps = state => {
+  let currentTab = null;
+  
+  if (state.tabs.activeKey && state.tabs.tabsArray.length > 0) {
+    currentTab = state.tabs.tabsArray.filter(t => t.tabKey === state.tabs.activeKey)[0];
+  }
+
   return {
-    tabs: state.tabs
+    tabs: state.tabs,
+    currentTab
   };
 };
 
