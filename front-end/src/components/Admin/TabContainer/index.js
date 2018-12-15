@@ -6,7 +6,7 @@ import TabContent from './TabContent';
 
 class TabContainer extends Component {
   render () {
-    let {tabs, currentTab, openTab} = this.props;
+    let {tabs, openTab} = this.props;
     if (tabs.activeKey && tabs.tabsArray[tabs.activeKey] && tabs.tabsArray[tabs.activeKey].status === 'loading') {
       return (
         <div className="tab-container">loading...</div>
