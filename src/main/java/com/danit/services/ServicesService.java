@@ -1,24 +1,8 @@
 package com.danit.services;
 
-import com.danit.models.Services;
+import com.danit.dto.service.ServiceListRequestDto;
+import com.danit.models.Service;
 
-import java.util.List;
-
-public interface ServicesService {
-
-  List<Services> saveServices(List<Services> services);
-
-  Services saveService(Services service);
-
-  Services getServiceById(Long id);
-
-  void deleteServiceById(Long id);
-
-  void deleteServices(List<Services> services);
-
-  List<Services> getAllServices();
-
-  int getTotalQuantityOfServices();
-
-
+@org.springframework.stereotype.Service
+public class ServicesService extends AbstractBaseEntityService<Service, ServiceListRequestDto> {
 }

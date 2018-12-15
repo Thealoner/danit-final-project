@@ -1,8 +1,17 @@
 package com.danit.models;
 
 
+import com.danit.models.auditor.Auditable;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,74 +21,29 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.util.List;
 
+
+@EqualsAndHashCode(callSuper = true)
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
+@NoArgsConstructor
+@ToString(exclude = {"services"}, callSuper = true)
+@EntityListeners(AuditingEntityListener.class)
+@Data
 @Entity
 @Table(name = "service_categories")
-public class ServiceCategory {
+public class ServiceCategory extends Auditable implements BaseEntity {
   @Id
   @Column(name = "id")
-  @SequenceGenerator(name = "serviceCategorySequence", sequenceName = "serviceCategorySequence",
+  @SequenceGenerator(name = "service_category_sequence", sequenceName = "service_category_sequence",
       allocationSize = 1, initialValue = 1001)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "serviceCategorySequence")
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "service_category_sequence")
   private Long id;
 
   @Column(name = "title")
   private String title;
 
   @Column(name = "active")
-  private Boolean isActive;
+  private Boolean active;
 
   @ManyToMany(fetch = FetchType.EAGER, mappedBy = "serviceCategories")
-  private List<Services> services;
-
-  public ServiceCategory() {
-  }
-
-  public ServiceCategory(Long id, String title, Boolean isActive, List<Services> services) {
-    this.id = id;
-    this.title = title;
-    this.isActive = isActive;
-    this.services = services;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public Boolean getActive() {
-    return isActive;
-  }
-
-  public void setActive(Boolean active) {
-    isActive = active;
-  }
-
-  public List<Services> getServices() {
-    return services;
-  }
-
-  public void setServices(List<Services> services) {
-    this.services = services;
-  }
-
-  @Override
-  public String toString() {
-    return "ServiceCategory{" +
-        "id=" + id +
-        ", title='" + title + '\'' +
-        ", isActive=" + isActive +
-        ", services=" + services +
-        '}';
-  }
+  private List<Service> services;
 }

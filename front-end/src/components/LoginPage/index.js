@@ -1,0 +1,78 @@
+import React, {Component} from 'react';
+import './index.scss';
+import AuthService from '../../helpers/authService';
+import {toastr} from 'react-redux-toastr';
+import {Form, Button} from 'semantic-ui-react';
+
+class Login extends Component {
+  constructor (props) {
+    super(props);
+    this.auth = new AuthService();
+
+    this.state = {
+      data: {
+        username: '',
+        password: ''
+      },
+      loading: false,
+      error: false
+    };
+  }
+
+  handleChange = (e) => this.setState({
+    data: {...this.state.data, [e.target.name]: e.target.value}
+  });
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const {data} = this.state;
+
+    this.setState({loading: true});
+
+    this.auth.login(data.username, data.password)
+      .then(res => {
+        this.props.history.replace('/');
+      })
+      .catch(() => {
+        toastr.error('Неверный логин или пароль');
+        this.setState({
+          loading: false,
+          error: true
+        });
+      });
+  };
+
+  render () {
+    const {data, error, loading} = this.state;
+
+    return (
+      <div className='login'>
+        <Form onSubmit={this.handleSubmit} className='login__form' loading={loading}>
+          <Form.Field error={error}>
+            <label htmlFor='username'>Логин</label>
+            <input type='text'
+              id='username'
+              name='username'
+              placeholder='введите логин (Admin)'
+              value={data.username}
+              onChange={this.handleChange}
+              required/>
+          </Form.Field>
+          <Form.Field error={error}>
+            <label htmlFor='password'>Пароль</label>
+            <input type='password'
+              id='password'
+              name='password'
+              placeholder='введите пароль (1234)'
+              value={data.password}
+              onChange={this.handleChange}
+              required/>
+          </Form.Field>
+          <Button>Войти</Button>
+        </Form>
+      </div>
+    );
+  };
+}
+
+export default Login;

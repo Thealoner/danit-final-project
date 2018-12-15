@@ -2,15 +2,17 @@ import React, { Component, Fragment } from 'react';
 import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
 import { getEntityByType } from '../../gridEntities';
-import AuthService from '../../../Login/AuthService';
+import AuthService from '../../../../helpers/authService';
 import Form from 'react-jsonschema-form';
-import ajaxRequest, {resizeInput} from '../../../../helpers/ajaxRequest';
+import ajaxRequest from '../../../../helpers/ajaxRequest';
+import resizeInputs from '../../../../helpers/resizeInputs';
 import {toastr} from 'react-redux-toastr';
 
 const formInputs = document.getElementsByClassName('form-control');
 
 class RecordEditor extends Component {
   constructor (props) {
+    console.log('constructor');
     super(props);
     this.state = {
       authService: new AuthService(),
@@ -21,6 +23,7 @@ class RecordEditor extends Component {
   }
 
   getData = () => {
+    console.log('getData');
     const { rowId } = this.props.match.params;
     const { entityType } = this.props;
     const entity = getEntityByType(entityType);
@@ -38,9 +41,7 @@ class RecordEditor extends Component {
           loading: false
         });
 
-        for (let i = 0; i < formInputs.length; i++) {
-          resizeInput(formInputs[i]);
-        }
+        resizeInputs(formInputs);
       });
   };
 
@@ -63,6 +64,8 @@ class RecordEditor extends Component {
           loading: false
         });
         toastr.success('Данные успешно сохранены');
+
+        resizeInputs(formInputs);
       })
       .catch(error => {
         this.setState({
@@ -93,6 +96,7 @@ class RecordEditor extends Component {
           loading: false
         });
         toastr.success('Данные успешно сохранены');
+        resizeInputs(formInputs);
 
         const editorUrl = entityType + '/edit/' + json[0].id;
         setTabContentUrl(editorUrl);
@@ -115,6 +119,7 @@ class RecordEditor extends Component {
   log = (form) => console.log.bind(console, form);
 
   render () {
+    console.log('render');
     const { mode, rowId } = this.props.match.params;
     const { entityType, setTabContentUrl, getRecordData } = this.props;
 
@@ -143,15 +148,18 @@ class RecordEditor extends Component {
   }
 
   componentDidMount () {
+    console.log('componentDidMount');
     const { mode } = this.props.match.params;
 
     if (mode === 'edit') {
       this.getData();
     }
 
-    for (let i = 0; i < formInputs.length; i++) {
-      resizeInput(formInputs[i]);
-    }
+    resizeInputs(formInputs);
+  }
+
+  componentDidUpdate () {
+    console.log('componentDidUpdate');
   }
 }
 

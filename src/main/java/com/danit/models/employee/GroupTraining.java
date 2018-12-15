@@ -1,6 +1,6 @@
 package com.danit.models.employee;
 
-import com.danit.models.Services;
+import com.danit.models.Service;
 import lombok.Data;
 
 import javax.persistence.CascadeType;
@@ -36,7 +36,7 @@ public class GroupTraining {
 
   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @JoinColumn(name = "serviceid")
-  private Services service;
+  private Service service;
 
   @Column(name = "amount")
   private int amount;

@@ -1,5 +1,5 @@
 import Settings from '../components/Settings';
-import AuthService from '../components/Login/AuthService';
+import AuthService from './authService';
 
 const ajaxRequest = (relativeUrl = '', method = 'GET', body = null) => {
   const authService = new AuthService();
@@ -10,8 +10,7 @@ const ajaxRequest = (relativeUrl = '', method = 'GET', body = null) => {
       'Accept': 'application/json'
     };
 
-    const token = authService.getToken();
-    headers['Authorization'] = token;
+    headers['Authorization'] = authService.getToken();
 
     const options = {
       method,
@@ -31,27 +30,6 @@ const ajaxRequest = (relativeUrl = '', method = 'GET', body = null) => {
   } else {
     console.log('Not logged in or token is expired');
   }
-};
-
-export const resizeInput = (el) => {
-  const events = 'keyup,keypress,focus,blur,change,input'.split(',');
-  const spanEl = document.createElement('span');
-  spanEl.className = 'span-helper';
-  spanEl.innerHTML = el.value;
-  el.after(spanEl);
-  el.style.width = spanEl.clientWidth + 1 + 'px';
-  spanEl.remove();
-
-  events.forEach(function (item) {
-    el.addEventListener(item, function () {
-      const spanEl = document.createElement('span');
-      spanEl.className = 'span-helper';
-      spanEl.innerHTML = el.value;
-      el.after(spanEl);
-      el.style.width = spanEl.clientWidth + 1 + 'px';
-      spanEl.remove();
-    });
-  });
 };
 
 export default ajaxRequest;

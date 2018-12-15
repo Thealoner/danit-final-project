@@ -1,22 +1,9 @@
 package com.danit.services;
 
+import com.danit.dto.service.UserListRequestDto;
 import com.danit.models.User;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
-
-public interface UserService {
-
-  List<User> saveUsers(List<User> users);
-
-  List<User> updateUsers(List<User> users);
-
-  void deleteUserById(long id);
-
-  User getUserByUsername(String username);
-
-  User getUserById(long id);
-
-  List<User> getAllUsers();
-
-  void deleteUsers(List<User> users);
+@Service
+public class UserService extends AbstractBaseEntityService<User, UserListRequestDto> {
 }
