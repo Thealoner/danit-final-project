@@ -5,6 +5,29 @@ const initialState = {
   activeKey: null
 };
 
+// Purely for informational purpose:
+const initialStateExample = {
+  tabsArray: [
+    {
+      tabKey: 'package',
+      title: 'Пакеты',
+      type: 'grid', // OR 'form'
+      grid: {
+        data: [],
+        meta: {},
+        columns: []
+      },
+      form: {
+        data: [],
+        meta: {},
+        edited: false
+      },
+      status: 'done' // OR 'loading'
+    }
+  ],
+  activeKey: 'package'
+}
+
 export default function tabsReducer (state = initialState, action) {
   switch (action.type) {
     case tab.OPEN: {
@@ -55,7 +78,7 @@ export default function tabsReducer (state = initialState, action) {
       };
     }
 
-    case tab.SET_CONTENT: {
+    case tab.SET_GRID_CONTENT: {
       const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey !== action.tabKey);
 
       return {
@@ -63,13 +86,20 @@ export default function tabsReducer (state = initialState, action) {
         tabsArray: [
           ...state.tabsArray,
           {
-            ...state.tabsArray[tabIndex],
             type: action.payload.type,
-            data: action.payload.data,
-            meta: action.payload.meta
+            grid: {
+              ...state.tabsArray[tabIndex],
+              data: action.payload.data,
+              meta: action.payload.meta,
+              columns: action.payload.columns
+            }
           }
         ]
       };
+    }
+
+    case tab.SET_FORM_CONTENT: {
+      return state;
     }
 
     case tab.STORE_TMP_FORM_DATA: {

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './index.scss';
-import { setTabContent } from '../../../../actions/tabActions';
+import { setTabGridContent } from '../../../../actions/tabActions';
 import { connect } from 'react-redux';
-import ajaxRequest from '../../../../helpers/ajaxRequest';
+import Grid from '../../Grid';
 
 class TabContent extends Component {
   state = {};
@@ -13,30 +13,18 @@ class TabContent extends Component {
     if (!currentTab) {
       return <div>Nothing here</div>;
     }
+
+    if (currentTab.tabKey === 'grid') {
+      return (
+        <Grid
+          currentTab={currentTab}
+        />
+      );
+    }
     
     return (
       <div className="tab-content">{JSON.stringify(currentTab)}</div>
     );
-  }
-
-  componentDidMount () {
-    const { currentTab } = this.props;
-    
-    if (currentTab && currentTab.tabKey) {
-      ajaxRequest('/' + currentTab.tabKey)
-        .then(response => {
-          console.log(response);
-          this.props.setTabContent(currentTab.tabKey, {
-            type: 'grid',
-            data: response.data,
-            meta: response.meta,
-            status: 'done'
-          });
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    }
   }
 };
 
@@ -54,8 +42,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setTabContent: (tabKey, payload) => {
-      dispatch(setTabContent(tabKey, payload));
+    setTabGridContent: (tabKey, payload) => {
+      dispatch(setTabGridContent(tabKey, payload));
     }
   };
 };

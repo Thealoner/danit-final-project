@@ -14,9 +14,17 @@ export const closeTab = tabKey => {
   };
 };
 
-export const setTabContent = (tabKey, payload) => {
+export const setTabGridContent = (tabKey, payload) => {
   return {
-    type: tab.SET_CONTENT,
+    type: tab.SET_GRID_CONTENT,
+    tabKey,
+    payload
+  };
+};
+
+export const setTabFormContent = (tabKey, payload) => {
+  return {
+    type: tab.SET_FORM_CONTENT,
     tabKey,
     payload
   };
