@@ -4,6 +4,6 @@ import com.danit.models.Contract;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ContractRepositoryBase extends BaseEntityRepository<Contract> {
+public interface ContractRepository extends BaseEntityRepository<Contract> {
 
 }

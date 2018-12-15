@@ -1,5 +1,6 @@
 package com.danit.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,6 +10,7 @@ import java.util.List;
 
 
 @EqualsAndHashCode(callSuper = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @ToString(exclude = "roles")
 @Data
 public class UserDto extends BaseDto {

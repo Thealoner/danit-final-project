@@ -101,13 +101,14 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
     return baseEntityRepository.count();
   }
 
+
   @SuppressWarnings("unchecked")
   private String getEntityName() {
     return ((Class<E>) ((ParameterizedType) getClass().getGenericSuperclass())
         .getActualTypeArguments()[0]).getSimpleName().toLowerCase();
   }
 
-  private List<E> reloadEntities(List<E> entityList) {
+  public List<E> reloadEntities(List<E> entityList) {
     List<Long> listIds = entityList.stream().map(E::getId).collect(Collectors.toList());
     return baseEntityRepository.findAllEntitiesByIds(listIds);
   }
