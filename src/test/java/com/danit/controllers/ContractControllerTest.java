@@ -209,8 +209,8 @@ public class ContractControllerTest {
 
     ContractDto createdContract = contractFacade.getEntityById(id);
 
-    assertEquals(new Long(2L), createdContract.getPackageId());
-    assertEquals(new Long(1L), createdContract.getClientId());
+    assertEquals(new Long(1L), createdContract.getPackageId());
+    assertEquals(new Long(20L), createdContract.getClientId());
 
     this.mockMvc.perform(put(url + "/" + id + "/client/28").headers(header))
         .andExpect(status().isOk());
@@ -219,8 +219,8 @@ public class ContractControllerTest {
 
     ContractDto updatedContract = contractFacade.getEntityById(id);
 
-    assertEquals(new Long(3L), createdContract.getPackageId());
-    assertEquals(new Long(28L), createdContract.getClientId());
+    assertEquals(new Long(3L), updatedContract.getPackageId());
+    assertEquals(new Long(28L), updatedContract.getClientId());
 
     this.mockMvc.perform(put(url).headers(header)
         .contentType("application/json")
