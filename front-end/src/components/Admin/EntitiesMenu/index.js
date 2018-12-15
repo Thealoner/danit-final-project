@@ -16,7 +16,7 @@ function EntitiesMenu (props) {
         key={entity.id}
         className="configurator__link"
         activeClassName="configurator__link--active"
-        onClick={() => props.openTab(entity.id)}>
+        onClick={() => props.openTab(entity.id, {type: 'grid'})}>
         {entity.name}
       </NavLink>
     );
@@ -33,8 +33,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    openTab: tabKey => {
-      dispatch(openTab(tabKey));
+    openTab: (tabKey, payload) => {
+      dispatch(openTab(tabKey, payload));
     }
   };
 };

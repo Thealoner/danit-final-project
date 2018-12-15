@@ -11,13 +11,6 @@ import { Pagination } from 'semantic-ui-react';
 import { setTabGridContent } from '../../../actions/tabActions';
 import { connect } from 'react-redux';
 
-const defaultMeta = {
-  totalElements: 0,
-  currentPage: 1,
-  pagesTotal: 1,
-  elementsPerPage: 1
-};
-
 class Grid extends Component {
   state = {
     showEllipsis: true,
@@ -74,7 +67,7 @@ class Grid extends Component {
 
     return (
       <Fragment>
-        <Filter applyFilter={this.applyFilter} clearFilter={this.clearFilter} columns={this.state.columns}/>
+        <Filter applyFilter={this.applyFilter} clearFilter={this.clearFilter} columns={currentTab.grid.columns}/>
         <div ref={el => (this.tabulatorTable = el)} className="tabulator" data-custom-attr="test-custom-attribute"/>
         <div className="grid-footer">
           <Link to={'/admin/todo'} className="grid-footer__add-btn">
@@ -99,11 +92,9 @@ class Grid extends Component {
   }
 
   componentDidMount () {
-    const { currentTab, setTabContent } = this.props;
-    setTabContent(currentTab.tabKey, {
-      type: 'grid',
-      data: {},
-      meta: defaultMeta
+    const { currentTab, setTabGridContent } = this.props;
+    setTabGridContent(currentTab.tabKey, {
+      type: 'grid'
     });
 
     this.getData();

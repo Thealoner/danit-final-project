@@ -45,7 +45,18 @@ export default function tabsReducer (state = initialState, action) {
             ...state.tabsArray,
             {
               title: action.tabKey,
-              tabKey: action.tabKey
+              tabKey: action.tabKey,
+              type: action.payload.type,
+              grid: {
+                data: [],
+                meta: {
+                  totalElements: 0,
+                  currentPage: 1,
+                  pagesTotal: 1,
+                  elementsPerPage: 1
+                },
+                columns: []
+              }
             }
           ],
           activeKey: action.tabKey

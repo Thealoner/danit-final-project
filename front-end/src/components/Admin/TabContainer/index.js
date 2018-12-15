@@ -3,6 +3,7 @@ import { openTab } from '../../../actions/tabActions';
 import { connect } from 'react-redux';
 import TabPane from './TabPane';
 import TabContent from './TabContent';
+import './index.scss';
 
 class TabContainer extends Component {
   render () {

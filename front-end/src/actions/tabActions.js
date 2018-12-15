@@ -1,9 +1,10 @@
 import { tab } from './types';
 
-export const openTab = tabKey => {
+export const openTab = (tabKey, payload) => {
   return {
     type: tab.OPEN,
-    tabKey
+    tabKey,
+    payload
   };
 };
 

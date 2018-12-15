@@ -14,7 +14,7 @@ class TabContent extends Component {
       return <div>Nothing here</div>;
     }
 
-    if (currentTab.tabKey === 'grid') {
+    if (currentTab.type === 'grid') {
       return (
         <Grid
           currentTab={currentTab}
