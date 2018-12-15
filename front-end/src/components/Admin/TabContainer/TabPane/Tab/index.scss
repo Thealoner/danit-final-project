@@ -1,8 +1,28 @@
+@import "../../../../../variables";
 .tab {
-  float: left;
-  padding: 10px 20px;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 180px;
+  height: 40px;
+  padding: 0 10px;
+  overflow: hidden;
+  background-color: $white;
+  border: 1px solid $gallery;
+  border-bottom: none;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 
-  &--active {
-    color: red;
+  button {
+    background-color: transparent;
+    border: none;
+   // box-shadow: -5px 0 10px 3px $gallery;
+  }
+
+&--active {
+    color: $victoria;
+    background-color: $gallery;
+    //border-bottom-right-radius: 10px;
   }
 }
+
