@@ -92,10 +92,7 @@ class Grid extends Component {
   }
 
   componentDidMount () {
-    const { currentTab, setTabGridContent } = this.props;
-    setTabGridContent(currentTab.tabKey, {
-      type: 'grid'
-    });
+    const { currentTab } = this.props;
 
     this.getData();
     this.tabulator = new Tabulator(this.tabulatorTable, {
@@ -111,10 +108,10 @@ class Grid extends Component {
     const { currentTab } = this.props;
     this.tabulator.setColumns(currentTab.grid.columns);
     this.tabulator.setData(currentTab.grid.data);
-
-    // if (this.state.id !== '' && entityType !== this.state.id) {
-    //   this.getData();
-    // }
+    
+    if (currentTab.grid.data.length === 0) {
+      this.getData();
+    }
   }
 }
 

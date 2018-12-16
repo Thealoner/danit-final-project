@@ -6,60 +6,61 @@ const initialState = {
 };
 
 // Purely for informational purpose:
-const initialStateExample = {
-  tabsArray: [
-    {
-      tabKey: 'packets',
-      title: 'Пакеты',
-      type: 'grid', // OR 'form'
-      grid: {
-        data: [],
-        meta: {},
-        columns: []
-      },
-      form: {
-        data: [],
-        meta: {},
-        edited: false
-      },
-      status: 'done' // OR 'loading'
-    }
-  ],
-  activeKey: 'packets'
-};
+// const initialStateExample = {
+//   tabsArray: [
+//     {
+//       tabKey: 'packets',
+//       title: 'Пакеты',
+//       type: 'grid', // OR 'form'
+//       grid: {
+//         data: [],
+//         meta: {},
+//         columns: []
+//       },
+//       form: {
+//         data: [],
+//         meta: {},
+//         edited: false
+//       },
+//       status: 'done' // OR 'loading'
+//     }
+//   ],
+//   activeKey: 'packets'
+// };
 
 export default function tabsReducer (state = initialState, action) {
   switch (action.type) {
     case tab.OPEN: {
-      const tabIndex = state.tabsArray.filter(tab => tab.tabKey === action.tabKey);
-      
-      if (tabIndex !== -1) {
+      const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === action.tabKey);
+      if (tabIndex === -1) {
+        let newTab = {
+          ...state.tabsArray[tabIndex],
+          title: action.tabKey,
+          tabKey: action.tabKey,
+          type: action.payload.type,
+          grid: {
+            data: [],
+            meta: {
+              totalElements: 0,
+              currentPage: 1,
+              pagesTotal: 1,
+              elementsPerPage: 1
+            },
+            columns: []
+          }
+        };
+
         return {
           ...state,
+          tabsArray: [
+            ...state.tabsArray.filter(tab => tab.tabKey !== action.tabKey),
+            newTab
+          ],
           activeKey: action.tabKey
         };
       } else {
         return {
           ...state,
-          tabsArray: [
-            ...state.tabsArray.filter(tab => tab.tabKey !== action.tabKey),
-            {
-              ...state.tabsArray[tabIndex],
-              title: action.tabKey,
-              tabKey: action.tabKey,
-              type: action.payload.type,
-              grid: {
-                data: [],
-                meta: {
-                  totalElements: 0,
-                  currentPage: 1,
-                  pagesTotal: 1,
-                  elementsPerPage: 1
-                },
-                columns: []
-              }
-            }
-          ],
           activeKey: action.tabKey
         };
       }
@@ -96,11 +97,8 @@ export default function tabsReducer (state = initialState, action) {
       if (action.payload.type) {
         newTabData.type = action.payload.type;
       }
-      if (action.payload.type) {
-        newTabData.type = action.payload.type;
-      }
 
-      if (action.payload.meta) {
+      if (action.payload.data) {
         newTabData.grid = {
           data: action.payload.data,
           meta: action.payload.meta,
@@ -112,7 +110,10 @@ export default function tabsReducer (state = initialState, action) {
         ...state,
         tabsArray: [
           ...state.tabsArray.filter(tab => tab.tabKey !== action.tabKey),
-          newTabData
+          {
+            ...state.tabsArray[tabIndex],
+            ...newTabData
+          }
         ]
       };
     }
