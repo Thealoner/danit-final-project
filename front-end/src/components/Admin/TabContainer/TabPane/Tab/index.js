@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { closeTab } from '../../../../../actions/tabActions';
-import './index.scss';
+import {getEntityByType} from '../../../gridEntities';
 
 const Tab = ({ tabKey, title, activeKey, onSelect, closeTab }) => {
-  const tabClass = 'tab' + (tabKey === activeKey ? ' tab--active' : '');
+  const tabClass = 'tabs__head' + (tabKey === activeKey ? ' tabs__head--active' : '');
 
   const closeTabHandler = (e, tabKey) => {
     e.stopPropagation();
@@ -12,9 +12,9 @@ const Tab = ({ tabKey, title, activeKey, onSelect, closeTab }) => {
   };
 
   return (
-    <li key={tabKey} className={tabClass} onClick={(e) => onSelect(tabKey)}>
-      {title}
-      <button onClick={(e) => closeTabHandler(e, tabKey)}>X</button>
+    <li key={tabKey} className={tabClass} onClick={() => onSelect(tabKey)}>
+      <span className='tabs__title-wrapper'>{getEntityByType(title).name}</span>
+      <span className='tabs__btn-wrapper'><button className='tabs__close-btn' onClick={(e) => closeTabHandler(e, tabKey)}/></span>
     </li>
   );
 };

@@ -15,6 +15,6 @@ const Admin = () => {
       </div>
     </main>
   );
-}
+};
 
 export default withRouter(Admin);

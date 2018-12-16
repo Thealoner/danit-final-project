@@ -1,0 +1,177 @@
+@import '../../../variables';
+
+.tabs {
+  height: 100%;
+
+  &__pane {
+    display: flex;
+    align-items: flex-end;
+    height: 36px;
+    background-color: $white;
+  }
+
+  &__pane-skirt {
+    position: relative;
+    display: inline-flex;
+    align-items: flex-end;
+    height: 20px;
+    background-color: $gallery;
+  }
+
+  &__head {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 180px;
+    height: 36px;
+    background-color: $white;
+    border-top: 1px solid $gallery;
+    border-left: 1px solid $gallery;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    cursor: pointer;
+
+    &:last-child {
+      border-right: 1px solid $gallery;
+
+      &.tabs__head--active .tabs__btn-wrapper {
+        &::before,
+        &::after {
+          content: '';
+          position: absolute;
+          right: -11px;
+          bottom: -7.5px;
+          display: block;
+          width: 10px;
+          height: 10px;
+        }
+
+        &::before {
+          background-color: $gallery;
+        }
+
+        &::after {
+          background-color: $white;
+          border-bottom-left-radius: 10px;
+        }
+      }
+    }
+
+    &--active {
+      background-color: $gallery;
+
+      &:not(:first-child) {
+        &::before,
+        &::after {
+          content: '';
+          position: absolute;
+          left: -11px;
+          bottom: 0;
+          display: block;
+          width: 10px;
+          height: 10px;
+        }
+
+        &::before {
+          background-color: $gallery;
+        }
+
+        &::after {
+          background-color: $white;
+          border-bottom-right-radius: 10px;
+        }
+      }
+
+      & + .tabs__head {
+        border-bottom-left-radius: 10px;
+      }
+
+      & .tabs__close-btn {
+        background-color: $gallery;
+        box-shadow: -5px 0 10px 3px $gallery;
+      }
+
+      & .tabs__close-btn:hover {
+        background-color: $white;
+      }
+
+      & .tabs__btn-wrapper {
+        background-color: $gallery;
+      }
+    }
+  }
+
+  &__title-wrapper {
+    position: absolute;
+    left: 15px;
+    display: flex;
+    align-items: center;
+    max-width: 85%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  &__btn-wrapper {
+    position: absolute;
+    right: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 20px;
+    background-color: $white;
+  }
+
+  &__close-btn {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    background-color: $white;
+    border: none;
+    border-radius: 50%;
+    box-shadow: -5px 0 10px 3px $white;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $gallery;
+    }
+
+    &:active {
+      transform: scale(.95);
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 1.5px;
+      height: 60%;
+      background-color: #999;
+      border-radius: 10px;
+      -webkit-transform: translate(-50%, -50%) rotateZ(45deg);
+      -moz-transform: translate(-50%, -50%) rotateZ(45deg);
+      -ms-transform: translate(-50%, -50%) rotateZ(45deg);
+      -o-transform: translate(-50%, -50%) rotateZ(45deg);
+      transform: translate(-50%, -50%) rotateZ(45deg);
+    }
+
+    &::after {
+      @extend .tabs__close-btn::before;
+      -webkit-transform: translate(-50%, -50%) rotateZ(-45deg);
+      -moz-transform: translate(-50%, -50%) rotateZ(-45deg);
+      -ms-transform: translate(-50%, -50%) rotateZ(-45deg);
+      -o-transform: translate(-50%, -50%) rotateZ(-45deg);
+      transform: translate(-50%, -50%) rotateZ(-45deg);
+    }
+  }
+
+  &__content {
+    position: relative;
+    height: calc(100% - 36px);
+    background-color: $gallery;
+    border: 15px solid $gallery;
+  }
+}

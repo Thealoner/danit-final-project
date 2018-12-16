@@ -3,23 +3,21 @@ import { openTab } from '../../../actions/tabActions';
 import { connect } from 'react-redux';
 import TabPane from './TabPane';
 import TabContent from './TabContent';
+import './index.scss';
 
 class TabContainer extends Component {
   render () {
     let {tabs, openTab} = this.props;
     if (tabs.activeKey && tabs.tabsArray[tabs.activeKey] && tabs.tabsArray[tabs.activeKey].status === 'loading') {
       return (
-        <div className="tab-container">loading...</div>
+        <div className="tabs">loading...</div>
       );
     }
 
     return (
-      <div className="tab-container">
-        <TabPane
-          tabs={tabs}
-          onSelect={openTab}
-        />
-        <TabContent />
+      <div className="tabs">
+        <TabPane tabs={tabs} onSelect={openTab}/>
+        <TabContent/>
       </div>
     );
   }

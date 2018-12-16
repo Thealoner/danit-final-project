@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './index.scss';
 import { setTabGridContent } from '../../../../actions/tabActions';
 import { connect } from 'react-redux';
 import Grid from '../../Grid';
@@ -16,7 +15,7 @@ class TabContent extends Component {
 
     if (currentTab.type === 'grid') {
       return (
-        <div className="tab-content">
+        <div className="tabs__content">
           <Grid
             currentTab={currentTab}
           />
@@ -25,10 +24,10 @@ class TabContent extends Component {
     }
     
     return (
-      <div className="tab-content">{JSON.stringify(currentTab)}</div>
+      <div className="tabs__content">{JSON.stringify(currentTab)}</div>
     );
   }
-};
+}
 
 const mapStateToProps = state => {
   let currentTab = null;
