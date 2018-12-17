@@ -3,7 +3,6 @@ package com.danit.models;
 
 import com.danit.models.auditor.Auditable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -23,7 +22,6 @@ import javax.persistence.Table;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "cards")
-@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 @NoArgsConstructor
 @ToString(exclude = {"contract"})
 @Data
@@ -41,11 +39,8 @@ public class Card extends Auditable implements BaseEntity {
   @Column(name = "card_active")
   private Boolean active;
 
-  @Column(name = "contract_id")
-  private Long contractId;
-
   @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "contract_id", updatable = false, insertable = false)
+  @JoinColumn(name = "contract_id")
   @JsonIgnore
   private Contract contract;
 

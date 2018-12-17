@@ -5,6 +5,6 @@ import com.danit.models.Paket;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PaketRepositoryBase extends BaseEntityRepository<Paket> {
+public interface PaketRepository extends BaseEntityRepository<Paket> {
 
 }

@@ -2,7 +2,7 @@ package com.danit.dto;
 
 import com.danit.models.User;
 import com.danit.models.UserRolesEnum;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,6 +14,7 @@ import java.util.List;
 
 
 @EqualsAndHashCode(callSuper = true)
+@JsonIgnoreProperties(value = {"users"}, allowSetters = true, ignoreUnknown = true)
 @ToString(exclude = "users")
 @Data
 public class UserRoleDto extends BaseDto {
@@ -26,7 +27,6 @@ public class UserRoleDto extends BaseDto {
   private UserRolesEnum role;
 
   @JsonView({Views.Extended.class, Views.Ids.class})
-  @JsonIgnore
   private List<User> users;
 
 }
