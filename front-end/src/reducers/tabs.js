@@ -103,7 +103,7 @@ export default function tabsReducer (state = initialState, action) {
           data: action.payload.data,
           meta: action.payload.meta,
           columns: action.payload.columns
-        }
+        };
       }
 
       return {
