@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import './index.scss';
 import TabbedArea from './TabbedArea';
 import EntitiesMenu from './EntitiesMenu';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 let index = 1;
 
@@ -130,11 +131,18 @@ class Admin extends Component {
     });
   };
 
+  configurator = React.createRef();
+
   render () {
     return (
-      <main className="configurator">
+      <main className="configurator" ref={el => this.configurator = el}>
         <div className="configurator__left">
-          <EntitiesMenu activeKey={this.state.activeKey} setTabTitle={this.setTabTitle}/>
+          <div className="configurator__close-panel">
+            <FontAwesomeIcon icon="angle-right" size="1x" onClick={() => this.hideConfiguratorMenu()}/>
+          </div>
+          <div className="configurator__menu-wrapper">
+            <EntitiesMenu activeKey={this.state.activeKey} setTabTitle={this.setTabTitle}/>
+          </div>
         </div>
         <div className="configurator__right">
           <TabbedArea
@@ -153,6 +161,8 @@ class Admin extends Component {
       </main>
     );
   }
+
+  hideConfiguratorMenu = () => this.configurator.classList.toggle('configurator__menu-hide');
 }
 
 export default withRouter(Admin);
