@@ -2,7 +2,6 @@ package com.danit.controllers;
 
 import com.danit.Application;
 import com.danit.TestUtils;
-import com.danit.configuration.DbTestProfileJpaConfig;
 import com.danit.dto.ContractDto;
 import com.danit.facades.ContractFacade;
 import com.danit.models.Contract;
@@ -22,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -37,10 +37,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {
-    Application.class,
-    DbTestProfileJpaConfig.class},
+    Application.class},
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@ActiveProfiles("test")
+@ActiveProfiles("test")
 //@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 public class ContractControllerTest {

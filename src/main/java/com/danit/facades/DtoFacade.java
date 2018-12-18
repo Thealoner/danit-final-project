@@ -11,6 +11,8 @@ public interface DtoFacade<D extends BaseDto, E extends BaseEntity, R> {
 
   D convertToDto(E entity);
 
+  E convertDtoToEntity(D dto);
+
   Page<D> getAllEntities(Pageable pageable);
 
   Page<D> getAllEntities(R listRequestDto, Pageable pageable);
