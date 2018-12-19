@@ -22,12 +22,14 @@
     color: $white;
     font-size: 18px;
     background-color: transparent;
+
+
+    svg {
+      transform: rotateY(180deg);
+      cursor: pointer;
+    }
   }
 
-  svg {
-    transform: rotateY(180deg);
-    cursor: pointer;
-  }
 
   &__link {
     display: flex;
@@ -35,6 +37,8 @@
     padding: 15px 0 15px 15px;
     color: $blue-bayoux;
     transition: padding .5s;
+
+
 
     &:hover {
       padding-left: 20px;
@@ -47,11 +51,25 @@
     color: $white!important;
     background-color: $victoria;
 
+
+
   }
 
   &__right {
     overflow: hidden;
     background-color: $gallery;
+
+    .fas{
+      font-size: 25px;
+    }
+
+    .fa-female{
+      color: $female;
+    }
+
+    .fa-male{
+      color: $male;
+    }
   }
 }
 
@@ -76,3 +94,5 @@
     display: none;
   }
 }
+
+
