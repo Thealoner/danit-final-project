@@ -50,6 +50,7 @@
   }
 
   &__right {
+    position: relative;
     overflow: hidden;
     background-color: $gallery;
   }
