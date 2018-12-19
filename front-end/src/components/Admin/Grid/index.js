@@ -130,6 +130,17 @@ class Grid extends Component {
   }
 
   componentDidMount () {
+    const sortCells = document.getElementsByClassName('tabulator-sortable');
+    const table = this.tabulatorTable;
+    table.addEventListener('click', function (event) {
+      for (let i = 0; i < sortCells.length; i++) {
+        sortCells[i].classList.remove('sortable');
+      }
+      const closestSortCell = event.target.closest('.tabulator-sortable');
+      if (!closestSortCell) return;
+      if (!table.contains(closestSortCell)) return;
+      closestSortCell.classList.toggle('sortable');
+    });
     this.getData();
     this.tabulator = new Tabulator(this.tabulatorTable, {
       data: this.state.data,
