@@ -6,14 +6,11 @@ let defaultFilter = {
   value: ''
 };
 class Filter extends Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      ...defaultFilter
-    };
-  }
+  state = {
+    ...defaultFilter
+  };
 
-  handleInputChange = (event) => {
+  handleInputChange = event => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
@@ -23,7 +20,7 @@ class Filter extends Component {
     });
   };
 
-  onSubmit = (event) => {
+  onSubmit = event => {
     event.preventDefault();
     const filterString = '&' + this.state.field + '=' + this.state.value;
     this.props.applyFilter(filterString);
