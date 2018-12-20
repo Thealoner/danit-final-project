@@ -7,7 +7,6 @@ import com.danit.facades.ClientFacade;
 import com.danit.facades.ContractFacade;
 import com.danit.models.Client;
 import com.danit.models.Contract;
-import com.danit.services.CardService;
 import com.danit.services.ClientService;
 import com.danit.services.ContractService;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -54,7 +53,8 @@ public class ClientController {
   private ClientService clientService;
 
   @Autowired
-  public ClientController(ClientFacade clientFacade, ContractService contractService, ContractFacade contractFacade, ClientService clientService) {
+  public ClientController(ClientFacade clientFacade, ContractService contractService,
+                          ContractFacade contractFacade, ClientService clientService) {
     this.clientFacade = clientFacade;
     this.contractService = contractService;
     this.contractFacade = contractFacade;

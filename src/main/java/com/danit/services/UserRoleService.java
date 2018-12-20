@@ -1,13 +1,11 @@
 package com.danit.services;
 
 import com.danit.dto.service.UserRoleListRequestDto;
-import com.danit.models.User;
 import com.danit.models.UserRole;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 @Service
 public class UserRoleService extends AbstractBaseEntityService<UserRole, UserRoleListRequestDto> {
