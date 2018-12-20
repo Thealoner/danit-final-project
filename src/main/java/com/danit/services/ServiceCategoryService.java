@@ -42,4 +42,23 @@ public class ServiceCategoryService extends AbstractBaseEntityService<ServiceCat
   public void assignServiceToServiceCategory(Long serviceCategoryId, Long serviceId) {
     getEntityById(serviceCategoryId).getServices().add(servicesService.getEntityById(serviceId));
   }
+
+  @Transactional
+  public void assignServicesToServiceCategory(Long serviceCategoryId, List<com.danit.models.Service> services) {
+    ServiceCategory serviceCategory = getEntityById(serviceCategoryId);
+    servicesService.reloadEntities(services).forEach(service -> service.getServiceCategories().add(serviceCategory));
+  }
+
+  @Transactional
+  public void deleteServiceFromServiceCategory(Long serviceCategoryId, Long serviceId) {
+    getEntityById(serviceCategoryId).getServices().remove(servicesService.getEntityById(serviceId));
+    servicesService.getEntityById(serviceId).getServiceCategories().remove(getEntityById(serviceCategoryId));
+  }
+
+  @Transactional
+  public void deleteServicesFromServiceCategory(Long serviceCategoryId, List<com.danit.models.Service> services) {
+    ServiceCategory serviceCategory = getEntityById(serviceCategoryId);
+    services.forEach(service -> serviceCategory.getServices().remove(service));
+    servicesService.reloadEntities(services).forEach(service -> service.getServiceCategories().remove(serviceCategory));
+  }
 }

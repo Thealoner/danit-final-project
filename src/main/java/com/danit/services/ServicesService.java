@@ -15,7 +15,6 @@ public class ServicesService extends AbstractBaseEntityService<Service, ServiceL
     this.serviceRepository = serviceRepository;
   }
 
-
   public Page<Service> findAllServicesForServiceCategoryId(Long serviceCategoryId, Pageable pageable) {
     return serviceRepository.findAllServicesForServiceCategoryId(serviceCategoryId, pageable);
   }

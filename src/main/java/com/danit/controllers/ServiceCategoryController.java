@@ -4,6 +4,7 @@ import com.danit.dto.Views;
 import com.danit.dto.service.ServiceCategoryListRequestDto;
 import com.danit.facades.ServiceCategoryFacade;
 import com.danit.facades.ServiceFacade;
+import com.danit.models.Service;
 import com.danit.models.ServiceCategory;
 import com.danit.services.ServiceCategoryService;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -141,12 +142,38 @@ public class ServiceCategoryController {
 
   @JsonView(Views.Ids.class)
   @GetMapping("{serviceCategoryId}/services/ids")
-  ResponseEntity<Map<String, Object>> getAllServiceCategoryServices(@PathVariable(name = "serviceCategoryId") long id,
+  ResponseEntity<Map<String, Object>> getAllServiceCategoryServicesIds(@PathVariable(name = "serviceCategoryId") long id,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
       }) Pageable pageable,
       Principal principal) {
+    log.info(principal.getName() + " got service categories services data with id: " + id);
+    return ResponseEntity.ok(convertPageToMap(serviceFacade
+        .findAllServicesDtoForServiceCategoryId(id, pageable)));
+  }
+
+  @JsonView(Views.Short.class)
+  @GetMapping("{serviceCategoryId}/services/short")
+  ResponseEntity<Map<String, Object>> getAllServiceCategoryServicesShort(@PathVariable(name = "serviceCategoryId") long id,
+                                                                    @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+                                                                    @SortDefault.SortDefaults({
+                                                                        @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+                                                                    }) Pageable pageable,
+                                                                    Principal principal) {
+    log.info(principal.getName() + " got service categories services data with id: " + id);
+    return ResponseEntity.ok(convertPageToMap(serviceFacade
+        .findAllServicesDtoForServiceCategoryId(id, pageable)));
+  }
+
+  @JsonView(Views.Extended.class)
+  @GetMapping("{serviceCategoryId}/services/extended")
+  ResponseEntity<Map<String, Object>> getAllServiceCategoryServicesExtended(@PathVariable(name = "serviceCategoryId") long id,
+                                                                    @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+                                                                    @SortDefault.SortDefaults({
+                                                                        @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+                                                                    }) Pageable pageable,
+                                                                    Principal principal) {
     log.info(principal.getName() + " got service categories services data with id: " + id);
     return ResponseEntity.ok(convertPageToMap(serviceFacade
         .findAllServicesDtoForServiceCategoryId(id, pageable)));
@@ -162,35 +189,35 @@ public class ServiceCategoryController {
     serviceCategoryService.assignServiceToServiceCategory(serviceCategoryId, serviceId);
   }
 
-//  @PutMapping("/{serviceCategoryId}/services")
-//  @ResponseStatus(HttpStatus.OK)
-//  void assignServicesToServiceCategory(@PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
-//                             @RequestBody List<Service> services,
-//                             Principal principal) {
-//    log.info(principal.getName() + " is trying to assign services" + services + " to serviceCategoryId = " +
-//        serviceCategoryId);
-//    serviceCategoryService.assignServicesToServiceCategory(serviceCategoryId, services);
-//  }
-//
-//  @DeleteMapping("/{contractId}/client/{clientId}")
-//  @ResponseStatus(HttpStatus.OK)
-//  void deleteServiceFromServiceCategory(@PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
-//                                        @PathVariable(name = "serviceId") Long serviceId,
-//                                Principal principal) {
-//    log.info(principal.getName() + " is trying to assign serviceId=" + serviceId +
-//        " to serviceCategoryId = " + serviceCategoryId);
-//    serviceCategoryService.deleteServiceFromServiceCategory(serviceCategoryId, serviceId);
-//  }
-//
-//  @DeleteMapping("/{serviceCategoryId}/services")
-//  @ResponseStatus(HttpStatus.OK)
-//  void deleteServicesFromServiceCategory(@PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
-//                                         @RequestBody List<Service> services,
-//                                         Principal principal) {
-//    log.info(principal.getName() + " is trying to assign services" + services + " to serviceCategoryId = " +
-//        serviceCategoryId);
-//    serviceCategoryService.deleteServicesFromServiceCategory(serviceCategoryId, services);
-//  }
+  @PutMapping("/{serviceCategoryId}/services")
+  @ResponseStatus(HttpStatus.OK)
+  void assignServicesToServiceCategory(@PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
+                             @RequestBody List<Service> services,
+                             Principal principal) {
+    log.info(principal.getName() + " is trying to assign services" + services + " to serviceCategoryId = " +
+        serviceCategoryId);
+    serviceCategoryService.assignServicesToServiceCategory(serviceCategoryId, services);
+  }
+
+  @DeleteMapping("/{serviceCategoryId}/service/{serviceId}")
+  @ResponseStatus(HttpStatus.OK)
+  void deleteServiceFromServiceCategory(@PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
+                                        @PathVariable(name = "serviceId") Long serviceId,
+                                Principal principal) {
+    log.info(principal.getName() + " is trying to delete serviceId=" + serviceId +
+        " from serviceCategoryId = " + serviceCategoryId);
+    serviceCategoryService.deleteServiceFromServiceCategory(serviceCategoryId, serviceId);
+  }
+
+  @DeleteMapping("/{serviceCategoryId}/services")
+  @ResponseStatus(HttpStatus.OK)
+  void deleteServicesFromServiceCategory(@PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
+                                         @RequestBody List<Service> services,
+                                         Principal principal) {
+    log.info(principal.getName() + " is trying to assign services" + services + " to serviceCategoryId = " +
+        serviceCategoryId);
+    serviceCategoryService.deleteServicesFromServiceCategory(serviceCategoryId, services);
+  }
 
 
 }

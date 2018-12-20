@@ -1,5 +1,6 @@
 package com.danit.dto;
 
+import com.danit.models.ServiceCategory;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
