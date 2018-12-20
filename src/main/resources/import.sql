@@ -33,6 +33,8 @@ INSERT INTO `users` (`created_by`, `creation_date`, `last_modified_by`, `last_mo
 INSERT INTO `users` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `username`, `password`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 3, 'Anna', '$2a$10$ShSRNc6kTTRKwemtS1XE6OdXhGMxWLD1IwiP24adcVSDa3Ga7Q9ua');
 
 INSERT INTO `users_roles` (`users_id`, `roles_id`) VALUES (1, 1);
+INSERT INTO `users_roles` (`users_id`, `roles_id`) VALUES (1, 2);
+INSERT INTO `users_roles` (`users_id`, `roles_id`) VALUES (2, 1);
 INSERT INTO `users_roles` (`users_id`, `roles_id`) VALUES (2, 2);
 INSERT INTO `users_roles` (`users_id`, `roles_id`) VALUES (3, 2);
 
