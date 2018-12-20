@@ -28,13 +28,13 @@ public abstract class AbstractDtoFacade<D extends BaseDto, E extends BaseEntity,
         .getGenericSuperclass()).getActualTypeArguments()[0]);
   }
 
-  private List<D> convertToDtos(List<E> entities) {
+  public List<D> convertToDtos(List<E> entities) {
     List<D> dtoEntities = new ArrayList<>();
     entities.forEach(e -> dtoEntities.add(convertToDto(e)));
     return dtoEntities;
   }
 
-  private Page<D> convertToDtos(Page<E> entities) {
+  public Page<D> convertToDtos(Page<E> entities) {
     return entities.map(this::convertToDto);
   }
 

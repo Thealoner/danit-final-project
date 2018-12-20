@@ -3,7 +3,10 @@ package com.danit.services;
 import com.danit.dto.service.ContractListRequestDto;
 import com.danit.models.Card;
 import com.danit.models.Contract;
+import com.danit.repositories.ContractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,12 +21,15 @@ public class ContractService extends AbstractBaseEntityService<Contract, Contrac
 
   private CardService cardService;
 
+  private ContractRepository contractRepository;
+
   @Autowired
   public ContractService(ClientService clientService, PaketService paketService,
-                         CardService cardService) {
+                         CardService cardService, ContractRepository contractRepository) {
     this.clientService = clientService;
     this.paketService = paketService;
     this.cardService = cardService;
+    this.contractRepository = contractRepository;
   }
 
   @Transactional
@@ -71,6 +77,14 @@ public class ContractService extends AbstractBaseEntityService<Contract, Contrac
   @Transactional
   public void deleteCardsFromContract(Long contractId, List<Card> cards) {
     cardService.reloadEntities(cards).forEach(card -> card.setContract(null));
+  }
+
+  public Page<Contract> findAllContractsForClientId(Long clientId, Pageable pageable) {
+    return contractRepository.findAllContractsForClientId(clientId, pageable);
+  }
+
+  public Page<Contract> findAllContractsForPaketId(Long paketId, Pageable pageable) {
+    return contractRepository.findAllContractsForPaketId(paketId, pageable);
   }
 
 }

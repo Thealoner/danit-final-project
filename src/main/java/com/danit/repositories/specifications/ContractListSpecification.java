@@ -14,7 +14,7 @@ public class ContractListSpecification extends BaseSpecification<Contract, Contr
     return (root, query, cb) -> {
       query.distinct(true);
       return where(
-          where(startDateContains(request.search))
+          startDateContains(request.search)
       )
           .and(startDateContains(request.startDate))
           .toPredicate(root, query, cb);
