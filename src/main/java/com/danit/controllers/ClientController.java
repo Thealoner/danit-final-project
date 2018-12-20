@@ -18,6 +18,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -61,6 +62,7 @@ public class ClientController {
     this.clientService = clientService;
   }
 
+  @SendTo("/events/greetings")
   @JsonView(Views.Extended.class)
   @PostMapping
   ResponseEntity<Map<String, Object>> createClientsDtoExtended(@RequestBody List<Client> clients,
