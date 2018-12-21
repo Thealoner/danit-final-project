@@ -167,7 +167,7 @@ public class ServiceCategoryController {
   }
 
   @JsonView(Views.Extended.class)
-  @GetMapping("{serviceCategoryId}/services/extended")
+  @GetMapping("{serviceCategoryId}/services")
   ResponseEntity<Map<String, Object>> getAllServiceCategoryServicesExtended(@PathVariable(name = "serviceCategoryId") long id,
                                                                     @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
                                                                     @SortDefault.SortDefaults({
