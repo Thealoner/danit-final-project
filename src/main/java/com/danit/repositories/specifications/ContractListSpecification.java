@@ -4,19 +4,10 @@ import com.danit.dto.service.ContractListRequestDto;
 import com.danit.models.Client;
 import com.danit.models.Contract;
 import com.danit.models.Paket;
-import com.danit.models.metamodels.Client_;
-import com.danit.models.metamodels.Contract_;
-import com.danit.models.metamodels.Paket_;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.ListJoin;
-import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 
@@ -31,11 +22,12 @@ public class ContractListSpecification extends BaseSpecification<Contract, Contr
       return where(
           where(startDateContains(request.search))
               .or(findByClientGenderSpec(request.clientGender))
+              .or(getContractByPaketIdSpec(request.paketId))
       )
           .and(startDateContains(request.search))
           .and(findByClientGenderSpec(request.clientGender))
+          .and(getContractByPaketIdSpec(request.paketId))
           .toPredicate(root, query, cb);
-
     };
   }
 
@@ -55,20 +47,19 @@ public class ContractListSpecification extends BaseSpecification<Contract, Contr
     };
   }
 
-//  private Specification<Contract> getContractsBasedOnGenderSpec(String gender) {
-//    return (root, query, cb) -> {
-//      Join<Contract, Client> contractPaketJoin = root.join(Contract_.client);
-//      return cb.equal(contractPaketJoin.get(), gender);
-//    };
-//  }
 
-//  public static Specification<Contract> getContractByPaketIdSpec(String paketId) {
-//    return (root, query, cb) -> {
-//      Long pktId = new Long(paketId);
-//      Join<Contract, Paket> contractPaketJoin = root.join(Contract_.paket);
-//      return cb.equal(contractPaketJoin.get(Paket_.id), pktId);
-//    };
-//  }
+  public static Specification<Contract> getContractByPaketIdSpec(String paketId) {
+    Long pktId = new Long(paketId);
+    return (Specification<Contract>) (root, criteriaQuery, criteriaBuilder) -> {
+      final Subquery<Long> paketQuery = criteriaQuery.subquery(Long.class);
+      final Root<Paket> paket = paketQuery.from(Paket.class);
+      final Join<Paket, Contract> contracts = paket.join("contracts");
+      paketQuery.select(contracts.get("id"));
+      paketQuery.where(criteriaBuilder.equal(paket.get("id"), pktId));
+
+      return criteriaBuilder.in(root.get("id")).value(paketQuery);
+    };
+  }
 
   public static Specification<Contract> findByClientGenderSpec(String gender){
     return (Specification<Contract>) (root, criteriaQuery, criteriaBuilder) -> {
