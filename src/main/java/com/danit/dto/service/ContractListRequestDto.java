@@ -11,6 +11,9 @@ public class ContractListRequestDto {
 
   public String search;
 
+  public String paketId;
+  public String clientGender;
+
   public String startDate;
 
   public Date endDate;
@@ -20,8 +23,6 @@ public class ContractListRequestDto {
   public ClientListRequestDto client;
 
   public Long clientId;
-
-  public Long paketId;
 
   private Boolean active;
 }
