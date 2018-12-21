@@ -198,4 +198,19 @@ public class ClientController {
     return ResponseEntity.ok(convertPageToMap(contractFacade.findAllContractsDtoForClientId(clientId, pageable)));
   }
 
+  @JsonView(Views.Extended.class)
+  @GetMapping("/paket/{paketId}")
+  ResponseEntity<Map<String, Object>> getAllClientsOnPaket(@PathVariable(name = "paketId") Long paketId,
+                                                           @PageableDefault(page = DEFAULT_PAGE_NUMBER,
+                                                               size = DEFAULT_PAGE_SIZE)
+                                                           @SortDefault.SortDefaults({
+                                                               @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+                                                           }) Pageable pageable,
+                                                           Principal principal) {
+    log.info(principal.getName() + " got all clients using paket " + paketId);
+    return ResponseEntity.ok(convertPageToMap(clientFacade.findAllClientsWithPaket(paketId, pageable)));
+  }
+
+
+
 }

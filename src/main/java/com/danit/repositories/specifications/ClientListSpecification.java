@@ -1,9 +1,20 @@
 package com.danit.repositories.specifications;
 
 import com.danit.dto.service.ClientListRequestDto;
+import com.danit.dto.service.ContractListRequestDto;
 import com.danit.models.Client;
+import com.danit.models.Contract;
+import com.danit.models.Paket;
+import com.danit.models.metamodels.Client_;
+import com.danit.models.metamodels.Contract_;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ListJoin;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import static org.springframework.data.jpa.domain.Specification.where;
 
@@ -61,5 +72,14 @@ public class ClientListSpecification extends BaseSpecification<Client, ClientLis
       );
     };
   }
+
+
+  public static Specification<Client> getClientsByPaketSpec(Paket paket) {
+    return (root, query, cb) -> {
+      ListJoin<Client, Contract> contractListJoin = root.join(Client_.contracts);
+      return cb.equal(contractListJoin.get(Contract_.paket), paket);
+    };
+  }
+
 
 }

@@ -23,7 +23,5 @@ public class ContractListRequestDto {
 
   public Long paketId;
 
-  //  private PaketDto paket;
-
   private Boolean active;
 }
