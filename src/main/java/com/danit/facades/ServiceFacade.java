@@ -16,7 +16,8 @@ public class ServiceFacade extends AbstractDtoFacade<ServiceDto, Service, Servic
 
   @Autowired
   public ServiceFacade(ServicesService servicesService) {
-    this.servicesService = servicesService;  }
+    this.servicesService = servicesService;
+  }
 
   public Page<ServiceDto> findAllServicesDtoForServiceCategoryId(long id, Pageable pageable) {
     return convertToDtos(servicesService.findAllServicesForServiceCategoryId(id, pageable));

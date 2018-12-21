@@ -24,7 +24,8 @@ public class ServiceCategoryService extends AbstractBaseEntityService<ServiceCat
   private ServiceRepository serviceRepository;
 
   @Autowired
-  public ServiceCategoryService(ServicesService servicesService, ServiceCategoryRepository serviceCategoryRepository, ServiceRepository serviceRepository) {
+  public ServiceCategoryService(ServicesService servicesService, ServiceCategoryRepository serviceCategoryRepository,
+                                ServiceRepository serviceRepository) {
     this.servicesService = servicesService;
     this.serviceCategoryRepository = serviceCategoryRepository;
     this.serviceRepository = serviceRepository;
@@ -54,7 +55,7 @@ public class ServiceCategoryService extends AbstractBaseEntityService<ServiceCat
         .stream().filter(s -> s.getId() == serviceId)
         .map(com.danit.models.Service::getId).findFirst().isPresent();
 
-    if (!containsService){
+    if (!containsService) {
       servicesService.getEntityById(serviceId).getServiceCategories().add(serviceCategory);
     }
   }
@@ -74,9 +75,9 @@ public class ServiceCategoryService extends AbstractBaseEntityService<ServiceCat
 
     for (Long isId :
         inputServicesIds) {
-        if (!scServicesIds.contains(isId)){
-         targetIds.add(isId);
-        }
+      if (!scServicesIds.contains(isId)) {
+        targetIds.add(isId);
+      }
     }
 
     serviceRepository.findAllEntitiesByIds(targetIds)

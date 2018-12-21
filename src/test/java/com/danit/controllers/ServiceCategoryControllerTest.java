@@ -2,22 +2,14 @@ package com.danit.controllers;
 
 import com.danit.Application;
 import com.danit.TestUtils;
-import com.danit.dto.ContractDto;
 import com.danit.dto.ServiceCategoryDto;
 import com.danit.exceptions.EntityNotFoundException;
-import com.danit.facades.ContractFacade;
 import com.danit.facades.ServiceCategoryFacade;
-import com.danit.facades.ServiceFacade;
-import com.danit.models.Contract;
 import com.danit.models.Service;
 import com.danit.models.ServiceCategory;
 import com.danit.models.UserRolesEnum;
-import com.danit.repositories.ContractRepository;
 import com.danit.repositories.ServiceCategoryRepository;
 import com.danit.repositories.ServiceRepository;
-import com.danit.services.ClientService;
-import com.danit.services.ContractService;
-import com.danit.services.PaketService;
 import com.danit.services.ServiceCategoryService;
 import com.danit.services.ServicesService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,18 +22,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Arrays;
 import java.util.LinkedHashMap;
-import java.util.List;
 
-import static org.hamcrest.core.IsCollectionContaining.hasItem;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -220,138 +208,86 @@ public class ServiceCategoryControllerTest {
   }
 
 
-//  @Test(expected = EntityNotFoundException.class)
-//  public void deleteContractById() throws Exception {
-//    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
-//
-//    Contract contract = new Contract();
-//    contract.setClientId(27L);
-//    contract.setPackageId(2L);
-//
-//    ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-//    String json = ow.writeValueAsString(contract);
-//
-//    String responseJson = this.mockMvc.perform(post(url).headers(header)
-//        .contentType("application/json")
-//        .content("[" + json + "]"))
-//        .andExpect(status().isOk())
-//        .andReturn().getResponse().getContentAsString();
-//
-//    LinkedHashMap object = JsonPath.read(responseJson, "$.data[0]");
-//    Long id = new Long(String.valueOf(object.get("id")));
-//
-//    mockMvc.perform(delete(url + "/" + id.toString()).headers(header))
-//        .andExpect(status().isOk());
-//
-//    mockMvc.perform(get(url + "/" + id.toString()).headers(header));
-//  }
-/*
   @Test(expected = EntityNotFoundException.class)
-  public void deleteContracts() throws Exception {
-    Contract contract1 = new Contract();
-    Contract contract2 = new Contract();
+  public void deleteServiceCategory() throws Exception {
+    long id1 = 1L;
+    long id2 = 2L;
 
-    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
-
-    ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-    String json1 = ow.writeValueAsString(contract1);
-    String json2 = ow.writeValueAsString(contract2);
-
-    String responseJson = mockMvc.perform(post(url).headers(header)
-        .contentType("application/json")
-        .content("[" + json1 + "," + json2 + "]"))
-        .andExpect(status().isOk())
-        .andReturn().getResponse().getContentAsString();
-
-    LinkedHashMap object1 = JsonPath.read(responseJson, "$.data[0]");
-    LinkedHashMap object2 = JsonPath.read(responseJson, "$.data[1]");
-
-    String json3 = ow.writeValueAsString(object1);
-    String json4 = ow.writeValueAsString(object2);
-
-    Long id1 = new Long(String.valueOf(object1.get("id")));
-    Long id2 = new Long(String.valueOf(object2.get("id")));
+    Service service = serviceCategoryService.getEntityById(id1).getServices().get(0);
 
     mockMvc.perform(delete(url).headers(header)
         .contentType("application/json")
-        .content("[" + json3 + "," + json4 + "]"))
+        .content("[\n" +
+            "    {\n" +
+            "        \"id\": " +id1+"\n" +
+            "    },\n" +
+            "    {\n" +
+            "        \"id\": "+id2+"\n" +
+            "    }\n" +
+            "]"))
         .andExpect(status().isOk());
 
 
-    mockMvc.perform(get(url + "/" + id1).headers(header));
-    mockMvc.perform(get(url + "/" + id2).headers(header));
+    mockMvc.perform(get(url + "/" + id1).headers(header)).andExpect(status().isNotFound());
+    mockMvc.perform(get(url + "/" + id2).headers(header)).andExpect(status().isNotFound());
+    mockMvc.perform(put(url + "/" + id1 + "/service/" + service.getId()).headers(header))
+        .andExpect(status().isNotFound());
 
-  }
-  */
-  @Test
-  public void saveServiceCategoryIfNotExists() throws Exception {
-    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.ADMIN);
-    mockMvc.perform(post("/service_categories").headers(header)
-        .contentType("application/json")
-        .content("[{\n" +
-            "    \"title\": \"SPA\",\n" +
-            "    \"services\": [],\n" +
-            "    \"active\": true\n" +
-            "  }]"))
-        .andExpect(status().isOk());
-  }
-
-  @Test
-  public void updateServiceIfExists() throws Exception {
-    long numberOfServiceCategories = serviceRepository.count();
-    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
-
-    mockMvc.perform(post("/service_categories").headers(header)
-        .contentType("application/json")
-        .content("[{\n" +
-            "    \"title\": \"BAR\",\n" +
-            "    \"services\": [],\n" +
-            "    \"active\": false\n" +
-            "}]"))
-        .andExpect(status().isOk());
+    mockMvc.perform(get("/services/" + service.getId()).headers(header)).andExpect(status().isOk());
 
 
-    mockMvc.perform(put("/service_categories").headers(header)
-        .contentType("application/json")
-        .content("[{\n" +
-            "    \"id\": 1004,\n" +
-            "    \"title\": \"BAR\",\n" +
-            "    \"active\": true\n" +
-            "}]"))
-        .andExpect(status().isOk());
 
-    mockMvc.perform(get("/service_categories").headers(header))
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$[?(@.id == 1004)].active", hasItem(true)));
-
+    serviceCategoryService.getEntityById(id1);
   }
 
   @Test(expected = EntityNotFoundException.class)
-  public void deleteServicesIfExists() throws Exception {
-    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
+  public void deleteServiceCategoryById() throws Exception {
+    long id1 = 1L;
 
-    mockMvc.perform(delete("/service_categories").headers(header)
-        .contentType("application/json")
-        .content("[{\n" +
-            "    \"id\": 1001,\n" +
-            "    \"title\": \"SPA\",\n" +
-            "    \"services\": [\n" +
-            "      {\n" +
-            "        \"id\": 1001,\n" +
-            "        \"title\": \"Total Body Workout\",\n" +
-            "        \"price\": \"200\",\n" +
-            "        \"cost\": \"200\",\n" +
-            "        \"unit\": \"min\",\n" +
-            "        \"unitsNumber\": \"55\",\n" +
-            "        \"active\": true\n" +
-            "      }\n" +
-            "    ],\n" +
-            "    \"active\": true\n" +
-            "  }]"))
+    mockMvc.perform(delete(url+"/"+id1).headers(header))
         .andExpect(status().isOk());
 
-    mockMvc.perform(get("/service_categories/1001").headers(header));
+    mockMvc.perform(get(url + "/" + id1).headers(header)).andExpect(status().isNotFound());
 
+    serviceCategoryService.getEntityById(id1);
+  }
+
+  @Test
+  public void assignExistingServiceToServiceCategory() throws Exception {
+    long scId = 5L;
+    long sId = 7L;
+
+    int size = serviceCategoryService.getEntityById(scId).getServices().size();
+
+    mockMvc.perform(put(url+"/"+scId+"/service/" + sId).headers(header))
+        .andExpect(status().isOk());
+
+    mockMvc.perform(get(url+"/"+scId+"/services").headers(header))
+        .andExpect(status().isOk())
+        .andExpect(content()
+            .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.meta.totalElements").value(size+1));
+
+  }
+
+  @Test
+  public void deleteExistingServiceFromServiceCategory() throws Exception {
+    long scId = 5L;
+    long sId = serviceCategoryService.getEntityById(scId).getServices().get(0).getId();
+
+    int size = serviceCategoryService.getEntityById(scId).getServices().size();
+
+    mockMvc.perform(delete(url+"/"+scId+"/service/" + sId).headers(header))
+        .andExpect(status().isOk());
+
+    mockMvc.perform(get(url+"/"+scId+"/services").headers(header))
+        .andExpect(status().isOk())
+        .andExpect(content()
+            .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.meta.totalElements").value(size-1));
+
+    mockMvc.perform(get("/services/"+sId).headers(header))
+        .andExpect(status().isOk());
   }
 
 }

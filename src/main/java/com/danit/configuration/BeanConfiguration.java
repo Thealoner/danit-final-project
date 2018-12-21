@@ -38,21 +38,6 @@ public class BeanConfiguration {
     modelMapper.createTypeMap(Card.class, CardDto.class)
         .addMapping(card -> card.getContract().getId(), CardDto::setContractId);
 
-//    Converter<Service, List<Long>> collectId =
-//        ctx -> ctx.getSource().getServiceCategories()
-//            .stream().map(ServiceCategory::getId).collect(Collectors.toList());
-//
-//
-//    modelMapper.createTypeMap(Service.class, ServiceDto.class)
-//        .addMappings(mapper -> mapper.using(collectId).map(Service::getServiceCategories, ServiceDto::setServiceCategoriesIds));
-//    modelMapper.addMappings(new PropertyMap<Service, ServiceDto>() {
-//      @Override
-//      protected void configure() {
-//        using(ctx -> (((Service) ctx.getSource()).getServiceCategories().stream().map(ServiceCategory::getId)
-//                .collect(Collectors.toList()))).map().getServiceCategoriesIds();
-//      }
-//    });
-
     return modelMapper;
   }
 

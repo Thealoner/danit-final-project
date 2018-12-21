@@ -43,11 +43,12 @@ public class ServiceCategoryController {
   private static final String LOG_MSG_GOT_ALL_DATA = " got all service categories data";
   private ServiceCategoryFacade serviceCategoryFacade;
   private ServiceCategoryService serviceCategoryService;
-
   private ServiceFacade serviceFacade;
 
   @Autowired
-  public ServiceCategoryController(ServiceCategoryFacade serviceCategoryFacade, ServiceCategoryService serviceCategoryService, ServiceFacade serviceFacade) {
+  public ServiceCategoryController(ServiceCategoryFacade serviceCategoryFacade,
+                                   ServiceCategoryService serviceCategoryService,
+                                   ServiceFacade serviceFacade) {
     this.serviceCategoryFacade = serviceCategoryFacade;
     this.serviceCategoryService = serviceCategoryService;
     this.serviceFacade = serviceFacade;
@@ -55,7 +56,8 @@ public class ServiceCategoryController {
 
   @JsonView(Views.Extended.class)
   @PostMapping
-  public ResponseEntity<Map<String, Object>> createServiceCategoriesDto(@RequestBody List<ServiceCategory> serviceCategories,
+  public ResponseEntity<Map<String, Object>> createServiceCategoriesDto(@RequestBody List<ServiceCategory>
+                                                                              serviceCategories,
                                                                         Principal principal) {
     log.info(principal.getName() + " is saving new service categories: " + serviceCategories);
     return ResponseEntity.ok(convertDtoToMap(serviceCategoryFacade.saveEntities(serviceCategories)));
@@ -124,7 +126,6 @@ public class ServiceCategoryController {
   @DeleteMapping
   void deleteServiceCategories(@RequestBody List<ServiceCategory> serviceCategories, Principal principal) {
     log.info(principal.getName() + " try to delete service category data: " + serviceCategories);
-//    serviceCategoryFacade.deleteEntities(serviceCategories);
     serviceCategoryService.deleteServiceCategory(serviceCategories);
   }
 
@@ -132,7 +133,6 @@ public class ServiceCategoryController {
   @DeleteMapping("/{id}")
   void deleteServiceCategoryById(@PathVariable(name = "id") long id, Principal principal) {
     log.info(principal.getName() + " try to delete service category with id: " + id);
-//    serviceCategoryFacade.deleteEntityById(id);
     serviceCategoryService.deleteServiceCategotryById(id);
   }
 
@@ -142,7 +142,8 @@ public class ServiceCategoryController {
 
   @JsonView(Views.Ids.class)
   @GetMapping("{serviceCategoryId}/services/ids")
-  ResponseEntity<Map<String, Object>> getAllServiceCategoryServicesIds(@PathVariable(name = "serviceCategoryId") long id,
+  ResponseEntity<Map<String, Object>> getAllServiceCategoryServicesIds(@PathVariable(name = "serviceCategoryId")
+                                                                           long id,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
@@ -155,12 +156,13 @@ public class ServiceCategoryController {
 
   @JsonView(Views.Short.class)
   @GetMapping("{serviceCategoryId}/services/short")
-  ResponseEntity<Map<String, Object>> getAllServiceCategoryServicesShort(@PathVariable(name = "serviceCategoryId") long id,
-                                                                    @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
-                                                                    @SortDefault.SortDefaults({
-                                                                        @SortDefault(sort = "id", direction = Sort.Direction.ASC)
-                                                                    }) Pageable pageable,
-                                                                    Principal principal) {
+  ResponseEntity<Map<String, Object>> getAllServiceCategoryServicesShort(@PathVariable(name = "serviceCategoryId")
+                                                                             long id,
+                                      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+                                      @SortDefault.SortDefaults({
+                                        @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+                                        }) Pageable pageable,
+                                      Principal principal) {
     log.info(principal.getName() + " got service categories services data with id: " + id);
     return ResponseEntity.ok(convertPageToMap(serviceFacade
         .findAllServicesDtoForServiceCategoryId(id, pageable)));
@@ -168,10 +170,13 @@ public class ServiceCategoryController {
 
   @JsonView(Views.Extended.class)
   @GetMapping("{serviceCategoryId}/services")
-  ResponseEntity<Map<String, Object>> getAllServiceCategoryServicesExtended(@PathVariable(name = "serviceCategoryId") long id,
-                                                                    @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+  ResponseEntity<Map<String, Object>> getAllServiceCategoryServicesExtended(@PathVariable(name = "serviceCategoryId")
+                                                                                long id,
+                                                                    @PageableDefault(page = DEFAULT_PAGE_NUMBER,
+                                                                        size = DEFAULT_PAGE_SIZE)
                                                                     @SortDefault.SortDefaults({
-                                                                        @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+                                                                        @SortDefault(sort = "id",
+                                                                            direction = Sort.Direction.ASC)
                                                                     }) Pageable pageable,
                                                                     Principal principal) {
     log.info(principal.getName() + " got service categories services data with id: " + id);
