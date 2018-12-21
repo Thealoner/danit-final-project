@@ -1,7 +1,6 @@
 package com.danit.configuration;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
@@ -31,7 +30,7 @@ public class WebSocketEventListener {
   public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
     StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
     String username = (String) Objects.requireNonNull(headerAccessor.getSessionAttributes()).get("username");
-    if(username != null) {
+    if (username != null) {
       log.info("User Disconnected : " + username);
       messagingTemplate.convertAndSend("/events/users", "disconnected user: " + username);
     }
