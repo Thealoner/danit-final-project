@@ -8,7 +8,7 @@ import ajaxRequest from '../../../helpers/ajaxRequest';
 import {toastr} from 'react-redux-toastr';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import { Pagination } from 'semantic-ui-react';
-import { setTabGridData } from '../../../actions/tabActions';
+import { setTabGridData, setTabFormData } from '../../../actions/tabActions';
 import { connect } from 'react-redux';
 
 class Grid extends Component {
@@ -22,7 +22,11 @@ class Grid extends Component {
   tabulatorTable = React.createRef();
 
   rowClick = (e, row) => {
-    // TODO
+    // const { currentTab, setTabFormData } = this.props;
+    // setTabFormData(currentTab.tabKey, {
+    //   id: row,
+    //   type: 'form'
+    // });
   };
 
   getData = (page = 1, size = 3, filterString = '') => {
@@ -38,7 +42,7 @@ class Grid extends Component {
         });
       })
       .catch(error => {
-        toastr.error(error);
+        toastr.error(error.message);
         setTabGridData(currentTab.tabKey, {
           data: [],
           meta: {},
@@ -119,6 +123,9 @@ const mapDispatchToProps = dispatch => {
   return {
     setTabGridData: (tabKey, payload) => {
       dispatch(setTabGridData(tabKey, payload));
+    },
+    setTabFormData: (tabKey, payload) => {
+      dispatch(setTabFormData(tabKey, payload));
     }
   };
 };

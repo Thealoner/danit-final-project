@@ -127,6 +127,7 @@ export default function tabsReducer (state = initialState, action) {
 
       if (action.payload.data) {
         newTabData.grid = {
+          id: action.payload.id,
           data: action.payload.data,
           meta: action.payload.meta,
           edited: false
