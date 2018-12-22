@@ -92,28 +92,26 @@ export default function tabsReducer (state = initialState, action) {
     }
 
     case tab.LOADING: {
-      const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === action.tabKey);
-      const newState = {
+      const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === state.activeKey);
+      return {
         ...state,
         tabsArray: [
-          ...state.tabsArray.filter(tab => tab.tabKey !== action.tabKey),
+          ...state.tabsArray.filter(tab => tab.tabKey !== state.activeKey),
           {
             ...state.tabsArray[tabIndex],
             status: 'loading'
           }
         ]
       };
-debugger;
-      return newState;
     }
 
     case tab.DONE: {
-      const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === action.tabKey);
+      const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === state.activeKey);
 
       return {
         ...state,
         tabsArray: [
-          ...state.tabsArray.filter(tab => tab.tabKey !== action.tabKey),
+          ...state.tabsArray.filter(tab => tab.tabKey !== state.activeKey),
           {
             ...state.tabsArray[tabIndex],
             status: 'done'
@@ -167,7 +165,7 @@ debugger;
         };
       }
       
-      const newState = {
+      return {
         ...state,
         tabsArray: [
           ...state.tabsArray.filter(tab => tab.tabKey !== action.tabKey),
@@ -177,8 +175,6 @@ debugger;
           }
         ]
       };
-debugger;
-      return newState;
     }
 
     case tab.STORE_TMP_FORM_DATA: {

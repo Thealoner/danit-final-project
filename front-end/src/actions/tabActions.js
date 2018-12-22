@@ -15,17 +15,15 @@ export const closeTab = tabKey => {
   };
 };
 
-export const loadingTab = tabKey => {
+export const loadingTab = () => {
   return {
-    type: tab.LOADING,
-    tabKey
+    type: tab.LOADING
   };
 };
 
-export const doneTab = tabKey => {
+export const doneTab = () => {
   return {
-    type: tab.DONE,
-    tabKey
+    type: tab.DONE
   };
 };
 
