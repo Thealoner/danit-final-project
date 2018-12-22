@@ -22,7 +22,16 @@ Testing stomp client
       stompClient.subscribe('/events/get', function (messageOutput) {
         console.log(messageOutput.body)
       }, headers)
-    })
+      stompClient.subscribe('/events/put', function (messageOutput) {
+        console.log(messageOutput.body)
+      }, headers)
+      stompClient.subscribe('/events/post', function (messageOutput) {
+        console.log(messageOutput.body)
+      }, headers)
+      stompClient.subscribe('/events/delete', function (messageOutput) {
+        console.log(messageOutput.body)
+      }, headers)
+    });
   }
 
 

@@ -12,9 +12,6 @@ import java.util.List;
 @Data
 public class ServiceDto extends BaseDto {
 
-  @JsonView({Views.Ids.class, Views.Short.class})
-  private Long id;
-
   @JsonView(Views.Short.class)
   private String title;
 

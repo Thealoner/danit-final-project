@@ -15,6 +15,9 @@ import java.util.Date;
     allowGetters = true)
 public class BaseDto {
 
+  @JsonView({Views.Ids.class, Views.Short.class})
+  private Long id;
+
   @JsonView(Views.Extended.class)
   private String createdBy;
 

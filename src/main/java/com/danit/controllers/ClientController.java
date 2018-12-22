@@ -1,6 +1,7 @@
 package com.danit.controllers;
 
 
+import com.danit.dto.ClientDto;
 import com.danit.dto.Views;
 import com.danit.dto.service.ClientListRequestDto;
 import com.danit.facades.ClientFacade;
@@ -37,7 +38,12 @@ import java.util.Map;
 import static com.danit.utils.ControllerUtils.DEFAULT_PAGE_NUMBER;
 import static com.danit.utils.ControllerUtils.DEFAULT_PAGE_SIZE;
 import static com.danit.utils.ControllerUtils.convertDtoToMap;
+import static com.danit.utils.ControllerUtils.convertDtosToJson;
+import static com.danit.utils.ControllerUtils.convertEntitiesToJson;
+import static com.danit.utils.ControllerUtils.convertEntityToJson;
+import static com.danit.utils.ControllerUtils.convertIdToJson;
 import static com.danit.utils.ControllerUtils.convertPageToMap;
+import static com.danit.utils.ControllerUtils.convertToJson;
 
 @RestController
 @RequestMapping("/clients")
@@ -67,17 +73,16 @@ public class ClientController {
     this.clientService = clientService;
   }
 
-  @SendTo("/events/post")
   @JsonView(Views.Extended.class)
   @PostMapping
   ResponseEntity<Map<String, Object>> createClientsDtoExtended(@RequestBody List<Client> clients,
                                                                Principal principal) {
     log.info(principal.getName() + " is saving new clients: " + clients);
-    messagingTemplate.convertAndSend("/events/post", principal.getName() + LOG_MSG_GOT_ALL_DATA);
-    return ResponseEntity.ok(convertDtoToMap(clientFacade.saveEntities(clients)));
+    List<ClientDto> clientDtos = clientFacade.saveEntities(clients);
+    messagingTemplate.convertAndSend("/events/post", convertDtosToJson(clientDtos));
+    return ResponseEntity.ok(convertDtoToMap(clientDtos));
   }
 
-  @SendTo("/events/get")
   @JsonView(Views.Ids.class)
   @GetMapping(path = "/ids")
   ResponseEntity<Map<String, Object>> getAllClientsDtoIds(
@@ -105,7 +110,6 @@ public class ClientController {
     return ResponseEntity.ok(convertPageToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
   }
 
-  @SendTo("/events/get")
   @JsonView(Views.Extended.class)
   @GetMapping
   ResponseEntity<Map<String, Object>> getAllClientsDtoExtended(
@@ -119,7 +123,6 @@ public class ClientController {
     return ResponseEntity.ok(convertPageToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
   }
 
-  @SendTo("/events/get")
   @JsonView(Views.Extended.class)
   @GetMapping("/{id}")
   ResponseEntity<Map<String, Object>> getClientByIdDtoExtended(@PathVariable(name = "id") long id, Principal principal) {
@@ -131,7 +134,9 @@ public class ClientController {
   @PutMapping
   ResponseEntity<Map<String, Object>> updateClientsDto(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is updating clients data: " + clients);
-    return ResponseEntity.ok(convertDtoToMap(clientFacade.updateEntities(clients)));
+    List<ClientDto> clientDtos = clientFacade.updateEntities(clients);
+    messagingTemplate.convertAndSend("/events/put", convertDtosToJson(clientDtos));
+    return ResponseEntity.ok(convertDtoToMap(clientDtos));
   }
 
   @DeleteMapping("/{id}")
@@ -139,6 +144,7 @@ public class ClientController {
   void deleteClientByIdDto(@PathVariable(name = "id") long id, Principal principal) {
     log.info(principal.getName() + " is trying to delete client with id: " + id);
     clientFacade.deleteEntityById(id);
+    messagingTemplate.convertAndSend("/events/delete", convertIdToJson(id));
   }
 
   @DeleteMapping
@@ -146,6 +152,7 @@ public class ClientController {
   void deleteClientsDto(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is trying to delete clients: " + clients);
     clientFacade.deleteEntities(clients);
+    messagingTemplate.convertAndSend("/events/delete", convertEntitiesToJson(clients));
   }
 
   //related entities methods
@@ -155,6 +162,7 @@ public class ClientController {
                               @PathVariable(name = "contractId") Long contractId,
                               Principal principal) {
     log.info(principal.getName() + " is trying to assign contractId=" + clientId + " to clientId= " + contractId);
+    messagingTemplate.convertAndSend("/events/put", convertDtosToJson(clientDtos));
     contractService.assignClientToContract(contractId, clientId);
   }
 

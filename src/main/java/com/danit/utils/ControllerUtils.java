@@ -1,15 +1,28 @@
 package com.danit.utils;
 
+import com.danit.dto.BaseDto;
 import com.danit.dto.PageDataDto;
+import com.danit.exceptions.ObjectToJsonProcessingException;
 import com.danit.models.BaseEntity;
+import com.danit.models.WebSocketEventMsg;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
+@Component
 public class ControllerUtils {
+
+  private static ObjectMapper objectMapper = new ObjectMapper();
 
   public static final ControllerUtils CONTROLLER_UTILS = new ControllerUtils();
 
@@ -37,13 +50,37 @@ public class ControllerUtils {
     return outputData;
   }
 
-  public static <T extends BaseEntity> String convertToStringIds(T entity) {
-    return entity.getId().toString();
+  public static <T extends BaseEntity> String convertEntityToJson(T entity) {
+    return "{id:" + entity.getId() + "}";
   }
 
-  public static <T extends BaseEntity> String convertToStringIds(List<T> entities) {
-    StringBuilder builder = new StringBuilder();
-    entities.forEach(t -> builder.append(t.getId()).append(";"));
-    return builder.deleteCharAt(builder.length() - 1).toString();
+  public static String convertIdToJson(Long id) {
+    return "{\"id\":" + id + "}";
+  }
+
+  public static <T extends BaseEntity> String convertDtoToJson(T entity) {
+    return "{id:" + entity.getId() + "}";
+  }
+
+  public static <T extends BaseEntity> String convertEntitiesToJson(List<T> entities) {
+    ObjectWriter ow = objectMapper.writer();
+    List<WebSocketEventMsg> data = new ArrayList<>();
+    entities.forEach(t -> data.add(new WebSocketEventMsg(t.getId())));
+    try {
+      return ow.writeValueAsString(data);
+    } catch (JsonProcessingException e) {
+      throw new ObjectToJsonProcessingException("cant convert entities to json");
+    }
+  }
+
+  public static <T extends BaseDto> String convertDtosToJson(List<T> entities) {
+    ObjectWriter ow = objectMapper.writer();
+    List<WebSocketEventMsg> data = new ArrayList<>();
+    entities.forEach(t -> data.add(new WebSocketEventMsg(t.getId())));
+    try {
+      return ow.writeValueAsString(data);
+    } catch (JsonProcessingException e) {
+      throw new ObjectToJsonProcessingException("cant convert entities to json");
+    }
   }
 }
