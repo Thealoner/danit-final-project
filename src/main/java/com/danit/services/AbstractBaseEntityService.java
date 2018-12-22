@@ -27,9 +27,9 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
   private static final String LOG_MSG2 = " with id=";
 
   @Autowired
-  private BaseEntityRepository<E> baseEntityRepository;
+  protected BaseEntityRepository<E> baseEntityRepository;
   @Autowired
-  private BaseSpecification<E, R> baseSpecification;
+  protected BaseSpecification<E, R> baseSpecification;
 
   @Override
   public E getEntityById(long id) {

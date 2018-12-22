@@ -3,14 +3,30 @@
 .configurator {
   display: grid;
   height: 100%;
-  grid-template-columns: 1fr 5fr;
+  grid-template-columns: 200px auto;
   grid-column-gap: 10px;
 
   &__left {
-    padding: 15px 0;
     overflow: auto;
     background-color: $gallery;
-    box-shadow: -6px 6px 6px 5px $blue-bayoux;
+    border-top-right-radius: 10px;
+  }
+
+  &__close-panel {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+    padding-right: 10px;
+    color: $white;
+    font-size: 18px;
+    background-color: transparent;
+  }
+
+  svg {
+    transform: rotateY(180deg);
+    cursor: pointer;
   }
 
   &__link {
@@ -34,7 +50,30 @@
   }
 
   &__right {
+    position: relative;
     overflow: hidden;
     background-color: $gallery;
+  }
+}
+
+.configurator__menu-hide {
+  grid-template-columns: 15px auto;
+  grid-gap: 3px;
+
+  .configurator__left {
+    overflow: hidden;
+    background-color: $victoria;
+  }
+
+  .configurator__close-panel {
+    padding-right: 3px;
+  }
+
+  svg {
+    transform: none;
+  }
+
+  .configurator__menu-wrapper {
+    display: none;
   }
 }

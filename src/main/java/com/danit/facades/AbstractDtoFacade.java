@@ -28,14 +28,28 @@ public abstract class AbstractDtoFacade<D extends BaseDto, E extends BaseEntity,
         .getGenericSuperclass()).getActualTypeArguments()[0]);
   }
 
-  private List<D> convertToDtos(List<E> entities) {
+  public List<D> convertToDtos(List<E> entities) {
     List<D> dtoEntities = new ArrayList<>();
     entities.forEach(e -> dtoEntities.add(convertToDto(e)));
     return dtoEntities;
   }
 
-  private Page<D> convertToDtos(Page<E> entities) {
+  public Page<D> convertToDtos(Page<E> entities) {
     return entities.map(this::convertToDto);
+  }
+
+
+  //not sure about it(getActualTypeArguments()[0] or getActualTypeArguments()[1])
+  @Override
+  public E convertDtoToEntity(D dto) {
+    return modelMapper.map(dto, (Class<E>) ((ParameterizedType) getClass()
+        .getGenericSuperclass()).getActualTypeArguments()[1]);
+  }
+
+  private List<E> convertDtosToEntities(List<D> dtos) {
+    List<E> entities = new ArrayList<>();
+    dtos.forEach(d -> entities.add(convertDtoToEntity(d)));
+    return entities;
   }
 
   @Override

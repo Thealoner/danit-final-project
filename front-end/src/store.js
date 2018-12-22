@@ -8,4 +8,7 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(thunk))
 );
 
+// debug only
+window.store = store;
+
 export default store;
