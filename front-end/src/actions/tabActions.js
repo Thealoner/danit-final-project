@@ -15,23 +15,23 @@ export const closeTab = tabKey => {
   };
 };
 
-export const setTabGridContent = (tabKey, payload) => {
+export const setTabGridData = (tabKey, payload) => {
   return {
-    type: tab.SET_GRID_CONTENT,
+    type: tab.SET_GRID_DATA,
     tabKey,
     payload
   };
 };
 
-export const setTabFormContent = (tabKey, payload) => {
+export const setTabFormData = (tabKey, payload) => {
   return {
-    type: tab.SET_FORM_CONTENT,
+    type: tab.SET_FORM_DATA,
     tabKey,
     payload
   };
 };
 
-export const storeTabFormData = (tabKey, formData) => {
+export const storeTabTmpFormData = (tabKey, formData) => {
   return {
     type: tab.STORE_TMP_FORM_DATA,
     tabKey,

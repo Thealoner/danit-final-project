@@ -91,7 +91,7 @@ export default function tabsReducer (state = initialState, action) {
       };
     }
 
-    case tab.SET_GRID_CONTENT: {
+    case tab.SET_GRID_DATA: {
       const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === action.tabKey);
       let newTabData = {};
       if (action.payload.type) {
@@ -118,8 +118,31 @@ export default function tabsReducer (state = initialState, action) {
       };
     }
 
-    case tab.SET_FORM_CONTENT: {
-      return state;
+    case tab.SET_FORM_DATA: {
+      const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === action.tabKey);
+      let newTabData = {};
+      if (action.payload.type) {
+        newTabData.type = action.payload.type;
+      }
+
+      if (action.payload.data) {
+        newTabData.grid = {
+          data: action.payload.data,
+          meta: action.payload.meta,
+          edited: false
+        };
+      }
+
+      return {
+        ...state,
+        tabsArray: [
+          ...state.tabsArray.filter(tab => tab.tabKey !== action.tabKey),
+          {
+            ...state.tabsArray[tabIndex],
+            ...newTabData
+          }
+        ]
+      };
     }
 
     case tab.STORE_TMP_FORM_DATA: {

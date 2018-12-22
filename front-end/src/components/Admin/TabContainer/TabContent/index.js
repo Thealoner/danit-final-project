@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { setTabGridContent } from '../../../../actions/tabActions';
+import { setTabGridData } from '../../../../actions/tabActions';
 import { connect } from 'react-redux';
 import Grid from '../../Grid';
 
@@ -43,8 +43,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setTabGridContent: (tabKey, payload) => {
-      dispatch(setTabGridContent(tabKey, payload));
+    setTabGridData: (tabKey, payload) => {
+      dispatch(setTabGridData(tabKey, payload));
     }
   };
 };

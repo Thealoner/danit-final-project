@@ -8,7 +8,7 @@ import ajaxRequest from '../../../helpers/ajaxRequest';
 import {toastr} from 'react-redux-toastr';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import { Pagination } from 'semantic-ui-react';
-import { setTabGridContent } from '../../../actions/tabActions';
+import { setTabGridData } from '../../../actions/tabActions';
 import { connect } from 'react-redux';
 
 class Grid extends Component {
@@ -26,12 +26,12 @@ class Grid extends Component {
   };
 
   getData = (page = 1, size = 3, filterString = '') => {
-    const { currentTab, setTabGridContent } = this.props;
+    const { currentTab, setTabGridData } = this.props;
     const entity = getEntityByType(currentTab.tabKey);
 
     ajaxRequest(entity.apiUrl + '?page=' + page + '&size=' + size + filterString)
       .then(response => {
-        setTabGridContent(currentTab.tabKey, {
+        setTabGridData(currentTab.tabKey, {
           data: response.data,
           meta: response.meta,
           columns: entity.columns
@@ -39,7 +39,7 @@ class Grid extends Component {
       })
       .catch(error => {
         toastr.error(error);
-        setTabGridContent(currentTab.tabKey, {
+        setTabGridData(currentTab.tabKey, {
           data: [],
           meta: {},
           columns: entity.columns
@@ -117,8 +117,8 @@ class Grid extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setTabGridContent: (tabKey, payload) => {
-      dispatch(setTabGridContent(tabKey, payload));
+    setTabGridData: (tabKey, payload) => {
+      dispatch(setTabGridData(tabKey, payload));
     }
   };
 };
