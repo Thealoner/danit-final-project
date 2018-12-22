@@ -1,7 +1,6 @@
-import Settings from '../components/Settings';
 import AuthService from './authService';
 
-const ajaxRequest = (relativeUrl = '', method = 'GET', body = null) => {
+const ajaxRequest = (relativeUrl = '/', method = 'GET', body = null) => {
   const authService = new AuthService();
 
   if (authService.loggedIn() && !authService.isTokenExpired()) {
@@ -22,7 +21,7 @@ const ajaxRequest = (relativeUrl = '', method = 'GET', body = null) => {
     }
 
     return fetch(
-      Settings.apiServerUrl + relativeUrl,
+      relativeUrl,
       options
     )
       .then(authService._checkStatus)
