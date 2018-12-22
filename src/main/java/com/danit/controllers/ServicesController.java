@@ -122,13 +122,13 @@ public class ServicesController {
   @JsonView(Views.Short.class)
   @GetMapping("{serviceId}/service_category")
   ResponseEntity<Map<String, Object>> getAllServiceServiceCategoriesExtended(@PathVariable(name = "serviceId") long id,
-                                                                            @PageableDefault(page = DEFAULT_PAGE_NUMBER,
-                                                                                size = DEFAULT_PAGE_SIZE)
-                                                                            @SortDefault.SortDefaults({
-                                                                                @SortDefault(sort = "id",
-                                                                                    direction = Sort.Direction.ASC)
-                                                                            }) Pageable pageable,
-                                                                            Principal principal) {
+                                                                             @PageableDefault(page = DEFAULT_PAGE_NUMBER,
+                                                                                 size = DEFAULT_PAGE_SIZE)
+                                                                             @SortDefault.SortDefaults({
+                                                                                 @SortDefault(sort = "id",
+                                                                                     direction = Sort.Direction.ASC)
+                                                                             }) Pageable pageable,
+                                                                             Principal principal) {
     log.info(principal.getName() + " got all service categories which contains service with id: " + id);
     return ResponseEntity.ok(convertPageToMap(serviceCategoryFacade
         .findAllServiceCategoriesOfServiceWithId(id, pageable)));
