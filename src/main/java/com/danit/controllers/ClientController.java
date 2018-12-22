@@ -57,8 +57,9 @@ public class ClientController {
   private ClientService clientService;
 
   @Autowired
-  public ClientController(SimpMessageSendingOperations messagingTemplate, ClientFacade clientFacade, ContractService contractService,
-                          ContractFacade contractFacade, ClientService clientService) {
+  public ClientController(SimpMessageSendingOperations messagingTemplate, ClientFacade clientFacade,
+                          ContractService contractService, ContractFacade contractFacade,
+                          ClientService clientService) {
     this.messagingTemplate = messagingTemplate;
     this.clientFacade = clientFacade;
     this.contractService = contractService;

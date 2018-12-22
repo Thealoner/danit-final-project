@@ -4,6 +4,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.danit.exceptions.InvalidJwtTokenException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -32,12 +34,12 @@ import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
 @Configuration
 @EnableWebSocketMessageBroker
 @Order(HIGHEST_PRECEDENCE + 50)
+@Slf4j
 public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer {
 
+  private static final String MESSAGE_PREFIX = "/events";
   @Autowired
   private UserDetailsService userDetailsService;
-
-  private static final String MESSAGE_PREFIX = "/events";
 
   @Override
   public void registerStompEndpoints(StompEndpointRegistry registry) {
@@ -59,8 +61,11 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
         StompHeaderAccessor accessor =
             MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
 
-        if (StompCommand.CONNECT.equals(accessor.getCommand())) {
-          String token = accessor.getNativeHeader("Authorization").get(0);
+        assert accessor != null;
+        if (StompCommand.CONNECT.equals(accessor.getCommand()) ||
+            StompCommand.SUBSCRIBE.equals(accessor.getCommand()) ||
+            StompCommand.SEND.equals(accessor.getCommand())) {
+          String token = Objects.requireNonNull(accessor.getNativeHeader("Authorization")).get(0);
 
           if (Objects.nonNull(token)) {
             DecodedJWT decodedJwt;
@@ -69,13 +74,12 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
                   .build()
                   .verify(token.replace(SecurityConstants.TOKEN_PREFIX, ""));
             } catch (JWTVerificationException e) {
-              e.printStackTrace();
-              return null;
+              throw new InvalidJwtTokenException("jwt token is invalid");
             }
             String user = decodedJwt.getSubject();
             UserDetails userDetails = userDetailsService.loadUserByUsername(user);
             Principal principal = new UsernamePasswordAuthenticationToken(user, null, userDetails.getAuthorities());
-            System.out.println("Principal: " + principal.getName());
+            log.info("successful websocket authorization for principal: " + principal.getName());
             accessor.setUser(principal);
             accessor.setLeaveMutable(true);
             return MessageBuilder.createMessage(message.getPayload(), accessor.getMessageHeaders());
