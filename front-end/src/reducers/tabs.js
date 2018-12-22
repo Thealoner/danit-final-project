@@ -121,7 +121,6 @@ export default function tabsReducer (state = initialState, action) {
     }
 
     case tab.SET_GRID_DATA: {
-      const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === action.tabKey);
       let newTabData = {};
       
       if (action.payload.type) {
@@ -136,16 +135,7 @@ export default function tabsReducer (state = initialState, action) {
         };
       }
 
-      return {
-        ...state,
-        tabsArray: [
-          ...state.tabsArray.filter(tab => tab.tabKey !== action.tabKey),
-          {
-            ...state.tabsArray[tabIndex],
-            ...newTabData
-          }
-        ]
-      };
+      return updateTabAttributes(state, newTabData);
     }
 
     case tab.SET_FORM_DATA: {
@@ -228,5 +218,22 @@ export default function tabsReducer (state = initialState, action) {
     default: {
       return state;
     }
+  }
+
+  function updateTabAttributes (state, newAttributes, tabKey = state.activeKey) {
+    const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === tabKey);
+
+    let newState = {
+      ...state,
+      tabsArray: [
+        ...state.tabsArray.filter((tab, index) => index !== tabIndex),
+        {
+          ...state.tabsArray[tabIndex],
+          ...newAttributes
+        }
+      ]
+    };
+
+    return newState;
   }
 }
