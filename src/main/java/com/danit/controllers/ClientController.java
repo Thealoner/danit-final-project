@@ -73,6 +73,7 @@ public class ClientController {
   ResponseEntity<Map<String, Object>> createClientsDtoExtended(@RequestBody List<Client> clients,
                                                                Principal principal) {
     log.info(principal.getName() + " is saving new clients: " + clients);
+    messagingTemplate.convertAndSend("/events/post", principal.getName() + LOG_MSG_GOT_ALL_DATA);
     return ResponseEntity.ok(convertDtoToMap(clientFacade.saveEntities(clients)));
   }
 
@@ -101,7 +102,6 @@ public class ClientController {
       ClientListRequestDto clientListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
     log.info("pageable: " + pageable);
-    messagingTemplate.convertAndSend("/events/get", principal.getName() + LOG_MSG_GOT_ALL_DATA);
     return ResponseEntity.ok(convertPageToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
   }
 
@@ -116,7 +116,6 @@ public class ClientController {
       Principal principal,
       ClientListRequestDto clientListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
-    messagingTemplate.convertAndSend("/events/get", principal.getName() + LOG_MSG_GOT_ALL_DATA);
     return ResponseEntity.ok(convertPageToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
   }
 

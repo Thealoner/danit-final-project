@@ -142,13 +142,14 @@ public class ServiceCategoryController {
 
   @JsonView(Views.Ids.class)
   @GetMapping("{serviceCategoryId}/services/ids")
-  ResponseEntity<Map<String, Object>> getAllServiceCategoryServicesIds(@PathVariable(name = "serviceCategoryId")
-                                                                           long id,
-                                                                       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
-                                                                       @SortDefault.SortDefaults({
-                                                                           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
-                                                                       }) Pageable pageable,
-                                                                       Principal principal) {
+  ResponseEntity<Map<String, Object>> getAllServiceCategoryServicesIds(
+      @PathVariable(name = "serviceCategoryId")
+          long id,
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal) {
     log.info(principal.getName() + " got service categories services data with id: " + id);
     return ResponseEntity.ok(convertPageToMap(serviceFacade
         .findAllServicesDtoForServiceCategoryId(id, pageable)));
@@ -156,13 +157,14 @@ public class ServiceCategoryController {
 
   @JsonView(Views.Short.class)
   @GetMapping("{serviceCategoryId}/services/short")
-  ResponseEntity<Map<String, Object>> getAllServiceCategoryServicesShort(@PathVariable(name = "serviceCategoryId")
-                                                                             long id,
-                                                                         @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
-                                                                         @SortDefault.SortDefaults({
-                                                                             @SortDefault(sort = "id", direction = Sort.Direction.ASC)
-                                                                         }) Pageable pageable,
-                                                                         Principal principal) {
+  ResponseEntity<Map<String, Object>> getAllServiceCategoryServicesShort(
+      @PathVariable(name = "serviceCategoryId")
+          long id,
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal) {
     log.info(principal.getName() + " got service categories services data with id: " + id);
     return ResponseEntity.ok(convertPageToMap(serviceFacade
         .findAllServicesDtoForServiceCategoryId(id, pageable)));
