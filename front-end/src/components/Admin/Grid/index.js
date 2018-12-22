@@ -22,11 +22,11 @@ class Grid extends Component {
   tabulatorTable = React.createRef();
 
   rowClick = (e, row) => {
-    // const { currentTab, setTabFormData } = this.props;
-    // setTabFormData(currentTab.tabKey, {
-    //   id: row,
-    //   type: 'form'
-    // });
+    const { currentTab, setTabFormData } = this.props;
+    setTabFormData(currentTab.tabKey, {
+      id: row.getData().id,
+      type: 'form'
+    });
   };
 
   getData = (page = 1, size = 3, filterString = '') => {

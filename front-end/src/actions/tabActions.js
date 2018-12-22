@@ -15,6 +15,20 @@ export const closeTab = tabKey => {
   };
 };
 
+export const loadingTab = tabKey => {
+  return {
+    type: tab.LOADING,
+    tabKey
+  };
+};
+
+export const doneTab = tabKey => {
+  return {
+    type: tab.DONE,
+    tabKey
+  };
+};
+
 export const setTabGridData = (tabKey, payload) => {
   return {
     type: tab.SET_GRID_DATA,

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { setTabGridData } from '../../../../actions/tabActions';
 import { connect } from 'react-redux';
 import Grid from '../../Grid';
+import RecordEditor from '../../Record/RecordEditor';
 
 class TabContent extends Component {
   state = {};
@@ -16,9 +17,15 @@ class TabContent extends Component {
     if (currentTab.type === 'grid') {
       return (
         <div className="tabs__content">
-          <Grid
-            currentTab={currentTab}
-          />
+          <Grid currentTab={currentTab} />
+        </div>
+      );
+    }
+
+    if (currentTab.type === 'form') {
+      return (
+        <div className="tabs__content">
+          <RecordEditor currentTab={currentTab} />
         </div>
       );
     }

@@ -91,9 +91,41 @@ export default function tabsReducer (state = initialState, action) {
       };
     }
 
+    case tab.LOADING: {
+      const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === action.tabKey);
+      const newState = {
+        ...state,
+        tabsArray: [
+          ...state.tabsArray.filter(tab => tab.tabKey !== action.tabKey),
+          {
+            ...state.tabsArray[tabIndex],
+            status: 'loading'
+          }
+        ]
+      };
+debugger;
+      return newState;
+    }
+
+    case tab.DONE: {
+      const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === action.tabKey);
+
+      return {
+        ...state,
+        tabsArray: [
+          ...state.tabsArray.filter(tab => tab.tabKey !== action.tabKey),
+          {
+            ...state.tabsArray[tabIndex],
+            status: 'done'
+          }
+        ]
+      };
+    }
+
     case tab.SET_GRID_DATA: {
       const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === action.tabKey);
       let newTabData = {};
+      
       if (action.payload.type) {
         newTabData.type = action.payload.type;
       }
@@ -121,20 +153,21 @@ export default function tabsReducer (state = initialState, action) {
     case tab.SET_FORM_DATA: {
       const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === action.tabKey);
       let newTabData = {};
+
       if (action.payload.type) {
         newTabData.type = action.payload.type;
       }
-
-      if (action.payload.data) {
-        newTabData.grid = {
+      
+      if (action.payload) {
+        newTabData.form = {
           id: action.payload.id,
           data: action.payload.data,
           meta: action.payload.meta,
           edited: false
         };
       }
-
-      return {
+      
+      const newState = {
         ...state,
         tabsArray: [
           ...state.tabsArray.filter(tab => tab.tabKey !== action.tabKey),
@@ -144,6 +177,8 @@ export default function tabsReducer (state = initialState, action) {
           }
         ]
       };
+debugger;
+      return newState;
     }
 
     case tab.STORE_TMP_FORM_DATA: {

@@ -13,7 +13,7 @@ const Tab = ({ tabKey, title, activeKey, onSelect, closeTab }) => {
 
   return (
     <li key={tabKey} className={tabClass} onClick={() => onSelect(tabKey)}>
-      <span className='tabs__title-wrapper'>{getEntityByType(title).name}</span>
+      <span className='tabs__title-wrapper'>{getEntityByType(tabKey).name}</span>
       <span className='tabs__btn-wrapper'><button className='tabs__close-btn' onClick={(e) => closeTabHandler(e, tabKey)}/></span>
     </li>
   );
