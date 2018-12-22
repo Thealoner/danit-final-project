@@ -18,6 +18,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,6 +46,8 @@ public class ClientController {
 
   private static final String LOG_MSG_GOT_ALL_DATA = " got all clients data";
 
+  private SimpMessageSendingOperations messagingTemplate;
+
   private ClientFacade clientFacade;
 
   private ContractService contractService;
@@ -53,22 +57,27 @@ public class ClientController {
   private ClientService clientService;
 
   @Autowired
-  public ClientController(ClientFacade clientFacade, ContractService contractService,
-                          ContractFacade contractFacade, ClientService clientService) {
+  public ClientController(SimpMessageSendingOperations messagingTemplate, ClientFacade clientFacade,
+                          ContractService contractService, ContractFacade contractFacade,
+                          ClientService clientService) {
+    this.messagingTemplate = messagingTemplate;
     this.clientFacade = clientFacade;
     this.contractService = contractService;
     this.contractFacade = contractFacade;
     this.clientService = clientService;
   }
 
+  @SendTo("/events/post")
   @JsonView(Views.Extended.class)
   @PostMapping
   ResponseEntity<Map<String, Object>> createClientsDtoExtended(@RequestBody List<Client> clients,
                                                                Principal principal) {
     log.info(principal.getName() + " is saving new clients: " + clients);
+    messagingTemplate.convertAndSend("/events/post", principal.getName() + LOG_MSG_GOT_ALL_DATA);
     return ResponseEntity.ok(convertDtoToMap(clientFacade.saveEntities(clients)));
   }
 
+  @SendTo("/events/get")
   @JsonView(Views.Ids.class)
   @GetMapping(path = "/ids")
   ResponseEntity<Map<String, Object>> getAllClientsDtoIds(
@@ -96,6 +105,7 @@ public class ClientController {
     return ResponseEntity.ok(convertPageToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
   }
 
+  @SendTo("/events/get")
   @JsonView(Views.Extended.class)
   @GetMapping
   ResponseEntity<Map<String, Object>> getAllClientsDtoExtended(
@@ -109,6 +119,7 @@ public class ClientController {
     return ResponseEntity.ok(convertPageToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
   }
 
+  @SendTo("/events/get")
   @JsonView(Views.Extended.class)
   @GetMapping("/{id}")
   ResponseEntity<Map<String, Object>> getClientByIdDtoExtended(@PathVariable(name = "id") long id, Principal principal) {

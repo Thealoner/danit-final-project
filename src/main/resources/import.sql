@@ -1,8 +1,8 @@
 INSERT INTO `company` (`id`, `short_name`, `name`, `phone`, `phone2`, `email`, `address`, `orgcode`) VALUES (1, 'Test Company', 'Test Company', NULL, NULL, 'org@org.com', 'Ukraine', '000000');
 
-INSERT INTO `employee_category` (`id`, `name`) VALUES (1, '1 катгеория');
-INSERT INTO `employee_category` (`id`, `name`) VALUES (2, '2 катгеория');
-INSERT INTO `employee_category` (`id`, `name`) VALUES (3, 'Высшая катгеория');
+INSERT INTO `employee_category` (`id`, `name`) VALUES (1, '1 категория');
+INSERT INTO `employee_category` (`id`, `name`) VALUES (2, '2 категория');
+INSERT INTO `employee_category` (`id`, `name`) VALUES (3, 'Высшая категория');
 
 INSERT INTO `discount` (`id`, `name`, `percent`, `date_from`, `date_to`) VALUES (1, '10%', 10, CURRENT_TIMESTAMP, NULL);
 
@@ -27,6 +27,7 @@ INSERT INTO `group_training` (`id`, `employeeid`, `gymid`, `serviceid`, `amount`
 
 INSERT INTO `user_roles` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`,`id`, `role`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 1, 'ADMIN');
 INSERT INTO `user_roles` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`,`id`, `role`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 2, 'USER');
+INSERT INTO `user_roles` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`,`id`, `role`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 3, 'TEST');
 
 INSERT INTO `users` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `username`, `password`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 1, 'Admin', '$2a$10$Mn3RH2lJJoOPoBLgmOCBe.es79lxr8EH3uY2N5c4akvCsWYyp5AWO');
 INSERT INTO `users` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `username`, `password`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 2, 'Sarah', '$2a$10$fK5Mdi.z.PhDb1Jdx1HAYODtemdU3OuF5xQ03Jh885MS.3qzrQn8G');

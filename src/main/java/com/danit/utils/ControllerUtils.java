@@ -1,10 +1,13 @@
 package com.danit.utils;
 
 import com.danit.dto.PageDataDto;
+import com.danit.models.BaseEntity;
 import org.springframework.data.domain.Page;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class ControllerUtils {
 
@@ -32,5 +35,15 @@ public class ControllerUtils {
     outputData.put("meta", new PageDataDto(1, 1,
         1, 1, 1));
     return outputData;
+  }
+
+  public static <T extends BaseEntity> String convertToStringIds(T entity) {
+    return entity.getId().toString();
+  }
+
+  public static <T extends BaseEntity> String convertToStringIds(List<T> entities) {
+    StringBuilder builder = new StringBuilder();
+    entities.forEach(t -> builder.append(t.getId()).append(";"));
+    return builder.deleteCharAt(builder.length() - 1).toString();
   }
 }

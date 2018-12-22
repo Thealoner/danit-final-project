@@ -65,12 +65,11 @@ public class ServiceCategoryControllerTest {
   ServiceRepository serviceRepository;
   @Autowired
   ServicesService servicesService;
+  HttpHeaders header;
   @Autowired
   private MockMvc mockMvc;
   @Autowired
   private TestRestTemplate template;
-
-  HttpHeaders header;
 
   @Before
   public void setHeader() {
@@ -79,7 +78,6 @@ public class ServiceCategoryControllerTest {
 
   @Test
   public void createOneServiceCategoryWithExistingServices() throws Exception {
-
 
 
     ServiceCategory serviceCategory = new ServiceCategory();
@@ -97,7 +95,7 @@ public class ServiceCategoryControllerTest {
     LinkedHashMap object = JsonPath.read(responseJson, "$.data[0]");
     Long id = new Long(String.valueOf(object.get("id")));
 
-    mockMvc.perform(put(url + "/"+id+"/services").headers(header)
+    mockMvc.perform(put(url + "/" + id + "/services").headers(header)
         .contentType("application/json")
         .content("[\n" +
             "    {\n" +
@@ -152,7 +150,6 @@ public class ServiceCategoryControllerTest {
   }
 
 
-
   @Test
   public void getServiceCategoryByExistingId() throws Exception {
 
@@ -193,7 +190,7 @@ public class ServiceCategoryControllerTest {
             "  }]"))
         .andExpect(status().isOk());
 
-    this.mockMvc.perform(put(url+"/1/services").headers(header)
+    this.mockMvc.perform(put(url + "/1/services").headers(header)
         .contentType("application/json")
         .content("[{\n" +
             "    \"id\":" + 15 + "\n" +
@@ -204,7 +201,7 @@ public class ServiceCategoryControllerTest {
 
 
     assertEquals("New", serviceCategoryDto.getTitle());
-    assertEquals(size+1, serviceCategoryDto.getServices().size());
+    assertEquals(size + 1, serviceCategoryDto.getServices().size());
   }
 
 
@@ -219,10 +216,10 @@ public class ServiceCategoryControllerTest {
         .contentType("application/json")
         .content("[\n" +
             "    {\n" +
-            "        \"id\": " +id1+"\n" +
+            "        \"id\": " + id1 + "\n" +
             "    },\n" +
             "    {\n" +
-            "        \"id\": "+id2+"\n" +
+            "        \"id\": " + id2 + "\n" +
             "    }\n" +
             "]"))
         .andExpect(status().isOk());
@@ -236,7 +233,6 @@ public class ServiceCategoryControllerTest {
     mockMvc.perform(get("/services/" + service.getId()).headers(header)).andExpect(status().isOk());
 
 
-
     serviceCategoryService.getEntityById(id1);
   }
 
@@ -244,7 +240,7 @@ public class ServiceCategoryControllerTest {
   public void deleteServiceCategoryById() throws Exception {
     long id1 = 1L;
 
-    mockMvc.perform(delete(url+"/"+id1).headers(header))
+    mockMvc.perform(delete(url + "/" + id1).headers(header))
         .andExpect(status().isOk());
 
     mockMvc.perform(get(url + "/" + id1).headers(header)).andExpect(status().isNotFound());
@@ -259,14 +255,14 @@ public class ServiceCategoryControllerTest {
 
     int size = serviceCategoryService.getEntityById(scId).getServices().size();
 
-    mockMvc.perform(put(url+"/"+scId+"/service/" + sId).headers(header))
+    mockMvc.perform(put(url + "/" + scId + "/service/" + sId).headers(header))
         .andExpect(status().isOk());
 
-    mockMvc.perform(get(url+"/"+scId+"/services").headers(header))
+    mockMvc.perform(get(url + "/" + scId + "/services").headers(header))
         .andExpect(status().isOk())
         .andExpect(content()
             .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.meta.totalElements").value(size+1));
+        .andExpect(jsonPath("$.meta.totalElements").value(size + 1));
 
   }
 
@@ -277,16 +273,16 @@ public class ServiceCategoryControllerTest {
 
     int size = serviceCategoryService.getEntityById(scId).getServices().size();
 
-    mockMvc.perform(delete(url+"/"+scId+"/service/" + sId).headers(header))
+    mockMvc.perform(delete(url + "/" + scId + "/service/" + sId).headers(header))
         .andExpect(status().isOk());
 
-    mockMvc.perform(get(url+"/"+scId+"/services").headers(header))
+    mockMvc.perform(get(url + "/" + scId + "/services").headers(header))
         .andExpect(status().isOk())
         .andExpect(content()
             .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.meta.totalElements").value(size-1));
+        .andExpect(jsonPath("$.meta.totalElements").value(size - 1));
 
-    mockMvc.perform(get("/services/"+sId).headers(header))
+    mockMvc.perform(get("/services/" + sId).headers(header))
         .andExpect(status().isOk());
   }
 

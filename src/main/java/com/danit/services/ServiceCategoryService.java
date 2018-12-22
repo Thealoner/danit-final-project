@@ -35,7 +35,7 @@ public class ServiceCategoryService extends AbstractBaseEntityService<ServiceCat
   public void deleteServiceCategory(List<ServiceCategory> entityList) {
     List<ServiceCategory> serviceCategories = reloadEntities(entityList);
     serviceCategories.forEach(serviceCategory -> serviceCategory.getServices()
-            .forEach(service -> service.getServiceCategories().remove(serviceCategory)));
+        .forEach(service -> service.getServiceCategories().remove(serviceCategory)));
     serviceCategoryRepository.deleteAll(serviceCategories);
   }
 
