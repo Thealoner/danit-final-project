@@ -67,5 +67,6 @@
   "browserslist": [
     ">0.2%",
     "not dead"
-  ]
+  ],
+  "proxy": "http://localhost:9000/"
 }
