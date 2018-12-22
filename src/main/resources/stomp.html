@@ -21,7 +21,7 @@ Testing stomp client
             console.log('Connected: ' + frame);
             stompClient.subscribe('/events/get', function (messageOutput) {
                 console.log(messageOutput.body);
-            })
+            }, headers);
         })
     }
 
