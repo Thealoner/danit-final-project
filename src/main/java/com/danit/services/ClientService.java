@@ -19,9 +19,9 @@ public class ClientService extends AbstractBaseEntityService<Client, ClientListR
     this.clientRepository = clientRepository;
     this.paketService = paketService;
   }
-
-  public Page<Client> findAllClientsWithPaket(Long paketId, Pageable pageable) {
-    Paket paket = paketService.getEntityById(paketId);
-    return clientRepository.findAll(ClientListSpecification.getClientsByPaketSpec(paket), pageable);
-  }
+//
+//  public Page<Client> findAllClientsWithPaket(Long paketId, Pageable pageable) {
+//    Paket paket = paketService.getEntityById(paketId);
+//    return clientRepository.findAll(ClientListSpecification.getClientsByPaketSpec(paket), pageable);
+//  }
 }

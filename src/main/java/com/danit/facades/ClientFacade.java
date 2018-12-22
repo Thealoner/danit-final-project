@@ -19,7 +19,7 @@ public class ClientFacade extends AbstractDtoFacade<ClientDto, Client, ClientLis
     this.clientService = clientService;
   }
 
-  public Page<ClientDto> findAllClientsWithPaket(Long paketId, Pageable pageable) {
-    return convertToDtos(clientService.findAllClientsWithPaket(paketId, pageable));
-  }
+//  public Page<ClientDto> findAllClientsWithPaket(Long paketId, Pageable pageable) {
+//    return convertToDtos(clientService.findAllClientsWithPaket(paketId, pageable));
+//  }
 }
