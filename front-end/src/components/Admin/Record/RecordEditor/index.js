@@ -3,7 +3,7 @@ import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
 import Form from 'react-jsonschema-form';
 import ajaxRequest from '../../../../helpers/ajaxRequest';
-import resizeInputs from '../../../../helpers/resizeInputs';
+// import resizeInputs from '../../../../helpers/resizeInputs';
 import {toastr} from 'react-redux-toastr';
 import {connect} from 'react-redux';
 import {
@@ -15,7 +15,7 @@ import {
 } from '../../../../actions/tabActions';
 import { getEntityByType } from '../../gridEntities';
 
-const formInputs = document.getElementsByClassName('form-control');
+// const formInputs = document.getElementsByClassName('form-control');
 
 class RecordEditor extends Component {
   state = {};

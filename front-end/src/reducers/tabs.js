@@ -171,7 +171,7 @@ export default function tabsReducer (state = initialState, action) {
         return {
           ...value,
           ...newAttributes
-        }
+        };
       } else {
         return value;
       }
