@@ -94,7 +94,7 @@ class RecordEditor extends Component {
           autocomplete='off'
           onChange={this.changeData}
           onSubmit={mode === 'edit' ? this.putData : this.postData}
-          onError={error => toastr.error(error)}>
+          onError={error => toastr.error('Пожалуйста, проверьте введеные данные', error)}>
           <button disabled={this.state.loading} type='submit' className='record__button'>Сохранить</button>
         </Form>
       </Fragment>
