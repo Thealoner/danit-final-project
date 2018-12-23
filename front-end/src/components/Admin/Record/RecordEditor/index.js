@@ -10,8 +10,7 @@ import {
   loadingTab,
   doneTab,
   setTabFormData,
-  clearTabFormData,
-  resetTabFormData,
+  persistTabFormData,
   storeTabTmpFormData
 } from '../../../../actions/tabActions';
 import { getEntityByType } from '../../gridEntities';
@@ -33,7 +32,7 @@ class RecordEditor extends Component {
   };
 
   putData = form => {
-    const { currentTab, loadingTab, doneTab, setFormData } = this.props;
+    const { currentTab, loadingTab, doneTab, persistFormData } = this.props;
     loadingTab();
 
     ajaxRequest(
@@ -42,7 +41,7 @@ class RecordEditor extends Component {
       JSON.stringify([form.formData])
     )
       .then(json => {
-        setFormData(currentTab.tabKey, json[0]);
+        persistFormData(currentTab.tabKey, json[0]);
         toastr.success('Данные успешно сохранены');
         // resizeInputs(formInputs);
       })
@@ -53,16 +52,16 @@ class RecordEditor extends Component {
   };
 
   postData = form => {
-    const { currentTab, loadingTab, doneTab, setFormData } = this.props;
+    const { currentTab, loadingTab, doneTab, persistFormData } = this.props;
     loadingTab();
-
+    
     ajaxRequest(
-      '/' + currentTab,
+      '/' + currentTab.tabKey,
       'POST',
       JSON.stringify([form.formData])
     )
       .then(json => {
-        setFormData(currentTab.tabKey, json[0]);
+        persistFormData(currentTab.tabKey, json[0]);
         toastr.success('Данные успешно сохранены');
         // resizeInputs(formInputs);
       })
@@ -129,11 +128,8 @@ const mapDispatchToProps = dispatch => {
     setFormData: (tabKey, payload) => {
       dispatch(setTabFormData(tabKey, payload));
     },
-    clearFormData: (tabKey, payload) => {
-      dispatch(clearTabFormData(tabKey, payload));
-    },
-    resetFormData: (tabKey, payload) => {
-      dispatch(resetTabFormData(tabKey, payload));
+    persistFormData: (tabKey, payload) => {
+      dispatch(persistTabFormData(tabKey, payload));
     },
     storeTmpFormData: (tabKey, payload) => {
       dispatch(storeTabTmpFormData(tabKey, payload));

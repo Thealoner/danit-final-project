@@ -43,24 +43,17 @@ export const setTabFormData = (tabKey, payload) => {
   };
 };
 
-export const storeTabTmpFormData = (tabKey, payload) => {
+export const persistTabFormData = (tabKey, payload) => {
   return {
-    type: tab.STORE_TMP_FORM_DATA,
+    type: tab.PERSIST_FORM_DATA,
     tabKey,
     payload
   };
 };
 
-export const clearTabFormData = tabKey => {
+export const storeTabTmpFormData = (tabKey, payload) => {
   return {
-    type: tab.CLEAR_FORM_DATA,
-    tabKey
-  };
-};
-
-export const resetTabFormData = (tabKey, payload) => {
-  return {
-    type: tab.RESET_FORM_DATA,
+    type: tab.STORE_TMP_FORM_DATA,
     tabKey,
     payload
   };

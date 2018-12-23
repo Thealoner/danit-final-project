@@ -136,31 +136,20 @@ export default function tabsReducer (state = initialState, action) {
       return updateCurrentTabAttributes(state, newTabData);
     }
 
+    case tab.PERSIST_FORM_DATA: {
+      let newTabData = {
+        type: 'grid',
+        form: null
+      };
+      
+      return updateCurrentTabAttributes(state, newTabData);
+    }
+
     case tab.STORE_TMP_FORM_DATA: {
       const newTabData = {
         form: {
           data: action.payload.data,
           edited: true
-        }
-      };
-      return updateCurrentTabAttributes(state, newTabData);
-    }
-
-    case tab.CLEAR_FORM_DATA: {
-      const newTabData = {
-        form: {
-          data: null,
-          edited: false
-        }
-      };
-      return updateCurrentTabAttributes(state, newTabData);
-    }
-
-    case tab.RESET_FORM_DATA: {
-      const newTabData = {
-        form: {
-          data: action.payload.data,
-          edited: false
         }
       };
       return updateCurrentTabAttributes(state, newTabData);
@@ -177,16 +166,20 @@ export default function tabsReducer (state = initialState, action) {
 
   function updateTabAttributes (state, newAttributes, tabKey) {
     const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === tabKey);
+    let newTabsArray = state.tabsArray.map((value, index) => {
+      if (index === tabIndex) {
+        return {
+          ...value,
+          ...newAttributes
+        }
+      } else {
+        return value;
+      }
+    });
 
     let newState = {
       ...state,
-      tabsArray: [
-        ...state.tabsArray.filter((tab, index) => index !== tabIndex),
-        {
-          ...state.tabsArray[tabIndex],
-          ...newAttributes
-        }
-      ]
+      tabsArray: newTabsArray
     };
 
     return newState;
