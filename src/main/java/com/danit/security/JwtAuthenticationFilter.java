@@ -5,12 +5,10 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.danit.exceptions.UserMapInputStreamException;
 import com.danit.models.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -22,10 +20,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
+@Slf4j
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
   private AuthenticationManager authenticationManager;
-
-  private Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
   public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
     this.authenticationManager = authenticationManager;
@@ -33,7 +30,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
   @Override
   public Authentication attemptAuthentication(HttpServletRequest req,
-                                              HttpServletResponse res) throws AuthenticationException {
+                                              HttpServletResponse res) {
     try {
       User user = new ObjectMapper()
           .readValue(req.getInputStream(), User.class);
@@ -59,7 +56,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
         .sign(Algorithm.HMAC512(SecurityConstants.SECRET.getBytes()));
 
-    logger.info("Successful Authentication of User "
+    log.info("Successful Authentication of User "
         + ((UserDetails) auth.getPrincipal()).getUsername()
     );
     res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);

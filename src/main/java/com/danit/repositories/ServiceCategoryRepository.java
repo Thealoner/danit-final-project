@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface ServiceCategoryRepository extends BaseEntityRepository<ServiceCategory> {
 
   @Query("select sc from ServiceCategory sc left join sc.services s where s.id = :serviceId")
-  Page<ServiceCategory> findAllServiceCategoriesOfServiceWithId(@Param(value = "serviceId")Long serviceId,
+  Page<ServiceCategory> findAllServiceCategoriesOfServiceWithId(@Param(value = "serviceId") Long serviceId,
                                                                 Pageable pageable);
 }
