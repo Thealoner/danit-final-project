@@ -9,4 +9,6 @@ public class WebSocketEventMsg {
 
   private Long id;
 
+  private String entityName;
+
 }

@@ -13,7 +13,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,21 +53,15 @@ public class ControllerUtils {
   }
 
   public static <T extends BaseEntity> String convertEntityToJson(T entity) {
-    return "{id:" + entity.getId() + "}";
-  }
-
-  public static String convertIdToJson(Long id) {
-    return "{\"id\":" + id + "}";
-  }
-
-  public static <T extends BaseEntity> String convertDtoToJson(T entity) {
-    return "{id:" + entity.getId() + "}";
+    List<T> data = new ArrayList<>();
+    data.add(entity);
+    return convertEntitiesToJson(data);
   }
 
   public static <T extends BaseEntity> String convertEntitiesToJson(List<T> entities) {
     ObjectWriter ow = objectMapper.writer();
     List<WebSocketEventMsg> data = new ArrayList<>();
-    entities.forEach(t -> data.add(new WebSocketEventMsg(t.getId())));
+    entities.forEach(t -> data.add(new WebSocketEventMsg(t.getId(), getEntityName(t))));
     try {
       return ow.writeValueAsString(data);
     } catch (JsonProcessingException e) {
@@ -73,14 +69,9 @@ public class ControllerUtils {
     }
   }
 
-  public static <T extends BaseDto> String convertDtosToJson(List<T> entities) {
-    ObjectWriter ow = objectMapper.writer();
-    List<WebSocketEventMsg> data = new ArrayList<>();
-    entities.forEach(t -> data.add(new WebSocketEventMsg(t.getId())));
-    try {
-      return ow.writeValueAsString(data);
-    } catch (JsonProcessingException e) {
-      throw new ObjectToJsonProcessingException("cant convert entities to json");
-    }
+  @SuppressWarnings("unchecked")
+  private static <T> String getEntityName(T t) {
+    return ((Class<T>) ((ParameterizedType) t.getClass().getGenericSuperclass())
+        .getActualTypeArguments()[0]).getSimpleName().toLowerCase();
   }
 }

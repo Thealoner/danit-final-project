@@ -23,7 +23,7 @@ public interface DtoFacade<D extends BaseDto, E extends BaseEntity, R> {
 
   List<D> updateEntities(List<E> entities);
 
-  void deleteEntityById(Long id);
+  E deleteEntityById(Long id);
 
-  void deleteEntities(List<E> entities);
+  List<E> deleteEntities(List<E> entities);
 }

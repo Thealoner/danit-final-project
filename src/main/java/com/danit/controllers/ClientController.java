@@ -19,7 +19,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,8 +39,8 @@ import static com.danit.utils.ControllerUtils.DEFAULT_PAGE_SIZE;
 import static com.danit.utils.ControllerUtils.convertDtoToMap;
 import static com.danit.utils.ControllerUtils.convertDtosToJson;
 import static com.danit.utils.ControllerUtils.convertEntitiesToJson;
+import static com.danit.utils.ControllerUtils.convertEntityIdToJson;
 import static com.danit.utils.ControllerUtils.convertEntityToJson;
-import static com.danit.utils.ControllerUtils.convertIdToJson;
 import static com.danit.utils.ControllerUtils.convertPageToMap;
 import static com.danit.utils.ControllerUtils.convertToJson;
 
@@ -79,7 +78,7 @@ public class ClientController {
                                                                Principal principal) {
     log.info(principal.getName() + " is saving new clients: " + clients);
     List<ClientDto> clientDtos = clientFacade.saveEntities(clients);
-    messagingTemplate.convertAndSend("/events/post", convertDtosToJson(clientDtos));
+    messagingTemplate.convertAndSend("/events/post", convertEntitiesToJson(clientDtos));
     return ResponseEntity.ok(convertDtoToMap(clientDtos));
   }
 
@@ -135,7 +134,7 @@ public class ClientController {
   ResponseEntity<Map<String, Object>> updateClientsDto(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is updating clients data: " + clients);
     List<ClientDto> clientDtos = clientFacade.updateEntities(clients);
-    messagingTemplate.convertAndSend("/events/put", convertDtosToJson(clientDtos));
+    messagingTemplate.convertAndSend("/events/put", convertEntitiesToJson(clientDtos));
     return ResponseEntity.ok(convertDtoToMap(clientDtos));
   }
 
@@ -143,27 +142,29 @@ public class ClientController {
   @ResponseStatus(HttpStatus.OK)
   void deleteClientByIdDto(@PathVariable(name = "id") long id, Principal principal) {
     log.info(principal.getName() + " is trying to delete client with id: " + id);
-    clientFacade.deleteEntityById(id);
-    messagingTemplate.convertAndSend("/events/delete", convertIdToJson(id));
+    Client client = clientFacade.deleteEntityById(id);
+    messagingTemplate.convertAndSend("/events/delete", convertEntityToJson(client));
   }
 
   @DeleteMapping
   @ResponseStatus(HttpStatus.OK)
   void deleteClientsDto(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is trying to delete clients: " + clients);
-    clientFacade.deleteEntities(clients);
-    messagingTemplate.convertAndSend("/events/delete", convertEntitiesToJson(clients));
+    List<Client> deletedClients = clientFacade.deleteEntities(clients);
+    messagingTemplate.convertAndSend("/events/delete", convertEntitiesToJson(deletedClients));
   }
 
   //related entities methods
+  @JsonView(Views.Extended.class)
   @PutMapping("/{clientId}/contract/{contractId}")
   @ResponseStatus(HttpStatus.OK)
-  void assignClientToContract(@PathVariable(name = "clientId") Long clientId,
+  ResponseEntity<Map<String, Object>> assignClientToContract(@PathVariable(name = "clientId") Long clientId,
                               @PathVariable(name = "contractId") Long contractId,
                               Principal principal) {
     log.info(principal.getName() + " is trying to assign contractId=" + clientId + " to clientId= " + contractId);
-    messagingTemplate.convertAndSend("/events/put", convertDtosToJson(clientDtos));
     contractService.assignClientToContract(contractId, clientId);
+    messagingTemplate.convertAndSend("/events/put", convertEntitiesToJson(clientDtos));
+    return ResponseEntity.ok(convertDtoToMap(clientFacade.getEntityById(clientId)));
   }
 
   @JsonView(Views.Extended.class)

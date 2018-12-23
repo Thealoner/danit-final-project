@@ -1,5 +1,6 @@
 package com.danit.dto;
 
+import com.danit.models.BaseEntity;
 import com.danit.utils.CustomDateTimeDeserializer;
 import com.danit.utils.CustomDateTimeSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -13,7 +14,7 @@ import java.util.Date;
 @Data
 @JsonIgnoreProperties(value = {"creationDate", "lastModifiedBy", "lastModifiedDate", "createdBy"},
     allowGetters = true)
-public class BaseDto {
+public class BaseDto implements BaseEntity {
 
   @JsonView({Views.Ids.class, Views.Short.class})
   private Long id;

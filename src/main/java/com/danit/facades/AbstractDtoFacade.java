@@ -77,12 +77,12 @@ public abstract class AbstractDtoFacade<D extends BaseDto, E extends BaseEntity,
   }
 
   @Override
-  public void deleteEntityById(Long id) {
-    entityService.deleteEntityById(id);
+  public E deleteEntityById(Long id) {
+    return entityService.deleteEntityById(id);
   }
 
   @Override
-  public void deleteEntities(List<E> entities) {
-    entityService.deleteEntities(entities);
+  public List<E> deleteEntities(List<E> entities) {
+    return entityService.deleteEntities(entities);
   }
 }

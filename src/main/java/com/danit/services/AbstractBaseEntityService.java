@@ -84,16 +84,18 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
   }
 
   @Override
-  public void deleteEntityById(long id) {
+  public E deleteEntityById(long id) {
     E e = baseEntityRepository.findById(id).orElseThrow(() ->
         new EntityNotFoundException(LOG_MSG1 + getEntityName() + LOG_MSG2 + id));
     baseEntityRepository.delete(e);
+    return e;
   }
 
   @Override
-  public void deleteEntities(List<E> entityList) {
+  public List<E> deleteEntities(List<E> entityList) {
     List<E> list = reloadEntities(entityList);
     baseEntityRepository.deleteAll(list);
+    return list;
   }
 
   @Override

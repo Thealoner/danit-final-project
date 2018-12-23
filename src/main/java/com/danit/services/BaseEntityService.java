@@ -18,9 +18,9 @@ public interface BaseEntityService<E extends BaseEntity> {
 
   List<E> updateEntities(List<E> entityList);
 
-  void deleteEntityById(long id);
+  E deleteEntityById(long id);
 
-  void deleteEntities(List<E> entityList);
+  List<E> deleteEntities(List<E> entityList);
 
   long getNumberOfEntities();
 }
