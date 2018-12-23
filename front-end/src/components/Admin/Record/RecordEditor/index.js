@@ -27,8 +27,8 @@ class RecordEditor extends Component {
 
     ajaxRequest('/' + currentTab.tabKey + '/' + currentTab.form.id)
       .then(data => {
-        setFormData(currentTab.tabKey, {data});
-        resizeInputs(formInputs);
+        setFormData(currentTab.tabKey, { data });
+        // resizeInputs(formInputs);
       });
   };
 
@@ -44,7 +44,7 @@ class RecordEditor extends Component {
       .then(json => {
         setFormData(currentTab.tabKey, json[0]);
         toastr.success('Данные успешно сохранены');
-        resizeInputs(formInputs);
+        // resizeInputs(formInputs);
       })
       .catch(error => {
         doneTab();
@@ -64,7 +64,7 @@ class RecordEditor extends Component {
       .then(json => {
         setFormData(currentTab.tabKey, json[0]);
         toastr.success('Данные успешно сохранены');
-        resizeInputs(formInputs);
+        // resizeInputs(formInputs);
       })
       .catch(error => {
         doneTab();
@@ -83,7 +83,7 @@ class RecordEditor extends Component {
     const mode = currentTab.form.id ? 'edit' : 'add';
 
     if (!currentTab.form || !currentTab.form.data) {
-      return (<div>Nothing here yet...</div>)
+      return (<div>Nothing here yet...</div>);
     }
 
     return (
@@ -110,7 +110,7 @@ class RecordEditor extends Component {
       this.getData();
     }
 
-    resizeInputs(formInputs);
+    // resizeInputs(formInputs);
   }
 
   componentDidUpdate () {

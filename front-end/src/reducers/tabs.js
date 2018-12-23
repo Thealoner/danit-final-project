@@ -138,24 +138,30 @@ export default function tabsReducer (state = initialState, action) {
 
     case tab.STORE_TMP_FORM_DATA: {
       const newTabData = {
-        formData: action.payload.formData,
-        formDataEdited: true
+        form: {
+          data: action.payload.data,
+          edited: true
+        }
       };
       return updateCurrentTabAttributes(state, newTabData);
     }
 
     case tab.CLEAR_FORM_DATA: {
       const newTabData = {
-        formData: null,
-        formDataEdited: false
+        form: {
+          data: null,
+          edited: false
+        }
       };
       return updateCurrentTabAttributes(state, newTabData);
     }
 
     case tab.RESET_FORM_DATA: {
       const newTabData = {
-        formData: action.payload.formData,
-        formDataEdited: false
+        form: {
+          data: action.payload.data,
+          edited: false
+        }
       };
       return updateCurrentTabAttributes(state, newTabData);
     }
