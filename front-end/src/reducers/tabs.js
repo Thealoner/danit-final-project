@@ -92,32 +92,11 @@ export default function tabsReducer (state = initialState, action) {
     }
 
     case tab.LOADING: {
-      const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === state.activeKey);
-      return {
-        ...state,
-        tabsArray: [
-          ...state.tabsArray.filter(tab => tab.tabKey !== state.activeKey),
-          {
-            ...state.tabsArray[tabIndex],
-            status: 'loading'
-          }
-        ]
-      };
+      return updateCurrentTabAttributes(state, { status: 'loading' });
     }
 
     case tab.DONE: {
-      const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === state.activeKey);
-
-      return {
-        ...state,
-        tabsArray: [
-          ...state.tabsArray.filter(tab => tab.tabKey !== state.activeKey),
-          {
-            ...state.tabsArray[tabIndex],
-            status: 'done'
-          }
-        ]
-      };
+      return updateCurrentTabAttributes(state, { status: 'done' });
     }
 
     case tab.SET_GRID_DATA: {
@@ -135,11 +114,10 @@ export default function tabsReducer (state = initialState, action) {
         };
       }
 
-      return updateTabAttributes(state, newTabData);
+      return updateCurrentTabAttributes(state, newTabData);
     }
 
     case tab.SET_FORM_DATA: {
-      const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === action.tabKey);
       let newTabData = {};
 
       if (action.payload.type) {
@@ -155,64 +133,31 @@ export default function tabsReducer (state = initialState, action) {
         };
       }
       
-      return {
-        ...state,
-        tabsArray: [
-          ...state.tabsArray.filter(tab => tab.tabKey !== action.tabKey),
-          {
-            ...state.tabsArray[tabIndex],
-            ...newTabData
-          }
-        ]
-      };
+      return updateCurrentTabAttributes(state, newTabData);
     }
 
     case tab.STORE_TMP_FORM_DATA: {
-      const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey !== action.tabKey);
-
-      return {
-        ...state,
-        tabsArray: [
-          ...state.tabsArray.filter((tab, index) => index !== tabIndex),
-          {
-            ...state.tabsArray[tabIndex],
-            formData: action.payload.formData,
-            formDataEdited: true
-          }
-        ]
+      const newTabData = {
+        formData: action.payload.formData,
+        formDataEdited: true
       };
+      return updateCurrentTabAttributes(state, newTabData);
     }
 
     case tab.CLEAR_FORM_DATA: {
-      const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey !== action.tabKey);
-
-      return {
-        ...state,
-        tabsArray: [
-          ...state.tabsArray.filter((tab, index) => index !== tabIndex),
-          {
-            ...state.tabsArray[tabIndex],
-            formData: null,
-            formDataEdited: false
-          }
-        ]
+      const newTabData = {
+        formData: null,
+        formDataEdited: false
       };
+      return updateCurrentTabAttributes(state, newTabData);
     }
 
     case tab.RESET_FORM_DATA: {
-      const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey !== action.tabKey);
-
-      return {
-        ...state,
-        tabsArray: [
-          ...state.tabsArray.filter((tab, index) => index !== tabIndex),
-          {
-            ...state.tabsArray[tabIndex],
-            formData: action.payload.formData,
-            formDataEdited: false
-          }
-        ]
+      const newTabData = {
+        formData: action.payload.formData,
+        formDataEdited: false
       };
+      return updateCurrentTabAttributes(state, newTabData);
     }
     
     default: {
@@ -220,7 +165,11 @@ export default function tabsReducer (state = initialState, action) {
     }
   }
 
-  function updateTabAttributes (state, newAttributes, tabKey = state.activeKey) {
+  function updateCurrentTabAttributes (state, newAttributes) {
+    return updateTabAttributes(state, newAttributes, state.activeKey);
+  }
+
+  function updateTabAttributes (state, newAttributes, tabKey) {
     const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === tabKey);
 
     let newState = {
