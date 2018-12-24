@@ -1,14 +1,11 @@
 package com.danit.repositories;
 
-import com.danit.Application;
-import com.danit.configuration.DbTestProfileJpaConfig;
 import com.danit.models.Client;
 import com.danit.models.auditor.AuditorAwareImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -20,9 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {
-    Application.class,
-    DbTestProfileJpaConfig.class})
 @ActiveProfiles("test")
 @DataJpaTest(includeFilters = @ComponentScan.Filter(
     type = ASSIGNABLE_TYPE,

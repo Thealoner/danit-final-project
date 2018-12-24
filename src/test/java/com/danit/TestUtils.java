@@ -22,7 +22,7 @@ public class TestUtils {
     headers.setContentType(MediaType.APPLICATION_JSON);
     String jsonAuth = userRole.name().equals("ADMIN") ? adminAuthJson : notAdminAuthJson;
     HttpEntity<String> entity = new HttpEntity<String>(jsonAuth, headers);
-    ResponseEntity<String> resHeader = testRestTemplate.postForEntity("/login", entity, String.class);
+    ResponseEntity<String> resHeader = testRestTemplate.postForEntity("/auth", entity, String.class);
     List<String> tokens = resHeader.getHeaders().get("Authorization");
     headers.clear();
     headers.set("Authorization", tokens.get(0));

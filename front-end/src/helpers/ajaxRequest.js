@@ -1,4 +1,3 @@
-import Settings from '../components/Settings';
 import AuthService from './authService';
 
 const _ajaxRequest = (url, method, body) => {
@@ -22,7 +21,7 @@ const _ajaxRequest = (url, method, body) => {
     }
 
     return fetch(
-      Settings.apiServerUrl + url,
+      url,
       options
     )
       .then(authService._checkStatus)

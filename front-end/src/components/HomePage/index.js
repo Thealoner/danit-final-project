@@ -4,19 +4,19 @@ import './index.scss';
 import Header from '../Header';
 import AuthService from '../../helpers/authService';
 import {library} from '@fortawesome/fontawesome-svg-core';
-import {faPlus, faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
+import {faPlus, faSignOutAlt, faAngleRight} from '@fortawesome/free-solid-svg-icons';
 import UserNavigation from '../UserNavigation';
 import Admin from '../Admin';
 import Manager from '../Manager';
-import Settings from '../Settings';
 import {Loader} from 'semantic-ui-react';
 
 library.add(
   faPlus,
-  faSignOutAlt
+  faSignOutAlt,
+  faAngleRight
 );
 
-const auth = new AuthService(Settings.apiServerUrl);
+const auth = new AuthService();
 
 class HomePage extends Component {
   constructor (props) {

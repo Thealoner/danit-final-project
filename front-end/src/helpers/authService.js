@@ -1,18 +1,16 @@
 import decodeJWT from 'jwt-decode';
-import Settings from '../components/Settings/index';
 
 function setToken (idToken) {
   localStorage.setItem('id_token', idToken);
 }
 
 export default class AuthService {
-  constructor (domain) {
-    this.domain = domain || Settings.apiServerUrl;
+  constructor () {
     setToken.bind(this);
   };
 
   login = (username, password) => {
-    return this.fetchMethod(`${this.domain}/login`, {
+    return this.fetchMethod('/auth', {
       method: 'POST',
       body: JSON.stringify({
         username,
