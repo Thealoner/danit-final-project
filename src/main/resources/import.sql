@@ -1,8 +1,8 @@
 INSERT INTO `company` (`id`, `short_name`, `name`, `phone`, `phone2`, `email`, `address`, `orgcode`) VALUES (1, 'Test Company', 'Test Company', NULL, NULL, 'org@org.com', 'Ukraine', '000000');
 
-INSERT INTO `employee_category` (`id`, `name`) VALUES (1, '1 катгеория');
-INSERT INTO `employee_category` (`id`, `name`) VALUES (2, '2 катгеория');
-INSERT INTO `employee_category` (`id`, `name`) VALUES (3, 'Высшая катгеория');
+INSERT INTO `employee_category` (`id`, `name`) VALUES (1, '1 категория');
+INSERT INTO `employee_category` (`id`, `name`) VALUES (2, '2 категория');
+INSERT INTO `employee_category` (`id`, `name`) VALUES (3, 'Высшая категория');
 
 INSERT INTO `discount` (`id`, `name`, `percent`, `date_from`, `date_to`) VALUES (1, '10%', 10, CURRENT_TIMESTAMP, NULL);
 
@@ -27,6 +27,7 @@ INSERT INTO `group_training` (`id`, `employeeid`, `gymid`, `serviceid`, `amount`
 
 INSERT INTO `user_roles` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`,`id`, `role`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 1, 'ADMIN');
 INSERT INTO `user_roles` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`,`id`, `role`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 2, 'USER');
+INSERT INTO `user_roles` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`,`id`, `role`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 3, 'TEST');
 
 INSERT INTO `users` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `username`, `password`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 1, 'Admin', '$2a$10$Mn3RH2lJJoOPoBLgmOCBe.es79lxr8EH3uY2N5c4akvCsWYyp5AWO');
 INSERT INTO `users` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `username`, `password`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 2, 'Sarah', '$2a$10$fK5Mdi.z.PhDb1Jdx1HAYODtemdU3OuF5xQ03Jh885MS.3qzrQn8G');
@@ -99,10 +100,54 @@ INSERT INTO `cards` (`created_by`, `creation_date`, `last_modified_by`, `last_mo
 
 INSERT INTO `service_categories` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 1, 'SPA', true);
 INSERT INTO `service_categories` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 2, 'YOGA', true);
+INSERT INTO `service_categories` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 3, 'BAR', true);
+INSERT INTO `service_categories` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 4, 'RECEPTION', true);
+INSERT INTO `service_categories` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 5, 'MEDICAL CABINET', true);
+INSERT INTO `service_categories` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 6, 'SOLARIUM', true);
+INSERT INTO `service_categories` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 7, 'FIGHT CLUB', true);
+INSERT INTO `service_categories` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 8, 'SWIMMING POOL', true);
+INSERT INTO `service_categories` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 9, 'GROUP TRAINING STUDIO', true);
+INSERT INTO `service_categories` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 10, 'WELLNESS STUDIO', true);
+INSERT INTO `service_categories` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 11, 'CYCLE STUDIO', true);
+INSERT INTO `service_categories` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 12, 'GYM', true);
 
 INSERT INTO `services` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `price`, `cost`, `unit`, `units_number`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 1, 'Total Body Workout', 200, 200, 'min', 55, true);
 INSERT INTO `services` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `price`, `cost`, `unit`, `units_number`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 2, 'Yoga', 200, 200, 'min', 55, true);
+INSERT INTO `services` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `price`, `cost`, `unit`, `units_number`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 3, 'Fly Yoga', 200, 200, 'min', 55, true);
+INSERT INTO `services` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `price`, `cost`, `unit`, `units_number`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 4, 'HIIT', 200, 200, 'min', 55, true);
+INSERT INTO `services` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `price`, `cost`, `unit`, `units_number`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 5, 'Medical examination', 200, 200, 'min', 55, true);
+INSERT INTO `services` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `price`, `cost`, `unit`, `units_number`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 6, 'Box', 200, 200, 'min', 55, true);
+INSERT INTO `services` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `price`, `cost`, `unit`, `units_number`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 7, 'Karate', 200, 200, 'min', 55, true);
+INSERT INTO `services` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `price`, `cost`, `unit`, `units_number`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 8, 'Aqua Aerobic', 200, 200, 'min', 55, true);
+INSERT INTO `services` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `price`, `cost`, `unit`, `units_number`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 9, 'Wellness consultation', 200, 200, 'min', 55, true);
+INSERT INTO `services` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `price`, `cost`, `unit`, `units_number`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 10, 'Meal plan', 200, 200, 'min', 55, true);
+INSERT INTO `services` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `price`, `cost`, `unit`, `units_number`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 11, 'Pilates', 200, 200, 'min', 55, true);
+INSERT INTO `services` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `price`, `cost`, `unit`, `units_number`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 12, 'Zumba', 200, 200, 'min', 55, true);
+INSERT INTO `services` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `price`, `cost`, `unit`, `units_number`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 13, 'Cycle', 200, 200, 'min', 55, true);
+INSERT INTO `services` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `price`, `cost`, `unit`, `units_number`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 14, 'Tanning', 200, 200, 'min', 55, true);
+INSERT INTO `services` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `price`, `cost`, `unit`, `units_number`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 15, 'Personal training', 200, 200, 'min', 55, true);
+INSERT INTO `services` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `price`, `cost`, `unit`, `units_number`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 16, 'TABATA', 200, 200, 'min', 55, true);
+INSERT INTO `services` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `price`, `cost`, `unit`, `units_number`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 17, 'Massage', 200, 200, 'min', 55, true);
+INSERT INTO `services` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `title`, `price`, `cost`, `unit`, `units_number`, `active`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 18, 'Skin treatment', 200, 200, 'min', 55, true);
 
-INSERT INTO `services_service_categories` (`services_id`, `service_categories_id`) VALUES (1, 1);
-INSERT INTO `services_service_categories` (`services_id`, `service_categories_id`) VALUES (2, 1);
+INSERT INTO `services_service_categories` (`services_id`, `service_categories_id`) VALUES (17, 1);
+INSERT INTO `services_service_categories` (`services_id`, `service_categories_id`) VALUES (18, 1);
 INSERT INTO `services_service_categories` (`services_id`, `service_categories_id`) VALUES (2, 2);
+INSERT INTO `services_service_categories` (`services_id`, `service_categories_id`) VALUES (3, 2);
+INSERT INTO `services_service_categories` (`services_id`, `service_categories_id`) VALUES (1, 4);
+INSERT INTO `services_service_categories` (`services_id`, `service_categories_id`) VALUES (2, 4);
+INSERT INTO `services_service_categories` (`services_id`, `service_categories_id`) VALUES (3, 4);
+INSERT INTO `services_service_categories` (`services_id`, `service_categories_id`) VALUES (5, 5);
+INSERT INTO `services_service_categories` (`services_id`, `service_categories_id`) VALUES (14, 6);
+INSERT INTO `services_service_categories` (`services_id`, `service_categories_id`) VALUES (6, 7);
+INSERT INTO `services_service_categories` (`services_id`, `service_categories_id`) VALUES (7, 7);
+INSERT INTO `services_service_categories` (`services_id`, `service_categories_id`) VALUES (8, 8);
+INSERT INTO `services_service_categories` (`services_id`, `service_categories_id`) VALUES (4, 9);
+INSERT INTO `services_service_categories` (`services_id`, `service_categories_id`) VALUES (11, 9);
+INSERT INTO `services_service_categories` (`services_id`, `service_categories_id`) VALUES (12, 9);
+INSERT INTO `services_service_categories` (`services_id`, `service_categories_id`) VALUES (16, 9);
+INSERT INTO `services_service_categories` (`services_id`, `service_categories_id`) VALUES (1, 9);
+INSERT INTO `services_service_categories` (`services_id`, `service_categories_id`) VALUES (9, 10);
+INSERT INTO `services_service_categories` (`services_id`, `service_categories_id`) VALUES (17, 10);
+INSERT INTO `services_service_categories` (`services_id`, `service_categories_id`) VALUES (13, 11);
+INSERT INTO `services_service_categories` (`services_id`, `service_categories_id`) VALUES (15, 12);

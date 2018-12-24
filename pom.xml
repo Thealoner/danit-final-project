@@ -33,6 +33,13 @@
             <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-websocket -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+            <version>2.1.1.RELEASE</version>
+        </dependency>
+
         <!--Test-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -138,6 +145,16 @@
             <version>2.3.1</version>
         </dependency>
 
+
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-messaging -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-messaging</artifactId>
+            <version>5.1.2.RELEASE</version>
+        </dependency>
+
+
     </dependencies>
 
 
@@ -190,7 +207,6 @@
                     </execution>
                 </executions>
             </plugin>
-
         </plugins>
     </build>
 
