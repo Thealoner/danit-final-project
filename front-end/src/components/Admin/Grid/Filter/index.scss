@@ -30,7 +30,7 @@
     border-radius: 3px;
   }
 
-  &__apply-btn, &__clear-btn {
+  button {
     margin-right: 20px;
     padding: 6px 5px;
     color: $hot-pink;
@@ -38,15 +38,10 @@
     border: 1px solid $hot-pink;
     border-radius: 3px;
 
-    &:hover {
+    &:not(:disabled):hover {
       color: $white;
       background-color: $hot-pink;
       border-color: $hot-pink;
     }
-  }
-  &__apply-btn-active{
-    color: $victoria;
-    background-color: $whisper;
-    border-color: $victoria ;
   }
 }
