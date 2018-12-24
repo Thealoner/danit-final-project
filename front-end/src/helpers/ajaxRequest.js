@@ -1,7 +1,7 @@
 import Settings from '../components/Settings';
 import AuthService from './authService';
 
-const _ajaxRequest = (relativeUrl = '', method = 'GET', body = null) => {
+const _ajaxRequest = (url, method, body) => {
   const authService = new AuthService();
 
   if (authService.loggedIn() && !authService.isTokenExpired()) {
@@ -13,16 +13,16 @@ const _ajaxRequest = (relativeUrl = '', method = 'GET', body = null) => {
     headers['Authorization'] = authService.getToken();
 
     const options = {
-      methods,
+      method,
       headers
     };
 
-    if (body !== null) {
+    if (body) {
       options.body = body;
     }
 
     return fetch(
-      Settings.apiServerUrl + relativeUrl,
+      Settings.apiServerUrl + url,
       options
     )
       .then(authService._checkStatus)
@@ -33,17 +33,17 @@ const _ajaxRequest = (relativeUrl = '', method = 'GET', body = null) => {
 };
 
 const ajaxRequest = {
-  get: (url = '') => {
-    return _ajaxRequest (url = '', method = 'GET');
+  get: (url) => {
+    return _ajaxRequest(url, 'GET');
   },
-  put: (url = '', body = null) => {
-    return _ajaxRequest (url = '', method = 'PUT', body = null);
+  put: (url, body) => {
+    return _ajaxRequest(url, 'PUT', body);
   },
-  post: (url = '', body = null) => {
-    return _ajaxRequest (url = '', method = 'POST', body = null);
+  post: (url, body) => {
+    return _ajaxRequest(url, 'POST', body);
   },
-  delete: (url = '', body = null) => {
-    return _ajaxRequest(url = '', method = 'DELETE', body = null);
+  delete: (url, body) => {
+    return _ajaxRequest(url, 'DELETE', body);
   }
 }
 
