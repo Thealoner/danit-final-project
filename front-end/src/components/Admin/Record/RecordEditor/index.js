@@ -24,7 +24,7 @@ class RecordEditor extends Component {
     const { currentTab, loadingTab, setFormData } = this.props;
     loadingTab();
 
-    ajaxRequest('/' + currentTab.tabKey + '/' + currentTab.form.id)
+    ajaxRequest.get('/' + currentTab.tabKey + '/' + currentTab.form.id)
       .then(data => {
         setFormData(currentTab.tabKey, { data });
         // resizeInputs(formInputs);
@@ -35,9 +35,8 @@ class RecordEditor extends Component {
     const { currentTab, loadingTab, doneTab, persistFormData } = this.props;
     loadingTab();
 
-    ajaxRequest(
+    ajaxRequest.put(
       '/' + currentTab.tabKey,
-      'PUT',
       JSON.stringify([form.formData])
     )
       .then(json => {
@@ -55,9 +54,8 @@ class RecordEditor extends Component {
     const { currentTab, loadingTab, doneTab, persistFormData } = this.props;
     loadingTab();
     
-    ajaxRequest(
+    ajaxRequest.post(
       '/' + currentTab.tabKey,
-      'POST',
       JSON.stringify([form.formData])
     )
       .then(json => {
