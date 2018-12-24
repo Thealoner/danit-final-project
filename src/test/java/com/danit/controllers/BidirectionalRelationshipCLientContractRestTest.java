@@ -33,7 +33,7 @@ public class BidirectionalRelationshipCLientContractRestTest {
   public HttpHeaders setHeader() {
     headers.setContentType(MediaType.APPLICATION_JSON);
     HttpEntity<String> entity = new HttpEntity<String>(adminAuthJson, headers);
-    ResponseEntity<String> resHeader = template.postForEntity("/login", entity, String.class);
+    ResponseEntity<String> resHeader = template.postForEntity("/auth", entity, String.class);
     List<String> tokens = resHeader.getHeaders().get("Authorization");
 
     headers.clear();

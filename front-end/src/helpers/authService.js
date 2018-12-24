@@ -10,7 +10,7 @@ export default class AuthService {
   };
 
   login = (username, password) => {
-    return this.fetchMethod('/login', {
+    return this.fetchMethod('/auth', {
       method: 'POST',
       body: JSON.stringify({
         username,
