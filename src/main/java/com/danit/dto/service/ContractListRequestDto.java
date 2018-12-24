@@ -19,6 +19,10 @@ public class ContractListRequestDto {
 
   public ClientListRequestDto client;
 
+  public Long clientId;
+
+  public Long paketId;
+
   //  private PaketDto paket;
 
   private Boolean active;

@@ -2,6 +2,7 @@ package com.danit.controllers;
 
 import com.danit.dto.Views;
 import com.danit.dto.service.ServiceListRequestDto;
+import com.danit.facades.ServiceCategoryFacade;
 import com.danit.facades.ServiceFacade;
 import com.danit.models.Service;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -38,9 +39,11 @@ public class ServicesController {
 
   private static final String LOG_MSG_GOT_ALL_DATA = " got all services data";
   private ServiceFacade serviceFacade;
+  private ServiceCategoryFacade serviceCategoryFacade;
 
-  public ServicesController(ServiceFacade serviceFacade) {
+  public ServicesController(ServiceFacade serviceFacade, ServiceCategoryFacade serviceCategoryFacade) {
     this.serviceFacade = serviceFacade;
+    this.serviceCategoryFacade = serviceCategoryFacade;
   }
 
   @JsonView(Views.Extended.class)
@@ -114,6 +117,21 @@ public class ServicesController {
   void deleteServices(@RequestBody List<Service> services, Principal principal) {
     log.info(principal.getName() + " is trying to delete services: " + services);
     serviceFacade.deleteEntities(services);
+  }
+
+  @JsonView(Views.Short.class)
+  @GetMapping("{serviceId}/service_category")
+  ResponseEntity<Map<String, Object>> getAllServiceServiceCategoriesExtended(@PathVariable(name = "serviceId") long id,
+                                                                             @PageableDefault(page = DEFAULT_PAGE_NUMBER,
+                                                                                 size = DEFAULT_PAGE_SIZE)
+                                                                             @SortDefault.SortDefaults({
+                                                                                 @SortDefault(sort = "id",
+                                                                                     direction = Sort.Direction.ASC)
+                                                                             }) Pageable pageable,
+                                                                             Principal principal) {
+    log.info(principal.getName() + " got all service categories which contains service with id: " + id);
+    return ResponseEntity.ok(convertPageToMap(serviceCategoryFacade
+        .findAllServiceCategoriesOfServiceWithId(id, pageable)));
   }
 
 }

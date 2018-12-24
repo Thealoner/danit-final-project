@@ -8,7 +8,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -42,8 +41,7 @@ public class UserRole extends Auditable implements BaseEntity {
   @Column(name = "role")
   private UserRolesEnum role;
 
-  @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER,
-      cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
   @JsonIgnore
   private List<User> users;
 

@@ -8,7 +8,6 @@ import {faPlus, faSignOutAlt, faAngleRight, faMale, faFemale} from '@fortawesome
 import UserNavigation from '../UserNavigation';
 import Admin from '../Admin';
 import Manager from '../Manager';
-import Settings from '../Settings';
 import {Loader} from 'semantic-ui-react';
 
 library.add(
@@ -19,7 +18,7 @@ library.add(
   faFemale
 );
 
-const auth = new AuthService(Settings.apiServerUrl);
+const auth = new AuthService();
 
 class HomePage extends Component {
   constructor (props) {
