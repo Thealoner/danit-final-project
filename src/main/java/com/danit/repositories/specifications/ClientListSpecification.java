@@ -62,13 +62,5 @@ public class ClientListSpecification extends BaseSpecification<Client, ClientLis
     };
   }
 
-//
-//  public static Specification<Client> getClientsByPaketSpec(Paket paket) {
-//    return (root, query, cb) -> {
-//      ListJoin<Client, Contract> contractListJoin = root.join(Client_.contracts);
-//      return cb.equal(contractListJoin.get(Contract_.paket), paket);
-//    };
-//  }
-
 
 }

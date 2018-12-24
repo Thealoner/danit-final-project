@@ -19,14 +19,14 @@ public class ContractListSpecification extends BaseSpecification<Contract, Contr
   public Specification<Contract> getFilter(ContractListRequestDto request) {
     return (root, query, cb) -> {
       query.distinct(true);
-      return where(
+      return
           where(startDateContains(request.search))
               .or(findByClientGenderSpec(request.clientGender))
               .or(getContractByPaketIdSpec(request.paketId))
-      )
-          .and(startDateContains(request.search))
-          .and(findByClientGenderSpec(request.clientGender))
-          .and(getContractByPaketIdSpec(request.paketId))
+
+//          .and(startDateContains(request.search))
+//          .and(findByClientGenderSpec(request.clientGender))
+//          .and(getContractByPaketIdSpec(request.paketId))
           .toPredicate(root, query, cb);
     };
   }
