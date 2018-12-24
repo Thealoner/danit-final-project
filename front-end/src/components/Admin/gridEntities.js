@@ -6,7 +6,6 @@ import contracts from '../../SampleJson/contracts.json';
 import organizations from '../../SampleJson/organizations.json';
 import clients from '../../SampleJson/clients.json';
 
-
 var printIcon = function (cell) {
   console.log(cell.getValue());
   if (cell.getValue() === 'Male') {
@@ -29,8 +28,12 @@ const gridEntities = [
       { title: 'ID', field: 'id' },
       { title: 'Название', field: 'title' },
       { title: 'Цена', field: 'price', align: 'left' },
-      { title: 'Можно купить?', field: 'purchasable', formatter: 'tickCross'},
-      { title: 'Активен', field: 'active', formatter: 'tickCross'}
+      { title: 'Можно купить?',
+        field: 'purchasable',
+        formatter: 'tickCross'},
+      { title: 'Активен',
+        field: 'active',
+        formatter: 'tickCross'}
     ],
     schema: {
       type: 'object',
@@ -275,7 +278,9 @@ const gridEntities = [
       { title: 'ID', field: 'id' },
       { title: 'Имя', field: 'firstName' },
       { title: 'Фамилия', field: 'lastName' },
-      { title: 'Пол', field: 'gender', formatter: printIcon},
+      { title: 'Пол',
+        field: 'gender',
+        formatter: printIcon},
       { title: 'Дата Рождения', field: 'birthDate' },
       { title: 'Телефон', field: 'phoneNumber' },
       { title: 'Email', field: 'email' }
