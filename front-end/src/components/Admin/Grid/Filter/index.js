@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './index.scss';
 
 let defaultFilter = {
@@ -29,7 +29,7 @@ class Filter extends Component {
     this.props.applyFilter(filterString);
     this.setState({
       filtered: true
-    })
+    });
   };
 
   clearFilter = () => {
@@ -52,7 +52,7 @@ class Filter extends Component {
     return fields;
   };
 
-  render() {
+  render () {
     return (
       <form onSubmit={this.onSubmit} className='filter'>
         <span>
