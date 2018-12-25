@@ -17,11 +17,9 @@ public class ContractListRequestDto {
 
   public String startDate;
 
-  public Date endDate;
+  public String endDate;
 
   public Float credit;
-
-  public ClientListRequestDto client;
 
   public Long clientId;
 
