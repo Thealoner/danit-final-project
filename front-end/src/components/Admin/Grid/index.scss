@@ -33,6 +33,10 @@
     justify-content: left;
     align-items: center;
     height: 100%;
+
+    &:not([aria-sort='none']) {
+      background-color: #d9d5e4 !important;
+    }
   }
 
   &-cell {
@@ -45,7 +49,7 @@
 
     &[tabulator-field="firstName"],
     &[tabulator-field="lastName"] {
-      color: $butterfly-bush!important;
+      color: $butterfly-bush !important;
       font-weight: bold;
     }
 
@@ -102,11 +106,25 @@
       background-color: $white;
     }
   }
+
   &__plus-icon {
     margin-right: 5px;
     font-size: 12px;
   }
+
   .pagination a {
     color: $blue-bayoux !important;
   }
+}
+
+.fas {
+  font-size: 20px;
+}
+
+.fa-female {
+  color: $hot-pink;
+}
+
+.fa-male {
+  color: $blue-bayoux;
 }
