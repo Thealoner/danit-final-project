@@ -1,12 +1,10 @@
 package com.danit.security;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -23,8 +21,6 @@ import java.util.Arrays;
 
 
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-@ComponentScan("com.danit.security")
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -36,19 +32,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
+    JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager());
+    jwtAuthenticationFilter.setFilterProcessesUrl("/auth");
     http
         .cors()
         .and()
         .csrf().disable()
         .authorizeRequests()
-        .antMatchers("/log").permitAll()
         .antMatchers("/socket/**").permitAll()
         .antMatchers(HttpMethod.GET, "/users/**").hasAuthority("ADMIN")
         .anyRequest().authenticated()
         .and()
         .addFilterBefore(new JwtAuthorizationFilter(authenticationManager(), userDetailsService),
             BasicAuthenticationFilter.class)
-        .addFilterBefore(new JwtAuthenticationFilter(authenticationManager()),
+        .addFilterBefore(jwtAuthenticationFilter,
             UsernamePasswordAuthenticationFilter.class)
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
   }
@@ -63,6 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     CorsConfiguration configuration = new CorsConfiguration();
     configuration.setAllowedOrigins(Arrays.asList("*"));
     configuration.setAllowCredentials(true);
+    configuration.setAllowedOrigins(Arrays.asList("*"));
     configuration.setAllowedHeaders(Arrays.asList("Access-Control-Allow-Headers", "Access-Control-Allow-Origin",
         "Access-Control-Request-Method", "Access-Control-Request-Headers", "Origin", "Cache-Control",
         "Content-Type", "Authorization", "X-Frame-Options"));

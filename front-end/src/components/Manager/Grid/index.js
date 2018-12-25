@@ -41,7 +41,7 @@ class Grid extends Component {
           this.tabulator.setData(this.data);
         })
         .catch(error => {
-          toastr.error(error);
+          toastr.error(error.message);
           this.id = '';
           this.data = [];
           this.columns = [];
