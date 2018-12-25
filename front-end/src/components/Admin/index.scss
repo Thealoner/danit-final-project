@@ -52,6 +52,18 @@
     position: relative;
     overflow: hidden;
     background-color: $gallery;
+
+    .fas{
+      font-size: 25px;
+    }
+
+    .fa-female{
+      color: $hot-pink;
+    }
+
+    .fa-male{
+      color: $blue-bayoux;
+    }
   }
 }
 
