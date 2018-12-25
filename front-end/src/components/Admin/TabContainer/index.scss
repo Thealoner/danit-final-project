@@ -182,13 +182,13 @@
   }
 
   &__logo-wrapper {
-    display: flex;
-    justify-content: center;
     height: 100%;
 
     img {
       display: block;
+      width: auto;
       height: 100%;
+      margin: auto;
     }
   }
 }
