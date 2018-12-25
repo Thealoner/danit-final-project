@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom';
 import Filter from './Filter';
 import ajaxRequest from '../../../helpers/ajaxRequest';
 import {toastr} from 'react-redux-toastr';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import { Pagination } from 'semantic-ui-react';
 import { setTabGridData, setTabFormData } from '../../../actions/tabActions';
 import { connect } from 'react-redux';
