@@ -3,9 +3,13 @@ package com.danit.repositories.specifications;
 import com.danit.dto.service.ServiceListRequestDto;
 import com.danit.models.Client;
 import com.danit.models.Service;
+import com.danit.models.ServiceCategory;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
 import java.util.Objects;
 
 import static org.springframework.data.jpa.domain.Specification.where;
@@ -54,9 +58,28 @@ public class ServiceListSpecification extends BaseSpecification<Service, Service
         null;
   }
 
+  private Specification<Service> unitsNumberEquals(Object unitsNum) {
+    return Objects.nonNull(unitsNum) ? attributeContains("unitsNumber", String.valueOf(unitsNum)) :
+        null;
+  }
+
   private Specification<Service> activeEquals(Object active) {
     return Objects.nonNull(active) ? attributeContains("active", String.valueOf(active)) :
         null;
+  }
+
+  public static Specification<Service> getByServiceCategoryId(Object serviceCategoryId) {
+    if (Objects.nonNull(serviceCategoryId)){
+      return (Specification<Service>) (root, criteriaQuery, criteriaBuilder) -> {
+        final Subquery<Long> servCatQuery = criteriaQuery.subquery(Long.class);
+        final Root<ServiceCategory> servCat = servCatQuery.from(ServiceCategory.class);
+        final Join<ServiceCategory, Service> services = servCat.join("services");
+        servCatQuery.select(services.get("id"));
+        servCatQuery.where(criteriaBuilder.equal(servCat.get("id"), serviceCategoryId));
+
+        return criteriaBuilder.in(root.get("id")).value(servCatQuery);
+      };
+    } else return null;
   }
 
   private Specification<Service> attributeContains(String attribute, String value) {
