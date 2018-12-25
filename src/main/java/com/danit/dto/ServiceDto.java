@@ -33,6 +33,4 @@ public class ServiceDto extends BaseDto {
   @JsonView(Views.Short.class)
   private Boolean active;
 
-  @JsonView(Views.Extended.class)
-  private List<Long> serviceCategoriesIds;
 }

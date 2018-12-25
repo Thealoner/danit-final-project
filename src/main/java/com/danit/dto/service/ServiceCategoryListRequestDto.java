@@ -7,10 +7,8 @@ public class ServiceCategoryListRequestDto {
 
   public String search;
 
-  public Long id;
-
   public String title;
 
-  public Boolean isActive;
+  public Boolean active;
 
 }
