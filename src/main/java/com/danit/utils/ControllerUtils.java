@@ -1,30 +1,12 @@
 package com.danit.utils;
 
-import com.danit.dto.BaseDto;
 import com.danit.dto.PageDataDto;
-import com.danit.exceptions.ObjectToJsonProcessingException;
-import com.danit.models.BaseEntity;
-import com.danit.models.WebSocketEventMsg;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Component;
 
-import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
-@Component
 public class ControllerUtils {
-
-  private static ObjectMapper objectMapper = new ObjectMapper();
 
   public static final ControllerUtils CONTROLLER_UTILS = new ControllerUtils();
 
@@ -52,26 +34,4 @@ public class ControllerUtils {
     return outputData;
   }
 
-  public static <T extends BaseEntity> String convertEntityToJson(T entity) {
-    List<T> data = new ArrayList<>();
-    data.add(entity);
-    return convertEntitiesToJson(data);
-  }
-
-  public static <T extends BaseEntity> String convertEntitiesToJson(List<T> entities) {
-    ObjectWriter ow = objectMapper.writer();
-    List<WebSocketEventMsg> data = new ArrayList<>();
-    entities.forEach(t -> data.add(new WebSocketEventMsg(t.getId(), getEntityName(t))));
-    try {
-      return ow.writeValueAsString(data);
-    } catch (JsonProcessingException e) {
-      throw new ObjectToJsonProcessingException("cant convert entities to json");
-    }
-  }
-
-  @SuppressWarnings("unchecked")
-  private static <T> String getEntityName(T t) {
-    return ((Class<T>) ((ParameterizedType) t.getClass().getGenericSuperclass())
-        .getActualTypeArguments()[0]).getSimpleName().toLowerCase();
-  }
 }

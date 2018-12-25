@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.ParameterizedType;
@@ -19,17 +20,24 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.danit.utils.WebSocketUtils.DELETE_EVENT;
+import static com.danit.utils.WebSocketUtils.POST_EVENT;
+import static com.danit.utils.WebSocketUtils.PUT_EVENT;
+import static com.danit.utils.WebSocketUtils.convertEntitiesToJson;
+import static com.danit.utils.WebSocketUtils.convertEntityToJson;
+
 @Slf4j
 @Service
 public abstract class AbstractBaseEntityService<E extends BaseEntity, R> implements BaseEntityService<E> {
 
   private static final String LOG_MSG1 = "Cant find ";
   private static final String LOG_MSG2 = " with id=";
-
   @Autowired
   protected BaseEntityRepository<E> baseEntityRepository;
   @Autowired
   protected BaseSpecification<E, R> baseSpecification;
+  @Autowired
+  private SimpMessageSendingOperations messagingTemplate;
 
   @Override
   public E getEntityById(long id) {
@@ -48,12 +56,16 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
 
   @Override
   public List<E> saveEntities(List<E> entityList) {
-    return (List<E>) baseEntityRepository.saveAll(entityList);
+    List<E> savedEntityList = (List<E>) baseEntityRepository.saveAll(entityList);
+    messagingTemplate.convertAndSend(POST_EVENT, convertEntitiesToJson(savedEntityList));
+    return savedEntityList;
   }
 
   @Override
   public E saveEntity(E entity) {
-    return baseEntityRepository.save(entity);
+    E savedEntity = baseEntityRepository.save(entity);
+    messagingTemplate.convertAndSend(POST_EVENT, convertEntityToJson(savedEntity));
+    return savedEntity;
   }
 
   @Override
@@ -80,22 +92,24 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
         throw new EntityNotFoundException(LOG_MSG1 + getEntityName() + LOG_MSG2 + s.getId());
       }
     }
-    return (List<E>) baseEntityRepository.saveAll(entitiesToSave);
+    List<E> savedEntities = (List<E>) baseEntityRepository.saveAll(entitiesToSave);
+    messagingTemplate.convertAndSend(PUT_EVENT, convertEntitiesToJson(savedEntities));
+    return savedEntities;
   }
 
   @Override
-  public E deleteEntityById(long id) {
+  public void deleteEntityById(long id) {
     E e = baseEntityRepository.findById(id).orElseThrow(() ->
         new EntityNotFoundException(LOG_MSG1 + getEntityName() + LOG_MSG2 + id));
     baseEntityRepository.delete(e);
-    return e;
+    messagingTemplate.convertAndSend(DELETE_EVENT, convertEntityToJson(e));
   }
 
   @Override
-  public List<E> deleteEntities(List<E> entityList) {
+  public void deleteEntities(List<E> entityList) {
     List<E> list = reloadEntities(entityList);
     baseEntityRepository.deleteAll(list);
-    return list;
+    messagingTemplate.convertAndSend(DELETE_EVENT, convertEntitiesToJson(list));
   }
 
   @Override

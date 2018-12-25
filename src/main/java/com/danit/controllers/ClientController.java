@@ -19,7 +19,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,12 +36,7 @@ import java.util.Map;
 import static com.danit.utils.ControllerUtils.DEFAULT_PAGE_NUMBER;
 import static com.danit.utils.ControllerUtils.DEFAULT_PAGE_SIZE;
 import static com.danit.utils.ControllerUtils.convertDtoToMap;
-import static com.danit.utils.ControllerUtils.convertDtosToJson;
-import static com.danit.utils.ControllerUtils.convertEntitiesToJson;
-import static com.danit.utils.ControllerUtils.convertEntityIdToJson;
-import static com.danit.utils.ControllerUtils.convertEntityToJson;
 import static com.danit.utils.ControllerUtils.convertPageToMap;
-import static com.danit.utils.ControllerUtils.convertToJson;
 
 @RestController
 @RequestMapping("/clients")
@@ -50,8 +44,6 @@ import static com.danit.utils.ControllerUtils.convertToJson;
 public class ClientController {
 
   private static final String LOG_MSG_GOT_ALL_DATA = " got all clients data";
-
-  private SimpMessageSendingOperations messagingTemplate;
 
   private ClientFacade clientFacade;
 
@@ -62,10 +54,8 @@ public class ClientController {
   private ClientService clientService;
 
   @Autowired
-  public ClientController(SimpMessageSendingOperations messagingTemplate, ClientFacade clientFacade,
-                          ContractService contractService, ContractFacade contractFacade,
-                          ClientService clientService) {
-    this.messagingTemplate = messagingTemplate;
+  public ClientController(ClientFacade clientFacade, ClientService clientService,
+                          ContractService contractService, ContractFacade contractFacade) {
     this.clientFacade = clientFacade;
     this.contractService = contractService;
     this.contractFacade = contractFacade;
@@ -78,7 +68,6 @@ public class ClientController {
                                                                Principal principal) {
     log.info(principal.getName() + " is saving new clients: " + clients);
     List<ClientDto> clientDtos = clientFacade.saveEntities(clients);
-    messagingTemplate.convertAndSend("/events/post", convertEntitiesToJson(clientDtos));
     return ResponseEntity.ok(convertDtoToMap(clientDtos));
   }
 
@@ -134,7 +123,6 @@ public class ClientController {
   ResponseEntity<Map<String, Object>> updateClientsDto(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is updating clients data: " + clients);
     List<ClientDto> clientDtos = clientFacade.updateEntities(clients);
-    messagingTemplate.convertAndSend("/events/put", convertEntitiesToJson(clientDtos));
     return ResponseEntity.ok(convertDtoToMap(clientDtos));
   }
 
@@ -142,16 +130,14 @@ public class ClientController {
   @ResponseStatus(HttpStatus.OK)
   void deleteClientByIdDto(@PathVariable(name = "id") long id, Principal principal) {
     log.info(principal.getName() + " is trying to delete client with id: " + id);
-    Client client = clientFacade.deleteEntityById(id);
-    messagingTemplate.convertAndSend("/events/delete", convertEntityToJson(client));
+    clientFacade.deleteEntityById(id);
   }
 
   @DeleteMapping
   @ResponseStatus(HttpStatus.OK)
   void deleteClientsDto(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is trying to delete clients: " + clients);
-    List<Client> deletedClients = clientFacade.deleteEntities(clients);
-    messagingTemplate.convertAndSend("/events/delete", convertEntitiesToJson(deletedClients));
+    clientFacade.deleteEntities(clients);
   }
 
   //related entities methods
@@ -159,11 +145,10 @@ public class ClientController {
   @PutMapping("/{clientId}/contract/{contractId}")
   @ResponseStatus(HttpStatus.OK)
   ResponseEntity<Map<String, Object>> assignClientToContract(@PathVariable(name = "clientId") Long clientId,
-                              @PathVariable(name = "contractId") Long contractId,
-                              Principal principal) {
+                                                             @PathVariable(name = "contractId") Long contractId,
+                                                             Principal principal) {
     log.info(principal.getName() + " is trying to assign contractId=" + clientId + " to clientId= " + contractId);
     contractService.assignClientToContract(contractId, clientId);
-    messagingTemplate.convertAndSend("/events/put", convertEntitiesToJson(clientDtos));
     return ResponseEntity.ok(convertDtoToMap(clientFacade.getEntityById(clientId)));
   }
 
