@@ -11,21 +11,18 @@ Testing stomp client
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script>
-
-  let socket = 'ws://localhost:9000/socket'
+  let socket = 'ws://localhost:9000/socket';
   let headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBZG1pbiIsImV4cCI6MTU0NTU5MDQzMH0.7X8DZghPqxN6XcYaB5Sv652RW09pNkwIcyh23mRhHfuby967vVmuPD7om1SQSj0agi1_fNXR57XiD2reZsdhSg'}
 
   function connect () {
-    let stompClient = Stomp.client(socket)
+    let stompClient = Stomp.client(socket);
     stompClient.connect(headers, function (frame) {
-      console.log('Connected: ' + frame)
+      console.log('Connected: ' + frame);
       stompClient.subscribe('/events/get', function (messageOutput) {
         console.log(messageOutput.body)
       }, headers)
     })
   }
-
-
 </script>
 </body>
 </html>

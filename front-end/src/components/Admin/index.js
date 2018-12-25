@@ -27,6 +27,6 @@ class Admin extends Component {
       </main>
     );
   }
-};
+}
 
 export default withRouter(Admin);
