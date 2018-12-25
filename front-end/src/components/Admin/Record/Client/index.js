@@ -47,7 +47,7 @@ class SimpleRecord extends Component {
     });
 
     if (this.state.authService.loggedIn() && !this.state.authService.isTokenExpired()) {
-      ajaxRequest(entity.apiUrl + '/' + rowId)
+      ajaxRequest.get(entity.apiUrl + '/' + rowId)
         .then(data => {
           const editableDataKeys = Object.keys(this.state.editableFields);
           const editableData = {};
@@ -86,9 +86,8 @@ class SimpleRecord extends Component {
       messageType: ''
     });
 
-    ajaxRequest(
+    ajaxRequest.put(
       entity.apiUrl,
-      'PUT',
       JSON.stringify([this.state.editableFields])
     )
       .then(response => {
