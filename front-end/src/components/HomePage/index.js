@@ -8,7 +8,6 @@ import {faPlus, faSignOutAlt, faAngleRight} from '@fortawesome/free-solid-svg-ic
 import UserNavigation from '../UserNavigation';
 import Admin from '../Admin';
 import Manager from '../Manager';
-import Settings from '../Settings';
 import {Loader} from 'semantic-ui-react';
 
 library.add(
@@ -17,7 +16,7 @@ library.add(
   faAngleRight
 );
 
-const auth = new AuthService(Settings.apiServerUrl);
+const auth = new AuthService();
 
 class HomePage extends Component {
   constructor (props) {
