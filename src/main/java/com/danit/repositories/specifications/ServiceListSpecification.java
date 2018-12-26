@@ -1,7 +1,6 @@
 package com.danit.repositories.specifications;
 
 import com.danit.dto.service.ServiceListRequestDto;
-import com.danit.models.Client;
 import com.danit.models.Service;
 import com.danit.models.ServiceCategory;
 import org.springframework.data.jpa.domain.Specification;

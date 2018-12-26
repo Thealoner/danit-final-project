@@ -2,11 +2,7 @@ package com.danit.services;
 
 import com.danit.dto.service.ClientListRequestDto;
 import com.danit.models.Client;
-import com.danit.models.Paket;
 import com.danit.repositories.ClientRepository;
-import com.danit.repositories.specifications.ClientListSpecification;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
