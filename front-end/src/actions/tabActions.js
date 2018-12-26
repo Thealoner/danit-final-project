@@ -15,45 +15,46 @@ export const closeTab = tabKey => {
   };
 };
 
-export const setTabGridContent = (tabKey, payload) => {
+export const loadingTab = () => {
   return {
-    type: tab.SET_GRID_CONTENT,
+    type: tab.LOADING
+  };
+};
+
+export const doneTab = () => {
+  return {
+    type: tab.DONE
+  };
+};
+
+export const setTabGridData = (tabKey, payload) => {
+  return {
+    type: tab.SET_GRID_DATA,
     tabKey,
     payload
   };
 };
 
-export const setTabFormContent = (tabKey, payload) => {
+export const setTabFormData = (tabKey, payload) => {
   return {
-    type: tab.SET_FORM_CONTENT,
+    type: tab.SET_FORM_DATA,
     tabKey,
     payload
   };
 };
 
-export const storeTabFormData = (tabKey, formData) => {
+export const persistTabFormData = (tabKey, payload) => {
+  return {
+    type: tab.PERSIST_FORM_DATA,
+    tabKey,
+    payload
+  };
+};
+
+export const storeTabTmpFormData = (tabKey, payload) => {
   return {
     type: tab.STORE_TMP_FORM_DATA,
     tabKey,
-    payload: {
-      formData
-    }
-  };
-};
-
-export const clearTabFormData = tabKey => {
-  return {
-    type: tab.CLEAR_FORM_DATA,
-    tabKey
-  };
-};
-
-export const resetTabFormData = (tabKey, formData) => {
-  return {
-    type: tab.RESET_FORM_DATA,
-    tabKey,
-    payload: {
-      formData
-    }
+    payload
   };
 };

@@ -91,9 +91,17 @@ export default function tabsReducer (state = initialState, action) {
       };
     }
 
-    case tab.SET_GRID_CONTENT: {
-      const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === action.tabKey);
+    case tab.LOADING: {
+      return updateCurrentTabAttributes(state, { status: 'loading' });
+    }
+
+    case tab.DONE: {
+      return updateCurrentTabAttributes(state, { status: 'done' });
+    }
+
+    case tab.SET_GRID_DATA: {
       let newTabData = {};
+      
       if (action.payload.type) {
         newTabData.type = action.payload.type;
       }
@@ -106,72 +114,74 @@ export default function tabsReducer (state = initialState, action) {
         };
       }
 
-      return {
-        ...state,
-        tabsArray: [
-          ...state.tabsArray.filter(tab => tab.tabKey !== action.tabKey),
-          {
-            ...state.tabsArray[tabIndex],
-            ...newTabData
-          }
-        ]
-      };
+      return updateCurrentTabAttributes(state, newTabData);
     }
 
-    case tab.SET_FORM_CONTENT: {
-      return state;
+    case tab.SET_FORM_DATA: {
+      let newTabData = {};
+
+      if (action.payload.type) {
+        newTabData.type = action.payload.type;
+      }
+      
+      if (action.payload) {
+        newTabData.form = {
+          id: action.payload.id,
+          data: action.payload.data,
+          meta: action.payload.meta,
+          edited: false
+        };
+      }
+      
+      return updateCurrentTabAttributes(state, newTabData);
+    }
+
+    case tab.PERSIST_FORM_DATA: {
+      let newTabData = {
+        type: 'grid',
+        form: null
+      };
+      
+      return updateCurrentTabAttributes(state, newTabData);
     }
 
     case tab.STORE_TMP_FORM_DATA: {
-      const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey !== action.tabKey);
-
-      return {
-        ...state,
-        tabsArray: [
-          ...state.tabsArray.filter((tab, index) => index !== tabIndex),
-          {
-            ...state.tabsArray[tabIndex],
-            formData: action.payload.formData,
-            formDataEdited: true
-          }
-        ]
+      const newTabData = {
+        form: {
+          data: action.payload.data,
+          edited: true
+        }
       };
-    }
-
-    case tab.CLEAR_FORM_DATA: {
-      const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey !== action.tabKey);
-
-      return {
-        ...state,
-        tabsArray: [
-          ...state.tabsArray.filter((tab, index) => index !== tabIndex),
-          {
-            ...state.tabsArray[tabIndex],
-            formData: null,
-            formDataEdited: false
-          }
-        ]
-      };
-    }
-
-    case tab.RESET_FORM_DATA: {
-      const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey !== action.tabKey);
-
-      return {
-        ...state,
-        tabsArray: [
-          ...state.tabsArray.filter((tab, index) => index !== tabIndex),
-          {
-            ...state.tabsArray[tabIndex],
-            formData: action.payload.formData,
-            formDataEdited: false
-          }
-        ]
-      };
+      return updateCurrentTabAttributes(state, newTabData);
     }
     
     default: {
       return state;
     }
+  }
+
+  function updateCurrentTabAttributes (state, newAttributes) {
+    return updateTabAttributes(state, newAttributes, state.activeKey);
+  }
+
+  function updateTabAttributes (state, newAttributes, tabKey) {
+    const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === tabKey);
+    let newTabsArray = state.tabsArray.map((value, index) => {
+      if (index === tabIndex) {
+        return {
+          ...value,
+          ...newAttributes
+        };
+      } else {
+        return value;
+      }
+    });
+
+    let newState = {
+      ...state,
+      tabsArray: newTabsArray
+    };
+
+    return newState;
   }
 }

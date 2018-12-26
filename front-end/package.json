@@ -28,6 +28,7 @@
     "react-refetch": "^2.0.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.0.4",
+    "react-stomp": "^4.0.0",
     "react-tabulator": "^0.5.10",
     "redux": "^4.0.0",
     "redux-devtools-extension": "^2.13.5",
@@ -67,5 +68,6 @@
   "browserslist": [
     ">0.2%",
     "not dead"
-  ]
+  ],
+  "proxy": "http://localhost:9000/"
 }

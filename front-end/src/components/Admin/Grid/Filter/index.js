@@ -5,9 +5,11 @@ let defaultFilter = {
   field: 'search',
   value: ''
 };
+
 class Filter extends Component {
   state = {
-    ...defaultFilter
+    ...defaultFilter,
+    filtered: false
   };
 
   handleInputChange = event => {
@@ -16,7 +18,8 @@ class Filter extends Component {
     const name = target.name;
 
     this.setState({
-      [name]: value
+      [name]: value,
+      filtered: false
     });
   };
 
@@ -24,25 +27,28 @@ class Filter extends Component {
     event.preventDefault();
     const filterString = '&' + this.state.field + '=' + this.state.value;
     this.props.applyFilter(filterString);
+    this.setState({
+      filtered: true
+    });
   };
 
   clearFilter = () => {
     this.props.clearFilter();
-
     this.setState({
-      ...defaultFilter
+      ...defaultFilter,
+      filtered: false
     });
   };
 
   renderFields = () => {
-    const { columns } = this.props;
-    
+    const {columns} = this.props;
+
     let fields = columns.map(column => (
       <option key={column.field} value={column.field}>{column.title}</option>
     ));
 
     fields.unshift(<option key="search" value="search">Все</option>);
-      
+
     return fields;
   };
 
@@ -55,13 +61,11 @@ class Filter extends Component {
             {this.renderFields()}
           </select>
         </span>
-
         <span>
           <label>Значение: </label>
-          <input name="value" type="text" placeholder="" value={this.state.value} onChange={this.handleInputChange} />
+          <input name="value" type="text" value={this.state.value} onChange={this.handleInputChange}/>
         </span>
-
-        <button name="filter" type="submit">Применить фильтр</button>
+        <button name="filter" type="submit" disabled={this.state.filtered}>Применить фильтр</button>
         <button name="clear" onClick={this.clearFilter} type="button">Очистить фильтр</button>
       </form>
     );

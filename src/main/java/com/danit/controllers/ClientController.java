@@ -1,6 +1,7 @@
 package com.danit.controllers;
 
 
+import com.danit.dto.ClientDto;
 import com.danit.dto.Views;
 import com.danit.dto.service.ClientListRequestDto;
 import com.danit.facades.ClientFacade;
@@ -53,8 +54,8 @@ public class ClientController {
   private ClientService clientService;
 
   @Autowired
-  public ClientController(ClientFacade clientFacade, ContractService contractService,
-                          ContractFacade contractFacade, ClientService clientService) {
+  public ClientController(ClientFacade clientFacade, ClientService clientService,
+                          ContractService contractService, ContractFacade contractFacade) {
     this.clientFacade = clientFacade;
     this.contractService = contractService;
     this.contractFacade = contractFacade;
@@ -66,7 +67,8 @@ public class ClientController {
   ResponseEntity<Map<String, Object>> createClientsDtoExtended(@RequestBody List<Client> clients,
                                                                Principal principal) {
     log.info(principal.getName() + " is saving new clients: " + clients);
-    return ResponseEntity.ok(convertDtoToMap(clientFacade.saveEntities(clients)));
+    List<ClientDto> clientDtos = clientFacade.saveEntities(clients);
+    return ResponseEntity.ok(convertDtoToMap(clientDtos));
   }
 
   @JsonView(Views.Ids.class)
@@ -120,7 +122,8 @@ public class ClientController {
   @PutMapping
   ResponseEntity<Map<String, Object>> updateClientsDto(@RequestBody List<Client> clients, Principal principal) {
     log.info(principal.getName() + " is updating clients data: " + clients);
-    return ResponseEntity.ok(convertDtoToMap(clientFacade.updateEntities(clients)));
+    List<ClientDto> clientDtos = clientFacade.updateEntities(clients);
+    return ResponseEntity.ok(convertDtoToMap(clientDtos));
   }
 
   @DeleteMapping("/{id}")
@@ -138,13 +141,15 @@ public class ClientController {
   }
 
   //related entities methods
+  @JsonView(Views.Extended.class)
   @PutMapping("/{clientId}/contract/{contractId}")
   @ResponseStatus(HttpStatus.OK)
-  void assignClientToContract(@PathVariable(name = "clientId") Long clientId,
-                              @PathVariable(name = "contractId") Long contractId,
-                              Principal principal) {
+  ResponseEntity<Map<String, Object>> assignClientToContract(@PathVariable(name = "clientId") Long clientId,
+                                                             @PathVariable(name = "contractId") Long contractId,
+                                                             Principal principal) {
     log.info(principal.getName() + " is trying to assign contractId=" + clientId + " to clientId= " + contractId);
     contractService.assignClientToContract(contractId, clientId);
+    return ResponseEntity.ok(convertDtoToMap(clientFacade.getEntityById(clientId)));
   }
 
   @JsonView(Views.Extended.class)
