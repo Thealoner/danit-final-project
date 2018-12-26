@@ -3,7 +3,6 @@ import {Link} from 'react-router-dom';
 import './index.scss';
 import User from './User';
 import logo from './EG-logo.svg';
-import Stomp from '../Stomp';
 
 const Header = ({handleLogout, userName}) =>
   <div className="header">
@@ -11,7 +10,6 @@ const Header = ({handleLogout, userName}) =>
       <Link to="/" className="header__logo-link">
         <img className="header__logo" src={logo} alt="logo"/>
       </Link>
-      <Stomp />
     </div>
     <div className="header__right-col">
       <User handleLogout={handleLogout} userName={userName}/>
