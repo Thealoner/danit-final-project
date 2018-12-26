@@ -31,7 +31,7 @@ class Grid extends Component {
       const { entityType } = this.props.match.params;
       const entity = getEntityByType(entityType);
 
-      ajaxRequest(entity.apiUrl)
+      ajaxRequest.get(entity.apiUrl)
         .then(data => {
           this.props.setTabContentUrl(entity.id);
           this.id = entityType;
