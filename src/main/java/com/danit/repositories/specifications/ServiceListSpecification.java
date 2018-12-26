@@ -68,7 +68,7 @@ public class ServiceListSpecification extends BaseSpecification<Service, Service
   }
 
   public static Specification<Service> getByServiceCategoryId(Object serviceCategoryId) {
-    if (Objects.nonNull(serviceCategoryId)){
+    if (Objects.nonNull(serviceCategoryId)) {
       return (Specification<Service>) (root, criteriaQuery, criteriaBuilder) -> {
         final Subquery<Long> servCatQuery = criteriaQuery.subquery(Long.class);
         final Root<ServiceCategory> servCat = servCatQuery.from(ServiceCategory.class);
@@ -78,7 +78,9 @@ public class ServiceListSpecification extends BaseSpecification<Service, Service
 
         return criteriaBuilder.in(root.get("id")).value(servCatQuery);
       };
-    } else return null;
+    } else {
+      return null;
+    }
   }
 
   private Specification<Service> attributeContains(String attribute, String value) {
