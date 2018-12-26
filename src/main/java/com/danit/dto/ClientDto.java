@@ -15,9 +15,6 @@ import java.util.List;
 @Data
 public class ClientDto extends BaseDto {
 
-  @JsonView({Views.Ids.class, Views.Short.class})
-  private Long id;
-
   @JsonView(Views.Short.class)
   private String firstName;
 
