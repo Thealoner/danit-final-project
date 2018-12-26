@@ -22,7 +22,7 @@ class SimpleRecord extends Component {
     const { entityType } = this.props;
     const entity = getEntityByType(entityType);
 
-    ajaxRequest(entity.apiUrl + '/' + rowId)
+    ajaxRequest.get(entity.apiUrl + '/' + rowId)
       .then(data => {
         const keys = Object.keys(data);
         const dataArray = [];
@@ -49,9 +49,8 @@ class SimpleRecord extends Component {
     const array = this.state.data;
     const dataToSave = array.reduce((obj, {key, value}) => ({ ...obj, [key]: value }), {});
 
-    ajaxRequest(
+    ajaxRequest.put(
       entity.apiUrl,
-      'PUT',
       JSON.stringify(dataToSave)
     )
       .then(data => {
