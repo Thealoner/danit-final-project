@@ -8,11 +8,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 class Admin extends Component {
   configurator = React.createRef();
 
-  hideConfiguratorMenu = () => this.configurator.classList.toggle('configurator__menu-hide');
+  hideConfiguratorMenu = () => this.configurator.current.classList.toggle('configurator__menu-hide');
 
   render () {
     return (
-      <main className="configurator" ref={el => this.configurator = el}>
+      <main className="configurator" ref={this.configurator}>
         <div className="configurator__left">
           <div className="configurator__close-panel">
             <FontAwesomeIcon icon="angle-right" size="1x" onClick={() => this.hideConfiguratorMenu()} />

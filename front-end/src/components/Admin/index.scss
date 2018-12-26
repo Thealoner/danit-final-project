@@ -19,7 +19,7 @@
     width: 100%;
     height: 30px;
     padding-right: 10px;
-    color: $white;
+    color: $victoria;
     font-size: 18px;
     background-color: transparent;
 
@@ -51,19 +51,8 @@
   &__right {
     position: relative;
     overflow: hidden;
-    background-color: $gallery;
-
-    .fas{
-      font-size: 25px;
-    }
-
-    .fa-female{
-      color: $hot-pink;
-    }
-
-    .fa-male{
-      color: $blue-bayoux;
-    }
+    background-color: $white;
+    border-top-left-radius: 10px;
   }
 }
 
@@ -78,6 +67,7 @@
 
   .configurator__close-panel {
     padding-right: 3px;
+    color: $white;
   }
 
   svg {

@@ -1,6 +1,6 @@
 import AuthService from './authService';
 
-const ajaxRequest = (relativeUrl = '/', method = 'GET', body = null) => {
+const _ajaxRequest = (url, method, body) => {
   const authService = new AuthService();
 
   if (authService.loggedIn() && !authService.isTokenExpired()) {
@@ -16,12 +16,12 @@ const ajaxRequest = (relativeUrl = '/', method = 'GET', body = null) => {
       headers
     };
 
-    if (body !== null) {
+    if (body) {
       options.body = body;
     }
 
     return fetch(
-      relativeUrl,
+      url,
       options
     )
       .then(authService._checkStatus)
@@ -30,5 +30,20 @@ const ajaxRequest = (relativeUrl = '/', method = 'GET', body = null) => {
     console.log('Not logged in or token is expired');
   }
 };
+
+const ajaxRequest = {
+  get: (url) => {
+    return _ajaxRequest(url, 'GET');
+  },
+  put: (url, body) => {
+    return _ajaxRequest(url, 'PUT', body);
+  },
+  post: (url, body) => {
+    return _ajaxRequest(url, 'POST', body);
+  },
+  delete: (url, body) => {
+    return _ajaxRequest(url, 'DELETE', body);
+  }
+}
 
 export default ajaxRequest;
