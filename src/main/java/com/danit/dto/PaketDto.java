@@ -14,9 +14,6 @@ import java.util.List;
 @Data
 public class PaketDto extends BaseDto {
 
-  @JsonView({Views.Extended.class, Views.Ids.class, Views.Short.class})
-  private Long id;
-
   @JsonView(Views.Short.class)
   private String title;
 
