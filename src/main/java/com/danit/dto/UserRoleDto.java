@@ -19,9 +19,6 @@ import java.util.List;
 @Data
 public class UserRoleDto extends BaseDto {
 
-  @JsonView({Views.Ids.class, Views.Short.class})
-  private Long id;
-
   @JsonView(Views.Short.class)
   @Enumerated(value = EnumType.STRING)
   private UserRolesEnum role;

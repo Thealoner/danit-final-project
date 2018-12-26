@@ -37,6 +37,7 @@ import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
 public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer {
 
   private static final String MESSAGE_PREFIX = "/events";
+
   @Autowired
   private UserDetailsService userDetailsService;
 
