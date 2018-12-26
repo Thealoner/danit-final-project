@@ -5,7 +5,7 @@ import {Loader} from 'semantic-ui-react';
 import TabPane from './TabPane';
 import TabContent from './TabContent';
 import './index.scss';
-import logo from './logo.svg'
+import logo from './logo.svg';
 
 class TabContainer extends Component {
   render () {

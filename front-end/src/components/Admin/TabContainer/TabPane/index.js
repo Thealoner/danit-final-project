@@ -1,7 +1,7 @@
 import React from 'react';
 import Tab from './Tab';
 
-function TabPane({tabs, onSelect}) {
+function TabPane ({tabs, onSelect}) {
   const tabsList = tabs.tabsArray.map(tab =>
     <Tab
       key={tab.tabKey}
