@@ -22,16 +22,16 @@ public class ContractListSpecification extends BaseSpecification<Contract, Contr
   }
 
   private Specification<Contract> startDateContains(String startDate) {
-    return stringAttributeContains("startDate", startDate);
+    return attributeContains("startDate", startDate);
   }
 
-  private Specification<Contract> stringAttributeContains(String attribute, String value) {
+  private Specification<Contract> attributeContains(String attribute, String value) {
     return (root, query, cb) -> {
       if (value == null) {
         return null;
       }
       return cb.like(
-          cb.lower(root.get(attribute)),
+          cb.lower(root.get(attribute).as(String.class)),
           containsLowerCase(value)
       );
     };
