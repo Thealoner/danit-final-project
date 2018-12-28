@@ -12,7 +12,6 @@
     font-size: 14px;
     line-height: normal;
     border-bottom: 1px solid $white !important;
-    border-right: none !important;
 
     ::-webkit-scrollbar-track {
       visibility: hidden;
@@ -23,7 +22,6 @@
     display: flex;
     height: 100%;
     overflow-y: scroll;
-    border-right: none !important;
   }
 
   &-table {
@@ -31,7 +29,7 @@
   }
 
   &-tableHolder {
-    overflow: scroll !important;
+    overflow-y: scroll !important;
   }
 
   &-sortable {
@@ -40,10 +38,6 @@
     justify-content: left;
     align-items: center;
     height: 100%;
-
-    :last-child {
-      border-right: none !important;
-    }
 
     &:not([aria-sort='none']) {
       background-color: #d9d5e4 !important;
