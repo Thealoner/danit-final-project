@@ -11,6 +11,8 @@ public class PaketListRequestDto {
 
   public String search;
 
+  public String id;
+
   public String title;
 
   public Integer term;

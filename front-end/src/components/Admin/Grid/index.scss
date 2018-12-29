@@ -12,15 +12,24 @@
     font-size: 14px;
     line-height: normal;
     border-bottom: 1px solid $white !important;
+
+    ::-webkit-scrollbar-track {
+      visibility: hidden;
+    }
   }
 
   &-headers {
     display: flex;
     height: 100%;
+    overflow-y: scroll;
   }
 
   &-table {
     width: 100%;
+  }
+
+  &-tableHolder {
+    overflow-y: scroll !important;
   }
 
   &-sortable {
