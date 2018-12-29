@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,9 +80,18 @@ public class ClientControllerTest {
 
   private HttpHeaders headers;
 
+  private static boolean dbInit = false;
+
   @Before
   public void createClients() throws Exception {
     headers = testUtils.getHeader(template, UserRolesEnum.USER);
+
+    if(dbInit) {
+      return;
+    }
+    dbInit = true;
+
+    clientRepository.deleteAll();
     long numberOfEntities = clientService.getNumberOfEntities();
 
     List<Client> clients = new ArrayList<>(20);
