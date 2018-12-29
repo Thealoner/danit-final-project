@@ -51,15 +51,11 @@ public class ClientController {
 
   private ContractFacade contractFacade;
 
-  private ClientService clientService;
-
   @Autowired
-  public ClientController(ClientFacade clientFacade, ClientService clientService,
-                          ContractService contractService, ContractFacade contractFacade) {
+  public ClientController(ClientFacade clientFacade, ContractService contractService, ContractFacade contractFacade) {
     this.clientFacade = clientFacade;
     this.contractService = contractService;
     this.contractFacade = contractFacade;
-    this.clientService = clientService;
   }
 
   @JsonView(Views.Extended.class)
