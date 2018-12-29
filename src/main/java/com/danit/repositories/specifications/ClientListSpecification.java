@@ -14,7 +14,7 @@ public class ClientListSpecification extends BaseSpecification<Client, ClientLis
 
   @Override
   public Specification<Client> getFilter(ClientListRequestDto request) {
-    request.equals = !Objects.isNull(request.equals);
+    request.equals = Objects.isNull(request.equals) ? false : request.equals;
     return (root, query, cb) -> {
       query.distinct(true);
       return where(
@@ -78,10 +78,8 @@ public class ClientListSpecification extends BaseSpecification<Client, ClientLis
       }
       return cb.equal(
           cb.lower(root.get(attribute).as(String.class)),
-          value
+          value.toLowerCase()
       );
     };
   }
-
-
 }

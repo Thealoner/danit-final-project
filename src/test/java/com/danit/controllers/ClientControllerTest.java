@@ -92,7 +92,7 @@ public class ClientControllerTest {
       clients.add(client);
     }
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 1; i < 11; i++) {
       Client client = new Client();
       client.setFirstName("SearchTestClientFirstName" + i);
       client.setLastName("SearchTestClientLastName" + i);
@@ -152,7 +152,7 @@ public class ClientControllerTest {
     });
   }
 
-  @Test(expected = EntityNotFoundException.class)
+  @Test
   public void deleteNonExistingClient() throws Exception {
 
     this.mockMvc.perform(delete(url).headers(headers)
@@ -160,7 +160,7 @@ public class ClientControllerTest {
         .content("[{\"id\": 1021},{\"id\": 1022},{\"id\": 1023}]"))
         .andExpect(status().isNotFound());
 
-    this.mockMvc.perform(delete(url + "/1020").headers(headers))
+    this.mockMvc.perform(delete(url + "/1021").headers(headers))
         .andExpect(status().isNotFound());
   }
 
@@ -309,9 +309,9 @@ public class ClientControllerTest {
     Assert.assertEquals(new Long(1005), receivedClient.getId());
   }
 
-  @Test(expected = EntityNotFoundException.class)
+  @Test
   public void getClientByNotExistingId() throws Exception {
-    mockMvc.perform(get(url + "/" + 1020).headers(headers))
+    mockMvc.perform(get(url + "/" + 1021).headers(headers))
         .andExpect(status().isNotFound());
   }
 

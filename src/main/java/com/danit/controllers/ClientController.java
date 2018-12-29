@@ -95,6 +95,7 @@ public class ClientController {
       ClientListRequestDto clientListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
     log.info("pageable: " + pageable);
+    log.info("clientListRequestDto: " + clientListRequestDto);
     return ResponseEntity.ok(convertPageToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
   }
 
