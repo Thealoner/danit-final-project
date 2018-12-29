@@ -11,6 +11,8 @@ public class ContractListRequestDto {
 
   public String search;
 
+  public String id;
+
   public String paketId;
 
   public String clientGender;

@@ -1,17 +1,20 @@
-/*package com.danit.controllers;
+package com.danit.controllers;
 
 import com.danit.Application;
 import com.danit.TestUtils;
-import com.danit.configuration.DbTestProfileJpaConfig;
+import com.danit.exceptions.EntityNotFoundException;
 import com.danit.facades.ClientFacade;
 import com.danit.models.Client;
 import com.danit.models.UserRolesEnum;
 import com.danit.repositories.ClientRepository;
 import com.danit.services.ClientService;
+import com.danit.services.ContractService;
+import com.danit.services.PaketService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.jayway.jsonpath.JsonPath;
+import org.json.JSONObject;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,25 +22,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {
-    Application.class,
-    DbTestProfileJpaConfig.class},
+    Application.class},
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
 @AutoConfigureMockMvc
 public class ClientControllerTest {
 
@@ -45,175 +53,266 @@ public class ClientControllerTest {
 
   @Autowired
   TestUtils testUtils;
+
   @Autowired
   ObjectMapper objectMapper;
+
   @Autowired
   ClientFacade clientFacade;
+
   @Autowired
   ClientRepository clientRepository;
+
   @Autowired
   ClientService clientService;
+
+  @Autowired
+  PaketService paketService;
+
+  @Autowired
+  ContractService contractService;
+
   @Autowired
   private MockMvc mockMvc;
+
   @Autowired
   private TestRestTemplate template;
 
-  HttpHeaders header;
+  private HttpHeaders headers;
 
   @Before
-  public void setHeader() {
-    header = testUtils.getHeader(template, UserRolesEnum.ADMIN);
-  }
+  public void createClients() throws Exception {
+    headers = testUtils.getHeader(template, UserRolesEnum.USER);
+    long numberOfEntities = clientService.getNumberOfEntities();
 
-  @Test
-  public void isOkWhenAdminAccess() throws Exception {
-    mockMvc
-        .perform(get("/clients?page=0&size=2").headers(header))
-        .andExpect(status().isOk());
-  }
+    List<Client> clients = new ArrayList<>(20);
+    for (int i = 0; i < 10; i++) {
+      Client client = new Client();
+      client.setFirstName("TestClientName" + i);
+      clients.add(client);
+    }
 
-  @Test
-  public void createOneClientWithExistingEntities() throws Exception {
-
-    Client client = new Client();
+    for (int i = 0; i < 10; i++) {
+      Client client = new Client();
+      client.setFirstName("SearchTestClientFirstName" + i);
+      client.setLastName("SearchTestClientLastName" + i);
+      clients.add(client);
+    }
 
     ObjectWriter ow = objectMapper.writer();
-    String json = ow.writeValueAsString(client);
+    String json = ow.writeValueAsString(clients);
 
-    String responseJson = this.mockMvc.perform(post(url).headers(header)
+    this.mockMvc.perform(post(url).headers(headers)
         .contentType("application/json")
-        .content("[" + json + "]"))
+        .content(json))
+        .andExpect(status().isOk());
+    Assert.assertEquals(clientService.getNumberOfEntities(), numberOfEntities + 20);
+  }
+
+  @Test
+  public void deleteClientsBySeveralMethods() throws Exception {
+    long numberOfEntities = clientService.getNumberOfEntities();
+    this.mockMvc.perform(delete(url).headers(headers)
+        .contentType("application/json")
+        .content("[{\"id\": 1001},{\"id\": 1002},{\"id\": 1003}]"))
+        .andExpect(status().isOk());
+    Assert.assertEquals(clientService.getNumberOfEntities(), numberOfEntities - 3);
+
+    this.mockMvc.perform(delete(url + "/1004").headers(headers))
+        .andExpect(status().isOk());
+
+    Assert.assertEquals(clientService.getNumberOfEntities(), numberOfEntities - 4);
+  }
+
+  public void updateClientData() throws Exception {
+    List<Client> clients = clientService.getAllEntities(PageRequest.of(1,
+        6,
+        new Sort(Sort.Direction.ASC, "id"))).getContent();
+    clients.forEach(client -> {
+      client.setFirstName("UpdatedFirstName");
+      client.setLastName("UpdatedLastName");
+      client.setGender("UpdatedGender");
+      client.setActive(false);
+    });
+
+    String json = objectMapper.writer().writeValueAsString(clients);
+    String responseJson = this.mockMvc.perform(put(url).headers(headers)
+        .contentType("application/json")
+        .content(json))
         .andExpect(status().isOk())
         .andReturn().getResponse().getContentAsString();
 
-    LinkedHashMap object = JsonPath.read(responseJson, "$.data[0]");
-    Long id = new Long(String.valueOf(object.get("id")));
-//
-//    this.mockMvc.perform(put(url + "/" + id + "/client/20").headers(header))
-//        .andExpect(status().isOk());
-//    this.mockMvc.perform(put(url + "/" + id + "/paket/1").headers(header))
-//        .andExpect(status().isOk());
-
-    Client createdClient = clientService.getEntityById(id);
-
-    assertEquals(1L, (long) createdContract.getPaket().getId());
-    assertEquals(20L, (long) createdContract.getClient().getId());
-
+    List<Client> updatedClients = objectMapper.readValue(responseJson, new TypeReference<List<Client>>() {
+    });
+    updatedClients.forEach(client -> {
+      Assert.assertEquals("UpdatedFirstName", client.getFirstName());
+      Assert.assertEquals("UpdatedLastName", client.getLastName());
+      Assert.assertEquals("UpdatedGender", client.getGender());
+      Assert.assertEquals(false, client.getActive());
+    });
   }
 
-//
-//  @Test
-//  public void saveClientIfNotExists() throws Exception {
-//    int numberOfClients = clientService.getNumberOfClients();
-//    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
-//    this.mockMvc.perform(post("/clients").headers(header)
-//        .contentType("application/json")
-//        .content("[{\n"
-//            + "    \"birthDate\": \"1978-12-22\",\n"
-//            + "    \"email\": \"alex2021@gmail.com\",\n"
-//            + "    \"firstName\": \"Alexey\",\n"
-//            + "    \"gender\": \"Female\",\n"
-//            + "    \"lastName\": \"Grinkov\",\n"
-//            + "    \"phoneNumber\": \"155-846-2959\",\n"
-//            + "    \"active\": true\n"
-//            + "  }]"))
-//        .andExpect(status().isCreated());
-//    assertEquals(numberOfClients + 1, clientService.getNumberOfClients());
-//  }
-//
-//  @Test
-//  public void updateClientData() throws Exception {
-//    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
-//
-//    String responseJson = this.mockMvc.perform(post("/clients").headers(header)
-//        .contentType("application/json")
-//        .content("[{\n"
-//            + "    \"birthDate\": \"1978-12-22\",\n"
-//            + "    \"email\": \"alex2021@gmail.com\",\n"
-//            + "    \"firstName\": \"TestUser1\",\n"
-//            + "    \"gender\": \"Female\",\n"
-//            + "    \"lastName\": \"Grinkov\",\n"
-//            + "    \"phoneNumber\": \"155-846-2959\",\n"
-//            + "    \"active\": true\n"
-//            + "  }]"))
-//        .andExpect(status().isCreated())
-//        .andReturn().getResponse().getContentAsString();
-//
-//    ObjectMapper mapper = new ObjectMapper();
-//    List<Client> actualObj = mapper.readValue(responseJson, new TypeReference<List<Client>>() {
-//    });
-//    long createdId = actualObj.get(0).getId();
-//
-//    responseJson = mockMvc.perform(put("/clients/").headers(header)
-//        .contentType("application/json")
-//        .content("[{\n"
-//            + "    \"id\": " + createdId + ", \n"
-//            + "    \"firstName\": \"TestUser2\"\n"
-//            + "  }]"))
-//        .andExpect(status().isOk())
-//        .andReturn().getResponse().getContentAsString();
-//
-//    actualObj = mapper.readValue(responseJson, new TypeReference<List<Client>>() {
-//    });
-//    assertEquals("TestUser2", actualObj.get(0).getFirstName());
-//
-//  }
-//
-//  @Test
-//  public void deleteClientIfExists() throws Exception {
-//    int numberOfClients = clientService.getNumberOfClients();
-//    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
-//
-//    mockMvc.perform(delete("/clients").headers(header)
-//        .contentType("application/json")
-//        .content("[{\n" +
-//            "      \"id\": 1005,\n" +
-//            "      \"firstName\": \"Ly\",\n" +
-//            "      \"lastName\": \"Lotherington\",\n" +
-//            "      \"gender\": \"Male\",\n" +
-//            "      \"birthDate\": \"16-11-1996\",\n" +
-//            "      \"phoneNumber\": \"647-775-6424\",\n" +
-//            "      \"email\": \"llotherington4@wikipedia.org\",\n" +
-//            "      \"active\": true,\n" +
-//            "      \"contracts\": []\n" +
-//            "   }]"))
-//        .andExpect(status().isOk());
-//
-//    assertEquals(numberOfClients - 1, clientService.getNumberOfClients());
-//
-//  }
-//
-//  @Test
-//  public void deleteClientById() throws Exception {
-//    int numberOfClients = clientService.getNumberOfClients();
-//    HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.USER);
-//
-//    String responseJson = this.mockMvc.perform(post("/clients").headers(header)
-//        .contentType("application/json")
-//        .content("[{\n"
-//            + "    \"birthDate\": \"1978-12-22\",\n"
-//            + "    \"email\": \"alex2021@gmail.com\",\n"
-//            + "    \"firstName\": \"TestUser1\",\n"
-//            + "    \"gender\": \"Female\",\n"
-//            + "    \"lastName\": \"Grinkov\",\n"
-//            + "    \"phoneNumber\": \"155-846-2959\",\n"
-//            + "    \"active\": true\n"
-//            + "  }]"))
-//        .andExpect(status().isCreated())
-//        .andReturn().getResponse().getContentAsString();
-//
-//    ObjectMapper mapper = new ObjectMapper();
-//    List<Client> actualObj = mapper.readValue(responseJson, new TypeReference<List<Client>>() {
-//    });
-//    long createdId = actualObj.get(0).getId();
-//
-//    assertEquals(numberOfClients + 1, clientService.getNumberOfClients());
-//
-//    mockMvc.perform(delete("/clients/" + createdId).headers(header))
-//        .andExpect(status().isOk());
-//
-//    assertEquals(numberOfClients, clientService.getNumberOfClients());
-//
-//  }
+  @Test(expected = EntityNotFoundException.class)
+  public void deleteNonExistingClient() throws Exception {
+
+    this.mockMvc.perform(delete(url).headers(headers)
+        .contentType("application/json")
+        .content("[{\"id\": 1021},{\"id\": 1022},{\"id\": 1023}]"))
+        .andExpect(status().isNotFound());
+
+    this.mockMvc.perform(delete(url + "/1020").headers(headers))
+        .andExpect(status().isNotFound());
+  }
+
+  @Test
+  public void getAllClients() throws Exception {
+    long clientQuantity = clientService.getNumberOfEntities();
+
+    mockMvc.perform(get(url).headers(headers))
+        .andExpect(status().isOk())
+        .andExpect(content()
+            .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.meta.totalElements").value(clientQuantity));
+  }
+
+  @Test
+  public void getAllContractsShort() throws Exception {
+    long clientQuantity = clientService.getNumberOfEntities();
+
+    mockMvc.perform(get(url + "/short").headers(headers))
+        .andExpect(status().isOk())
+        .andExpect(content()
+            .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.meta.totalElements").value(clientQuantity));
+  }
+
+  @Test
+  public void getAllContractsIds() throws Exception {
+    long clientQuantity = clientService.getNumberOfEntities();
+
+    mockMvc.perform(get(url + "/ids").headers(headers))
+        .andExpect(status().isOk())
+        .andExpect(content()
+            .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.meta.totalElements").value(clientQuantity));
+  }
+
+  @Test
+  public void testPageable() throws Exception {
+    int elementsPerPage = 3;
+    long numberOfClients = clientService.getNumberOfEntities();
+    int numberOfPages = (int) Math.ceil((double) numberOfClients / (double) elementsPerPage);
+
+    long currentPage = 1;
+    long elementsLeft = numberOfClients - (currentPage - 1) * elementsPerPage;
+
+    while (elementsLeft > 0) {
+      long currentElements = (elementsLeft > elementsPerPage) ? elementsPerPage : elementsLeft;
+      String responseJson = mockMvc.perform(get(url + "?page=" + currentPage + "&size=" + elementsPerPage).headers(headers))
+          .andExpect(status().isOk())
+          .andExpect(content()
+              .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+          .andExpect(jsonPath("$.meta.currentPage").value(currentPage))
+          .andExpect(jsonPath("$.meta.pagesTotal").value(numberOfPages))
+          .andExpect(jsonPath("$.meta.elementsPerPage").value(elementsPerPage))
+          .andExpect(jsonPath("$.meta.currentElements").value(currentElements))
+          .andExpect(jsonPath("$.meta.totalElements").value(numberOfClients))
+          .andReturn().getResponse().getContentAsString();
+
+      JSONObject obj = new JSONObject(responseJson);
+      String pageDataJson = obj.getString("data");
+      List<Client> updatedClients = objectMapper.readValue(pageDataJson, new TypeReference<List<Client>>() {
+      });
+      Assert.assertEquals(currentElements, updatedClients.size());
+      currentPage++;
+      elementsLeft = numberOfClients - (currentPage - 1) * elementsPerPage;
+    }
+  }
+
+  @Test
+  public void testSearchAndFilterAndPagination() throws Exception {
+
+    //Search by mask in all fields
+    mockMvc.perform(get(url + "?search=SearchTestClient&page=1&size=20").headers(headers))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.meta.currentElements").value(10));
+    //Search by mask in particular field
+    mockMvc.perform(get(url + "?firstName=SearchTestClient&page=1&size=20").headers(headers))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.meta.currentElements").value(10));
+    //Search with equals
+    mockMvc.perform(get(url + "?search=SearchTestClient&equals=true&page=1&size=20").headers(headers))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.meta.currentElements").value(0));
+    //Field search with equals
+    mockMvc.perform(get(url + "?firstName=SearchTestClient&equals=true&page=1&size=20").headers(headers))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.meta.currentElements").value(0));
+
+    //search in all fields w/o equals
+    mockMvc.perform(get(url + "?search=SearchTestClientFirstName1&page=1&size=20").headers(headers))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.meta.currentElements").value(2));
+    //search by field w/o equals
+    mockMvc.perform(get(url + "?search=SearchTestClientFirstName1&page=1&size=20").headers(headers))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.meta.currentElements").value(2));
+    //search in all fields with equals
+    mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName1&equals=true&page=1&size=20").headers(headers))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.meta.currentElements").value(1));
+    //search by field with equals
+    mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName1&equals=true&page=1&size=20").headers(headers))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.meta.currentElements").value(1));
+
+    //search by several fields
+    mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName1&lastName=SearchTestClientLastName0&page=1&size=20").headers(headers))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.meta.currentElements").value(0));
+
+    mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName9&lastName=SearchTestClientLastName9&page=1&size=20").headers(headers))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.meta.currentElements").value(1));
+
+    //search by several fields w/o equals
+    mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName1&lastName=SearchTestClientLastName1&page=1&size=20").headers(headers))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.meta.currentElements").value(2));
+    //search by several fields with equals
+    mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName1&lastName=SearchTestClientLastName1&equals=true&page=1&size=20").headers(headers))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.meta.currentElements").value(1));
+
+    //pagination test
+    mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName&page=1&size=5&page=1&size=20").headers(headers))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.meta.currentPage").value(1))
+        .andExpect(jsonPath("$.meta.pagesTotal").value(2))
+        .andExpect(jsonPath("$.meta.elementsPerPage").value(5))
+        .andExpect(jsonPath("$.meta.currentElements").value(5));
+  }
+
+  @Test
+  public void getClientByExistingId() throws Exception {
+    String responseJson = mockMvc.perform(get(url + "/" + 1005).headers(headers))
+        .andExpect(status().isOk())
+        .andExpect(content()
+            .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.meta.totalElements").value(1))
+        .andReturn().getResponse().getContentAsString();
+
+    JSONObject obj = new JSONObject(responseJson);
+    String pageDataJson = obj.getString("data");
+    Client receivedClient = objectMapper.readValue(pageDataJson, Client.class);
+
+    Assert.assertEquals(new Long(1005), receivedClient.getId());
+  }
+
+  @Test(expected = EntityNotFoundException.class)
+  public void getClientByNotExistingId() throws Exception {
+    mockMvc.perform(get(url + "/" + 1020).headers(headers))
+        .andExpect(status().isNotFound());
+  }
+
 }
-*/
