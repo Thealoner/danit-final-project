@@ -82,10 +82,9 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
             log.info("successful websocket authorization for principal: " + principal.getName());
             accessor.setUser(principal);
             accessor.setLeaveMutable(true);
-            return message;
           }
         }
-        return null;
+        return message;
       }
     });
   }

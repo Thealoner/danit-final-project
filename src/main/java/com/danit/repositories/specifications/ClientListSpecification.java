@@ -62,4 +62,5 @@ public class ClientListSpecification extends BaseSpecification<Client, ClientLis
     };
   }
 
+
 }
