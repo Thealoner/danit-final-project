@@ -10,21 +10,16 @@ class SocketComponent extends Component {
   authService = new AuthService();
 
   render () {
-
     if (this.state.loaded) {
       return <div></div>;
     }
 
-
-    
     return (
-      <div>
-
-      </div>
+      <div></div>
     );
-  }
+  };
 
-  componentDidMount(){
+  componentDidMount () {
 
     this.setState({
       loaded: true
@@ -37,10 +32,9 @@ class SocketComponent extends Component {
     let client = Stomp.client('ws://localhost:9000/socket')
     client.connect(headers, (frame) => {
       client.subscribe('/events/put', (frame) => {
-
       }, headers)
     })
-  }
+  };
 }
 
 export default SocketComponent;
