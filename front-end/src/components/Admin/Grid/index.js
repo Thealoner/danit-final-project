@@ -33,7 +33,7 @@ class Grid extends Component {
     const { currentTab, setTabGridData } = this.props;
     const entity = getEntityByType(currentTab.tabKey);
 
-    ajaxRequest(entity.apiUrl + '?page=' + page + '&size=' + size + filterString)
+    ajaxRequest.get('/' + currentTab.tabKey + '?page=' + page + '&size=' + size + filterString)
       .then(response => {
         setTabGridData(currentTab.tabKey, {
           data: response.data,

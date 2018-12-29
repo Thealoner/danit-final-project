@@ -171,7 +171,24 @@
   &__content {
     position: relative;
     height: calc(100% - 36px);
-    background-color: $gallery;
+    background-color: $white;
     border: 15px solid $gallery;
+  }
+
+  &__loader-wrapper {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  &__logo-wrapper {
+    height: 100%;
+
+    img {
+      display: block;
+      width: auto;
+      height: 100%;
+      margin: auto;
+    }
   }
 }
