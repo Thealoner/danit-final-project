@@ -95,6 +95,7 @@ public class ClientController {
       ClientListRequestDto clientListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
     log.info("pageable: " + pageable);
+    log.info("clientListRequestDto: " + clientListRequestDto);
     return ResponseEntity.ok(convertPageToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
   }
 
@@ -215,7 +216,6 @@ public class ClientController {
 //    log.info(principal.getName() + " got all clients using paket " + paketId);
 //    return ResponseEntity.ok(convertPageToMap(clientFacade.findAllClientsWithPaket(paketId, pageable)));
 //  }
-
 
 
 }
