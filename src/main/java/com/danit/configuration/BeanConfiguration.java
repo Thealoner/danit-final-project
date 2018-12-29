@@ -7,14 +7,11 @@ import com.danit.models.Contract;
 import com.danit.utils.CustomDateDeserializer;
 import com.danit.utils.CustomDateSerializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import org.hibernate.SessionFactory;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
 
-import javax.persistence.EntityManagerFactory;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

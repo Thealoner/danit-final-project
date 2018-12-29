@@ -189,7 +189,8 @@ public class ServiceCategoryController {
   @JsonView(Views.Extended.class)
   @PutMapping("/{serviceCategoryId}/service/{serviceId}")
   @ResponseStatus(HttpStatus.OK)
-  ResponseEntity<Map<String, Object>> assignServiceToServiceCategory(@PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
+  ResponseEntity<Map<String, Object>> assignServiceToServiceCategory(@PathVariable(name = "serviceCategoryId")
+                                                                         Long serviceCategoryId,
                                       @PathVariable(name = "serviceId") Long serviceId,
                                       Principal principal) {
     log.info(principal.getName() + " is trying to assign serviceId=" + serviceId +
@@ -200,7 +201,8 @@ public class ServiceCategoryController {
 
   @PutMapping("/{serviceCategoryId}/services")
   @ResponseStatus(HttpStatus.OK)
-  ResponseEntity<Map<String, Object>> assignServicesToServiceCategory(@PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
+  ResponseEntity<Map<String, Object>> assignServicesToServiceCategory(@PathVariable(name = "serviceCategoryId")
+                                                                          Long serviceCategoryId,
                                        @RequestBody List<Service> services,
                                        Principal principal) {
     log.info(principal.getName() + " is trying to assign services" + services + " to serviceCategoryId = " +
