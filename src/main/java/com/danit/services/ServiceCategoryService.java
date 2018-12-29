@@ -52,18 +52,20 @@ public class ServiceCategoryService extends AbstractBaseEntityService<ServiceCat
   @Transactional
   public void assignServiceToServiceCategory(Long serviceCategoryId, Long serviceId) {
     ServiceCategory serviceCategory = getEntityById(serviceCategoryId);
+    com.danit.models.Service service = servicesService.getEntityById(serviceId);
 
     Boolean containsService = serviceCategory.getServices()
         .stream().filter(s -> s.getId() == serviceId)
         .map(com.danit.models.Service::getId).findFirst().isPresent();
 
     if (!containsService) {
-      servicesService.getEntityById(serviceId).getServiceCategories().add(serviceCategory);
+      service.getServiceCategories().add(serviceCategory);
+      serviceCategory.getServices().add(service);
     }
   }
 
   @Transactional
-  public void assignServicesToServiceCategory(Long serviceCategoryId, List<com.danit.models.Service> services) {
+  public void assignServicesToServiceCategory(Long serviceCategoryId, List<com.danit.models.Service> inputServices) {
 
     ServiceCategory serviceCategory = getEntityById(serviceCategoryId);
 
@@ -71,14 +73,14 @@ public class ServiceCategoryService extends AbstractBaseEntityService<ServiceCat
         .stream().map(com.danit.models.Service::getId).collect(Collectors.toList());
 
     List<Long> targetIds =
-        services.stream()
+        inputServices.stream()
             .map(com.danit.models.Service::getId)
             .filter(isId -> !scServicesIds.contains(isId))
             .collect(Collectors.toList());
 
-    serviceRepository.findAllEntitiesByIds(targetIds)
-        .forEach(service -> service.getServiceCategories().add(serviceCategory));
-
+    List<com.danit.models.Service> services = serviceRepository.findAllEntitiesByIds(targetIds);
+    services.forEach(service -> service.getServiceCategories().add(serviceCategory));
+    services.forEach(service -> serviceCategory.getServices().add(service));
   }
 
   @Transactional

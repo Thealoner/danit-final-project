@@ -2,6 +2,7 @@ package com.danit.services;
 
 import com.danit.dto.service.ContractListRequestDto;
 import com.danit.models.Card;
+import com.danit.models.Client;
 import com.danit.models.Contract;
 import com.danit.repositories.ContractRepository;
 import org.hibernate.Session;
@@ -99,4 +100,12 @@ public class ContractService extends AbstractBaseEntityService<Contract, Contrac
     return contractRepository.findAllContractsForPaketId(paketId, pageable);
   }
 
+  @Transactional
+  public void createContractsForClient(Long clientId, List<Contract> contracts) {
+    saveEntities(contracts);
+    List<Contract> reloadedContracts = reloadEntities(contracts);
+    reloadedContracts.forEach(contract -> assignClientToContract(contract.getId(),clientId));
+    Client client = clientService.getEntityById(clientId);
+    reloadedContracts.forEach(contract -> client.getContracts().add(contract));
+  }
 }
