@@ -186,14 +186,16 @@ public class ServiceCategoryController {
         .findAllServicesDtoForServiceCategoryId(id, pageable)));
   }
 
+  @JsonView(Views.Extended.class)
   @PutMapping("/{serviceCategoryId}/service/{serviceId}")
   @ResponseStatus(HttpStatus.OK)
-  void assignServiceToServiceCategory(@PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
+  ResponseEntity<Map<String, Object>> assignServiceToServiceCategory(@PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
                                       @PathVariable(name = "serviceId") Long serviceId,
                                       Principal principal) {
     log.info(principal.getName() + " is trying to assign serviceId=" + serviceId +
         " to serviceCategoryId = " + serviceCategoryId);
     serviceCategoryService.assignServiceToServiceCategory(serviceCategoryId, serviceId);
+    return ResponseEntity.ok(convertDtoToMap(serviceCategoryFacade.getEntityById(serviceCategoryId)));
   }
 
   @PutMapping("/{serviceCategoryId}/services")

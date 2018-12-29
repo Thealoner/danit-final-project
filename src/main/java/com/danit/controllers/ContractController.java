@@ -127,7 +127,7 @@ public class ContractController {
     contractFacade.deleteEntities(contracts);
   }
 
-  //related entities methods
+  //related entities methods--------------------------------------------------------------------------------------------
 
   //Clients
   @JsonView(Views.Extended.class)
