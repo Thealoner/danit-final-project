@@ -21,6 +21,39 @@ import static org.springframework.data.jpa.domain.Specification.where;
 @Component
 public class ContractListSpecification extends BaseSpecification<Contract, ContractListRequestDto> {
 
+  public static Specification<Contract> getContractByPaketIdSpec(String paketId) {
+    if (Objects.nonNull(paketId)) {
+      return (Specification<Contract>) (root, criteriaQuery, criteriaBuilder) -> {
+        final Subquery<Long> paketQuery = criteriaQuery.subquery(Long.class);
+        final Root<Paket> paket = paketQuery.from(Paket.class);
+        final Join<Paket, Contract> contracts = paket.join("contracts");
+        paketQuery.select(contracts.get("id"));
+        paketQuery.where(criteriaBuilder.equal(paket.get("id"), paketId));
+
+        return criteriaBuilder.in(root.get("id")).value(paketQuery);
+      };
+    } else {
+      return null;
+    }
+  }
+
+  public static Specification<Contract> findByClientGenderSpec(String gender) {
+    if (Objects.nonNull(gender)) {
+
+      return (Specification<Contract>) (root, criteriaQuery, criteriaBuilder) -> {
+        final Subquery<Long> clientQuery = criteriaQuery.subquery(Long.class);
+        final Root<Client> client = clientQuery.from(Client.class);
+        final Join<Client, Contract> contracts = client.join("contracts");
+        clientQuery.select(contracts.get("id"));
+        clientQuery.where(criteriaBuilder.equal(client.get("gender"), gender));
+
+        return criteriaBuilder.in(root.get("id")).value(clientQuery);
+      };
+    } else {
+      return null;
+    }
+  }
+
   @Override
   public Specification<Contract> getFilter(ContractListRequestDto request) {
 
@@ -80,7 +113,7 @@ public class ContractListSpecification extends BaseSpecification<Contract, Contr
     }
   }
 
-  private Specification<Contract> creditContains(String  credit) {
+  private Specification<Contract> creditContains(String credit) {
     return attributeContains("credit", credit);
   }
 
@@ -92,39 +125,6 @@ public class ContractListSpecification extends BaseSpecification<Contract, Contr
     if (Objects.nonNull(value)) {
       return (root, query, cb) -> {
         return cb.like(cb.lower(root.get(attribute).as(String.class)), containsLowerCase(value));
-      };
-    } else {
-      return null;
-    }
-  }
-
-  public static Specification<Contract> getContractByPaketIdSpec(String paketId) {
-    if (Objects.nonNull(paketId)) {
-      return (Specification<Contract>) (root, criteriaQuery, criteriaBuilder) -> {
-        final Subquery<Long> paketQuery = criteriaQuery.subquery(Long.class);
-        final Root<Paket> paket = paketQuery.from(Paket.class);
-        final Join<Paket, Contract> contracts = paket.join("contracts");
-        paketQuery.select(contracts.get("id"));
-        paketQuery.where(criteriaBuilder.equal(paket.get("id"), paketId));
-
-        return criteriaBuilder.in(root.get("id")).value(paketQuery);
-      };
-    } else {
-      return null;
-    }
-  }
-
-  public static Specification<Contract> findByClientGenderSpec(String gender) {
-    if (Objects.nonNull(gender)) {
-
-      return (Specification<Contract>) (root, criteriaQuery, criteriaBuilder) -> {
-        final Subquery<Long> clientQuery = criteriaQuery.subquery(Long.class);
-        final Root<Client> client = clientQuery.from(Client.class);
-        final Join<Client, Contract> contracts = client.join("contracts");
-        clientQuery.select(contracts.get("id"));
-        clientQuery.where(criteriaBuilder.equal(client.get("gender"), gender));
-
-        return criteriaBuilder.in(root.get("id")).value(clientQuery);
       };
     } else {
       return null;

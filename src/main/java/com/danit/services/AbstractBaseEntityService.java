@@ -104,14 +104,19 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
     E e = baseEntityRepository.findById(id).orElseThrow(() ->
         new EntityNotFoundException(LOG_MSG1 + getEntityName() + LOG_MSG2 + id));
     baseEntityRepository.delete(e);
-    notifyChannel(WebSocketEvent.DElETE, e);
+    notifyChannel(WebSocketEvent.DELETE, e);
   }
 
   @Override
   public void deleteEntities(List<E> entityList) {
     List<E> list = reloadEntities(entityList);
+    entityList.forEach(e -> {
+      if (!list.contains(e)) {
+        throw new EntityNotFoundException(LOG_MSG1 + getEntityName() + LOG_MSG2 + e.getId());
+      }
+    });
     baseEntityRepository.deleteAll(list);
-    notifyChannel(WebSocketEvent.DElETE, entityList);
+    notifyChannel(WebSocketEvent.DELETE, entityList);
   }
 
   @Override
