@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.List;
-
 @EqualsAndHashCode(callSuper = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
@@ -30,6 +28,4 @@ public class ServiceDto extends BaseDto {
   @JsonView(Views.Short.class)
   private Boolean active;
 
-  @JsonView(Views.Extended.class)
-  private List<Long> serviceCategoriesIds;
 }
