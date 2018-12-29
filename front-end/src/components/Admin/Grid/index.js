@@ -1,17 +1,20 @@
-import React, {Component, Fragment} from 'react';
+import React, { Component, Fragment } from 'react';
 import Tabulator from 'tabulator-tables';
 import './index.scss';
-import {getEntityByType} from '../gridEntities';
-import {Link} from 'react-router-dom';
+import { getEntityByType } from '../gridEntities';
+import { Link } from 'react-router-dom';
 import Filter from './Filter';
-import ajaxRequest from '../../../helpers/ajaxRequest';
-import {toastr} from 'react-redux-toastr';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Pagination } from 'semantic-ui-react';
-import { setTabGridData, setTabFormData } from '../../../actions/tabActions';
+import {getGridData, setTabFormData} from '../../../actions/tabActions';
 import { connect } from 'react-redux';
 
 class Grid extends Component {
+  /* constructor (props) {
+    super(props);
+    const {currentTab} = this.props;
+  }; */
+
   state = {
     showEllipsis: true,
     showFirstAndLastNav: true,
@@ -29,39 +32,31 @@ class Grid extends Component {
     });
   };
 
-  getData = (page = 1, size = 3, filterString = '') => {
-    const { currentTab, setTabGridData } = this.props;
-    const entity = getEntityByType(currentTab.tabKey);
-
-    ajaxRequest.get('/' + currentTab.tabKey + '?page=' + page + '&size=' + size + filterString)
-      .then(response => {
-        setTabGridData(currentTab.tabKey, {
-          data: response.data,
-          meta: response.meta,
-          columns: entity.columns
-        });
-      })
-      .catch(error => {
-        toastr.error(error.message);
-        setTabGridData(currentTab.tabKey, {
-          data: [],
-          meta: {},
-          columns: entity.columns
-        });
-      });
-  };
-
   applyFilter = (filterString) => {
-    this.getData(0, 30, filterString);
+    this.props.getGridData({
+      tabKey: this.props.currentTab.tabKey,
+      page: 0,
+      size: 30,
+      filterString: filterString,
+      columns: this.props.currentTab.grid.columns
+    });
   };
 
   clearFilter = () => {
-    this.getData();
+    this.props.getGridData({
+      tabKey: this.props.currentTab.tabKey,
+      columns: this.props.currentTab.grid.columns
+    });
   };
 
   handlePaginationChange = (e, { activePage }) => {
     const meta = this.props.currentTab.grid.meta;
-    this.getData(activePage, meta.elementsPerPage);
+    this.props.getGridData({
+      tabKey: this.props.currentTab.tabKey,
+      page: activePage,
+      size: meta.elementsPerPage,
+      columns: this.props.currentTab.grid.columns
+    });
   };
 
   render () {
@@ -72,7 +67,7 @@ class Grid extends Component {
     return (
       <Fragment>
         <Filter applyFilter={this.applyFilter} clearFilter={this.clearFilter} columns={currentTab.grid.columns}/>
-        <div ref={el => (this.tabulatorTable = el)} className="tabulator" data-custom-attr="test-custom-attribute"/>
+        <div ref={el => (this.tabulatorTable = el)} className="tabulator"/>
         <div className="grid-footer">
           <Link to={'/admin/todo'} className="grid-footer__add-btn">
             <FontAwesomeIcon className="grid-footer__plus-icon" icon="plus" size="1x"/>
@@ -98,7 +93,6 @@ class Grid extends Component {
   componentDidMount () {
     const { currentTab } = this.props;
 
-    this.getData();
     this.tabulator = new Tabulator(this.tabulatorTable, {
       data: currentTab.grid.data,
       columns: currentTab.grid.columns,
@@ -112,20 +106,16 @@ class Grid extends Component {
     const { currentTab } = this.props;
     this.tabulator.setColumns(currentTab.grid.columns);
     this.tabulator.setData(currentTab.grid.data);
-    
-    if (currentTab.grid.data.length === 0) {
-      this.getData();
-    }
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    setTabGridData: (tabKey, payload) => {
-      dispatch(setTabGridData(tabKey, payload));
-    },
     setTabFormData: (tabKey, payload) => {
       dispatch(setTabFormData(tabKey, payload));
+    },
+    getGridData: (entity) => {
+      dispatch(getGridData(entity));
     }
   };
 };
