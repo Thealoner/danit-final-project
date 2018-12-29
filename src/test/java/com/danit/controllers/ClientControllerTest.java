@@ -2,7 +2,6 @@ package com.danit.controllers;
 
 import com.danit.Application;
 import com.danit.TestUtils;
-import com.danit.exceptions.EntityNotFoundException;
 import com.danit.facades.ClientFacade;
 import com.danit.models.Client;
 import com.danit.models.UserRolesEnum;

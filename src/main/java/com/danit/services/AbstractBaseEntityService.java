@@ -110,6 +110,11 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
   @Override
   public void deleteEntities(List<E> entityList) {
     List<E> list = reloadEntities(entityList);
+    entityList.forEach(e -> {
+      if (!list.contains(e)) {
+        throw new EntityNotFoundException(LOG_MSG1 + getEntityName() + LOG_MSG2 + e.getId());
+      }
+    });
     baseEntityRepository.deleteAll(list);
     notifyChannel(WebSocketEvent.DELETE, entityList);
   }
