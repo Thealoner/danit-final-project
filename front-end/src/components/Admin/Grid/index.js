@@ -6,15 +6,10 @@ import { Link } from 'react-router-dom';
 import Filter from './Filter';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Pagination } from 'semantic-ui-react';
-import {getGridData, setTabFormData} from '../../../actions/tabActions';
+import { getGridData, setTabFormData } from '../../../actions/tabActions';
 import { connect } from 'react-redux';
 
 class Grid extends Component {
-  /* constructor (props) {
-    super(props);
-    const {currentTab} = this.props;
-  }; */
-
   state = {
     showEllipsis: true,
     showFirstAndLastNav: true,
@@ -33,29 +28,34 @@ class Grid extends Component {
   };
 
   applyFilter = (filterString) => {
-    this.props.getGridData({
-      tabKey: this.props.currentTab.tabKey,
+    const { currentTab, getGridData } = this.props;
+
+    getGridData({
+      tabKey: currentTab.tabKey,
       page: 0,
       size: 30,
       filterString: filterString,
-      columns: this.props.currentTab.grid.columns
+      columns: currentTab.grid.columns
     });
   };
 
   clearFilter = () => {
-    this.props.getGridData({
-      tabKey: this.props.currentTab.tabKey,
-      columns: this.props.currentTab.grid.columns
+    const { currentTab, getGridData } = this.props;
+
+    getGridData({
+      tabKey: currentTab.tabKey,
+      columns: currentTab.grid.columns
     });
   };
 
   handlePaginationChange = (e, { activePage }) => {
-    const meta = this.props.currentTab.grid.meta;
-    this.props.getGridData({
-      tabKey: this.props.currentTab.tabKey,
+    const { currentTab, getGridData } = this.props;
+
+    getGridData({
+      tabKey: currentTab.tabKey,
       page: activePage,
-      size: meta.elementsPerPage,
-      columns: this.props.currentTab.grid.columns
+      size: currentTab.grid.meta.elementsPerPage,
+      columns: currentTab.grid.columns
     });
   };
 
