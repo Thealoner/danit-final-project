@@ -14,23 +14,23 @@ public class ClientListSpecification extends BaseSpecification<Client, ClientLis
 
   @Override
   public Specification<Client> getFilter(ClientListRequestDto request) {
-    request.equals = Objects.isNull(request.equals) ? false : request.equals;
+    request.equal = Objects.isNull(request.equal) ? false : request.equal;
     return (root, query, cb) -> {
       query.distinct(true);
       return where(
-          where(firstNameContains(request.search, request.equals))
-              .or(idContains(request.search, request.equals))
-              .or(lastNameContains(request.search, request.equals))
-              .or(emailContains(request.search, request.equals))
-              .or(phoneNumberContains(request.search, request.equals))
-              .or(genderContains(request.search, request.equals))
+          where(firstNameContains(request.search, request.equal))
+              .or(idContains(request.search, request.equal))
+              .or(lastNameContains(request.search, request.equal))
+              .or(emailContains(request.search, request.equal))
+              .or(phoneNumberContains(request.search, request.equal))
+              .or(genderContains(request.search, request.equal))
       )
-          .and(idContains(request.id, request.equals))
-          .and(firstNameContains(request.firstName, request.equals))
-          .and(lastNameContains(request.lastName, request.equals))
-          .and(genderContains(request.gender, request.equals))
-          .and(emailContains(request.email, request.equals))
-          .and(phoneNumberContains(request.phoneNumber, request.equals))
+          .and(idContains(request.id, request.equal))
+          .and(firstNameContains(request.firstName, request.equal))
+          .and(lastNameContains(request.lastName, request.equal))
+          .and(genderContains(request.gender, request.equal))
+          .and(emailContains(request.email, request.equal))
+          .and(phoneNumberContains(request.phoneNumber, request.equal))
           .toPredicate(root, query, cb);
     };
   }

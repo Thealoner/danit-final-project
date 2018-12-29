@@ -12,6 +12,6 @@ public abstract class BaseListRequestDto {
 
   public String id;
 
-  public Boolean equals;
+  public Boolean equal;
 
 }

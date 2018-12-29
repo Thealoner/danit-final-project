@@ -249,29 +249,29 @@ public class ClientControllerTest {
     mockMvc.perform(get(url + "?firstName=SearchTestClient&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(10));
-    //Search with equals
-    mockMvc.perform(get(url + "?search=SearchTestClient&equals=true&page=1&size=20").headers(headers))
+    //Search with equal
+    mockMvc.perform(get(url + "?search=SearchTestClient&equal=true&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(0));
-    //Field search with equals
-    mockMvc.perform(get(url + "?firstName=SearchTestClient&equals=true&page=1&size=20").headers(headers))
+    //Field search with equal
+    mockMvc.perform(get(url + "?firstName=SearchTestClient&equal=true&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(0));
 
-    //search in all fields w/o equals
+    //search in all fields w/o equal
     mockMvc.perform(get(url + "?search=SearchTestClientFirstName1&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(2));
-    //search by field w/o equals
+    //search by field w/o equal
     mockMvc.perform(get(url + "?search=SearchTestClientFirstName1&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(2));
-    //search in all fields with equals
-    mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName1&equals=true&page=1&size=20").headers(headers))
+    //search in all fields with equal
+    mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName1&equal=true&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(1));
-    //search by field with equals
-    mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName1&equals=true&page=1&size=20").headers(headers))
+    //search by field with equal
+    mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName1&equal=true&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(1));
 
@@ -284,12 +284,12 @@ public class ClientControllerTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(1));
 
-    //search by several fields w/o equals
+    //search by several fields w/o equal
     mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName1&lastName=SearchTestClientLastName1&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(2));
-    //search by several fields with equals
-    mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName1&lastName=SearchTestClientLastName1&equals=true&page=1&size=20").headers(headers))
+    //search by several fields with equal
+    mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName1&lastName=SearchTestClientLastName1&equal=true&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(1));
 
