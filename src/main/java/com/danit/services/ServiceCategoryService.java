@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -68,17 +70,11 @@ public class ServiceCategoryService extends AbstractBaseEntityService<ServiceCat
     List<Long> scServicesIds = serviceCategory.getServices()
         .stream().map(com.danit.models.Service::getId).collect(Collectors.toList());
 
-    List<Long> inputServicesIds = services
-        .stream().map(com.danit.models.Service::getId).collect(Collectors.toList());
-
-    List<Long> targetIds = new ArrayList<>();
-
-    for (Long isId :
-        inputServicesIds) {
-      if (!scServicesIds.contains(isId)) {
-        targetIds.add(isId);
-      }
-    }
+    List<Long> targetIds =
+        services.stream()
+            .map(com.danit.models.Service::getId)
+            .filter(isId -> !scServicesIds.contains(isId))
+            .collect(Collectors.toList());
 
     serviceRepository.findAllEntitiesByIds(targetIds)
         .forEach(service -> service.getServiceCategories().add(serviceCategory));
