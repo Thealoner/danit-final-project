@@ -4,6 +4,7 @@ import com.danit.exceptions.EntityNotFoundException;
 import com.danit.models.BaseEntity;
 import com.danit.repositories.BaseEntityRepository;
 import com.danit.repositories.specifications.BaseSpecification;
+import com.danit.services.events.WebSocketEvent;
 import com.danit.utils.ServiceUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.danit.utils.WebSocketUtils.DELETE_EVENT;
+import static com.danit.utils.WebSocketUtils.GET_EVENT;
 import static com.danit.utils.WebSocketUtils.POST_EVENT;
 import static com.danit.utils.WebSocketUtils.PUT_EVENT;
 import static com.danit.utils.WebSocketUtils.convertEntitiesToJson;
@@ -59,14 +61,14 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
   @Override
   public List<E> saveEntities(List<E> entityList) {
     List<E> savedEntityList = (List<E>) baseEntityRepository.saveAll(entityList);
-    messagingTemplate.convertAndSend(POST_EVENT, convertEntitiesToJson(savedEntityList));
+    notifyChannel(WebSocketEvent.POST, savedEntityList);
     return savedEntityList;
   }
 
   @Override
   public E saveEntity(E entity) {
     E savedEntity = baseEntityRepository.save(entity);
-    messagingTemplate.convertAndSend(POST_EVENT, convertEntityToJson(savedEntity));
+    notifyChannel(WebSocketEvent.POST, savedEntity);
     return savedEntity;
   }
 
@@ -95,7 +97,7 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
       }
     }
     List<E> savedEntities = (List<E>) baseEntityRepository.saveAll(entitiesToSave);
-    messagingTemplate.convertAndSend(PUT_EVENT, convertEntitiesToJson(savedEntities));
+    notifyChannel(WebSocketEvent.PUT, savedEntities);
     return savedEntities;
   }
 
@@ -104,14 +106,14 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
     E e = baseEntityRepository.findById(id).orElseThrow(() ->
         new EntityNotFoundException(LOG_MSG1 + getEntityName() + LOG_MSG2 + id));
     baseEntityRepository.delete(e);
-    messagingTemplate.convertAndSend(DELETE_EVENT, convertEntityToJson(e));
+    notifyChannel(WebSocketEvent.DElETE, e);
   }
 
   @Override
   public void deleteEntities(List<E> entityList) {
     List<E> list = reloadEntities(entityList);
     baseEntityRepository.deleteAll(list);
-    messagingTemplate.convertAndSend(DELETE_EVENT, convertEntitiesToJson(list));
+    notifyChannel(WebSocketEvent.DElETE, entityList);
   }
 
   @Override
@@ -119,6 +121,49 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
     return baseEntityRepository.count();
   }
 
+  public List<E> reloadEntities(List<E> entityList) {
+    List<Long> listIds = entityList.stream().map(E::getId).collect(Collectors.toList());
+    return baseEntityRepository.findAllEntitiesByIds(listIds);
+  }
+
+  public void notifyChannel(WebSocketEvent webSocketEvent, List<E> entityList) {
+    switch (webSocketEvent.name()) {
+      case "PUT":
+        messagingTemplate.convertAndSend(PUT_EVENT, convertEntitiesToJson(entityList));
+        break;
+      case "POST":
+        messagingTemplate.convertAndSend(POST_EVENT, convertEntitiesToJson(entityList));
+        break;
+      case "GET":
+        messagingTemplate.convertAndSend(GET_EVENT, convertEntitiesToJson(entityList));
+        break;
+      case "DELETE":
+        messagingTemplate.convertAndSend(DELETE_EVENT, convertEntitiesToJson(entityList));
+        break;
+      default:
+        throw new UnsupportedOperationException(webSocketEvent.name() + " event is not supported");
+    }
+
+  }
+
+  public void notifyChannel(WebSocketEvent webSocketEvent, E entity) {
+    switch (webSocketEvent.name()) {
+      case "PUT":
+        messagingTemplate.convertAndSend(PUT_EVENT, convertEntityToJson(entity));
+        break;
+      case "POST":
+        messagingTemplate.convertAndSend(POST_EVENT, convertEntityToJson(entity));
+        break;
+      case "GET":
+        messagingTemplate.convertAndSend(GET_EVENT, convertEntityToJson(entity));
+        break;
+      case "DELETE":
+        messagingTemplate.convertAndSend(DELETE_EVENT, convertEntityToJson(entity));
+        break;
+      default:
+        throw new UnsupportedOperationException(webSocketEvent.name() + " event is not supported");
+    }
+  }
 
   @SuppressWarnings("unchecked")
   private String getEntityName() {
@@ -126,8 +171,4 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
         .getActualTypeArguments()[0]).getSimpleName().toLowerCase();
   }
 
-  public List<E> reloadEntities(List<E> entityList) {
-    List<Long> listIds = entityList.stream().map(E::getId).collect(Collectors.toList());
-    return baseEntityRepository.findAllEntitiesByIds(listIds);
-  }
 }

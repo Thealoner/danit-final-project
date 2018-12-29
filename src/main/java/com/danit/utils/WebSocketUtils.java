@@ -15,6 +15,7 @@ public class WebSocketUtils {
   public static final String POST_EVENT = "/events/post";
   public static final String PUT_EVENT = "/events/put";
   public static final String DELETE_EVENT = "/events/delete";
+  public static final String GET_EVENT = "/events/delete";
   public static final WebSocketUtils WEB_SOCKET_UTILS = new WebSocketUtils();
   private static ObjectMapper objectMapper = new ObjectMapper();
 

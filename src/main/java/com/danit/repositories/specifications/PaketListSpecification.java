@@ -51,7 +51,7 @@ public class PaketListSpecification extends BaseSpecification<Paket, PaketListRe
           .and(visitTimeContains(request.visitTime))
           .and(limitAdditionalServicesContains(request.limitAdditionalServices))
           .and(limitUsageByPaymentPercentageContains(request.limitUsageByPaymentPercentage))
-          .and(isActiveContains(request.isActive))
+          .and(isActiveContains(request.active))
           .and(purchasableContains(request.purchasable))
           .toPredicate(root, query, cb);
     };
@@ -141,7 +141,7 @@ public class PaketListSpecification extends BaseSpecification<Paket, PaketListRe
   }
 
   private Specification<Paket> isActiveContains(Object isActive) {
-    return Objects.nonNull(isActive) ? attributeContains("isActive",
+    return Objects.nonNull(isActive) ? attributeContains("active",
         String.valueOf(isActive)) :
         null;
   }

@@ -44,6 +44,6 @@ const ajaxRequest = {
   delete: (url, body) => {
     return _ajaxRequest(url, 'DELETE', body);
   }
-}
+};
 
 export default ajaxRequest;
