@@ -3,7 +3,6 @@ package com.danit.models;
 
 import com.danit.models.auditor.Auditable;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -23,9 +22,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "clients")
 @NoArgsConstructor
@@ -65,4 +64,20 @@ public class Client extends Auditable implements BaseEntity {
   @OneToMany(mappedBy = "client", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.PERSIST)
   private List<Contract> contracts;
 
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    Client client = (Client) obj;
+    return Objects.equals(id, client.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
 }
