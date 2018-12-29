@@ -20,7 +20,6 @@ class SocketComponent extends Component {
   };
 
   componentDidMount () {
-
     this.setState({
       loaded: true
     });
@@ -29,11 +28,11 @@ class SocketComponent extends Component {
       'Authorization': this.authService.getToken()
     };
 
-    let client = Stomp.client('ws://localhost:9000/socket')
+    let client = Stomp.client('ws://localhost:9000/socket');
     client.connect(headers, (frame) => {
       client.subscribe('/events/put', (frame) => {
-      }, headers)
-    })
+      }, headers);
+    });
   };
 }
 
