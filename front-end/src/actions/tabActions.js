@@ -1,4 +1,6 @@
 import { tab } from './types';
+import ajaxRequest from '../helpers/ajaxRequest';
+import {toastr} from 'react-redux-toastr';
 
 export const openTab = (tabKey, payload) => {
   return {
@@ -56,5 +58,29 @@ export const storeTabTmpFormData = (tabKey, payload) => {
     type: tab.STORE_TMP_FORM_DATA,
     tabKey,
     payload
+  };
+};
+
+export const getGridData = ({tabKey, page = 1, size = 3, filterString = '', columns} = {}) => {
+  return (dispatch) => {
+    dispatch(loadingTab());
+    ajaxRequest.get('/' + tabKey + '?page=' + page + '&size=' + size + filterString)
+      .then(response => {
+        dispatch(setTabGridData(tabKey, {
+          data: response.data,
+          meta: response.meta,
+          columns: columns
+        }));
+        dispatch(doneTab());
+      })
+      .catch(error => {
+        dispatch(doneTab());
+        toastr.error(error.message);
+        dispatch(setTabGridData(tabKey, {
+          data: [],
+          meta: {},
+          columns: columns
+        }));
+      });
   };
 };

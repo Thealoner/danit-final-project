@@ -101,7 +101,7 @@ export default function tabsReducer (state = initialState, action) {
 
     case tab.SET_GRID_DATA: {
       let newTabData = {};
-      
+
       if (action.payload.type) {
         newTabData.type = action.payload.type;
       }
@@ -123,7 +123,7 @@ export default function tabsReducer (state = initialState, action) {
       if (action.payload.type) {
         newTabData.type = action.payload.type;
       }
-      
+
       if (action.payload) {
         newTabData.form = {
           id: action.payload.id,
@@ -132,7 +132,7 @@ export default function tabsReducer (state = initialState, action) {
           edited: false
         };
       }
-      
+
       return updateCurrentTabAttributes(state, newTabData);
     }
 
@@ -141,7 +141,7 @@ export default function tabsReducer (state = initialState, action) {
         type: 'grid',
         form: null
       };
-      
+
       return updateCurrentTabAttributes(state, newTabData);
     }
 
@@ -154,7 +154,7 @@ export default function tabsReducer (state = initialState, action) {
       };
       return updateCurrentTabAttributes(state, newTabData);
     }
-    
+
     default: {
       return state;
     }

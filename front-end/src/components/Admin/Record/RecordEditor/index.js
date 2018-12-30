@@ -3,37 +3,30 @@ import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
 import Form from 'react-jsonschema-form';
 import ajaxRequest from '../../../../helpers/ajaxRequest';
-// import resizeInputs from '../../../../helpers/resizeInputs';
 import {toastr} from 'react-redux-toastr';
 import {connect} from 'react-redux';
+import { Loader } from 'semantic-ui-react';
 import {
-  loadingTab,
-  doneTab,
   setTabFormData,
   persistTabFormData,
   storeTabTmpFormData
 } from '../../../../actions/tabActions';
 import { getEntityByType } from '../../gridEntities';
 
-// const formInputs = document.getElementsByClassName('form-control');
-
 class RecordEditor extends Component {
   state = {};
 
   getData = () => {
-    const { currentTab, loadingTab, setFormData } = this.props;
-    loadingTab();
+    const { currentTab, setFormData } = this.props;
 
     ajaxRequest.get('/' + currentTab.tabKey + '/' + currentTab.form.id)
       .then(data => {
         setFormData(currentTab.tabKey, { data });
-        // resizeInputs(formInputs);
       });
   };
 
   putData = form => {
-    const { currentTab, loadingTab, doneTab, persistFormData } = this.props;
-    loadingTab();
+    const { currentTab, persistFormData } = this.props;
 
     ajaxRequest.put(
       '/' + currentTab.tabKey,
@@ -42,18 +35,15 @@ class RecordEditor extends Component {
       .then(json => {
         persistFormData(currentTab.tabKey, json[0]);
         toastr.success('Данные успешно сохранены');
-        // resizeInputs(formInputs);
       })
       .catch(error => {
-        doneTab();
         toastr.error('Ошибка при сохранении', error);
       });
   };
 
   postData = form => {
-    const { currentTab, loadingTab, doneTab, persistFormData } = this.props;
-    loadingTab();
-    
+    const { currentTab, persistFormData } = this.props;
+
     ajaxRequest.post(
       '/' + currentTab.tabKey,
       JSON.stringify([form.formData])
@@ -61,10 +51,8 @@ class RecordEditor extends Component {
       .then(json => {
         persistFormData(currentTab.tabKey, json[0]);
         toastr.success('Данные успешно сохранены');
-        // resizeInputs(formInputs);
       })
       .catch(error => {
-        doneTab();
         toastr.error('Ошибка при сохранении', error);
       });
   };
@@ -80,7 +68,7 @@ class RecordEditor extends Component {
     const mode = currentTab.form.id ? 'edit' : 'add';
 
     if (!currentTab.form || !currentTab.form.data) {
-      return (<div>Nothing here yet...</div>);
+      return (<div className="tabs__loader-wrapper"><Loader active inline='centered' size='big'/></div>);
     }
 
     return (
@@ -106,23 +94,11 @@ class RecordEditor extends Component {
     if (mode === 'edit') {
       this.getData();
     }
-
-    // resizeInputs(formInputs);
-  }
-
-  componentDidUpdate () {
-    
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadingTab: () => {
-      dispatch(loadingTab());
-    },
-    doneTab: () => {
-      dispatch(doneTab());
-    },
     setFormData: (tabKey, payload) => {
       dispatch(setTabFormData(tabKey, payload));
     },

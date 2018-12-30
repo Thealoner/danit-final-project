@@ -1,7 +1,6 @@
-import React, {Component} from 'react';
-import {openTab} from '../../../actions/tabActions';
-import {connect} from 'react-redux';
-import {Loader} from 'semantic-ui-react';
+import React, { Component } from 'react';
+import { openTab } from '../../../actions/tabActions';
+import { connect } from 'react-redux';
 import TabPane from './TabPane';
 import TabContent from './TabContent';
 import './index.scss';
@@ -9,26 +8,18 @@ import logo from './logo.svg';
 
 class TabContainer extends Component {
   render () {
-    let {tabs, openTab, currentTab} = this.props;
+    let { tabs, openTab, currentTab } = this.props;
 
     if (!currentTab) {
       return <div className="tabs__logo-wrapper"><img src={logo} alt=""/></div>;
-    }
-
-    if (tabs.activeKey && tabs.tabsArray[tabs.activeKey] && tabs.tabsArray[tabs.activeKey].status === 'loading') {
+    } else {
       return (
         <div className="tabs">
-          <div className="tabs__loader-wrapper"><Loader active inline='centered' size='big'/></div>
+          <TabPane tabs={tabs} onSelect={openTab} />
+          <TabContent currentTab={currentTab} />
         </div>
       );
     }
-
-    return (
-      <div className="tabs">
-        <TabPane tabs={tabs} onSelect={openTab} />
-        <TabContent currentTab={currentTab} />
-      </div>
-    );
   }
 }
 
