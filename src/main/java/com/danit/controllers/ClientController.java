@@ -95,6 +95,7 @@ public class ClientController {
       ClientListRequestDto clientListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
     log.info("pageable: " + pageable);
+    log.info("clientListRequestDto: " + clientListRequestDto);
     return ResponseEntity.ok(convertPageToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
   }
 
@@ -202,5 +203,19 @@ public class ClientController {
     log.info(principal.getName() + " got all Contract data");
     return ResponseEntity.ok(convertPageToMap(contractFacade.findAllContractsDtoForClientId(clientId, pageable)));
   }
+
+//  @JsonView(Views.Extended.class)
+//  @GetMapping("/paket/{paketId}")
+//  ResponseEntity<Map<String, Object>> getAllClientsOnPaket(@PathVariable(name = "paketId") Long paketId,
+//                                                           @PageableDefault(page = DEFAULT_PAGE_NUMBER,
+//                                                               size = DEFAULT_PAGE_SIZE)
+//                                                           @SortDefault.SortDefaults({
+//                                                               @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+//                                                           }) Pageable pageable,
+//                                                           Principal principal) {
+//    log.info(principal.getName() + " got all clients using paket " + paketId);
+//    return ResponseEntity.ok(convertPageToMap(clientFacade.findAllClientsWithPaket(paketId, pageable)));
+//  }
+
 
 }

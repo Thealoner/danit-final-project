@@ -1,13 +1,17 @@
 package com.danit.dto.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.ToString;
 
 @ToString
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class PaketListRequestDto {
 
   public String search;
+
+  public String id;
 
   public String title;
 
@@ -39,7 +43,7 @@ public class PaketListRequestDto {
 
   public Boolean limitUsageByPaymentPercentage;
 
-  public Boolean isActive;
+  public Boolean active;
 
   public Boolean purchasable;
 
