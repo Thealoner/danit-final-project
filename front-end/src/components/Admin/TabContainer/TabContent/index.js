@@ -1,41 +1,30 @@
-import React, {Component} from 'react';
-import {setTabGridData} from '../../../../actions/tabActions';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
 import Grid from '../../Grid';
+import { Loader } from 'semantic-ui-react';
 import RecordEditor from '../../Record/RecordEditor';
 
 class TabContent extends Component {
-  state = {};
-
   render () {
-    const {currentTab} = this.props;
+    const { currentTab } = this.props;
 
-    if (currentTab.type === 'grid') {
+    if (currentTab.status === 'loading') {
       return (
         <div className="tabs__content">
-          <Grid currentTab={currentTab}/>
+          <div className="tabs__loader-wrapper"><Loader active inline='centered' size='big'/></div>
         </div>
       );
-    }
-
-    if (currentTab.type === 'form') {
+    } else {
       return (
-        <div className="tabs__content">
-          <RecordEditor currentTab={currentTab}/>
-        </div>
+        currentTab.type === 'grid'
+          ? <div className="tabs__content">
+            <Grid currentTab={currentTab}/>
+          </div>
+          : <div className="tabs__content">
+            <RecordEditor currentTab={currentTab}/>
+          </div>
       );
     }
-
-    return (
-      <div className="tabs__content">{JSON.stringify(currentTab)}</div>
-    );
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  setTabGridData: (tabKey, payload) => {
-    dispatch(setTabGridData(tabKey, payload));
-  }
-});
-
-export default connect(null, mapDispatchToProps)(TabContent);
+export default TabContent;

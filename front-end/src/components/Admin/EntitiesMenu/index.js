@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import gridEntities from '../gridEntities';
 import { connect } from 'react-redux';
-import { openTab } from '../../../actions/tabActions';
+import { openTab, getGridData } from '../../../actions/tabActions';
 
 function EntitiesMenu (props) {
   const links = [];
@@ -16,7 +16,11 @@ function EntitiesMenu (props) {
         key={entity.id}
         className="configurator__link"
         activeClassName="configurator__link--active"
-        onClick={() => props.openTab(entity.id, {type: 'grid'})}>
+        onClick={() => {
+          props.openTab(entity.id, {type: 'grid'});
+          props.getGridData({ tabKey: entity.id, columns: entity.columns });
+        }}
+      >
         {entity.name}
       </NavLink>
     );
@@ -35,6 +39,9 @@ const mapDispatchToProps = dispatch => {
   return {
     openTab: (tabKey, payload) => {
       dispatch(openTab(tabKey, payload));
+    },
+    getGridData: (options) => {
+      dispatch(getGridData(options));
     }
   };
 };
