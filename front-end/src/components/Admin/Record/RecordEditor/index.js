@@ -21,7 +21,7 @@ class RecordEditor extends Component {
 
     ajaxRequest.get('/' + currentTab.tabKey + '/' + currentTab.form.id)
       .then(data => {
-        setFormData(currentTab.tabKey, { data });
+        setFormData(currentTab.tabKey, { ...data });
       });
   };
 
