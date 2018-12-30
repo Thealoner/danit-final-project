@@ -8,7 +8,6 @@ import com.danit.facades.ClientFacade;
 import com.danit.facades.ContractFacade;
 import com.danit.models.Client;
 import com.danit.models.Contract;
-import com.danit.services.ClientService;
 import com.danit.services.ContractService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.slf4j.Slf4j;
