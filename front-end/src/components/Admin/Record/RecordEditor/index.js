@@ -7,24 +7,12 @@ import {toastr} from 'react-redux-toastr';
 import {connect} from 'react-redux';
 import { Loader } from 'semantic-ui-react';
 import {
-  setTabFormData,
   persistTabFormData,
   storeTabTmpFormData
 } from '../../../../actions/tabActions';
 import { getEntityByType } from '../../gridEntities';
 
 class RecordEditor extends Component {
-  state = {};
-
-  getData = () => {
-    const { currentTab, setFormData } = this.props;
-
-    ajaxRequest.get('/' + currentTab.tabKey + '/' + currentTab.form.id)
-      .then(data => {
-        setFormData(currentTab.tabKey, { ...data });
-      });
-  };
-
   putData = form => {
     const { currentTab, persistFormData } = this.props;
 
@@ -81,28 +69,16 @@ class RecordEditor extends Component {
           onChange={this.changeData}
           onSubmit={mode === 'edit' ? this.putData : this.postData}
           onError={error => toastr.error('Пожалуйста, проверьте введеные данные', error)}>
-          <button disabled={this.state.loading} type='submit' className='record__button'>Сохранить</button>
+          <button type='submit' className='record__button'>Сохранить</button>
           <button type='button' className='record__button'>Отмена</button>
         </Form>
       </Fragment>
     );
   }
-
-  componentDidMount () {
-    const { currentTab } = this.props;
-    const mode = currentTab.form.id ? 'edit' : 'add';
-    
-    if (mode === 'edit') {
-      this.getData();
-    }
-  }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    setFormData: (tabKey, payload) => {
-      dispatch(setTabFormData(tabKey, payload));
-    },
     persistFormData: (tabKey, payload) => {
       dispatch(persistTabFormData(tabKey, payload));
     },

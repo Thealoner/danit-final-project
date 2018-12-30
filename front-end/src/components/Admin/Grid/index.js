@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import Filter from './Filter';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Pagination } from 'semantic-ui-react';
-import { getGridData, setTabFormData } from '../../../actions/tabActions';
+import { getGridData, getFormData } from '../../../actions/tabActions';
 import { connect } from 'react-redux';
 
 class Grid extends Component {
@@ -20,11 +20,9 @@ class Grid extends Component {
   tabulatorTable = React.createRef();
 
   rowClick = (e, row) => {
-    const { currentTab, setTabFormData } = this.props;
-    setTabFormData(currentTab.tabKey, {
-      id: row.getData().id,
-      type: 'form'
-    });
+    const { currentTab, getFormData } = this.props;
+
+    getFormData(currentTab.tabKey, row.getData().id);
   };
 
   applyFilter = (filterString) => {
@@ -111,11 +109,11 @@ class Grid extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setTabFormData: (tabKey, payload) => {
-      dispatch(setTabFormData(tabKey, payload));
+    getGridData: (options) => {
+      dispatch(getGridData(options));
     },
-    getGridData: (entity) => {
-      dispatch(getGridData(entity));
+    getFormData: (tabKey, id) => {
+      dispatch(getFormData(tabKey, id));
     }
   };
 };

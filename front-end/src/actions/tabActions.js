@@ -74,13 +74,38 @@ export const getGridData = ({tabKey, page = 1, size = 3, filterString = '', colu
         dispatch(doneTab());
       })
       .catch(error => {
-        dispatch(doneTab());
-        toastr.error(error.message);
         dispatch(setTabGridData(tabKey, {
           data: [],
           meta: {},
           columns: columns
         }));
+        dispatch(doneTab());
+        toastr.error(error.message);
+      });
+  };
+};
+
+export const getFormData = (tabKey, id) => {
+  return (dispatch) => {
+    dispatch(loadingTab());
+    ajaxRequest.get('/' + tabKey + '/' + id)
+      .then(response => {
+        dispatch(setTabFormData(tabKey, {
+          id: id,
+          type: 'form',
+          ...response
+        }));
+        dispatch(doneTab());
+      })
+      .catch(error => {
+        dispatch(setTabFormData(tabKey, {
+          id: id,
+          type: 'form',
+          data: [],
+          meta: {}
+        }));
+        dispatch(doneTab());
+        toastr.error(error.message);
       });
   };
 };
