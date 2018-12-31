@@ -176,6 +176,7 @@
   &__content {
     position: relative;
     height: calc(100% - 36px);
+    overflow-y: auto;
     background-color: $white;
     border: 15px solid $gallery;
   }

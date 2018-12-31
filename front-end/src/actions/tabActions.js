@@ -1,6 +1,6 @@
 import { tab } from './types';
 import ajaxRequest from '../helpers/ajaxRequest';
-import {toastr} from 'react-redux-toastr';
+import { toastr } from 'react-redux-toastr';
 
 export const openTab = (tabKey, payload) => {
   return {
@@ -29,7 +29,7 @@ export const doneTab = () => {
   };
 };
 
-export const setTabGridData = (tabKey, payload) => {
+export const setGridData = (tabKey, payload) => {
   return {
     type: tab.SET_GRID_DATA,
     tabKey,
@@ -37,7 +37,7 @@ export const setTabGridData = (tabKey, payload) => {
   };
 };
 
-export const setTabFormData = (tabKey, payload) => {
+export const setFormData = (tabKey, payload) => {
   return {
     type: tab.SET_FORM_DATA,
     tabKey,
@@ -45,11 +45,9 @@ export const setTabFormData = (tabKey, payload) => {
   };
 };
 
-export const persistTabFormData = (tabKey, payload) => {
+export const cancelEditFormData = () => {
   return {
-    type: tab.PERSIST_FORM_DATA,
-    tabKey,
-    payload
+    type: tab.CANCEL_EDIT_FORM_DATA
   };
 };
 
@@ -61,51 +59,79 @@ export const storeTabTmpFormData = (tabKey, payload) => {
   };
 };
 
+// using catch method in thunk action creators is not recommended
 export const getGridData = ({tabKey, page = 1, size = 3, filterString = '', columns} = {}) => {
   return (dispatch) => {
     dispatch(loadingTab());
     ajaxRequest.get('/' + tabKey + '?page=' + page + '&size=' + size + filterString)
-      .then(response => {
-        dispatch(setTabGridData(tabKey, {
-          data: response.data,
-          meta: response.meta,
-          columns: columns
-        }));
-        dispatch(doneTab());
-      })
-      .catch(error => {
-        dispatch(setTabGridData(tabKey, {
-          data: [],
-          meta: {},
-          columns: columns
-        }));
-        dispatch(doneTab());
-        toastr.error(error.message);
-      });
+      .then(
+        response => {
+          dispatch(setGridData(tabKey, {
+            data: response.data,
+            meta: response.meta,
+            columns: columns,
+            type: 'grid'
+          }));
+          dispatch(doneTab());
+        },
+        error => {
+          dispatch(setGridData(tabKey, {
+            data: [],
+            meta: {},
+            columns: columns,
+            type: 'grid'
+          }));
+          toastr.error(error.message);
+        });
   };
 };
 
-export const getFormData = (tabKey, id) => {
+export const getFormData = (tabKey, id, mode) => {
   return (dispatch) => {
     dispatch(loadingTab());
     ajaxRequest.get('/' + tabKey + '/' + id)
-      .then(response => {
-        dispatch(setTabFormData(tabKey, {
-          id: id,
-          type: 'form',
-          ...response
+      .then(
+        response => {
+          dispatch(setFormData(tabKey, {
+            mode: mode,
+            id: id,
+            type: 'form',
+            ...response
+          }));
+          dispatch(doneTab());
+        },
+        error => {
+          dispatch(setFormData(tabKey, {
+            mode: mode,
+            id: id,
+            type: 'form',
+            data: [],
+            meta: {}
+          }));
+          toastr.error(error.message);
+        });
+  };
+};
+
+export const saveFormData = (tabKey, formData, columns) => {
+  return (dispatch) => {
+    dispatch(loadingTab());
+    ajaxRequest.post(
+      '/' + tabKey,
+      JSON.stringify([formData])
+    )
+      .then(() => {
+        dispatch(cancelEditFormData());
+        dispatch(getGridData({
+          tabKey: tabKey,
+          columns: columns
         }));
+        toastr.success('Данные успешно сохранены');
+      },
+      error => {
         dispatch(doneTab());
-      })
-      .catch(error => {
-        dispatch(setTabFormData(tabKey, {
-          id: id,
-          type: 'form',
-          data: [],
-          meta: {}
-        }));
-        dispatch(doneTab());
-        toastr.error(error.message);
-      });
+        toastr.error('Ошибка при сохранении', error);
+      }
+      );
   };
 };

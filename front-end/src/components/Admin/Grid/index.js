@@ -22,7 +22,7 @@ class Grid extends Component {
   rowClick = (e, row) => {
     const { currentTab, getFormData } = this.props;
 
-    getFormData(currentTab.tabKey, row.getData().id);
+    getFormData(currentTab.tabKey, row.getData().id, 'edit');
   };
 
   applyFilter = (filterString) => {
@@ -112,8 +112,8 @@ const mapDispatchToProps = dispatch => {
     getGridData: (options) => {
       dispatch(getGridData(options));
     },
-    getFormData: (tabKey, id) => {
-      dispatch(getFormData(tabKey, id));
+    getFormData: (tabKey, id, mode) => {
+      dispatch(getFormData(tabKey, id, mode));
     }
   };
 };
