@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {closeTab} from '../../../../../actions/tabActions';
 import {getEntityByType} from '../../../gridEntities';
 import { NavLink } from 'react-router-dom';
+import { toastr } from 'react-redux-toastr';
 
 const Tab = ({tabKey, title, activeKey, onSelect, closeTab, edited}) => {
   const tabClass = 'tabs__head' + (tabKey === activeKey ? ' tabs__head--active' : '');
@@ -10,7 +11,17 @@ const Tab = ({tabKey, title, activeKey, onSelect, closeTab, edited}) => {
   const closeTabHandler = (e, tabKey) => {
     e.preventDefault();
     e.stopPropagation();
-    closeTab(tabKey);
+    const toastrConfirmOptions = {
+      onOk: () => closeTab(tabKey),
+      okText: 'Да',
+      cancelText: 'Нет'
+    };
+
+    if (edited) {
+      toastr.confirm('Изменения не сохранены, продолжить?', toastrConfirmOptions);
+    } else {
+      closeTab(tabKey);
+    }
   };
 
   return (
