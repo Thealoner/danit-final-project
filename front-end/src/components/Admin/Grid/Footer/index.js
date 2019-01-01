@@ -3,12 +3,25 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Pagination } from 'semantic-ui-react';
 import { getEntityByType } from '../../gridEntities';
+import { connect } from 'react-redux';
+import { getGridData } from '../../../../actions/tabActions';
 
 class GridFooter extends Component {
   state = {
     showEllipsis: true,
     showFirstAndLastNav: true,
     showPreviousAndNextNav: true
+  };
+
+  handlePaginationChange = (e, { activePage }) => {
+    const { currentTab, getGridData } = this.props;
+
+    getGridData({
+      tabKey: currentTab.tabKey,
+      page: activePage,
+      size: currentTab.grid.meta.elementsPerPage,
+      columns: currentTab.grid.columns
+    });
   };
 
   render () {
@@ -39,4 +52,12 @@ class GridFooter extends Component {
   }
 }
 
-export default GridFooter;
+const mapDispatchToProps = dispatch => {
+  return {
+    getGridData: (options) => {
+      dispatch(getGridData(options));
+    }
+  };
+};
+
+export default connect(null, mapDispatchToProps)(GridFooter);
