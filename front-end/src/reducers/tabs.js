@@ -1,4 +1,5 @@
 import { tab } from '../actions/types';
+import {getEntityByType} from '../components/Admin/gridEntities';
 
 const initialState = {
   tabsArray: [],
@@ -35,7 +36,7 @@ export default function tabsReducer (state = initialState, action) {
       if (tabIndex === -1) {
         const newTab = {
           ...state.tabsArray[tabIndex],
-          title: action.tabKey,
+          title: getEntityByType(action.tabKey).name,
           tabKey: action.tabKey,
           type: action.payload.type,
           grid: {
