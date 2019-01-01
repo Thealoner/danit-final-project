@@ -10,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,39 +49,35 @@ public class ServiceCategoryService extends AbstractBaseEntityService<ServiceCat
   @Transactional
   public void assignServiceToServiceCategory(Long serviceCategoryId, Long serviceId) {
     ServiceCategory serviceCategory = getEntityById(serviceCategoryId);
+    com.danit.models.Service service = servicesService.getEntityById(serviceId);
 
     Boolean containsService = serviceCategory.getServices()
         .stream().filter(s -> s.getId() == serviceId)
         .map(com.danit.models.Service::getId).findFirst().isPresent();
 
     if (!containsService) {
-      servicesService.getEntityById(serviceId).getServiceCategories().add(serviceCategory);
+      service.getServiceCategories().add(serviceCategory);
+      serviceCategory.getServices().add(service);
     }
   }
 
   @Transactional
-  public void assignServicesToServiceCategory(Long serviceCategoryId, List<com.danit.models.Service> services) {
+  public void assignServicesToServiceCategory(Long serviceCategoryId, List<com.danit.models.Service> inputServices) {
 
     ServiceCategory serviceCategory = getEntityById(serviceCategoryId);
 
     List<Long> scServicesIds = serviceCategory.getServices()
         .stream().map(com.danit.models.Service::getId).collect(Collectors.toList());
 
-    List<Long> inputServicesIds = services
-        .stream().map(com.danit.models.Service::getId).collect(Collectors.toList());
+    List<Long> targetIds =
+        inputServices.stream()
+            .map(com.danit.models.Service::getId)
+            .filter(isId -> !scServicesIds.contains(isId))
+            .collect(Collectors.toList());
 
-    List<Long> targetIds = new ArrayList<>();
-
-    for (Long isId :
-        inputServicesIds) {
-      if (!scServicesIds.contains(isId)) {
-        targetIds.add(isId);
-      }
-    }
-
-    serviceRepository.findAllEntitiesByIds(targetIds)
-        .forEach(service -> service.getServiceCategories().add(serviceCategory));
-
+    List<com.danit.models.Service> services = serviceRepository.findAllEntitiesByIds(targetIds);
+    services.forEach(service -> service.getServiceCategories().add(serviceCategory));
+    services.forEach(service -> serviceCategory.getServices().add(service));
   }
 
   @Transactional
