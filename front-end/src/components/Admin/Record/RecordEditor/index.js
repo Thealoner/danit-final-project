@@ -47,7 +47,7 @@ class RecordEditor extends Component {
           autocomplete='off'
           onChange={this.changeData}
           onSubmit={(form) => saveData(currentTab.tabKey, form.formData, currentTab.grid.columns)}
-          onError={error => toastr.error('Пожалуйста, проверьте введеные данные', error)}>
+          onError={() => toastr.error('Пожалуйста, проверьте введеные данные')}>
           <button type='submit' className='record__button'>Сохранить</button>
           <button type='button' className='record__button' onClick={() => cancelData()}>Отмена</button>
         </Form>

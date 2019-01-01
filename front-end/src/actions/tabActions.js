@@ -128,9 +128,9 @@ export const saveFormData = (tabKey, formData, columns) => {
         }));
         toastr.success('Данные успешно сохранены');
       },
-      error => {
+      () => {
         dispatch(doneTab());
-        toastr.error('Ошибка при сохранении', error);
+        toastr.error('Ошибка при сохранении');
       }
       );
   };

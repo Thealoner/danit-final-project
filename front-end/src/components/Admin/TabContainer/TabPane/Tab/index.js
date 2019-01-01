@@ -14,10 +14,10 @@ const Tab = ({tabKey, title, activeKey, onSelect, closeTab, edited}) => {
   };
 
   return (
-    <NavLink to={'/admin/' + tabKey} key={tabKey} className={tabClass} onClick={() => onSelect(tabKey)}>
-      <span className="tabs__title-wrapper" title={`${getEntityByType(tabKey).name} ${edited ? '*' : ''}`}>
+    <NavLink to={'/admin/' + tabKey} key={tabKey} className={tabClass} onClick={() => onSelect(tabKey)}
+      title={`${getEntityByType(tabKey).name} ${edited ? '(несохранённые данные)' : ''}`}>
+      <span className={!edited ? 'tabs__title' : 'tabs__title--edited'}>
         {getEntityByType(tabKey).name}
-        <span>{edited ? '*' : ''}</span>
       </span>
       <span className="tabs__btn-wrapper">
         <button className="tabs__close-btn" onClick={(e) => closeTabHandler(e, tabKey)}/>
