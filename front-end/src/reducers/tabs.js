@@ -1,4 +1,5 @@
 import { tab } from '../actions/types';
+import {getEntityByType} from '../components/Admin/gridEntities';
 
 const initialState = {
   tabsArray: [],
@@ -33,9 +34,9 @@ export default function tabsReducer (state = initialState, action) {
     case tab.OPEN: {
       const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === action.tabKey);
       if (tabIndex === -1) {
-        let newTab = {
+        const newTab = {
           ...state.tabsArray[tabIndex],
-          title: action.tabKey,
+          title: getEntityByType(action.tabKey).name,
           tabKey: action.tabKey,
           type: action.payload.type,
           grid: {
@@ -100,7 +101,7 @@ export default function tabsReducer (state = initialState, action) {
     }
 
     case tab.SET_GRID_DATA: {
-      let newTabData = {};
+      const newTabData = {};
 
       if (action.payload.type) {
         newTabData.type = action.payload.type;
@@ -108,9 +109,7 @@ export default function tabsReducer (state = initialState, action) {
 
       if (action.payload.data) {
         newTabData.grid = {
-          data: action.payload.data,
-          meta: action.payload.meta,
-          columns: action.payload.columns
+          ...action.payload
         };
       }
 
@@ -118,7 +117,7 @@ export default function tabsReducer (state = initialState, action) {
     }
 
     case tab.SET_FORM_DATA: {
-      let newTabData = {};
+      const newTabData = {};
 
       if (action.payload.type) {
         newTabData.type = action.payload.type;
@@ -126,9 +125,7 @@ export default function tabsReducer (state = initialState, action) {
 
       if (action.payload) {
         newTabData.form = {
-          id: action.payload.id,
-          data: action.payload.data,
-          meta: action.payload.meta,
+          ...action.payload,
           edited: false
         };
       }
@@ -136,10 +133,12 @@ export default function tabsReducer (state = initialState, action) {
       return updateCurrentTabAttributes(state, newTabData);
     }
 
-    case tab.PERSIST_FORM_DATA: {
-      let newTabData = {
+    case tab.CANCEL_EDIT_FORM_DATA: {
+      const newTabData = {
         type: 'grid',
-        form: null
+        form: {
+          edited: false
+        }
       };
 
       return updateCurrentTabAttributes(state, newTabData);
@@ -148,7 +147,7 @@ export default function tabsReducer (state = initialState, action) {
     case tab.STORE_TMP_FORM_DATA: {
       const newTabData = {
         form: {
-          data: action.payload.data,
+          ...action.payload,
           edited: true
         }
       };
@@ -166,7 +165,7 @@ export default function tabsReducer (state = initialState, action) {
 
   function updateTabAttributes (state, newAttributes, tabKey) {
     const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === tabKey);
-    let newTabsArray = state.tabsArray.map((value, index) => {
+    const newTabsArray = state.tabsArray.map((value, index) => {
       if (index === tabIndex) {
         return {
           ...value,
@@ -177,7 +176,7 @@ export default function tabsReducer (state = initialState, action) {
       }
     });
 
-    let newState = {
+    const newState = {
       ...state,
       tabsArray: newTabsArray
     };
