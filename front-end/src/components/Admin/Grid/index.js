@@ -1,12 +1,12 @@
 import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
 import { Loader } from 'semantic-ui-react';
-import Filter from './Filter';
-import GridFooter from './Footer';
-import Tabulator from './Tabulator';
+import { getGridData } from '../../../actions/tabActions';
+import GridFilter from './GridFilter';
+import GridFooter from './GridFooter';
+import GridTable from './GridTable';
 import 'react-tabulator/lib/styles.css';
 import './index.scss';
-import { connect } from 'react-redux';
-import { getGridData } from '../../../actions/tabActions';
 
 class Grid extends Component {
   applyFilter = (filterString) => {
@@ -35,10 +35,10 @@ class Grid extends Component {
 
     return (
       <Fragment>
-        <Filter applyFilter={this.applyFilter} clearFilter={this.clearFilter} columns={currentTab.grid.columns}/>
+        <GridFilter applyFilter={this.applyFilter} clearFilter={this.clearFilter} columns={currentTab.grid.columns}/>
         {currentTab.gridStatus === 'loading'
           ? <div className="tabs__loader-wrapper"><Loader active inline='centered' size='big'/></div>
-          : <Tabulator currentTab={currentTab}/>
+          : <GridTable currentTab={currentTab}/>
         }
         <GridFooter currentTab={currentTab}/>
       </Fragment>

@@ -25,7 +25,7 @@ class GridFooter extends Component {
   };
 
   render () {
-    const {currentTab, handlePaginationChange} = this.props;
+    const { currentTab } = this.props;
     const { showEllipsis, showFirstAndLastNav, showPreviousAndNextNav } = this.state;
     const { currentPage, pagesTotal } = currentTab.grid.meta;
 
@@ -37,7 +37,7 @@ class GridFooter extends Component {
         <Pagination
           activePage={currentPage}
           boundaryRange={1}
-          onPageChange={handlePaginationChange}
+          onPageChange={this.handlePaginationChange}
           siblingRange={1}
           size='mini'
           totalPages={pagesTotal}
