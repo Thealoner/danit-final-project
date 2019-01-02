@@ -1,28 +1,45 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {closeTab} from '../../../../../actions/tabActions';
-import {getEntityByType} from '../../../gridEntities';
+import { NavLink } from 'react-router-dom';
+import { toastr } from 'react-redux-toastr';
 
-const Tab = ({tabKey, title, activeKey, onSelect, closeTab, edited}) => {
-  const tabClass = 'tabs__head' + (tabKey === activeKey ? ' tabs__head--active' : '');
+class Tab extends Component {
+  closeTabHandler = (e, tabKey) => {
+    const {edited, closeTab} = this.props;
 
-  const closeTabHandler = (e, tabKey) => {
+    e.preventDefault();
     e.stopPropagation();
-    closeTab(tabKey);
+    const toastrConfirmOptions = {
+      onOk: () => closeTab(tabKey),
+      okText: 'Да',
+      cancelText: 'Нет'
+    };
+
+    if (edited) {
+      toastr.confirm('Изменения не сохранены, продолжить?', toastrConfirmOptions);
+    } else {
+      closeTab(tabKey);
+    }
   };
 
-  return (
-    <li key={tabKey} className={tabClass} onClick={() => onSelect(tabKey)}>
-      <span className='tabs__title-wrapper' title={`${getEntityByType(tabKey).name} ${edited ? '*' : ''}`}>
-        {getEntityByType(tabKey).name}
-        <span>{edited ? '*' : ''}</span>
-      </span>
-      <span className='tabs__btn-wrapper'>
-        <button className='tabs__close-btn' onClick={(e) => closeTabHandler(e, tabKey)}/>
-      </span>
-    </li>
-  );
-};
+  render () {
+    const {tabKey, title, activeKey, onSelect, edited} = this.props;
+    const tabClass = 'tabs__head' + (tabKey === activeKey ? ' tabs__head--active' : '');
+
+    return (
+      <NavLink to={'/admin/' + tabKey} key={tabKey} className={tabClass} onClick={() => onSelect(tabKey)}
+        title={`${title} ${edited ? '(несохранённые данные)' : ''}`}>
+        <span className={!edited ? 'tabs__title' : 'tabs__title--edited'}>
+          {title}
+        </span>
+        <span className="tabs__btn-wrapper">
+          <button className="tabs__close-btn" onClick={(e) => this.closeTabHandler(e, tabKey)}/>
+        </span>
+      </NavLink>
+    );
+  }
+}
 
 const mapDispatchToProps = (dispatch) => ({
   closeTab: tabKey => {

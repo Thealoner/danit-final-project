@@ -13,7 +13,7 @@ function TabPane ({tabs, onSelect}) {
     />
   );
 
-  return <ul className='tabs__pane'><span className='tabs__pane-skirt'>{tabsList}</span></ul>;
+  return <div className='tabs__pane'>{tabsList}</div>;
 }
 
 export default TabPane;

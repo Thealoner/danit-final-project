@@ -2,30 +2,17 @@ import React, { Component, Fragment } from 'react';
 import 'react-tabulator/lib/styles.css';
 import 'tabulator-tables/dist/css/tabulator.min.css';
 import Form from 'react-jsonschema-form';
-import ajaxRequest from '../../../../helpers/ajaxRequest';
 import {toastr} from 'react-redux-toastr';
 import {connect} from 'react-redux';
-import { Loader } from 'semantic-ui-react';
 import {
-  setTabFormData,
-  persistTabFormData,
+  cancelEditFormData,
+  saveFormData,
   storeTabTmpFormData
 } from '../../../../actions/tabActions';
 import { getEntityByType } from '../../gridEntities';
 
 class RecordEditor extends Component {
-  state = {};
-
-  getData = () => {
-    const { currentTab, setFormData } = this.props;
-
-    ajaxRequest.get('/' + currentTab.tabKey + '/' + currentTab.form.id)
-      .then(data => {
-        setFormData(currentTab.tabKey, { data });
-      });
-  };
-
-  putData = form => {
+  /* putData = form => {
     const { currentTab, persistFormData } = this.props;
 
     ajaxRequest.put(
@@ -33,43 +20,23 @@ class RecordEditor extends Component {
       JSON.stringify([form.formData])
     )
       .then(json => {
-        persistFormData(currentTab.tabKey, json[0]);
+        persistFormData(currentTab.tabKey, json);
         toastr.success('Данные успешно сохранены');
       })
       .catch(error => {
         toastr.error('Ошибка при сохранении', error);
       });
-  };
-
-  postData = form => {
-    const { currentTab, persistFormData } = this.props;
-
-    ajaxRequest.post(
-      '/' + currentTab.tabKey,
-      JSON.stringify([form.formData])
-    )
-      .then(json => {
-        persistFormData(currentTab.tabKey, json[0]);
-        toastr.success('Данные успешно сохранены');
-      })
-      .catch(error => {
-        toastr.error('Ошибка при сохранении', error);
-      });
-  };
+  }; */
 
   changeData = form => {
     const { currentTab, storeTmpFormData } = this.props;
-    storeTmpFormData(currentTab.tabKey, { data: form.formData });
+    storeTmpFormData(currentTab.tabKey, { ...currentTab.form, data: form.formData });
   };
 
   render () {
-    const { currentTab } = this.props;
+    const { currentTab, saveData, cancelData } = this.props;
     const entity = getEntityByType(currentTab.tabKey);
-    const mode = currentTab.form.id ? 'edit' : 'add';
-
-    if (!currentTab.form || !currentTab.form.data) {
-      return (<div className="tabs__loader-wrapper"><Loader active inline='centered' size='big'/></div>);
-    }
+    // const mode = currentTab.form.mode;
 
     return (
       <Fragment>
@@ -79,35 +46,26 @@ class RecordEditor extends Component {
           formData={currentTab.form.data}
           autocomplete='off'
           onChange={this.changeData}
-          onSubmit={mode === 'edit' ? this.putData : this.postData}
-          onError={error => toastr.error('Пожалуйста, проверьте введеные данные', error)}>
-          <button disabled={this.state.loading} type='submit' className='record__button'>Сохранить</button>
-          <button type='button' className='record__button'>Отмена</button>
+          onSubmit={(form) => saveData(currentTab.tabKey, form.formData, currentTab.grid.columns)}
+          onError={() => toastr.error('Пожалуйста, проверьте введеные данные')}>
+          <button type='submit' className='record__button'>Сохранить</button>
+          <button type='button' className='record__button' onClick={() => cancelData()}>Отмена</button>
         </Form>
       </Fragment>
     );
-  }
-
-  componentDidMount () {
-    const { currentTab } = this.props;
-    const mode = currentTab.form.id ? 'edit' : 'add';
-    
-    if (mode === 'edit') {
-      this.getData();
-    }
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    setFormData: (tabKey, payload) => {
-      dispatch(setTabFormData(tabKey, payload));
-    },
-    persistFormData: (tabKey, payload) => {
-      dispatch(persistTabFormData(tabKey, payload));
-    },
     storeTmpFormData: (tabKey, payload) => {
       dispatch(storeTabTmpFormData(tabKey, payload));
+    },
+    saveData: (tabKey, formData, columns) => {
+      dispatch(saveFormData(tabKey, formData, columns));
+    },
+    cancelData: () => {
+      dispatch(cancelEditFormData());
     }
   };
 };
