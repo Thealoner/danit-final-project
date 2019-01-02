@@ -118,7 +118,9 @@ export default function tabsReducer (state = initialState, action) {
 
       if (action.payload.data) {
         newTabData.grid = {
-          ...action.payload
+          data: action.payload.data,
+          meta: action.payload.meta,
+          columns: action.payload.columns
         };
       }
 
@@ -134,7 +136,10 @@ export default function tabsReducer (state = initialState, action) {
 
       if (action.payload) {
         newTabData.form = {
-          ...action.payload,
+          id: action.payload.id,
+          mode: action.payload.mode,
+          data: action.payload.data,
+          meta: action.payload.meta,
           edited: false
         };
       }

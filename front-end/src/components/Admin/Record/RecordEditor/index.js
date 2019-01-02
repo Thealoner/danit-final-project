@@ -21,6 +21,7 @@ class RecordEditor extends Component {
     const { currentTab, saveData, cancelData } = this.props;
     const entity = getEntityByType(currentTab.tabKey);
     // const mode = currentTab.form.mode;
+    console.log(currentTab.form)
 
     return (
       <Fragment>

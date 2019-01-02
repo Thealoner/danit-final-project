@@ -6,7 +6,6 @@ import GridFilter from './GridFilter';
 import GridFooter from './GridFooter';
 import GridTable from './GridTable';
 import 'react-tabulator/lib/styles.css';
-import './index.scss';
 
 class Grid extends Component {
   applyFilter = (filterString) => {

@@ -99,14 +99,14 @@ export const getGridData = ({tabKey, page = 1, size = 3, filterString = '', colu
   };
 };
 
-export const getFormData = (tabKey, id, mode) => {
+export const getFormData = (tabKey, id) => {
   return (dispatch) => {
     dispatch(loadingTab());
     ajaxRequest.get('/' + tabKey + '/' + id)
       .then(
         response => {
           dispatch(setFormData(tabKey, {
-            mode: mode,
+            mode: 'edit',
             id: id,
             type: 'form',
             ...response
@@ -115,10 +115,10 @@ export const getFormData = (tabKey, id, mode) => {
         },
         error => {
           dispatch(setFormData(tabKey, {
-            mode: mode,
+            mode: 'edit',
             id: id,
             type: 'form',
-            data: [],
+            data: {},
             meta: {}
           }));
           toastr.error(error.message);
