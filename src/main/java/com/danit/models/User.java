@@ -8,6 +8,7 @@ import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.jws.soap.SOAPBinding;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -20,8 +21,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Objects;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
@@ -43,10 +44,21 @@ public class User extends Auditable implements BaseEntity {
   @ManyToMany(fetch = FetchType.EAGER)
   private List<UserRole> roles;
 
-  public User(String username, String password, List<UserRole> roles) {
-    this.username = username;
-    this.password = password;
-    this.roles = roles;
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    User user = (User) obj;
+    return Objects.equals(id, user.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
   }
 
 }

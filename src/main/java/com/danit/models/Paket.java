@@ -18,8 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.util.List;
+import java.util.Objects;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "packages")
 @NoArgsConstructor
@@ -88,5 +88,22 @@ public class Paket extends Auditable implements BaseEntity {
   @OneToMany(mappedBy = "paket", fetch = FetchType.EAGER,/*
       cascade = {CascadeType.PERSIST, CascadeType.MERGE},*/ orphanRemoval = true)
   private List<Contract> contracts;
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    Paket paket = (Paket) obj;
+    return Objects.equals(id, paket.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
 
 }

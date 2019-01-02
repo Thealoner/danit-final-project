@@ -18,8 +18,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.util.Objects;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "cards")
 @NoArgsConstructor
@@ -43,6 +43,23 @@ public class Card extends Auditable implements BaseEntity {
   @JoinColumn(name = "contract_id")
   @JsonIgnore
   private Contract contract;
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    Card card = (Card) obj;
+    return Objects.equals(id, card.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
 
 }
 

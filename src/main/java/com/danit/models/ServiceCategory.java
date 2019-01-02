@@ -19,9 +19,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.util.List;
+import java.util.Objects;
 
 
-@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @ToString(exclude = {"services"}, callSuper = true)
 @EntityListeners(AuditingEntityListener.class)
@@ -44,4 +44,22 @@ public class ServiceCategory extends Auditable implements BaseEntity {
 
   @ManyToMany(fetch = FetchType.EAGER, mappedBy = "serviceCategories")
   private List<Service> services;
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    ServiceCategory serviceCategory = (ServiceCategory) obj;
+    return Objects.equals(id, serviceCategory.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
+
 }

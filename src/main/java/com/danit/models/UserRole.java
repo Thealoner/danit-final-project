@@ -20,8 +20,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.util.List;
+import java.util.Objects;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "user_roles")
 @NoArgsConstructor
@@ -44,5 +44,22 @@ public class UserRole extends Auditable implements BaseEntity {
   @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
   @JsonIgnore
   private List<User> users;
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    UserRole userRole = (UserRole) obj;
+    return Objects.equals(id, userRole.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
 
 }
