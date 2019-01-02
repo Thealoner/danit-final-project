@@ -160,12 +160,14 @@ public class UserControllerTest {
   @Test
   public void deleteNonExistingUser() throws Exception {
 
+    long userId = 2000;
+
     this.mockMvc.perform(delete(url).headers(headers)
         .contentType("application/json")
-        .content("[{\"id\": 1022},{\"id\": 1023},{\"id\": 1024}]"))
+        .content("[{\"id\": " + userId + "},{\"id\": " + (userId + 1) + "}]"))
         .andExpect(status().isNotFound());
 
-    this.mockMvc.perform(delete(url + "/1022").headers(headers))
+    this.mockMvc.perform(delete(url + "/" + userId).headers(headers))
         .andExpect(status().isNotFound());
   }
 
@@ -299,7 +301,8 @@ public class UserControllerTest {
 
   @Test
   public void getUserByNotExistingId() throws Exception {
-    mockMvc.perform(get(url + "/" + 1021).headers(headers))
+    long userId = 2000;
+    mockMvc.perform(get(url + "/" + userId).headers(headers))
         .andExpect(status().isNotFound());
   }
 
