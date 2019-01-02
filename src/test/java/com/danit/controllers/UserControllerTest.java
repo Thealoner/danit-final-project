@@ -106,7 +106,6 @@ public class UserControllerTest {
 
     List<User> users = new ArrayList<>(20);
     userRole = userRoleRepository.findById(2L).get();
-    userRole.setRole(UserRolesEnum.USER);
     for (int i = 0; i < 10; i++) {
       User user = new User();
       user.setUsername("TestUserName" + i);
@@ -130,7 +129,7 @@ public class UserControllerTest {
         .contentType("application/json")
         .content(json))
         .andExpect(status().isOk());
-    Assert.assertEquals(userService.getNumberOfEntities(), numberOfEntities + 20);
+    Assert.assertEquals(numberOfEntities + 20, userService.getNumberOfEntities());
   }
 
   @Test

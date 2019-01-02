@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 import static com.danit.utils.ControllerUtils.DEFAULT_PAGE_NUMBER;
@@ -60,7 +61,11 @@ public class UserController {
   public ResponseEntity<Map<String, Object>> createUsersDto(@RequestBody List<User> users,
                                                             Principal principal) {
     log.info(principal.getName() + " is saving new users: " + users);
-    users.forEach(user -> user.setPassword(bcryptPasswordEncoder.encode(user.getPassword())));
+    users.forEach(user -> {
+      if(Objects.nonNull(user.getPassword())) {
+        user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
+      }
+    });
     return ResponseEntity.ok(convertDtoToMap(userFacade.saveEntities(users)));
   }
 
@@ -115,6 +120,11 @@ public class UserController {
   @PutMapping
   public ResponseEntity<Map<String, Object>> updateUsersDto(@RequestBody List<User> users, Principal principal) {
     log.info(principal.getName() + " is updating users data: " + users);
+    users.forEach(user -> {
+      if(Objects.nonNull(user.getPassword())) {
+        user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
+      }
+    });
     return ResponseEntity.ok(convertDtoToMap(userFacade.updateEntities(users)));
   }
 
