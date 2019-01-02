@@ -6,12 +6,15 @@ import com.danit.models.User;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 import static org.springframework.data.jpa.domain.Specification.where;
 
 @Component
 public class UserListSpecification extends BaseSpecification<User, UserListRequestDto> {
   @Override
   public Specification<User> getFilter(UserListRequestDto request) {
+    request.equal = Objects.isNull(request.equal) ? false : request.equal;
     return (root, query, cb) -> {
       query.distinct(true);
       return where(
@@ -37,9 +40,8 @@ public class UserListSpecification extends BaseSpecification<User, UserListReque
       if (value == null) {
         return null;
       }
-
       return cb.like(
-          cb.lower(root.get(attribute)),
+          cb.lower(root.get(attribute).as(String.class)),
           containsLowerCase(value)
       );
     };

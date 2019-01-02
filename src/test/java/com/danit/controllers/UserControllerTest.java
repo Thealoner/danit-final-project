@@ -265,7 +265,7 @@ public class UserControllerTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(0));
     //Field search with equal
-    mockMvc.perform(get(url + "?firstName=SearchTestUser&equal=true&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?username=SearchTestUser&equal=true&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(0));
 
@@ -278,17 +278,17 @@ public class UserControllerTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(2));
     //search in all fields with equal
-    mockMvc.perform(get(url + "?firstName=SearchTestUserName1&equal=true&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?username=SearchTestUserName1&equal=true&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(1));
     //search by field with equal
-    mockMvc.perform(get(url + "?firstName=SearchTestUserName1&equal=true&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?username=SearchTestUserName1&equal=true&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(1));
 
 
     //pagination test
-    mockMvc.perform(get(url + "?firstName=SearchTestUserName&page=1&size=5&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?username=SearchTestUserName&page=1&size=5&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentPage").value(1))
         .andExpect(jsonPath("$.meta.pagesTotal").value(2))
