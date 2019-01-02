@@ -1,6 +1,7 @@
 package com.danit.repositories.specifications;
 
 import com.danit.dto.service.UserListRequestDto;
+import com.danit.models.Client;
 import com.danit.models.User;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
@@ -14,15 +15,21 @@ public class UserListSpecification extends BaseSpecification<User, UserListReque
     return (root, query, cb) -> {
       query.distinct(true);
       return where(
-          where(userNameContains(request.search))
+          where(userNameContains(request.search, request.equal))
+              .or(idContains(request.search, request.equal))
       )
-          .and(userNameContains(request.username))
+          .and(userNameContains(request.username, request.equal))
+          .and(idContains(request.id, request.equal))
           .toPredicate(root, query, cb);
     };
   }
 
-  private Specification<User> userNameContains(String userName) {
-    return attributeContains("username", userName);
+  private Specification<User> idContains(String id, Boolean equals) {
+    return equals ? attributeEquals("id", id) : attributeContains("id", id);
+  }
+
+  private Specification<User> userNameContains(String username, Boolean equals) {
+    return equals ? attributeEquals("username", username) : attributeContains("username", username);
   }
 
   private Specification<User> attributeContains(String attribute, String value) {
@@ -34,6 +41,18 @@ public class UserListSpecification extends BaseSpecification<User, UserListReque
       return cb.like(
           cb.lower(root.get(attribute)),
           containsLowerCase(value)
+      );
+    };
+  }
+
+  private Specification<User> attributeEquals(String attribute, String value) {
+    return (root, query, cb) -> {
+      if (value == null) {
+        return null;
+      }
+      return cb.equal(
+          cb.lower(root.get(attribute).as(String.class)),
+          value.toLowerCase()
       );
     };
   }
