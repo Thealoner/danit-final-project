@@ -90,14 +90,14 @@ public class UserControllerTest {
 
   @Before
   public void createUsers() throws Exception {
-    headers = testUtils.getHeader(template, UserRolesEnum.USER);
+    headers = testUtils.getHeader(template, UserRolesEnum.ADMIN);
 
     if(dbInit) {
       return;
     }
     dbInit = true;
 
-    userRepository.deleteAll();
+    //userRepository.deleteAll();
     long numberOfEntities = userService.getNumberOfEntities();
 
     List<User> users = new ArrayList<>(20);
@@ -165,7 +165,7 @@ public class UserControllerTest {
   }
 
   @Test
-  public void deleteNonExistingClient() throws Exception {
+  public void deleteNonExistingUser() throws Exception {
 
     this.mockMvc.perform(delete(url).headers(headers)
         .contentType("application/json")
@@ -177,46 +177,46 @@ public class UserControllerTest {
   }
 
   @Test
-  public void getAllClients() throws Exception {
-    long clientQuantity = userService.getNumberOfEntities();
+  public void getAllUsers() throws Exception {
+    long userQuantity = userService.getNumberOfEntities();
 
     mockMvc.perform(get(url).headers(headers))
         .andExpect(status().isOk())
         .andExpect(content()
             .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.meta.totalElements").value(clientQuantity));
+        .andExpect(jsonPath("$.meta.totalElements").value(userQuantity));
   }
 
   @Test
-  public void getAllContractsShort() throws Exception {
-    long clientQuantity = userService.getNumberOfEntities();
+  public void getAllUsersShort() throws Exception {
+    long userQuantity = userService.getNumberOfEntities();
 
     mockMvc.perform(get(url + "/short").headers(headers))
         .andExpect(status().isOk())
         .andExpect(content()
             .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.meta.totalElements").value(clientQuantity));
+        .andExpect(jsonPath("$.meta.totalElements").value(userQuantity));
   }
 
   @Test
-  public void getAllContractsIds() throws Exception {
-    long clientQuantity = userService.getNumberOfEntities();
+  public void getAllUsersIds() throws Exception {
+    long userQuantity = userService.getNumberOfEntities();
 
     mockMvc.perform(get(url + "/ids").headers(headers))
         .andExpect(status().isOk())
         .andExpect(content()
             .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.meta.totalElements").value(clientQuantity));
+        .andExpect(jsonPath("$.meta.totalElements").value(userQuantity));
   }
 
   @Test
   public void testPageable() throws Exception {
     int elementsPerPage = 3;
-    long numberOfClients = userService.getNumberOfEntities();
-    int numberOfPages = (int) Math.ceil((double) numberOfClients / (double) elementsPerPage);
+    long numberOfUsers = userService.getNumberOfEntities();
+    int numberOfPages = (int) Math.ceil((double) numberOfUsers / (double) elementsPerPage);
 
     long currentPage = 1;
-    long elementsLeft = numberOfClients - (currentPage - 1) * elementsPerPage;
+    long elementsLeft = numberOfUsers - (currentPage - 1) * elementsPerPage;
 
     while (elementsLeft > 0) {
       long currentElements = (elementsLeft > elementsPerPage) ? elementsPerPage : elementsLeft;
@@ -228,16 +228,16 @@ public class UserControllerTest {
           .andExpect(jsonPath("$.meta.pagesTotal").value(numberOfPages))
           .andExpect(jsonPath("$.meta.elementsPerPage").value(elementsPerPage))
           .andExpect(jsonPath("$.meta.currentElements").value(currentElements))
-          .andExpect(jsonPath("$.meta.totalElements").value(numberOfClients))
+          .andExpect(jsonPath("$.meta.totalElements").value(numberOfUsers))
           .andReturn().getResponse().getContentAsString();
 
       JSONObject obj = new JSONObject(responseJson);
       String pageDataJson = obj.getString("data");
-      List<Client> updatedClients = objectMapper.readValue(pageDataJson, new TypeReference<List<Client>>() {
+      List<User> updatedUsers = objectMapper.readValue(pageDataJson, new TypeReference<List<User>>() {
       });
-      Assert.assertEquals(currentElements, updatedClients.size());
+      Assert.assertEquals(currentElements, updatedUsers.size());
       currentPage++;
-      elementsLeft = numberOfClients - (currentPage - 1) * elementsPerPage;
+      elementsLeft = numberOfUsers - (currentPage - 1) * elementsPerPage;
     }
   }
 
@@ -245,59 +245,42 @@ public class UserControllerTest {
   public void testSearchAndFilterAndPagination() throws Exception {
 
     //Search by mask in all fields
-    mockMvc.perform(get(url + "?search=SearchTestClient&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?search=SearchTestUser&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(10));
     //Search by mask in particular field
-    mockMvc.perform(get(url + "?firstName=SearchTestClient&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?firstName=SearchTestUser&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(10));
     //Search with equal
-    mockMvc.perform(get(url + "?search=SearchTestClient&equal=true&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?search=SearchTestUser&equal=true&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(0));
     //Field search with equal
-    mockMvc.perform(get(url + "?firstName=SearchTestClient&equal=true&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?firstName=SearchTestUser&equal=true&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(0));
 
     //search in all fields w/o equal
-    mockMvc.perform(get(url + "?search=SearchTestClientFirstName1&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?search=SearchTestUserName1&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(2));
     //search by field w/o equal
-    mockMvc.perform(get(url + "?search=SearchTestClientFirstName1&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?search=SearchTestUserName1&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(2));
     //search in all fields with equal
-    mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName1&equal=true&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?firstName=SearchTestUserName1&equal=true&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(1));
     //search by field with equal
-    mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName1&equal=true&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?firstName=SearchTestUserName1&equal=true&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(1));
 
-    //search by several fields
-    mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName1&lastName=SearchTestClientLastName0&page=1&size=20").headers(headers))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.meta.currentElements").value(0));
-
-    mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName9&lastName=SearchTestClientLastName9&page=1&size=20").headers(headers))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.meta.currentElements").value(1));
-
-    //search by several fields w/o equal
-    mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName1&lastName=SearchTestClientLastName1&page=1&size=20").headers(headers))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.meta.currentElements").value(2));
-    //search by several fields with equal
-    mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName1&lastName=SearchTestClientLastName1&equal=true&page=1&size=20").headers(headers))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.meta.currentElements").value(1));
 
     //pagination test
-    mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName&page=1&size=5&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?firstName=SearchTestUserName&page=1&size=5&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentPage").value(1))
         .andExpect(jsonPath("$.meta.pagesTotal").value(2))
@@ -306,7 +289,7 @@ public class UserControllerTest {
   }
 
   @Test
-  public void getClientByExistingId() throws Exception {
+  public void getUserByExistingId() throws Exception {
     String responseJson = mockMvc.perform(get(url + "/" + 1005).headers(headers))
         .andExpect(status().isOk())
         .andExpect(content()
@@ -316,13 +299,13 @@ public class UserControllerTest {
 
     JSONObject obj = new JSONObject(responseJson);
     String pageDataJson = obj.getString("data");
-    Client receivedClient = objectMapper.readValue(pageDataJson, Client.class);
+    User receivedUser = objectMapper.readValue(pageDataJson, User.class);
 
-    Assert.assertEquals(new Long(1005), receivedClient.getId());
+    Assert.assertEquals(new Long(1005), receivedUser.getId());
   }
 
   @Test
-  public void getClientByNotExistingId() throws Exception {
+  public void getUserByNotExistingId() throws Exception {
     mockMvc.perform(get(url + "/" + 1021).headers(headers))
         .andExpect(status().isNotFound());
   }
