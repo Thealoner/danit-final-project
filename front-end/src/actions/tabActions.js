@@ -19,13 +19,25 @@ export const closeTab = tabKey => {
 
 export const loadingTab = () => {
   return {
-    type: tab.LOADING
+    type: tab.LOADING_TAB
   };
 };
 
 export const doneTab = () => {
   return {
-    type: tab.DONE
+    type: tab.DONE_TAB
+  };
+};
+
+export const loadingGrid = () => {
+  return {
+    type: tab.LOADING_GRID
+  };
+};
+
+export const doneGrid = () => {
+  return {
+    type: tab.DONE_GRID
   };
 };
 
@@ -62,7 +74,7 @@ export const storeTabTmpFormData = (tabKey, payload) => {
 // using catch method in thunk action creators is not recommended
 export const getGridData = ({tabKey, page = 1, size = 3, filterString = '', columns} = {}) => {
   return (dispatch) => {
-    dispatch(loadingTab());
+    dispatch(loadingGrid());
     ajaxRequest.get('/' + tabKey + '?page=' + page + '&size=' + size + filterString)
       .then(
         response => {
@@ -73,6 +85,7 @@ export const getGridData = ({tabKey, page = 1, size = 3, filterString = '', colu
             type: 'grid'
           }));
           dispatch(doneTab());
+          dispatch(doneGrid());
         },
         error => {
           dispatch(setGridData(tabKey, {

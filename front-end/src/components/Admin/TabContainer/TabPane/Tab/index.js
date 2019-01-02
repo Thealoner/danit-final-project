@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {closeTab} from '../../../../../actions/tabActions';
+import { closeTab } from '../../../../../actions/tabActions';
 import { NavLink } from 'react-router-dom';
 import { toastr } from 'react-redux-toastr';
 
@@ -24,7 +24,7 @@ class Tab extends Component {
   };
 
   render () {
-    const {tabKey, title, activeKey, onSelect, edited} = this.props;
+    const { tabKey, title, activeKey, onSelect, edited } = this.props;
     const tabClass = 'tabs__head' + (tabKey === activeKey ? ' tabs__head--active' : '');
 
     return (
