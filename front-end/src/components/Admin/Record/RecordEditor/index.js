@@ -12,22 +12,6 @@ import {
 import { getEntityByType } from '../../gridEntities';
 
 class RecordEditor extends Component {
-  /* putData = form => {
-    const { currentTab, persistFormData } = this.props;
-
-    ajaxRequest.put(
-      '/' + currentTab.tabKey,
-      JSON.stringify([form.formData])
-    )
-      .then(json => {
-        persistFormData(currentTab.tabKey, json);
-        toastr.success('Данные успешно сохранены');
-      })
-      .catch(error => {
-        toastr.error('Ошибка при сохранении', error);
-      });
-  }; */
-
   changeData = form => {
     const { currentTab, storeTmpFormData } = this.props;
     storeTmpFormData(currentTab.tabKey, { ...currentTab.form, data: form.formData });
