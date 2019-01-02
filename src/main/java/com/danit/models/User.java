@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -34,11 +35,9 @@ public class User extends Auditable implements BaseEntity {
   private Long id;
 
   @Column(name = "username", unique = true)
-  @NonNull
   private String username;
 
   @Column(name = "password")
-  @NonNull
   private String password;
 
   @ManyToMany(fetch = FetchType.EAGER)

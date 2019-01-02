@@ -105,13 +105,17 @@ public class UserControllerTest {
     for (int i = 0; i < 10; i++) {
       User user = new User();
       user.setUsername("TestUserName" + i);
+      user.setPassword("password" + i);
       user.setRoles(Arrays.asList(userRole));
+      users.add(user);
     }
 
     for (int i = 1; i < 11; i++) {
       User user = new User();
       user.setUsername("SearchTestUserName" + i);
+      user.setPassword("password" + i);
       user.setRoles(Arrays.asList(userRole));
+      users.add(user);
     }
 
     ObjectWriter ow = objectMapper.writer();
