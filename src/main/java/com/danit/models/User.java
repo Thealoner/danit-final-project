@@ -4,6 +4,8 @@ import com.danit.models.auditor.Auditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
@@ -32,9 +34,11 @@ public class User extends Auditable implements BaseEntity {
   private Long id;
 
   @Column(name = "username", unique = true)
+  @NonNull
   private String username;
 
   @Column(name = "password")
+  @NonNull
   private String password;
 
   @ManyToMany(fetch = FetchType.EAGER)
