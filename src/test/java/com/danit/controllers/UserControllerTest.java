@@ -162,10 +162,10 @@ public class UserControllerTest {
 
     this.mockMvc.perform(delete(url).headers(headers)
         .contentType("application/json")
-        .content("[{\"id\": 1021},{\"id\": 1022},{\"id\": 1023}]"))
+        .content("[{\"id\": 1022},{\"id\": 1023},{\"id\": 1024}]"))
         .andExpect(status().isNotFound());
 
-    this.mockMvc.perform(delete(url + "/1021").headers(headers))
+    this.mockMvc.perform(delete(url + "/1022").headers(headers))
         .andExpect(status().isNotFound());
   }
 

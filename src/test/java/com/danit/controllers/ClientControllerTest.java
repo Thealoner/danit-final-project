@@ -79,7 +79,7 @@ public class ClientControllerTest {
     }
     dbInit = true;
 
-    clientRepository.deleteAll();
+    //clientRepository.deleteAll();
     long numberOfEntities = clientService.getNumberOfEntities();
 
     List<Client> clients = new ArrayList<>(20);
@@ -184,7 +184,7 @@ public class ClientControllerTest {
   }
 
   @Test
-  public void getAllContractsIds() throws Exception {
+  public void getAllClientsIds() throws Exception {
     long clientQuantity = clientService.getNumberOfEntities();
 
     mockMvc.perform(get(url + "/ids").headers(headers))
