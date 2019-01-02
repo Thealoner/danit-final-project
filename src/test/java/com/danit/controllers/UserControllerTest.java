@@ -3,13 +3,11 @@ package com.danit.controllers;
 import com.danit.Application;
 import com.danit.TestUtils;
 import com.danit.facades.UserFacade;
-import com.danit.models.Client;
 import com.danit.models.User;
 import com.danit.models.UserRole;
 import com.danit.models.UserRolesEnum;
 import com.danit.repositories.UserRepository;
 import com.danit.repositories.UserRoleRepository;
-import com.danit.services.ClientService;
 import com.danit.services.ContractService;
 import com.danit.services.PaketService;
 import com.danit.services.UserService;
@@ -35,8 +33,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -96,7 +94,7 @@ public class UserControllerTest {
   public void createUsers() throws Exception {
     headers = testUtils.getHeader(template, UserRolesEnum.ADMIN);
 
-    if(dbInit) {
+    if (dbInit) {
       return;
     }
     dbInit = true;
@@ -257,7 +255,7 @@ public class UserControllerTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(10));
     //Search by mask in particular field
-    mockMvc.perform(get(url + "?firstName=SearchTestUser&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?username=SearchTestUser&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(10));
     //Search with equal
@@ -316,6 +314,63 @@ public class UserControllerTest {
   public void getUserByNotExistingId() throws Exception {
     mockMvc.perform(get(url + "/" + 1021).headers(headers))
         .andExpect(status().isNotFound());
+  }
+
+  @Test
+  public void testUserRoleMethods() throws Exception {
+    User user = new User();
+    user.setUsername("TestUserForRoleTesting");
+    user.setPassword("TestUserForRoleTesting");
+    Long savedUserId = userService.saveEntity(user).getId();
+
+    mockMvc.perform(get(url + "/" + savedUserId + "/roles").headers(headers))
+        .andExpect(status().isOk())
+        .andExpect(content()
+            .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.meta.totalElements").value(0));
+
+    String responseJson = mockMvc.perform(put(url + "/" + savedUserId + "/role/1").headers(headers))
+        .andExpect(status().isOk())
+        .andExpect(content()
+            .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.meta.totalElements").value(1))
+        .andReturn().getResponse().getContentAsString();
+
+    JSONObject obj = new JSONObject(responseJson);
+    String pageDataJson = obj.getString("data");
+    User receivedUser = objectMapper.readValue(pageDataJson, User.class);
+
+    Assert.assertTrue(Objects.nonNull(receivedUser.getRoles()));
+    Assert.assertEquals(1, receivedUser.getRoles().size());
+    Assert.assertEquals("ADMIN", receivedUser.getRoles().get(0).getRole().name());
+
+    responseJson = mockMvc.perform(put(url + "/" + savedUserId + "/role/2").headers(headers))
+        .andExpect(status().isOk())
+        .andExpect(content()
+            .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.meta.totalElements").value(1))
+        .andReturn().getResponse().getContentAsString();
+
+    obj = new JSONObject(responseJson);
+    pageDataJson = obj.getString("data");
+    receivedUser = objectMapper.readValue(pageDataJson, User.class);
+
+    Assert.assertTrue(Objects.nonNull(receivedUser.getRoles()));
+    Assert.assertEquals(2, receivedUser.getRoles().size());
+    Assert.assertEquals("ADMIN", receivedUser.getRoles().get(0).getRole().name());
+    Assert.assertEquals("USER", receivedUser.getRoles().get(1).getRole().name());
+
+    mockMvc.perform(delete(url + "/" + savedUserId + "/role/1").headers(headers))
+        .andExpect(status().isOk());
+    mockMvc.perform(delete(url + "/" + savedUserId + "/role/2").headers(headers))
+        .andExpect(status().isOk());
+
+    mockMvc.perform(get(url + "/" + savedUserId + "/roles").headers(headers))
+        .andExpect(status().isOk())
+        .andExpect(content()
+            .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.meta.totalElements").value(0));
+
   }
 
 }
