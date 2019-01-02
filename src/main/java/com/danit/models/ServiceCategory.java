@@ -3,7 +3,6 @@ package com.danit.models;
 
 import com.danit.models.auditor.Auditable;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;

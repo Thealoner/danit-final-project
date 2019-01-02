@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-public class ServiceCategoryListRequestDto extends BaseListRequestDto{
+public class ServiceCategoryListRequestDto extends BaseListRequestDto {
 
   public String title;
 

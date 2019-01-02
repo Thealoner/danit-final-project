@@ -12,5 +12,5 @@ public interface UserRoleRepository extends BaseEntityRepository<UserRole> {
 
   @Query("select ur from UserRole ur left join ur.users u where u.id = :userId")
   Page<UserRole> findAllRolesForUserId(@Param(value = "userId") Long userId,
-                                                     Pageable pageable);
+                                       Pageable pageable);
 }

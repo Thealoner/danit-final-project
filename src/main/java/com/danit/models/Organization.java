@@ -2,7 +2,6 @@ package com.danit.models;
 
 import com.danit.models.auditor.Auditable;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

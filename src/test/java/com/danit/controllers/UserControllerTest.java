@@ -53,42 +53,29 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserControllerTest {
 
   private final static String url = "/users";
-
+  private static boolean dbInit = false;
   @Autowired
   TestUtils testUtils;
-
   @Autowired
   ObjectMapper objectMapper;
-
   @Autowired
   UserFacade userFacade;
-
   @Autowired
   UserRepository userRepository;
-
   @Autowired
   UserRoleRepository userRoleRepository;
-
   @Autowired
   UserService userService;
-
   @Autowired
   PaketService paketService;
-
   @Autowired
   ContractService contractService;
-
   @Autowired
   private MockMvc mockMvc;
-
   @Autowired
   private TestRestTemplate template;
-
   private HttpHeaders headers;
-
   private UserRole userRole;
-
-  private static boolean dbInit = false;
 
   @Before
   public void createUsers() throws Exception {

@@ -1,7 +1,6 @@
 package com.danit.repositories.specifications;
 
 import com.danit.dto.service.UserListRequestDto;
-import com.danit.models.Client;
 import com.danit.models.User;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;

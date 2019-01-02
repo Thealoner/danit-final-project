@@ -2,13 +2,9 @@ package com.danit.models;
 
 import com.danit.models.auditor.Auditable;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.jws.soap.SOAPBinding;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -19,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
 

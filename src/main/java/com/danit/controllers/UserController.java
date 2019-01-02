@@ -30,7 +30,6 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Consumer;
 
 import static com.danit.utils.ControllerUtils.DEFAULT_PAGE_NUMBER;
 import static com.danit.utils.ControllerUtils.DEFAULT_PAGE_SIZE;
@@ -62,7 +61,7 @@ public class UserController {
                                                             Principal principal) {
     log.info(principal.getName() + " is saving new users: " + users);
     users.forEach(user -> {
-      if(Objects.nonNull(user.getPassword())) {
+      if (Objects.nonNull(user.getPassword())) {
         user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
       }
     });
@@ -121,7 +120,7 @@ public class UserController {
   public ResponseEntity<Map<String, Object>> updateUsersDto(@RequestBody List<User> users, Principal principal) {
     log.info(principal.getName() + " is updating users data: " + users);
     users.forEach(user -> {
-      if(Objects.nonNull(user.getPassword())) {
+      if (Objects.nonNull(user.getPassword())) {
         user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
       }
     });
@@ -148,8 +147,8 @@ public class UserController {
   @JsonView(Views.Extended.class)
   @ResponseStatus(HttpStatus.OK)
   ResponseEntity<Map<String, Object>> assignRoleToUser(@PathVariable(name = "userId") Long userId,
-                                                             @PathVariable(name = "roleId") Long roleId,
-                                                             Principal principal) {
+                                                       @PathVariable(name = "roleId") Long roleId,
+                                                       Principal principal) {
     log.info(principal.getName() + " is trying to assign roleId=" + roleId + " to userId = " + userId);
     roleService.assignRoleToUser(userId, roleId);
     return ResponseEntity.ok(convertDtoToMap(userFacade.getEntityById(userId)));
@@ -160,7 +159,7 @@ public class UserController {
   @ResponseStatus(HttpStatus.OK)
   ResponseEntity<Map<String, Object>> assignRolesToUser(@PathVariable(name = "userId") Long userId,
                                                         @RequestBody List<UserRole> roles,
-                                                       Principal principal) {
+                                                        Principal principal) {
     log.info(principal.getName() + " is trying to assign roles " + roles + " to userId = " + userId);
     roleService.assignRolesToUser(userId, roles);
     return ResponseEntity.ok(convertDtoToMap(userFacade.getEntityById(userId)));
@@ -170,8 +169,8 @@ public class UserController {
   @JsonView(Views.Extended.class)
   @ResponseStatus(HttpStatus.OK)
   void deleteRoleFromUser(@PathVariable(name = "userId") Long userId,
-                                                       @PathVariable(name = "roleId") Long roleId,
-                                                       Principal principal) {
+                          @PathVariable(name = "roleId") Long roleId,
+                          Principal principal) {
     log.info(principal.getName() + " is trying to delet roleId=" + roleId + " from userId = " + userId);
     roleService.deleteRoleFromUser(userId, roleId);
   }
@@ -180,8 +179,8 @@ public class UserController {
   @JsonView(Views.Extended.class)
   @ResponseStatus(HttpStatus.OK)
   void deleteRolesFromUser(@PathVariable(name = "userId") Long userId,
-                                                        @RequestBody List<UserRole> roles,
-                                                        Principal principal) {
+                           @RequestBody List<UserRole> roles,
+                           Principal principal) {
     log.info(principal.getName() + " is trying to delete roles " + roles + " from userId = " + userId);
     roleService.deleteRolesFromUser(userId, roles);
   }

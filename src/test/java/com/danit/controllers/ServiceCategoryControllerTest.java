@@ -65,13 +65,11 @@ public class ServiceCategoryControllerTest {
   ServiceRepository serviceRepository;
   @Autowired
   ServicesService servicesService;
-
+  HttpHeaders header;
   @Autowired
   private MockMvc mockMvc;
   @Autowired
   private TestRestTemplate template;
-
-  HttpHeaders header;
 
   @Before
   public void setHeader() {
@@ -261,7 +259,7 @@ public class ServiceCategoryControllerTest {
     mockMvc
         .perform(
             put(String.format(s, scId, sId))
-            .headers(header)
+                .headers(header)
         )
         .andExpect(status().isOk());
 
