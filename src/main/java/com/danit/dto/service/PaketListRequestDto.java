@@ -7,44 +7,40 @@ import lombok.ToString;
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-public class PaketListRequestDto {
-
-  public String search;
-
-  public String id;
+public class PaketListRequestDto extends BaseListRequestDto {
 
   public String title;
 
-  public Integer term;
+  public String term;
 
-  public Float price;
+  public String price;
 
-  public Integer freezeTimes;
+  public String freezeTimes;
 
-  public Integer freezeDays;
+  public String freezeDays;
 
-  public Integer freezeMinTerm;
+  public String freezeMinTerm;
 
-  public Integer accessWithoutCardTimesLimit;
+  public String accessWithoutCardTimesLimit;
 
-  public Integer autoActivateAfterDays;
+  public String autoActivateAfterDays;
 
-  public Integer guestVisits;
+  public String guestVisits;
 
-  public Boolean openDateAllowed;
+  public String openDateAllowed;
 
-  public Integer usersMin;
+  public String usersMin;
 
-  public Boolean limitVisitTime;
+  public String limitVisitTime;
 
-  public Integer visitTime;
+  public String visitTime;
 
-  public Boolean limitAdditionalServices;
+  public String limitAdditionalServices;
 
-  public Boolean limitUsageByPaymentPercentage;
+  public String limitUsageByPaymentPercentage;
 
-  public Boolean active;
+  public String active;
 
-  public Boolean purchasable;
+  public String purchasable;
 
 }

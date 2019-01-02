@@ -17,12 +17,12 @@ public class ClientListRequestDto extends BaseListRequestDto {
 
   public String gender;
 
-  public Date birthDate;
+  public String birthDate;
 
   public String phoneNumber;
 
   public String email;
 
-  public Boolean active;
+  public String active;
 
 }

@@ -7,14 +7,10 @@ import lombok.ToString;
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-public class CardListRequestDto {
-
-  public String search;
-
-  public Long id;
+public class CardListRequestDto extends BaseListRequestDto {
 
   public String code;
 
-  public Boolean active;
+  public String active;
 
 }
