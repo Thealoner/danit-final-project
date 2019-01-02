@@ -1,6 +1,5 @@
 package com.danit.controllers;
 
-import com.danit.dto.PaketDto;
 import com.danit.dto.Views;
 import com.danit.dto.service.PaketListRequestDto;
 import com.danit.facades.PaketFacade;
@@ -29,6 +28,7 @@ import java.util.Map;
 
 import static com.danit.utils.ControllerUtils.DEFAULT_PAGE_NUMBER;
 import static com.danit.utils.ControllerUtils.DEFAULT_PAGE_SIZE;
+import static com.danit.utils.ControllerUtils.convertDtoToMap;
 import static com.danit.utils.ControllerUtils.convertPageToMap;
 
 @RestController
@@ -47,9 +47,9 @@ public class PaketController {
 
   @JsonView(Views.Extended.class)
   @PostMapping
-  public ResponseEntity<List<PaketDto>> createPakets(@RequestBody List<Paket> pakets, Principal principal) {
+  public ResponseEntity<Map<String, Object>> createPakets(@RequestBody List<Paket> pakets, Principal principal) {
     log.info(principal.getName() + " is saving new clients: " + pakets);
-    return ResponseEntity.status(HttpStatus.CREATED).body(paketFacade.saveEntities(pakets));
+    return ResponseEntity.ok(convertDtoToMap(paketFacade.saveEntities(pakets)));
   }
 
   @JsonView(Views.Ids.class)
@@ -62,7 +62,7 @@ public class PaketController {
       Principal principal,
       PaketListRequestDto paketListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
-    return ResponseEntity.ok(convertPageToMap(paketFacade.getAllEntities(paketListRequestDto, pageable)));
+    return ResponseEntity.ok(convertDtoToMap(paketFacade.getAllEntities(paketListRequestDto, pageable)));
   }
 
   @JsonView(Views.Short.class)
@@ -93,16 +93,16 @@ public class PaketController {
 
   @JsonView(Views.Extended.class)
   @GetMapping("/{id}")
-  ResponseEntity<PaketDto> getPaketByIdExtended(@PathVariable(name = "id") long id, Principal principal) {
+  ResponseEntity<Map<String, Object>> getPaketByIdExtended(@PathVariable(name = "id") long id, Principal principal) {
     log.info(principal.getName() + " got paket data with id: " + id);
-    return ResponseEntity.ok(paketFacade.getEntityById(id));
+    return ResponseEntity.ok(convertDtoToMap(paketFacade.getEntityById(id)));
   }
 
   @JsonView(Views.Extended.class)
   @PutMapping
-  public ResponseEntity<List<PaketDto>> addPakets(@RequestBody List<Paket> pakets, Principal principal) {
+  public ResponseEntity<Map<String, Object>> addPakets(@RequestBody List<Paket> pakets, Principal principal) {
     log.info(principal.getName() + " is updating pakets data: " + pakets);
-    return ResponseEntity.ok(paketFacade.updateEntities(pakets));
+    return ResponseEntity.ok(convertDtoToMap(paketFacade.updateEntities(pakets)));
   }
 
   @DeleteMapping("/{id}")
