@@ -8,6 +8,7 @@ import com.danit.models.User;
 import com.danit.models.UserRole;
 import com.danit.models.UserRolesEnum;
 import com.danit.repositories.UserRepository;
+import com.danit.repositories.UserRoleRepository;
 import com.danit.services.ClientService;
 import com.danit.services.ContractService;
 import com.danit.services.PaketService;
@@ -68,6 +69,9 @@ public class UserControllerTest {
   UserRepository userRepository;
 
   @Autowired
+  UserRoleRepository userRoleRepository;
+
+  @Autowired
   UserService userService;
 
   @Autowired
@@ -84,7 +88,7 @@ public class UserControllerTest {
 
   private HttpHeaders headers;
 
-  private UserRole userRole = new UserRole();
+  private UserRole userRole;
 
   private static boolean dbInit = false;
 
@@ -101,6 +105,7 @@ public class UserControllerTest {
     long numberOfEntities = userService.getNumberOfEntities();
 
     List<User> users = new ArrayList<>(20);
+    userRole = userRoleRepository.findById(2L).get();
     userRole.setRole(UserRolesEnum.USER);
     for (int i = 0; i < 10; i++) {
       User user = new User();
