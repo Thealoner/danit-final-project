@@ -23,7 +23,8 @@ const initialState = {
 //         meta: {},
 //         edited: false
 //       },
-//       status: 'done' // OR 'loading'
+//       tabStatus: 'done', // OR 'loading'
+//       gridStatus: 'done' // OR 'loading'
 //     }
 //   ],
 //   activeKey: 'packets'
@@ -92,12 +93,20 @@ export default function tabsReducer (state = initialState, action) {
       };
     }
 
-    case tab.LOADING: {
-      return updateCurrentTabAttributes(state, { status: 'loading' });
+    case tab.LOADING_TAB: {
+      return updateCurrentTabAttributes(state, { tabStatus: 'loading' });
     }
 
-    case tab.DONE: {
-      return updateCurrentTabAttributes(state, { status: 'done' });
+    case tab.DONE_TAB: {
+      return updateCurrentTabAttributes(state, { tabStatus: 'done' });
+    }
+
+    case tab.LOADING_GRID: {
+      return updateCurrentTabAttributes(state, { gridStatus: 'loading' });
+    }
+
+    case tab.DONE_GRID: {
+      return updateCurrentTabAttributes(state, { gridStatus: 'done' });
     }
 
     case tab.SET_GRID_DATA: {

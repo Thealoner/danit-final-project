@@ -6,7 +6,7 @@ let defaultFilter = {
   value: ''
 };
 
-class Filter extends Component {
+class GridFilter extends Component {
   state = {
     ...defaultFilter,
     filtered: false
@@ -72,4 +72,4 @@ class Filter extends Component {
   }
 }
 
-export default Filter;
+export default GridFilter;

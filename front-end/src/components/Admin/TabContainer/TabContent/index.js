@@ -7,7 +7,7 @@ class TabContent extends Component {
   render () {
     const { currentTab } = this.props;
 
-    if (currentTab.status === 'loading') {
+    if (currentTab.tabStatus === 'loading') {
       return (
         <div className="tabs__content">
           <div className="tabs__loader-wrapper"><Loader active inline='centered' size='big'/></div>
@@ -17,10 +17,10 @@ class TabContent extends Component {
       return (
         currentTab.type === 'grid'
           ? <div className="tabs__content">
-            <Grid currentTab={currentTab}/>
+            <Grid currentTab={currentTab} />
           </div>
           : <div className="tabs__content">
-            <RecordEditor currentTab={currentTab}/>
+            <RecordEditor currentTab={currentTab} />
           </div>
       );
     }
