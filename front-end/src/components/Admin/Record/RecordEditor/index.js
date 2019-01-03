@@ -13,6 +13,7 @@ import { getEntityByType } from '../../gridEntities';
 
 class RecordEditor extends Component {
   changeData = form => {
+    console.log(form.formData)
     const { currentTab, storeTmpFormData } = this.props;
     storeTmpFormData(currentTab.tabKey, { ...currentTab.form, data: form.formData });
   };
