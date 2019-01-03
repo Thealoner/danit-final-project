@@ -13,16 +13,15 @@ import { getEntityByType } from '../../gridEntities';
 
 class RecordEditor extends Component {
   changeData = form => {
-    console.log(form.formData)
     const { currentTab, storeTmpFormData } = this.props;
+
     storeTmpFormData(currentTab.tabKey, { ...currentTab.form, data: form.formData });
   };
 
   render () {
     const { currentTab, saveData, cancelData } = this.props;
     const entity = getEntityByType(currentTab.tabKey);
-    // const mode = currentTab.form.mode;
-    console.log(currentTab.form)
+    const mode = currentTab.form.mode;
 
     return (
       <Fragment>
@@ -32,7 +31,7 @@ class RecordEditor extends Component {
           formData={currentTab.form.data}
           autocomplete='off'
           onChange={this.changeData}
-          onSubmit={(form) => saveData(currentTab.tabKey, form.formData, currentTab.grid.columns)}
+          onSubmit={(form) => saveData(currentTab.tabKey, form.formData, currentTab.grid.columns, mode)}
           onError={() => toastr.error('Пожалуйста, проверьте введеные данные')}>
           <button type='submit' className='record__button'>Сохранить</button>
           <button type='button' className='record__button' onClick={() => cancelData()}>Отмена</button>
@@ -47,8 +46,8 @@ const mapDispatchToProps = dispatch => {
     storeTmpFormData: (tabKey, payload) => {
       dispatch(storeTabTmpFormData(tabKey, payload));
     },
-    saveData: (tabKey, formData, columns) => {
-      dispatch(saveFormData(tabKey, formData, columns));
+    saveData: (tabKey, formData, columns, mode) => {
+      dispatch(saveFormData(tabKey, formData, columns, mode));
     },
     cancelData: () => {
       dispatch(cancelEditFormData());

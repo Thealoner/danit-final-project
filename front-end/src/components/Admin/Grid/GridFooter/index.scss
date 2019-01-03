@@ -53,8 +53,8 @@
   .grid-footer {
     .pagination .item {
       width: 25px;
+      min-width: 25px !important;
       height: 30px;
     }
-
   }
 }

@@ -177,9 +177,6 @@
   }
 
   &__content {
-    display: grid;
-    grid-template-rows: auto minmax(calc(100% - 150px), calc(100% - 100px)) 50px;
-    grid-template-columns: minmax(470px, 100%);
     height: calc(100% - 36px);
     overflow-x: hidden;
     overflow-y: auto;

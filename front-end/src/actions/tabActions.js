@@ -88,12 +88,6 @@ export const getGridData = ({tabKey, page = 1, size = 3, filterString = '', colu
           dispatch(doneGrid());
         },
         error => {
-          dispatch(setGridData(tabKey, {
-            data: [],
-            meta: {},
-            columns: columns,
-            type: 'grid'
-          }));
           toastr.error(error.message);
         });
   };
@@ -107,44 +101,56 @@ export const getFormData = (tabKey, id) => {
         response => {
           dispatch(setFormData(tabKey, {
             mode: 'edit',
-            id: id,
             type: 'form',
             ...response
           }));
           dispatch(doneTab());
         },
         error => {
-          dispatch(setFormData(tabKey, {
-            mode: 'edit',
-            id: id,
-            type: 'form',
-            data: {},
-            meta: {}
-          }));
           toastr.error(error.message);
         });
   };
 };
 
-export const saveFormData = (tabKey, formData, columns) => {
+export const saveFormData = (tabKey, formData, columns, mode) => {
   return (dispatch) => {
     dispatch(loadingTab());
-    ajaxRequest.post(
-      '/' + tabKey,
-      JSON.stringify([formData])
-    )
-      .then(() => {
-        dispatch(cancelEditFormData());
-        dispatch(getGridData({
-          tabKey: tabKey,
-          columns: columns
-        }));
-        toastr.success('Данные успешно сохранены');
-      },
-      () => {
-        dispatch(doneTab());
-        toastr.error('Ошибка при сохранении');
-      }
-      );
+    if (mode === 'edit') {
+      ajaxRequest.put(
+        '/' + tabKey,
+        JSON.stringify([formData])
+      )
+        .then(() => {
+          dispatch(cancelEditFormData());
+          dispatch(getGridData({
+            tabKey: tabKey,
+            columns: columns
+          }));
+          toastr.success('Данные успешно сохранены');
+        },
+        () => {
+          dispatch(doneTab());
+          toastr.error('Ошибка при сохранении');
+        }
+        );
+    } else {
+      ajaxRequest.post(
+        '/' + tabKey,
+        JSON.stringify([formData])
+      )
+        .then(() => {
+          dispatch(cancelEditFormData());
+          dispatch(getGridData({
+            tabKey: tabKey,
+            columns: columns
+          }));
+          toastr.success('Данные успешно сохранены');
+        },
+        () => {
+          dispatch(doneTab());
+          toastr.error('Ошибка при сохранении');
+        }
+        );
+    }
   };
 };

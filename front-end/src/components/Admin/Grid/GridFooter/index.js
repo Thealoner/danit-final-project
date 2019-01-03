@@ -27,14 +27,13 @@ class GridFooter extends Component {
   render () {
     const { currentTab, setFormData } = this.props;
     const { showEllipsis, showFirstAndLastNav, showPreviousAndNextNav } = this.state;
-    const { currentPage, pagesTotal, totalElements } = currentTab.grid.meta;
+    const { currentPage, pagesTotal } = currentTab.grid.meta;
 
     return (
       <div className="grid-footer">
         <button className="grid-footer__add-btn"
           onClick={() => setFormData(currentTab.tabKey, {
             mode: 'add',
-            id: totalElements + 1,
             type: 'form',
             data: {},
             meta: {}

@@ -136,7 +136,6 @@ export default function tabsReducer (state = initialState, action) {
 
       if (action.payload) {
         newTabData.form = {
-          id: action.payload.id,
           mode: action.payload.mode,
           data: action.payload.data,
           meta: action.payload.meta,

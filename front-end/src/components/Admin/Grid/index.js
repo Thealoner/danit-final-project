@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Loader } from 'semantic-ui-react';
 import { getGridData } from '../../../actions/tabActions';
@@ -6,6 +6,7 @@ import GridFilter from './GridFilter';
 import GridFooter from './GridFooter';
 import GridTable from './GridTable';
 import 'react-tabulator/lib/styles.css';
+import './index.scss';
 
 class Grid extends Component {
   applyFilter = (filterString) => {
@@ -14,7 +15,7 @@ class Grid extends Component {
     getGridData({
       tabKey: currentTab.tabKey,
       page: 0,
-      size: 30,
+      size: currentTab.grid.meta.totalElements,
       filterString: filterString,
       columns: currentTab.grid.columns
     });
@@ -33,14 +34,14 @@ class Grid extends Component {
     const { currentTab } = this.props;
 
     return (
-      <Fragment>
+      <div className="grid">
         <GridFilter applyFilter={this.applyFilter} clearFilter={this.clearFilter} columns={currentTab.grid.columns}/>
         {currentTab.gridStatus === 'loading'
           ? <div className="tabs__loader-wrapper"><Loader active inline='centered' size='big'/></div>
           : <GridTable currentTab={currentTab}/>
         }
         <GridFooter currentTab={currentTab}/>
-      </Fragment>
+      </div>
     );
   }
 }
