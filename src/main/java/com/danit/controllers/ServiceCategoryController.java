@@ -191,8 +191,8 @@ public class ServiceCategoryController {
   @ResponseStatus(HttpStatus.OK)
   ResponseEntity<Map<String, Object>> assignServiceToServiceCategory(@PathVariable(name = "serviceCategoryId")
                                                                          Long serviceCategoryId,
-                                      @PathVariable(name = "serviceId") Long serviceId,
-                                      Principal principal) {
+                                                                     @PathVariable(name = "serviceId") Long serviceId,
+                                                                     Principal principal) {
     log.info(principal.getName() + " is trying to assign serviceId=" + serviceId +
         " to serviceCategoryId = " + serviceCategoryId);
     serviceCategoryService.assignServiceToServiceCategory(serviceCategoryId, serviceId);
@@ -203,8 +203,8 @@ public class ServiceCategoryController {
   @ResponseStatus(HttpStatus.OK)
   ResponseEntity<Map<String, Object>> assignServicesToServiceCategory(@PathVariable(name = "serviceCategoryId")
                                                                           Long serviceCategoryId,
-                                       @RequestBody List<Service> services,
-                                       Principal principal) {
+                                                                      @RequestBody List<Service> services,
+                                                                      Principal principal) {
     log.info(principal.getName() + " is trying to assign services" + services + " to serviceCategoryId = " +
         serviceCategoryId);
     serviceCategoryService.assignServicesToServiceCategory(serviceCategoryId, services);

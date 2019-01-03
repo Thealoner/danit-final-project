@@ -19,6 +19,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.util.List;
+import java.util.Objects;
 
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
@@ -56,5 +57,21 @@ public class Service extends Auditable implements BaseEntity {
   @Column(name = "active")
   private Boolean active;
 
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    Service service = (Service) obj;
+    return Objects.equals(id, service.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
 
 }

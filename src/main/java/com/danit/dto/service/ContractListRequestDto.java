@@ -2,16 +2,14 @@ package com.danit.dto.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+@EqualsAndHashCode(callSuper = true)
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-public class ContractListRequestDto {
-
-  public String search;
-
-  public String id;
+public class ContractListRequestDto extends BaseListRequestDto {
 
   public String paketId;
 
@@ -26,4 +24,5 @@ public class ContractListRequestDto {
   public String clientId;
 
   private String active;
+
 }

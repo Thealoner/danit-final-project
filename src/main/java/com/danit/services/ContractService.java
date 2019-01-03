@@ -100,7 +100,7 @@ public class ContractService extends AbstractBaseEntityService<Contract, Contrac
   public void createContractsForClient(Long clientId, List<Contract> contracts) {
     saveEntities(contracts);
     List<Contract> reloadedContracts = reloadEntities(contracts);
-    reloadedContracts.forEach(contract -> assignClientToContract(contract.getId(),clientId));
+    reloadedContracts.forEach(contract -> assignClientToContract(contract.getId(), clientId));
     Client client = clientService.getEntityById(clientId);
     reloadedContracts.forEach(contract -> client.getContracts().add(contract));
   }
