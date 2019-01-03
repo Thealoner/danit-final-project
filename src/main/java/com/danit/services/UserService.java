@@ -19,4 +19,6 @@ public class UserService extends AbstractBaseEntityService<User, UserListRequest
   public Page<User> findAllUsersWithRoleId(long id, Pageable pageable) {
     return userRepository.findAllUsersWithRoleId(id, pageable);
   }
+
+
 }

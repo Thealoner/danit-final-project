@@ -49,48 +49,37 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ClientControllerTest {
 
   private final static String url = "/clients";
-
+  private static boolean dbInit = false;
   @Autowired
   TestUtils testUtils;
-
   @Autowired
   ObjectMapper objectMapper;
-
   @Autowired
   ClientFacade clientFacade;
-
   @Autowired
   ClientRepository clientRepository;
-
   @Autowired
   ClientService clientService;
-
   @Autowired
   PaketService paketService;
-
   @Autowired
   ContractService contractService;
-
   @Autowired
   private MockMvc mockMvc;
-
   @Autowired
   private TestRestTemplate template;
-
   private HttpHeaders headers;
-
-  private static boolean dbInit = false;
 
   @Before
   public void createClients() throws Exception {
     headers = testUtils.getHeader(template, UserRolesEnum.USER);
 
-    if(dbInit) {
+    if (dbInit) {
       return;
     }
     dbInit = true;
 
-    clientRepository.deleteAll();
+    //clientRepository.deleteAll();
     long numberOfEntities = clientService.getNumberOfEntities();
 
     List<Client> clients = new ArrayList<>(20);
@@ -195,7 +184,7 @@ public class ClientControllerTest {
   }
 
   @Test
-  public void getAllContractsIds() throws Exception {
+  public void getAllClientsIds() throws Exception {
     long clientQuantity = clientService.getNumberOfEntities();
 
     mockMvc.perform(get(url + "/ids").headers(headers))
