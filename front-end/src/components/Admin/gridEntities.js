@@ -1,7 +1,6 @@
 import pakets from '../../SampleJson/pakets.json';
 import services from '../../SampleJson/services.json';
 import serviceCategories from '../../SampleJson/service_categories.json';
-import serviceRules from '../../SampleJson/service_rules.json';
 import contracts from '../../SampleJson/contracts.json';
 import organizations from '../../SampleJson/organizations.json';
 import clients from '../../SampleJson/clients.json';
@@ -181,19 +180,6 @@ const gridEntities = [
       }
     },
     uiSchema: {}
-  },
-  {
-    id: 'service_rules',
-    name: 'Условия сервисов',
-    nameForAddBtn: 'условие сервиса',
-    sampleData: serviceRules,
-    apiUrl: '/service_rules',
-    recordType: 'simple',
-    columns: [
-      { title: 'ID', field: 'id' },
-      { title: 'Описание', field: 'description' },
-      { title: 'Активен', field: 'active', formatter: 'tickCross' }
-    ]
   },
   {
     id: 'contracts',
