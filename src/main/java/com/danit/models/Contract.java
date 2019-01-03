@@ -26,6 +26,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -67,5 +68,22 @@ public class Contract extends Auditable implements BaseEntity {
   @OneToMany(mappedBy = "contract", fetch = FetchType.EAGER,
       cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
   private List<Card> cards;
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    Contract contract = (Contract) obj;
+    return Objects.equals(id, contract.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
 
 }

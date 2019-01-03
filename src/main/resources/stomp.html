@@ -14,7 +14,7 @@ Testing stomp client
   let socket = 'ws://localhost:9000/socket'
   let headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBZG1pbiIsImV4cCI6MTU0NjU5Mzc0N30.hfgN7DFaqh9fpG0H-QUPPi_v9bo1ufL4RHCtZpQb62JhPvMC-KmEViVfKJ6LKX9MJikILslxr5Y0s-pKL_ykDA'}
 
-  function connect() {
+  function connect () {
     let stompClient = Stomp.client(socket)
     stompClient.connect(headers, function (frame) {
       console.log('Connected: ' + frame)
