@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { Loader } from 'semantic-ui-react';
-import { getGridData } from '../../../actions/tabActions';
 import GridFilter from './GridFilter';
 import GridFooter from './GridFooter';
 import GridTable from './GridTable';
@@ -9,33 +7,12 @@ import 'react-tabulator/lib/styles.css';
 import './index.scss';
 
 class Grid extends Component {
-  applyFilter = (filterString) => {
-    const { currentTab, getGridData } = this.props;
-
-    getGridData({
-      tabKey: currentTab.tabKey,
-      page: 0,
-      size: currentTab.grid.meta.totalElements,
-      filterString: filterString,
-      columns: currentTab.grid.columns
-    });
-  };
-
-  clearFilter = () => {
-    const { currentTab, getGridData } = this.props;
-
-    getGridData({
-      tabKey: currentTab.tabKey,
-      columns: currentTab.grid.columns
-    });
-  };
-
   render () {
     const { currentTab } = this.props;
 
     return (
       <div className="grid">
-        <GridFilter applyFilter={this.applyFilter} clearFilter={this.clearFilter} columns={currentTab.grid.columns}/>
+        <GridFilter applyFilter={this.applyFilter} clearFilter={this.clearFilter} currentTab={currentTab}/>
         {currentTab.gridStatus === 'loading'
           ? <div className="tabs__loader-wrapper"><Loader active inline='centered' size='big'/></div>
           : <GridTable currentTab={currentTab}/>
@@ -46,12 +23,4 @@ class Grid extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getGridData: (options) => {
-      dispatch(getGridData(options));
-    }
-  };
-};
-
-export default connect(null, mapDispatchToProps)(Grid);
+export default Grid;

@@ -157,6 +157,14 @@ export default function tabsReducer (state = initialState, action) {
       return updateCurrentTabAttributes(state, newTabData);
     }
 
+    case tab.CHANGE_FILTER_STATUS: {
+      const newTabData = {
+        filtered: action.filtered
+      };
+
+      return updateCurrentTabAttributes(state, newTabData);
+    }
+
     case tab.STORE_TMP_FORM_DATA: {
       const newTabData = {
         form: {

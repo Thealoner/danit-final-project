@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Grid from '../../Grid';
 import { Loader } from 'semantic-ui-react';
-import RecordEditor from '../../Record/RecordEditor';
+import RecordEditor from '../../RecordEditor';
 
 class TabContent extends Component {
   render () {

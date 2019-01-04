@@ -63,16 +63,22 @@ export const cancelEditFormData = () => {
   };
 };
 
-export const storeTabTmpFormData = (tabKey, payload) => {
+export const changeFilterStatus = (filtered) => {
+  return {
+    type: tab.CHANGE_FILTER_STATUS,
+    filtered: filtered
+  };
+};
+
+export const storeTabTmpFormData = (payload) => {
   return {
     type: tab.STORE_TMP_FORM_DATA,
-    tabKey,
     payload
   };
 };
 
 // using catch method in thunk action creators is not recommended
-export const getGridData = ({tabKey, page = 1, size = 3, filterString = '', columns} = {}) => {
+export const getGridData = ({tabKey, page = 1, size = 4, filterString = '', columns, filtered = false} = {}) => {
   return (dispatch) => {
     dispatch(loadingGrid());
     ajaxRequest.get('/' + tabKey + '?page=' + page + '&size=' + size + filterString)
@@ -86,6 +92,7 @@ export const getGridData = ({tabKey, page = 1, size = 3, filterString = '', colu
           }));
           dispatch(doneTab());
           dispatch(doneGrid());
+          dispatch(changeFilterStatus(filtered));
         },
         error => {
           toastr.error(error.message);
@@ -112,45 +119,49 @@ export const getFormData = (tabKey, id) => {
   };
 };
 
-export const saveFormData = (tabKey, formData, columns, mode) => {
+export const saveFormData = (tabKey, formData, columns, mode, page) => {
   return (dispatch) => {
     dispatch(loadingTab());
-    if (mode === 'edit') {
-      ajaxRequest.put(
-        '/' + tabKey,
-        JSON.stringify([formData])
-      )
-        .then(() => {
-          dispatch(cancelEditFormData());
-          dispatch(getGridData({
-            tabKey: tabKey,
-            columns: columns
-          }));
-          toastr.success('Данные успешно сохранены');
-        },
-        () => {
-          dispatch(doneTab());
-          toastr.error('Ошибка при сохранении');
-        }
-        );
-    } else {
-      ajaxRequest.post(
-        '/' + tabKey,
-        JSON.stringify([formData])
-      )
-        .then(() => {
-          dispatch(cancelEditFormData());
-          dispatch(getGridData({
-            tabKey: tabKey,
-            columns: columns
-          }));
-          toastr.success('Данные успешно сохранены');
-        },
-        () => {
-          dispatch(doneTab());
-          toastr.error('Ошибка при сохранении');
-        }
-        );
-    }
+    ajaxRequest.post(
+      '/' + tabKey,
+      JSON.stringify([formData])
+    )
+      .then(() => {
+        dispatch(cancelEditFormData());
+        dispatch(getGridData({
+          tabKey: tabKey,
+          columns: columns,
+          page: page
+        }));
+        toastr.success('Данные успешно сохранены');
+      },
+      () => {
+        dispatch(doneTab());
+        toastr.error('Ошибка при сохранении');
+      }
+      );
+  };
+};
+
+export const deleteCurrentEntityItem = (tabKey, formData, columns) => {
+  return (dispatch) => {
+    dispatch(loadingTab());
+    ajaxRequest.delete(
+      '/' + tabKey,
+      JSON.stringify([{ id: formData.id }])
+    )
+      .then(() => {
+        dispatch(cancelEditFormData());
+        dispatch(getGridData({
+          tabKey: tabKey,
+          columns: columns
+        }));
+        toastr.success('Данные успешно удалены');
+      },
+      () => {
+        dispatch(doneTab());
+        toastr.error('Ошибка при удалении');
+      }
+      );
   };
 };
