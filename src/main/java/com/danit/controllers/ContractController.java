@@ -256,5 +256,4 @@ public class ContractController {
     return ResponseEntity.ok(convertPageToMap(cardFacade.findAllCardsForContractId(contractId, pageable)));
   }
 
-
 }
