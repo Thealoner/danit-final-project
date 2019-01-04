@@ -4,6 +4,7 @@ import com.danit.Application;
 import com.danit.TestUtils;
 import com.danit.facades.CardFacade;
 import com.danit.models.Card;
+import com.danit.models.Contract;
 import com.danit.models.UserRolesEnum;
 import com.danit.repositories.CardRepository;
 import com.danit.services.CardService;
@@ -310,6 +311,75 @@ public class CardControllerTest {
   public void getCardByNotExistingId() throws Exception {
     mockMvc.perform(get(url + "/" + 2001).headers(headers))
         .andExpect(status().isNotFound());
+  }
+
+  @Test
+  public void assignCardsToExistingContract() throws Exception {
+    Contract contract = new Contract();
+    long createdContractId = contractService.saveEntity(contract).getId();
+    List<Card> cards = new ArrayList<>(2);
+    for (int i = 0; i < 2; i++) {
+      Card card = new Card();
+      card.setCode("CardCodeForAssigningToContractTest" + i);
+      cards.add(card);
+    }
+    List<Card> savedCards = cardService.saveEntities(cards);
+    ObjectWriter ow = objectMapper.writer();
+    String json = ow.writeValueAsString(savedCards);
+
+    mockMvc.perform(put("/contracts/" + createdContractId + "/cards").headers(headers)
+        .contentType("application/json")
+        .content(json))
+        .andExpect(status().isOk());
+
+    mockMvc.perform(get("/contracts/" + createdContractId + "/cards").headers(headers)
+        .contentType("application/json")
+        .content(json))
+        .andExpect(status().isOk())
+        .andExpect(content()
+            .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.meta.totalElements").value(savedCards.size()));
+
+    mockMvc.perform(delete("/contracts/" + createdContractId + "/cards").headers(headers)
+        .contentType("application/json")
+        .content(json))
+        .andExpect(status().isOk());
+
+    mockMvc.perform(get("/contracts/" + createdContractId + "/cards").headers(headers)
+        .contentType("application/json")
+        .content(json))
+        .andExpect(status().isOk())
+        .andExpect(content()
+            .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.meta.totalElements").value(0));
+
+    //Assign by id
+    mockMvc.perform(put("/contracts/" + createdContractId + "/card/" + savedCards.get(0).getId()).headers(headers)
+        .contentType("application/json")
+        .content(json))
+        .andExpect(status().isOk());
+
+    mockMvc.perform(get("/contracts/" + createdContractId + "/cards").headers(headers)
+        .contentType("application/json")
+        .content(json))
+        .andExpect(status().isOk())
+        .andExpect(content()
+            .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.meta.totalElements").value(1));
+
+    mockMvc.perform(delete("/contracts/" + createdContractId + "/card/" + savedCards.get(0).getId()).headers(headers)
+        .contentType("application/json")
+        .content(json))
+        .andExpect(status().isOk());
+
+    mockMvc.perform(get("/contracts/" + createdContractId + "/cards").headers(headers)
+        .contentType("application/json")
+        .content(json))
+        .andExpect(status().isOk())
+        .andExpect(content()
+            .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.meta.totalElements").value(0));
+
   }
 
 }
