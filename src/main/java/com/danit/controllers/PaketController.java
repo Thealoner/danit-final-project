@@ -62,7 +62,7 @@ public class PaketController {
       Principal principal,
       PaketListRequestDto paketListRequestDto) {
     log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
-    return ResponseEntity.ok(convertDtoToMap(paketFacade.getAllEntities(paketListRequestDto, pageable)));
+    return ResponseEntity.ok(convertPageToMap(paketFacade.getAllEntities(paketListRequestDto, pageable)));
   }
 
   @JsonView(Views.Short.class)
