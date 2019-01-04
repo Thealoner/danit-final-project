@@ -263,26 +263,26 @@ public class CardControllerTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(1));
 
-    //search by several fields
-    mockMvc.perform(get(url + "?code=SearchTestCardFirstName1&active=SearchTestCardLastName0&page=1&size=20").headers(headers))
+    //search by several fields with equal
+    mockMvc.perform(get(url + "?code=SearchTestCardCode1&active=true&equal=true&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(0));
 
-    mockMvc.perform(get(url + "?firstName=SearchTestCardFirstName9&lastName=SearchTestCardLastName9&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?code=SearchTestCardCode1&active=false&equal=true&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(1));
 
     //search by several fields w/o equal
-    mockMvc.perform(get(url + "?firstName=SearchTestCardFirstName1&lastName=SearchTestCardLastName1&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?code=SearchTestCardCode1&active=false&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(2));
     //search by several fields with equal
-    mockMvc.perform(get(url + "?firstName=SearchTestCardFirstName1&lastName=SearchTestCardLastName1&equal=true&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?code=SearchTestCardCode1&active=false&equal=true&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(1));
 
     //pagination test
-    mockMvc.perform(get(url + "?firstName=SearchTestCardFirstName&page=1&size=5&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?code=SearchTestCardCode&page=1&size=5&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentPage").value(1))
         .andExpect(jsonPath("$.meta.pagesTotal").value(2))
@@ -308,7 +308,7 @@ public class CardControllerTest {
 
   @Test
   public void getCardByNotExistingId() throws Exception {
-    mockMvc.perform(get(url + "/" + 1021).headers(headers))
+    mockMvc.perform(get(url + "/" + 2001).headers(headers))
         .andExpect(status().isNotFound());
   }
 
