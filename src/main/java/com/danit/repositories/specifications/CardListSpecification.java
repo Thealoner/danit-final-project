@@ -14,34 +14,31 @@ public class CardListSpecification extends BaseSpecification<Card, CardListReque
 
   @Override
   public Specification<Card> getFilter(CardListRequestDto request) {
+    request.equal = Objects.isNull(request.equal) ? false : request.equal;
     return (root, query, cb) -> {
       query.distinct(true);
       return where(
-          where(cardCodeContains(request.search))
-              .or(cardIdContains(request.search))
-              .or(cardIsActive(request.search))
+          where(cardCodeContains(request.search, request.equal))
+              .or(cardIdContains(request.search, request.equal))
+              .or(cardIsActive(request.search, request.equal))
       )
-          .and(cardCodeContains(request.code))
-          .and(cardIdContains(request.id))
-          .and(cardIsActive(request.active))
+          .and(cardCodeContains(request.code, request.equal))
+          .and(cardIdContains(request.id, request.equal))
+          .and(cardIsActive(request.active, request.equal))
           .toPredicate(root, query, cb);
     };
   }
 
-  private Specification<Card> cardIdContains(Object id) {
-    return Objects.nonNull(id) ? attributeContains("id",
-        String.valueOf(id)) :
-        null;
+  private Specification<Card> cardIdContains(String id, Boolean equal) {
+    return equal ? attributeEquals("id", id) : attributeContains("id", id);
   }
 
-  private Specification<Card> cardCodeContains(String code) {
-    return attributeContains("code", code);
+  private Specification<Card> cardCodeContains(String code, Boolean equal) {
+    return equal ? attributeEquals("code", code) : attributeContains("code", code);
   }
 
-  private Specification<Card> cardIsActive(Object active) {
-    return Objects.nonNull(active) ? attributeContains("active",
-        String.valueOf(active)) :
-        null;
+  private Specification<Card> cardIsActive(String active, Boolean equal) {
+    return equal ? attributeEquals("active", active) : attributeContains("active", active);
   }
 
   private Specification<Card> attributeContains(String attribute, String value) {
@@ -52,6 +49,18 @@ public class CardListSpecification extends BaseSpecification<Card, CardListReque
       return cb.like(
           cb.lower(root.get(attribute).as(String.class)),
           containsLowerCase(value)
+      );
+    };
+  }
+
+  private Specification<Card> attributeEquals(String attribute, String value) {
+    return (root, query, cb) -> {
+      if (value == null) {
+        return null;
+      }
+      return cb.equal(
+          cb.lower(root.get(attribute).as(String.class)),
+          value.toLowerCase()
       );
     };
   }
