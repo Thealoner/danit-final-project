@@ -23,7 +23,7 @@ public class PaketService extends AbstractBaseEntityService<Paket, PaketListRequ
   @Override
   @Transactional
   public void deleteEntityById(long id) {
-    Paket paket = getEntityById(id);
+    Paket paket = super.getEntityById(id);
     paket.getContracts().forEach(contract -> contract.setPaket(null));
     paketRepository.deleteById(id);
   }
@@ -31,12 +31,12 @@ public class PaketService extends AbstractBaseEntityService<Paket, PaketListRequ
   @Override
   @Transactional
   public void deleteEntities(List<Paket> entityList) {
-    List<Paket> pakets = reloadEntities(entityList);
+    List<Paket> pakets = super.reloadEntities(entityList);
     pakets.forEach(paket -> {
       if(Objects.nonNull(paket.getContracts())) {
         paket.getContracts().forEach(contract -> contract.setPaket(null));
       }
     });
-    paketRepository.deleteAll(pakets);
+    super.deleteEntities(pakets);
   }
 }

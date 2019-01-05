@@ -154,10 +154,10 @@ public class ClientControllerTest {
 
     this.mockMvc.perform(delete(url).headers(headers)
         .contentType("application/json")
-        .content("[{\"id\": 1021},{\"id\": 1022},{\"id\": 1023}]"))
+        .content("[{\"id\": 2001},{\"id\": 2002},{\"id\": 2003}]"))
         .andExpect(status().isNotFound());
 
-    this.mockMvc.perform(delete(url + "/1021").headers(headers))
+    this.mockMvc.perform(delete(url + "/2001").headers(headers))
         .andExpect(status().isNotFound());
   }
 

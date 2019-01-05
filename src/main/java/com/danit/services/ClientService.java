@@ -23,7 +23,7 @@ public class ClientService extends AbstractBaseEntityService<Client, ClientListR
   @Override
   @Transactional
   public void deleteEntityById(long id) {
-    Client client = getEntityById(id);
+    Client client = super.getEntityById(id);
     if(Objects.nonNull(client.getContracts())) {
       client.getContracts().forEach(contract -> contract.setClient(null));
     }
@@ -33,12 +33,12 @@ public class ClientService extends AbstractBaseEntityService<Client, ClientListR
   @Override
   @Transactional
   public void deleteEntities(List<Client> entityList) {
-    List<Client> clients = reloadEntities(entityList);
+    List<Client> clients = super.reloadEntities(entityList);
     clients.forEach(client -> {
       if(Objects.nonNull(client.getContracts())) {
         client.getContracts().forEach(contract -> contract.setClient(null));
       }
     });
-    clientRepository.deleteAll(clients);
+    super.deleteEntities(clients);
   }
 }

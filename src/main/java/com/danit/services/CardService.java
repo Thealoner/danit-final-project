@@ -31,7 +31,7 @@ public class CardService extends AbstractBaseEntityService<Card, CardListRequest
   @Override
   @Transactional
   public void deleteEntityById(long id) {
-    Card card = getEntityById(id);
+    Card card = super.getEntityById(id);
     if(Objects.nonNull(card.getContract())) {
       card.getContract().getCards().remove(card);
     } else {
@@ -42,7 +42,7 @@ public class CardService extends AbstractBaseEntityService<Card, CardListRequest
   @Override
   @Transactional
   public void deleteEntities(List<Card> entityList) {
-    List<Card> cards = reloadEntities(entityList);
+    List<Card> cards = super.reloadEntities(entityList);
     List<Card> cardsToDelete = new ArrayList<>();
     cards.forEach(card -> {
       if(Objects.nonNull(card.getContract())) {
@@ -52,7 +52,7 @@ public class CardService extends AbstractBaseEntityService<Card, CardListRequest
       }
     });
     if(cardsToDelete.size() > 0) {
-      cardRepository.deleteAll(cardsToDelete);
+      super.deleteEntities(cardsToDelete);
     }
   }
 }

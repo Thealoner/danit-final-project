@@ -108,7 +108,7 @@ public class ContractService extends AbstractBaseEntityService<Contract, Contrac
   @Override
   @Transactional
   public void deleteEntityById(long id) {
-    Contract contract = getEntityById(id);
+    Contract contract = super.getEntityById(id);
     //Delete relation with Card if exist
     if(Objects.nonNull(contract.getCards())) {
       deAssignCardsFromContract(id, contract.getCards());
@@ -127,7 +127,7 @@ public class ContractService extends AbstractBaseEntityService<Contract, Contrac
   @Override
   @Transactional
   public void deleteEntities(List<Contract> entityList) {
-    List<Contract> contracts = reloadEntities(entityList);
+    List<Contract> contracts = super.reloadEntities(entityList);
     //Delete relation with Card if exist
     contracts.forEach(contract -> {
       if(Objects.nonNull(contract.getCards())) {
@@ -144,7 +144,7 @@ public class ContractService extends AbstractBaseEntityService<Contract, Contrac
         contract.getPaket().getContracts().remove(contract);
       }
     });
-    contractRepository.deleteAll(contracts);
+    super.deleteEntities(contracts);
 
   }
 }
