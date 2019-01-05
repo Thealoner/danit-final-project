@@ -66,7 +66,7 @@ public class Contract extends Auditable implements BaseEntity {
   private Paket paket;
 
   @OneToMany(mappedBy = "contract", fetch = FetchType.EAGER,
-      cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+      cascade = {CascadeType.MERGE, CascadeType.PERSIST})
   private List<Card> cards;
 
   @Override
