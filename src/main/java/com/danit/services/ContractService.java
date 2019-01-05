@@ -78,13 +78,13 @@ public class ContractService extends AbstractBaseEntityService<Contract, Contrac
   }
 
   @Transactional
-  public void deleteCardFromContract(Long contractId, Long cardId) {
+  public void deAssignCardFromContract(Long contractId, Long cardId) {
     cardService.getEntityById(cardId)
         .setContract(null);
   }
 
   @Transactional
-  public void deleteCardsFromContract(Long contractId, List<Card> cards) {
+  public void deAssignCardsFromContract(Long contractId, List<Card> cards) {
     cardService.reloadEntities(cards).forEach(card -> card.setContract(null));
   }
 
@@ -109,39 +109,42 @@ public class ContractService extends AbstractBaseEntityService<Contract, Contrac
   @Transactional
   public void deleteEntityById(long id) {
     Contract contract = getEntityById(id);
-    //Delete relation with Paket if exist
-    if(Objects.nonNull(contract.getPaket())) {
-      deletePaketFromContract(id, contract.getPaket().getId());
+    //Delete relation with Card if exist
+    if(Objects.nonNull(contract.getCards())) {
+      deAssignCardsFromContract(id, contract.getCards());
     }
     //Delete relation with Client if exist
     if(Objects.nonNull(contract.getClient())) {
       contract.getClient().getContracts().remove(contract);
-    } else {
-      contractRepository.deleteById(id);
     }
+    //Delete relation with Paket if exist
+    if(Objects.nonNull(contract.getPaket())) {
+      contract.getPaket().getContracts().remove(contract);
+    }
+    contractRepository.deleteById(id);
   }
 
   @Override
   @Transactional
   public void deleteEntities(List<Contract> entityList) {
     List<Contract> contracts = reloadEntities(entityList);
-    //Delete relation with Pakets if exist
+    //Delete relation with Card if exist
     contracts.forEach(contract -> {
-      if(Objects.nonNull(contract.getPaket())) {
-        deletePaketFromContract(contract.getId(), contract.getPaket().getId());
+      if(Objects.nonNull(contract.getCards())) {
+        deAssignCardsFromContract(contract.getId(), contract.getCards());
       }
     });
-    //Delete relation with Client if exist
-    List<Contract> contractsToDelete = new ArrayList<>();
     contracts.forEach(contract -> {
+      //Delete relation with Client if exist
       if(Objects.nonNull(contract.getClient())) {
         contract.getClient().getContracts().remove(contract);
-      } else {
-        contractsToDelete.add(contract);
+      }
+      //Delete relation with Paket if exist
+      if(Objects.nonNull(contract.getPaket())) {
+        contract.getPaket().getContracts().remove(contract);
       }
     });
-    if(contractsToDelete.size() > 0) {
-      contractRepository.deleteAll(contractsToDelete);
-    }
+    contractRepository.deleteAll(contracts);
+
   }
 }

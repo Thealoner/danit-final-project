@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -84,7 +85,8 @@ public class Paket extends Auditable implements BaseEntity {
   @Column(name = "purchasable")
   private Boolean purchasable;
 
-  @OneToMany(mappedBy = "paket", fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "paket", fetch = FetchType.EAGER,
+      cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
   private List<Contract> contracts;
 
   @Override
