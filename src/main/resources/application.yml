@@ -12,14 +12,14 @@ server:
 spring:
   datasource:
     url: jdbc:h2:mem:energymdb
-    #    url: jdbc:h2:tcp://localhost/~/energymdb
+    #url: jdbc:h2:tcp://localhost/~/energymdb
     driverClassName: org.h2.Driver
 
     username: sa
     password:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
-  #    show-sql: true
+    # show-sql: true
   #    format_sql: true
   #    use_sql_comments: true
   data:

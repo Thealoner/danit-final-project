@@ -205,7 +205,7 @@ public class ContractController {
                               @PathVariable(name = "cardId") Long cardId,
                               Principal principal) {
     log.info(principal.getName() + " is trying to delete cardId=" + cardId + " from contractId= " + contractId);
-    contractService.deleteCardFromContract(contractId, cardId);
+    contractService.deAssignCardFromContract(contractId, cardId);
   }
 
   @DeleteMapping("/{contractId}/cards")
@@ -214,7 +214,7 @@ public class ContractController {
                              @RequestBody List<Card> cards,
                              Principal principal) {
     log.info(principal.getName() + " is trying to delete cards" + cards + " from contractId= " + contractId);
-    contractService.deleteCardsFromContract(contractId, cards);
+    contractService.deAssignCardsFromContract(contractId, cards);
   }
 
   @JsonView(Views.Short.class)
