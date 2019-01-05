@@ -143,7 +143,7 @@ export const saveFormData = (tabKey, formData, columns, mode, page) => {
   };
 };
 
-export const deleteCurrentEntityItem = (tabKey, formData, columns) => {
+export const deleteCurrentEntityItem = (tabKey, formData, columns, page) => {
   return (dispatch) => {
     dispatch(loadingTab());
     ajaxRequest.delete(
@@ -154,7 +154,8 @@ export const deleteCurrentEntityItem = (tabKey, formData, columns) => {
         dispatch(cancelEditFormData());
         dispatch(getGridData({
           tabKey: tabKey,
-          columns: columns
+          columns: columns,
+          page: page
         }));
         toastr.success('Данные успешно удалены');
       },

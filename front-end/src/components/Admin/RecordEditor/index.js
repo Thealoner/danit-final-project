@@ -37,7 +37,7 @@ class RecordEditor extends Component {
           onError={() => toastr.error('Пожалуйста, проверьте введеные данные')}>
           <button type='submit' className='record__button'>Сохранить</button>
           <button type='button' className='record__button' onClick={
-            () => deleteData(currentTab.tabKey, currentTab.form.data, currentTab.grid.columns)
+            () => deleteData(currentTab.tabKey, currentTab.form.data, currentTab.grid.columns, currentPage)
           }>Удалить</button>
           <button type='button' className='record__button' onClick={() => cancelData()}>Отмена</button>
         </Form>
@@ -54,8 +54,8 @@ const mapDispatchToProps = dispatch => {
     saveData: (tabKey, formData, columns, mode, page) => {
       dispatch(saveFormData(tabKey, formData, columns, mode, page));
     },
-    deleteData: (tabKey, formData, columns) => {
-      dispatch(deleteCurrentEntityItem(tabKey, formData, columns));
+    deleteData: (tabKey, formData, columns, page) => {
+      dispatch(deleteCurrentEntityItem(tabKey, formData, columns, page));
     },
     cancelData: () => {
       dispatch(cancelEditFormData());
