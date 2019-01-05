@@ -12,7 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManagerFactory;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.function.Consumer;
 
 @Service
 public class ContractService extends AbstractBaseEntityService<Contract, ContractListRequestDto> {
@@ -24,9 +27,6 @@ public class ContractService extends AbstractBaseEntityService<Contract, Contrac
   private CardService cardService;
 
   private ContractRepository contractRepository;
-
-  @Autowired
-  private EntityManagerFactory entityManagerFactory;
 
   @Autowired
   public ContractService(ClientService clientService, PaketService paketService,
@@ -103,5 +103,45 @@ public class ContractService extends AbstractBaseEntityService<Contract, Contrac
     reloadedContracts.forEach(contract -> assignClientToContract(contract.getId(), clientId));
     Client client = clientService.getEntityById(clientId);
     reloadedContracts.forEach(contract -> client.getContracts().add(contract));
+  }
+
+  @Override
+  @Transactional
+  public void deleteEntityById(long id) {
+    Contract contract = getEntityById(id);
+    //Delete relation with Paket if exist
+    if(Objects.nonNull(contract.getPaket())) {
+      deletePaketFromContract(id, contract.getPaket().getId());
+    }
+    //Delete relation with Client if exist
+    if(Objects.nonNull(contract.getClient())) {
+      contract.getClient().getContracts().remove(contract);
+    } else {
+      contractRepository.deleteById(id);
+    }
+  }
+
+  @Override
+  @Transactional
+  public void deleteEntities(List<Contract> entityList) {
+    List<Contract> contracts = reloadEntities(entityList);
+    //Delete relation with Pakets if exist
+    contracts.forEach(contract -> {
+      if(Objects.nonNull(contract.getPaket())) {
+        deletePaketFromContract(contract.getId(), contract.getPaket().getId());
+      }
+    });
+    //Delete relation with Client if exist
+    List<Contract> contractsToDelete = new ArrayList<>();
+    contracts.forEach(contract -> {
+      if(Objects.nonNull(contract.getClient())) {
+        contract.getClient().getContracts().remove(contract);
+      } else {
+        contractsToDelete.add(contract);
+      }
+    });
+    if(contractsToDelete.size() > 0) {
+      contractRepository.deleteAll(contractsToDelete);
+    }
   }
 }

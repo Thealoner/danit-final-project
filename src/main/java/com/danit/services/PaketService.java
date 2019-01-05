@@ -29,6 +29,7 @@ public class PaketService extends AbstractBaseEntityService<Paket, PaketListRequ
   }
 
   @Override
+  @Transactional
   public void deleteEntities(List<Paket> entityList) {
     List<Paket> pakets = reloadEntities(entityList);
     pakets.forEach(paket -> {
