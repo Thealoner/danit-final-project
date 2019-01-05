@@ -30,7 +30,6 @@ public class ServiceListSpecification extends BaseSpecification<Service, Service
               .or(unitEquals(request.search, request.equal))
               .or(unitsNumberEquals(request.search, request.equal))
               .or(activeEquals(request.search, request.equal))
-              .or(getByServiceCategoryId(request.search))
       )
           .and(idContains(request.id, request.equal))
           .and(titleContains(request.title, request.equal))
