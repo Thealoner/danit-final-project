@@ -2,7 +2,6 @@ package com.danit.controllers;
 
 import com.danit.Application;
 import com.danit.TestUtils;
-import com.danit.facades.PaketFacade;
 import com.danit.models.Contract;
 import com.danit.models.Paket;
 import com.danit.models.UserRolesEnum;
@@ -56,8 +55,6 @@ public class PaketControllerTest {
   @Autowired
   ObjectMapper objectMapper;
   @Autowired
-  PaketFacade paketFacade;
-  @Autowired
   PaketRepository paketRepository;
   @Autowired
   PaketService paketService;
@@ -70,7 +67,7 @@ public class PaketControllerTest {
   private HttpHeaders headers;
 
   @Before
-  public void createClients() throws Exception {
+  public void createPakets() throws Exception {
 
     headers = testUtils.getHeader(template, UserRolesEnum.USER);
 

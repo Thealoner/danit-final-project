@@ -120,7 +120,7 @@ public class ServicesController {
   }
 
   @JsonView(Views.Short.class)
-  @GetMapping("{serviceId}/service_category")
+  @GetMapping("/{serviceId}/service_category")
   ResponseEntity<Map<String, Object>> getAllServiceServiceCategoriesExtended(@PathVariable(name = "serviceId") long id,
                                                                              @PageableDefault(page = DEFAULT_PAGE_NUMBER,
                                                                                  size = DEFAULT_PAGE_SIZE)
