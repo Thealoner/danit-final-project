@@ -1,7 +1,6 @@
 package com.danit.services;
 
 import com.danit.dto.service.PaketListRequestDto;
-import com.danit.models.Contract;
 import com.danit.models.Paket;
 import com.danit.repositories.PaketRepository;
 import org.springframework.stereotype.Service;
@@ -9,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Consumer;
 
 @Service
 public class PaketService extends AbstractBaseEntityService<Paket, PaketListRequestDto> {
@@ -33,7 +31,7 @@ public class PaketService extends AbstractBaseEntityService<Paket, PaketListRequ
   public void deleteEntities(List<Paket> entityList) {
     List<Paket> pakets = super.reloadEntities(entityList);
     pakets.forEach(paket -> {
-      if(Objects.nonNull(paket.getContracts())) {
+      if (Objects.nonNull(paket.getContracts())) {
         paket.getContracts().forEach(contract -> contract.setPaket(null));
       }
     });

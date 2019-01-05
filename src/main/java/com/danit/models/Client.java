@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -61,8 +60,7 @@ public class Client extends Auditable implements BaseEntity {
   @Column(name = "active")
   private Boolean active;
 
-  @OneToMany(mappedBy = "client", fetch = FetchType.EAGER,
-      cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
   private List<Contract> contracts;
 
   @Override

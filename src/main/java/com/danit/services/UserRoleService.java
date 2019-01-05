@@ -24,20 +24,25 @@ public class UserRoleService extends AbstractBaseEntityService<UserRole, UserRol
     this.userRoleRepository = userRoleRepository;
   }
 
-
-  @Transactional
   @Override
+  @Transactional
   public void deleteEntityById(long id) {
     UserRole userRole = getEntityById(id);
-    userRole.getUsers().forEach(user -> user.getRoles().remove(userRole));
-    //baseEntityRepository.deleteById(id);
+    if (Objects.nonNull(userRole.getUsers())) {
+      userRole.getUsers().forEach(user -> user.getRoles().remove(userRole));
+    }
+    userRoleRepository.deleteById(id);
   }
 
   @Override
   @Transactional
   public void deleteEntities(List<UserRole> entityList) {
     List<UserRole> userRoles = reloadEntities(entityList);
-    userRoles.forEach(userRole -> userRole.getUsers().forEach(user -> user.getRoles().remove(userRole)));
+    userRoles.forEach(userRole -> {
+      if (Objects.nonNull(userRole.getUsers())) {
+        userRole.getUsers().forEach(user -> user.getRoles().remove(userRole));
+      }
+    });
     baseEntityRepository.deleteAll(userRoles);
   }
 
@@ -46,8 +51,8 @@ public class UserRoleService extends AbstractBaseEntityService<UserRole, UserRol
     User user = userService.getEntityById(userId);
     UserRole userRole = getEntityById(roleId);
 
-    Boolean containsRole = user.getRoles()
-        .stream().filter(role -> role.getId() == roleId)
+    boolean containsRole = user.getRoles()
+        .stream().filter(role -> role.getId().equals(roleId))
         .map(UserRole::getId).findFirst().isPresent();
 
     if (!containsRole) {

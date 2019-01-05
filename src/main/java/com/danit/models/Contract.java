@@ -4,12 +4,10 @@ package com.danit.models;
 import com.danit.models.auditor.Auditable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -28,7 +26,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "contracts")
 @NoArgsConstructor
@@ -65,8 +62,7 @@ public class Contract extends Auditable implements BaseEntity {
   @JoinColumn(name = "package_id")
   private Paket paket;
 
-  @OneToMany(mappedBy = "contract", fetch = FetchType.EAGER,
-      cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+  @OneToMany(mappedBy = "contract", fetch = FetchType.EAGER)
   private List<Card> cards;
 
   @Override

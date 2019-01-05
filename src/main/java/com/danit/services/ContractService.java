@@ -1,6 +1,7 @@
 package com.danit.services;
 
 import com.danit.dto.service.ContractListRequestDto;
+import com.danit.exceptions.EntityNotFoundException;
 import com.danit.models.Card;
 import com.danit.models.Client;
 import com.danit.models.Contract;
@@ -11,11 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManagerFactory;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Consumer;
 
 @Service
 public class ContractService extends AbstractBaseEntityService<Contract, ContractListRequestDto> {
@@ -110,15 +108,15 @@ public class ContractService extends AbstractBaseEntityService<Contract, Contrac
   public void deleteEntityById(long id) {
     Contract contract = super.getEntityById(id);
     //Delete relation with Card if exist
-    if(Objects.nonNull(contract.getCards())) {
+    if (Objects.nonNull(contract.getCards())) {
       deAssignCardsFromContract(id, contract.getCards());
     }
     //Delete relation with Client if exist
-    if(Objects.nonNull(contract.getClient())) {
+    if (Objects.nonNull(contract.getClient())) {
       contract.getClient().getContracts().remove(contract);
     }
     //Delete relation with Paket if exist
-    if(Objects.nonNull(contract.getPaket())) {
+    if (Objects.nonNull(contract.getPaket())) {
       contract.getPaket().getContracts().remove(contract);
     }
     contractRepository.deleteById(id);
@@ -128,19 +126,24 @@ public class ContractService extends AbstractBaseEntityService<Contract, Contrac
   @Transactional
   public void deleteEntities(List<Contract> entityList) {
     List<Contract> contracts = super.reloadEntities(entityList);
+    entityList.forEach(e -> {
+      if (!contracts.contains(e)) {
+        throw new EntityNotFoundException(LOG_MSG1 + getEntityName() + LOG_MSG2 + e.getId());
+      }
+    });
     //Delete relation with Card if exist
     contracts.forEach(contract -> {
-      if(Objects.nonNull(contract.getCards())) {
+      if (Objects.nonNull(contract.getCards())) {
         deAssignCardsFromContract(contract.getId(), contract.getCards());
       }
     });
     contracts.forEach(contract -> {
       //Delete relation with Client if exist
-      if(Objects.nonNull(contract.getClient())) {
+      if (Objects.nonNull(contract.getClient())) {
         contract.getClient().getContracts().remove(contract);
       }
       //Delete relation with Paket if exist
-      if(Objects.nonNull(contract.getPaket())) {
+      if (Objects.nonNull(contract.getPaket())) {
         contract.getPaket().getContracts().remove(contract);
       }
     });
