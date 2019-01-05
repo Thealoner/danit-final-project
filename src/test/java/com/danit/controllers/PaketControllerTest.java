@@ -82,7 +82,7 @@ public class PaketControllerTest {
     List<Paket> pakets = new ArrayList<>(10);
     for (int i = 0; i < 10; i++) {
       Paket paket = new Paket();
-      paket.setTitle("TestPaketTitle" + (i+1));
+      paket.setTitle("TestPaketTitle" + (i + 1));
       pakets.add(paket);
     }
 
@@ -204,7 +204,7 @@ public class PaketControllerTest {
             "{" +
             "  \"id\":  1002," +
             "  \"title\": \"Updated title\" " +
-            "}]" ))
+            "}]"))
         .andExpect(status().isOk());
 
 
@@ -268,7 +268,7 @@ public class PaketControllerTest {
             "}," +
             "{" +
             "  \"id\":  1002" +
-            "}]" ))
+            "}]"))
         .andExpect(status().isOk());
 
     this.mockMvc.perform(delete(url + "/1003").headers(headers))
@@ -277,7 +277,7 @@ public class PaketControllerTest {
     this.mockMvc.perform(get(url + "/1003").headers(headers))
         .andExpect(status().isNotFound());
 
-    assertEquals(count-3L, paketRepository.count());
+    assertEquals(count - 3L, paketRepository.count());
 
   }
 

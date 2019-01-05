@@ -1,6 +1,7 @@
 package com.danit.services;
 
 import com.danit.exceptions.EntityNotFoundException;
+import com.danit.exceptions.IllegalEntityFormatException;
 import com.danit.models.BaseEntity;
 import com.danit.repositories.BaseEntityRepository;
 import com.danit.repositories.specifications.BaseSpecification;
@@ -32,8 +33,8 @@ import static com.danit.utils.WebSocketUtils.convertEntityToJson;
 @Service
 public abstract class AbstractBaseEntityService<E extends BaseEntity, R> implements BaseEntityService<E> {
 
-  private static final String LOG_MSG1 = "Cant find ";
-  private static final String LOG_MSG2 = " with id=";
+  protected static final String LOG_MSG1 = "Cant find ";
+  protected static final String LOG_MSG2 = " with id=";
   @Autowired
   protected BaseEntityRepository<E> baseEntityRepository;
   @Autowired
@@ -58,6 +59,12 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
 
   @Override
   public List<E> saveEntities(List<E> entityList) {
+    entityList.forEach(e -> {
+      if (Objects.nonNull(e.getId())) {
+        throw new IllegalEntityFormatException(getEntityName() + LOG_MSG2 + e.getId() +
+            " shouldn't contain id to be persisted in DB");
+      }
+    });
     List<E> savedEntityList = (List<E>) baseEntityRepository.saveAll(entityList);
     notifyChannel(WebSocketEvent.POST, savedEntityList);
     return savedEntityList;
@@ -169,7 +176,7 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
   }
 
   @SuppressWarnings("unchecked")
-  private String getEntityName() {
+  protected String getEntityName() {
     return ((Class<E>) ((ParameterizedType) getClass().getGenericSuperclass())
         .getActualTypeArguments()[0]).getSimpleName().toLowerCase();
   }
