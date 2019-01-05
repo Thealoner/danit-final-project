@@ -18,57 +18,62 @@ public class ServiceListSpecification extends BaseSpecification<Service, Service
 
   @Override
   public Specification<Service> getFilter(ServiceListRequestDto request) {
+
+    request.equal = Objects.isNull(request.equal) ? false : request.equal;
     return (root, query, cb) -> {
       query.distinct(true);
       return where(
-          where(titleContains(request.search))
-              .or(priceEquals(request.search))
-              .or(costEquals(request.search))
-              .or(unitEquals(request.search))
-              .or(unitsNumberEquals(request.search))
-              .or(activeEquals(request.search))
+          where(idContains(request.search, request.equal))
+              .or(titleContains(request.search, request.equal))
+              .or(priceEquals(request.search, request.equal))
+              .or(costEquals(request.search, request.equal))
+              .or(unitEquals(request.search, request.equal))
+              .or(unitsNumberEquals(request.search, request.equal))
+              .or(activeEquals(request.search, request.equal))
               .or(getByServiceCategoryId(request.search))
       )
-          .and(titleContains(request.title))
-          .and(priceEquals(request.price))
-          .and(costEquals(request.cost))
-          .and(unitEquals(request.unit))
-          .and(activeEquals(request.unitsNumber))
+          .and(idContains(request.id, request.equal))
+          .and(titleContains(request.title, request.equal))
+          .and(priceEquals(request.price, request.equal))
+          .and(costEquals(request.cost, request.equal))
+          .and(unitEquals(request.unit, request.equal))
+          .and(unitsNumberEquals(request.unitsNumber, request.equal))
+          .and(activeEquals(request.active, request.equal))
           .and(getByServiceCategoryId(request.serviceCategoryId))
           .toPredicate(root, query, cb);
     };
+
   }
 
-  private Specification<Service> titleContains(String title) {
-    return attributeContains("title", title);
+  private Specification<Service> idContains(String id, Boolean equals) {
+    return equals ? attributeEquals("id", id) : attributeContains("id", id);
   }
 
-  private Specification<Service> priceEquals(Object price) {
-    return Objects.nonNull(price) ? attributeContains("price", String.valueOf(price)) :
-        null;
+  private Specification<Service> titleContains(String title, Boolean equals) {
+    return equals ? attributeEquals("title", title) : attributeContains("title", title);
   }
 
-  private Specification<Service> costEquals(Object cost) {
-    return Objects.nonNull(cost) ? attributeContains("cost", String.valueOf(cost)) :
-        null;
+  private Specification<Service> priceEquals(String price, Boolean equals) {
+    return equals ? attributeEquals("price", price) : attributeContains("price", price);
   }
 
-  private Specification<Service> unitEquals(Object unit) {
-    return Objects.nonNull(unit) ? attributeContains("unit", String.valueOf(unit)) :
-        null;
+  private Specification<Service> costEquals(String cost, Boolean equals) {
+    return equals ? attributeEquals("cost", cost) : attributeContains("cost", cost);
   }
 
-  private Specification<Service> unitsNumberEquals(Object unitsNum) {
-    return Objects.nonNull(unitsNum) ? attributeContains("unitsNumber", String.valueOf(unitsNum)) :
-        null;
+  private Specification<Service> unitEquals(String unit, Boolean equals) {
+    return equals ? attributeEquals("unit", unit) : attributeContains("unit", unit);
   }
 
-  private Specification<Service> activeEquals(Object active) {
-    return Objects.nonNull(active) ? attributeContains("active", String.valueOf(active)) :
-        null;
+  private Specification<Service> unitsNumberEquals(String unitsNumber, Boolean equals) {
+    return equals ? attributeEquals("unitsNumber", unitsNumber) : attributeContains("unitsNumber", unitsNumber);
   }
 
-  public static Specification<Service> getByServiceCategoryId(Object serviceCategoryId) {
+  private Specification<Service> activeEquals(String active, Boolean equals) {
+    return equals ? attributeEquals("active", active) : attributeContains("active", active);
+  }
+
+  public static Specification<Service> getByServiceCategoryId(String serviceCategoryId) {
     if (Objects.nonNull(serviceCategoryId)) {
       return (Specification<Service>) (root, criteriaQuery, criteriaBuilder) -> {
         final Subquery<Long> servCatQuery = criteriaQuery.subquery(Long.class);
@@ -92,6 +97,18 @@ public class ServiceListSpecification extends BaseSpecification<Service, Service
       return cb.like(
           cb.lower(root.get(attribute).as(String.class)),
           containsLowerCase(value)
+      );
+    };
+  }
+
+  private Specification<Service> attributeEquals(String attribute, String value) {
+    return (root, query, cb) -> {
+      if (value == null) {
+        return null;
+      }
+      return cb.equal(
+          cb.lower(root.get(attribute).as(String.class)),
+          value.toLowerCase()
       );
     };
   }

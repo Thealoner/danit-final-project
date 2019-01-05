@@ -7,7 +7,7 @@ import lombok.ToString;
 
 @EqualsAndHashCode(callSuper = true)
 @ToString
-@JsonIgnoreProperties(ignoreUnknown = true)
+//@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class ServiceListRequestDto extends BaseListRequestDto {
 
