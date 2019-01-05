@@ -72,7 +72,7 @@ public class ContractController {
       Principal principal,
       ContractListRequestDto contractListRequestDto) {
     log.info(principal.getName() + " got all Contract data");
-    log.info("clientListRequestDto" + contractListRequestDto);
+    log.info("contractListRequestDto" + contractListRequestDto);
     return ResponseEntity.ok(convertPageToMap(contractFacade.getAllEntities(contractListRequestDto, pageable)));
   }
 
@@ -86,7 +86,7 @@ public class ContractController {
       Principal principal,
       ContractListRequestDto contractListRequestDto) {
     log.info(principal.getName() + " got all Contract data");
-    log.info("clientListRequestDto" + contractListRequestDto);
+    log.info("contractListRequestDto" + contractListRequestDto);
     return ResponseEntity.ok(convertPageToMap(contractFacade.getAllEntities(contractListRequestDto, pageable)));
   }
 
@@ -100,7 +100,7 @@ public class ContractController {
       Principal principal,
       ContractListRequestDto contractListRequestDto) {
     log.info(principal.getName() + " got all Contract data");
-    log.info("clientListRequestDto" + contractListRequestDto);
+    log.info("contractListRequestDto" + contractListRequestDto);
     return ResponseEntity.ok(convertPageToMap(contractFacade.getAllEntities(contractListRequestDto, pageable)));
   }
 

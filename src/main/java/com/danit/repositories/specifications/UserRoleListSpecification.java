@@ -13,19 +13,25 @@ import static org.springframework.data.jpa.domain.Specification.where;
 public class UserRoleListSpecification extends BaseSpecification<UserRole, UserRoleListRequestDto> {
   @Override
   public Specification<UserRole> getFilter(UserRoleListRequestDto request) {
+    request.equal = Objects.isNull(request.equal) ? false : request.equal;
     return (root, query, cb) -> {
       query.distinct(true);
       return where(
-          where(userRoleName(request.search))
+          where(userRoleName(request.search, request.equal))
+              .or(idContains(request.search, request.equal))
       )
-          .and(userRoleName(request.role))
+          .and(idContains(request.id, request.equal))
+          .and(userRoleName(request.role, request.equal))
           .toPredicate(root, query, cb);
     };
   }
 
-  private Specification<UserRole> userRoleName(Object role) {
-    return Objects.nonNull(role) ? attributeContains("role", String.valueOf(role)) :
-        null;
+  private Specification<UserRole> idContains(String id, Boolean equals) {
+    return equals ? attributeEquals("id", id) : attributeContains("id", id);
+  }
+
+  private Specification<UserRole> userRoleName(String role, Boolean equals) {
+    return equals ? attributeEquals("role", role) : attributeContains("role", role);
   }
 
   private Specification<UserRole> attributeContains(String attribute, String value) {
@@ -37,6 +43,18 @@ public class UserRoleListSpecification extends BaseSpecification<UserRole, UserR
       return cb.like(
           cb.lower(root.get(attribute).as(String.class)),
           containsLowerCase(value)
+      );
+    };
+  }
+
+  private Specification<UserRole> attributeEquals(String attribute, String value) {
+    return (root, query, cb) -> {
+      if (value == null) {
+        return null;
+      }
+      return cb.equal(
+          cb.lower(root.get(attribute).as(String.class)),
+          value.toLowerCase()
       );
     };
   }
