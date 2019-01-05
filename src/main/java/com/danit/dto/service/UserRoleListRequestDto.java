@@ -11,7 +11,6 @@ import lombok.ToString;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class UserRoleListRequestDto extends BaseListRequestDto {
-
   public String role;
 
 }
