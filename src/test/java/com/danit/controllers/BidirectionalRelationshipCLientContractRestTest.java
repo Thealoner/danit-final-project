@@ -43,7 +43,7 @@ public class BidirectionalRelationshipCLientContractRestTest {
   }
 
   @Test
-  public void ifClientIsDeletedAllHisContractsMustBeDeletedToo() throws Exception {
+  public void ifClientIsDeletedAllHisContractsMustNotBeDeletedToo() throws Exception {
 
     HttpHeaders header = setHeader();
 
@@ -57,7 +57,7 @@ public class BidirectionalRelationshipCLientContractRestTest {
         new HttpEntity<Object>(header),
         String.class);
 
-    assertEquals(HttpStatus.NOT_FOUND, result1.getStatusCode());
+    assertEquals(HttpStatus.OK, result1.getStatusCode());
   }
 
   @Test

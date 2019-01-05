@@ -2,9 +2,9 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import gridEntities from '../gridEntities';
 import { connect } from 'react-redux';
-import { openTab, getGridData } from '../../../actions/tabActions';
+import { openTab, getGridData, loadingTab } from '../../../actions/tabActions';
 
-function EntitiesMenu (props) {
+function EntitiesMenu ({openTab, loadingTab, getGridData}) {
   const links = [];
 
   gridEntities.forEach((entity) => {
@@ -17,8 +17,9 @@ function EntitiesMenu (props) {
         className="configurator__link"
         activeClassName="configurator__link--active"
         onClick={() => {
-          props.openTab(entity.id, {type: 'grid'});
-          props.getGridData({ tabKey: entity.id, columns: entity.columns });
+          openTab(entity.id, {type: 'grid'});
+          loadingTab();
+          getGridData({ tabKey: entity.id, columns: entity.columns });
         }}
       >
         {entity.name}
@@ -42,6 +43,9 @@ const mapDispatchToProps = dispatch => {
     },
     getGridData: (options) => {
       dispatch(getGridData(options));
+    },
+    loadingTab: () => {
+      dispatch(loadingTab());
     }
   };
 };

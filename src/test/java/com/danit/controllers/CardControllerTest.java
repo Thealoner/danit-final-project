@@ -2,11 +2,12 @@ package com.danit.controllers;
 
 import com.danit.Application;
 import com.danit.TestUtils;
-import com.danit.facades.ClientFacade;
-import com.danit.models.Client;
+import com.danit.facades.CardFacade;
+import com.danit.models.Card;
+import com.danit.models.Contract;
 import com.danit.models.UserRolesEnum;
-import com.danit.repositories.ClientRepository;
-import com.danit.services.ClientService;
+import com.danit.repositories.CardRepository;
+import com.danit.services.CardService;
 import com.danit.services.ContractService;
 import com.danit.services.PaketService;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -46,20 +47,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
-public class ClientControllerTest {
+public class CardControllerTest {
 
-  private final static String url = "/clients";
+  private final static String url = "/cards";
   private static boolean dbInit = false;
   @Autowired
   TestUtils testUtils;
   @Autowired
   ObjectMapper objectMapper;
   @Autowired
-  ClientFacade clientFacade;
+  CardFacade cardFacade;
   @Autowired
-  ClientRepository clientRepository;
+  CardRepository cardRepository;
   @Autowired
-  ClientService clientService;
+  CardService cardService;
   @Autowired
   PaketService paketService;
   @Autowired
@@ -71,7 +72,7 @@ public class ClientControllerTest {
   private HttpHeaders headers;
 
   @Before
-  public void createClients() throws Exception {
+  public void createCards() throws Exception {
     headers = testUtils.getHeader(template, UserRolesEnum.USER);
 
     if (dbInit) {
@@ -79,78 +80,78 @@ public class ClientControllerTest {
     }
     dbInit = true;
 
-    //clientRepository.deleteAll();
-    long numberOfEntities = clientService.getNumberOfEntities();
+    long numberOfEntities = cardService.getNumberOfEntities();
 
-    List<Client> clients = new ArrayList<>(20);
+    List<Card> cards = new ArrayList<>(20);
     for (int i = 0; i < 10; i++) {
-      Client client = new Client();
-      client.setFirstName("TestClientName" + i);
-      clients.add(client);
+      Card Card = new Card();
+      Card.setCode("TestCardCode" + i);
+      Card.setActive(false);
+      cards.add(Card);
     }
 
     for (int i = 1; i < 11; i++) {
-      Client client = new Client();
-      client.setFirstName("SearchTestClientFirstName" + i);
-      client.setLastName("SearchTestClientLastName" + i);
-      clients.add(client);
+      Card Card = new Card();
+      Card.setCode("SearchTestCardCode" + i);
+      Card.setActive(false);
+      cards.add(Card);
     }
 
     ObjectWriter ow = objectMapper.writer();
-    String json = ow.writeValueAsString(clients);
+    String json = ow.writeValueAsString(cards);
 
     this.mockMvc.perform(post(url).headers(headers)
         .contentType("application/json")
         .content(json))
         .andExpect(status().isOk());
-    Assert.assertEquals(clientService.getNumberOfEntities(), numberOfEntities + 20);
+    Assert.assertEquals(cardService.getNumberOfEntities(), numberOfEntities + 20);
   }
 
   @Test
-  public void deleteClientsBySeveralMethods() throws Exception {
-    long numberOfEntities = clientService.getNumberOfEntities();
+  public void deleteCardsBySeveralMethods() throws Exception {
+    long numberOfEntities = cardService.getNumberOfEntities();
     this.mockMvc.perform(delete(url).headers(headers)
         .contentType("application/json")
         .content("[{\"id\": 1001},{\"id\": 1002},{\"id\": 1003}]"))
         .andExpect(status().isOk());
-    Assert.assertEquals(clientService.getNumberOfEntities(), numberOfEntities - 3);
+    Assert.assertEquals(cardService.getNumberOfEntities(), numberOfEntities - 3);
 
     this.mockMvc.perform(delete(url + "/1004").headers(headers))
         .andExpect(status().isOk());
 
-    Assert.assertEquals(clientService.getNumberOfEntities(), numberOfEntities - 4);
+    Assert.assertEquals(cardService.getNumberOfEntities(), numberOfEntities - 4);
   }
 
-  public void updateClientData() throws Exception {
-    List<Client> clients = clientService.getAllEntities(PageRequest.of(1,
+  public void updateCardData() throws Exception {
+    List<Card> Cards = cardService.getAllEntities(PageRequest.of(1,
         6,
         new Sort(Sort.Direction.ASC, "id"))).getContent();
-    clients.forEach(client -> {
-      client.setFirstName("UpdatedFirstName");
-      client.setLastName("UpdatedLastName");
-      client.setGender("UpdatedGender");
-      client.setActive(false);
+
+    final int[] cardCodeIncr = {1};
+    Cards.forEach(Card -> {
+      Card.setCode("UpdatedCardCode" + cardCodeIncr[0]++);
+      Card.setActive(true);
     });
 
-    String json = objectMapper.writer().writeValueAsString(clients);
+    String json = objectMapper.writer().writeValueAsString(Cards);
     String responseJson = this.mockMvc.perform(put(url).headers(headers)
         .contentType("application/json")
         .content(json))
         .andExpect(status().isOk())
         .andReturn().getResponse().getContentAsString();
 
-    List<Client> updatedClients = objectMapper.readValue(responseJson, new TypeReference<List<Client>>() {
+    List<Card> updatedCards = objectMapper.readValue(responseJson, new TypeReference<List<Card>>() {
     });
-    updatedClients.forEach(client -> {
-      Assert.assertEquals("UpdatedFirstName", client.getFirstName());
-      Assert.assertEquals("UpdatedLastName", client.getLastName());
-      Assert.assertEquals("UpdatedGender", client.getGender());
-      Assert.assertEquals(false, client.getActive());
+
+    cardCodeIncr[0] = 1;
+    updatedCards.forEach(card -> {
+      Assert.assertEquals("UpdatedCardCode" + cardCodeIncr[0]++, card.getCode());
+      Assert.assertEquals(true, card.getActive());
     });
   }
 
   @Test
-  public void deleteNonExistingClient() throws Exception {
+  public void deleteNonExistingCard() throws Exception {
 
     this.mockMvc.perform(delete(url).headers(headers)
         .contentType("application/json")
@@ -162,46 +163,46 @@ public class ClientControllerTest {
   }
 
   @Test
-  public void getAllClients() throws Exception {
-    long clientQuantity = clientService.getNumberOfEntities();
+  public void getAllCards() throws Exception {
+    long CardQuantity = cardService.getNumberOfEntities();
 
     mockMvc.perform(get(url).headers(headers))
         .andExpect(status().isOk())
         .andExpect(content()
             .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.meta.totalElements").value(clientQuantity));
+        .andExpect(jsonPath("$.meta.totalElements").value(CardQuantity));
   }
 
   @Test
   public void getAllContractsShort() throws Exception {
-    long clientQuantity = clientService.getNumberOfEntities();
+    long CardQuantity = cardService.getNumberOfEntities();
 
     mockMvc.perform(get(url + "/short").headers(headers))
         .andExpect(status().isOk())
         .andExpect(content()
             .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.meta.totalElements").value(clientQuantity));
+        .andExpect(jsonPath("$.meta.totalElements").value(CardQuantity));
   }
 
   @Test
-  public void getAllClientsIds() throws Exception {
-    long clientQuantity = clientService.getNumberOfEntities();
+  public void getAllCardsIds() throws Exception {
+    long CardQuantity = cardService.getNumberOfEntities();
 
     mockMvc.perform(get(url + "/ids").headers(headers))
         .andExpect(status().isOk())
         .andExpect(content()
             .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.meta.totalElements").value(clientQuantity));
+        .andExpect(jsonPath("$.meta.totalElements").value(CardQuantity));
   }
 
   @Test
   public void testPageable() throws Exception {
     int elementsPerPage = 3;
-    long numberOfClients = clientService.getNumberOfEntities();
-    int numberOfPages = (int) Math.ceil((double) numberOfClients / (double) elementsPerPage);
+    long numberOfCards = cardService.getNumberOfEntities();
+    int numberOfPages = (int) Math.ceil((double) numberOfCards / (double) elementsPerPage);
 
     long currentPage = 1;
-    long elementsLeft = numberOfClients - (currentPage - 1) * elementsPerPage;
+    long elementsLeft = numberOfCards - (currentPage - 1) * elementsPerPage;
 
     while (elementsLeft > 0) {
       long currentElements = (elementsLeft > elementsPerPage) ? elementsPerPage : elementsLeft;
@@ -213,16 +214,16 @@ public class ClientControllerTest {
           .andExpect(jsonPath("$.meta.pagesTotal").value(numberOfPages))
           .andExpect(jsonPath("$.meta.elementsPerPage").value(elementsPerPage))
           .andExpect(jsonPath("$.meta.currentElements").value(currentElements))
-          .andExpect(jsonPath("$.meta.totalElements").value(numberOfClients))
+          .andExpect(jsonPath("$.meta.totalElements").value(numberOfCards))
           .andReturn().getResponse().getContentAsString();
 
       JSONObject obj = new JSONObject(responseJson);
       String pageDataJson = obj.getString("data");
-      List<Client> updatedClients = objectMapper.readValue(pageDataJson, new TypeReference<List<Client>>() {
+      List<Card> updatedCards = objectMapper.readValue(pageDataJson, new TypeReference<List<Card>>() {
       });
-      Assert.assertEquals(currentElements, updatedClients.size());
+      Assert.assertEquals(currentElements, updatedCards.size());
       currentPage++;
-      elementsLeft = numberOfClients - (currentPage - 1) * elementsPerPage;
+      elementsLeft = numberOfCards - (currentPage - 1) * elementsPerPage;
     }
   }
 
@@ -230,59 +231,59 @@ public class ClientControllerTest {
   public void testSearchAndFilterAndPagination() throws Exception {
 
     //Search by mask in all fields
-    mockMvc.perform(get(url + "?search=SearchTestClient&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?search=SearchTestCardCode&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(10));
     //Search by mask in particular field
-    mockMvc.perform(get(url + "?firstName=SearchTestClient&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?code=SearchTestCardCode&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(10));
     //Search with equal
-    mockMvc.perform(get(url + "?search=SearchTestClient&equal=true&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?search=SearchTestCardCode&equal=true&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(0));
     //Field search with equal
-    mockMvc.perform(get(url + "?firstName=SearchTestClient&equal=true&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?code=SearchTestCardCode&equal=true&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(0));
 
     //search in all fields w/o equal
-    mockMvc.perform(get(url + "?search=SearchTestClientFirstName1&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?search=SearchTestCardCode1&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(2));
     //search by field w/o equal
-    mockMvc.perform(get(url + "?search=SearchTestClientFirstName1&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?code=SearchTestCardCode1&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(2));
     //search in all fields with equal
-    mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName1&equal=true&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?search=SearchTestCardCode1&equal=true&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(1));
     //search by field with equal
-    mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName1&equal=true&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?code=SearchTestCardCode1&equal=true&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(1));
 
-    //search by several fields
-    mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName1&lastName=SearchTestClientLastName0&page=1&size=20").headers(headers))
+    //search by several fields with equal
+    mockMvc.perform(get(url + "?code=SearchTestCardCode1&active=true&equal=true&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(0));
 
-    mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName9&lastName=SearchTestClientLastName9&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?code=SearchTestCardCode1&active=false&equal=true&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(1));
 
     //search by several fields w/o equal
-    mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName1&lastName=SearchTestClientLastName1&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?code=SearchTestCardCode1&active=false&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(2));
     //search by several fields with equal
-    mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName1&lastName=SearchTestClientLastName1&equal=true&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?code=SearchTestCardCode1&active=false&equal=true&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(1));
 
     //pagination test
-    mockMvc.perform(get(url + "?firstName=SearchTestClientFirstName&page=1&size=5&page=1&size=20").headers(headers))
+    mockMvc.perform(get(url + "?code=SearchTestCardCode&page=1&size=5&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentPage").value(1))
         .andExpect(jsonPath("$.meta.pagesTotal").value(2))
@@ -291,7 +292,7 @@ public class ClientControllerTest {
   }
 
   @Test
-  public void getClientByExistingId() throws Exception {
+  public void getCardByExistingId() throws Exception {
     String responseJson = mockMvc.perform(get(url + "/" + 1005).headers(headers))
         .andExpect(status().isOk())
         .andExpect(content()
@@ -301,15 +302,84 @@ public class ClientControllerTest {
 
     JSONObject obj = new JSONObject(responseJson);
     String pageDataJson = obj.getString("data");
-    Client receivedClient = objectMapper.readValue(pageDataJson, Client.class);
+    Card receivedCard = objectMapper.readValue(pageDataJson, Card.class);
 
-    Assert.assertEquals(new Long(1005), receivedClient.getId());
+    Assert.assertEquals(new Long(1005), receivedCard.getId());
   }
 
   @Test
-  public void getClientByNotExistingId() throws Exception {
-    mockMvc.perform(get(url + "/" + 1021).headers(headers))
+  public void getCardByNotExistingId() throws Exception {
+    mockMvc.perform(get(url + "/" + 2001).headers(headers))
         .andExpect(status().isNotFound());
+  }
+
+  @Test
+  public void assignCardsToExistingContract() throws Exception {
+    Contract contract = new Contract();
+    long createdContractId = contractService.saveEntity(contract).getId();
+    List<Card> cards = new ArrayList<>(2);
+    for (int i = 0; i < 2; i++) {
+      Card card = new Card();
+      card.setCode("CardCodeForAssigningToContractTest" + i);
+      cards.add(card);
+    }
+    List<Card> savedCards = cardService.saveEntities(cards);
+    ObjectWriter ow = objectMapper.writer();
+    String json = ow.writeValueAsString(savedCards);
+
+    mockMvc.perform(put("/contracts/" + createdContractId + "/cards").headers(headers)
+        .contentType("application/json")
+        .content(json))
+        .andExpect(status().isOk());
+
+    mockMvc.perform(get("/contracts/" + createdContractId + "/cards").headers(headers)
+        .contentType("application/json")
+        .content(json))
+        .andExpect(status().isOk())
+        .andExpect(content()
+            .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.meta.totalElements").value(savedCards.size()));
+
+    mockMvc.perform(delete("/contracts/" + createdContractId + "/cards").headers(headers)
+        .contentType("application/json")
+        .content(json))
+        .andExpect(status().isOk());
+
+    mockMvc.perform(get("/contracts/" + createdContractId + "/cards").headers(headers)
+        .contentType("application/json")
+        .content(json))
+        .andExpect(status().isOk())
+        .andExpect(content()
+            .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.meta.totalElements").value(0));
+
+    //Assign by id
+    mockMvc.perform(put("/contracts/" + createdContractId + "/card/" + savedCards.get(0).getId()).headers(headers)
+        .contentType("application/json")
+        .content(json))
+        .andExpect(status().isOk());
+
+    mockMvc.perform(get("/contracts/" + createdContractId + "/cards").headers(headers)
+        .contentType("application/json")
+        .content(json))
+        .andExpect(status().isOk())
+        .andExpect(content()
+            .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.meta.totalElements").value(1));
+
+    mockMvc.perform(delete("/contracts/" + createdContractId + "/card/" + savedCards.get(0).getId()).headers(headers)
+        .contentType("application/json")
+        .content(json))
+        .andExpect(status().isOk());
+
+    mockMvc.perform(get("/contracts/" + createdContractId + "/cards").headers(headers)
+        .contentType("application/json")
+        .content(json))
+        .andExpect(status().isOk())
+        .andExpect(content()
+            .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.meta.totalElements").value(0));
+
   }
 
 }
