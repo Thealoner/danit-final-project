@@ -312,7 +312,7 @@ const gridEntities = [
         //     properties: {
         role: {
           title: 'Роль',
-          // type: 'object',
+          // type: 'string',
           enum: ['ADMIN', 'USER'],
           enumNames: ['Администратор', 'Пользователь']
         }
