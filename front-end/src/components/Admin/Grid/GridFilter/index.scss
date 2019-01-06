@@ -59,5 +59,32 @@
       background-color: $hot-pink;
       border-color: $hot-pink;
     }
+
   }
+}
+
+@media only screen and (max-width: 1045px) {
+  .filter {
+    display: flex;
+    flex-wrap: wrap;
+    height: 80px;
+
+    .tabulator {
+      margin: 80px 0;
+    }
+
+    div{
+      padding-top: 2px;
+    }
+
+    button {
+
+      &:first-child {
+        margin-left: 50px
+      }
+      &:last-child {
+        margin-left: 91px;
+      }
+  }
+}
 }
