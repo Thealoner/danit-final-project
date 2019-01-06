@@ -16,9 +16,6 @@ class GridTable extends Component {
   };
 
   render () {
-    const { currentTab } = this.props;
-    console.log(currentTab.grid.columns);
-
     /* return (
       <ReactTabulator
         data={currentTab.grid.data}

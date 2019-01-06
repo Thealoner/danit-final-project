@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { closeTab } from '../../../../../actions/tabActions';
-import { NavLink } from 'react-router-dom';
 import { toastr } from 'react-redux-toastr';
 
 class Tab extends Component {
@@ -28,7 +27,7 @@ class Tab extends Component {
     const tabClass = 'tabs__head' + (tabKey === activeKey ? ' tabs__head--active' : '');
 
     return (
-      <NavLink to={'/' + tabKey} key={tabKey} className={tabClass} onClick={() => onSelect(tabKey)}
+      <span key={tabKey} className={tabClass} onClick={() => onSelect(tabKey)}
         title={`${title} ${edited ? '(несохранённые данные)' : ''}`}>
         <span className={!edited ? 'tabs__title' : 'tabs__title--edited'}>
           {title}
@@ -36,7 +35,7 @@ class Tab extends Component {
         <span className="tabs__btn-wrapper">
           <button className="tabs__close-btn" onClick={(e) => this.closeTabHandler(e, tabKey)}/>
         </span>
-      </NavLink>
+      </span>
     );
   }
 }
