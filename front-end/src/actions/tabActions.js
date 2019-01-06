@@ -105,6 +105,7 @@ export const getFormData = (tabKey, id, mode) => {
     ajaxRequest.get('/' + tabKey + '/' + id)
       .then(
         response => {
+          console.log(response)
           dispatch(setFormData(tabKey, {
             mode: mode,
             id: id,

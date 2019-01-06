@@ -8,7 +8,7 @@ function EntitiesMenu ({openTab, loadingTab, getGridData}) {
   const links = [];
 
   gridEntities.forEach((entity) => {
-    let url = '/admin/' + entity.id;
+    let url = '/' + entity.id;
 
     links.push(
       <NavLink
