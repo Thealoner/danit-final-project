@@ -260,7 +260,6 @@ const gridEntities = [
       { title: 'Email', field: 'email' }
     ],
     schema: {
-      title: 'Edit Client',
       type: 'object',
       required: ['firstName'],
       properties: {

@@ -4,6 +4,7 @@ import 'tabulator-tables/dist/css/tabulator.min.css';
 import Form from 'react-jsonschema-form';
 import {toastr} from 'react-redux-toastr';
 import {connect} from 'react-redux';
+import './index.scss';
 import {
   cancelEditFormData,
   saveFormData,
@@ -40,7 +41,7 @@ class RecordEditor extends Component {
 
     return (
       <Fragment>
-        <Form
+        <Form className='record'
           schema={entity.schema}
           uiSchema={entity.uiSchema}
           formData={currentTab.form.data}
