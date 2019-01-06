@@ -24,7 +24,6 @@ ReactDOM.render(
         position="top-center"
         transitionIn="fadeIn"
         transitionOut="fadeOut"
-        progressBar
         closeOnToastrClick/>
     </Fragment>
   </Provider>,

@@ -3,6 +3,7 @@ package com.danit.controllers;
 
 import com.danit.dto.Views;
 import com.danit.dto.service.UserRoleListRequestDto;
+import com.danit.facades.UserFacade;
 import com.danit.facades.UserRoleFacade;
 import com.danit.models.UserRole;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -41,10 +42,12 @@ public class UserRoleController {
   private static final String LOG_MSG_GOT_ALL_DATA = " got all user-role data";
 
   private UserRoleFacade userRoleFacade;
+  private UserFacade userFacade;
 
   @Autowired
-  public UserRoleController(UserRoleFacade userRoleFacade) {
+  public UserRoleController(UserRoleFacade userRoleFacade, UserFacade userFacade) {
     this.userRoleFacade = userRoleFacade;
+    this.userFacade = userFacade;
   }
 
   @JsonView(Views.Extended.class)
@@ -121,6 +124,48 @@ public class UserRoleController {
   public void deleteUserRolesDto(@RequestBody List<UserRole> roles, Principal principal) {
     log.info(principal.getName() + " is trying to delete user-role: " + roles);
     userRoleFacade.deleteEntities(roles);
+  }
+
+  @JsonView(Views.Extended.class)
+  @GetMapping("/{roleId}/users")
+  ResponseEntity<Map<String, Object>> getAllRolesOfUser(
+      @PathVariable(name = "roleId")
+          long id,
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal) {
+    log.info(principal.getName() + " got users with role  id: " + id);
+    return ResponseEntity.ok(convertPageToMap(userFacade.findUsersWithRoleId(id, pageable)));
+  }
+
+  @JsonView(Views.Short.class)
+  @GetMapping("/{roleId}/users/short")
+  ResponseEntity<Map<String, Object>> getAllRolesOfUserShort(
+      @PathVariable(name = "roleId")
+          long id,
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal) {
+    log.info(principal.getName() + " got users with role  id: " + id);
+    return ResponseEntity.ok(convertPageToMap(userFacade.findUsersWithRoleId(id, pageable)));
+  }
+
+  @JsonView(Views.Ids.class)
+  @GetMapping("/{roleId}/users/ids")
+  ResponseEntity<Map<String, Object>> getAllRolesOfUserIds(
+      @PathVariable(name = "roleId")
+          long id,
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal) {
+    log.info(principal.getName() + " got users with role  id: " + id);
+    return ResponseEntity.ok(convertPageToMap(userFacade.findUsersWithRoleId(id, pageable)));
   }
 
 }

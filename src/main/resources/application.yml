@@ -19,10 +19,9 @@ spring:
     password:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
-    #show-sql: true
-    #properties:
-    #format_sql: true
-    #use_sql_comments: true
+    # show-sql: true
+  #    format_sql: true
+  #    use_sql_comments: true
   data:
     web.pageable.one-indexed-parameters: true
     #mvc:
