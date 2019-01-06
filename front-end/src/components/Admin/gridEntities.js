@@ -304,36 +304,37 @@ const gridEntities = [
           title: 'Логин',
           type: 'string'
         },
-        roles: {
-          title: '',
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: {
-              role: {
-                title: 'Роль',
-                type: 'string',
-                enum: ['ADMIN', 'USER'],
-                enumNames: ['Admin', 'User']
-              }
-            }
-          }
+        // roles: {
+        //   title: '',
+        //   type: 'array',
+        //   items: {
+        //     type: 'object',
+        //     properties: {
+        role: {
+          title: 'Роль',
+          // type: 'object',
+          enum: ['ADMIN', 'USER'],
+          enumNames: ['Администратор', 'Пользователь']
         }
+        //     }
+        //   }
+        // }
       }
     },
     uiSchema: {
-      roles: {
-        items: {
-          role: {
-            'ui:widget': 'radio'
-          }
-        },
-        'ui:options': {
-          addable: false,
-          removable: false
-        }
+      // roles: {
+      //   items: {
+      role: {
+        'ui:widget': 'radio'
       }
+    },
+    'ui:options': {
+      addable: false,
+      orderable: false,
+      removable: false
     }
+    //    }
+    // }
   },
   {
     id: 'roles',
