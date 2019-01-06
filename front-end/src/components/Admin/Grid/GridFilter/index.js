@@ -55,18 +55,22 @@ class GridFilter extends Component {
   render () {
     return (
       <form onSubmit={this.onSubmit} className="filter">
-        <span>
-          <label>Поле: </label>
-          <select name="field" value={this.state.field} onChange={this.handleInputChange}>
-            {this.renderFields()}
-          </select>
-        </span>
-        <span>
-          <label>Значение: </label>
-          <input name="value" type="text" value={this.state.value} onChange={this.handleInputChange}/>
-        </span>
-        <button name="filter" type="submit" disabled={this.state.filtered}>Применить фильтр</button>
-        <button name="clear" onClick={this.clearFilter} type="button">Очистить фильтр</button>
+        <div>
+          <span>
+            <label>Поле: </label>
+            <select name="field" value={this.state.field} onChange={this.handleInputChange}>
+              {this.renderFields()}
+            </select>
+          </span>
+          <span>
+            <label>Значение: </label>
+            <input name="value" type="text" value={this.state.value} onChange={this.handleInputChange}/>
+          </span>
+        </div>
+        <div>
+          <button name="filter" type="submit" disabled={this.state.filtered}>Применить фильтр</button>
+          <button name="clear" onClick={this.clearFilter} type="button">Очистить фильтр</button>
+        </div>
       </form>
     );
   }
