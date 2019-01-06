@@ -10,20 +10,13 @@
     background-color: $white;
   }
 
-  &__pane-skirt {
-    position: relative;
-    display: inline-flex;
-    align-items: flex-end;
-    height: 20px;
-    background-color: $gallery;
-  }
-
   &__head {
     position: relative;
     display: flex;
     align-items: center;
     width: 180px;
     height: 36px;
+    padding-left: 7px;
     background-color: $white;
     border-top: 1px solid $gallery;
     border-left: 1px solid $gallery;
@@ -33,28 +26,6 @@
 
     &:last-child {
       border-right: 1px solid $gallery;
-
-      &.tabs__head--active .tabs__btn-wrapper {
-        &::before,
-        &::after {
-          content: '';
-          position: absolute;
-          right: -11px;
-          bottom: -7.5px;
-          display: block;
-          width: 10px;
-          height: 10px;
-        }
-
-        &::before {
-          background-color: $gallery;
-        }
-
-        &::after {
-          background-color: $white;
-          border-bottom-left-radius: 10px;
-        }
-      }
     }
 
     &--active {
@@ -82,10 +53,6 @@
         }
       }
 
-      & + .tabs__head {
-        border-bottom-left-radius: 10px;
-      }
-
       & .tabs__close-btn {
         background-color: $gallery;
         box-shadow: -5px 0 10px 3px $gallery;
@@ -98,17 +65,58 @@
       & .tabs__btn-wrapper {
         background-color: $gallery;
       }
+
+      & .tabs__btn-wrapper {
+        &::before,
+        &::after {
+          content: '';
+          position: absolute;
+          right: -11px;
+          bottom: -7.5px;
+          display: block;
+          width: 10px;
+          height: 10px;
+        }
+
+        &::before {
+          background-color: $gallery;
+        }
+
+        &::after {
+          background-color: $white;
+          border-bottom-left-radius: 10px;
+        }
+      }
     }
   }
 
-  &__title-wrapper {
+  &__title {
     position: absolute;
-    left: 15px;
     display: flex;
     align-items: center;
-    max-width: 85%;
+    max-width: 80%;
     height: 100%;
+    padding-left: 10px;
     overflow: hidden;
+    color: $blue-bayoux;
+    white-space: nowrap;
+  }
+
+  &__title--edited {
+    @extend .tabs__title;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 0;
+      z-index: 3;
+      display: block;
+      width: 7px;
+      height: 7px;
+      background-color: $roman;
+      border-radius: 50%;
+    }
   }
 
   &__btn-wrapper {
@@ -171,7 +179,26 @@
   &__content {
     position: relative;
     height: calc(100% - 36px);
-    background-color: $gallery;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: $white;
     border: 15px solid $gallery;
+  }
+
+  &__loader-wrapper {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  &__logo-wrapper {
+    height: 100%;
+
+    img {
+      display: block;
+      width: auto;
+      height: 100%;
+      margin: auto;
+    }
   }
 }

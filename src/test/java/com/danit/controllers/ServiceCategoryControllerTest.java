@@ -252,10 +252,15 @@ public class ServiceCategoryControllerTest {
   public void assignExistingServiceToServiceCategory() throws Exception {
     long scId = 5L;
     long sId = 7L;
+    final String s = url + "/%s/service/%s";
 
     int size = serviceCategoryService.getEntityById(scId).getServices().size();
 
-    mockMvc.perform(put(url + "/" + scId + "/service/" + sId).headers(header))
+    mockMvc
+        .perform(
+            put(String.format(s, scId, sId))
+                .headers(header)
+        )
         .andExpect(status().isOk());
 
     mockMvc.perform(get(url + "/" + scId + "/services").headers(header))

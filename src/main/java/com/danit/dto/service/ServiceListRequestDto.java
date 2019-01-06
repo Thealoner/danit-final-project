@@ -1,23 +1,25 @@
 package com.danit.dto.service;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
+@EqualsAndHashCode(callSuper = true)
+@ToString
 @Data
-public class ServiceListRequestDto {
-
-  public String search;
-
-  public Long id;
+public class ServiceListRequestDto extends BaseListRequestDto {
 
   public String title;
 
-  public Float price;
+  public String price;
 
-  public Float cost;
+  public String cost;
 
   public String unit;
 
-  public int unitsNumber;
+  public String unitsNumber;
 
-  public Boolean isActive;
+  public String active;
+
+  public String serviceCategoryId;
 }

@@ -4,7 +4,7 @@
   width: 100%;
   height: calc(100% - 100px);
   margin: 50px 0;
-  background-color: #fff !important;
+  background-color: $white !important;
   border-left: 1px solid $white !important;
 
   &-header {
@@ -12,11 +12,16 @@
     font-size: 14px;
     line-height: normal;
     border-bottom: 1px solid $white !important;
+
+    ::-webkit-scrollbar-track {
+      visibility: hidden;
+    }
   }
 
   &-headers {
     display: flex;
     height: 100%;
+    overflow-y: scroll;
   }
 
   &-table {
@@ -24,7 +29,7 @@
   }
 
   &-tableHolder {
-    overflow: auto !important;
+    overflow-y: scroll !important;
   }
 
   &-sortable {

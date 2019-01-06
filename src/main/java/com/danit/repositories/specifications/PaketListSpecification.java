@@ -14,142 +14,134 @@ public class PaketListSpecification extends BaseSpecification<Paket, PaketListRe
 
   @Override
   public Specification<Paket> getFilter(PaketListRequestDto request) {
+    request.equal = Objects.isNull(request.equal) ? false : request.equal;
     return (root, query, cb) -> {
       query.distinct(true);
       return where(
-          where(titleContains(request.search))
-              .or(termContains(request.search))
-              .or(priceContains(request.search))
-              .or(freezeTimesContains(request.search))
-              .or(freezeDaysContains(request.search))
-              .or(freezeMinTermContains(request.search))
-              .or(accessWithoutCardTimesLimitContains(request.search))
-              .or(autoActivateAfterDaysContains(request.search))
-              .or(guestVisitsContains(request.search))
-              .or(openDateAllowedContains(request.search))
-              .or(usersMinContains(request.search))
-              .or(limitVisitTimeContains(request.search))
-              .or(visitTimeContains(request.search))
-              .or(limitAdditionalServicesContains(request.search))
-              .or(limitUsageByPaymentPercentageContains(request.search))
-              .or(isActiveContains(request.search))
-              .or(purchasableContains(request.search))
-
+          where(titleContains(request.search, request.equal))
+              .or(idContains(request.search, request.equal))
+              .or(termContains(request.search, request.equal))
+              .or(priceContains(request.search, request.equal))
+              .or(freezeTimesContains(request.search, request.equal))
+              .or(freezeDaysContains(request.search, request.equal))
+              .or(freezeMinTermContains(request.search, request.equal))
+              .or(accessWithoutCardTimesLimitContains(request.search, request.equal))
+              .or(autoActivateAfterDaysContains(request.search, request.equal))
+              .or(guestVisitsContains(request.search, request.equal))
+              .or(openDateAllowedContains(request.search, request.equal))
+              .or(usersMinContains(request.search, request.equal))
+              .or(limitVisitTimeContains(request.search, request.equal))
+              .or(visitTimeContains(request.search, request.equal))
+              .or(limitAdditionalServicesContains(request.search, request.equal))
+              .or(limitUsageByPaymentPercentageContains(request.search, request.equal))
+              .or(isActiveContains(request.search, request.equal))
+              .or(purchasableContains(request.search, request.equal))
       )
-          .and(titleContains(request.title))
-          .and(termContains(request.term))
-          .and(priceContains(request.price))
-          .and(freezeTimesContains(request.freezeTimes))
-          .and(freezeDaysContains(request.freezeDays))
-          .and(freezeMinTermContains(request.freezeMinTerm))
-          .and(accessWithoutCardTimesLimitContains(request.accessWithoutCardTimesLimit))
-          .and(autoActivateAfterDaysContains(request.autoActivateAfterDays))
-          .and(guestVisitsContains(request.guestVisits))
-          .and(openDateAllowedContains(request.openDateAllowed))
-          .and(usersMinContains(request.usersMin))
-          .and(limitVisitTimeContains(request.limitVisitTime))
-          .and(visitTimeContains(request.visitTime))
-          .and(limitAdditionalServicesContains(request.limitAdditionalServices))
-          .and(limitUsageByPaymentPercentageContains(request.limitUsageByPaymentPercentage))
-          .and(isActiveContains(request.isActive))
-          .and(purchasableContains(request.purchasable))
+          .and(idContains(request.id, request.equal))
+          .and(titleContains(request.title, request.equal))
+          .and(termContains(request.term, request.equal))
+          .and(priceContains(request.price, request.equal))
+          .and(freezeTimesContains(request.freezeTimes, request.equal))
+          .and(freezeDaysContains(request.freezeDays, request.equal))
+          .and(freezeMinTermContains(request.freezeMinTerm, request.equal))
+          .and(accessWithoutCardTimesLimitContains(request.accessWithoutCardTimesLimit, request.equal))
+          .and(autoActivateAfterDaysContains(request.autoActivateAfterDays, request.equal))
+          .and(guestVisitsContains(request.guestVisits, request.equal))
+          .and(openDateAllowedContains(request.openDateAllowed, request.equal))
+          .and(usersMinContains(request.usersMin, request.equal))
+          .and(limitVisitTimeContains(request.limitVisitTime, request.equal))
+          .and(visitTimeContains(request.visitTime, request.equal))
+          .and(limitAdditionalServicesContains(request.limitAdditionalServices, request.equal))
+          .and(limitUsageByPaymentPercentageContains(request.limitUsageByPaymentPercentage, request.equal))
+          .and(isActiveContains(request.active, request.equal))
+          .and(purchasableContains(request.purchasable, request.equal))
           .toPredicate(root, query, cb);
     };
   }
 
-  private Specification<Paket> titleContains(String title) {
-    return attributeContains("title", title);
+  private Specification<Paket> idContains(String id, Boolean equals) {
+    return equals ? attributeEquals("id", id) : attributeContains("id", id);
   }
 
-  private Specification<Paket> termContains(Object term) {
-    return Objects.nonNull(term) ? attributeContains("term", String.valueOf(term)) :
-        null;
+  private Specification<Paket> titleContains(String title, Boolean equals) {
+    return equals ? attributeEquals("title", title) : attributeContains("title", title);
   }
 
-  private Specification<Paket> priceContains(Object price) {
-    return Objects.nonNull(price) ? attributeContains("price", String.valueOf(price)) :
-        null;
+  private Specification<Paket> termContains(String term, Boolean equals) {
+    return equals ? attributeEquals("term", term) : attributeContains("term", term);
   }
 
-  private Specification<Paket> freezeTimesContains(Object freezeTimes) {
-    return Objects.nonNull(freezeTimes) ? attributeContains("freezeTimes", String.valueOf(freezeTimes)) :
-        null;
+  private Specification<Paket> priceContains(String price, Boolean equals) {
+    return equals ? attributeEquals("price", price) : attributeContains("price", price);
   }
 
-  private Specification<Paket> freezeDaysContains(Object freezeDays) {
-    return Objects.nonNull(freezeDays) ? attributeContains("freezeDays", String.valueOf(freezeDays)) :
-        null;
+  private Specification<Paket> freezeTimesContains(String freezeTimes, Boolean equals) {
+    return equals ? attributeEquals("freezeTimes", freezeTimes)
+        : attributeContains("freezeTimes", freezeTimes);
   }
 
-  private Specification<Paket> freezeMinTermContains(Object freezeMinTerm) {
-    return Objects.nonNull(freezeMinTerm) ? attributeContains("freezeMinTerm", String.valueOf(freezeMinTerm)) :
-        null;
+  private Specification<Paket> freezeDaysContains(String freezeDays, Boolean equals) {
+    return equals ? attributeEquals("freezeDays", freezeDays)
+        : attributeContains("freezeDays", freezeDays);
   }
 
-  private Specification<Paket> accessWithoutCardTimesLimitContains(Object accessWithoutCardTimesLimit) {
-    return Objects.nonNull(accessWithoutCardTimesLimit) ? attributeContains("accessWithoutCardTimesLimit",
-        String.valueOf(accessWithoutCardTimesLimit)) :
-        null;
+  private Specification<Paket> freezeMinTermContains(String freezeMinTerm, Boolean equals) {
+    return equals ? attributeEquals("freezeMinTerm", freezeMinTerm)
+        : attributeContains("freezeMinTerm", freezeMinTerm);
   }
 
-  private Specification<Paket> autoActivateAfterDaysContains(Object autoActivateAfterDays) {
-    return Objects.nonNull(autoActivateAfterDays) ? attributeContains("autoActivateAfterDays",
-        String.valueOf(autoActivateAfterDays)) :
-        null;
+  private Specification<Paket> accessWithoutCardTimesLimitContains(String accessWithoutCardTimesLimit, Boolean equals) {
+    return equals ? attributeEquals("accessWithoutCardTimesLimit", accessWithoutCardTimesLimit)
+        : attributeContains("accessWithoutCardTimesLimit", accessWithoutCardTimesLimit);
   }
 
-  private Specification<Paket> guestVisitsContains(Object guestVisits) {
-    return Objects.nonNull(guestVisits) ? attributeContains("guestVisits",
-        String.valueOf(guestVisits)) :
-        null;
+  private Specification<Paket> autoActivateAfterDaysContains(String autoActivateAfterDays, Boolean equals) {
+    return equals ? attributeEquals("autoActivateAfterDays", autoActivateAfterDays)
+        : attributeContains("autoActivateAfterDays", autoActivateAfterDays);
   }
 
-  private Specification<Paket> openDateAllowedContains(Object openDateAllowed) {
-    return Objects.nonNull(openDateAllowed) ? attributeContains("openDateAllowed",
-        String.valueOf(openDateAllowed)) :
-        null;
+  private Specification<Paket> guestVisitsContains(String guestVisits, Boolean equals) {
+    return equals ? attributeEquals("guestVisits", guestVisits)
+        : attributeContains("guestVisits", guestVisits);
   }
 
-  private Specification<Paket> usersMinContains(Object usersMin) {
-    return Objects.nonNull(usersMin) ? attributeContains("usersMin",
-        String.valueOf(usersMin)) :
-        null;
+  private Specification<Paket> openDateAllowedContains(String openDateAllowed, Boolean equals) {
+    return equals ? attributeEquals("openDateAllowed", openDateAllowed)
+        : attributeContains("openDateAllowed", openDateAllowed);
   }
 
-  private Specification<Paket> limitVisitTimeContains(Object limitVisitTime) {
-    return Objects.nonNull(limitVisitTime) ? attributeContains("limitVisitTime",
-        String.valueOf(limitVisitTime)) :
-        null;
+  private Specification<Paket> usersMinContains(String usersMin, Boolean equals) {
+    return equals ? attributeEquals("usersMin", usersMin)
+        : attributeContains("usersMin", usersMin);
   }
 
-  private Specification<Paket> visitTimeContains(Object visitTime) {
-    return Objects.nonNull(visitTime) ? attributeContains("visitTime",
-        String.valueOf(visitTime)) :
-        null;
+  private Specification<Paket> limitVisitTimeContains(String limitVisitTime, Boolean equals) {
+    return equals ? attributeEquals("limitVisitTime", limitVisitTime)
+        : attributeContains("limitVisitTime", limitVisitTime);
   }
 
-  private Specification<Paket> limitAdditionalServicesContains(Object limitAdditionalServices) {
-    return Objects.nonNull(limitAdditionalServices) ? attributeContains("limitAdditionalServices",
-        String.valueOf(limitAdditionalServices)) :
-        null;
+  private Specification<Paket> visitTimeContains(String visitTime, Boolean equals) {
+    return equals ? attributeEquals("visitTime", visitTime)
+        : attributeContains("visitTime", visitTime);
   }
 
-  private Specification<Paket> limitUsageByPaymentPercentageContains(Object limitUsageByPaymentPercentage) {
-    return Objects.nonNull(limitUsageByPaymentPercentage) ? attributeContains("limitUsageByPaymentPercentage",
-        String.valueOf(limitUsageByPaymentPercentage)) :
-        null;
+  private Specification<Paket> limitAdditionalServicesContains(String limitAdditionalServices, Boolean equals) {
+    return equals ? attributeEquals("limitAdditionalServices", limitAdditionalServices)
+        : attributeContains("limitAdditionalServices", limitAdditionalServices);
   }
 
-  private Specification<Paket> isActiveContains(Object isActive) {
-    return Objects.nonNull(isActive) ? attributeContains("isActive",
-        String.valueOf(isActive)) :
-        null;
+  private Specification<Paket> limitUsageByPaymentPercentageContains(String limitUsageByPaymentPercentage, Boolean equals) {
+    return equals ? attributeEquals("limitUsageByPaymentPercentage", limitUsageByPaymentPercentage)
+        : attributeContains("limitUsageByPaymentPercentage", limitUsageByPaymentPercentage);
   }
 
-  private Specification<Paket> purchasableContains(Object purchasable) {
-    return Objects.nonNull(purchasable) ? attributeContains("purchasable",
-        String.valueOf(purchasable)) :
-        null;
+  private Specification<Paket> isActiveContains(String active, Boolean equals) {
+    return equals ? attributeEquals("active", active) : attributeContains("active", active);
+  }
+
+  private Specification<Paket> purchasableContains(String purchasable, Boolean equals) {
+    return equals ? attributeEquals("purchasable", purchasable)
+        : attributeContains("purchasable", purchasable);
   }
 
   private Specification<Paket> attributeContains(String attribute, String value) {
@@ -160,6 +152,18 @@ public class PaketListSpecification extends BaseSpecification<Paket, PaketListRe
       return cb.like(
           cb.lower(root.get(attribute).as(String.class)),
           containsLowerCase(value)
+      );
+    };
+  }
+
+  private Specification<Paket> attributeEquals(String attribute, String value) {
+    return (root, query, cb) -> {
+      if (value == null) {
+        return null;
+      }
+      return cb.equal(
+          cb.lower(root.get(attribute).as(String.class)),
+          value.toLowerCase()
       );
     };
   }

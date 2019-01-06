@@ -2,6 +2,7 @@ package com.danit.controllers;
 
 import com.danit.dto.Views;
 import com.danit.dto.service.ContractListRequestDto;
+import com.danit.facades.CardFacade;
 import com.danit.facades.ContractFacade;
 import com.danit.models.Card;
 import com.danit.models.Contract;
@@ -44,10 +45,14 @@ public class ContractController {
 
   private ContractService contractService;
 
+  private CardFacade cardFacade;
+
   @Autowired
-  public ContractController(ContractFacade contractFacade, ContractService contractService) {
+  public ContractController(ContractFacade contractFacade, ContractService contractService,
+                            CardFacade cardFacade) {
     this.contractFacade = contractFacade;
     this.contractService = contractService;
+    this.cardFacade = cardFacade;
   }
 
   @JsonView(Views.Extended.class)
@@ -67,7 +72,7 @@ public class ContractController {
       Principal principal,
       ContractListRequestDto contractListRequestDto) {
     log.info(principal.getName() + " got all Contract data");
-    log.info("clientListRequestDto" + contractListRequestDto);
+    log.info("contractListRequestDto" + contractListRequestDto);
     return ResponseEntity.ok(convertPageToMap(contractFacade.getAllEntities(contractListRequestDto, pageable)));
   }
 
@@ -81,7 +86,7 @@ public class ContractController {
       Principal principal,
       ContractListRequestDto contractListRequestDto) {
     log.info(principal.getName() + " got all Contract data");
-    log.info("clientListRequestDto" + contractListRequestDto);
+    log.info("contractListRequestDto" + contractListRequestDto);
     return ResponseEntity.ok(convertPageToMap(contractFacade.getAllEntities(contractListRequestDto, pageable)));
   }
 
@@ -95,7 +100,7 @@ public class ContractController {
       Principal principal,
       ContractListRequestDto contractListRequestDto) {
     log.info(principal.getName() + " got all Contract data");
-    log.info("clientListRequestDto" + contractListRequestDto);
+    log.info("contractListRequestDto" + contractListRequestDto);
     return ResponseEntity.ok(convertPageToMap(contractFacade.getAllEntities(contractListRequestDto, pageable)));
   }
 
@@ -127,15 +132,18 @@ public class ContractController {
     contractFacade.deleteEntities(contracts);
   }
 
-  //related entities methods
+  //related entities methods--------------------------------------------------------------------------------------------
+
   //Clients
+  @JsonView(Views.Extended.class)
   @PutMapping("/{contractId}/client/{clientId}")
   @ResponseStatus(HttpStatus.OK)
-  void assignClientToContract(@PathVariable(name = "contractId") Long contractId,
-                              @PathVariable(name = "clientId") Long clientId,
-                              Principal principal) {
+  ResponseEntity<Map<String, Object>> assignClientToContract(@PathVariable(name = "contractId") Long contractId,
+                                                             @PathVariable(name = "clientId") Long clientId,
+                                                             Principal principal) {
     log.info(principal.getName() + " is trying to assign clientId=" + clientId + " to contractId= " + contractId);
     contractService.assignClientToContract(contractId, clientId);
+    return ResponseEntity.ok(convertDtoToMap(contractFacade.getEntityById(contractId)));
   }
 
   @DeleteMapping("/{contractId}/client/{clientId}")
@@ -148,13 +156,15 @@ public class ContractController {
   }
 
   //Pakets
+  @JsonView(Views.Extended.class)
   @PutMapping("/{contractId}/paket/{paketId}")
   @ResponseStatus(HttpStatus.OK)
-  void assignPaketToContract(@PathVariable(name = "contractId") Long contractId,
-                             @PathVariable(name = "paketId") Long paketId,
-                             Principal principal) {
+  ResponseEntity<Map<String, Object>> assignPaketToContract(@PathVariable(name = "contractId") Long contractId,
+                                                            @PathVariable(name = "paketId") Long paketId,
+                                                            Principal principal) {
     log.info(principal.getName() + " is trying to assign paketId=" + paketId + " to contractId= " + contractId);
     contractService.assignPaketToContract(contractId, paketId);
+    return ResponseEntity.ok(convertDtoToMap(contractFacade.getEntityById(contractId)));
   }
 
   @DeleteMapping("/{contractId}/paket/{paketId}")
@@ -167,22 +177,26 @@ public class ContractController {
   }
 
   //Cards
+  @JsonView(Views.Extended.class)
   @PutMapping("/{contractId}/card/{cardId}")
   @ResponseStatus(HttpStatus.OK)
-  void assignCardToContract(@PathVariable(name = "contractId") Long contractId,
-                            @PathVariable(name = "cardId") Long cardId,
-                            Principal principal) {
+  ResponseEntity<Map<String, Object>> assignCardToContract(@PathVariable(name = "contractId") Long contractId,
+                                                           @PathVariable(name = "cardId") Long cardId,
+                                                           Principal principal) {
     log.info(principal.getName() + " is trying to assign cardId=" + cardId + " to contractId= " + contractId);
     contractService.assignCardToContract(contractId, cardId);
+    return ResponseEntity.ok(convertDtoToMap(contractFacade.getEntityById(contractId)));
   }
 
+  @JsonView(Views.Extended.class)
   @PutMapping("/{contractId}/cards")
   @ResponseStatus(HttpStatus.OK)
-  void assignCardsToContract(@PathVariable(name = "contractId") Long contractId,
-                             @RequestBody List<Card> cards,
-                             Principal principal) {
+  ResponseEntity<Map<String, Object>> assignCardsToContract(@PathVariable(name = "contractId") Long contractId,
+                                                            @RequestBody List<Card> cards,
+                                                            Principal principal) {
     log.info(principal.getName() + " is trying to assign cards" + cards + " to contractId= " + contractId);
     contractService.assignCardsToContract(contractId, cards);
+    return ResponseEntity.ok(convertDtoToMap(contractFacade.getEntityById(contractId)));
   }
 
   @DeleteMapping("/{contractId}/card/{cardId}")
@@ -191,7 +205,7 @@ public class ContractController {
                               @PathVariable(name = "cardId") Long cardId,
                               Principal principal) {
     log.info(principal.getName() + " is trying to delete cardId=" + cardId + " from contractId= " + contractId);
-    contractService.deleteCardFromContract(contractId, cardId);
+    contractService.deAssignCardFromContract(contractId, cardId);
   }
 
   @DeleteMapping("/{contractId}/cards")
@@ -200,7 +214,46 @@ public class ContractController {
                              @RequestBody List<Card> cards,
                              Principal principal) {
     log.info(principal.getName() + " is trying to delete cards" + cards + " from contractId= " + contractId);
-    contractService.deleteCardsFromContract(contractId, cards);
+    contractService.deAssignCardsFromContract(contractId, cards);
+  }
+
+  @JsonView(Views.Short.class)
+  @GetMapping("{contractId}/cards/short")
+  ResponseEntity<Map<String, Object>> getAllCardsForContractIdShort(
+      @PathVariable(name = "contractId") Long contractId,
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal) {
+    log.info(principal.getName() + " got all cards for contractId=" + contractId);
+    return ResponseEntity.ok(convertPageToMap(cardFacade.findAllCardsForContractId(contractId, pageable)));
+  }
+
+  @JsonView(Views.Ids.class)
+  @GetMapping("{contractId}/cards/ids")
+  ResponseEntity<Map<String, Object>> getAllCardsForContractIdIds(
+      @PathVariable(name = "contractId") Long contractId,
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal) {
+    log.info(principal.getName() + " got all cards for contractId=" + contractId);
+    return ResponseEntity.ok(convertPageToMap(cardFacade.findAllCardsForContractId(contractId, pageable)));
+  }
+
+  @JsonView(Views.Extended.class)
+  @GetMapping("{contractId}/cards")
+  ResponseEntity<Map<String, Object>> getAllCardsForContractIdExtended(
+      @PathVariable(name = "contractId") Long contractId,
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+      }) Pageable pageable,
+      Principal principal) {
+    log.info(principal.getName() + " got all cards for contractId=" + contractId);
+    return ResponseEntity.ok(convertPageToMap(cardFacade.findAllCardsForContractId(contractId, pageable)));
   }
 
 }

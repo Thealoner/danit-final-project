@@ -8,7 +8,6 @@ import com.danit.facades.ClientFacade;
 import com.danit.facades.ContractFacade;
 import com.danit.models.Client;
 import com.danit.models.Contract;
-import com.danit.services.ClientService;
 import com.danit.services.ContractService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.slf4j.Slf4j;
@@ -51,15 +50,11 @@ public class ClientController {
 
   private ContractFacade contractFacade;
 
-  private ClientService clientService;
-
   @Autowired
-  public ClientController(ClientFacade clientFacade, ClientService clientService,
-                          ContractService contractService, ContractFacade contractFacade) {
+  public ClientController(ClientFacade clientFacade, ContractService contractService, ContractFacade contractFacade) {
     this.clientFacade = clientFacade;
     this.contractService = contractService;
     this.contractFacade = contractFacade;
-    this.clientService = clientService;
   }
 
   @JsonView(Views.Extended.class)
@@ -140,7 +135,7 @@ public class ClientController {
     clientFacade.deleteEntities(clients);
   }
 
-  //related entities methods
+  //related entities methods--------------------------------------------------------------------------------------------
   @JsonView(Views.Extended.class)
   @PutMapping("/{clientId}/contract/{contractId}")
   @ResponseStatus(HttpStatus.OK)
@@ -159,9 +154,8 @@ public class ClientController {
                                                                @RequestBody List<Contract> contracts,
                                                                Principal principal) {
     log.info(principal.getName() + " is trying to create contracts: " + contracts + " for clientId= " + clientId);
-    Client client = clientService.getEntityById(clientId);
-    contracts.forEach(contract -> contract.setClient(client));
-    return ResponseEntity.ok(convertDtoToMap(contractFacade.saveEntities(contracts)));
+    contractService.createContractsForClient(clientId, contracts);
+    return ResponseEntity.ok(convertDtoToMap(clientFacade.getEntityById(clientId)));
   }
 
   @JsonView(Views.Ids.class)
@@ -191,7 +185,7 @@ public class ClientController {
   }
 
   @JsonView(Views.Extended.class)
-  @GetMapping("{clientId}/contracts/extended")
+  @GetMapping("{clientId}/contracts")
   ResponseEntity<Map<String, Object>> getAllContractsDtoForClientIdExtended(
       @PathVariable(name = "clientId") Long clientId,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)

@@ -7,4 +7,5 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ClientFacade extends AbstractDtoFacade<ClientDto, Client, ClientListRequestDto> {
+
 }

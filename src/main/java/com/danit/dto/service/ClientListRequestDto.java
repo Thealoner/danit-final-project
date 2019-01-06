@@ -1,15 +1,13 @@
 package com.danit.dto.service;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import java.util.Date;
-
+@EqualsAndHashCode(callSuper = true)
 @ToString
 @Data
-public class ClientListRequestDto {
-
-  public String search;
+public class ClientListRequestDto extends BaseListRequestDto {
 
   public String firstName;
 
@@ -17,12 +15,12 @@ public class ClientListRequestDto {
 
   public String gender;
 
-  public Date birthDate;
+  public String birthDate;
 
   public String phoneNumber;
 
   public String email;
 
-  public Boolean active;
+  public String active;
 
 }

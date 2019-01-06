@@ -24,4 +24,5 @@ public class ContractFacade extends AbstractDtoFacade<ContractDto, Contract, Con
   public Page<ContractDto> findAllContractsDtoForPaketId(Long paketId, Pageable pageable) {
     return convertToDtos(contractService.findAllContractsForClientId(paketId, pageable));
   }
+
 }

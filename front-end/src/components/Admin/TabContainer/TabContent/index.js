@@ -1,59 +1,30 @@
 import React, { Component } from 'react';
-import { setTabGridData } from '../../../../actions/tabActions';
-import { connect } from 'react-redux';
 import Grid from '../../Grid';
+import { Loader } from 'semantic-ui-react';
 import RecordEditor from '../../Record/RecordEditor';
 
 class TabContent extends Component {
-  state = {};
-
   render () {
     const { currentTab } = this.props;
 
-    if (!currentTab) {
-      return <div>Nothing here</div>;
-    }
-
-    if (currentTab.type === 'grid') {
+    if (currentTab.tabStatus === 'loading') {
       return (
         <div className="tabs__content">
-          <Grid currentTab={currentTab} />
+          <div className="tabs__loader-wrapper"><Loader active inline='centered' size='big'/></div>
         </div>
       );
-    }
-
-    if (currentTab.type === 'form') {
+    } else {
       return (
-        <div className="tabs__content">
-          <RecordEditor currentTab={currentTab} />
-        </div>
+        currentTab.type === 'grid'
+          ? <div className="tabs__content">
+            <Grid currentTab={currentTab} />
+          </div>
+          : <div className="tabs__content">
+            <RecordEditor currentTab={currentTab} />
+          </div>
       );
     }
-    
-    return (
-      <div className="tabs__content">{JSON.stringify(currentTab)}</div>
-    );
   }
 }
 
-const mapStateToProps = state => {
-  let currentTab = null;
-  
-  if (state.tabs.activeKey && state.tabs.tabsArray.length > 0) {
-    currentTab = state.tabs.tabsArray.filter(t => t.tabKey === state.tabs.activeKey)[0];
-  }
-
-  return {
-    currentTab
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    setTabGridData: (tabKey, payload) => {
-      dispatch(setTabGridData(tabKey, payload));
-    }
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(TabContent);
+export default TabContent;

@@ -141,7 +141,7 @@ public class ServiceCategoryController {
   //Services
 
   @JsonView(Views.Ids.class)
-  @GetMapping("{serviceCategoryId}/services/ids")
+  @GetMapping("/{serviceCategoryId}/services/ids")
   ResponseEntity<Map<String, Object>> getAllServiceCategoryServicesIds(
       @PathVariable(name = "serviceCategoryId")
           long id,
@@ -156,7 +156,7 @@ public class ServiceCategoryController {
   }
 
   @JsonView(Views.Short.class)
-  @GetMapping("{serviceCategoryId}/services/short")
+  @GetMapping("/{serviceCategoryId}/services/short")
   ResponseEntity<Map<String, Object>> getAllServiceCategoryServicesShort(
       @PathVariable(name = "serviceCategoryId")
           long id,
@@ -171,7 +171,7 @@ public class ServiceCategoryController {
   }
 
   @JsonView(Views.Extended.class)
-  @GetMapping("{serviceCategoryId}/services")
+  @GetMapping("/{serviceCategoryId}/services")
   ResponseEntity<Map<String, Object>> getAllServiceCategoryServicesExtended(@PathVariable(name = "serviceCategoryId")
                                                                                 long id,
                                                                             @PageableDefault(page = DEFAULT_PAGE_NUMBER,
@@ -186,24 +186,29 @@ public class ServiceCategoryController {
         .findAllServicesDtoForServiceCategoryId(id, pageable)));
   }
 
+  @JsonView(Views.Extended.class)
   @PutMapping("/{serviceCategoryId}/service/{serviceId}")
   @ResponseStatus(HttpStatus.OK)
-  void assignServiceToServiceCategory(@PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
-                                      @PathVariable(name = "serviceId") Long serviceId,
-                                      Principal principal) {
+  ResponseEntity<Map<String, Object>> assignServiceToServiceCategory(@PathVariable(name = "serviceCategoryId")
+                                                                         Long serviceCategoryId,
+                                                                     @PathVariable(name = "serviceId") Long serviceId,
+                                                                     Principal principal) {
     log.info(principal.getName() + " is trying to assign serviceId=" + serviceId +
         " to serviceCategoryId = " + serviceCategoryId);
     serviceCategoryService.assignServiceToServiceCategory(serviceCategoryId, serviceId);
+    return ResponseEntity.ok(convertDtoToMap(serviceCategoryFacade.getEntityById(serviceCategoryId)));
   }
 
   @PutMapping("/{serviceCategoryId}/services")
   @ResponseStatus(HttpStatus.OK)
-  void assignServicesToServiceCategory(@PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
-                                       @RequestBody List<Service> services,
-                                       Principal principal) {
+  ResponseEntity<Map<String, Object>> assignServicesToServiceCategory(@PathVariable(name = "serviceCategoryId")
+                                                                          Long serviceCategoryId,
+                                                                      @RequestBody List<Service> services,
+                                                                      Principal principal) {
     log.info(principal.getName() + " is trying to assign services" + services + " to serviceCategoryId = " +
         serviceCategoryId);
     serviceCategoryService.assignServicesToServiceCategory(serviceCategoryId, services);
+    return ResponseEntity.ok(convertDtoToMap(serviceCategoryFacade.getEntityById(serviceCategoryId)));
   }
 
   @DeleteMapping("/{serviceCategoryId}/service/{serviceId}")

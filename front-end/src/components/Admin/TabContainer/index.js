@@ -4,37 +4,42 @@ import { connect } from 'react-redux';
 import TabPane from './TabPane';
 import TabContent from './TabContent';
 import './index.scss';
+import logo from './logo.svg';
 
 class TabContainer extends Component {
   render () {
-    let {tabs, openTab} = this.props;
-    if (tabs.activeKey && tabs.tabsArray[tabs.activeKey] && tabs.tabsArray[tabs.activeKey].status === 'loading') {
+    let { tabs, openTab, currentTab } = this.props;
+
+    if (!currentTab) {
+      return <div className="tabs__logo-wrapper"><img src={logo} alt=""/></div>;
+    } else {
       return (
-        <div className="tabs">loading...</div>
+        <div className="tabs">
+          <TabPane tabs={tabs} onSelect={openTab} />
+          <TabContent currentTab={currentTab} />
+        </div>
       );
     }
-
-    return (
-      <div className="tabs">
-        <TabPane tabs={tabs} onSelect={openTab}/>
-        <TabContent/>
-      </div>
-    );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
+  let currentTab = null;
+
+  if (state.tabs.activeKey && state.tabs.tabsArray.length > 0) {
+    currentTab = state.tabs.tabsArray.filter(t => t.tabKey === state.tabs.activeKey)[0];
+  }
+
   return {
-    tabs: state.tabs
+    tabs: state.tabs,
+    currentTab
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    openTab: tabKey => {
-      dispatch(openTab(tabKey));
-    }
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  openTab: tabKey => {
+    dispatch(openTab(tabKey));
+  }
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(TabContainer);

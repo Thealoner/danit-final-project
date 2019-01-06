@@ -41,6 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
         .antMatchers("/socket/**").permitAll()
         .antMatchers(HttpMethod.GET, "/users/**").hasAuthority("ADMIN")
+        .antMatchers(HttpMethod.GET, "/roles/**").hasAuthority("ADMIN")
         .anyRequest().authenticated()
         .and()
         .addFilterBefore(new JwtAuthorizationFilter(authenticationManager(), userDetailsService),
