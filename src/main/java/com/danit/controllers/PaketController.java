@@ -48,7 +48,7 @@ public class PaketController {
   @JsonView(Views.Extended.class)
   @PostMapping
   public ResponseEntity<Map<String, Object>> createPakets(@RequestBody List<Paket> pakets, Principal principal) {
-    log.info(principal.getName() + " is saving new clients: " + pakets);
+    log.info(principal.getName() + " is saving new packets: " + pakets);
     return ResponseEntity.ok(convertDtoToMap(paketFacade.saveEntities(pakets)));
   }
 
