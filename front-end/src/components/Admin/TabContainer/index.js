@@ -4,22 +4,22 @@ import { connect } from 'react-redux';
 import TabPane from './TabPane';
 import TabContent from './TabContent';
 import './index.scss';
-import logo from './logo.svg';
 
 class TabContainer extends Component {
   render () {
     let { tabs, openTab, currentTab } = this.props;
 
-    if (!currentTab) {
-      return <div className="tabs__logo-wrapper"><img src={logo} alt=""/></div>;
-    } else {
-      return (
-        <div className="tabs">
-          <TabPane tabs={tabs} onSelect={openTab} />
-          <TabContent currentTab={currentTab} />
-        </div>
-      );
-    }
+    return (
+      <div className="tabs">
+        {currentTab
+          ? <>
+            <TabPane tabs={tabs} onSelect={openTab} />
+            <TabContent currentTab={currentTab} />
+            </>
+          : <></>
+        }
+      </div>
+    );
   }
 }
 

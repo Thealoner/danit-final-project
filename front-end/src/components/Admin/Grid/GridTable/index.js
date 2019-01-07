@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getFormData } from '../../../../actions/tabActions';
 import Tabulator from 'tabulator-tables';
+import './index.scss';
 
 class GridTable extends Component {
   tabulator = null;
@@ -10,7 +11,7 @@ class GridTable extends Component {
   rowClick = (e, row) => {
     const { currentTab, getFormData } = this.props;
 
-    getFormData(currentTab.tabKey, row.getData().id, 'edit');
+    getFormData(currentTab.tabKey, row.getData().id);
   };
 
   render () {

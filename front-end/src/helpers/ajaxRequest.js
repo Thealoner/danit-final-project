@@ -25,7 +25,7 @@ const _ajaxRequest = (url, method, body) => {
       options
     )
       .then(authService._checkStatus)
-      .then(response => response.json());
+      .then(response => { return method !== 'DELETE' ? response.json() : Promise.resolve(); });
   } else {
     console.log('Not logged in or token is expired');
   }

@@ -2,6 +2,7 @@
 
 .tabs {
   height: 100%;
+  background: url("./logo.svg") no-repeat center;
 
   &__pane {
     display: flex;
@@ -177,7 +178,6 @@
   }
 
   &__content {
-    position: relative;
     height: calc(100% - 36px);
     overflow-x: hidden;
     overflow-y: auto;
