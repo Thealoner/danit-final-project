@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getFormData } from '../../../../actions/tabActions';
 import Tabulator from 'tabulator-tables';
-// import { ReactTabulator } from 'react-tabulator';
-// import 'react-tabulator/lib/styles.css';
 
 class GridTable extends Component {
   tabulator = null;
@@ -16,20 +14,6 @@ class GridTable extends Component {
   };
 
   render () {
-    const { currentTab } = this.props;
-    console.log(currentTab.grid.columns);
-
-    /* return (
-      <ReactTabulator
-        data={currentTab.grid.data}
-        columns={currentTab.grid.columns}
-        rowClick={this.rowClick}
-        tooltips={true}
-        movableRows={false}
-        layout={'fitDataFill'}
-      />
-    ); */
-
     return (
       <div ref={el => (this.tabulatorTable = el)} className="tabulator"/>
     );
