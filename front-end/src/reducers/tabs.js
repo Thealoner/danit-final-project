@@ -1,5 +1,6 @@
 import { tab } from '../actions/types';
-import {getEntityByType} from '../components/Admin/gridEntities';
+import { getEntityByType } from '../components/Admin/gridEntities';
+import { updateCurrentTabAttributes } from '../helpers/reducerHelper';
 
 const initialState = {
   tabsArray: [],
@@ -178,30 +179,5 @@ export default function tabsReducer (state = initialState, action) {
     default: {
       return state;
     }
-  }
-
-  function updateCurrentTabAttributes (state, newAttributes) {
-    return updateTabAttributes(state, newAttributes, state.activeKey);
-  }
-
-  function updateTabAttributes (state, newAttributes, tabKey) {
-    const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === tabKey);
-    const newTabsArray = state.tabsArray.map((value, index) => {
-      if (index === tabIndex) {
-        return {
-          ...value,
-          ...newAttributes
-        };
-      } else {
-        return value;
-      }
-    });
-
-    const newState = {
-      ...state,
-      tabsArray: newTabsArray
-    };
-
-    return newState;
   }
 }
