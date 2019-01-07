@@ -129,7 +129,7 @@ export const getFormData = (tabKey, id, mode) => {
 export const saveFormData = (tabKey, formData, columns) => {
   return (dispatch) => {
     dispatch(loadingTab());
-    ajaxRequest.post(
+    ajaxRequest.put(
       '/' + tabKey,
       JSON.stringify([formData])
     )
