@@ -105,7 +105,6 @@ export const getFormData = (tabKey, id, mode) => {
     ajaxRequest.get('/' + tabKey + '/' + id)
       .then(
         response => {
-          console.log(response)
           dispatch(setFormData(tabKey, {
             mode: mode,
             id: id,
@@ -130,7 +129,7 @@ export const getFormData = (tabKey, id, mode) => {
 export const saveFormData = (tabKey, formData, columns) => {
   return (dispatch) => {
     dispatch(loadingTab());
-    ajaxRequest.post(
+    ajaxRequest.put(
       '/' + tabKey,
       JSON.stringify([formData])
     )
