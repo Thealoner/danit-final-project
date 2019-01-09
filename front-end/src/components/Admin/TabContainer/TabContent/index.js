@@ -14,10 +14,13 @@ class TabContent extends Component {
     } else if (currentTab.type === 'grid') {
       content = <Grid currentTab={currentTab} />;
     } else if (currentTab.type === 'form') {
-      if (currentTab.tabKey === 'services') {
-        content = <Service currentTab={currentTab} />;
-      } else {
-        content = <RecordEditor currentTab={currentTab} />;
+      switch (currentTab.tabKey) {
+        case 'services':
+          content = <Service currentTab={currentTab} />;
+          break;
+
+        default:
+          content = <RecordEditor currentTab={currentTab} />;
       }
     }
 

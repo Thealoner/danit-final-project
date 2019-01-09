@@ -119,8 +119,8 @@ const gridEntities = [
     columns: [
       { title: 'ID', field: 'id' },
       { title: 'Название', field: 'title' },
-      { title: 'Категория', field: 'serviceCategory.title' },
-      { title: 'service_qty', field: 'service_qty' },
+      // { title: 'Категория', field: 'serviceCategory.title' },
+      // { title: 'service_qty', field: 'service_qty' },
       { title: 'Цена', field: 'price', align: 'left' },
       { title: 'Себестоимость', field: 'cost', align: 'left' },
       { title: 'Единица измерения', field: 'unit', align: 'left' },
