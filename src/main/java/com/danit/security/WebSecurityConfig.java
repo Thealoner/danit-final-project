@@ -45,6 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .csrf().disable()
         .authorizeRequests()
         .antMatchers(webSocketUtils.getStompEndpoint() + "/**").permitAll()
+        .antMatchers("/h2-console/**").permitAll()
         .antMatchers(HttpMethod.GET, "/users/**").hasAuthority("ADMIN")
         .antMatchers(HttpMethod.GET, "/roles/**").hasAuthority("ADMIN")
         .anyRequest().authenticated()
