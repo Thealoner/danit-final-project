@@ -4,6 +4,7 @@ package com.danit.models;
 import com.danit.models.auditor.Auditable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -23,6 +24,7 @@ import java.util.Objects;
 @Table(name = "cards")
 @NoArgsConstructor
 @ToString(exclude = {"contract"})
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Data
 public class Card extends Auditable implements BaseEntity {
 
@@ -30,6 +32,7 @@ public class Card extends Auditable implements BaseEntity {
   @SequenceGenerator(name = "card_sequence", sequenceName = "card_sequence", allocationSize = 1, initialValue = 1001)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "card_sequence")
   @Column(name = "id")
+  @EqualsAndHashCode.Include
   private Long id;
 
   @Column(name = "card_code", unique = true)
@@ -42,23 +45,6 @@ public class Card extends Auditable implements BaseEntity {
   @JoinColumn(name = "contract_id")
   @JsonIgnore
   private Contract contract;
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null || getClass() != obj.getClass()) {
-      return false;
-    }
-    Card card = (Card) obj;
-    return Objects.equals(id, card.id);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id);
-  }
 
 }
 

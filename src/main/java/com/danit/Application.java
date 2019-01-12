@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = "com.danit.repositories")
-@Configuration
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 @EnableTransactionManagement
 public class Application {

@@ -37,7 +37,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http
         .cors()
         .and()
-        .csrf().disable()
         .authorizeRequests()
         .antMatchers("/socket/**").permitAll()
         .antMatchers(HttpMethod.GET, "/users/**").hasAuthority("ADMIN")
@@ -54,24 +53,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.authenticationProvider(authenticationProvider());
-  }
-
-  @Bean
-  CorsConfigurationSource corsConfigurationSource() {
-    CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowCredentials(true);
-    configuration.setAllowedOrigins(Arrays.asList("*"));
-    configuration.setAllowedHeaders(Arrays.asList("Access-Control-Allow-Headers", "Access-Control-Allow-Origin",
-        "Access-Control-Request-Method", "Access-Control-Request-Headers", "Origin", "Cache-Control",
-        "Content-Type", "Authorization", "X-Frame-Options"));
-    configuration.setAllowedMethods(Arrays.asList("DELETE", "GET", "POST", "PATCH", "PUT"));
-    // This allow us to expose the headers
-    configuration.setExposedHeaders(Arrays.asList("Access-Control-Allow-Headers", "Authorization, x-xsrf-token, " +
-        "Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, " +
-        "Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers", "X-Frame-Options"));
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", configuration);
-    return source;
   }
 
   @Bean

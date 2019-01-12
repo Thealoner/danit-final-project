@@ -4,6 +4,7 @@ package com.danit.models;
 import com.danit.models.auditor.Auditable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -32,12 +33,14 @@ import java.util.Objects;
 @JsonIgnoreProperties(value = {"paket", "client"}, allowSetters = true, ignoreUnknown = true)
 @EntityListeners(AuditingEntityListener.class)
 @ToString(exclude = {"client", "paket", "cards"}, callSuper = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Data
 public class Contract extends Auditable implements BaseEntity {
   @Id
   @SequenceGenerator(name = "contract_sequence", sequenceName = "contract_sequence", allocationSize = 1, initialValue = 1001)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "contract_sequence")
   @Column(name = "id")
+  @EqualsAndHashCode.Include
   private Long id;
 
   @Column(name = "start_date")
@@ -64,22 +67,5 @@ public class Contract extends Auditable implements BaseEntity {
 
   @OneToMany(mappedBy = "contract", fetch = FetchType.EAGER)
   private List<Card> cards;
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null || getClass() != obj.getClass()) {
-      return false;
-    }
-    Contract contract = (Contract) obj;
-    return Objects.equals(id, contract.id);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id);
-  }
 
 }

@@ -2,6 +2,7 @@ package com.danit.models;
 
 import com.danit.models.auditor.Auditable;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -24,6 +25,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @ToString(exclude = {"contracts"}, callSuper = true)
 @EntityListeners(AuditingEntityListener.class)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Data
 public class Paket extends Auditable implements BaseEntity {
 
@@ -31,6 +33,7 @@ public class Paket extends Auditable implements BaseEntity {
   @SequenceGenerator(name = "paket_sequence", sequenceName = "paket_sequence", allocationSize = 1, initialValue = 1001)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "paket_sequence")
   @Column(name = "id")
+  @EqualsAndHashCode.Include
   private Long id;
 
   @Column(name = "title")
@@ -86,22 +89,5 @@ public class Paket extends Auditable implements BaseEntity {
 
   @OneToMany(mappedBy = "paket", fetch = FetchType.EAGER)
   private List<Contract> contracts;
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null || getClass() != obj.getClass()) {
-      return false;
-    }
-    Paket paket = (Paket) obj;
-    return Objects.equals(id, paket.id);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id);
-  }
 
 }

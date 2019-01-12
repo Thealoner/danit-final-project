@@ -10,19 +10,19 @@ import lombok.ToString;
 @Data
 public class PageDataDto {
 
-  @JsonView({Views.Extended.class, Views.Short.class, Views.Ids.class})
+  @JsonView({Views.Extended.class, Views.Ids.class})
   long totalElements;
 
-  @JsonView({Views.Extended.class, Views.Short.class, Views.Ids.class})
+  @JsonView({Views.Extended.class, Views.Ids.class})
   int currentPage;
 
-  @JsonView({Views.Extended.class, Views.Short.class, Views.Ids.class})
+  @JsonView({Views.Extended.class, Views.Ids.class})
   int pagesTotal;
 
-  @JsonView({Views.Extended.class, Views.Short.class, Views.Ids.class})
+  @JsonView({Views.Extended.class, Views.Ids.class})
   int elementsPerPage;
 
-  @JsonView({Views.Extended.class, Views.Short.class, Views.Ids.class})
+  @JsonView({Views.Extended.class, Views.Ids.class})
   int currentElements;
 
 }
