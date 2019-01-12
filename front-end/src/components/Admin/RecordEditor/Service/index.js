@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import {
+  cancelEditFormData,
+  saveFormData,
+  deleteCurrentEntityItem,
+  storeTabTmpFormData
+} from '../../../../actions/tabActions';
 
 class Service extends Component {
   handlesubmit = event => {
@@ -8,6 +15,9 @@ class Service extends Component {
   }
   
   render () {
+    let { currentTab } = this.props;
+    let { data } = currentTab.form;
+
     return (
       <>
         <form onSubmit={this.handlesubmit} className="record">
@@ -37,7 +47,10 @@ class Service extends Component {
               <label className="control-label" htmlFor="active">Активен</label>
               <Field name="active" component="input" type="text" />
             </div>
-            <button type="submit">Submit</button>
+
+            <button type="submit" class="record__button">Сохранить</button>
+            <button type="button" class="record__button">Удалить</button>
+            <button type="button" class="record__button">Отмена</button>
           </div>
         </form>
       </>
@@ -45,4 +58,23 @@ class Service extends Component {
   }
 };
 
-export default reduxForm({ form: 'service' })(Service);
+Service = reduxForm({ form: 'service' })(Service)
+
+const mapDispatchToProps = dispatch => {
+  return {
+    storeTmpFormData: (payload) => {
+      dispatch(storeTabTmpFormData(payload));
+    },
+    saveData: (tabKey, formData, columns, mode, page) => {
+      dispatch(saveFormData(tabKey, formData, columns, mode, page));
+    },
+    deleteData: (tabKey, formData, columns, page) => {
+      dispatch(deleteCurrentEntityItem(tabKey, formData, columns, page));
+    },
+    cancelData: () => {
+      dispatch(cancelEditFormData());
+    }
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Service);
