@@ -1,0 +1,91 @@
+@import "../../../../variables";
+
+.tabulator {
+  width: 100%;
+  background-color: $white !important;
+  border-left: 1px solid $white !important;
+
+  &-header {
+    height: 40px;
+    font-size: 14px;
+    line-height: normal;
+    border-bottom: 1px solid $white !important;
+
+    ::-webkit-scrollbar-track {
+      visibility: hidden;
+    }
+  }
+
+  &-headers {
+    display: flex;
+    height: 100%;
+    overflow-y: scroll;
+  }
+
+  &-table {
+    width: 100%;
+  }
+
+  &-tableHolder {
+    overflow-y: scroll !important;
+  }
+
+  &-sortable {
+    display: inline-flex !important;
+    flex-grow: 1;
+    justify-content: left;
+    align-items: center;
+    height: 100%;
+
+    &:not([aria-sort='none']) {
+      background-color: #d9d5e4 !important;
+    }
+  }
+
+  &-cell {
+    display: inline-flex !important;
+    flex-grow: 1;
+    justify-content: left;
+    align-items: center;
+    height: 40px;
+    font-size: 13px;
+
+    &[tabulator-field="firstName"],
+    &[tabulator-field="lastName"] {
+      color: $butterfly-bush !important;
+      font-weight: bold;
+    }
+
+    &[tabulator-field="email"] {
+      color: $kimberly !important;
+    }
+  }
+
+  &-row {
+    display: flex;
+    background-color: $white;
+    border-radius: 3px;
+
+    &-even {
+      background-color: #f9f9f9 !important;
+      border-top: 3px solid $whisper;
+      border-bottom: 3px solid $whisper;
+    }
+
+    &:hover {
+      background-color: $gallery !important;
+    }
+  }
+}
+
+.fas {
+  font-size: 20px;
+}
+
+.fa-female {
+  color: $hot-pink;
+}
+
+.fa-male {
+  color: $blue-bayoux;
+}

@@ -1,5 +1,6 @@
 import { tab } from '../actions/types';
-import {getEntityByType} from '../components/Admin/gridEntities';
+import { getEntityByType } from '../components/Admin/gridEntities';
+import { updateCurrentTabAttributes } from '../helpers/reducerHelper';
 
 const initialState = {
   tabsArray: [],
@@ -118,7 +119,9 @@ export default function tabsReducer (state = initialState, action) {
 
       if (action.payload.data) {
         newTabData.grid = {
-          ...action.payload
+          data: action.payload.data,
+          meta: action.payload.meta,
+          columns: action.payload.columns
         };
       }
 
@@ -134,7 +137,9 @@ export default function tabsReducer (state = initialState, action) {
 
       if (action.payload) {
         newTabData.form = {
-          ...action.payload,
+          mode: action.payload.mode,
+          data: action.payload.data,
+          meta: action.payload.meta,
           edited: false
         };
       }
@@ -153,6 +158,14 @@ export default function tabsReducer (state = initialState, action) {
       return updateCurrentTabAttributes(state, newTabData);
     }
 
+    case tab.CHANGE_FILTER_STATUS: {
+      const newTabData = {
+        filtered: action.filtered
+      };
+
+      return updateCurrentTabAttributes(state, newTabData);
+    }
+
     case tab.STORE_TMP_FORM_DATA: {
       const newTabData = {
         form: {
@@ -166,30 +179,5 @@ export default function tabsReducer (state = initialState, action) {
     default: {
       return state;
     }
-  }
-
-  function updateCurrentTabAttributes (state, newAttributes) {
-    return updateTabAttributes(state, newAttributes, state.activeKey);
-  }
-
-  function updateTabAttributes (state, newAttributes, tabKey) {
-    const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === tabKey);
-    const newTabsArray = state.tabsArray.map((value, index) => {
-      if (index === tabIndex) {
-        return {
-          ...value,
-          ...newAttributes
-        };
-      } else {
-        return value;
-      }
-    });
-
-    const newState = {
-      ...state,
-      tabsArray: newTabsArray
-    };
-
-    return newState;
   }
 }

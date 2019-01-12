@@ -4,51 +4,42 @@ import 'tabulator-tables/dist/css/tabulator.min.css';
 import Form from 'react-jsonschema-form';
 import {toastr} from 'react-redux-toastr';
 import {connect} from 'react-redux';
+import './index.scss';
 import {
   cancelEditFormData,
   saveFormData,
+  deleteCurrentEntityItem,
   storeTabTmpFormData
-} from '../../../../actions/tabActions';
-import { getEntityByType } from '../../gridEntities';
+} from '../../../actions/tabActions';
+import { getEntityByType } from '../gridEntities';
 
 class RecordEditor extends Component {
-  /* putData = form => {
-    const { currentTab, persistFormData } = this.props;
-
-    ajaxRequest.put(
-      '/' + currentTab.tabKey,
-      JSON.stringify([form.formData])
-    )
-      .then(json => {
-        persistFormData(currentTab.tabKey, json);
-        toastr.success('Данные успешно сохранены');
-      })
-      .catch(error => {
-        toastr.error('Ошибка при сохранении', error);
-      });
-  }; */
-
   changeData = form => {
     const { currentTab, storeTmpFormData } = this.props;
-    storeTmpFormData(currentTab.tabKey, { ...currentTab.form, data: form.formData });
+
+    storeTmpFormData({ ...currentTab.form, data: form.formData });
   };
 
   render () {
-    const { currentTab, saveData, cancelData } = this.props;
+    const { currentTab, saveData, deleteData, cancelData } = this.props;
+    const {currentPage} = currentTab.grid.meta;
     const entity = getEntityByType(currentTab.tabKey);
-    // const mode = currentTab.form.mode;
+    const mode = currentTab.form.mode;
 
     return (
       <Fragment>
-        <Form
+        <Form className='record'
           schema={entity.schema}
           uiSchema={entity.uiSchema}
           formData={currentTab.form.data}
           autocomplete='off'
           onChange={this.changeData}
-          onSubmit={(form) => saveData(currentTab.tabKey, form.formData, currentTab.grid.columns)}
+          onSubmit={(form) => saveData(currentTab.tabKey, form.formData, currentTab.grid.columns, mode, currentPage)}
           onError={() => toastr.error('Пожалуйста, проверьте введеные данные')}>
           <button type='submit' className='record__button'>Сохранить</button>
+          <button type='button' className='record__button' onClick={
+            () => deleteData(currentTab.tabKey, currentTab.form.data, currentTab.grid.columns, currentPage)
+          }>Удалить</button>
           <button type='button' className='record__button' onClick={() => cancelData()}>Отмена</button>
         </Form>
       </Fragment>
@@ -58,11 +49,14 @@ class RecordEditor extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    storeTmpFormData: (tabKey, payload) => {
-      dispatch(storeTabTmpFormData(tabKey, payload));
+    storeTmpFormData: (payload) => {
+      dispatch(storeTabTmpFormData(payload));
     },
-    saveData: (tabKey, formData, columns) => {
-      dispatch(saveFormData(tabKey, formData, columns));
+    saveData: (tabKey, formData, columns, mode, page) => {
+      dispatch(saveFormData(tabKey, formData, columns, mode, page));
+    },
+    deleteData: (tabKey, formData, columns, page) => {
+      dispatch(deleteCurrentEntityItem(tabKey, formData, columns, page));
     },
     cancelData: () => {
       dispatch(cancelEditFormData());

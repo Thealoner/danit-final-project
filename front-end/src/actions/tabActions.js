@@ -63,16 +63,22 @@ export const cancelEditFormData = () => {
   };
 };
 
-export const storeTabTmpFormData = (tabKey, payload) => {
+export const changeFilterStatus = (filtered) => {
+  return {
+    type: tab.CHANGE_FILTER_STATUS,
+    filtered: filtered
+  };
+};
+
+export const storeTabTmpFormData = (payload) => {
   return {
     type: tab.STORE_TMP_FORM_DATA,
-    tabKey,
     payload
   };
 };
 
 // using catch method in thunk action creators is not recommended
-export const getGridData = ({tabKey, page = 1, size = 3, filterString = '', columns} = {}) => {
+export const getGridData = ({tabKey, page = 1, size = 4, filterString = '', columns, filtered = false} = {}) => {
   return (dispatch) => {
     dispatch(loadingGrid());
     ajaxRequest.get('/' + tabKey + '?page=' + page + '&size=' + size + filterString)
@@ -86,50 +92,37 @@ export const getGridData = ({tabKey, page = 1, size = 3, filterString = '', colu
           }));
           dispatch(doneTab());
           dispatch(doneGrid());
+          dispatch(changeFilterStatus(filtered));
         },
         error => {
-          dispatch(setGridData(tabKey, {
-            data: [],
-            meta: {},
-            columns: columns,
-            type: 'grid'
-          }));
           toastr.error(error.message);
         });
   };
 };
 
-export const getFormData = (tabKey, id, mode) => {
+export const getFormData = (tabKey, id) => {
   return (dispatch) => {
     dispatch(loadingTab());
     ajaxRequest.get('/' + tabKey + '/' + id)
       .then(
         response => {
           dispatch(setFormData(tabKey, {
-            mode: mode,
-            id: id,
+            mode: 'edit',
             type: 'form',
             ...response
           }));
           dispatch(doneTab());
         },
         error => {
-          dispatch(setFormData(tabKey, {
-            mode: mode,
-            id: id,
-            type: 'form',
-            data: [],
-            meta: {}
-          }));
           toastr.error(error.message);
         });
   };
 };
 
-export const saveFormData = (tabKey, formData, columns) => {
+export const saveFormData = (tabKey, formData, columns, mode, page) => {
   return (dispatch) => {
     dispatch(loadingTab());
-    ajaxRequest.post(
+    ajaxRequest.put(
       '/' + tabKey,
       JSON.stringify([formData])
     )
@@ -137,13 +130,38 @@ export const saveFormData = (tabKey, formData, columns) => {
         dispatch(cancelEditFormData());
         dispatch(getGridData({
           tabKey: tabKey,
-          columns: columns
+          columns: columns,
+          page: page
         }));
         toastr.success('Данные успешно сохранены');
       },
       () => {
         dispatch(doneTab());
         toastr.error('Ошибка при сохранении');
+      }
+      );
+  };
+};
+
+export const deleteCurrentEntityItem = (tabKey, formData, columns, page) => {
+  return (dispatch) => {
+    dispatch(loadingTab());
+    ajaxRequest.delete(
+      '/' + tabKey,
+      JSON.stringify([{ id: formData.id }])
+    )
+      .then(() => {
+        dispatch(cancelEditFormData());
+        dispatch(getGridData({
+          tabKey: tabKey,
+          columns: columns,
+          page: page
+        }));
+        toastr.success('Данные успешно удалены');
+      },
+      () => {
+        dispatch(doneTab());
+        toastr.error('Ошибка при удалении');
       }
       );
   };
