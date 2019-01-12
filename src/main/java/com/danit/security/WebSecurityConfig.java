@@ -1,6 +1,7 @@
 package com.danit.security;
 
 import com.danit.ApplicationProperties;
+import com.danit.utils.WebSocketUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -24,9 +25,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   private UserDetailsService userDetailsService;
 
-  WebSecurityConfig(ApplicationProperties applicationProperties, UserDetailsService userDetailsService) {
+  private WebSocketUtils webSocketUtils;
+
+  WebSecurityConfig(ApplicationProperties applicationProperties, UserDetailsService userDetailsService,
+                    WebSocketUtils webSocketUtils) {
     this.applicationProperties = applicationProperties;
     this.userDetailsService = userDetailsService;
+    this.webSocketUtils = webSocketUtils;
   }
 
   @Override
@@ -39,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .csrf().disable()
         .authorizeRequests()
-        .antMatchers("/socket/**").permitAll()
+        .antMatchers(webSocketUtils.getStompEndpoint() + "/**").permitAll()
         .antMatchers(HttpMethod.GET, "/users/**").hasAuthority("ADMIN")
         .antMatchers(HttpMethod.GET, "/roles/**").hasAuthority("ADMIN")
         .anyRequest().authenticated()

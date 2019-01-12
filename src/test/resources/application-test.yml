@@ -42,7 +42,7 @@ global:
 #Application constants
 application:
   auth: "/auth"
-  authTokenExpTime: 864_000_000
+  authTokenExpTime: 864000000
   authTokenPrefix: "Bearer "
   authHeaderName: "Authorization"
   secretKey: "fs4SecretKey"

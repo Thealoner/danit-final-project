@@ -6,6 +6,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.danit.ApplicationProperties;
 import com.danit.exceptions.InvalidJwtTokenException;
+import com.danit.utils.WebSocketUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -36,26 +37,28 @@ import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
 @Slf4j
 public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer {
 
-  private static final String MESSAGE_PREFIX = "/events";
+  private WebSocketUtils webSocketUtils;
 
   private UserDetailsService userDetailsService;
 
   private ApplicationProperties applicationProperties;
 
-  public WebSocketConfiguration(UserDetailsService userDetailsService, ApplicationProperties applicationProperties) {
+  public WebSocketConfiguration(WebSocketUtils webSocketUtils, UserDetailsService userDetailsService,
+                                ApplicationProperties applicationProperties) {
+    this.webSocketUtils = webSocketUtils;
     this.userDetailsService = userDetailsService;
     this.applicationProperties = applicationProperties;
   }
 
   @Override
   public void registerStompEndpoints(StompEndpointRegistry registry) {
-    registry.addEndpoint("/socket").setAllowedOrigins("*").withSockJS();
-    registry.addEndpoint("/socket").setAllowedOrigins("*");
+    registry.addEndpoint(webSocketUtils.getStompEndpoint()).setAllowedOrigins("*").withSockJS();
+    registry.addEndpoint(webSocketUtils.getStompEndpoint()).setAllowedOrigins("*");
   }
 
   @Override
   public void configureMessageBroker(MessageBrokerRegistry registry) {
-    registry.enableSimpleBroker(MESSAGE_PREFIX);
+    registry.enableSimpleBroker(webSocketUtils.getPrefix());
     registry.setApplicationDestinationPrefixes("/app");
   }
 
