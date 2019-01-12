@@ -38,3 +38,11 @@ global:
     pattern: dd-MM-yyyy
   date-time:
     pattern: dd-MM-yyyy HH-mm-ss
+
+#Application constants
+application:
+  auth: "/auth"
+  authTokenExpTime: 864_000_000
+  authTokenPrefix: "Bearer "
+  authHeaderName: "Authorization"
+  secretKey: "fs4SecretKey"

@@ -1,5 +1,6 @@
 package com.danit.security;
 
+import com.danit.ApplicationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,16 +20,20 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+  private ApplicationProperties applicationProperties;
+
   private UserDetailsService userDetailsService;
 
-  WebSecurityConfig(UserDetailsService userDetailsService) {
+  WebSecurityConfig(ApplicationProperties applicationProperties, UserDetailsService userDetailsService) {
+    this.applicationProperties = applicationProperties;
     this.userDetailsService = userDetailsService;
   }
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager());
-    jwtAuthenticationFilter.setFilterProcessesUrl("/auth");
+    JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager(),
+        applicationProperties);
+    jwtAuthenticationFilter.setFilterProcessesUrl(applicationProperties.getAuth());
     http
         .cors()
         .and()
@@ -39,7 +44,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.GET, "/roles/**").hasAuthority("ADMIN")
         .anyRequest().authenticated()
         .and()
-        .addFilterBefore(new JwtAuthorizationFilter(authenticationManager(), userDetailsService),
+        .addFilterBefore(new JwtAuthorizationFilter(authenticationManager(),
+                userDetailsService, applicationProperties),
             BasicAuthenticationFilter.class)
         .addFilterBefore(jwtAuthenticationFilter,
             UsernamePasswordAuthenticationFilter.class)
