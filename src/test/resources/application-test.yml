@@ -46,3 +46,12 @@ application:
   authTokenPrefix: "Bearer "
   authHeaderName: "Authorization"
   secretKey: "fs4SecretKey"
+
+#Websocket constants
+websocket:
+  stompEndpoint: "/socket"
+  prefix: "/events"
+  postEventEndPoint: "/events/post"
+  putEventEndPoint: "/events/put"
+  deleteEventEndPoint: "/events/delete"
+  getEventEndPoint: "/events/get"
