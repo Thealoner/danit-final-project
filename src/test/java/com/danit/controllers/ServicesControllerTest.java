@@ -75,7 +75,7 @@ public class ServicesControllerTest {
     List<Service> services = new ArrayList<>(10);
     for (int i = 0; i < 10; i++) {
       Service service = new Service();
-      service.setTitle("TestServiceTitle" + (i+1));
+      service.setTitle("TestServiceTitle" + (i + 1));
       services.add(service);
     }
 
@@ -97,7 +97,7 @@ public class ServicesControllerTest {
     List<Service> services = new ArrayList<>(10);
     for (int i = 10; i < 20; i++) {
       Service service = new Service();
-      service.setTitle("TestServiceTitle " + (i+1));
+      service.setTitle("TestServiceTitle " + (i + 1));
       services.add(service);
     }
 
@@ -114,7 +114,7 @@ public class ServicesControllerTest {
   }
 
   @Test
-  public void  readServices() throws Exception {
+  public void readServices() throws Exception {
     long count = serviceRepository.count();
 
     this.mockMvc.perform(get(url).headers(headers))
@@ -144,7 +144,7 @@ public class ServicesControllerTest {
             "{" +
             "  \"id\":  2," +
             "  \"title\": \"Updated title\" " +
-            "}]" ))
+            "}]"))
         .andExpect(status().isOk());
 
     Service service = servicesService.getEntityById(2);
@@ -163,7 +163,7 @@ public class ServicesControllerTest {
         .content("[" +
             "{" +
             "  \"id\":  4" +
-            "}]" ))
+            "}]"))
         .andExpect(status().isOk());
 
 
@@ -180,7 +180,7 @@ public class ServicesControllerTest {
   @Test
   public void readServicesServiceCategories() throws Exception {
 
-    this.mockMvc.perform(get(url+"/1/service_category").headers(headers))
+    this.mockMvc.perform(get(url + "/1/service_category").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.totalElements").value(2));
 
