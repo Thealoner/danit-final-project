@@ -4,7 +4,7 @@ import { Loader } from 'semantic-ui-react';
 
 class Service extends Component {
   render () {
-    let { currentTab, handlesubmit, pristine, submitting } = this.props;
+    let { currentTab, handleSubmit, pristine, submitting } = this.props;
     let { data } = currentTab.form;
 
     if (!data) {
@@ -12,7 +12,7 @@ class Service extends Component {
     }
 
     return (
-      <form onSubmit={handlesubmit} className="record">
+      <form onSubmit={handleSubmit} className="record">
         <div className="form-group field field-object">
           <p>ID:</p>
           <div className="form-group field field-string">

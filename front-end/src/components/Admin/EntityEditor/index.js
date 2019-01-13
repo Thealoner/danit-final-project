@@ -9,18 +9,17 @@ import {
 import Service from './Service';
 
 class EntityEditor extends Component {
-  // onSubmit = data => {
-  //   let { currentTab, saveData } = this.props;
-  //   debugger;
-  //   saveData(currentTab.tabKey, data, currentTab.grid.columns, 'edit', 1);
-  // }
+  onSubmit = values => {
+    let { currentTab } = this.props;
+    this.props.saveData(currentTab.tabKey, values, currentTab.grid.columns, 'edit', 1);
+  }
   
   render () {
-    let { currentTab, onSubmit } = this.props;
+    let { currentTab } = this.props;
 
     switch (currentTab.tabKey) {
       case 'services':
-        return <Service onSubmit={onSubmit} currentTab={currentTab}/>;
+        return <Service onSubmit={this.onSubmit} currentTab={currentTab}/>;
       default:
         return <h1>Form component for this entity is not defined.</h1>;
     }
@@ -40,10 +39,6 @@ const mapDispatchToProps = dispatch => {
     },
     cancelData: () => {
       dispatch(cancelEditFormData());
-    },
-    onSubmit: values => {
-      console.log(values);
-      debugger;
     }
   };
 };
