@@ -1,26 +1,20 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { connect } from 'react-redux';
-import {
-  cancelEditFormData,
-  saveFormData,
-  deleteCurrentEntityItem,
-  storeTabTmpFormData
-} from '../../../../actions/tabActions';
+import { Loader } from 'semantic-ui-react';
 
 class Service extends Component {
-  handlesubmit = event => {
-    event.preventDefault();
-    console.log(event.target);
-  }
-  
   render () {
-    let { currentTab } = this.props;
+    let { currentTab, initialize, handlesubmit } = this.props;
     let { data } = currentTab.form;
+    initialize(data);
+
+    if (!data) {
+      return <div className="tabs__loader-wrapper"><Loader active inline='centered' size='big'/></div>;
+    }
 
     return (
       <>
-        <form onSubmit={this.handlesubmit} className="record">
+        <form onSubmit={handlesubmit} className="record">
           <div className="form-group field field-object">
             <p>ID:</p>
             <div className="form-group field field-string">
@@ -48,9 +42,9 @@ class Service extends Component {
               <Field name="active" component="input" type="text" />
             </div>
 
-            <button type="submit" class="record__button">Сохранить</button>
-            <button type="button" class="record__button">Удалить</button>
-            <button type="button" class="record__button">Отмена</button>
+            <button type="submit" className="record__button">Сохранить</button>
+            <button type="button" className="record__button">Удалить</button>
+            <button type="button" className="record__button">Отмена</button>
           </div>
         </form>
       </>
@@ -58,23 +52,6 @@ class Service extends Component {
   }
 };
 
-Service = reduxForm({ form: 'service' })(Service)
+let reduxFormService = reduxForm({ form: 'service' })(Service);
 
-const mapDispatchToProps = dispatch => {
-  return {
-    storeTmpFormData: (payload) => {
-      dispatch(storeTabTmpFormData(payload));
-    },
-    saveData: (tabKey, formData, columns, mode, page) => {
-      dispatch(saveFormData(tabKey, formData, columns, mode, page));
-    },
-    deleteData: (tabKey, formData, columns, page) => {
-      dispatch(deleteCurrentEntityItem(tabKey, formData, columns, page));
-    },
-    cancelData: () => {
-      dispatch(cancelEditFormData());
-    }
-  };
-};
-
-export default connect(null, mapDispatchToProps)(Service);
+export default reduxFormService;

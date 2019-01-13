@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Grid from '../../Grid';
 import { Loader } from 'semantic-ui-react';
 import RecordEditor from '../../RecordEditor';
-import Service from '../../RecordEditor/Service';
+import EntityEditor from '../../EntityEditor';
 
 class TabContent extends Component {
   render () {
@@ -16,7 +16,7 @@ class TabContent extends Component {
     } else if (currentTab.type === 'form') {
       switch (currentTab.tabKey) {
         case 'services':
-          content = <Service currentTab={currentTab} />;
+          content = <EntityEditor currentTab={currentTab} />;
           break;
 
         default:
