@@ -1,6 +1,7 @@
 package com.danit.controllers;
 
 
+import com.danit.ApplicationProperties;
 import com.danit.dto.ClientDto;
 import com.danit.dto.Views;
 import com.danit.dto.service.ClientListRequestDto;
@@ -43,7 +44,8 @@ import static com.danit.utils.ControllerUtils.convertPageToMap;
 public class ClientController {
 
   private static final String LOG_MSG_GOT_ALL_DATA = " got all clients data";
-
+  @Autowired
+  ApplicationProperties applicationProperties;
   private ClientFacade clientFacade;
 
   private ContractService contractService;

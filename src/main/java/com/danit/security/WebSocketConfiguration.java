@@ -4,9 +4,10 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.danit.ApplicationProperties;
 import com.danit.exceptions.InvalidJwtTokenException;
+import com.danit.utils.WebSocketUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.messaging.Message;
@@ -36,20 +37,28 @@ import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
 @Slf4j
 public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer {
 
-  private static final String MESSAGE_PREFIX = "/events";
+  private WebSocketUtils webSocketUtils;
 
-  @Autowired
   private UserDetailsService userDetailsService;
+
+  private ApplicationProperties applicationProperties;
+
+  public WebSocketConfiguration(WebSocketUtils webSocketUtils, UserDetailsService userDetailsService,
+                                ApplicationProperties applicationProperties) {
+    this.webSocketUtils = webSocketUtils;
+    this.userDetailsService = userDetailsService;
+    this.applicationProperties = applicationProperties;
+  }
 
   @Override
   public void registerStompEndpoints(StompEndpointRegistry registry) {
-    registry.addEndpoint("/socket").setAllowedOrigins("*").withSockJS();
-    registry.addEndpoint("/socket").setAllowedOrigins("*");
+    registry.addEndpoint(webSocketUtils.getStompEndpoint()).setAllowedOrigins("*").withSockJS();
+    registry.addEndpoint(webSocketUtils.getStompEndpoint()).setAllowedOrigins("*");
   }
 
   @Override
   public void configureMessageBroker(MessageBrokerRegistry registry) {
-    registry.enableSimpleBroker(MESSAGE_PREFIX);
+    registry.enableSimpleBroker(webSocketUtils.getPrefix());
     registry.setApplicationDestinationPrefixes("/app");
   }
 
@@ -65,14 +74,14 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
         if (StompCommand.CONNECT.equals(accessor.getCommand()) ||
             StompCommand.SUBSCRIBE.equals(accessor.getCommand()) ||
             StompCommand.SEND.equals(accessor.getCommand())) {
-          String token = Objects.requireNonNull(accessor.getNativeHeader("Authorization")).get(0);
+          String token = Objects.requireNonNull(accessor.getNativeHeader(applicationProperties.getAuthHeaderName())).get(0);
 
           if (Objects.nonNull(token)) {
             DecodedJWT decodedJwt;
             try {
-              decodedJwt = JWT.require(Algorithm.HMAC512(SecurityConstants.SECRET.getBytes()))
+              decodedJwt = JWT.require(Algorithm.HMAC512(applicationProperties.getSecretKey().getBytes()))
                   .build()
-                  .verify(token.replace(SecurityConstants.TOKEN_PREFIX, ""));
+                  .verify(token.replace(applicationProperties.getAuthTokenPrefix(), ""));
             } catch (JWTVerificationException e) {
               throw new InvalidJwtTokenException("jwt token is invalid");
             }
