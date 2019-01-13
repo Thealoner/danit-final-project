@@ -13,13 +13,18 @@ class EntityEditor extends Component {
     let { currentTab } = this.props;
     this.props.saveData(currentTab.tabKey, values, currentTab.grid.columns, 'edit', 1);
   }
+
+  onDelete = () => {
+    let { deleteData, currentTab } = this.props;
+    deleteData(currentTab.tabKey, currentTab.form.data, currentTab.grid.columns, 1);
+  }
   
   render () {
-    let { currentTab } = this.props;
+    let { currentTab, storeTmpFormData, cancelData } = this.props;
 
     switch (currentTab.tabKey) {
       case 'services':
-        return <Service onSubmit={this.onSubmit} currentTab={currentTab}/>;
+        return <Service onSubmit={this.onSubmit} handleChange={storeTmpFormData} handleDelete={this.onDelete} handleCancel={cancelData} currentTab={currentTab}/>;
       default:
         return <h1>Form component for this entity is not defined.</h1>;
     }

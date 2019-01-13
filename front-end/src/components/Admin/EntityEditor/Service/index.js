@@ -4,7 +4,7 @@ import { Loader } from 'semantic-ui-react';
 
 class Service extends Component {
   render () {
-    let { currentTab, handleSubmit, pristine, submitting } = this.props;
+    let { currentTab, handleDelete, handleCancel, handleSubmit, pristine, submitting } = this.props;
     let { data } = currentTab.form;
 
     if (!data) {
@@ -41,8 +41,8 @@ class Service extends Component {
           </div>
 
           <button type="submit" className="record__button" disabled={pristine || submitting}>Сохранить</button>
-          <button type="button" className="record__button">Удалить</button>
-          <button type="button" className="record__button">Отмена</button>
+          <button type="button" className="record__button" onClick={handleDelete}>Удалить</button>
+          <button type="button" className="record__button" onClick={handleCancel}>Отмена</button>
         </div>
       </form>
     );
