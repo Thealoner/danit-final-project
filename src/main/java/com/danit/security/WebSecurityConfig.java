@@ -1,5 +1,7 @@
 package com.danit.security;
 
+import com.danit.ApplicationProperties;
+import com.danit.utils.WebSocketUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -13,38 +15,43 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.Arrays;
 
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+  private ApplicationProperties applicationProperties;
+
   private UserDetailsService userDetailsService;
 
-  WebSecurityConfig(UserDetailsService userDetailsService) {
+  private WebSocketUtils webSocketUtils;
+
+  WebSecurityConfig(ApplicationProperties applicationProperties, UserDetailsService userDetailsService,
+                    WebSocketUtils webSocketUtils) {
+    this.applicationProperties = applicationProperties;
     this.userDetailsService = userDetailsService;
+    this.webSocketUtils = webSocketUtils;
   }
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager());
-    jwtAuthenticationFilter.setFilterProcessesUrl("/auth");
+    JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager(),
+        applicationProperties);
+    jwtAuthenticationFilter.setFilterProcessesUrl(applicationProperties.getAuth());
     http
         .cors()
         .and()
         .csrf().disable()
         .authorizeRequests()
-        .antMatchers("/socket/**").permitAll()
+        .antMatchers(webSocketUtils.getStompEndpoint() + "/**").permitAll()
+        .antMatchers("/h2-console/**").permitAll()
         .antMatchers(HttpMethod.GET, "/users/**").hasAuthority("ADMIN")
         .antMatchers(HttpMethod.GET, "/roles/**").hasAuthority("ADMIN")
         .anyRequest().authenticated()
         .and()
-        .addFilterBefore(new JwtAuthorizationFilter(authenticationManager(), userDetailsService),
+        .addFilterBefore(new JwtAuthorizationFilter(authenticationManager(),
+                userDetailsService, applicationProperties),
             BasicAuthenticationFilter.class)
         .addFilterBefore(jwtAuthenticationFilter,
             UsernamePasswordAuthenticationFilter.class)
@@ -54,24 +61,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.authenticationProvider(authenticationProvider());
-  }
-
-  @Bean
-  CorsConfigurationSource corsConfigurationSource() {
-    CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowCredentials(true);
-    configuration.setAllowedOrigins(Arrays.asList("*"));
-    configuration.setAllowedHeaders(Arrays.asList("Access-Control-Allow-Headers", "Access-Control-Allow-Origin",
-        "Access-Control-Request-Method", "Access-Control-Request-Headers", "Origin", "Cache-Control",
-        "Content-Type", "Authorization", "X-Frame-Options"));
-    configuration.setAllowedMethods(Arrays.asList("DELETE", "GET", "POST", "PATCH", "PUT"));
-    // This allow us to expose the headers
-    configuration.setExposedHeaders(Arrays.asList("Access-Control-Allow-Headers", "Authorization, x-xsrf-token, " +
-        "Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, " +
-        "Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers", "X-Frame-Options"));
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", configuration);
-    return source;
   }
 
   @Bean

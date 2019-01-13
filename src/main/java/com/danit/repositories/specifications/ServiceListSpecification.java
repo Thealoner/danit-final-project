@@ -16,6 +16,22 @@ import static org.springframework.data.jpa.domain.Specification.where;
 @Component
 public class ServiceListSpecification extends BaseSpecification<Service, ServiceListRequestDto> {
 
+  public static Specification<Service> getByServiceCategoryId(String serviceCategoryId) {
+    if (Objects.nonNull(serviceCategoryId)) {
+      return (Specification<Service>) (root, criteriaQuery, criteriaBuilder) -> {
+        final Subquery<Long> servCatQuery = criteriaQuery.subquery(Long.class);
+        final Root<ServiceCategory> servCat = servCatQuery.from(ServiceCategory.class);
+        final Join<ServiceCategory, Service> services = servCat.join("services");
+        servCatQuery.select(services.get("id"));
+        servCatQuery.where(criteriaBuilder.equal(servCat.get("id"), serviceCategoryId));
+
+        return criteriaBuilder.in(root.get("id")).value(servCatQuery);
+      };
+    } else {
+      return null;
+    }
+  }
+
   @Override
   public Specification<Service> getFilter(ServiceListRequestDto request) {
 
@@ -70,22 +86,6 @@ public class ServiceListSpecification extends BaseSpecification<Service, Service
 
   private Specification<Service> activeEquals(String active, Boolean equals) {
     return equals ? attributeEquals("active", active) : attributeContains("active", active);
-  }
-
-  public static Specification<Service> getByServiceCategoryId(String serviceCategoryId) {
-    if (Objects.nonNull(serviceCategoryId)) {
-      return (Specification<Service>) (root, criteriaQuery, criteriaBuilder) -> {
-        final Subquery<Long> servCatQuery = criteriaQuery.subquery(Long.class);
-        final Root<ServiceCategory> servCat = servCatQuery.from(ServiceCategory.class);
-        final Join<ServiceCategory, Service> services = servCat.join("services");
-        servCatQuery.select(services.get("id"));
-        servCatQuery.where(criteriaBuilder.equal(servCat.get("id"), serviceCategoryId));
-
-        return criteriaBuilder.in(root.get("id")).value(servCatQuery);
-      };
-    } else {
-      return null;
-    }
   }
 
   private Specification<Service> attributeContains(String attribute, String value) {

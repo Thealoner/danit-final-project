@@ -40,6 +40,7 @@ public abstract class AbstractDtoFacade<D extends BaseDto, E extends BaseEntity,
 
 
   //not sure about it(getActualTypeArguments()[0] or getActualTypeArguments()[1])
+  @SuppressWarnings("unchecked")
   @Override
   public E convertDtoToEntity(D dto) {
     return modelMapper.map(dto, (Class<E>) ((ParameterizedType) getClass()
