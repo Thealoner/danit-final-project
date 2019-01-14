@@ -2,13 +2,10 @@ package com.danit.controllers;
 
 import com.danit.Application;
 import com.danit.TestUtils;
-import com.danit.facades.UserRoleFacade;
 import com.danit.models.User;
 import com.danit.models.UserRole;
 import com.danit.models.UserRolesEnum;
-import com.danit.repositories.UserRoleRepository;
 import com.danit.services.UserRoleService;
-import com.danit.services.UserService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -21,9 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
@@ -31,9 +25,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import static com.danit.models.UserRolesEnum.ADMIN;
 import static com.danit.models.UserRolesEnum.TEST;
@@ -82,8 +74,8 @@ public class UserRoleControllerTest {
 
     List<UserRole> userRoles = new ArrayList<>();
 
-    for(UserRolesEnum role : UserRolesEnum.values()) {
-      if(role.equals(ADMIN) || role.equals(USER) || role.equals(TEST)) {
+    for (UserRolesEnum role : UserRolesEnum.values()) {
+      if (role.equals(ADMIN) || role.equals(USER) || role.equals(TEST)) {
         continue;
       }
       UserRole userRole = new UserRole();
@@ -252,7 +244,6 @@ public class UserRoleControllerTest {
     mockMvc.perform(get(url + "?role=adm&equal=false&page=1&size=20").headers(headers))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.meta.currentElements").value(1));
-
 
 
     //pagination test

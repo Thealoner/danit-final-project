@@ -115,7 +115,7 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
 
   @Override
   public void deleteEntities(List<E> entityList) {
-    if(entityList.isEmpty()) {
+    if (entityList.isEmpty()) {
       throw new EntityNotFoundException("can't find any entities to perform delete");
     }
     List<E> list = reloadEntities(entityList);
