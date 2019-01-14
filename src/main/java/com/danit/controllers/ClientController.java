@@ -152,9 +152,9 @@ public class ClientController {
   @JsonView(Views.Extended.class)
   @PostMapping("/{clientId}/contracts")
   @ResponseStatus(HttpStatus.OK)
-  ResponseEntity<Map<String, Object>> createContractsForClient(@PathVariable(name = "clientId") Long clientId,
-                                                               @RequestBody List<Contract> contracts,
-                                                               Principal principal) {
+  ResponseEntity<Map<String, Object>> createContractsForClient(@RequestBody List<Contract> contracts,
+                                                               Principal principal,
+                                                               @PathVariable(name = "clientId") Long clientId) {
     log.info(principal.getName() + " is trying to create contracts: " + contracts + " for clientId= " + clientId);
     contractService.createContractsForClient(clientId, contracts);
     return ResponseEntity.ok(convertDtoToMap(clientFacade.getEntityById(clientId)));
