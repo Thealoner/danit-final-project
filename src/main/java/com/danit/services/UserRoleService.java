@@ -31,7 +31,7 @@ public class UserRoleService extends AbstractBaseEntityService<UserRole, UserRol
     if (Objects.nonNull(userRole.getUsers())) {
       userRole.getUsers().forEach(user -> user.getRoles().remove(userRole));
     }
-    userRoleRepository.deleteById(id);
+    super.deleteEntityById(id);
   }
 
   @Override
@@ -43,7 +43,7 @@ public class UserRoleService extends AbstractBaseEntityService<UserRole, UserRol
         userRole.getUsers().forEach(user -> user.getRoles().remove(userRole));
       }
     });
-    baseEntityRepository.deleteAll(userRoles);
+    super.deleteEntities(userRoles);
   }
 
   @Transactional

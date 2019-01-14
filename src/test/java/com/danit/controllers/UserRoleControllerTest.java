@@ -57,17 +57,11 @@ public class UserRoleControllerTest {
   private final static String url = "/roles";
   private static boolean dbInit = false;
   @Autowired
-  TestUtils testUtils;
+  private TestUtils testUtils;
   @Autowired
-  ObjectMapper objectMapper;
+  private ObjectMapper objectMapper;
   @Autowired
-  UserRoleFacade userRoleFacade;
-  @Autowired
-  UserRoleService userRoleService;
-  @Autowired
-  UserService userService;
-  @Autowired
-  private UserRoleRepository userRoleRepository;
+  private UserRoleService userRoleService;
   @Autowired
   private MockMvc mockMvc;
 
