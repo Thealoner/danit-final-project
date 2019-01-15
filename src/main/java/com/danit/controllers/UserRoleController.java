@@ -104,7 +104,7 @@ public class UserRoleController {
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public void deleteUserRoleByIdDto(@PathVariable(name = "id") long id, Principal principal) {
+  public void deleteUserRoleById(@PathVariable(name = "id") long id, Principal principal) {
     userRoleFacade.deleteEntityById(id);
   }
 
@@ -116,7 +116,7 @@ public class UserRoleController {
 
   @JsonView(Views.Extended.class)
   @GetMapping("/{roleId}/users")
-  ResponseEntity<Map<String, Object>> getAllRolesOfUser(
+  ResponseEntity<Map<String, Object>> getAllUsersForRoleId(
       @PathVariable(name = "roleId")
           long id,
       Principal principal,
@@ -129,7 +129,7 @@ public class UserRoleController {
 
   @JsonView(Views.Short.class)
   @GetMapping("/{roleId}/users/short")
-  ResponseEntity<Map<String, Object>> getAllRolesOfUserShort(
+  ResponseEntity<Map<String, Object>> getAllUsersForRoleIdShort(
       @PathVariable(name = "roleId")
           long id,
       Principal principal,
@@ -142,7 +142,7 @@ public class UserRoleController {
 
   @JsonView(Views.Ids.class)
   @GetMapping("/{roleId}/users/ids")
-  ResponseEntity<Map<String, Object>> getAllRolesOfUserIds(
+  ResponseEntity<Map<String, Object>> getAllUsersForRoleIdIds(
       @PathVariable(name = "roleId")
           long id,
       Principal principal,
