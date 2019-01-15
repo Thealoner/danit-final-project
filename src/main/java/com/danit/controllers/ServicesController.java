@@ -34,10 +34,8 @@ import static com.danit.utils.ControllerUtils.convertPageToMap;
 
 @RestController
 @RequestMapping("/services")
-@Slf4j
 public class ServicesController {
 
-  private static final String LOG_MSG_GOT_ALL_DATA = " got all services data";
   private ServiceFacade serviceFacade;
   private ServiceCategoryFacade serviceCategoryFacade;
 
@@ -49,14 +47,12 @@ public class ServicesController {
   @JsonView(Views.Extended.class)
   @PostMapping
   public ResponseEntity<Map<String, Object>> createServices(@RequestBody List<Service> services, Principal principal) {
-    log.info(principal.getName() + " is saving new services: " + services);
     return ResponseEntity.ok(convertDtoToMap(serviceFacade.saveEntities(services)));
   }
 
   @JsonView(Views.Extended.class)
   @GetMapping("/{id}")
   public ResponseEntity<Map<String, Object>> getServiceByIdDto(@PathVariable(name = "id") long id, Principal principal) {
-    log.info(principal.getName() + " got service data with id: " + id);
     return ResponseEntity.ok(convertDtoToMap(serviceFacade.getEntityById(id)));
   }
 
@@ -69,7 +65,6 @@ public class ServicesController {
       }) Pageable pageable,
       Principal principal,
       ServiceListRequestDto serviceListRequestDto) {
-    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
     return ResponseEntity.ok(convertPageToMap(serviceFacade.getAllEntities(serviceListRequestDto, pageable)));
   }
 
@@ -82,7 +77,6 @@ public class ServicesController {
       }) Pageable pageable,
       Principal principal,
       ServiceListRequestDto serviceListRequestDto) {
-    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
     return ResponseEntity.ok(convertPageToMap(serviceFacade.getAllEntities(serviceListRequestDto, pageable)));
   }
 
@@ -95,27 +89,23 @@ public class ServicesController {
       }) Pageable pageable,
       Principal principal,
       ServiceListRequestDto serviceListRequestDto) {
-    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
     return ResponseEntity.ok(convertPageToMap(serviceFacade.getAllEntities(serviceListRequestDto, pageable)));
   }
 
   @PutMapping
   public ResponseEntity<Map<String, Object>> updateServices(@RequestBody List<Service> services, Principal principal) {
-    log.info(principal.getName() + " is updating services data: " + services);
     return ResponseEntity.ok(convertDtoToMap(serviceFacade.updateEntities(services)));
   }
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   void deleteServiceById(@PathVariable(name = "id") long id, Principal principal) {
-    log.info(principal.getName() + " try to delete service with id: " + id);
     serviceFacade.deleteEntityById(id);
   }
 
   @DeleteMapping
   @ResponseStatus(HttpStatus.OK)
   void deleteServices(@RequestBody List<Service> services, Principal principal) {
-    log.info(principal.getName() + " is trying to delete services: " + services);
     serviceFacade.deleteEntities(services);
   }
 
@@ -129,7 +119,6 @@ public class ServicesController {
                                                                                  @SortDefault(sort = "id",
                                                                                      direction = Sort.Direction.ASC)
                                                                              }) Pageable pageable) {
-    log.info(principal.getName() + " got all service categories which contains service with id: " + id);
     return ResponseEntity.ok(convertPageToMap(serviceCategoryFacade
         .findAllServiceCategoriesOfServiceWithId(id, pageable)));
   }

@@ -88,9 +88,7 @@ public class LogPrincipalActionAspect {
   }
 
   static String getClassSimpleName(String s) {
-    return s.replace("com.danit.controllers.",
-        ""
-    );
+    return s.replace("com.danit.controllers.","");
   }
 
 }
