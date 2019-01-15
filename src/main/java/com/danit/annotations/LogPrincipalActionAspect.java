@@ -76,8 +76,8 @@ public class LogPrincipalActionAspect {
   }
 
 
-  static String splitCamelCase(String s) {
-    return s.replaceAll(
+  private String splitCamelCase(String camelCase) {
+    return camelCase.replaceAll(
         String.format("%s|%s|%s",
             "(?<=[A-Z])(?=[A-Z][a-z])",
             "(?<=[^A-Z])(?=[A-Z])",
@@ -87,8 +87,8 @@ public class LogPrincipalActionAspect {
     );
   }
 
-  static String getClassSimpleName(String s) {
-    return s.replace("com.danit.controllers.","");
+  private String getClassSimpleName(String className) {
+    return className.replace("com.danit.controllers.","");
   }
 
 }
