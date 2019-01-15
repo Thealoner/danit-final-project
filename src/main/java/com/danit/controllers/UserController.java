@@ -57,7 +57,7 @@ public class UserController {
 
   @JsonView(Views.Extended.class)
   @PostMapping
-  public ResponseEntity<Map<String, Object>> createUsersDto(@RequestBody List<User> users,
+  public ResponseEntity<Map<String, Object>> createUsers(@RequestBody List<User> users,
                                                             Principal principal) {
     log.info(principal.getName() + " is saving new users: " + users);
     users.forEach(user -> {
@@ -147,8 +147,8 @@ public class UserController {
   @JsonView(Views.Extended.class)
   @ResponseStatus(HttpStatus.OK)
   ResponseEntity<Map<String, Object>> assignRoleToUser(@PathVariable(name = "userId") Long userId,
-                                                       @PathVariable(name = "roleId") Long roleId,
-                                                       Principal principal) {
+                                                       Principal principal,
+                                                       @PathVariable(name = "roleId") Long roleId) {
     log.info(principal.getName() + " is trying to assign roleId=" + roleId + " to userId = " + userId);
     roleService.assignRoleToUser(userId, roleId);
     return ResponseEntity.ok(convertDtoToMap(userFacade.getEntityById(userId)));
@@ -158,8 +158,8 @@ public class UserController {
   @JsonView(Views.Extended.class)
   @ResponseStatus(HttpStatus.OK)
   ResponseEntity<Map<String, Object>> assignRolesToUser(@PathVariable(name = "userId") Long userId,
-                                                        @RequestBody List<UserRole> roles,
-                                                        Principal principal) {
+                                                        Principal principal,
+                                                        @RequestBody List<UserRole> roles) {
     log.info(principal.getName() + " is trying to assign roles " + roles + " to userId = " + userId);
     roleService.assignRolesToUser(userId, roles);
     return ResponseEntity.ok(convertDtoToMap(userFacade.getEntityById(userId)));
@@ -169,8 +169,8 @@ public class UserController {
   @JsonView(Views.Extended.class)
   @ResponseStatus(HttpStatus.OK)
   void deleteRoleFromUser(@PathVariable(name = "userId") Long userId,
-                          @PathVariable(name = "roleId") Long roleId,
-                          Principal principal) {
+                          Principal principal,
+                          @PathVariable(name = "roleId") Long roleId) {
     log.info(principal.getName() + " is trying to delet roleId=" + roleId + " from userId = " + userId);
     roleService.deleteRoleFromUser(userId, roleId);
   }
@@ -179,8 +179,8 @@ public class UserController {
   @JsonView(Views.Extended.class)
   @ResponseStatus(HttpStatus.OK)
   void deleteRolesFromUser(@PathVariable(name = "userId") Long userId,
-                           @RequestBody List<UserRole> roles,
-                           Principal principal) {
+                           Principal principal,
+                           @RequestBody List<UserRole> roles) {
     log.info(principal.getName() + " is trying to delete roles " + roles + " from userId = " + userId);
     roleService.deleteRolesFromUser(userId, roles);
   }
@@ -190,11 +190,11 @@ public class UserController {
   ResponseEntity<Map<String, Object>> getAllRolesOfUserIds(
       @PathVariable(name = "userId")
           long id,
+      Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
-      }) Pageable pageable,
-      Principal principal) {
+      }) Pageable pageable) {
     log.info(principal.getName() + " got roles of user with id: " + id);
     return ResponseEntity.ok(convertPageToMap(userRoleFacade.findAllRolesDtoForUserId(id, pageable)));
   }
@@ -204,11 +204,11 @@ public class UserController {
   ResponseEntity<Map<String, Object>> getAllRolesOfUserShort(
       @PathVariable(name = "userId")
           long id,
+      Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
-      }) Pageable pageable,
-      Principal principal) {
+      }) Pageable pageable) {
     log.info(principal.getName() + " got roles of user with id: " + id);
     return ResponseEntity.ok(convertPageToMap(userRoleFacade.findAllRolesDtoForUserId(id, pageable)));
   }
@@ -218,11 +218,11 @@ public class UserController {
   ResponseEntity<Map<String, Object>> getAllRolesOfUser(
       @PathVariable(name = "userId")
           long id,
+      Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
-      }) Pageable pageable,
-      Principal principal) {
+      }) Pageable pageable) {
     log.info(principal.getName() + " got roles of user with id: " + id);
     return ResponseEntity.ok(convertPageToMap(userRoleFacade.findAllRolesDtoForUserId(id, pageable)));
   }

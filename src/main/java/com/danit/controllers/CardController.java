@@ -47,7 +47,7 @@ public class CardController {
 
   @JsonView(Views.Extended.class)
   @PostMapping
-  public ResponseEntity<Map<String, Object>> createCardsDtoExtended(@RequestBody List<Card> cards, Principal principal) {
+  public ResponseEntity<Map<String, Object>> createCards(@RequestBody List<Card> cards, Principal principal) {
     log.info(principal.getName() + " is saving new cards: " + cards);
     return ResponseEntity.ok(convertDtoToMap(cardFacade.saveEntities(cards)));
   }

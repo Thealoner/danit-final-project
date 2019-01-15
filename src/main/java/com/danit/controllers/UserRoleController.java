@@ -52,7 +52,7 @@ public class UserRoleController {
 
   @JsonView(Views.Extended.class)
   @PostMapping
-  public ResponseEntity<Map<String, Object>> createUserRolesDtoExtended(@RequestBody List<UserRole> roles,
+  public ResponseEntity<Map<String, Object>> createUserRoles(@RequestBody List<UserRole> roles,
                                                                         Principal principal) {
     log.info(principal.getName() + " is saving new user-roles: " + roles);
     return ResponseEntity.ok(convertDtoToMap(userRoleFacade.saveEntities(roles)));
@@ -131,11 +131,11 @@ public class UserRoleController {
   ResponseEntity<Map<String, Object>> getAllRolesOfUser(
       @PathVariable(name = "roleId")
           long id,
+      Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
-      }) Pageable pageable,
-      Principal principal) {
+      }) Pageable pageable) {
     log.info(principal.getName() + " got users with role  id: " + id);
     return ResponseEntity.ok(convertPageToMap(userFacade.findUsersWithRoleId(id, pageable)));
   }
@@ -145,11 +145,11 @@ public class UserRoleController {
   ResponseEntity<Map<String, Object>> getAllRolesOfUserShort(
       @PathVariable(name = "roleId")
           long id,
+      Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
-      }) Pageable pageable,
-      Principal principal) {
+      }) Pageable pageable) {
     log.info(principal.getName() + " got users with role  id: " + id);
     return ResponseEntity.ok(convertPageToMap(userFacade.findUsersWithRoleId(id, pageable)));
   }
@@ -159,11 +159,11 @@ public class UserRoleController {
   ResponseEntity<Map<String, Object>> getAllRolesOfUserIds(
       @PathVariable(name = "roleId")
           long id,
+      Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
-      }) Pageable pageable,
-      Principal principal) {
+      }) Pageable pageable) {
     log.info(principal.getName() + " got users with role  id: " + id);
     return ResponseEntity.ok(convertPageToMap(userFacade.findUsersWithRoleId(id, pageable)));
   }

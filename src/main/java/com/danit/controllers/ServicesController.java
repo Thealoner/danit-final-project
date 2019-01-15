@@ -48,7 +48,7 @@ public class ServicesController {
 
   @JsonView(Views.Extended.class)
   @PostMapping
-  public ResponseEntity<Map<String, Object>> createServicesDto(@RequestBody List<Service> services, Principal principal) {
+  public ResponseEntity<Map<String, Object>> createServices(@RequestBody List<Service> services, Principal principal) {
     log.info(principal.getName() + " is saving new services: " + services);
     return ResponseEntity.ok(convertDtoToMap(serviceFacade.saveEntities(services)));
   }
@@ -121,14 +121,14 @@ public class ServicesController {
 
   @JsonView(Views.Short.class)
   @GetMapping("/{serviceId}/service_category")
-  ResponseEntity<Map<String, Object>> getAllServiceServiceCategoriesExtended(@PathVariable(name = "serviceId") long id,
+  ResponseEntity<Map<String, Object>> getAllServiceServiceCategories(@PathVariable(name = "serviceId") long id,
+                                                                             Principal principal,
                                                                              @PageableDefault(page = DEFAULT_PAGE_NUMBER,
                                                                                  size = DEFAULT_PAGE_SIZE)
                                                                              @SortDefault.SortDefaults({
                                                                                  @SortDefault(sort = "id",
                                                                                      direction = Sort.Direction.ASC)
-                                                                             }) Pageable pageable,
-                                                                             Principal principal) {
+                                                                             }) Pageable pageable) {
     log.info(principal.getName() + " got all service categories which contains service with id: " + id);
     return ResponseEntity.ok(convertPageToMap(serviceCategoryFacade
         .findAllServiceCategoriesOfServiceWithId(id, pageable)));

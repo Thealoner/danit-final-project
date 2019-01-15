@@ -61,7 +61,7 @@ public class ClientController {
 
   @JsonView(Views.Extended.class)
   @PostMapping
-  ResponseEntity<Map<String, Object>> createClientsDtoExtended(@RequestBody List<Client> clients,
+  ResponseEntity<Map<String, Object>> createClients(@RequestBody List<Client> clients,
                                                                Principal principal) {
     log.info(principal.getName() + " is saving new clients: " + clients);
     List<ClientDto> clientDtos = clientFacade.saveEntities(clients);
@@ -142,8 +142,8 @@ public class ClientController {
   @PutMapping("/{clientId}/contract/{contractId}")
   @ResponseStatus(HttpStatus.OK)
   ResponseEntity<Map<String, Object>> assignClientToContract(@PathVariable(name = "clientId") Long clientId,
-                                                             @PathVariable(name = "contractId") Long contractId,
-                                                             Principal principal) {
+                                                             Principal principal,
+                                                             @PathVariable(name = "contractId") Long contractId) {
     log.info(principal.getName() + " is trying to assign contractId=" + clientId + " to clientId= " + contractId);
     contractService.assignClientToContract(contractId, clientId);
     return ResponseEntity.ok(convertDtoToMap(clientFacade.getEntityById(clientId)));
@@ -164,11 +164,11 @@ public class ClientController {
   @GetMapping("{clientId}/contracts/ids")
   ResponseEntity<Map<String, Object>> getAllContractsDtoForClientIdIds(
       @PathVariable(name = "clientId") Long clientId,
+      Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
-      }) Pageable pageable,
-      Principal principal) {
+      }) Pageable pageable) {
     log.info(principal.getName() + " got all Contract data");
     return ResponseEntity.ok(convertPageToMap(contractFacade.findAllContractsDtoForClientId(clientId, pageable)));
   }
@@ -177,11 +177,11 @@ public class ClientController {
   @GetMapping("{clientId}/contracts/short")
   ResponseEntity<Map<String, Object>> getAllContractsDtoForClientIdShort(
       @PathVariable(name = "clientId") Long clientId,
+      Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
-      }) Pageable pageable,
-      Principal principal) {
+      }) Pageable pageable) {
     log.info(principal.getName() + " got all Contract data");
     return ResponseEntity.ok(convertPageToMap(contractFacade.findAllContractsDtoForClientId(clientId, pageable)));
   }
@@ -190,11 +190,11 @@ public class ClientController {
   @GetMapping("{clientId}/contracts")
   ResponseEntity<Map<String, Object>> getAllContractsDtoForClientIdExtended(
       @PathVariable(name = "clientId") Long clientId,
+      Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
-      }) Pageable pageable,
-      Principal principal) {
+      }) Pageable pageable) {
     log.info(principal.getName() + " got all Contract data");
     return ResponseEntity.ok(convertPageToMap(contractFacade.findAllContractsDtoForClientId(clientId, pageable)));
   }
