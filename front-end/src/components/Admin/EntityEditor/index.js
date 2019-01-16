@@ -12,7 +12,8 @@ import Service from './Service';
 class EntityEditor extends Component {
   onSubmit = values => {
     let { currentTab, saveData, addRecord } = this.props;
-    if (currentTab.formData && currentTab.formData.id) {
+
+    if (currentTab.form.data && currentTab.form.data.id) {
       saveData(currentTab.tabKey, values, currentTab.grid.columns, 'edit', 1);
     } else {
       addRecord(currentTab.tabKey, values, currentTab.grid.columns, 'edit', 1);

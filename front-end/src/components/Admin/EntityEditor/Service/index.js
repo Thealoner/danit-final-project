@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import {
+  Field,
+  reduxForm,
+  getFormValues
+} from 'redux-form';
 import { Loader } from 'semantic-ui-react';
 
 class Service extends Component {
@@ -40,7 +45,7 @@ class Service extends Component {
             <Field name="active" component="input" type="checkbox" />
           </div>
 
-          <button type="submit" className="record__button" disabled={pristine || submitting}>Сохранить</button>
+          <button type="submit" className="record__button" disabled={!currentTab.form.edited || submitting}>Сохранить</button>
           <button type="button" className="record__button" onClick={handleDelete}>Удалить</button>
           <button type="button" className="record__button" onClick={handleCancel}>Отмена</button>
         </div>
@@ -53,8 +58,24 @@ class Service extends Component {
     let { data } = currentTab.form;
     initialize(data);
   }
+
+  componentDidUpdate () {
+    let { dirty, handleChange, formValues } = this.props;
+    
+    if (dirty) {
+      handleChange({
+        data: {
+          ...formValues
+        }
+      });
+    }
+  }
 };
 
 let reduxFormService = reduxForm({ form: 'service' })(Service);
 
-export default reduxFormService;
+const mapStateToProps = state => ({
+  formValues: getFormValues('service')(state)
+});
+
+export default connect(mapStateToProps, null)(reduxFormService);
