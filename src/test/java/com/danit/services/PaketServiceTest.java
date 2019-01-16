@@ -3,8 +3,14 @@ package com.danit.services;
 
 import com.danit.Application;
 import com.danit.dto.service.PaketListRequestDto;
+import com.danit.exceptions.EntityNotFoundException;
+import com.danit.models.Card;
 import com.danit.models.Paket;
+import com.danit.repositories.CardRepository;
 import com.danit.repositories.PaketRepository;
+import com.danit.repositories.specifications.CardListSpecification;
+import com.danit.repositories.specifications.PaketListSpecification;
+import com.danit.utils.WebSocketUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,44 +25,58 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 @SpringBootTest(classes = Application.class)
 @ActiveProfiles("test")
-@ContextConfiguration
 public class PaketServiceTest {
 
-  @Autowired
+  @InjectMocks
   PaketService paketService;
 
-  @Autowired
+  @Mock
   PaketRepository paketRepository;
 
-  @Configuration
-  static class Config {
-    @Bean
-    @Primary
-    public PaketService paketService() {
-      return mock(PaketService.class);
-    }
+  @Mock
+  WebSocketUtils webSocketUtils;
 
-    @Bean
-    @Primary
-    public PaketRepository paketRepository() {
-      return mock(PaketRepository.class);
-    }
+  @Mock
+  PaketListSpecification paketListSpecification;
+
+  @Mock
+  SimpMessageSendingOperations messagingTemplate;
+
+  @Before
+  public void init() {
+    MockitoAnnotations.initMocks(this);
+  }
+
+  Paket getMockPaket(String title) {
+    Paket paket = new Paket();
+    paket.setTitle("Paket" + title);
+    paket.setFreezeMinTerm(7);
+    paket.setActive(true);
+    paket.setFreezeDays(30);
+    paket.setLimitAdditionalServices(true);
+    paket.setAccessWithoutCardTimesLimit(7);
+    return paket;
   }
 
 
@@ -73,62 +93,16 @@ public class PaketServiceTest {
     assertEquals(savedPaket, foundPaket);
   }
 
-
-//  @InjectMocks
-//  private PaketService paketService;
-//  @Mock
-//  private PaketRepository paketRepository;
-//
-//  @Mock
-//  private PaketListRequestDto paketListRequestDto;
-//
-//  @Before
-//  public void setupMock() {
-//    MockitoAnnotations.initMocks(this);
-//  }
-
-//  @Test
-//  public void shouldReturnProduct_whenGetProductByIdIsCalled() throws Exception {
-//    Paket paket = new Paket();
-//    paket.setTitle("Test Paket");
-//    paket.setFreezeMinTerm(7);
-//    // Arrange
-//    when(paketRepository.findById(1L)).thenReturn(java.util.Optional.ofNullable(paket));
-//    // Act
-//    Paket retrievedPaket = paketService.getEntityById(1L);
-//    // Assert
-//    assertThat(retrievedPaket.getTitle(), is(equalTo(paket.getTitle())));
-//  }
-
-
-//  @Test
-//  public void shouldReturnProduct_whenSaveProductIsCalled() throws Exception {
-//    Paket paket = new Paket();
-//    paket.setTitle("Mock paket");
-//    paket.setFreezeMinTerm(7);
-//
-//    // Arrange
-//    when(paketRepository.save(paket)).thenReturn(paket);
-//    // Act
-//    paketService.saveEntity(paket);
-//    // Assert
-////    assertThat(savedPaket, is(equalTo(paket)));
-//    verify(paketRepository, times(1)).save(paket);
-//  }
-
-//  @Test
-//  public void saveEntity() {
-//
-//    Paket paket = new Paket();
-//    paket.setTitle("Mock paket");
-//    paket.setActive(true);
-//    paket.setFreezeMinTerm(7);
-//
-//    Mockito.when(paketRepository.save(paket)).thenReturn(paket);
-//
-//    Paket paketServ = paketService.saveEntity(paket);
-//
-//    verify(paketRepository, times(1)).save(paket);
-//  }
+  @Test(expected = EntityNotFoundException.class)
+  public void deletePaketsTest() {
+    List<Paket> pakets = new ArrayList<Paket>();
+    for (int i = 1; i < 4; i++) {
+      Paket paket = getMockPaket("1");
+      paket.setId(new Long(i));
+      pakets.add(paket);
+    }
+    doNothing().when(paketRepository).deleteAll(pakets);
+    paketService.deleteEntities(pakets);
+  }
 
 }
