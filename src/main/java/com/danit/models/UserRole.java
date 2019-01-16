@@ -39,7 +39,7 @@ public class UserRole extends Auditable implements BaseEntity {
   private Long id;
 
   @Enumerated(value = EnumType.STRING)
-  @Column(name = "role")
+  @Column(name = "role", unique = true)
   private UserRolesEnum role;
 
   @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)

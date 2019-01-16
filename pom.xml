@@ -122,6 +122,14 @@
             <artifactId>modelmapper</artifactId>
             <version>LATEST</version>
         </dependency>
+
+        <!-- For annotations -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+            <version>LATEST</version>
+        </dependency>
+
     </dependencies>
 
 

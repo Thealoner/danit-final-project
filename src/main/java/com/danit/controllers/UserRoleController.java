@@ -7,7 +7,6 @@ import com.danit.facades.UserFacade;
 import com.danit.facades.UserRoleFacade;
 import com.danit.models.UserRole;
 import com.fasterxml.jackson.annotation.JsonView;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -36,10 +35,7 @@ import static com.danit.utils.ControllerUtils.convertPageToMap;
 
 @RestController
 @RequestMapping("/roles")
-@Slf4j
 public class UserRoleController {
-
-  private static final String LOG_MSG_GOT_ALL_DATA = " got all user-role data";
 
   private UserRoleFacade userRoleFacade;
   private UserFacade userFacade;
@@ -52,9 +48,8 @@ public class UserRoleController {
 
   @JsonView(Views.Extended.class)
   @PostMapping
-  public ResponseEntity<Map<String, Object>> createUserRolesDtoExtended(@RequestBody List<UserRole> roles,
+  public ResponseEntity<Map<String, Object>> createUserRoles(@RequestBody List<UserRole> roles,
                                                                         Principal principal) {
-    log.info(principal.getName() + " is saving new user-roles: " + roles);
     return ResponseEntity.ok(convertDtoToMap(userRoleFacade.saveEntities(roles)));
   }
 
@@ -67,7 +62,6 @@ public class UserRoleController {
       }) Pageable pageable,
       Principal principal,
       UserRoleListRequestDto userRoleListRequestDto) {
-    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
     return ResponseEntity.ok(convertPageToMap(userRoleFacade.getAllEntities(userRoleListRequestDto, pageable)));
   }
 
@@ -80,8 +74,6 @@ public class UserRoleController {
       }) Pageable pageable,
       Principal principal,
       UserRoleListRequestDto userRoleListRequestDto) {
-    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
-    log.info("pageable: " + pageable);
     return ResponseEntity.ok(convertPageToMap(userRoleFacade.getAllEntities(userRoleListRequestDto, pageable)));
   }
 
@@ -94,77 +86,69 @@ public class UserRoleController {
       }) Pageable pageable,
       Principal principal,
       UserRoleListRequestDto userRoleListRequestDto) {
-    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
     return ResponseEntity.ok(convertPageToMap(userRoleFacade.getAllEntities(userRoleListRequestDto, pageable)));
   }
 
   @JsonView(Views.Extended.class)
   @GetMapping("/{id}")
   ResponseEntity<Map<String, Object>> getUserRoleByIdDtoExtended(@PathVariable(name = "id") long id, Principal principal) {
-    log.info(principal.getName() + " got user-role data with id: " + id);
     return ResponseEntity.ok(convertDtoToMap(userRoleFacade.getEntityById(id)));
   }
 
   @JsonView(Views.Extended.class)
   @PutMapping
   public ResponseEntity<Map<String, Object>> updateUserRolesDto(@RequestBody List<UserRole> roles, Principal principal) {
-    log.info(principal.getName() + " is updating user-roles data: " + roles);
     return ResponseEntity.ok(convertDtoToMap(userRoleFacade.updateEntities(roles)));
   }
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public void deleteUserRoleByIdDto(@PathVariable(name = "id") long id, Principal principal) {
-    log.info(principal.getName() + " is trying to delete user-role with id: " + id);
+  public void deleteUserRoleById(@PathVariable(name = "id") long id, Principal principal) {
     userRoleFacade.deleteEntityById(id);
   }
 
   @DeleteMapping
   @ResponseStatus(HttpStatus.OK)
   public void deleteUserRolesDto(@RequestBody List<UserRole> roles, Principal principal) {
-    log.info(principal.getName() + " is trying to delete user-role: " + roles);
     userRoleFacade.deleteEntities(roles);
   }
 
   @JsonView(Views.Extended.class)
   @GetMapping("/{roleId}/users")
-  ResponseEntity<Map<String, Object>> getAllRolesOfUser(
+  ResponseEntity<Map<String, Object>> getAllUsersForRoleId(
       @PathVariable(name = "roleId")
           long id,
+      Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
-      }) Pageable pageable,
-      Principal principal) {
-    log.info(principal.getName() + " got users with role  id: " + id);
+      }) Pageable pageable) {
     return ResponseEntity.ok(convertPageToMap(userFacade.findUsersWithRoleId(id, pageable)));
   }
 
   @JsonView(Views.Short.class)
   @GetMapping("/{roleId}/users/short")
-  ResponseEntity<Map<String, Object>> getAllRolesOfUserShort(
+  ResponseEntity<Map<String, Object>> getAllUsersForRoleIdShort(
       @PathVariable(name = "roleId")
           long id,
+      Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
-      }) Pageable pageable,
-      Principal principal) {
-    log.info(principal.getName() + " got users with role  id: " + id);
+      }) Pageable pageable) {
     return ResponseEntity.ok(convertPageToMap(userFacade.findUsersWithRoleId(id, pageable)));
   }
 
   @JsonView(Views.Ids.class)
   @GetMapping("/{roleId}/users/ids")
-  ResponseEntity<Map<String, Object>> getAllRolesOfUserIds(
+  ResponseEntity<Map<String, Object>> getAllUsersForRoleIdIds(
       @PathVariable(name = "roleId")
           long id,
+      Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
-      }) Pageable pageable,
-      Principal principal) {
-    log.info(principal.getName() + " got users with role  id: " + id);
+      }) Pageable pageable) {
     return ResponseEntity.ok(convertPageToMap(userFacade.findUsersWithRoleId(id, pageable)));
   }
 
