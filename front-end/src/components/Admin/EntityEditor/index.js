@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {
   cancelEditFormData,
   saveFormData,
+  addRecord,
   deleteCurrentEntityItem,
   storeTabTmpFormData
 } from '../../../actions/tabActions';
@@ -10,8 +11,12 @@ import Service from './Service';
 
 class EntityEditor extends Component {
   onSubmit = values => {
-    let { currentTab } = this.props;
-    this.props.saveData(currentTab.tabKey, values, currentTab.grid.columns, 'edit', 1);
+    let { currentTab, saveData, addRecord } = this.props;
+    if (currentTab.formData && currentTab.formData.id) {
+      saveData(currentTab.tabKey, values, currentTab.grid.columns, 'edit', 1);
+    } else {
+      addRecord(currentTab.tabKey, values, currentTab.grid.columns, 'edit', 1);
+    }
   }
 
   onDelete = () => {
@@ -38,6 +43,9 @@ const mapDispatchToProps = dispatch => {
     },
     saveData: (tabKey, formData, columns, mode, page) => {
       dispatch(saveFormData(tabKey, formData, columns, mode, page));
+    },
+    addRecord: (tabKey, formData, columns, mode, page) => {
+      dispatch(addRecord(tabKey, formData, columns, mode, page));
     },
     deleteData: (tabKey, formData, columns, page) => {
       dispatch(deleteCurrentEntityItem(tabKey, formData, columns, page));

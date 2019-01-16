@@ -14,7 +14,7 @@ class Service extends Component {
     return (
       <form onSubmit={handleSubmit} className="record">
         <div className="form-group field field-object">
-          <p>ID:</p>
+          <p>ID: {currentTab.form.data.id}</p>
           <div className="form-group field field-string">
             <label className="control-label" htmlFor="title">Название</label>
             <Field name="title" component="input" type="text" />
