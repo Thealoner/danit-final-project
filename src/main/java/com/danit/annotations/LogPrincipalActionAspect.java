@@ -1,19 +1,17 @@
 package com.danit.annotations;
 
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.security.Principal;
 
+@Slf4j
 @Aspect
 @Component
 public class LogPrincipalActionAspect {
-
-  private Logger logger = LoggerFactory.getLogger(LogPrincipalActionAspect.class.getSimpleName());
 
   @After("@annotation(org.springframework.web.bind.annotation.GetMapping)")
   public void logGetMapping(JoinPoint joinPoint) {
@@ -23,7 +21,7 @@ public class LogPrincipalActionAspect {
         " with id = " + someParameter.toString() : "";
     String methodName = splitCamelCase(joinPoint.getSignature().getName()).toLowerCase();
     String className = getClassSimpleName(joinPoint.getSignature().getDeclaringTypeName());
-    logger.info(className + ": " + principal.getName() + " " + methodName + additionalInfo);
+    log.info(className + ": " + principal.getName() + " " + methodName + additionalInfo);
   }
 
   @After("@annotation(org.springframework.web.bind.annotation.PostMapping)")
@@ -32,7 +30,7 @@ public class LogPrincipalActionAspect {
     Object entitiesList = joinPoint.getArgs()[0];
     String methodName = splitCamelCase(joinPoint.getSignature().getName()).toLowerCase();
     String className = getClassSimpleName(joinPoint.getSignature().getDeclaringTypeName());
-    logger.info(className + ": " + principal.getName() + " " + methodName + " " + entitiesList);
+    log.info(className + ": " + principal.getName() + " " + methodName + " " + entitiesList);
   }
 
   @After("@annotation(org.springframework.web.bind.annotation.DeleteMapping)")
@@ -49,9 +47,9 @@ public class LogPrincipalActionAspect {
       String thirdAdditionalInfo = (thirdParameter.getClass().getSimpleName().equals(Long.class.getSimpleName())) ?
           " with id = " + thirdParameter.toString() : thirdParameter.toString();
       methodName = methodName.replace("from",thirdAdditionalInfo + " from");
-      logger.info(className + ": " + principal.getName() + " " + methodName + firstAdditionalInfo);
+      log.info(className + ": " + principal.getName() + " " + methodName + firstAdditionalInfo);
     }  else {
-      logger.info(className + ": " + principal.getName() + " " + methodName + firstAdditionalInfo);
+      log.info(className + ": " + principal.getName() + " " + methodName + firstAdditionalInfo);
     }
   }
 
@@ -69,9 +67,9 @@ public class LogPrincipalActionAspect {
       String thirdAdditionalInfo = (thirdParameter.getClass().getSimpleName().equals(Long.class.getSimpleName())) ?
           " with id = " + thirdParameter.toString() : thirdParameter.toString();
       methodName = methodName.replace("to",thirdAdditionalInfo + " to");
-      logger.info(className + ": " + principal.getName() + " " + methodName + firstAdditionalInfo);
+      log.info(className + ": " + principal.getName() + " " + methodName + firstAdditionalInfo);
     }  else {
-      logger.info(className + ": " + principal.getName() + " " + methodName + firstAdditionalInfo);
+      log.info(className + ": " + principal.getName() + " " + methodName + firstAdditionalInfo);
     }
   }
 

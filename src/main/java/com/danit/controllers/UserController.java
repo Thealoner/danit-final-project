@@ -8,7 +8,6 @@ import com.danit.models.User;
 import com.danit.models.UserRole;
 import com.danit.services.UserRoleService;
 import com.fasterxml.jackson.annotation.JsonView;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;

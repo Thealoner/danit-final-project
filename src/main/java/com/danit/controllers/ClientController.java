@@ -11,7 +11,6 @@ import com.danit.models.Client;
 import com.danit.models.Contract;
 import com.danit.services.ContractService;
 import com.fasterxml.jackson.annotation.JsonView;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

@@ -6,7 +6,6 @@ import com.danit.facades.ServiceCategoryFacade;
 import com.danit.facades.ServiceFacade;
 import com.danit.models.Service;
 import com.fasterxml.jackson.annotation.JsonView;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;

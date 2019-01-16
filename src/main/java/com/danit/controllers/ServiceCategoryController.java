@@ -8,7 +8,6 @@ import com.danit.models.Service;
 import com.danit.models.ServiceCategory;
 import com.danit.services.ServiceCategoryService;
 import com.fasterxml.jackson.annotation.JsonView;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

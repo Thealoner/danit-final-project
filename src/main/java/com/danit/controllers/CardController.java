@@ -5,7 +5,6 @@ import com.danit.dto.service.CardListRequestDto;
 import com.danit.facades.CardFacade;
 import com.danit.models.Card;
 import com.fasterxml.jackson.annotation.JsonView;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
