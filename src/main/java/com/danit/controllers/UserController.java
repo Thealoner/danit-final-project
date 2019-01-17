@@ -55,7 +55,7 @@ public class UserController {
   @JsonView(Views.Extended.class)
   @PostMapping
   public ResponseEntity<Map<String, Object>> createUsers(@RequestBody List<User> users,
-                                                            Principal principal) {
+                                                         Principal principal) {
     users.forEach(user -> {
       if (Objects.nonNull(user.getPassword())) {
         user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
