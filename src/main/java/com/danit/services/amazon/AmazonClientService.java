@@ -64,7 +64,7 @@ public class AmazonClientService {
 
   private File convertMultiPartToFile(MultipartFile file) throws IOException {
     File outputFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
-    try(FileOutputStream fos = new FileOutputStream(outputFile)) {
+    try (FileOutputStream fos = new FileOutputStream(outputFile)) {
       fos.write(file.getBytes());
     }
     return outputFile;
