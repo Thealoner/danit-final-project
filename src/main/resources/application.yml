@@ -6,15 +6,11 @@ server:
   #keyStoreType: PKCS12
   #keyAlias: tomcat
 
-## Hibernate Properties
-# Enabling H2 Console
-
 spring:
   datasource:
     url: jdbc:h2:mem:energymdb
     #url: jdbc:h2:tcp://localhost/~/energymdb
     driverClassName: org.h2.Driver
-
     username: sa
     password:
   jpa:
@@ -28,9 +24,32 @@ spring:
     #locale: ru_RU
     #locale-resolver: fixed
 
+  #http://localhost:9000/h2-console
+  h2:
+    console:
+      enabled: true
+
 #Global Date format
 global:
   date:
     pattern: dd-MM-yyyy
   date-time:
     pattern: dd-MM-yyyy HH-mm-ss
+
+#Application constants
+application:
+  auth: "/auth"
+  authTokenExpTime: 864000000
+  authTokenPrefix: "Bearer "
+  authHeaderName: "Authorization"
+  secretKey: "fs4SecretKey"
+
+#Websocket constants
+websocket:
+  stompEndpoint: "/socket"
+  prefix: "/events"
+  postEventEndPoint: "/events/post"
+  putEventEndPoint: "/events/put"
+  deleteEventEndPoint: "/events/delete"
+  getEventEndPoint: "/events/get"
+

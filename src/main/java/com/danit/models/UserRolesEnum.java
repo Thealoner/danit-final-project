@@ -1,5 +1,5 @@
 package com.danit.models;
 
 public enum UserRolesEnum {
-  ADMIN, USER, TEST;
+  ADMIN, USER, TEST, MANAGER, COACH, CASHIER;
 }

@@ -4,6 +4,7 @@ import com.danit.models.auditor.Auditable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -19,13 +20,13 @@ import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "user_roles")
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = "users")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Data
 public class UserRole extends Auditable implements BaseEntity {
 
@@ -34,31 +35,15 @@ public class UserRole extends Auditable implements BaseEntity {
   @SequenceGenerator(name = "user_role_sequence", sequenceName = "user_role_sequence",
       allocationSize = 1, initialValue = 1001)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_role_sequence")
+  @EqualsAndHashCode.Include
   private Long id;
 
   @Enumerated(value = EnumType.STRING)
-  @Column(name = "role")
+  @Column(name = "role", unique = true)
   private UserRolesEnum role;
 
   @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
   @JsonIgnore
   private List<User> users;
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null || getClass() != obj.getClass()) {
-      return false;
-    }
-    UserRole userRole = (UserRole) obj;
-    return Objects.equals(id, userRole.id);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id);
-  }
 
 }

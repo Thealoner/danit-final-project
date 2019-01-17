@@ -2,6 +2,7 @@ package com.danit.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.danit.ApplicationProperties;
 import com.danit.exceptions.UserMapInputStreamException;
 import com.danit.models.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,10 +23,15 @@ import java.util.Date;
 
 @Slf4j
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+
   private AuthenticationManager authenticationManager;
 
-  public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
+  private ApplicationProperties applicationProperties;
+
+  public JwtAuthenticationFilter(AuthenticationManager authenticationManager,
+                                 ApplicationProperties applicationProperties) {
     this.authenticationManager = authenticationManager;
+    this.applicationProperties = applicationProperties;
   }
 
   @Override
@@ -53,17 +59,20 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     String token = JWT.create()
         .withSubject(((UserDetails) auth.getPrincipal()).getUsername())
-        .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
-        .sign(Algorithm.HMAC512(SecurityConstants.SECRET.getBytes()));
+        .withExpiresAt(new Date(System.currentTimeMillis() +
+            applicationProperties.getAuthTokenExpTime()))
+        .sign(Algorithm.HMAC512(applicationProperties.getSecretKey().getBytes()));
 
     log.info("Successful Authentication of User "
         + ((UserDetails) auth.getPrincipal()).getUsername()
     );
-    res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
+    res.addHeader(applicationProperties.getAuthHeaderName(),
+        applicationProperties.getAuthTokenPrefix() + token);
     res.setContentType("application/json");
     res.setCharacterEncoding("UTF-8");
     res.getWriter().write(
-        "{\"" + SecurityConstants.HEADER_STRING + "\":\"" + SecurityConstants.TOKEN_PREFIX + token + "\"}"
+        "{\"" + applicationProperties.getAuthHeaderName() + "\":\"" +
+            applicationProperties.getAuthTokenPrefix() + token + "\"}"
     );
   }
 }

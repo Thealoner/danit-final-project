@@ -1,6 +1,7 @@
 package com.danit.controllers;
 
 
+import com.danit.ApplicationProperties;
 import com.danit.dto.ClientDto;
 import com.danit.dto.Views;
 import com.danit.dto.service.ClientListRequestDto;
@@ -10,7 +11,6 @@ import com.danit.models.Client;
 import com.danit.models.Contract;
 import com.danit.services.ContractService;
 import com.fasterxml.jackson.annotation.JsonView;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -39,10 +39,10 @@ import static com.danit.utils.ControllerUtils.convertPageToMap;
 
 @RestController
 @RequestMapping("/clients")
-@Slf4j
 public class ClientController {
 
-  private static final String LOG_MSG_GOT_ALL_DATA = " got all clients data";
+  @Autowired
+  ApplicationProperties applicationProperties;
 
   private ClientFacade clientFacade;
 
@@ -59,9 +59,8 @@ public class ClientController {
 
   @JsonView(Views.Extended.class)
   @PostMapping
-  ResponseEntity<Map<String, Object>> createClientsDtoExtended(@RequestBody List<Client> clients,
+  ResponseEntity<Map<String, Object>> createClients(@RequestBody List<Client> clients,
                                                                Principal principal) {
-    log.info(principal.getName() + " is saving new clients: " + clients);
     List<ClientDto> clientDtos = clientFacade.saveEntities(clients);
     return ResponseEntity.ok(convertDtoToMap(clientDtos));
   }
@@ -75,7 +74,6 @@ public class ClientController {
       }) Pageable pageable,
       Principal principal,
       ClientListRequestDto clientListRequestDto) {
-    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
     return ResponseEntity.ok(convertPageToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
   }
 
@@ -88,8 +86,6 @@ public class ClientController {
       }) Pageable pageable,
       Principal principal,
       ClientListRequestDto clientListRequestDto) {
-    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
-    log.info("pageable: " + pageable);
     return ResponseEntity.ok(convertPageToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
   }
 
@@ -102,21 +98,18 @@ public class ClientController {
       }) Pageable pageable,
       Principal principal,
       ClientListRequestDto clientListRequestDto) {
-    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA); // NOSONAR
     return ResponseEntity.ok(convertPageToMap(clientFacade.getAllEntities(clientListRequestDto, pageable)));
   }
 
   @JsonView(Views.Extended.class)
   @GetMapping("/{id}")
   ResponseEntity<Map<String, Object>> getClientByIdDtoExtended(@PathVariable(name = "id") long id, Principal principal) {
-    log.info(principal.getName() + " got client data with id: " + id);
     return ResponseEntity.ok(convertDtoToMap(clientFacade.getEntityById(id)));
   }
 
   @JsonView(Views.Extended.class)
   @PutMapping
   ResponseEntity<Map<String, Object>> updateClientsDto(@RequestBody List<Client> clients, Principal principal) {
-    log.info(principal.getName() + " is updating clients data: " + clients);
     List<ClientDto> clientDtos = clientFacade.updateEntities(clients);
     return ResponseEntity.ok(convertDtoToMap(clientDtos));
   }
@@ -124,14 +117,12 @@ public class ClientController {
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   void deleteClientByIdDto(@PathVariable(name = "id") long id, Principal principal) {
-    log.info(principal.getName() + " is trying to delete client with id: " + id);
     clientFacade.deleteEntityById(id);
   }
 
   @DeleteMapping
   @ResponseStatus(HttpStatus.OK)
   void deleteClientsDto(@RequestBody List<Client> clients, Principal principal) {
-    log.info(principal.getName() + " is trying to delete clients: " + clients);
     clientFacade.deleteEntities(clients);
   }
 
@@ -140,9 +131,8 @@ public class ClientController {
   @PutMapping("/{clientId}/contract/{contractId}")
   @ResponseStatus(HttpStatus.OK)
   ResponseEntity<Map<String, Object>> assignClientToContract(@PathVariable(name = "clientId") Long clientId,
-                                                             @PathVariable(name = "contractId") Long contractId,
-                                                             Principal principal) {
-    log.info(principal.getName() + " is trying to assign contractId=" + clientId + " to clientId= " + contractId);
+                                                             Principal principal,
+                                                             @PathVariable(name = "contractId") Long contractId) {
     contractService.assignClientToContract(contractId, clientId);
     return ResponseEntity.ok(convertDtoToMap(clientFacade.getEntityById(clientId)));
   }
@@ -150,10 +140,9 @@ public class ClientController {
   @JsonView(Views.Extended.class)
   @PostMapping("/{clientId}/contracts")
   @ResponseStatus(HttpStatus.OK)
-  ResponseEntity<Map<String, Object>> createContractsForClient(@PathVariable(name = "clientId") Long clientId,
-                                                               @RequestBody List<Contract> contracts,
-                                                               Principal principal) {
-    log.info(principal.getName() + " is trying to create contracts: " + contracts + " for clientId= " + clientId);
+  ResponseEntity<Map<String, Object>> createContractsForClient(@RequestBody List<Contract> contracts,
+                                                               Principal principal,
+                                                               @PathVariable(name = "clientId") Long clientId) {
     contractService.createContractsForClient(clientId, contracts);
     return ResponseEntity.ok(convertDtoToMap(clientFacade.getEntityById(clientId)));
   }
@@ -162,12 +151,11 @@ public class ClientController {
   @GetMapping("{clientId}/contracts/ids")
   ResponseEntity<Map<String, Object>> getAllContractsDtoForClientIdIds(
       @PathVariable(name = "clientId") Long clientId,
+      Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
-      }) Pageable pageable,
-      Principal principal) {
-    log.info(principal.getName() + " got all Contract data");
+      }) Pageable pageable) {
     return ResponseEntity.ok(convertPageToMap(contractFacade.findAllContractsDtoForClientId(clientId, pageable)));
   }
 
@@ -175,12 +163,11 @@ public class ClientController {
   @GetMapping("{clientId}/contracts/short")
   ResponseEntity<Map<String, Object>> getAllContractsDtoForClientIdShort(
       @PathVariable(name = "clientId") Long clientId,
+      Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
-      }) Pageable pageable,
-      Principal principal) {
-    log.info(principal.getName() + " got all Contract data");
+      }) Pageable pageable) {
     return ResponseEntity.ok(convertPageToMap(contractFacade.findAllContractsDtoForClientId(clientId, pageable)));
   }
 
@@ -188,12 +175,11 @@ public class ClientController {
   @GetMapping("{clientId}/contracts")
   ResponseEntity<Map<String, Object>> getAllContractsDtoForClientIdExtended(
       @PathVariable(name = "clientId") Long clientId,
+      Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
-      }) Pageable pageable,
-      Principal principal) {
-    log.info(principal.getName() + " got all Contract data");
+      }) Pageable pageable) {
     return ResponseEntity.ok(convertPageToMap(contractFacade.findAllContractsDtoForClientId(clientId, pageable)));
   }
 

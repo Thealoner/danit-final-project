@@ -31,7 +31,6 @@ public class BeanConfiguration {
         .setAmbiguityIgnored(true);
 
     modelMapper.createTypeMap(Contract.class, ContractDto.class)
-        .addMapping(Contract::getActive, ContractDto::setActive)
         .addMapping(contract -> contract.getPaket().getId(), ContractDto::setPackageId)
         .addMapping(contract -> contract.getClient().getId(), ContractDto::setClientId);
 
