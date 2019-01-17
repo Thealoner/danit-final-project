@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -152,7 +151,6 @@ public class CardServiceTest {
   public void deleteCardTest() {
     Card card = getMockCard("1234567", true);
     card.setId(1L);
-    doNothing().when(cardRepository).delete(card);
     cardService.deleteEntityById(1L);
   }
 
@@ -164,7 +162,6 @@ public class CardServiceTest {
       crd.setId(new Long(i));
       cards.add(crd);
     }
-    doNothing().when(cardRepository).deleteAll(cards);
     cardService.deleteEntities(cards);
   }
 }
