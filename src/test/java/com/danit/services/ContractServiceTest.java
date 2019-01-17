@@ -48,14 +48,14 @@ public class ContractServiceTest {
   @Test
   public void findAllContractsForClientIdTest() {
     Pageable pageable = PageRequest.of(0, 4);
-    contractService.findAllContractsForClientId(1L, pageable);
+    contractService.findAllContractsForClientId(new Long(1), pageable);
     verify(contractRepository, times(1)).findAllContractsForClientId(1L, pageable);
   }
 
   @Test
   public void findAllContractsForPaketIdTest() {
     Pageable pageable = PageRequest.of(0, 4);
-    contractService.findAllContractsForPaketId(1L, pageable);
+    contractService.findAllContractsForPaketId(new Long(1), pageable);
     verify(contractRepository, times(1)).findAllContractsForPaketId(1L, pageable);
   }
 

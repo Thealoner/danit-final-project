@@ -76,8 +76,8 @@ public class ContractFacadeTest {
     Contract contract1 = mock(Contract.class);
     Contract contract2 = mock(Contract.class);
     List<Contract> contracts = Arrays.asList(new Contract[]{contract1, contract2});
-    Page<Contract> page = new PageImpl<>(contracts);
     Pageable pageable = PageRequest.of(0, 4);
+    Page<Contract> page = new PageImpl<>(contracts, pageable, 4);
 
     when(contractService.getAllEntities(pageable)).thenReturn(page);
 

@@ -76,8 +76,9 @@ public class ClientFacadeTest {
     Client paket1 = mock(Client.class);
     Client paket2 = mock(Client.class);
     List<Client> clients = Arrays.asList(new Client[]{paket1, paket2});
-    Page<Client> page = new PageImpl<>(clients);
     Pageable pageable = PageRequest.of(0, 4);
+    Page<Client> page = new PageImpl<>(clients, pageable, 4);
+
 
     when(clientService.getAllEntities(pageable)).thenReturn(page);
 

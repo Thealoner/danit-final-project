@@ -76,8 +76,8 @@ public class PaketFacadeTest {
     Paket paket1 = mock(Paket.class);
     Paket paket2 = mock(Paket.class);
     List<Paket> pakets = Arrays.asList(new Paket[]{paket1, paket2});
-    Page<Paket> page = new PageImpl<>(pakets);
     Pageable pageable = PageRequest.of(0, 4);
+    Page<Paket> page = new PageImpl<>(pakets, pageable, 4);
 
     when(paketService.getAllEntities(pageable)).thenReturn(page);
 
