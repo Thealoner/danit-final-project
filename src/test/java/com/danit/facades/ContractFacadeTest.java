@@ -59,7 +59,9 @@ public class ContractFacadeTest {
     Contract contract1 = mock(Contract.class);
     Contract contract2 = mock(Contract.class);
     List<Contract> contracts = Arrays.asList(new Contract[]{contract1, contract2});
-    contractFacade.convertToDtos(contracts);
+    Pageable pageable = PageRequest.of(0, 4);
+    Page<Contract> page = new PageImpl<>(contracts, pageable, 4);
+    contractFacade.convertToDtos(page);
     verify(modelMapper, times(1)).map(contracts.get(0), ContractDto.class);
     verify(modelMapper, times(1)).map(contracts.get(1), ContractDto.class);
   }

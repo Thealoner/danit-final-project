@@ -59,7 +59,9 @@ public class PaketFacadeTest {
     Paket paket1 = mock(Paket.class);
     Paket paket2 = mock(Paket.class);
     List<Paket> pakets = Arrays.asList(new Paket[]{paket1, paket2});
-    paketFacade.convertToDtos(pakets);
+    Pageable pageable = PageRequest.of(0, 4);
+    Page<Paket> page = new PageImpl<>(pakets, pageable, 4);
+    paketFacade.convertToDtos(page);
     verify(modelMapper, times(1)).map(pakets.get(0), PaketDto.class);
     verify(modelMapper, times(1)).map(pakets.get(1), PaketDto.class);
   }

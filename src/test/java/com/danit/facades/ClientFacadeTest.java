@@ -59,7 +59,9 @@ public class ClientFacadeTest {
     Client client1 = mock(Client.class);
     Client client2 = mock(Client.class);
     List<Client> clients = Arrays.asList(new Client[]{client1, client2});
-    clientFacade.convertToDtos(clients);
+    Pageable pageable = PageRequest.of(0, 4);
+    Page<Client> page = new PageImpl<>(clients, pageable, 4);
+    clientFacade.convertToDtos(page);
     verify(modelMapper, times(1)).map(clients.get(0), ClientDto.class);
     verify(modelMapper, times(1)).map(clients.get(1), ClientDto.class);
   }
