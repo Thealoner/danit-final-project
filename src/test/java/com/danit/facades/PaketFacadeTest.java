@@ -102,4 +102,34 @@ public class PaketFacadeTest {
     verify(modelMapper, times(1)).map(paket, PaketDto.class);
   }
 
+  @Test
+  public void saveEntitiesTest() {
+    Paket paket1 = mock(Paket.class);
+    Paket paket2 = mock(Paket.class);
+    List<Paket> pakets = Arrays.asList(new Paket[]{paket1, paket2});
+
+    when(paketService.saveEntities(pakets)).thenReturn(pakets);
+
+    paketFacade.saveEntities(pakets);
+
+    verify(paketService, times(1)).saveEntities(pakets);
+    verify(modelMapper, times(1)).map(pakets.get(0), PaketDto.class);
+    verify(modelMapper, times(1)).map(pakets.get(1), PaketDto.class);
+  }
+
+  @Test
+  public void updateEntitiesTest() {
+    Paket paket1 = mock(Paket.class);
+    Paket paket2 = mock(Paket.class);
+    List<Paket> pakets = Arrays.asList(new Paket[]{paket1, paket2});
+
+    when(paketService.updateEntities(pakets)).thenReturn(pakets);
+
+    paketFacade.updateEntities(pakets);
+
+    verify(paketService, times(1)).updateEntities(pakets);
+    verify(modelMapper, times(1)).map(pakets.get(0), PaketDto.class);
+    verify(modelMapper, times(1)).map(pakets.get(1), PaketDto.class);
+  }
+
 }
