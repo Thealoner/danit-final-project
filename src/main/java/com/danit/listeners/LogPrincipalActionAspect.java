@@ -1,4 +1,4 @@
-package com.danit.annotations;
+package com.danit.listeners;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -46,9 +46,9 @@ public class LogPrincipalActionAspect {
       Object thirdParameter = joinPoint.getArgs()[2];
       String thirdAdditionalInfo = (thirdParameter.getClass().getSimpleName().equals(Long.class.getSimpleName())) ?
           " with id = " + thirdParameter.toString() : thirdParameter.toString();
-      methodName = methodName.replace("from",thirdAdditionalInfo + " from");
+      methodName = methodName.replace("from", thirdAdditionalInfo + " from");
       log.info(className + ": " + principal.getName() + " " + methodName + firstAdditionalInfo);
-    }  else {
+    } else {
       log.info(className + ": " + principal.getName() + " " + methodName + firstAdditionalInfo);
     }
   }
@@ -66,9 +66,9 @@ public class LogPrincipalActionAspect {
       Object thirdParameter = joinPoint.getArgs()[2];
       String thirdAdditionalInfo = (thirdParameter.getClass().getSimpleName().equals(Long.class.getSimpleName())) ?
           " with id = " + thirdParameter.toString() : thirdParameter.toString();
-      methodName = methodName.replace("to",thirdAdditionalInfo + " to");
+      methodName = methodName.replace("to", thirdAdditionalInfo + " to");
       log.info(className + ": " + principal.getName() + " " + methodName + firstAdditionalInfo);
-    }  else {
+    } else {
       log.info(className + ": " + principal.getName() + " " + methodName + firstAdditionalInfo);
     }
   }
@@ -86,7 +86,7 @@ public class LogPrincipalActionAspect {
   }
 
   private String getClassSimpleName(String className) {
-    return className.replace("com.danit.controllers.","");
+    return className.replace("com.danit.controllers.", "");
   }
 
 }

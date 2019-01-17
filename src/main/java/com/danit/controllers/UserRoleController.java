@@ -49,7 +49,7 @@ public class UserRoleController {
   @JsonView(Views.Extended.class)
   @PostMapping
   public ResponseEntity<Map<String, Object>> createUserRoles(@RequestBody List<UserRole> roles,
-                                                                        Principal principal) {
+                                                             Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(userRoleFacade.saveEntities(roles)));
   }
 

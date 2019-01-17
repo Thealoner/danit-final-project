@@ -54,8 +54,8 @@ public class ServiceCategoryController {
   @JsonView(Views.Extended.class)
   @PostMapping
   public ResponseEntity<Map<String, Object>> createServiceCategories(@RequestBody List<ServiceCategory>
-                                                                            serviceCategories,
-                                                                        Principal principal) {
+                                                                         serviceCategories,
+                                                                     Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(serviceCategoryFacade.saveEntities(serviceCategories)));
   }
 

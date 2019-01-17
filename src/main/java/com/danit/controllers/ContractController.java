@@ -191,8 +191,8 @@ public class ContractController {
   @DeleteMapping("/{contractId}/cards")
   @ResponseStatus(HttpStatus.OK)
   void deleteCardsFromContract(@PathVariable(name = "contractId") Long contractId,
-                             Principal principal,
-                             @RequestBody List<Card> cards) {
+                               Principal principal,
+                               @RequestBody List<Card> cards) {
     contractService.deAssignCardsFromContract(contractId, cards);
   }
 
