@@ -130,6 +130,13 @@
             <version>LATEST</version>
         </dependency>
 
+        <!-- For S3 bucket -->
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk</artifactId>
+            <version>LATEST</version>
+        </dependency>
+
     </dependencies>
 
 
