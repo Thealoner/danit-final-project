@@ -17,7 +17,7 @@ public class CardService extends AbstractBaseEntityService<Card, CardListRequest
   }
 
   public Page<Card> findAllContractsForClientId(Long contractId, Pageable pageable) {
-    return cardRepository.findAllCardsForContractId(contractId, pageable);
+    return cardRepository.findAllByContract_Id(contractId, pageable);
   }
 
 }
