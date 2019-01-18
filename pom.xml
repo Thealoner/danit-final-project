@@ -123,10 +123,17 @@
             <version>LATEST</version>
         </dependency>
 
-        <!-- For annotations -->
+        <!-- For listeners -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
+            <version>LATEST</version>
+        </dependency>
+
+        <!-- For S3 bucket -->
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk</artifactId>
             <version>LATEST</version>
         </dependency>
 

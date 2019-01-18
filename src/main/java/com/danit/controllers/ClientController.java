@@ -60,7 +60,7 @@ public class ClientController {
   @JsonView(Views.Extended.class)
   @PostMapping
   ResponseEntity<Map<String, Object>> createClients(@RequestBody List<Client> clients,
-                                                               Principal principal) {
+                                                    Principal principal) {
     List<ClientDto> clientDtos = clientFacade.saveEntities(clients);
     return ResponseEntity.ok(convertDtoToMap(clientDtos));
   }
