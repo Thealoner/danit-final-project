@@ -87,11 +87,11 @@ public class ContractService extends AbstractBaseEntityService<Contract, Contrac
   }
 
   public Page<Contract> findAllContractsForClientId(Long clientId, Pageable pageable) {
-    return contractRepository.findAllContractsForClientId(clientId, pageable);
+    return contractRepository.findAllByClient_Id(clientId, pageable);
   }
 
   public Page<Contract> findAllContractsForPaketId(Long paketId, Pageable pageable) {
-    return contractRepository.findAllContractsForPaketId(paketId, pageable);
+    return contractRepository.findAllByPaket_Id(paketId, pageable);
   }
 
   @Transactional

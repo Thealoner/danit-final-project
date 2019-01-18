@@ -94,6 +94,6 @@ public class ServiceCategoryService extends AbstractBaseEntityService<ServiceCat
   }
 
   public Page<ServiceCategory> findAllServiceCategoriesOfServiceWithId(long id, Pageable pageable) {
-    return serviceCategoryRepository.findAllServiceCategoriesOfServiceWithId(id, pageable);
+    return serviceCategoryRepository.findAllByServices_Id(id, pageable);
   }
 }
