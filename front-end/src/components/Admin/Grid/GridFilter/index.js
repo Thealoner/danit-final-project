@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import './index.scss';
 import { getGridData, changeFilterStatus } from '../../../../actions/tabActions';
 import { connect } from 'react-redux';
+import DatePicker from 'react-datepicker';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 let defaultFilter = {
   field: 'search',
@@ -10,7 +13,8 @@ let defaultFilter = {
 
 class GridFilter extends Component {
   state = {
-    ...defaultFilter
+    ...defaultFilter,
+    activeFilter: ''
   };
 
   applyFilter = (filterString) => {
@@ -35,7 +39,8 @@ class GridFilter extends Component {
     });
 
     this.setState({
-      ...defaultFilter
+      ...defaultFilter,
+      activeFilter: ''
     });
   };
 
@@ -47,6 +52,29 @@ class GridFilter extends Component {
 
     this.setState({
       [name]: value
+    });
+
+    changeFilterStatus(false);
+  };
+
+  handleInputChangeDate = (date) => {
+    this.setState({
+      value: date
+    });
+  }
+
+  handleInputChangeFilter = event => {
+    const { changeFilterStatus } = this.props;
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    let index = event.nativeEvent.target.selectedIndex;
+    let optionName = event.nativeEvent.target[index].text;
+
+    this.setState({
+      [name]: value,
+      activeFilter: optionName
     });
 
     changeFilterStatus(false);
@@ -74,22 +102,79 @@ class GridFilter extends Component {
   render () {
     const { currentTab } = this.props;
 
+    let valueField = <input name="value" type="text" value={this.state.value} onChange={this.handleInputChange}/>;
+    if (this.state.activeFilter === 'Пол') {
+      valueField = <select name="value" value={this.state.value} onChange={this.handleInputChange}>
+        <option value='' selected="selected">Все</option>
+        <option value='F'>Женский</option>
+        <option value='M'>Мужской</option>
+      </select>;
+    }
+
+    if (this.state.activeFilter === 'Дата Рождения') {
+      valueField = <DatePicker selected={this.state.value} dateFormat="dd-MM-yyyy"
+        scrollableYearDropdown
+        scrollableMonthDropdown
+        showYearDropdown
+        showMonthDropdown
+        yearDropdownItemNumber={60} onChange={this.handleInputChangeDate} />;
+    }
+
+    if (this.state.activeFilter === 'Дата начала') {
+      valueField = <DatePicker selected={this.state.value} dateFormat="dd-MM-yyyy"
+        scrollableYearDropdown
+        scrollableMonthDropdown
+        showYearDropdown
+        showMonthDropdown
+        yearDropdownItemNumber={60} onChange={this.handleInputChangeDate} />;
+    }
+
+    if (this.state.activeFilter === 'Дана окончания') {
+      valueField = <DatePicker selected={this.state.value} dateFormat="dd-MM-yyyy"
+        scrollableYearDropdown
+        scrollableMonthDropdown
+        showYearDropdown
+        showMonthDropdown
+        yearDropdownItemNumber={60} onChange={this.handleInputChangeDate} />;
+    }
+
+    if (this.state.activeFilter === 'Активен') {
+      valueField = <select name="value" value={this.state.value} onChange={this.handleInputChange}>
+        <option value='' selected="selected">Все</option>
+        <option value='true'>Да</option>
+        <option value='false'>Нет</option>
+      </select>;
+    }
+
+    if (this.state.activeFilter === 'Mожно купить?') {
+      valueField = <select name="value" value={this.state.value} onChange={this.handleInputChange}>
+        <option value='' selected="selected">Все</option>
+        <option value='true'>Да</option>
+        <option value='false'>Нет</option>
+      </select>;
+    }
     return (
       <form onSubmit={this.handleSubmit} className="filter">
-        <div>
+        <div className='filter__value'>
           <span>
             <label>Поле: </label>
-            <select name="field" value={this.state.field} onChange={this.handleInputChange}>
+            <select name="field" value={this.state.field} onChange={this.handleInputChangeFilter}>
               {this.renderFields()}
             </select>
           </span>
           <span>
             <label>Значение: </label>
-            <input name="value" type="text" value={this.state.value} onChange={this.handleInputChange}/>
+            {valueField}
           </span>
         </div>
-        <button name="filter" type="submit" disabled={currentTab.filtered}>Применить фильтр</button>
-        <button name="clear" onClick={this.clearFilter} type="button">Очистить фильтр</button>
+        <div className='filter__right'>
+          <button name="filter" type="submit" disabled={currentTab.filtered} className='apply-btn'>Применить фильтр</button>
+          <button name="clear" onClick={this.clearFilter} type="button" className='clean-btn'>Очистить фильтр</button>
+          <span className='filter__status'>
+            {this.state.activeFilter ? 'Фильтр: ' : null}
+            {this.state.activeFilter ? this.state.activeFilter : null}
+          </span>
+        </div>
       </form>
     );
   }
