@@ -23,6 +23,5 @@ public class ContractListRequestDto extends BaseListRequestDto {
 
   public String clientId;
 
-  private String active;
-
+  public String active;
 }
