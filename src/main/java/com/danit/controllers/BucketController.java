@@ -37,11 +37,12 @@ public class BucketController {
 
   @DeleteMapping("/deleteFile")
   public void deleteFile(@RequestPart(value = "url") String fileUrl) {
-   amazonClientService.deleteFileFromS3Bucket(fileUrl);
+    amazonClientService.deleteFileFromS3Bucket(fileUrl);
   }
 
   @GetMapping("/{fileName}")
-  public ResponseEntity<byte[]> getImageAsResponseEntity(@PathVariable(name = "fileName") String fileName) throws IOException {
+  public ResponseEntity<byte[]> getImageAsResponseEntity(
+      @PathVariable(name = "fileName") String fileName) throws IOException {
     HttpHeaders headers = new HttpHeaders();
     InputStream in = amazonClientService.getFile(fileName);
     byte[] media = IOUtils.toByteArray(in);

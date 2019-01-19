@@ -1,7 +1,6 @@
 package com.danit.controllers;
 
 
-import com.danit.ApplicationProperties;
 import com.danit.dto.ClientDto;
 import com.danit.dto.Views;
 import com.danit.dto.service.ClientListRequestDto;
