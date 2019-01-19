@@ -5,4 +5,4 @@ export const formatDateString = dateString => {
   const year = date.getFullYear();
 
   return day + '-' + month + '-' + year;
-}
+};

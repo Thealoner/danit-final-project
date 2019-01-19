@@ -86,7 +86,7 @@ class GridFilter extends Component {
     let filterString;
 
     if (field.toLowerCase().includes('date')) {
-        value = formatDateString(value);
+      value = formatDateString(value);
     }
 
     filterString = '&' + field + '=' + value;
