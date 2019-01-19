@@ -98,7 +98,7 @@ public class ServicesController {
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  void deleteServiceById(@PathVariable(name = "id") long id, Principal principal) {
+  void deleteServiceById(@PathVariable(name = "id") Long id, Principal principal) {
     serviceFacade.deleteEntityById(id);
   }
 
@@ -110,16 +110,17 @@ public class ServicesController {
 
   @JsonView(Views.Short.class)
   @GetMapping("/{serviceId}/service_category")
-  ResponseEntity<Map<String, Object>> getAllServiceServiceCategories(@PathVariable(name = "serviceId") long id,
-                                                                     Principal principal,
-                                                                     @PageableDefault(page = DEFAULT_PAGE_NUMBER,
-                                                                         size = DEFAULT_PAGE_SIZE)
-                                                                     @SortDefault.SortDefaults({
-                                                                         @SortDefault(sort = "id",
-                                                                             direction = Sort.Direction.ASC)
-                                                                     }) Pageable pageable) {
+  ResponseEntity<Map<String, Object>> getAllServiceCategoriesForServiceId(
+      @PathVariable(name = "serviceId") Long serviceId,
+      Principal principal,
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER,
+          size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id",
+              direction = Sort.Direction.ASC)
+      }) Pageable pageable) {
     return ResponseEntity.ok(convertPageToMap(serviceCategoryFacade
-        .findAllServiceCategoriesOfServiceWithId(id, pageable)));
+        .findAllServiceCategoriesOfServiceWithId(serviceId, pageable)));
   }
 
 }
