@@ -91,7 +91,7 @@ public class UserRoleController {
 
   @JsonView(Views.Extended.class)
   @GetMapping("/{id}")
-  ResponseEntity<Map<String, Object>> getUserRoleByIdDtoExtended(@PathVariable(name = "id") long id, Principal principal) {
+  ResponseEntity<Map<String, Object>> getUserRoleByIdDtoExtended(@PathVariable(name = "id") Long id, Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(userRoleFacade.getEntityById(id)));
   }
 
@@ -103,7 +103,7 @@ public class UserRoleController {
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  void deleteUserRoleById(@PathVariable(name = "id") long id, Principal principal) {
+  void deleteUserRoleById(@PathVariable(name = "id") Long id, Principal principal) {
     userRoleFacade.deleteEntityById(id);
   }
 
@@ -116,8 +116,7 @@ public class UserRoleController {
   @JsonView(Views.Extended.class)
   @GetMapping("/{roleId}/users")
   ResponseEntity<Map<String, Object>> getAllUsersForRoleId(
-      @PathVariable(name = "roleId")
-          long id,
+      @PathVariable(name = "roleId") Long id,
       Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
@@ -129,8 +128,7 @@ public class UserRoleController {
   @JsonView(Views.Short.class)
   @GetMapping("/{roleId}/users/short")
   ResponseEntity<Map<String, Object>> getAllUsersForRoleIdShort(
-      @PathVariable(name = "roleId")
-          long id,
+      @PathVariable(name = "roleId") Long id,
       Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
@@ -142,8 +140,7 @@ public class UserRoleController {
   @JsonView(Views.Ids.class)
   @GetMapping("/{roleId}/users/ids")
   ResponseEntity<Map<String, Object>> getAllUsersForRoleIdIds(
-      @PathVariable(name = "roleId")
-          long id,
+      @PathVariable(name = "roleId") Long id,
       Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({

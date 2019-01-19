@@ -55,7 +55,7 @@ public class UserController {
   @JsonView(Views.Extended.class)
   @PostMapping
   ResponseEntity<Map<String, Object>> createUsers(@RequestBody List<User> users,
-                                                         Principal principal) {
+                                                  Principal principal) {
     users.forEach(user -> {
       if (Objects.nonNull(user.getPassword())) {
         user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
@@ -134,9 +134,9 @@ public class UserController {
   @PutMapping("/{userId}/role/{roleId}")
   @JsonView(Views.Extended.class)
   @ResponseStatus(HttpStatus.OK)
-  ResponseEntity<Map<String, Object>> assignRoleToUser(@PathVariable(name = "userId") Long userId,
-                                                       Principal principal,
-                                                       @PathVariable(name = "roleId") Long roleId) {
+  ResponseEntity<Map<String, Object>> assignRoleToUser(@PathVariable(name = "roleId") Long roleId,
+                                                       @PathVariable(name = "userId") Long userId,
+                                                       Principal principal) {
     roleService.assignRoleToUser(userId, roleId);
     return ResponseEntity.ok(convertDtoToMap(userFacade.getEntityById(userId)));
   }
@@ -144,9 +144,9 @@ public class UserController {
   @PutMapping("/{userId}/roles")
   @JsonView(Views.Extended.class)
   @ResponseStatus(HttpStatus.OK)
-  ResponseEntity<Map<String, Object>> assignRolesToUser(@PathVariable(name = "userId") Long userId,
-                                                        Principal principal,
-                                                        @RequestBody List<UserRole> roles) {
+  ResponseEntity<Map<String, Object>> assignRolesToUser(@RequestBody List<UserRole> roles,
+                                                        @PathVariable(name = "userId") Long userId,
+                                                        Principal principal) {
     roleService.assignRolesToUser(userId, roles);
     return ResponseEntity.ok(convertDtoToMap(userFacade.getEntityById(userId)));
   }
@@ -154,26 +154,25 @@ public class UserController {
   @DeleteMapping("/{userId}/role/{roleId}")
   @JsonView(Views.Extended.class)
   @ResponseStatus(HttpStatus.OK)
-  void deleteRoleFromUser(@PathVariable(name = "userId") Long userId,
-                          Principal principal,
-                          @PathVariable(name = "roleId") Long roleId) {
+  void deleteRoleFromUser(@PathVariable(name = "roleId") Long roleId,
+                          @PathVariable(name = "userId") Long userId,
+                          Principal principal) {
     roleService.deleteRoleFromUser(userId, roleId);
   }
 
   @DeleteMapping("/{userId}/roles")
   @JsonView(Views.Extended.class)
   @ResponseStatus(HttpStatus.OK)
-  void deleteRolesFromUser(@PathVariable(name = "userId") Long userId,
-                           Principal principal,
-                           @RequestBody List<UserRole> roles) {
+  void deleteRolesFromUser(@RequestBody List<UserRole> roles,
+                           @PathVariable(name = "userId") Long userId,
+                           Principal principal) {
     roleService.deleteRolesFromUser(userId, roles);
   }
 
   @JsonView(Views.Ids.class)
   @GetMapping("/{userId}/roles/ids")
   ResponseEntity<Map<String, Object>> getAllRolesOfUserIds(
-      @PathVariable(name = "userId")
-          long id,
+      @PathVariable(name = "userId") Long id,
       Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
@@ -185,8 +184,7 @@ public class UserController {
   @JsonView(Views.Short.class)
   @GetMapping("/{userId}/roles/short")
   ResponseEntity<Map<String, Object>> getAllRolesOfUserShort(
-      @PathVariable(name = "userId")
-          long id,
+      @PathVariable(name = "userId") Long id,
       Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
@@ -198,8 +196,7 @@ public class UserController {
   @JsonView(Views.Extended.class)
   @GetMapping("/{userId}/roles")
   ResponseEntity<Map<String, Object>> getAllRolesOfUser(
-      @PathVariable(name = "userId")
-          long id,
+      @PathVariable(name = "userId") Long id,
       Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({

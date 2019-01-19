@@ -41,9 +41,6 @@ import static com.danit.utils.ControllerUtils.convertPageToMap;
 @RequestMapping("/clients")
 public class ClientController {
 
-  @Autowired
-  ApplicationProperties applicationProperties;
-
   private ClientFacade clientFacade;
 
   private ContractService contractService;
@@ -51,7 +48,8 @@ public class ClientController {
   private ContractFacade contractFacade;
 
   @Autowired
-  public ClientController(ClientFacade clientFacade, ContractService contractService, ContractFacade contractFacade) {
+  public ClientController(ClientFacade clientFacade, ContractService contractService,
+                          ContractFacade contractFacade) {
     this.clientFacade = clientFacade;
     this.contractService = contractService;
     this.contractFacade = contractFacade;
@@ -103,7 +101,7 @@ public class ClientController {
 
   @JsonView(Views.Extended.class)
   @GetMapping("/{id}")
-  ResponseEntity<Map<String, Object>> getClientByIdDtoExtended(@PathVariable(name = "id") long id, Principal principal) {
+  ResponseEntity<Map<String, Object>> getClientByIdDtoExtended(@PathVariable(name = "id") Long id, Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(clientFacade.getEntityById(id)));
   }
 
@@ -116,7 +114,7 @@ public class ClientController {
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  void deleteClientById(@PathVariable(name = "id") long id, Principal principal) {
+  void deleteClientById(@PathVariable(name = "id") Long id, Principal principal) {
     clientFacade.deleteEntityById(id);
   }
 

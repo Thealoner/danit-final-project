@@ -35,7 +35,7 @@ import static com.danit.utils.ControllerUtils.convertPageToMap;
 @RequestMapping("/cards")
 public class CardController {
 
-  private final CardFacade cardFacade;
+  private CardFacade cardFacade;
 
   @Autowired
   public CardController(CardFacade cardFacade) {
@@ -86,7 +86,7 @@ public class CardController {
 
   @JsonView(Views.Extended.class)
   @GetMapping("/{id}")
-  ResponseEntity<Map<String, Object>> getCardByIdDtoExtended(@PathVariable(name = "id") long id, Principal principal) {
+  ResponseEntity<Map<String, Object>> getCardByIdDtoExtended(@PathVariable(name = "id") Long id, Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(cardFacade.getEntityById(id)));
   }
 
@@ -98,7 +98,7 @@ public class CardController {
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public void deleteCardById(@PathVariable(name = "id") long id, Principal principal) {
+  public void deleteCardById(@PathVariable(name = "id") Long id, Principal principal) {
     cardFacade.deleteEntityById(id);
   }
 
