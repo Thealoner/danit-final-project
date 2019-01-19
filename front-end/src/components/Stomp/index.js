@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
 import Stomp from 'stompjs';
 import AuthService from '../../helpers/authService';
+import { connect } from 'react-redux';
 
 class SocketComponent extends Component {
   state = {
     loaded: false
   }
 
+  client = Stomp.client('ws://localhost:9000/socket');
   authService = new AuthService();
+
+  headers = {
+    'Authorization': this.authService.getToken()
+  };
+
 
   render () {
     if (this.state.loaded) {
@@ -24,16 +31,31 @@ class SocketComponent extends Component {
       loaded: true
     });
 
-    const headers = {
-      'Authorization': this.authService.getToken()
-    };
-
-    let client = Stomp.client('ws://localhost:9000/socket');
-    client.connect(headers, (frame) => {
-      client.subscribe('/events/put', (frame) => {
-      }, headers);
+    
+    this.client.connect(this.headers, (frame) => {
+      this.client.subscribe('/events', (frame) => {
+      }, this.headers);
     });
+  };
+
+  componentDidUpdate () {
+    const { lastClosedTab } = this.props;
+    
+    if (lastClosedTab) {
+      this.client.send('/events', this.headers, JSON.stringify(lastClosedTab));
+      // Example:
+      // lastClosedTab: {
+      //     entityId: 3,
+      //     entity: 'packets'
+      //   }
+    }
+  }
+}
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    lastClosedTab: state.tabs.lastClosedTab
   };
 }
 
-export default SocketComponent;
+export default connect(mapStateToProps, null)(SocketComponent);
