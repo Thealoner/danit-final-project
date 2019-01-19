@@ -98,13 +98,13 @@ public class CardController {
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public void deleteCardByIdDto(@PathVariable(name = "id") long id, Principal principal) {
+  public void deleteCardById(@PathVariable(name = "id") long id, Principal principal) {
     cardFacade.deleteEntityById(id);
   }
 
   @DeleteMapping
   @ResponseStatus(HttpStatus.OK)
-  public void deleteCardsDto(@RequestBody List<Card> cards, Principal principal) {
+  public void deleteCards(@RequestBody List<Card> cards, Principal principal) {
     cardFacade.deleteEntities(cards);
   }
 

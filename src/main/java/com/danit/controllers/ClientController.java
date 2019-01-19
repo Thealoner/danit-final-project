@@ -116,13 +116,13 @@ public class ClientController {
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  void deleteClientByIdDto(@PathVariable(name = "id") long id, Principal principal) {
+  void deleteClientById(@PathVariable(name = "id") long id, Principal principal) {
     clientFacade.deleteEntityById(id);
   }
 
   @DeleteMapping
   @ResponseStatus(HttpStatus.OK)
-  void deleteClientsDto(@RequestBody List<Client> clients, Principal principal) {
+  void deleteClients(@RequestBody List<Client> clients, Principal principal) {
     clientFacade.deleteEntities(clients);
   }
 

@@ -54,7 +54,7 @@ public class UserController {
 
   @JsonView(Views.Extended.class)
   @PostMapping
-  public ResponseEntity<Map<String, Object>> createUsers(@RequestBody List<User> users,
+  ResponseEntity<Map<String, Object>> createUsers(@RequestBody List<User> users,
                                                          Principal principal) {
     users.forEach(user -> {
       if (Objects.nonNull(user.getPassword())) {
@@ -66,7 +66,7 @@ public class UserController {
 
   @JsonView(Views.Ids.class)
   @GetMapping(path = "/ids")
-  public ResponseEntity<Map<String, Object>> getAllUsersDtoIds(
+  ResponseEntity<Map<String, Object>> getAllUsersDtoIds(
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
@@ -78,7 +78,7 @@ public class UserController {
 
   @JsonView(Views.Short.class)
   @GetMapping(path = "/short")
-  public ResponseEntity<Map<String, Object>> getAllUsersDtoShort(
+  ResponseEntity<Map<String, Object>> getAllUsersDtoShort(
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
@@ -108,7 +108,7 @@ public class UserController {
 
   @JsonView(Views.Extended.class)
   @PutMapping
-  public ResponseEntity<Map<String, Object>> updateUsersDto(@RequestBody List<User> users, Principal principal) {
+  ResponseEntity<Map<String, Object>> updateUsersDto(@RequestBody List<User> users, Principal principal) {
     users.forEach(user -> {
       if (Objects.nonNull(user.getPassword())) {
         user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
@@ -119,13 +119,13 @@ public class UserController {
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public void deleteUserById(@PathVariable(name = "id") long id, Principal principal) {
+  void deleteUserById(@PathVariable(name = "id") long id, Principal principal) {
     userFacade.deleteEntityById(id);
   }
 
   @DeleteMapping
   @ResponseStatus(HttpStatus.OK)
-  public void deleteUsers(@RequestBody List<User> users, Principal principal) {
+  void deleteUsers(@RequestBody List<User> users, Principal principal) {
     userFacade.deleteEntities(users);
   }
 
