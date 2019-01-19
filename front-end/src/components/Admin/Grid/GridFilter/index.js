@@ -3,6 +3,7 @@ import './index.scss';
 import { getGridData, changeFilterStatus } from '../../../../actions/tabActions';
 import { connect } from 'react-redux';
 import DatePicker from 'react-datepicker';
+import { formatDateString } from '../../../../helpers/common';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -81,7 +82,14 @@ class GridFilter extends Component {
   };
 
   handleSubmit = event => {
-    const filterString = '&' + this.state.field + '=' + this.state.value;
+    let { field, value } = this.state;
+    let filterString;
+
+    if (field.toLowerCase().includes('date')) {
+        value = formatDateString(value);
+    }
+
+    filterString = '&' + field + '=' + value;
 
     event.preventDefault();
     this.applyFilter(filterString);
