@@ -5,6 +5,7 @@
   flex-wrap: wrap;
   align-items: center;
   width: 100%;
+  min-width: 510px;
   padding: 10px 10px 0;
   color: $blue-bayoux;
   font-size: 14px;
@@ -12,12 +13,14 @@
   border: 1px solid $white;
 
   &__value {
-    margin-right: 20px;
     margin-bottom: 10px;
   }
 
   &__status {
-    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    height: 30px;
+    margin-bottom: 10px;
   }
 
   span {
@@ -30,19 +33,17 @@
 
   input,
   select {
-    width: 150px;
+    width: 170px;
     height: 30px;
+    margin-right: 20px;
     padding-left: 10px;
     background-color: $white;
     border: none;
     border-radius: 3px;
   }
 
-  select {
+  button {
     margin-right: 20px;
-  }
-
-  .clean-btn, .apply-btn {
     margin-bottom: 10px;
     padding: 6px 5px;
     color: $hot-pink;
@@ -51,59 +52,10 @@
     border: 1px solid $hot-pink;
     border-radius: 3px;
 
-    &:nth-of-type(1) {
-      margin-right: 20px;
-    }
-
     &:not(:disabled):hover {
       color: $white;
       background-color: $hot-pink;
       border-color: $hot-pink;
     }
-
   }
-}
-
-.react-datepicker__header{
-  margin-right: 0 !important;
-}
-
-@media only screen and (min-width: 780px) and (max-width: 1045px) {
-  .filter {
-    display: flex;
-    flex-wrap: wrap;
-    height: 100px;
-
-    .tabulator {
-      margin: 80px 0;
-    }
-
-    div{
-      padding-top: 2px;
-    }
-
-    .clean-btn, .apply-btn{
-
-      &:first-child {
-        margin-left: 50px
-      }
-      &:last-child {
-        margin-left: 91px;
-      }
-  }
-}
-}
-
-
-@media only screen and (max-width: 780px) {
-  .filter {
-  .clean-btn, .apply-btn{
-
-    &:first-child {
-      margin-left: 10px
-    }
-    &:last-child {
-      margin-left: 51px;
-    }
-  }}
 }

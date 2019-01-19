@@ -155,7 +155,7 @@ class GridFilter extends Component {
     }
     return (
       <form onSubmit={this.handleSubmit} className="filter">
-        <div className='filter__value'>
+        <div className="filter__value">
           <span>
             <label>Поле: </label>
             <select name="field" value={this.state.field} onChange={this.handleInputChangeFilter}>
@@ -167,14 +167,12 @@ class GridFilter extends Component {
             {valueField}
           </span>
         </div>
-        <div className='filter__right'>
-          <button name="filter" type="submit" disabled={currentTab.filtered} className='apply-btn'>Применить фильтр</button>
-          <button name="clear" onClick={this.clearFilter} type="button" className='clean-btn'>Очистить фильтр</button>
-          <span className='filter__status'>
-            {this.state.activeFilter ? 'Фильтр: ' : null}
-            {this.state.activeFilter ? this.state.activeFilter : null}
-          </span>
-        </div>
+        <button name="filter" type="submit" disabled={currentTab.filtered} className='apply-btn'>Применить фильтр</button>
+        <button name="clear" onClick={this.clearFilter} type="button" className='clean-btn'>Очистить фильтр</button>
+        <span className='filter__status'>
+          {this.state.activeFilter ? 'Фильтр: ' : null}
+          {this.state.activeFilter ? this.state.activeFilter : null}
+        </span>
       </form>
     );
   }
