@@ -11,6 +11,10 @@ class Service extends Component {
   render () {
     let { currentTab, handleDelete, handleCancel, handleSubmit, submitting } = this.props;
     let { data } = currentTab.form;
+    let editingMode;
+    if (currentTab.form.data.id) {
+      editingMode = true;
+    }
 
     if (!data) {
       return <div className="tabs__loader-wrapper"><Loader active inline='centered' size='big'/></div>;
@@ -19,7 +23,7 @@ class Service extends Component {
     return (
       <form onSubmit={handleSubmit} className="record">
         <div className="form-group field field-object">
-          <p>{currentTab.form.data.id ? 'ID: ' + currentTab.form.data.id : ''}</p>
+          <p>{editingMode ? 'ID: ' + currentTab.form.data.id : ''}</p>
           <div className="form-group field field-string">
             <label className="control-label" htmlFor="title">Название</label>
             <Field name="title" component="input" type="text" />
@@ -46,7 +50,7 @@ class Service extends Component {
           </div>
 
           <button type="submit" className="record__button" disabled={!currentTab.form.edited || submitting}>Сохранить</button>
-          <button type="button" className="record__button" onClick={handleDelete}>Удалить</button>
+          <button type="button" className="record__button" onClick={handleDelete} disabled={!editingMode}>Удалить</button>
           <button type="button" className="record__button" onClick={handleCancel}>Отмена</button>
         </div>
       </form>
