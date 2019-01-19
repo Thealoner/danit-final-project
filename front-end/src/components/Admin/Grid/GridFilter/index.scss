@@ -23,16 +23,16 @@
     margin-bottom: 10px;
   }
 
-  span {
+  &__wrapper {
     white-space: nowrap;
   }
 
-  label {
+  &__label {
     margin-right: 10px;
   }
 
   input,
-  select {
+  &__select {
     width: 170px;
     height: 30px;
     margin-right: 20px;

@@ -137,7 +137,7 @@ class GridFilter extends Component {
         yearDropdownItemNumber={60} onChange={this.handleInputChangeDate} />;
     }
 
-    if (this.state.activeFilter === 'Дана окончания') {
+    if (this.state.activeFilter === 'Дата окончания') {
       valueField = <DatePicker selected={this.state.value} dateFormat="dd-MM-yyyy"
         scrollableYearDropdown
         scrollableMonthDropdown
@@ -164,14 +164,14 @@ class GridFilter extends Component {
     return (
       <form onSubmit={this.handleSubmit} className="filter">
         <div className="filter__value">
-          <span>
-            <label>Поле: </label>
-            <select name="field" value={this.state.field} onChange={this.handleInputChangeFilter}>
+          <span className="filter__wrapper">
+            <label className="filter__label">Поле: </label>
+            <select className="filter__select" name="field" value={this.state.field} onChange={this.handleInputChangeFilter}>
               {this.renderFields()}
             </select>
           </span>
-          <span>
-            <label>Значение: </label>
+          <span className="filter__wrapper">
+            <label className="filter__label">Значение: </label>
             {valueField}
           </span>
         </div>
