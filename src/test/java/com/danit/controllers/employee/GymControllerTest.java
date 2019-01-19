@@ -46,7 +46,7 @@ public class GymControllerTest {
   public void isOkWhenAdminAccess() throws Exception {
     HttpHeaders header = testUtils.getHeader(template, UserRolesEnum.ADMIN);
     mockMvc
-        .perform(get(url).headers(header))
+        .perform(get("/gym").headers(header))
         .andExpect(status().isOk());
   }
 

@@ -4,7 +4,7 @@
   display: grid;
   height: 100%;
   grid-template-columns: 200px auto;
-  grid-column-gap: 10px;
+  grid-column-gap: 5px;
 
   &__left {
     overflow: auto;
@@ -58,7 +58,7 @@
 
 .configurator__menu-hide {
   grid-template-columns: 15px auto;
-  grid-gap: 3px;
+  grid-gap: 5px;
 
   .configurator__left {
     overflow: hidden;

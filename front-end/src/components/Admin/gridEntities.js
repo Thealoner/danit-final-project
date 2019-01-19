@@ -2,7 +2,7 @@ import pakets from '../../SampleJson/pakets.json';
 import services from '../../SampleJson/services.json';
 import serviceCategories from '../../SampleJson/service_categories.json';
 import contracts from '../../SampleJson/contracts.json';
-import organizations from '../../SampleJson/organizations.json';
+// import organizations from '../../SampleJson/organizations.json';
 import clients from '../../SampleJson/clients.json';
 
 const gridEntities = [
@@ -119,8 +119,6 @@ const gridEntities = [
     columns: [
       { title: 'ID', field: 'id' },
       { title: 'Название', field: 'title' },
-      { title: 'Категория', field: 'serviceCategory.title' },
-      { title: 'service_qty', field: 'service_qty' },
       { title: 'Цена', field: 'price', align: 'left' },
       { title: 'Себестоимость', field: 'cost', align: 'left' },
       { title: 'Единица измерения', field: 'unit', align: 'left' },
@@ -192,7 +190,8 @@ const gridEntities = [
     columns: [
       { title: 'ID', field: 'id' },
       { title: 'Дата начала', field: 'startDate' },
-      { title: 'Дана окончания', field: 'endDate' },
+      { title: 'Дата окончания', field: 'endDate' },
+      { title: 'Кредит', field: 'credit' },
       { title: 'ID клиента', field: 'clientId', align: 'left' },
       { title: 'Активен', field: 'active', formatter: 'tickCross' }
     ],
@@ -227,6 +226,7 @@ const gridEntities = [
     },
     uiSchema: {}
   },
+  /*
   {
     id: 'organizations',
     name: 'Организации',
@@ -240,6 +240,7 @@ const gridEntities = [
       { title: 'Активен', field: 'active', formatter: 'tickCross' }
     ]
   },
+  */
   {
     id: 'clients',
     name: 'Клиенты',
@@ -286,8 +287,7 @@ const gridEntities = [
     recordType: 'simple',
     columns: [
       { title: 'ID', field: 'id' },
-      { title: 'Логин', field: 'username' },
-      { title: 'Роль', field: 'roles.role' }
+      { title: 'Логин', field: 'username' }
     ],
     schema: {
       title: 'Редактирование пользователя',
@@ -343,7 +343,8 @@ const gridEntities = [
     apiUrl: '/roles',
     recordType: 'simple',
     columns: [
-      { title: 'ID', field: 'role' }
+      { title: 'ID', field: 'id' },
+      { title: 'Роль', field: 'role' }
     ],
     schema: {
       type: 'object',
@@ -360,6 +361,18 @@ const gridEntities = [
         'ui:widget': 'radio'
       }
     }
+  },
+  {
+    id: 'cards',
+    name: 'Карточки',
+    nameForAddBtn: 'роль пользователя',
+    apiUrl: '/cards',
+    recordType: 'simple',
+    columns: [
+      { title: 'ID', field: 'id' },
+      { title: 'Код', field: 'code' },
+      { title: 'Активен', field: 'active', formatter: 'tickCross' }
+    ]
   }
 ];
 

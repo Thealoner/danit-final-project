@@ -8,7 +8,6 @@ import com.danit.models.Service;
 import com.danit.models.ServiceCategory;
 import com.danit.services.ServiceCategoryService;
 import com.fasterxml.jackson.annotation.JsonView;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -37,10 +36,8 @@ import static com.danit.utils.ControllerUtils.convertPageToMap;
 
 @RestController
 @RequestMapping("/service_categories")
-@Slf4j
 public class ServiceCategoryController {
 
-  private static final String LOG_MSG_GOT_ALL_DATA = " got all service categories data";
   private ServiceCategoryFacade serviceCategoryFacade;
   private ServiceCategoryService serviceCategoryService;
   private ServiceFacade serviceFacade;
@@ -56,10 +53,9 @@ public class ServiceCategoryController {
 
   @JsonView(Views.Extended.class)
   @PostMapping
-  public ResponseEntity<Map<String, Object>> createServiceCategoriesDto(@RequestBody List<ServiceCategory>
-                                                                            serviceCategories,
-                                                                        Principal principal) {
-    log.info(principal.getName() + " is saving new service categories: " + serviceCategories);
+  public ResponseEntity<Map<String, Object>> createServiceCategories(@RequestBody List<ServiceCategory>
+                                                                         serviceCategories,
+                                                                     Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(serviceCategoryFacade.saveEntities(serviceCategories)));
   }
 
@@ -72,7 +68,6 @@ public class ServiceCategoryController {
       }) Pageable pageable,
       Principal principal,
       ServiceCategoryListRequestDto serviceCategoryListRequestDto) {
-    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
     return ResponseEntity.ok(convertPageToMap(serviceCategoryFacade
         .getAllEntities(serviceCategoryListRequestDto, pageable)));
   }
@@ -86,7 +81,6 @@ public class ServiceCategoryController {
       }) Pageable pageable,
       Principal principal,
       ServiceCategoryListRequestDto serviceCategoryListRequestDto) {
-    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
     return ResponseEntity.ok(convertPageToMap(serviceCategoryFacade
         .getAllEntities(serviceCategoryListRequestDto, pageable)));
   }
@@ -100,16 +94,14 @@ public class ServiceCategoryController {
       }) Pageable pageable,
       Principal principal,
       ServiceCategoryListRequestDto serviceCategoryListRequestDto) {
-    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
     return ResponseEntity
         .ok(convertPageToMap(serviceCategoryFacade.getAllEntities(serviceCategoryListRequestDto, pageable)));
   }
 
   @JsonView(Views.Extended.class)
   @GetMapping("/{id}")
-  public ResponseEntity<Map<String, Object>> getServiceCategoryByIdDto(@PathVariable(name = "id") long id,
+  public ResponseEntity<Map<String, Object>> getServiceCategoryByIdDto(@PathVariable(name = "id") Long id,
                                                                        Principal principal) {
-    log.info(principal.getName() + " got service categories data with id: " + id);
     return ResponseEntity.ok(convertDtoToMap(serviceCategoryFacade.getEntityById(id)));
   }
 
@@ -118,21 +110,18 @@ public class ServiceCategoryController {
   public ResponseEntity<Map<String, Object>> updateServiceCategoriesDto(
       @RequestBody List<ServiceCategory> serviceCategories,
       Principal principal) {
-    log.info(principal.getName() + " is updating service categories data: " + serviceCategories);
     return ResponseEntity.ok(convertDtoToMap(serviceCategoryFacade.updateEntities(serviceCategories)));
   }
 
   @ResponseStatus(HttpStatus.OK)
   @DeleteMapping
   void deleteServiceCategories(@RequestBody List<ServiceCategory> serviceCategories, Principal principal) {
-    log.info(principal.getName() + " try to delete service category data: " + serviceCategories);
     serviceCategoryService.deleteServiceCategory(serviceCategories);
   }
 
   @ResponseStatus(HttpStatus.OK)
   @DeleteMapping("/{id}")
-  void deleteServiceCategoryById(@PathVariable(name = "id") long id, Principal principal) {
-    log.info(principal.getName() + " try to delete service category with id: " + id);
+  void deleteServiceCategoryById(@PathVariable(name = "id") Long id, Principal principal) {
     serviceCategoryService.deleteServiceCategotryById(id);
   }
 
@@ -143,91 +132,78 @@ public class ServiceCategoryController {
   @JsonView(Views.Ids.class)
   @GetMapping("/{serviceCategoryId}/services/ids")
   ResponseEntity<Map<String, Object>> getAllServiceCategoryServicesIds(
-      @PathVariable(name = "serviceCategoryId")
-          long id,
+      @PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
+      Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
-      }) Pageable pageable,
-      Principal principal) {
-    log.info(principal.getName() + " got service categories services data with id: " + id);
+      }) Pageable pageable) {
     return ResponseEntity.ok(convertPageToMap(serviceFacade
-        .findAllServicesDtoForServiceCategoryId(id, pageable)));
+        .findAllServicesDtoForServiceCategoryId(serviceCategoryId, pageable)));
   }
 
   @JsonView(Views.Short.class)
   @GetMapping("/{serviceCategoryId}/services/short")
   ResponseEntity<Map<String, Object>> getAllServiceCategoryServicesShort(
-      @PathVariable(name = "serviceCategoryId")
-          long id,
+      @PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
+      Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
-      }) Pageable pageable,
-      Principal principal) {
-    log.info(principal.getName() + " got service categories services data with id: " + id);
+      }) Pageable pageable) {
     return ResponseEntity.ok(convertPageToMap(serviceFacade
-        .findAllServicesDtoForServiceCategoryId(id, pageable)));
+        .findAllServicesDtoForServiceCategoryId(serviceCategoryId, pageable)));
   }
 
   @JsonView(Views.Extended.class)
   @GetMapping("/{serviceCategoryId}/services")
-  ResponseEntity<Map<String, Object>> getAllServiceCategoryServicesExtended(@PathVariable(name = "serviceCategoryId")
-                                                                                long id,
-                                                                            @PageableDefault(page = DEFAULT_PAGE_NUMBER,
-                                                                                size = DEFAULT_PAGE_SIZE)
-                                                                            @SortDefault.SortDefaults({
-                                                                                @SortDefault(sort = "id",
-                                                                                    direction = Sort.Direction.ASC)
-                                                                            }) Pageable pageable,
-                                                                            Principal principal) {
-    log.info(principal.getName() + " got service categories services data with id: " + id);
+  ResponseEntity<Map<String, Object>> getAllServiceCategoryServicesExtended(
+      @PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
+      Principal principal,
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER,
+          size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id",
+              direction = Sort.Direction.ASC)
+      }) Pageable pageable) {
     return ResponseEntity.ok(convertPageToMap(serviceFacade
-        .findAllServicesDtoForServiceCategoryId(id, pageable)));
+        .findAllServicesDtoForServiceCategoryId(serviceCategoryId, pageable)));
   }
 
   @JsonView(Views.Extended.class)
   @PutMapping("/{serviceCategoryId}/service/{serviceId}")
   @ResponseStatus(HttpStatus.OK)
-  ResponseEntity<Map<String, Object>> assignServiceToServiceCategory(@PathVariable(name = "serviceCategoryId")
-                                                                         Long serviceCategoryId,
-                                                                     @PathVariable(name = "serviceId") Long serviceId,
-                                                                     Principal principal) {
-    log.info(principal.getName() + " is trying to assign serviceId=" + serviceId +
-        " to serviceCategoryId = " + serviceCategoryId);
+  ResponseEntity<Map<String, Object>> assignServiceToServiceCategory(
+      @PathVariable(name = "serviceId") Long serviceId,
+      @PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
+      Principal principal) {
     serviceCategoryService.assignServiceToServiceCategory(serviceCategoryId, serviceId);
     return ResponseEntity.ok(convertDtoToMap(serviceCategoryFacade.getEntityById(serviceCategoryId)));
   }
 
   @PutMapping("/{serviceCategoryId}/services")
   @ResponseStatus(HttpStatus.OK)
-  ResponseEntity<Map<String, Object>> assignServicesToServiceCategory(@PathVariable(name = "serviceCategoryId")
-                                                                          Long serviceCategoryId,
-                                                                      @RequestBody List<Service> services,
-                                                                      Principal principal) {
-    log.info(principal.getName() + " is trying to assign services" + services + " to serviceCategoryId = " +
-        serviceCategoryId);
+  ResponseEntity<Map<String, Object>> assignServicesToServiceCategory(
+      @RequestBody List<Service> services,
+      @PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
+      Principal principal) {
     serviceCategoryService.assignServicesToServiceCategory(serviceCategoryId, services);
     return ResponseEntity.ok(convertDtoToMap(serviceCategoryFacade.getEntityById(serviceCategoryId)));
   }
 
   @DeleteMapping("/{serviceCategoryId}/service/{serviceId}")
   @ResponseStatus(HttpStatus.OK)
-  void deleteServiceFromServiceCategory(@PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
-                                        @PathVariable(name = "serviceId") Long serviceId,
+  void deleteServiceFromServiceCategory(@PathVariable(name = "serviceId") Long serviceId,
+                                        @PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
                                         Principal principal) {
-    log.info(principal.getName() + " is trying to delete serviceId=" + serviceId +
-        " from serviceCategoryId = " + serviceCategoryId);
     serviceCategoryService.deleteServiceFromServiceCategory(serviceCategoryId, serviceId);
   }
 
   @DeleteMapping("/{serviceCategoryId}/services")
   @ResponseStatus(HttpStatus.OK)
-  void deleteServicesFromServiceCategory(@PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
-                                         @RequestBody List<Service> services,
+  void deleteServicesFromServiceCategory(@RequestBody List<Service> services,
+                                         @PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
                                          Principal principal) {
-    log.info(principal.getName() + " is trying to assign services" + services + " to serviceCategoryId = " +
-        serviceCategoryId);
     serviceCategoryService.deleteServicesFromServiceCategory(serviceCategoryId, services);
   }
 

@@ -2,6 +2,12 @@ package com.danit.exceptions.handlers;
 
 import com.danit.exceptions.EntityNotFoundException;
 import com.danit.exceptions.EntityParticularDataException;
+import com.danit.exceptions.IllegalAccessReflectionException;
+import com.danit.exceptions.IllegalDateConversionException;
+import com.danit.exceptions.IllegalEntityFormatException;
+import com.danit.exceptions.InvalidJwtTokenException;
+import com.danit.exceptions.JwtUserMapException;
+import com.danit.exceptions.ObjectToJsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +23,11 @@ import java.util.Date;
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(value = {EntityNotFoundException.class,
-      EntityParticularDataException.class})
-  public final ResponseEntity<ErrorDetails> handleEntityNotFoundException(EntityNotFoundException ex, WebRequest request) {
+      EntityParticularDataException.class, IllegalAccessReflectionException.class,
+      IllegalEntityFormatException.class, IllegalDateConversionException.class,
+      InvalidJwtTokenException.class, ObjectToJsonProcessingException.class,
+      JwtUserMapException.class})
+  public final ResponseEntity<ErrorDetails> handleEntityNotFoundException(RuntimeException ex, WebRequest request) {
     log.error(ex.getMessage());
     ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(),
         request.getDescription(false));
@@ -27,7 +36,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
   @ExceptionHandler(value = Exception.class)
   public final ResponseEntity<ErrorDetails> handleInternalError(Exception ex, WebRequest request) {
-    log.error(ex.getMessage());
+    log.error(ex.getMessage(), ex);
     ErrorDetails errorDetails = new ErrorDetails(new Date(), "internal server error",
         request.getDescription(false));
     return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);

@@ -5,7 +5,6 @@ import com.danit.dto.service.PaketListRequestDto;
 import com.danit.facades.PaketFacade;
 import com.danit.models.Paket;
 import com.fasterxml.jackson.annotation.JsonView;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -33,11 +32,7 @@ import static com.danit.utils.ControllerUtils.convertPageToMap;
 
 @RestController
 @RequestMapping("/pakets")
-@Slf4j
 public class PaketController {
-
-  private static final String LOG_MSG_GOT_ALL_DATA = " got all pakets data";
-
 
   private final PaketFacade paketFacade;
 
@@ -48,7 +43,6 @@ public class PaketController {
   @JsonView(Views.Extended.class)
   @PostMapping
   public ResponseEntity<Map<String, Object>> createPakets(@RequestBody List<Paket> pakets, Principal principal) {
-    log.info(principal.getName() + " is saving new packets: " + pakets);
     return ResponseEntity.ok(convertDtoToMap(paketFacade.saveEntities(pakets)));
   }
 
@@ -61,7 +55,6 @@ public class PaketController {
       }) Pageable pageable,
       Principal principal,
       PaketListRequestDto paketListRequestDto) {
-    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
     return ResponseEntity.ok(convertPageToMap(paketFacade.getAllEntities(paketListRequestDto, pageable)));
   }
 
@@ -74,7 +67,6 @@ public class PaketController {
       }) Pageable pageable,
       Principal principal,
       PaketListRequestDto paketListRequestDto) {
-    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
     return ResponseEntity.ok(convertPageToMap(paketFacade.getAllEntities(paketListRequestDto, pageable)));
   }
 
@@ -87,35 +79,30 @@ public class PaketController {
       }) Pageable pageable,
       Principal principal,
       PaketListRequestDto paketListRequestDto) {
-    log.info(principal.getName() + LOG_MSG_GOT_ALL_DATA);
     return ResponseEntity.ok(convertPageToMap(paketFacade.getAllEntities(paketListRequestDto, pageable)));
   }
 
   @JsonView(Views.Extended.class)
   @GetMapping("/{id}")
-  ResponseEntity<Map<String, Object>> getPaketByIdExtended(@PathVariable(name = "id") long id, Principal principal) {
-    log.info(principal.getName() + " got paket data with id: " + id);
+  ResponseEntity<Map<String, Object>> getPaketByIdExtended(@PathVariable(name = "id") Long id, Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(paketFacade.getEntityById(id)));
   }
 
   @JsonView(Views.Extended.class)
   @PutMapping
   public ResponseEntity<Map<String, Object>> addPakets(@RequestBody List<Paket> pakets, Principal principal) {
-    log.info(principal.getName() + " is updating pakets data: " + pakets);
     return ResponseEntity.ok(convertDtoToMap(paketFacade.updateEntities(pakets)));
   }
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public void deletePaketById(@PathVariable(name = "id") long id, Principal principal) {
-    log.info(principal.getName() + " is trying to delete paket with id: " + id);
+  public void deletePaketById(@PathVariable(name = "id") Long id, Principal principal) {
     paketFacade.deleteEntityById(id);
   }
 
   @DeleteMapping
   @ResponseStatus(HttpStatus.OK)
   public void deletePakets(@RequestBody List<Paket> pakets, Principal principal) {
-    log.info(principal.getName() + " is trying to delete pakets: " + pakets);
     paketFacade.deleteEntities(pakets);
   }
 

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Pagination } from 'semantic-ui-react';
 import { getEntityByType } from '../../gridEntities';
 import { connect } from 'react-redux';
-import { getGridData } from '../../../../actions/tabActions';
+import { getGridData, setFormData } from '../../../../actions/tabActions';
+import './index.scss';
 
 class GridFooter extends Component {
   state = {
@@ -25,15 +25,21 @@ class GridFooter extends Component {
   };
 
   render () {
-    const { currentTab } = this.props;
+    const { currentTab, setFormData } = this.props;
     const { showEllipsis, showFirstAndLastNav, showPreviousAndNextNav } = this.state;
     const { currentPage, pagesTotal } = currentTab.grid.meta;
 
     return (
       <div className="grid-footer">
-        <Link to={'/admin/todo'} className="grid-footer__add-btn">
+        <button className="grid-footer__add-btn"
+          onClick={() => setFormData(currentTab.tabKey, {
+            mode: 'add',
+            type: 'form',
+            data: {},
+            meta: {}
+          })}>
           <FontAwesomeIcon className="grid-footer__plus-icon" icon="plus" size="1x"/>
-          Добавить {getEntityByType(currentTab.tabKey).nameForAddBtn}</Link>
+          Добавить {getEntityByType(currentTab.tabKey).nameForAddBtn}</button>
         <Pagination
           activePage={currentPage}
           boundaryRange={1}
@@ -56,6 +62,9 @@ const mapDispatchToProps = dispatch => {
   return {
     getGridData: (options) => {
       dispatch(getGridData(options));
+    },
+    setFormData: (tabKey, payload) => {
+      dispatch(setFormData(tabKey, payload));
     }
   };
 };

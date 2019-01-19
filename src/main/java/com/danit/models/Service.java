@@ -19,12 +19,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.util.List;
-import java.util.Objects;
 
-@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @ToString(exclude = {"serviceCategories"}, callSuper = true)
 @EntityListeners(AuditingEntityListener.class)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Data
 @Entity
 @Table(name = "services")
@@ -33,6 +32,7 @@ public class Service extends Auditable implements BaseEntity {
   @Column(name = "id")
   @SequenceGenerator(name = "services_sequence", sequenceName = "services_sequence", allocationSize = 1, initialValue = 1001)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "services_sequence")
+  @EqualsAndHashCode.Include
   private Long id;
 
   @Column(name = "title")
@@ -56,22 +56,5 @@ public class Service extends Auditable implements BaseEntity {
 
   @Column(name = "active")
   private Boolean active;
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null || getClass() != obj.getClass()) {
-      return false;
-    }
-    Service service = (Service) obj;
-    return Objects.equals(id, service.id);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id);
-  }
 
 }

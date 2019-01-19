@@ -7,6 +7,7 @@ import com.danit.repositories.BaseEntityRepository;
 import com.danit.repositories.specifications.BaseSpecification;
 import com.danit.services.events.WebSocketEvent;
 import com.danit.utils.ServiceUtils;
+import com.danit.utils.WebSocketUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,23 +23,21 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.danit.utils.WebSocketUtils.DELETE_EVENT;
-import static com.danit.utils.WebSocketUtils.GET_EVENT;
-import static com.danit.utils.WebSocketUtils.POST_EVENT;
-import static com.danit.utils.WebSocketUtils.PUT_EVENT;
-import static com.danit.utils.WebSocketUtils.convertEntitiesToJson;
-import static com.danit.utils.WebSocketUtils.convertEntityToJson;
-
 @Slf4j
 @Service
 public abstract class AbstractBaseEntityService<E extends BaseEntity, R> implements BaseEntityService<E> {
 
   protected static final String LOG_MSG1 = "Cant find ";
+
   protected static final String LOG_MSG2 = " with id=";
+
   @Autowired
   protected BaseEntityRepository<E> baseEntityRepository;
+
   @Autowired
   protected BaseSpecification<E, R> baseSpecification;
+  @Autowired
+  WebSocketUtils webSocketUtils;
   @Autowired
   private SimpMessageSendingOperations messagingTemplate;
 
@@ -116,6 +115,9 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
 
   @Override
   public void deleteEntities(List<E> entityList) {
+    if (entityList.isEmpty()) {
+      throw new EntityNotFoundException("can't find any entities to perform delete");
+    }
     List<E> list = reloadEntities(entityList);
     entityList.forEach(e -> {
       if (!list.contains(e)) {
@@ -139,16 +141,20 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
   public void notifyChannel(WebSocketEvent webSocketEvent, List<E> entityList) {
     switch (webSocketEvent.name()) {
       case "PUT":
-        messagingTemplate.convertAndSend(PUT_EVENT, convertEntitiesToJson(entityList));
+        messagingTemplate.convertAndSend(webSocketUtils.getPutEventEndpoint(),
+            webSocketUtils.convertEntitiesToJson(entityList));
         break;
       case "POST":
-        messagingTemplate.convertAndSend(POST_EVENT, convertEntitiesToJson(entityList));
+        messagingTemplate.convertAndSend(webSocketUtils.getPostEventEndpoint(),
+            webSocketUtils.convertEntitiesToJson(entityList));
         break;
       case "GET":
-        messagingTemplate.convertAndSend(GET_EVENT, convertEntitiesToJson(entityList));
+        messagingTemplate.convertAndSend(webSocketUtils.getGetEventEndpoint(),
+            webSocketUtils.convertEntitiesToJson(entityList));
         break;
       case "DELETE":
-        messagingTemplate.convertAndSend(DELETE_EVENT, convertEntitiesToJson(entityList));
+        messagingTemplate.convertAndSend(webSocketUtils.getDeleteEventEndpoint(),
+            webSocketUtils.convertEntitiesToJson(entityList));
         break;
       default:
         throw new UnsupportedOperationException(webSocketEvent.name() + " event is not supported");
@@ -159,16 +165,20 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
   public void notifyChannel(WebSocketEvent webSocketEvent, E entity) {
     switch (webSocketEvent.name()) {
       case "PUT":
-        messagingTemplate.convertAndSend(PUT_EVENT, convertEntityToJson(entity));
+        messagingTemplate.convertAndSend(webSocketUtils.getPutEventEndpoint(),
+            webSocketUtils.convertEntityToJson(entity));
         break;
       case "POST":
-        messagingTemplate.convertAndSend(POST_EVENT, convertEntityToJson(entity));
+        messagingTemplate.convertAndSend(webSocketUtils.getPostEventEndpoint(),
+            webSocketUtils.convertEntityToJson(entity));
         break;
       case "GET":
-        messagingTemplate.convertAndSend(GET_EVENT, convertEntityToJson(entity));
+        messagingTemplate.convertAndSend(webSocketUtils.getGetEventEndpoint(),
+            webSocketUtils.convertEntityToJson(entity));
         break;
       case "DELETE":
-        messagingTemplate.convertAndSend(DELETE_EVENT, convertEntityToJson(entity));
+        messagingTemplate.convertAndSend(webSocketUtils.getDeleteEventEndpoint(),
+            webSocketUtils.convertEntityToJson(entity));
         break;
       default:
         throw new UnsupportedOperationException(webSocketEvent.name() + " event is not supported");
