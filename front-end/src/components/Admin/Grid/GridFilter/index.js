@@ -175,8 +175,8 @@ class GridFilter extends Component {
             {valueField}
           </span>
         </div>
-        <button name="filter" type="submit" disabled={currentTab.filtered} className='apply-btn'>Применить фильтр</button>
-        <button name="clear" onClick={this.clearFilter} type="button" className='clean-btn'>Очистить фильтр</button>
+        <button name="filter" type="submit" disabled={currentTab.filtered} className="filter__button">Применить фильтр</button>
+        <button name="clear" onClick={this.clearFilter} type="button" className="filter__button">Очистить фильтр</button>
         <span className='filter__status'>
           {this.state.activeFilter ? 'Фильтр: ' : null}
           {this.state.activeFilter ? this.state.activeFilter : null}
