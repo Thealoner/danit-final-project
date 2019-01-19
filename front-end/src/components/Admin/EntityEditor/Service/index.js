@@ -9,7 +9,7 @@ import { Loader } from 'semantic-ui-react';
 
 class Service extends Component {
   render () {
-    let { currentTab, handleDelete, handleCancel, handleSubmit, pristine, submitting } = this.props;
+    let { currentTab, handleDelete, handleCancel, handleSubmit, submitting } = this.props;
     let { data } = currentTab.form;
 
     if (!data) {
@@ -19,7 +19,7 @@ class Service extends Component {
     return (
       <form onSubmit={handleSubmit} className="record">
         <div className="form-group field field-object">
-          <p>ID: {currentTab.form.data.id}</p>
+          <p>{currentTab.form.data.id ? 'ID: ' + currentTab.form.data.id : ''}</p>
           <div className="form-group field field-string">
             <label className="control-label" htmlFor="title">Название</label>
             <Field name="title" component="input" type="text" />

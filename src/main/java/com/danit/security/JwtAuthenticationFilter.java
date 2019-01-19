@@ -3,7 +3,7 @@ package com.danit.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.danit.ApplicationProperties;
-import com.danit.exceptions.UserMapInputStreamException;
+import com.danit.exceptions.JwtUserMapException;
 import com.danit.models.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +47,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
               new ArrayList<>())
       );
     } catch (IOException e) {
-      throw new UserMapInputStreamException("JwtAuthenticationFilter cant map input stream to User object");
+      throw new JwtUserMapException("JwtAuthenticationFilter cant map input stream to User object");
     }
   }
 
