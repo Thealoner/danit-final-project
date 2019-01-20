@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Glyphicon } from 'react-bootstrap';
-import './index.css';
+import './index.scss';
 
 export default ({
   isLoading,

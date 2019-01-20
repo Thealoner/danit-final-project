@@ -9,7 +9,7 @@ import {
   ControlLabel
 } from 'react-bootstrap';
 import LoaderButton from '../LoaderButton';
-import './index.css';
+import './index.scss';
 
 export default class ResetPassword extends Component {
   constructor (props) {
