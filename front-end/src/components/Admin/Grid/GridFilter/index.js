@@ -9,7 +9,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 let defaultFilter = {
   field: 'search',
-  value: ''
+  value: '',
+  exact: false
 };
 
 class GridFilter extends Component {
@@ -82,14 +83,14 @@ class GridFilter extends Component {
   };
 
   handleSubmit = event => {
-    let { field, value } = this.state;
+    let { field, value, exact } = this.state;
     let filterString;
 
     if (field.toLowerCase().includes('date')) {
       value = formatDateString(value);
     }
 
-    filterString = '&' + field + '=' + value;
+    filterString = '&' + field + '=' + value + '&equal=' + exact;
 
     event.preventDefault();
     this.applyFilter(filterString);
@@ -114,8 +115,8 @@ class GridFilter extends Component {
     if (this.state.activeFilter === 'Пол') {
       valueField = <select name="value" value={this.state.value} onChange={this.handleInputChange}>
         <option value='' selected="selected">Все</option>
-        <option value='F'>Женский</option>
-        <option value='M'>Мужской</option>
+        <option value='Female'>Женский</option>
+        <option value='Male'>Мужской</option>
       </select>;
     }
 
@@ -163,24 +164,27 @@ class GridFilter extends Component {
     }
     return (
       <form onSubmit={this.handleSubmit} className="filter">
-        <div className="filter__value">
-          <span className="filter__wrapper">
-            <label className="filter__label">Поле: </label>
-            <select className="filter__select" name="field" value={this.state.field} onChange={this.handleInputChangeFilter}>
-              {this.renderFields()}
-            </select>
-          </span>
-          <span className="filter__wrapper">
-            <label className="filter__label">Значение: </label>
-            {valueField}
+        <div className="filter__wrapper">
+          <label className="filter__label">Поле: </label>
+          <select className="filter__select" name="field" value={this.state.field} onChange={this.handleInputChangeFilter}>
+            {this.renderFields()}
+          </select>
+          <label className="filter__label">Значение: </label>
+          {valueField}
+        </div>
+        <div className="filter__wrapper">
+          <input type="checkbox" name="exact" defaultChecked={false} className="filter__checkbox" title="Точный поиск" onChange={this.handleInputChange}/>
+          <button name="filter" type="submit" disabled={currentTab.filtered} className="filter__button filter__button--apply">Применить фильтр</button>
+        </div>
+        <div className="filter__wrapper">
+          <button name="clear" onClick={this.clearFilter} type="button" className="filter__button filter__button--clear">Очистить фильтр</button>
+        </div>
+        <div className="filter__wrapper">
+          <span className='filter__status'>
+            {this.state.activeFilter ? 'Фильтр: ' : null}
+            {this.state.activeFilter ? this.state.activeFilter : null}
           </span>
         </div>
-        <button name="filter" type="submit" disabled={currentTab.filtered} className="filter__button">Применить фильтр</button>
-        <button name="clear" onClick={this.clearFilter} type="button" className="filter__button">Очистить фильтр</button>
-        <span className='filter__status'>
-          {this.state.activeFilter ? 'Фильтр: ' : null}
-          {this.state.activeFilter ? this.state.activeFilter : null}
-        </span>
       </form>
     );
   }
