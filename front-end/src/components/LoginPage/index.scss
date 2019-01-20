@@ -32,29 +32,29 @@
     width: 80%;
   }
 
+
   &__forgotPassBtn{
+    display: block;
+    margin: 0 auto 0;
     color: #FF659E;
     background: transparent;
     border: none;
-    margin: 0px auto 0;
-    display: block;
     font-size: 15px;
-    outline: none;
-
     position: relative;
-    transition: 0.3s;
+    outline: none;
     padding: 5px; // the trick
+    transition: 0.3s;
 
     &:before{
         content: '';
-        border-bottom: 1px solid #FF659E;
-        padding: 0 10px;
         position: absolute;
+        padding: 0 10px;
+        border-bottom: 1px solid #FF659E;
         bottom: 0;
-        left: 0;
         right: 0;
-        margin: 0 auto;
+        left: 0;
         width: 0;
+        margin: 0 auto;
         transition: 0.3s;
     }
 
