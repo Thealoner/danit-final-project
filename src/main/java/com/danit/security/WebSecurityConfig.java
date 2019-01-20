@@ -49,8 +49,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
         .antMatchers(webSocketUtils.getStompEndpoint() + "/**").permitAll()
         .antMatchers("/h2-console/**").permitAll()
-        .antMatchers(HttpMethod.GET, "/users/**").hasAuthority("ADMIN")
-        .antMatchers(HttpMethod.GET, "/roles/**").hasAuthority("ADMIN")
+        .antMatchers("/users/**").hasAuthority("ADMIN")
+        .antMatchers("/users/password/update").permitAll()
+        .antMatchers("/users/password/reset").permitAll()
+        .antMatchers( "/roles/**").hasAuthority("ADMIN")
         .anyRequest().authenticated()
         .and()
         .addFilterBefore(new JwtAuthorizationFilter(authenticationManager(),
