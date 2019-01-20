@@ -29,6 +29,7 @@
 
   &-tableHolder {
     overflow-y: scroll !important;
+    overflow-x: hidden !important;
   }
 
   &-sortable {
