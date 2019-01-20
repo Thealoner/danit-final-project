@@ -19,9 +19,11 @@ public class UserListSpecification extends BaseSpecification<User, UserListReque
       return where(
           where(userNameContains(request.search, request.equal))
               .or(idContains(request.search, request.equal))
+              .or(emailContains(request.search, request.equal))
       )
           .and(userNameContains(request.username, request.equal))
           .and(idContains(request.id, request.equal))
+          .and(emailContains(request.email, request.equal))
           .toPredicate(root, query, cb);
     };
   }
@@ -32,6 +34,10 @@ public class UserListSpecification extends BaseSpecification<User, UserListReque
 
   private Specification<User> userNameContains(String username, Boolean equals) {
     return equals ? attributeEquals("username", username) : attributeContains("username", username);
+  }
+
+  private Specification<User> emailContains(String email, Boolean equals) {
+    return equals ? attributeEquals("email", email) : attributeContains("email", email);
   }
 
   private Specification<User> attributeContains(String attribute, String value) {

@@ -18,6 +18,9 @@ public class UserDto extends BaseDto {
   @JsonView(Views.Short.class)
   private String username;
 
+  @JsonView(Views.Short.class)
+  private String email;
+
   @JsonView({Views.Extended.class, Views.Ids.class})
   private List<UserRoleDto> roles;
 
