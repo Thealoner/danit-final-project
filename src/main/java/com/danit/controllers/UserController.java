@@ -1,12 +1,18 @@
 package com.danit.controllers;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.danit.dto.Views;
 import com.danit.dto.service.UserListRequestDto;
+import com.danit.exceptions.InvalidJwtTokenException;
 import com.danit.facades.UserFacade;
 import com.danit.facades.UserRoleFacade;
 import com.danit.models.User;
 import com.danit.models.UserRole;
 import com.danit.services.UserRoleService;
+import com.danit.services.UserService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -22,6 +28,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,13 +47,15 @@ import static com.danit.utils.ControllerUtils.convertPageToMap;
 public class UserController {
 
   private UserFacade userFacade;
+  private UserService userService;
   private UserRoleService roleService;
   private UserRoleFacade userRoleFacade;
   private BCryptPasswordEncoder bcryptPasswordEncoder;
 
-  public UserController(UserFacade userFacade, UserRoleService roleService, UserRoleFacade userRoleFacade,
-                        BCryptPasswordEncoder bcryptPasswordEncoder) {
+  public UserController(UserFacade userFacade, UserService userService, UserRoleService roleService,
+                        UserRoleFacade userRoleFacade, BCryptPasswordEncoder bcryptPasswordEncoder) {
     this.userFacade = userFacade;
+    this.userService = userService;
     this.roleService = roleService;
     this.userRoleFacade = userRoleFacade;
     this.bcryptPasswordEncoder = bcryptPasswordEncoder;
@@ -203,5 +212,17 @@ public class UserController {
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
       }) Pageable pageable) {
     return ResponseEntity.ok(convertPageToMap(userRoleFacade.findAllRolesDtoForUserId(id, pageable)));
+  }
+
+  /*------------------------------------------------*/
+  /*Reset password functionality*/
+  @GetMapping("/password/reset")
+  void passwordResetConfirmationRequest(@RequestParam(name = "email")  String email) {
+    userService.generatePasswordResetConfirmationMail(email);
+  }
+
+  @PutMapping("/users/password/update")
+  void updateUserPasswordByJWTtokenValidation(@RequestBody User user, String token) {
+    userService.updateUserPasswordByJWTtokenValidation(user, token);
   }
 }
