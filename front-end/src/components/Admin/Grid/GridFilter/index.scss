@@ -5,44 +5,44 @@
   flex-wrap: wrap;
   align-items: center;
   width: 100%;
+  min-width: 530px;
   padding: 10px 10px 0;
   color: $blue-bayoux;
   font-size: 14px;
   background-color: $gallery;
   border: 1px solid $white;
 
-  div {
-    margin-bottom: 10px;
-
-    &:first-child {
-      margin-right: 20px;
-    }
+  &__status {
+    display: flex;
+    align-items: center;
+    height: 30px;
   }
 
-  span {
+  &__wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 10px;
     white-space: nowrap;
   }
 
-  label {
+  &__label {
     margin-right: 10px;
   }
 
-  input,
+  input:not([type="checkbox"]),
   select {
-    width: 150px;
+    width: 170px;
     height: 30px;
+    margin-right: 20px;
     padding-left: 10px;
     background-color: $white;
     border: none;
     border-radius: 3px;
   }
 
-  select {
+  &__button {
     margin-right: 20px;
-  }
-
-  button {
-    margin-bottom: 10px;
     padding: 6px 5px;
     color: $hot-pink;
     white-space: nowrap;
@@ -50,8 +50,8 @@
     border: 1px solid $hot-pink;
     border-radius: 3px;
 
-    &:nth-of-type(1) {
-      margin-right: 20px;
+    &--apply {
+      padding-left: 24px;
     }
 
     &:not(:disabled):hover {
@@ -59,32 +59,16 @@
       background-color: $hot-pink;
       border-color: $hot-pink;
     }
-
   }
-}
 
-@media only screen and (max-width: 1045px) {
-  .filter {
-    display: flex;
-    flex-wrap: wrap;
-    height: 80px;
+  &__checkbox {
+    position: absolute;
+    left: 6px;
+    width: 15px;
+    height: 15px;
 
-    .tabulator {
-      margin: 80px 0;
+    &:focus {
+      outline: none;
     }
-
-    div{
-      padding-top: 2px;
-    }
-
-    button {
-
-      &:first-child {
-        margin-left: 50px
-      }
-      &:last-child {
-        margin-left: 91px;
-      }
   }
-}
 }

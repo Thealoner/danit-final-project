@@ -23,6 +23,7 @@
     "rc-tabs": "^9.4.8",
     "react": "^16.5.2",
     "react-bootstrap": "^0.32.1",
+    "react-datepicker": "^2.0.0",
     "react-dom": "^16.5.2",
     "react-jsonschema-form": "^1.0.6",
     "react-redux": "^5.1.1",
