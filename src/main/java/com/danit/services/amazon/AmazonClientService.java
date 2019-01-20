@@ -9,6 +9,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.danit.exceptions.S3BucketOperationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.Objects;
 
@@ -36,24 +38,25 @@ public class AmazonClientService {
   @Value("${amazon-properties.secretKey}")
   private String secretKey;
 
-  public String deleteFileFromS3Bucket(String fileUrl) {
+  public void deleteFileFromS3Bucket(String fileUrl) {
     String fileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
     s3client.deleteObject(new DeleteObjectRequest(bucketName + "/", fileName));
-    return "Successfully deleted";
+  }
+
+  public InputStream getFile(String fileName) {
+    return s3client.getObject(bucketName, fileName).getObjectContent();
   }
 
   public String uploadFile(MultipartFile multipartFile) {
-    String fileUrl = "";
     try {
       File file = convertMultiPartToFile(multipartFile);
       String fileName = generateFileName(multipartFile);
-      fileUrl = endpointUrl + "/" + bucketName + "/" + fileName;
       uploadFileTos3bucket(fileName, file);
       file.delete();
+      return fileName;
     } catch (Exception e) {
-      log.info("can't upload file to s3 bucket", e);
+      throw new S3BucketOperationException(e.getMessage());
     }
-    return fileUrl;
   }
 
   private File convertMultiPartToFile(MultipartFile file) throws IOException {

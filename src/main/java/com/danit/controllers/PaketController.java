@@ -84,7 +84,7 @@ public class PaketController {
 
   @JsonView(Views.Extended.class)
   @GetMapping("/{id}")
-  ResponseEntity<Map<String, Object>> getPaketByIdExtended(@PathVariable(name = "id") long id, Principal principal) {
+  ResponseEntity<Map<String, Object>> getPaketByIdExtended(@PathVariable(name = "id") Long id, Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(paketFacade.getEntityById(id)));
   }
 
@@ -96,7 +96,7 @@ public class PaketController {
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public void deletePaketById(@PathVariable(name = "id") long id, Principal principal) {
+  public void deletePaketById(@PathVariable(name = "id") Long id, Principal principal) {
     paketFacade.deleteEntityById(id);
   }
 
