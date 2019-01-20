@@ -2,6 +2,7 @@ package com.danit.controllers;
 
 import com.danit.Application;
 import com.danit.TestUtils;
+import com.danit.dto.service.PasswordStoreDto;
 import com.danit.facades.UserFacade;
 import com.danit.models.User;
 import com.danit.models.UserRole;
@@ -27,6 +28,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -74,6 +76,8 @@ public class UserControllerTest {
   private MockMvc mockMvc;
   @Autowired
   private TestRestTemplate template;
+  @Autowired
+  private BCryptPasswordEncoder bcryptPasswordEncoder;
   private HttpHeaders headers;
   private UserRole userRole;
 
@@ -360,6 +364,53 @@ public class UserControllerTest {
         .andExpect(content()
             .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.meta.totalElements").value(0));
+
+  }
+
+  @Test
+  public void testPasswordChange() throws Exception {
+
+    User user = new User();
+    user.setUsername("TestUserForPasswordChangeTesting");
+    user.setPassword("123");
+    List<User> users = new ArrayList<>(1);
+    users.add(user);
+
+    ObjectWriter ow = objectMapper.writer();
+
+    mockMvc.perform(post(url).headers(headers)
+        .contentType("application/json")
+        .content(ow.writeValueAsString(users)))
+        .andExpect(status().isOk());
+
+    HttpHeaders testUserheaders = testUtils.getHeader(template, user);
+
+    PasswordStoreDto data = new PasswordStoreDto();
+    data.setNewPassword("5889995");
+    data.setOldPassword(user.getPassword());
+
+    mockMvc.perform(put(url + "/password/change").headers(testUserheaders)
+        .contentType("application/json")
+        .content(ow.writeValueAsString(data)))
+        .andExpect(status().isOk());
+
+    User updatedUser = userRepository.findByUsername("TestUserForPasswordChangeTesting");
+    Assert.assertTrue(bcryptPasswordEncoder.matches(data.getNewPassword(), updatedUser.getPassword()));
+
+    user.setPassword(data.getNewPassword());
+    testUserheaders = testUtils.getHeader(template, user);
+
+    data.setNewPassword("56562223232232");
+    data.setOldPassword("5889996");
+
+    mockMvc.perform(put(url + "/password/change").headers(testUserheaders)
+        .contentType("application/json")
+        .content(ow.writeValueAsString(data)))
+        .andExpect(status().isInternalServerError());
+
+    updatedUser = userRepository.findByUsername("TestUserForPasswordChangeTesting");
+    Assert.assertFalse(bcryptPasswordEncoder.matches(data.getNewPassword(), updatedUser.getPassword()));
+    Assert.assertTrue(bcryptPasswordEncoder.matches("5889995", updatedUser.getPassword()));
 
   }
 
