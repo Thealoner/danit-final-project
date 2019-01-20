@@ -28,6 +28,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -75,6 +76,8 @@ public class UserControllerTest {
   private MockMvc mockMvc;
   @Autowired
   private TestRestTemplate template;
+  @Autowired
+  private BCryptPasswordEncoder bcryptPasswordEncoder;
   private HttpHeaders headers;
   private UserRole userRole;
 
@@ -390,6 +393,24 @@ public class UserControllerTest {
         .contentType("application/json")
         .content(ow.writeValueAsString(data)))
         .andExpect(status().isOk());
+
+    User updatedUser = userRepository.findByUsername("TestUserForPasswordChangeTesting");
+    Assert.assertTrue(bcryptPasswordEncoder.matches(data.getNewPassword(), updatedUser.getPassword()));
+
+    user.setPassword(data.getNewPassword());
+    testUserheaders = testUtils.getHeader(template, user);
+
+    data.setNewPassword("56562223232232");
+    data.setOldPassword("5889996");
+
+    mockMvc.perform(put(url + "/password/change").headers(testUserheaders)
+        .contentType("application/json")
+        .content(ow.writeValueAsString(data)))
+        .andExpect(status().isInternalServerError());
+
+    updatedUser = userRepository.findByUsername("TestUserForPasswordChangeTesting");
+    Assert.assertFalse(bcryptPasswordEncoder.matches(data.getNewPassword(), updatedUser.getPassword()));
+    Assert.assertTrue(bcryptPasswordEncoder.matches("5889995", updatedUser.getPassword()));
 
   }
 
