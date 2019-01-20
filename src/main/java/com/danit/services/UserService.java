@@ -62,7 +62,7 @@ public class UserService extends AbstractBaseEntityService<User, UserListRequest
     }
   }
 
-  public void updateUserPasswordByJWTtokenValidation(PasswordStoreDto data) {
+  public void updateUserPasswordByJwtTokenValidation(PasswordStoreDto data) {
     DecodedJWT decodedJwt;
     try {
       decodedJwt = JWT.require(Algorithm.HMAC512(applicationProperties.getSecretKey().getBytes()))

@@ -220,8 +220,8 @@ public class UserController {
 
   @PutMapping("/password/update")
   @ResponseStatus(HttpStatus.OK)
-  void updateUserPasswordByJWTtokenValidation(@RequestBody PasswordStoreDto data) {
-    userService.updateUserPasswordByJWTtokenValidation(data);
+  void updateUserPasswordByJwtTokenValidation(@RequestBody PasswordStoreDto data) {
+    userService.updateUserPasswordByJwtTokenValidation(data);
   }
 
   @PutMapping("/password/change")
