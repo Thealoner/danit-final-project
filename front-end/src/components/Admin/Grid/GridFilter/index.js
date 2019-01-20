@@ -115,8 +115,8 @@ class GridFilter extends Component {
     if (this.state.activeFilter === 'Пол') {
       valueField = <select name="value" value={this.state.value} onChange={this.handleInputChange}>
         <option value='' selected="selected">Все</option>
-        <option value='Female'>Женский</option>
-        <option value='Male'>Мужской</option>
+        <option value='F'>Женский</option>
+        <option value='M'>Мужской</option>
       </select>;
     }
 
