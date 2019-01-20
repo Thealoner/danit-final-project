@@ -78,7 +78,7 @@ export const storeTabTmpFormData = (payload) => {
 };
 
 // using catch method in thunk action creators is not recommended
-export const getGridData = ({tabKey, page = 1, size = 4, filterString = '', columns, filtered = false} = {}) => {
+export const getGridData = ({tabKey, page = 1, size = 10, filterString = '', columns, filtered = false} = {}) => {
   return (dispatch) => {
     dispatch(loadingGrid());
     ajaxRequest.get('/' + tabKey + '?page=' + page + '&size=' + size + filterString)
