@@ -2,6 +2,7 @@ package com.danit.controllers;
 
 import com.danit.Application;
 import com.danit.TestUtils;
+import com.danit.dto.service.PasswordStoreDto;
 import com.danit.facades.UserFacade;
 import com.danit.models.User;
 import com.danit.models.UserRole;
@@ -360,6 +361,35 @@ public class UserControllerTest {
         .andExpect(content()
             .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.meta.totalElements").value(0));
+
+  }
+
+  @Test
+  public void testPasswordChange() throws Exception {
+
+    User user = new User();
+    user.setUsername("TestUserForPasswordChangeTesting");
+    user.setPassword("123");
+    List<User> users = new ArrayList<>(1);
+    users.add(user);
+
+    ObjectWriter ow = objectMapper.writer();
+
+    mockMvc.perform(post(url).headers(headers)
+        .contentType("application/json")
+        .content(ow.writeValueAsString(users)))
+        .andExpect(status().isOk());
+
+    HttpHeaders testUserheaders = testUtils.getHeader(template, user);
+
+    PasswordStoreDto data = new PasswordStoreDto();
+    data.setNewPassword("5889995");
+    data.setOldPassword(user.getPassword());
+
+    mockMvc.perform(put(url + "/password/change").headers(testUserheaders)
+        .contentType("application/json")
+        .content(ow.writeValueAsString(data)))
+        .andExpect(status().isOk());
 
   }
 

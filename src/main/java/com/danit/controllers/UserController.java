@@ -1,13 +1,8 @@
 package com.danit.controllers;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.danit.dto.Views;
 import com.danit.dto.service.PasswordStoreDto;
 import com.danit.dto.service.UserListRequestDto;
-import com.danit.exceptions.InvalidJwtTokenException;
 import com.danit.facades.UserFacade;
 import com.danit.facades.UserRoleFacade;
 import com.danit.models.User;
@@ -33,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
@@ -219,17 +213,20 @@ public class UserController {
   /*------------------------------------------------*/
   /*Reset password functionality*/
   @GetMapping("/password/reset")
+  @ResponseStatus(HttpStatus.OK)
   void passwordResetConfirmationRequest(@RequestParam(name = "email") String email) {
     userService.generatePasswordResetConfirmationMail(email);
   }
 
-  @PutMapping("/users/password/update")
-  void updateUserPasswordByJWTtokenValidation(@RequestBody @Valid PasswordStoreDto data) {
+  @PutMapping("/password/update")
+  @ResponseStatus(HttpStatus.OK)
+  void updateUserPasswordByJWTtokenValidation(@RequestBody PasswordStoreDto data) {
     userService.updateUserPasswordByJWTtokenValidation(data);
   }
 
-  @PutMapping("/users/password/change")
-  void changeUserPasswordByOldPasswordValidation(@RequestBody @Valid PasswordStoreDto data) {
+  @PutMapping("/password/change")
+  @ResponseStatus(HttpStatus.OK)
+  void changeUserPasswordByOldPasswordValidation(@RequestBody PasswordStoreDto data) {
     userService.changeUserPasswordByOldPasswordValidation(data);
   }
 }

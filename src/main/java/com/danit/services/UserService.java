@@ -87,8 +87,7 @@ public class UserService extends AbstractBaseEntityService<User, UserListRequest
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String userName = authentication.getName();
     User user = userRepository.findByUsername(userName);
-    if(bcryptPasswordEncoder.encode(data.getOldPassword())
-        .equals(user.getPassword())) {
+    if (bcryptPasswordEncoder.matches(data.getOldPassword(), user.getPassword())) {
       user.setPassword(
           bcryptPasswordEncoder.encode(data.getNewPassword()));
       List<User> users = new ArrayList<>();

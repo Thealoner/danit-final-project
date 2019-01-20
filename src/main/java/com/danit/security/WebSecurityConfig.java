@@ -4,7 +4,6 @@ import com.danit.ApplicationProperties;
 import com.danit.utils.WebSocketUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -50,9 +49,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers(webSocketUtils.getStompEndpoint() + "/**").permitAll()
         .antMatchers("/h2-console/**").permitAll()
         .antMatchers("/users/**").hasAuthority("ADMIN")
+        .antMatchers("/password/change").authenticated()
         .antMatchers("/users/password/update").permitAll()
         .antMatchers("/users/password/reset").permitAll()
-        .antMatchers( "/roles/**").hasAuthority("ADMIN")
+        .antMatchers("/roles/**").hasAuthority("ADMIN")
         .anyRequest().authenticated()
         .and()
         .addFilterBefore(new JwtAuthorizationFilter(authenticationManager(),

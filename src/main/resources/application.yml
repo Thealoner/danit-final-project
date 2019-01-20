@@ -8,14 +8,14 @@ server:
 
 spring:
   mail:
-   host: smtp.gmail.com
-   port: 587
-   username: energym.mail.test@gmail.com
-   password: 586985energym*
-   properties:
-    mail.smtp:
-     auth: true
-     starttls.enable: true
+    host: smtp.gmail.com
+    port: 587
+    username: energym.mail.test@gmail.com
+    password: 586985energym*
+    properties:
+      mail.smtp:
+        auth: true
+        starttls.enable: true
   datasource:
     url: jdbc:h2:mem:energymdb
     #url: jdbc:h2:tcp://localhost/~/energymdb
