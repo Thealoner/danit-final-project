@@ -2,12 +2,13 @@
 
 .login {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
   background-color: #F5F4F8;
 
-  &__form {
+  &__wrapper{
     position: relative;
     display: flex;
     flex-direction: column;
@@ -19,9 +20,51 @@
     box-shadow: 0 1px 4px rgba(0, 0, 0, .3), 0 0 20px rgba(0, 0, 0, .1);
   }
 
+  &__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width:90%;
+  }
+
   .field {
     width: 80%;
   }
+
+  &__forgotPassBtn{
+    color: #FF659E;
+    background: transparent;
+    border: none;
+    margin: 0px auto 0;
+    display: block;
+    font-size: 15px;
+    outline: none;
+
+    position: relative;
+    transition: 0.3s;
+    padding: 5px; // the trick
+
+    &:before{
+        content: '';
+        border-bottom: 1px solid #FF659E;
+        padding: 0 10px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        width: 0;
+        transition: 0.3s;
+    }
+
+    &:hover:before{
+        width: 100%;
+        padding: 0; // the other part of the trick
+    }
+  }
+
+
 
   .button {
     width: 80%;
