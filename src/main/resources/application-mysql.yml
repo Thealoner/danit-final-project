@@ -1,0 +1,16 @@
+#spring:
+#  datasource:
+#    url: jdbc:mysql://localhost:3306
+#    driverClassName: com.mysql.jdbc.Driver
+#    username: root
+#    password: root
+#  jpa:
+#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+#    hibernate.ddl-auto: update
+#
+#  flyway:
+#    user: root
+#    password: root
+#    schemas: energymdb
+#    locations: classpath: migration
+#

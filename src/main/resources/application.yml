@@ -58,4 +58,3 @@ amazon-properties:
   accessKey: XXXXXXXXXXXXXXXXX
   secretKey: XXXXXXXXXXXXXXXXXXXXXXXXXX
   bucketName: your-bucket-name
-

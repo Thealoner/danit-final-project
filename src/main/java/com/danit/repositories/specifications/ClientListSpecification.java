@@ -28,7 +28,6 @@ public class ClientListSpecification extends BaseSpecification<Client, ClientLis
               .or(emailContains(request.search, request.equal))
               .or(phoneNumberContains(request.search, request.equal))
               .or(genderContains(request.search, request.equal))
-//              .or(birthDateContains(request.search, request.equal))
               .or(birthDateBetween(request.search, request.equal))
               .or(activeContains(request.search, request.equal))
       )
@@ -38,7 +37,6 @@ public class ClientListSpecification extends BaseSpecification<Client, ClientLis
           .and(genderContains(request.gender, request.equal))
           .and(emailContains(request.email, request.equal))
           .and(phoneNumberContains(request.phoneNumber, request.equal))
-//          .and(birthDateContains(request.birthDate, request.equal))
           .and(birthDateBetween(request.birthDate, request.equal))
           .and(activeContains(request.active, request.equal))
           .toPredicate(root, query, cb);
@@ -69,39 +67,20 @@ public class ClientListSpecification extends BaseSpecification<Client, ClientLis
     return equals ? attributeEquals("phoneNumber", phoneNumber) : attributeContains("phoneNumber", phoneNumber);
   }
 
-//  private Specification<Client> birthDateContains(String birthDate, Boolean equals) {
-//    if (Objects.nonNull(birthDate)) {
-//      return (root, query, cb) -> {
-//        Path<Tuple> tuple = root.<Tuple>get("birthDate");
-//        if (tuple.getJavaType().isAssignableFrom(Date.class)) {
-//          Expression<String> dateStringExpr = cb.function("TO_CHAR", String.class,
-//              root.get("birthDate"), cb.literal("dd-MM-yyyy"));
-//          return equals ? cb.like(cb.lower(dateStringExpr), birthDate.toLowerCase())
-//              : cb.like(cb.lower(dateStringExpr), containsLowerCase(birthDate));
-//        } else {
-//          return null;
-//        }
-//      };
-//    } else {
-//      return null;
-//    }
-//  }
-
-    private Specification<Client> birthDateBetween(String birthDate, Boolean equals) {
+  private Specification<Client> birthDateBetween(String birthDate, Boolean equals) {
     if (Objects.nonNull(birthDate)) {
       return (root, query, cb) -> {
         Path<Tuple> tuple = root.<Tuple>get("birthDate");
         if (tuple.getJavaType().isAssignableFrom(Date.class)) {
           Expression<String> dateStringExpr = cb.function("TO_CHAR", String.class,
               root.get("birthDate"), cb.literal("dd-MM-yyyy"));
-          if(birthDate.contains("|")) {
+          if (birthDate.contains("|")) {
             String[] dates = birthDate.split("\\|");
             String startDate = dates[0];
             System.out.println(startDate);
             String endDate = dates[1];
             System.out.println(endDate);
-//            return cb.between(dateStringExpr, startDate, endDate);
-            return cb.and(cb.greaterThanOrEqualTo(dateStringExpr, startDate), cb.lessThanOrEqualTo(dateStringExpr, endDate));
+            return cb.between(dateStringExpr, startDate, endDate);
           } else {
             return equals ? cb.like(cb.lower(dateStringExpr), birthDate.toLowerCase())
                 : cb.like(cb.lower(dateStringExpr), containsLowerCase(birthDate));
