@@ -20,8 +20,24 @@ class RecordEditor extends Component {
     storeTmpFormData({ ...currentTab.form, data: form.formData });
   };
 
+  cancelDataEditing = () => {
+    const { currentTab, cancelEditFormData } = this.props;
+
+    const toastrConfirmOptions = {
+      onOk: () => cancelEditFormData(),
+      okText: 'Да',
+      cancelText: 'Нет'
+    };
+
+    if (currentTab.form.edited) {
+      toastr.confirm('Изменения не сохранены, продолжить?', toastrConfirmOptions);
+    } else {
+      cancelEditFormData();
+    }
+  }
+
   render () {
-    const { currentTab, saveData, deleteData, cancelData } = this.props;
+    const { currentTab, saveData, deleteData } = this.props;
     const {currentPage} = currentTab.grid.meta;
     const entity = getEntityByType(currentTab.tabKey);
     const mode = currentTab.form.mode;
@@ -40,7 +56,7 @@ class RecordEditor extends Component {
           <button type='button' className='record__button' onClick={
             () => deleteData(currentTab.tabKey, currentTab.form.data, currentTab.grid.columns, currentPage)
           }>Удалить</button>
-          <button type='button' className='record__button' onClick={() => cancelData()}>Отмена</button>
+          <button type='button' className='record__button' onClick={() => this.cancelDataEditing()}>Отмена</button>
         </Form>
       </Fragment>
     );
@@ -58,7 +74,7 @@ const mapDispatchToProps = dispatch => {
     deleteData: (tabKey, formData, columns, page) => {
       dispatch(deleteCurrentEntityItem(tabKey, formData, columns, page));
     },
-    cancelData: () => {
+    cancelEditFormData: () => {
       dispatch(cancelEditFormData());
     }
   };

@@ -1,7 +1,6 @@
 package com.danit.controllers;
 
 
-import com.danit.ApplicationProperties;
 import com.danit.dto.ClientDto;
 import com.danit.dto.Views;
 import com.danit.dto.service.ClientListRequestDto;
@@ -41,9 +40,6 @@ import static com.danit.utils.ControllerUtils.convertPageToMap;
 @RequestMapping("/clients")
 public class ClientController {
 
-  @Autowired
-  ApplicationProperties applicationProperties;
-
   private ClientFacade clientFacade;
 
   private ContractService contractService;
@@ -51,7 +47,8 @@ public class ClientController {
   private ContractFacade contractFacade;
 
   @Autowired
-  public ClientController(ClientFacade clientFacade, ContractService contractService, ContractFacade contractFacade) {
+  public ClientController(ClientFacade clientFacade, ContractService contractService,
+                          ContractFacade contractFacade) {
     this.clientFacade = clientFacade;
     this.contractService = contractService;
     this.contractFacade = contractFacade;
@@ -60,7 +57,7 @@ public class ClientController {
   @JsonView(Views.Extended.class)
   @PostMapping
   ResponseEntity<Map<String, Object>> createClients(@RequestBody List<Client> clients,
-                                                               Principal principal) {
+                                                    Principal principal) {
     List<ClientDto> clientDtos = clientFacade.saveEntities(clients);
     return ResponseEntity.ok(convertDtoToMap(clientDtos));
   }
@@ -103,7 +100,7 @@ public class ClientController {
 
   @JsonView(Views.Extended.class)
   @GetMapping("/{id}")
-  ResponseEntity<Map<String, Object>> getClientByIdDtoExtended(@PathVariable(name = "id") long id, Principal principal) {
+  ResponseEntity<Map<String, Object>> getClientByIdDtoExtended(@PathVariable(name = "id") Long id, Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(clientFacade.getEntityById(id)));
   }
 
@@ -116,13 +113,13 @@ public class ClientController {
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  void deleteClientByIdDto(@PathVariable(name = "id") long id, Principal principal) {
+  void deleteClientById(@PathVariable(name = "id") Long id, Principal principal) {
     clientFacade.deleteEntityById(id);
   }
 
   @DeleteMapping
   @ResponseStatus(HttpStatus.OK)
-  void deleteClientsDto(@RequestBody List<Client> clients, Principal principal) {
+  void deleteClients(@RequestBody List<Client> clients, Principal principal) {
     clientFacade.deleteEntities(clients);
   }
 

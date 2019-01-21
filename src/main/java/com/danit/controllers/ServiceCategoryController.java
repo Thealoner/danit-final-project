@@ -54,8 +54,8 @@ public class ServiceCategoryController {
   @JsonView(Views.Extended.class)
   @PostMapping
   public ResponseEntity<Map<String, Object>> createServiceCategories(@RequestBody List<ServiceCategory>
-                                                                            serviceCategories,
-                                                                        Principal principal) {
+                                                                         serviceCategories,
+                                                                     Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(serviceCategoryFacade.saveEntities(serviceCategories)));
   }
 
@@ -100,7 +100,7 @@ public class ServiceCategoryController {
 
   @JsonView(Views.Extended.class)
   @GetMapping("/{id}")
-  public ResponseEntity<Map<String, Object>> getServiceCategoryByIdDto(@PathVariable(name = "id") long id,
+  public ResponseEntity<Map<String, Object>> getServiceCategoryByIdDto(@PathVariable(name = "id") Long id,
                                                                        Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(serviceCategoryFacade.getEntityById(id)));
   }
@@ -121,7 +121,7 @@ public class ServiceCategoryController {
 
   @ResponseStatus(HttpStatus.OK)
   @DeleteMapping("/{id}")
-  void deleteServiceCategoryById(@PathVariable(name = "id") long id, Principal principal) {
+  void deleteServiceCategoryById(@PathVariable(name = "id") Long id, Principal principal) {
     serviceCategoryService.deleteServiceCategotryById(id);
   }
 
@@ -132,80 +132,78 @@ public class ServiceCategoryController {
   @JsonView(Views.Ids.class)
   @GetMapping("/{serviceCategoryId}/services/ids")
   ResponseEntity<Map<String, Object>> getAllServiceCategoryServicesIds(
-      @PathVariable(name = "serviceCategoryId")
-          long id,
+      @PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
       Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
       }) Pageable pageable) {
     return ResponseEntity.ok(convertPageToMap(serviceFacade
-        .findAllServicesDtoForServiceCategoryId(id, pageable)));
+        .findAllServicesDtoForServiceCategoryId(serviceCategoryId, pageable)));
   }
 
   @JsonView(Views.Short.class)
   @GetMapping("/{serviceCategoryId}/services/short")
   ResponseEntity<Map<String, Object>> getAllServiceCategoryServicesShort(
-      @PathVariable(name = "serviceCategoryId")
-          long id,
+      @PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
       Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
       }) Pageable pageable) {
     return ResponseEntity.ok(convertPageToMap(serviceFacade
-        .findAllServicesDtoForServiceCategoryId(id, pageable)));
+        .findAllServicesDtoForServiceCategoryId(serviceCategoryId, pageable)));
   }
 
   @JsonView(Views.Extended.class)
   @GetMapping("/{serviceCategoryId}/services")
-  ResponseEntity<Map<String, Object>> getAllServiceCategoryServicesExtended(@PathVariable(name = "serviceCategoryId")
-                                                                                long id,
-                                                                            Principal principal,
-                                                                            @PageableDefault(page = DEFAULT_PAGE_NUMBER,
-                                                                                size = DEFAULT_PAGE_SIZE)
-                                                                            @SortDefault.SortDefaults({
-                                                                                @SortDefault(sort = "id",
-                                                                                    direction = Sort.Direction.ASC)
-                                                                            }) Pageable pageable) {
+  ResponseEntity<Map<String, Object>> getAllServiceCategoryServicesExtended(
+      @PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
+      Principal principal,
+      @PageableDefault(page = DEFAULT_PAGE_NUMBER,
+          size = DEFAULT_PAGE_SIZE)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "id",
+              direction = Sort.Direction.ASC)
+      }) Pageable pageable) {
     return ResponseEntity.ok(convertPageToMap(serviceFacade
-        .findAllServicesDtoForServiceCategoryId(id, pageable)));
+        .findAllServicesDtoForServiceCategoryId(serviceCategoryId, pageable)));
   }
 
   @JsonView(Views.Extended.class)
   @PutMapping("/{serviceCategoryId}/service/{serviceId}")
   @ResponseStatus(HttpStatus.OK)
-  ResponseEntity<Map<String, Object>> assignServiceToServiceCategory(@PathVariable(name = "serviceCategoryId")
-                                                                         Long serviceCategoryId,
-                                                                     Principal principal,
-                                                                     @PathVariable(name = "serviceId") Long serviceId) {
+  ResponseEntity<Map<String, Object>> assignServiceToServiceCategory(
+      @PathVariable(name = "serviceId") Long serviceId,
+      @PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
+      Principal principal) {
     serviceCategoryService.assignServiceToServiceCategory(serviceCategoryId, serviceId);
     return ResponseEntity.ok(convertDtoToMap(serviceCategoryFacade.getEntityById(serviceCategoryId)));
   }
 
   @PutMapping("/{serviceCategoryId}/services")
   @ResponseStatus(HttpStatus.OK)
-  ResponseEntity<Map<String, Object>> assignServicesToServiceCategory(@PathVariable(name = "serviceCategoryId")
-                                                                          Long serviceCategoryId,
-                                                                      Principal principal,
-                                                                      @RequestBody List<Service> services) {
+  ResponseEntity<Map<String, Object>> assignServicesToServiceCategory(
+      @RequestBody List<Service> services,
+      @PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
+      Principal principal) {
     serviceCategoryService.assignServicesToServiceCategory(serviceCategoryId, services);
     return ResponseEntity.ok(convertDtoToMap(serviceCategoryFacade.getEntityById(serviceCategoryId)));
   }
 
   @DeleteMapping("/{serviceCategoryId}/service/{serviceId}")
   @ResponseStatus(HttpStatus.OK)
-  void deleteServiceFromServiceCategory(@PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
-                                        Principal principal,
-                                        @PathVariable(name = "serviceId") Long serviceId) {
+  void deleteServiceFromServiceCategory(@PathVariable(name = "serviceId") Long serviceId,
+                                        @PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
+                                        Principal principal) {
     serviceCategoryService.deleteServiceFromServiceCategory(serviceCategoryId, serviceId);
   }
 
   @DeleteMapping("/{serviceCategoryId}/services")
   @ResponseStatus(HttpStatus.OK)
-  void deleteServicesFromServiceCategory(@PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
-                                         Principal principal,
-                                         @RequestBody List<Service> services) {
+  void deleteServicesFromServiceCategory(@RequestBody List<Service> services,
+                                         @PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
+                                         Principal principal) {
     serviceCategoryService.deleteServicesFromServiceCategory(serviceCategoryId, services);
   }
 

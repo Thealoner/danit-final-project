@@ -38,6 +38,12 @@ public class User extends Auditable implements BaseEntity {
   @Column(name = "password")
   private String password;
 
+  @Column(name = "image_url")
+  private String imageUrl;
+
+  @Column(name = "email", unique = true)
+  private String email;
+
   @ManyToMany(fetch = FetchType.EAGER)
   private List<UserRole> roles;
 

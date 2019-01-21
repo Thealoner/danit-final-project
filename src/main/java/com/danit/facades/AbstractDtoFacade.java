@@ -10,11 +10,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public abstract class AbstractDtoFacade<D extends BaseDto, E extends BaseEntity, R> implements DtoFacade<D, E, R> {
+
   @Autowired
   private AbstractBaseEntityService<E, R> entityService;
 
@@ -29,28 +30,26 @@ public abstract class AbstractDtoFacade<D extends BaseDto, E extends BaseEntity,
   }
 
   public List<D> convertToDtos(List<E> entities) {
-    List<D> dtoEntities = new ArrayList<>();
-    entities.forEach(e -> dtoEntities.add(convertToDto(e)));
-    return dtoEntities;
+    return entities.stream()
+        .map(this::convertToDto)
+        .collect(Collectors.toList());
   }
 
   public Page<D> convertToDtos(Page<E> entities) {
     return entities.map(this::convertToDto);
   }
 
+  public List<E> convertDtosToEntities(List<D> dtos) {
+    return dtos.stream()
+        .map(this::convertDtoToEntity)
+        .collect(Collectors.toList());
+  }
 
-  //not sure about it(getActualTypeArguments()[0] or getActualTypeArguments()[1])
   @SuppressWarnings("unchecked")
   @Override
   public E convertDtoToEntity(D dto) {
     return modelMapper.map(dto, (Class<E>) ((ParameterizedType) getClass()
         .getGenericSuperclass()).getActualTypeArguments()[1]);
-  }
-
-  private List<E> convertDtosToEntities(List<D> dtos) {
-    List<E> entities = new ArrayList<>();
-    dtos.forEach(d -> entities.add(convertDtoToEntity(d)));
-    return entities;
   }
 
   @Override

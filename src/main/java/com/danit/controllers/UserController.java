@@ -1,12 +1,14 @@
 package com.danit.controllers;
 
 import com.danit.dto.Views;
+import com.danit.dto.service.PasswordStoreDto;
 import com.danit.dto.service.UserListRequestDto;
 import com.danit.facades.UserFacade;
 import com.danit.facades.UserRoleFacade;
 import com.danit.models.User;
 import com.danit.models.UserRole;
 import com.danit.services.UserRoleService;
+import com.danit.services.UserService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,13 +43,15 @@ import static com.danit.utils.ControllerUtils.convertPageToMap;
 public class UserController {
 
   private UserFacade userFacade;
+  private UserService userService;
   private UserRoleService roleService;
   private UserRoleFacade userRoleFacade;
   private BCryptPasswordEncoder bcryptPasswordEncoder;
 
-  public UserController(UserFacade userFacade, UserRoleService roleService, UserRoleFacade userRoleFacade,
-                        BCryptPasswordEncoder bcryptPasswordEncoder) {
+  public UserController(UserFacade userFacade, UserService userService, UserRoleService roleService,
+                        UserRoleFacade userRoleFacade, BCryptPasswordEncoder bcryptPasswordEncoder) {
     this.userFacade = userFacade;
+    this.userService = userService;
     this.roleService = roleService;
     this.userRoleFacade = userRoleFacade;
     this.bcryptPasswordEncoder = bcryptPasswordEncoder;
@@ -54,8 +59,8 @@ public class UserController {
 
   @JsonView(Views.Extended.class)
   @PostMapping
-  public ResponseEntity<Map<String, Object>> createUsers(@RequestBody List<User> users,
-                                                            Principal principal) {
+  ResponseEntity<Map<String, Object>> createUsers(@RequestBody List<User> users,
+                                                  Principal principal) {
     users.forEach(user -> {
       if (Objects.nonNull(user.getPassword())) {
         user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
@@ -66,7 +71,7 @@ public class UserController {
 
   @JsonView(Views.Ids.class)
   @GetMapping(path = "/ids")
-  public ResponseEntity<Map<String, Object>> getAllUsersDtoIds(
+  ResponseEntity<Map<String, Object>> getAllUsersDtoIds(
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
@@ -78,7 +83,7 @@ public class UserController {
 
   @JsonView(Views.Short.class)
   @GetMapping(path = "/short")
-  public ResponseEntity<Map<String, Object>> getAllUsersDtoShort(
+  ResponseEntity<Map<String, Object>> getAllUsersDtoShort(
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
@@ -108,7 +113,7 @@ public class UserController {
 
   @JsonView(Views.Extended.class)
   @PutMapping
-  public ResponseEntity<Map<String, Object>> updateUsersDto(@RequestBody List<User> users, Principal principal) {
+  ResponseEntity<Map<String, Object>> updateUsersDto(@RequestBody List<User> users, Principal principal) {
     users.forEach(user -> {
       if (Objects.nonNull(user.getPassword())) {
         user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
@@ -119,13 +124,13 @@ public class UserController {
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public void deleteUserById(@PathVariable(name = "id") long id, Principal principal) {
+  void deleteUserById(@PathVariable(name = "id") long id, Principal principal) {
     userFacade.deleteEntityById(id);
   }
 
   @DeleteMapping
   @ResponseStatus(HttpStatus.OK)
-  public void deleteUsers(@RequestBody List<User> users, Principal principal) {
+  void deleteUsers(@RequestBody List<User> users, Principal principal) {
     userFacade.deleteEntities(users);
   }
 
@@ -134,9 +139,9 @@ public class UserController {
   @PutMapping("/{userId}/role/{roleId}")
   @JsonView(Views.Extended.class)
   @ResponseStatus(HttpStatus.OK)
-  ResponseEntity<Map<String, Object>> assignRoleToUser(@PathVariable(name = "userId") Long userId,
-                                                       Principal principal,
-                                                       @PathVariable(name = "roleId") Long roleId) {
+  ResponseEntity<Map<String, Object>> assignRoleToUser(@PathVariable(name = "roleId") Long roleId,
+                                                       @PathVariable(name = "userId") Long userId,
+                                                       Principal principal) {
     roleService.assignRoleToUser(userId, roleId);
     return ResponseEntity.ok(convertDtoToMap(userFacade.getEntityById(userId)));
   }
@@ -144,9 +149,9 @@ public class UserController {
   @PutMapping("/{userId}/roles")
   @JsonView(Views.Extended.class)
   @ResponseStatus(HttpStatus.OK)
-  ResponseEntity<Map<String, Object>> assignRolesToUser(@PathVariable(name = "userId") Long userId,
-                                                        Principal principal,
-                                                        @RequestBody List<UserRole> roles) {
+  ResponseEntity<Map<String, Object>> assignRolesToUser(@RequestBody List<UserRole> roles,
+                                                        @PathVariable(name = "userId") Long userId,
+                                                        Principal principal) {
     roleService.assignRolesToUser(userId, roles);
     return ResponseEntity.ok(convertDtoToMap(userFacade.getEntityById(userId)));
   }
@@ -154,26 +159,25 @@ public class UserController {
   @DeleteMapping("/{userId}/role/{roleId}")
   @JsonView(Views.Extended.class)
   @ResponseStatus(HttpStatus.OK)
-  void deleteRoleFromUser(@PathVariable(name = "userId") Long userId,
-                          Principal principal,
-                          @PathVariable(name = "roleId") Long roleId) {
+  void deleteRoleFromUser(@PathVariable(name = "roleId") Long roleId,
+                          @PathVariable(name = "userId") Long userId,
+                          Principal principal) {
     roleService.deleteRoleFromUser(userId, roleId);
   }
 
   @DeleteMapping("/{userId}/roles")
   @JsonView(Views.Extended.class)
   @ResponseStatus(HttpStatus.OK)
-  void deleteRolesFromUser(@PathVariable(name = "userId") Long userId,
-                           Principal principal,
-                           @RequestBody List<UserRole> roles) {
+  void deleteRolesFromUser(@RequestBody List<UserRole> roles,
+                           @PathVariable(name = "userId") Long userId,
+                           Principal principal) {
     roleService.deleteRolesFromUser(userId, roles);
   }
 
   @JsonView(Views.Ids.class)
   @GetMapping("/{userId}/roles/ids")
   ResponseEntity<Map<String, Object>> getAllRolesOfUserIds(
-      @PathVariable(name = "userId")
-          long id,
+      @PathVariable(name = "userId") Long id,
       Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
@@ -185,8 +189,7 @@ public class UserController {
   @JsonView(Views.Short.class)
   @GetMapping("/{userId}/roles/short")
   ResponseEntity<Map<String, Object>> getAllRolesOfUserShort(
-      @PathVariable(name = "userId")
-          long id,
+      @PathVariable(name = "userId") Long id,
       Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
@@ -198,13 +201,32 @@ public class UserController {
   @JsonView(Views.Extended.class)
   @GetMapping("/{userId}/roles")
   ResponseEntity<Map<String, Object>> getAllRolesOfUser(
-      @PathVariable(name = "userId")
-          long id,
+      @PathVariable(name = "userId") Long id,
       Principal principal,
       @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
       @SortDefault.SortDefaults({
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
       }) Pageable pageable) {
     return ResponseEntity.ok(convertPageToMap(userRoleFacade.findAllRolesDtoForUserId(id, pageable)));
+  }
+
+  /*------------------------------------------------*/
+  /*Reset password functionality*/
+  @GetMapping("/password/reset")
+  @ResponseStatus(HttpStatus.OK)
+  void passwordResetConfirmationRequest(@RequestParam(name = "email") String email) {
+    userService.generatePasswordResetConfirmationMail(email);
+  }
+
+  @PutMapping("/password/update")
+  @ResponseStatus(HttpStatus.OK)
+  void updateUserPasswordByJwtTokenValidation(@RequestBody PasswordStoreDto data) {
+    userService.updateUserPasswordByJwtTokenValidation(data);
+  }
+
+  @PutMapping("/password/change")
+  @ResponseStatus(HttpStatus.OK)
+  void changeUserPasswordByOldPasswordValidation(@RequestBody PasswordStoreDto data) {
+    userService.changeUserPasswordByOldPasswordValidation(data);
   }
 }
