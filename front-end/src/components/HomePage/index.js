@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Route} from 'react-router-dom';
 import './index.scss';
 import Header from '../Header';
+import Profile from '../Profile';
 import AuthService from '../../helpers/authService';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {faPlus, faSignOutAlt, faAngleRight} from '@fortawesome/free-solid-svg-icons';
@@ -35,6 +36,7 @@ class HomePage extends Component {
       return (
         <div className='home'>
           <Header handleLogout={this.handleLogout} userName={this.state.user.sub} />
+          <Route exact path="/profile" component={Profile}/>
           <Route exact path='/' component={this.state.user.sub === 'Admin' ? Admin : Manager} />
         </div>
       );
