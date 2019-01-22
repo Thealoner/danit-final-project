@@ -73,7 +73,7 @@ export default class ResetPassword extends Component {
       );
       this.setState({ confirmed: true });
     } catch (e) {
-      toastr.error('Введен неверный код подтверждения, попробуйте еще раз.');
+      toastr.error('Введен неверный код подтверждения или пароли не совпадают, попробуйте еще раз.');
       this.setState({ isConfirming: false });
     }
   };

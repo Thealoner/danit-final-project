@@ -13,9 +13,7 @@ export default class AuthService {
   requestResetToken = (email) => {
     return fetch('/users/password/reset?email=' + email, {
       method: 'GET'
-    }).then(() => {
-      return Promise.resolve();
-    });
+    })
   };
 
   requestPasswordUpdate = (token, newPassword) => {
