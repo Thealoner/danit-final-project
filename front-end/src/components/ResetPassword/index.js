@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Auth } from 'aws-amplify';
 import { Link } from 'react-router-dom';
 import {
   HelpBlock,
@@ -8,12 +7,15 @@ import {
   FormControl,
   ControlLabel
 } from 'react-bootstrap';
+import AuthService from '../../helpers/authService';
 import LoaderButton from '../LoaderButton';
 import './index.scss';
+import {toastr} from "react-redux-toastr";
 
 export default class ResetPassword extends Component {
   constructor (props) {
     super(props);
+    this.auth = new AuthService();
 
     this.state = {
       code: '',
@@ -51,10 +53,10 @@ export default class ResetPassword extends Component {
     this.setState({ isSendingCode: true });
 
     try {
-      await Auth.forgotPassword(this.state.email);
+      await this.auth.requestResetToken(this.state.email);
       this.setState({ codeSent: true });
     } catch (e) {
-      alert(e.message);
+      toastr.error('Введен неверный email, попробуйте еще раз.');
       this.setState({ isSendingCode: false });
     }
   };
@@ -65,14 +67,13 @@ export default class ResetPassword extends Component {
     this.setState({ isConfirming: true });
 
     try {
-      await Auth.forgotPasswordSubmit(
-        this.state.email,
+      await this.auth.requestPasswordUpdate(
         this.state.code,
         this.state.password
       );
       this.setState({ confirmed: true });
     } catch (e) {
-      alert(e.message);
+      toastr.error('Введен неверный код подтверждения, попробуйте еще раз.');
       this.setState({ isConfirming: false });
     }
   };
