@@ -6,15 +6,13 @@ import {
   getFormValues
 } from 'redux-form';
 import { Loader } from 'semantic-ui-react';
+import RenderField from '../RenderField';
+import validateAllRequired from '../../../../helpers/validateAllRequired';
 
 class Service extends Component {
   render () {
     let { currentTab, handleDelete, handleCancel, handleSubmit, submitting } = this.props;
     let { data } = currentTab.form;
-    let editingMode;
-    if (currentTab.form.data.id) {
-      editingMode = true;
-    }
 
     if (!data) {
       return <div className="tabs__loader-wrapper"><Loader active inline='centered' size='big'/></div>;
@@ -23,34 +21,17 @@ class Service extends Component {
     return (
       <form onSubmit={handleSubmit} className="record">
         <div className="form-group field field-object">
-          <p>{editingMode ? 'ID: ' + currentTab.form.data.id : ''}</p>
-          <div className="form-group field field-string">
-            <label className="control-label" htmlFor="title">Название</label>
-            <Field name="title" component="input" type="text" />
-          </div>
-          <div className="form-group field field-string">
-            <label className="control-label" htmlFor="price">Цена</label>
-            <Field name="price" component="input" type="text" />
-          </div>
-          <div className="form-group field field-string">
-            <label className="control-label" htmlFor="cost">Себестоимость</label>
-            <Field name="cost" component="input" type="text" />
-          </div>
-          <div className="form-group field field-string">
-            <label className="control-label" htmlFor="unit">Единица измерения</label>
-            <Field name="unit" component="input" type="text" />
-          </div>
-          <div className="form-group field field-string">
-            <label className="control-label" htmlFor="unitsNumber">Кол-во единиц</label>
-            <Field name="unitsNumber" component="input" type="text" />
-          </div>
-          <div className="form-group field field-string">
-            <label className="control-label" htmlFor="active">Активен</label>
-            <Field name="active" component="input" type="checkbox" />
-          </div>
+          <p>{data.id ? 'ID: ' + data.id : ''}</p>
+          <Field name="title" component={RenderField} type="text" label="Название" />
+          <Field name="price" component={RenderField} type="text" label="Цена" />
+          <Field name="cost" component={RenderField} type="text" label="Себестоимость" />
+          <Field name="unit" component={RenderField} type="text" label="Единица измерения" />
+          <Field name="unitsNumber" component={RenderField} type="text" label="Кол-во единиц" />
+          <Field name="active" component={RenderField} type="checkbox" label="Активен" />
+          {/* <p>Включенные сервисы: {data.services.join(', ')}</p> */}
 
           <button type="submit" className="record__button" disabled={!currentTab.form.edited || submitting}>Сохранить</button>
-          <button type="button" className="record__button" onClick={handleDelete} disabled={!editingMode}>Удалить</button>
+          <button type="button" className="record__button" onClick={handleDelete} disabled={!data.id}>Удалить</button>
           <button type="button" className="record__button" onClick={handleCancel}>Отмена</button>
         </div>
       </form>
@@ -76,7 +57,10 @@ class Service extends Component {
   }
 };
 
-let reduxFormService = reduxForm({ form: 'service' })(Service);
+let reduxFormService = reduxForm({
+  form: 'service',
+  validate: validateAllRequired
+})(Service);
 
 const mapStateToProps = state => ({
   formValues: getFormValues('service')(state)
