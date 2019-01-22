@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: dbc:mysql://localhost:3306/energymdb
+    driverClassName: org.h2.Driver
+    username: root
+    password: root
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate.ddl-auto: update
+    # show-sql: true
+  #    format_sql: true
+  #    use_sql_comments: true
+#  data:
+#    web.pageable.one-indexed-parameters: true
+    #mvc:
+    #locale: ru_RU
+    #locale-resolver: fixed
+
+  flyway:
+    locations: classpath:db/migration/prod
