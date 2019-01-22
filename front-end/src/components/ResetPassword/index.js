@@ -10,7 +10,7 @@ import {
 import AuthService from '../../helpers/authService';
 import LoaderButton from '../LoaderButton';
 import './index.scss';
-import {toastr} from "react-redux-toastr";
+import {toastr} from 'react-redux-toastr';
 
 export default class ResetPassword extends Component {
   constructor (props) {

@@ -9,11 +9,10 @@ export default class AuthService {
     setToken.bind(this);
   };
 
-
   requestResetToken = (email) => {
     return fetch('/users/password/reset?email=' + email, {
       method: 'GET'
-    })
+    });
   };
 
   requestPasswordUpdate = (token, newPassword) => {
@@ -111,5 +110,4 @@ export default class AuthService {
       throw error;
     }
   };
-
 }
