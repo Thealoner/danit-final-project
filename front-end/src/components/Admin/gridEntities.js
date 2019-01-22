@@ -257,7 +257,7 @@ const gridEntities = [
       { title: 'Пол',
         field: 'gender',
         formatter: 'lookup',
-        formatterParams: {'Male': '<i class="fas fa-male"/>', 'Female': '<i class="fas fa-female"/>'} },
+        formatterParams: {'M': '<i class="fas fa-male"/>', 'F': '<i class="fas fa-female"/>'} },
       { title: 'Дата Рождения', field: 'birthDate' },
       { title: 'Телефон', field: 'phoneNumber' },
       { title: 'Email', field: 'email' }
