@@ -1,0 +1,63 @@
+.profile{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: #F5F4F8;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .3), 0 0 20px rgba(0, 0, 0, .1);
+
+
+  &__form {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 310px;
+    height: 360px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .3), 0 0 20px rgba(0, 0, 0, .1);
+  }
+
+  .user-photo {
+    width: 310px;
+    height: 360px;
+    margin-right: 40px;
+    color: black;
+    text-align: center;
+  }
+
+  .user-avatar {
+    width: 184px;
+    height: 184px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    border-radius: 50%;
+
+  }
+  .user-doc {
+    width: 80%;
+    margin-left: 30px !important;
+    padding: 8px 10px 8px 10px;
+    color: rgba(0,0,0,.87);
+    background: white;
+    border: 1px solid rgba(34,36,38,.15);
+    border-radius: .28571429rem;
+  }
+
+
+  .field {
+    width: 80%;
+  }
+
+  .button {
+    width: 80%;
+    margin: 10px 0 0 !important;
+    color: #ffffff !important;
+    background-color: #FF659E !important;
+
+    &:active {
+      transform: scale(.99);
+    }
+  }
+}
+

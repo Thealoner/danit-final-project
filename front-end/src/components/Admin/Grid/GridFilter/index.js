@@ -76,6 +76,7 @@ class GridFilter extends Component {
 
     this.setState({
       [name]: value,
+      value: '',
       activeFilter: optionName
     });
 
