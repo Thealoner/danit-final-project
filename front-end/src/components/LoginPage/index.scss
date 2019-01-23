@@ -34,27 +34,27 @@
 
 
   &__forgotPassBtn{
+    position: relative;
     display: block;
     margin: 0 auto 0;
-    color: #FF659E;
-    position: relative;
-    background: transparent;
-    font-size: 15px;
     padding: 5px; // the trick
+    color: #FF659E;
+    font-size: 15px;
+    background: transparent;
     border: none;
     outline: none;
-    transition: 0.3s;
+    transition: .3s;
     &:before{
         content: '';
         position: absolute;
         right: 0;
-        padding: 0 10px;
         bottom: 0;
         left: 0;
-        border-bottom: 1px solid #FF659E;
         width: 0;
         margin: 0 auto;
-        transition: 0.3s;
+        padding: 0 10px;
+        border-bottom: 1px solid #FF659E;
+        transition: .3s;
     }
     &:hover:before{
         width: 100%;
