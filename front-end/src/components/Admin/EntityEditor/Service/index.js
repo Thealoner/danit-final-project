@@ -8,6 +8,7 @@ import {
 import { Loader } from 'semantic-ui-react';
 import RenderField from '../RenderField';
 import validateAllRequired from '../../../../helpers/validateAllRequired';
+import warningTest from '../../../../helpers/warningTest';
 
 class Service extends Component {
   render () {
@@ -59,7 +60,8 @@ class Service extends Component {
 
 let reduxFormService = reduxForm({
   form: 'service',
-  validate: validateAllRequired
+  validate: validateAllRequired,
+  warn: warningTest
 })(Service);
 
 const mapStateToProps = state => ({
