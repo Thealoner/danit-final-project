@@ -66,7 +66,7 @@ const gridEntities = [
           type: 'number'
         },
         limitAdditionalServices: {
-          title: 'Ораничение по количеству доп. услуг',
+          title: 'Ограничение по количеству доп. услуг',
           type: 'boolean'
         },
         limitUsageByPaymentPercentage: {

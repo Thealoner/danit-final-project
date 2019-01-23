@@ -7,6 +7,7 @@ import {
   deleteCurrentEntityItem,
   storeTabTmpFormData
 } from '../../../actions/tabActions';
+import Paket from './Paket';
 import Service from './Service';
 
 class EntityEditor extends Component {
@@ -29,6 +30,8 @@ class EntityEditor extends Component {
     let { currentTab, storeTmpFormData, cancelData } = this.props;
 
     switch (currentTab.tabKey) {
+      case 'pakets':
+        return <Paket onSubmit={this.onSubmit} handleChange={storeTmpFormData} handleDelete={this.onDelete} handleCancel={cancelData} currentTab={currentTab}/>;
       case 'services':
         return <Service onSubmit={this.onSubmit} handleChange={storeTmpFormData} handleDelete={this.onDelete} handleCancel={cancelData} currentTab={currentTab}/>;
       default:

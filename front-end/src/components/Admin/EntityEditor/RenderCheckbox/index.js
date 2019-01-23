@@ -8,7 +8,7 @@ const RenderCheckbox = ({
   meta: { touched, error, warning }
 }) => (
   <div className="form-group field field-boolean">
-    <div class="checkbox">
+    <div className="checkbox">
       <label>
         <input {...input} type={type} />
         {label}
