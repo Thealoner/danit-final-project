@@ -9,6 +9,7 @@ import {
 } from '../../../actions/tabActions';
 import Paket from './Paket';
 import Service from './Service';
+import Contract from './Contract';
 
 class EntityEditor extends Component {
   onSubmit = values => {
@@ -34,6 +35,8 @@ class EntityEditor extends Component {
         return <Paket onSubmit={this.onSubmit} handleChange={storeTmpFormData} handleDelete={this.onDelete} handleCancel={cancelData} currentTab={currentTab}/>;
       case 'services':
         return <Service onSubmit={this.onSubmit} handleChange={storeTmpFormData} handleDelete={this.onDelete} handleCancel={cancelData} currentTab={currentTab}/>;
+      case 'contracts':
+        return <Contract onSubmit={this.onSubmit} handleChange={storeTmpFormData} handleDelete={this.onDelete} handleCancel={cancelData} currentTab={currentTab}/>;
       default:
         return <h1>Form component for this entity is not defined.</h1>;
     }

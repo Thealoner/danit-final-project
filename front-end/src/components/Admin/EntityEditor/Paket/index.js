@@ -8,6 +8,7 @@ import {
 import { Loader } from 'semantic-ui-react';
 import RenderField from '../RenderField';
 import RenderCheckbox from '../RenderCheckbox';
+import AuditDetails from '../AuditDetails';
 import validateAllRequired from '../../../../helpers/validateAllRequired';
 import warningTest from '../../../../helpers/warningTest';
 
@@ -45,6 +46,8 @@ class Paket extends Component {
           <button type="submit" className="record__button" disabled={!currentTab.form.edited || submitting}>Сохранить</button>
           <button type="button" className="record__button" onClick={handleDelete} disabled={!data.id}>Удалить</button>
           <button type="button" className="record__button" onClick={handleCancel}>Отмена</button>
+
+          <AuditDetails data={data} />
         </div>
       </form>
     );

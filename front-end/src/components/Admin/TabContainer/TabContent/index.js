@@ -14,7 +14,7 @@ class TabContent extends Component {
     } else if (currentTab.type === 'grid') {
       content = <Grid currentTab={currentTab} />;
     } else if (currentTab.type === 'form') {
-      if (['pakets', 'services'].includes(currentTab.tabKey)) {
+      if (['pakets', 'services', 'contracts'].includes(currentTab.tabKey)) {
         content = <EntityEditor currentTab={currentTab} />;
       } else {
         content = <RecordEditor currentTab={currentTab} />;

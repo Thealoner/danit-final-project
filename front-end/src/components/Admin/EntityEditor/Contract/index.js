@@ -7,12 +7,11 @@ import {
 } from 'redux-form';
 import { Loader } from 'semantic-ui-react';
 import RenderField from '../RenderField';
-import RenderCheckbox from '../RenderCheckbox';
 import AuditDetails from '../AuditDetails';
 import validateAllRequired from '../../../../helpers/validateAllRequired';
 import warningTest from '../../../../helpers/warningTest';
 
-class Service extends Component {
+class Contract extends Component {
   render () {
     let { currentTab, handleDelete, handleCancel, handleSubmit, submitting } = this.props;
     let { data } = currentTab.form;
@@ -25,12 +24,11 @@ class Service extends Component {
       <form onSubmit={handleSubmit} className="record">
         <div className="form-group field field-object">
           <p>{data.id ? 'ID: ' + data.id : ''}</p>
-          <Field name="title" component={RenderField} type="text" label="Название" />
-          <Field name="price" component={RenderField} type="text" label="Цена" />
-          <Field name="cost" component={RenderField} type="text" label="Себестоимость" />
-          <Field name="unit" component={RenderField} type="text" label="Единица измерения" />
-          <Field name="unitsNumber" component={RenderField} type="text" label="Кол-во единиц" />
-          <Field name="active" component={RenderCheckbox} type="checkbox" label="Активен" />
+          <Field name="clientId" component={RenderField} type="text" label="ID клиента" />
+          <Field name="credit" component={RenderField} type="text" label="Кредит" />
+          <Field name="packageId" component={RenderField} type="text" label="ID пакета" />
+          {/* <Field name="cards" component={RenderField} type="text" label="Единица измерения" /> */}
+          {data.cards.map(card => card.id)}
 
           <button type="submit" className="record__button" disabled={!currentTab.form.edited || submitting}>Сохранить</button>
           <button type="button" className="record__button" onClick={handleDelete} disabled={!data.id}>Удалить</button>
@@ -61,14 +59,14 @@ class Service extends Component {
   }
 };
 
-let reduxFormService = reduxForm({
-  form: 'service',
+let reduxFormContract = reduxForm({
+  form: 'contract',
   validate: validateAllRequired,
   warn: warningTest
-})(Service);
+})(Contract);
 
 const mapStateToProps = state => ({
-  formValues: getFormValues('service')(state)
+  formValues: getFormValues('contract')(state)
 });
 
-export default connect(mapStateToProps, null)(reduxFormService);
+export default connect(mapStateToProps, null)(reduxFormContract);
