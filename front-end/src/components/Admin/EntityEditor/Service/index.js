@@ -7,6 +7,7 @@ import {
 } from 'redux-form';
 import { Loader } from 'semantic-ui-react';
 import RenderField from '../RenderField';
+import RenderCheckbox from '../RenderCheckbox';
 import validateAllRequired from '../../../../helpers/validateAllRequired';
 import warningTest from '../../../../helpers/warningTest';
 
@@ -28,7 +29,7 @@ class Service extends Component {
           <Field name="cost" component={RenderField} type="text" label="Себестоимость" />
           <Field name="unit" component={RenderField} type="text" label="Единица измерения" />
           <Field name="unitsNumber" component={RenderField} type="text" label="Кол-во единиц" />
-          <Field name="active" component={RenderField} type="checkbox" label="Активен" />
+          <Field name="active" component={RenderCheckbox} type="checkbox" label="Активен" />
           {/* <p>Включенные сервисы: {data.services.join(', ')}</p> */}
 
           <button type="submit" className="record__button" disabled={!currentTab.form.edited || submitting}>Сохранить</button>
