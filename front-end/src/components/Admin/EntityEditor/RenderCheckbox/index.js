@@ -13,8 +13,8 @@ const RenderCheckbox = ({
         <input {...input} type={type} />
         {label}
         {touched &&
-          ((error && <div className="field_error">{error}</div>) ||
-            (warning && <div className="field_warning">{warning}</div>))}
+          ((error && <div className="field_error-ch">{error}</div>) ||
+            (warning && <div className="field_warning-ch">{warning}</div>))}
       </label>
     </div>
   </div>

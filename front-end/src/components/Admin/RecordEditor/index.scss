@@ -5,6 +5,7 @@
 
   .control-label {
     min-width: 300px;
+    margin-top: 5px;
     margin-right: 20px;
 
   }
@@ -27,7 +28,7 @@
   .field-string,
   .field-number {
     display: flex;
-    align-items: center;
+    height: 40px;
     margin-bottom: 10px;
 
     input {
@@ -38,11 +39,40 @@
     }
   }
 
-  .checkbox label {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
-    padding: 0;
+  .field_error {
+    margin-left: 10px;
+    color: $error-text;
+  }
+
+  .field_warning {
+    margin-left: 10px;
+    color: $warning-text;
+  }
+
+  .field_error-ch{
+    margin-left: 25px;
+    color: $error-text;
+  }
+  .field_warning-ch {
+    margin-left: 25px;
+    color: $warning-text;
+  }
+  .field_error-input {
+    background-color: $error-bg !important;
+    border-color: $error-border !important;
+  }
+
+  .field_warning-input {
+    background-color: $warning-bg !important;
+    border-color: $warning-border!important;
+  }
+
+  .checkbox {
+    height: 40px;
+    label {
+      margin-bottom: 5px;
+      padding: 0;
+    }
   }
 
   input[type='checkbox'] {
@@ -172,3 +202,5 @@
     margin-bottom: 20px;
   }
 }
+
+
