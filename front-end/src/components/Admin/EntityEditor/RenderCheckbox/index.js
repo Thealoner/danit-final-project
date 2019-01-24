@@ -7,15 +7,13 @@ const RenderCheckbox = ({
   name,
   meta: { touched, error, warning }
 }) => (
-  <div className="form-group field field-boolean">
+  <div className="form-group field field-checkbox">
+    <label className="control-label" htmlFor={name}>{label}</label>
     <div className="checkbox">
-      <label>
-        <input {...input} type={type} />
-        {label}
-        {touched &&
-          ((error && <div className="field_error-ch">{error}</div>) ||
-            (warning && <div className="field_warning-ch">{warning}</div>))}
-      </label>
+      <input {...input} type={type} />
+      {touched &&
+        ((error && <div className="field_error-ch">{error}</div>) ||
+          (warning && <div className="field_warning-ch">{warning}</div>))}
     </div>
   </div>
 );
