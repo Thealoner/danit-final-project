@@ -37,7 +37,7 @@ spring:
       enabled: true
 
   flyway:
-    enabled: true
+    enabled: false
 
 
 #Global Date format

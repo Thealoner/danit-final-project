@@ -1,21 +1,21 @@
 create table company (
-  id int identity primary key,
-  short_name varchar,
-  name varchar,
-  phone varchar,
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  short_name varchar(100),
+  name varchar(100),
+  phone varchar(100),
   phone2 timestamp,
-  email varchar,
-  address varchar,
-  orgcode varchar
+  email varchar(100),
+  address varchar(100),
+  orgcode varchar(100)
 );
 
 create table employee_category (
-  id int identity primary key,
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name varchar
 );
 
 create table discount (
-  id int identity primary key,
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name varchar,
   percent varchar,
   date_from timestamp,
@@ -23,13 +23,13 @@ create table discount (
 );
 
 create table position (
-  id int identity primary key,
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name varchar,
   description varchar
 );
 
 create table department (
-  id int identity primary key,
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   pid int,
   short_name varchar,
   name varchar,
@@ -41,7 +41,7 @@ create table department (
 );
 
 create table employee (
-  id int identity primary key,
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   first_name varchar,
   last_name varchar,
   family_name varchar,
@@ -62,7 +62,7 @@ create table employee (
 );
 
 create table gym (
-  id int identity primary key,
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name varchar,
   description varchar,
   capacity int,
@@ -70,14 +70,14 @@ create table gym (
 );
 
 create table training_type (
-  id int identity primary key,
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name varchar,
   description varchar,
   avaliable4group bit
 );
 
 create table group_training (
-  id int identity primary key,
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   employeeid int,
   gymid int,
   serviceid int,
@@ -92,7 +92,7 @@ create table user_roles (
   creation_date timestamp not null,
   last_modified_by varchar not null,
   last_modified_date timestamp not null,
-  id int identity primary key,
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   role varchar
 );
 
@@ -101,7 +101,7 @@ create table users (
   creation_date timestamp not null,
   last_modified_by varchar not null,
   last_modified_date timestamp not null,
-  id int identity primary key,
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   username varchar,
   password varchar
 );
@@ -116,7 +116,7 @@ create table clients (
   creation_date timestamp not null,
   last_modified_by varchar not null,
   last_modified_date timestamp not null,
-  id int identity primary key,
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   first_name varchar,
   last_name varchar,
   gender varchar,
@@ -131,7 +131,7 @@ create table packages (
   creation_date timestamp not null,
   last_modified_by varchar not null,
   last_modified_date timestamp not null,
-  id int identity primary key,
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   title varchar,
   term int,
   price float ,
@@ -156,7 +156,7 @@ create table contracts (
   creation_date timestamp not null,
   last_modified_by varchar not null,
   last_modified_date timestamp not null,
-  id int identity primary key,
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   start_date timestamp ,
   end_date timestamp ,
   credit float ,
@@ -170,7 +170,7 @@ create table cards (
   creation_date timestamp not null,
   last_modified_by varchar not null,
   last_modified_date timestamp not null,
-  id int identity primary key,
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   card_code varchar ,
   card_active bit ,
   contract_id int
@@ -181,7 +181,7 @@ create table service_categories (
   creation_date timestamp not null,
   last_modified_by varchar not null,
   last_modified_date timestamp not null,
-  id int identity primary key,
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   title varchar ,
   active bit
 );
@@ -191,7 +191,7 @@ create table services (
   creation_date timestamp not null,
   last_modified_by varchar not null,
   last_modified_date timestamp not null,
-  id int identity primary key,
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   title varchar ,
   price float ,
   cost float ,

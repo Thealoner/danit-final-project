@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:energymdb
+      #url: jdbc:h2:tcp://localhost/~/energymdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+      # show-sql: true
+    #    format_sql: true
+    #    use_sql_comments: true
+  data:
+      web.pageable.one-indexed-parameters: true
+      #mvc:
+      #locale: ru_RU
+      #locale-resolver: fixed
+
+    #http://localhost:9000/h2-console
+  h2:
+    console:
+      enabled: true
+
+  flyway:
+#    locations: classpath:db/migration/dev
+    enabled: false
