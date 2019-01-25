@@ -34,8 +34,9 @@ import java.util.List;
 public class Client extends Auditable implements BaseEntity {
 
   @Id
-  @SequenceGenerator(name = "client_sequence", sequenceName = "client_sequence", allocationSize = 1, initialValue = 1001)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_sequence")
+  //  @SequenceGenerator(name = "client_sequence", sequenceName = "client_sequence", allocationSize = 1, initialValue = 1001)
+  //  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_sequence")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   @EqualsAndHashCode.Include
   private Long id;
