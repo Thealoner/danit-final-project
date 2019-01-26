@@ -70,8 +70,8 @@ websocket:
 
 #S3 bucket
 amazon-properties:
-  accessKey: AKIAITOEDMNX2SU5XL6A
-  secretKey: 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
+  accessKey: XXXXXXXXXXXXXXXXXX
+  secretKey: XXXXXXXXXXXXXXXXXX
   bucketName: energym.data.bucket
 
 #Avatar image requirements
