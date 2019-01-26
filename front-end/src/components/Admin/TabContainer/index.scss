@@ -15,7 +15,7 @@
     position: relative;
     display: flex;
     align-items: center;
-    width: 180px;
+    width: 185px;
     height: 36px;
     padding-left: 7px;
     background-color: $white;
@@ -24,6 +24,7 @@
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     cursor: pointer;
+    user-select: none;
 
     &:last-child {
       border-right: 1px solid $gallery;

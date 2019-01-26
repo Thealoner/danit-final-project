@@ -255,7 +255,7 @@ const gridEntities = [
       { title: 'Пол',
         field: 'gender',
         formatter: 'lookup',
-        formatterParams: {'Male': '<i class="fas fa-male"/>', 'Female': '<i class="fas fa-female"/>'} },
+        formatterParams: {'M': '<i class="fas fa-male"/>', 'F': '<i class="fas fa-female"/>'} },
       { title: 'Дата Рождения', field: 'birthDate' },
       { title: 'Телефон', field: 'phoneNumber' },
       { title: 'Email', field: 'email' }
@@ -287,7 +287,8 @@ const gridEntities = [
     recordType: 'simple',
     columns: [
       { title: 'ID', field: 'id' },
-      { title: 'Логин', field: 'username' }
+      { title: 'Логин', field: 'username' },
+      { title: 'Email', field: 'email' }
     ],
     schema: {
       title: 'Редактирование пользователя',
@@ -302,6 +303,10 @@ const gridEntities = [
         },
         username: {
           title: 'Логин',
+          type: 'string'
+        },
+        email: {
+          title: 'Email',
           type: 'string'
         },
         // roles: {
