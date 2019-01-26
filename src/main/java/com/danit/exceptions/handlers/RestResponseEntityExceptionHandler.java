@@ -1,5 +1,6 @@
 package com.danit.exceptions.handlers;
 
+import com.danit.exceptions.EmailNotFoundException;
 import com.danit.exceptions.EntityNotFoundException;
 import com.danit.exceptions.EntityParticularDataException;
 import com.danit.exceptions.IllegalAccessReflectionException;
@@ -26,7 +27,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
       EntityParticularDataException.class, IllegalAccessReflectionException.class,
       IllegalEntityFormatException.class, IllegalDateConversionException.class,
       InvalidJwtTokenException.class, ObjectToJsonProcessingException.class,
-      JwtUserMapException.class})
+      JwtUserMapException.class, EmailNotFoundException.class})
   public final ResponseEntity<ErrorDetails> handleEntityNotFoundException(RuntimeException ex, WebRequest request) {
     log.error(ex.getMessage());
     ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(),

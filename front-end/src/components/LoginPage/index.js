@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 import './index.scss';
 import AuthService from '../../helpers/authService';
 import {toastr} from 'react-redux-toastr';
@@ -47,29 +48,32 @@ class Login extends Component {
 
     return (
       <div className='login'>
-        <Form onSubmit={this.handleSubmit} className='login__form' loading={loading}>
-          <Form.Field error={error}>
-            <label htmlFor='username'>Логин</label>
-            <input type='text'
-              id='username'
-              name='username'
-              placeholder='введите логин (Admin)'
-              value={data.username}
-              onChange={this.handleChange}
-              required/>
-          </Form.Field>
-          <Form.Field error={error}>
-            <label htmlFor='password'>Пароль</label>
-            <input type='password'
-              id='password'
-              name='password'
-              placeholder='введите пароль (1234)'
-              value={data.password}
-              onChange={this.handleChange}
-              required/>
-          </Form.Field>
-          <Button>Войти</Button>
-        </Form>
+        <div className="login__wrapper">
+          <Form onSubmit={this.handleSubmit} className='login__form' loading={loading}>
+            <Form.Field error={error}>
+              <label htmlFor='username'>Логин</label>
+              <input type='text'
+                id='username'
+                name='username'
+                placeholder='введите логин (Admin)'
+                value={data.username}
+                onChange={this.handleChange}
+                required/>
+            </Form.Field>
+            <Form.Field error={error}>
+              <label htmlFor='password'>Пароль</label>
+              <input type='password'
+                id='password'
+                name='password'
+                placeholder='введите пароль (1234)'
+                value={data.password}
+                onChange={this.handleChange}
+                required/>
+            </Form.Field>
+            <Button>Войти</Button>
+          </Form>
+          <Link to="/login/reset">Forgot password?</Link>
+        </div>
       </div>
     );
   };

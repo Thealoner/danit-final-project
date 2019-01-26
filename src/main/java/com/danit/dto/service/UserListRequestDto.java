@@ -14,4 +14,6 @@ public class UserListRequestDto extends BaseListRequestDto {
 
   public String username;
 
+  public String email;
+
 }
