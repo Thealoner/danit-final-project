@@ -117,7 +117,7 @@ public class UserService extends AbstractBaseEntityService<User, UserListRequest
       users.add(user);
       super.updateEntities(users);
     } else {
-      throw new UserPasswordsNonEqualsException("old password and new password mismatch");
+      throw new UserPasswordsNonEqualsException("previous password is incorrect");
     }
   }
 
@@ -139,6 +139,9 @@ public class UserService extends AbstractBaseEntityService<User, UserListRequest
   public void setCurrentUserAvatar(MultipartFile file) {
     try {
       BufferedImage image = ImageIO.read(file.getInputStream());
+      if(!file.getOriginalFilename().toLowerCase().endsWith(".png")) {
+        throw new ImageFormatException("only .png format is acceptable");
+      }
       if (image.getWidth() > imageWidth || image.getHeight() > imageHeight) {
         throw new ImageFormatException(image.getWidth() > imageWidth ?
             "exceeded max width of image, limit= " + imageWidth

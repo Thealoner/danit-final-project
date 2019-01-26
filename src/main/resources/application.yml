@@ -76,6 +76,6 @@ amazon-properties:
 
 #Avatar image requirements
 avatar-image-properties:
-  width: 140
-  height: 140
+  width: 560
+  height: 560
 

@@ -6,12 +6,12 @@ const _ajaxRequest = (url, method, body, params) => {
   if (authService.loggedIn() && !authService.isTokenExpired()) {
     const headers = {};
 
-    if(typeof params === 'undefined') {
+    if (typeof params === 'undefined') {
       headers['Content-type'] = 'application/json';
       headers['Accept'] = 'application/json';
-    } else if(method === 'GET' && params === 'storage') {
+    } else if (method === 'GET' && params === 'storage') {
       headers['Accept'] = 'image/png';
-    } else if(params === 'storage'){
+    } else if (params === 'storage') {
       headers['Accept'] = 'application/json';
     }
 
@@ -19,7 +19,7 @@ const _ajaxRequest = (url, method, body, params) => {
 
     const options = {
       method,
-      headers,
+      headers
     };
 
     if (body) {
@@ -32,8 +32,14 @@ const _ajaxRequest = (url, method, body, params) => {
     )
       .then(authService._checkStatus)
       .then(response => {
-        return (headers['Accept'] === 'image/png') ? response.text() :
-          ((method !== 'DELETE') ? response.json() : Promise.resolve()); });
+        if (typeof params === 'undefined') {
+          return (method !== 'DELETE') ? response.json() : Promise.resolve();
+        } else if (params === 'storage' && method === 'GET') {
+          return response.text();
+        } else if (params === 'storage') {
+          return Promise.resolve();
+        }
+      });
   } else {
     console.log('Not logged in or token is expired');
   }

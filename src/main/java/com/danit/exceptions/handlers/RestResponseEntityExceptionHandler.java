@@ -10,6 +10,7 @@ import com.danit.exceptions.ImageFormatException;
 import com.danit.exceptions.InvalidJwtTokenException;
 import com.danit.exceptions.JwtUserMapException;
 import com.danit.exceptions.ObjectToJsonProcessingException;
+import com.danit.exceptions.UserPasswordsNonEqualsException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
       EntityParticularDataException.class, IllegalAccessReflectionException.class,
       IllegalEntityFormatException.class, IllegalDateConversionException.class,
       InvalidJwtTokenException.class, ObjectToJsonProcessingException.class,
-      JwtUserMapException.class, EmailNotFoundException.class, ImageFormatException.class})
+      JwtUserMapException.class, EmailNotFoundException.class, ImageFormatException.class,
+      UserPasswordsNonEqualsException.class})
   public final ResponseEntity<ErrorDetails> handleEntityNotFoundException(RuntimeException ex, WebRequest request) {
     log.error(ex.getMessage());
     ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(),
