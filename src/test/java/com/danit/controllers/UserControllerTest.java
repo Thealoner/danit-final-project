@@ -126,11 +126,11 @@ public class UserControllerTest {
     long numberOfEntities = userService.getNumberOfEntities();
     this.mockMvc.perform(delete(url).headers(headers)
         .contentType("application/json")
-        .content("[{\"id\": 1001},{\"id\": 1002},{\"id\": 1003}]"))
+        .content("[{\"id\": 4},{\"id\": 5},{\"id\": 6}]"))
         .andExpect(status().isOk());
     Assert.assertEquals(userService.getNumberOfEntities(), numberOfEntities - 3);
 
-    this.mockMvc.perform(delete(url + "/1004").headers(headers))
+    this.mockMvc.perform(delete(url + "/7").headers(headers))
         .andExpect(status().isOk());
 
     Assert.assertEquals(userService.getNumberOfEntities(), numberOfEntities - 4);
@@ -289,7 +289,7 @@ public class UserControllerTest {
 
   @Test
   public void getUserByExistingId() throws Exception {
-    String responseJson = mockMvc.perform(get(url + "/" + 1005).headers(headers))
+    String responseJson = mockMvc.perform(get(url + "/" + 1).headers(headers))
         .andExpect(status().isOk())
         .andExpect(content()
             .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -300,7 +300,7 @@ public class UserControllerTest {
     String pageDataJson = obj.getString("data");
     User receivedUser = objectMapper.readValue(pageDataJson, User.class);
 
-    Assert.assertEquals(new Long(1005), receivedUser.getId());
+    Assert.assertEquals(new Long(1), receivedUser.getId());
   }
 
   @Test
