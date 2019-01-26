@@ -17,7 +17,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: energym.mail.test@gmail.com
-    password: 586985energym*
+    password:
     properties:
       mail.smtp:
         auth: true
@@ -40,7 +40,7 @@ application:
   authTokenExpTime: 864000000
   authTokenPrefix: "Bearer "
   authHeaderName: "Authorization"
-  secretKey: "fs4SecretKey"
+  secretKey:
 
 #Websocket constants
 websocket:
@@ -51,14 +51,14 @@ websocket:
   deleteEventEndPoint: "/events/delete"
   getEventEndPoint: "/events/get"
 
-#S3 bucket
-amazon-properties:
-  accessKey: XXXXXXXXXXXXXXXXXX
-  secretKey: XXXXXXXXXXXXXXXXXX
-  bucketName: energym.data.bucket
-
 #Avatar image requirements
 avatar-image-properties:
   width: 560
   height: 560
+
+  #S3 bucket
+amazon-properties:
+  accessKey:
+  secretKey:
+  bucketName: energym.data.bucket
 

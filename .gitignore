@@ -42,3 +42,7 @@ target/
 .project
 .settings
 
+# Credentials
+application_credentials.yml
+
+

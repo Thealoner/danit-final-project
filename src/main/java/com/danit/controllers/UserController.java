@@ -226,7 +226,7 @@ public class UserController {
 
   @PutMapping("/password/change")
   @ResponseStatus(HttpStatus.OK)
-  void changeUserPasswordByOldPasswordValidation(@RequestBody PasswordStoreDto data) {
+  void changeUserPasswordByOldPasswordValidation(@RequestBody PasswordStoreDto data, Principal principal) {
     userService.changeUserPasswordByOldPasswordValidation(data);
   }
 }
