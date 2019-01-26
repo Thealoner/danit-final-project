@@ -4,10 +4,15 @@
   color: $victoria;
 
   .control-label {
+    display: inherit;
     min-width: 325px;
     margin-top: 5px;
     margin-right: 20px;
 
+    .label-text {
+      min-width: 325px;
+      margin-right: 20px;
+    }
   }
 
   .form-control {
@@ -41,21 +46,25 @@
   }
 
   .field_error {
+    display: inline-block;
     margin-left: 10px;
     color: $error-text;
   }
 
   .field_warning {
+    display: inline-block;
     margin-left: 10px;
     color: $warning-text;
   }
 
   .field_error-ch{
-    margin-left: 25px;
+    display: inline-block;
+    margin-left: 10px;
     color: $error-text;
   }
   .field_warning-ch {
-    margin-left: 25px;
+    display: inline-block;
+    margin-left: 10px;
     color: $warning-text;
   }
   .field_error-input {
@@ -86,8 +95,9 @@
   input[type='checkbox'] {
     position: static;
     width: 15px;
+    min-width: 15px;
     height: 15px;
-    margin: 1px 10px 0 0;
+    margin: 1px 0 0 0;
   }
 
   &__data-field {
