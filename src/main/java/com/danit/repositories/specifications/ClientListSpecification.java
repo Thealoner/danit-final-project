@@ -2,12 +2,15 @@ package com.danit.repositories.specifications;
 
 import com.danit.dto.service.ClientListRequestDto;
 import com.danit.models.Client;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.Tuple;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Path;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 
@@ -15,6 +18,9 @@ import static org.springframework.data.jpa.domain.Specification.where;
 
 @Component
 public class ClientListSpecification extends BaseSpecification<Client, ClientListRequestDto> {
+
+  @Autowired
+  Environment environment;
 
   @Override
   public Specification<Client> getFilter(ClientListRequestDto request) {
@@ -72,16 +78,14 @@ public class ClientListSpecification extends BaseSpecification<Client, ClientLis
       return (root, query, cb) -> {
         Path<Tuple> tuple = root.<Tuple>get("birthDate");
         if (tuple.getJavaType().isAssignableFrom(Date.class)) {
-          Expression<String> dateStringExpr = cb.function("TO_CHAR", String.class,
-              root.get("birthDate"), cb.literal("dd-MM-yyyy"));
-          if (birthDate.contains("|")) {
-            String[] dates = birthDate.split("\\|");
-            String startDate = dates[0];
-            System.out.println(startDate);
-            String endDate = dates[1];
-            System.out.println(endDate);
-            return cb.between(dateStringExpr, startDate, endDate);
+          if (Arrays.asList(environment.getActiveProfiles()).contains("prod")) {
+            Expression<String> dateStringExpr = cb.function("DATE_FORMAT", String.class,
+                root.get("birthDate"), cb.literal("%d-%m-%Y"));
+            return equals ? cb.like(cb.lower(dateStringExpr), birthDate.toLowerCase())
+                : cb.like(cb.lower(dateStringExpr), containsLowerCase(birthDate));
           } else {
+            Expression<String> dateStringExpr = cb.function("TO_CHAR", String.class,
+                root.get("birthDate"), cb.literal("dd-mm-yyyy"));
             return equals ? cb.like(cb.lower(dateStringExpr), birthDate.toLowerCase())
                 : cb.like(cb.lower(dateStringExpr), containsLowerCase(birthDate));
           }
