@@ -39,8 +39,8 @@ application:
   auth: "/auth"
   authTokenExpTime: 864000000
   authTokenPrefix: "Bearer "
-  authHeaderName: "Authorization"
-  secretKey:
+  authHeaderName: Authorization
+  secretKey: fs4SecretKey
 
 #Websocket constants
 websocket:
