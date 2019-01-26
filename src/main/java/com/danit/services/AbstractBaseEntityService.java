@@ -107,8 +107,7 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
 
   @Override
   public void deleteEntityById(long id) {
-    E e = baseEntityRepository.findById(id).orElseThrow(() ->
-        new EntityNotFoundException(LOG_MSG1 + getEntityName() + LOG_MSG2 + id));
+    E e = getEntityById(id);
     baseEntityRepository.delete(e);
     notifyChannel(WebSocketEvent.DELETE, e);
   }
