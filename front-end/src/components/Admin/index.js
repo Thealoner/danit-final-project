@@ -14,11 +14,13 @@ class Admin extends Component {
     return (
       <main className="configurator" ref={this.configurator}>
         <div className="configurator__left">
-          <div className="configurator__close-panel">
-            <FontAwesomeIcon icon="angle-right" size="1x" onClick={() => this.hideConfiguratorMenu()} />
-          </div>
           <div className="configurator__menu-wrapper">
-            <EntitiesMenu />
+            <div className="configurator__close-panel">
+              <FontAwesomeIcon icon="angle-right" size="1x" onClick={() => this.hideConfiguratorMenu()} />
+            </div>
+            <div className="configurator__menu">
+              <EntitiesMenu />
+            </div>
           </div>
         </div>
         <div className="configurator__right">

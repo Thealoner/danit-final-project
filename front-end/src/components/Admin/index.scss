@@ -12,6 +12,12 @@
     border-top-right-radius: 10px;
   }
 
+  &__menu-wrapper {
+    width: 200px;
+    background-color: $gallery;
+    border-top-right-radius: 10px;
+  }
+
   &__close-panel {
     display: flex;
     justify-content: flex-end;
@@ -66,7 +72,14 @@
     background-color: $victoria;
   }
 
+  .configurator__menu-wrapper {
+    width: 15px;
+    background-color: $victoria;
+    border-top-right-radius: 10px;
+  }
+
   .configurator__close-panel {
+    width: 15px;
     padding-right: 3px;
     color: $white;
   }
@@ -75,7 +88,72 @@
     transform: none;
   }
 
-  .configurator__menu-wrapper {
+  .configurator__menu {
     display: none;
   }
 }
+
+@media only screen and (max-width: 840px) {
+  .configurator {
+    grid-template-columns: 15px auto;
+    position: relative;
+
+    &__left {
+      overflow: auto;
+
+    }
+
+    &__menu-wrapper {
+      position: absolute;
+      z-index: 100;
+      width: 15px;
+      height: 100%;
+      background-color: $victoria;
+    }
+
+    &__close-panel {
+      padding-right: 3px;
+      color: $white;
+
+      svg {
+        transform: none;
+      }
+    }
+
+    &__menu {
+      display: none;
+    }
+  }
+
+  .configurator__menu-hide {
+
+    .configurator__left {
+      overflow: scroll;
+      background-color: $victoria;
+    }
+
+    .configurator__menu-wrapper {
+      overflow-y: auto;
+      overflow-x: hidden;
+      width: 200px;
+      background-color: $gallery;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    .configurator__close-panel {
+      width: 200px;
+      padding-right: 10px;
+      color: $victoria;
+
+      svg {
+        transform: rotateY(180deg);
+      }
+    }
+
+
+    .configurator__menu {
+      display: initial;
+    }
+  }
+}
+
