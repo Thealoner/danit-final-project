@@ -5,11 +5,19 @@
 
   .control-label {
     display: inherit;
+    width: 325px;
+    min-width: 325px;
+    margin-top: 5px;
+    margin-right: 20px;
+  }
+  .control-label-ch{
+    display: inherit;
     min-width: 325px;
     margin-top: 5px;
     margin-right: 20px;
 
     .label-text {
+      width: 325px;
       min-width: 325px;
       margin-right: 20px;
     }
@@ -34,13 +42,12 @@
   .field-checkbox,
   .field-number {
     display: flex;
-    height: 40px;
     margin-bottom: 10px;
 
     input {
       box-sizing: initial;
-      width: 250px;
-      min-width: 250px;
+      width: 200px;
+      min-width: 200px;
       text-align: left;
     }
   }
@@ -78,7 +85,6 @@
   }
 
   .checkbox {
-    height: 40px;
     margin-top: 5px;
     label {
       display: flex;
@@ -86,9 +92,9 @@
       justify-content: flex-end;
       margin-bottom: 5px;
       padding: 0;
-       span {
-         min-width: 345px;
-       }
+      span {
+        min-width: 345px;
+      }
     }
   }
 
@@ -220,5 +226,3 @@
     margin-bottom: 20px;
   }
 }
-
-
