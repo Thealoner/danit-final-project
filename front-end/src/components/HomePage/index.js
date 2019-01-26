@@ -9,6 +9,7 @@ import {faPlus, faSignOutAlt, faAngleRight} from '@fortawesome/free-solid-svg-ic
 import Admin from '../Admin';
 import Manager from '../Manager';
 import {Loader} from 'semantic-ui-react';
+import {connect} from 'react-redux';
 
 library.add(
   faPlus,
@@ -19,12 +20,9 @@ library.add(
 const auth = new AuthService();
 
 class HomePage extends Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      user: null
-    };
-  }
+  state = {
+    user: null
+  };
 
   handleLogout = () => {
     auth.logout();
@@ -32,12 +30,14 @@ class HomePage extends Component {
   };
 
   render () {
-    if (this.state.user) {
+    const { user } = this.state;
+
+    if (user) {
       return (
         <div className='home'>
-          <Header handleLogout={this.handleLogout} userName={this.state.user.sub} />
-          <Route exact path="/profile" component={Profile}/>
-          <Route exact path='/' component={this.state.user.sub === 'Admin' ? Admin : Manager} />
+          <Header handleLogout={this.handleLogout} userName={user.sub} />
+          <Route exact path="/profile" component={Profile} />
+          <Route exact path='/' component={user.sub === 'Admin' ? Admin : Manager} />
         </div>
       );
     } else {

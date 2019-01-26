@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import './profile.scss';
 import { Button, Form } from 'semantic-ui-react';
 import { toastr } from 'react-redux-toastr';
-import ajaxRequest from '../../helpers/ajaxRequest';
 import AuthService from '../../helpers/authService';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getAvatar, postAvatar } from '../../actions/userActions';
 
 class Profile extends Component {
   auth = new AuthService();
@@ -12,20 +13,7 @@ class Profile extends Component {
   state = {
     currentPwd: '',
     newPwd: '',
-    repeatPwd: '',
-    binaryData: []
-  };
-
-  getAvatar = () => {
-    ajaxRequest.get('api/storage/avatar', 'storage')
-      .then(data => {
-        this.setState({
-          binaryData: data
-        });
-      })
-      .catch(() => {
-        toastr.error('Cant get avatar image');
-      });
+    repeatPwd: ''
   };
 
   handleChg = (event) => {
@@ -50,28 +38,22 @@ class Profile extends Component {
     }
   };
 
-  handleUploadImage = (event) => {
+  handleUploadImage = event => {
     event.preventDefault();
     const data = new FormData();
     data.append('file', this.uploadInput.files[0]);
-    ajaxRequest.post('/api/storage/avatar/upload', data, 'storage')
-      .then(() => {
-        this.getAvatar();
-        toastr.success('Аватар успешно изменен!');
-      })
-      .catch(error => {
-        error.response.json().then(data => toastr.error(data.message));
-      });
+    this.props.postAvatar(data);
   };
 
   componentDidMount () {
-    this.getAvatar();
+    this.props.getAvatar();
   }
 
   render () {
+    const { user } = this.props;
     return <div className="profile">
       <div className="user-photo">
-        <img src={`data:image/png;base64,${this.state.binaryData}`} alt="user-avatar" className="user-avatar"/>
+        <img src={`data:image/png;base64,${user.avatar}`} alt="user-avatar" className="user-avatar"/>
         <Form>
           <Form.Field>
             <input ref={(ref) => { this.uploadInput = ref; }} type='file' className='user-doc'/>
@@ -115,4 +97,21 @@ class Profile extends Component {
   }
 }
 
-export default withRouter(Profile);
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getAvatar: () => {
+      dispatch(getAvatar());
+    },
+    postAvatar: avatar => {
+      dispatch(postAvatar(avatar));
+    }
+  };
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Profile));
