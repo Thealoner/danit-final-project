@@ -4,7 +4,7 @@ import { getGridData, setFilter } from '../../../../actions/tabActions';
 import { connect } from 'react-redux';
 import DatePicker from 'react-datepicker';
 import Checkbox from './checkbox';
-import { formatDateString } from '../../../../helpers/common';
+import moment from 'moment';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -33,11 +33,13 @@ class GridFilter extends Component {
 
   handleInputChangeDate = (date) => {
     const { setFilter, currentTab } = this.props;
+    const formattedDate = moment(date).format('DD-MM-YYYY');
 
     setFilter({
       ...currentTab.filter,
-      value: date,
-      isFiltered: false
+      value: formattedDate,
+      isFiltered: false,
+      date: date
     });
   }
 
@@ -63,14 +65,11 @@ class GridFilter extends Component {
     const { currentTab, getGridData } = this.props;
     let { field, value, isExact } = currentTab.filter;
 
-    if (field.toLowerCase().includes('date')) {
-      value = formatDateString(value);
-    }
-
     event.preventDefault();
 
     getGridData({
       tabKey: currentTab.tabKey,
+      page: 1,
       columns: currentTab.grid.columns,
       filter: {
         ...currentTab.filter,
@@ -118,16 +117,16 @@ class GridFilter extends Component {
     }
 
     if (filter.activeFilter === 'Дата Рождения') {
-      valueField = <DatePicker defaultValue={filter.value} dateFormat="dd-MM-yyyy"
+      valueField = <DatePicker selected={filter.date} dateFormat="dd-MM-yyyy"
         scrollableYearDropdown
         scrollableMonthDropdown
         showYearDropdown
         showMonthDropdown
-        yearDropdownItemNumber={60} onChange={this.handleInputChangeDate} />;
+        yearDropdownItemNumber={60} onSelect={this.handleInputChangeDate} />;
     }
 
     if (filter.activeFilter === 'Дата начала') {
-      valueField = <DatePicker defaultValue={filter.value} dateFormat="dd-MM-yyyy"
+      valueField = <DatePicker selected={filter.date} dateFormat="dd-MM-yyyy"
         scrollableYearDropdown
         scrollableMonthDropdown
         showYearDropdown
@@ -136,7 +135,7 @@ class GridFilter extends Component {
     }
 
     if (filter.activeFilter === 'Дата окончания') {
-      valueField = <DatePicker defaultValue={filter.value} dateFormat="dd-MM-yyyy"
+      valueField = <DatePicker defaultValue={filter.date} dateFormat="dd-MM-yyyy"
         scrollableYearDropdown
         scrollableMonthDropdown
         showYearDropdown
@@ -171,10 +170,10 @@ class GridFilter extends Component {
         </div>
         <div className="filter__wrapper">
           <Checkbox name="isExact" checked={filter.isExact} onChange={this.handleInputChange} className="filter__checkbox" title="Точный поиск" />
-          <button name="filter" type="submit" disabled={filter.isFiltered} className="filter__button filter__button--apply">Применить фильтр</button>
+          <button type="submit" disabled={filter.isFiltered} className="filter__button filter__button--apply">Применить фильтр</button>
         </div>
         <div className="filter__wrapper">
-          <button name="clear" onClick={this.clearFilter} type="button" className="filter__button filter__button--clear">Очистить фильтр</button>
+          <button onClick={this.clearFilter} type="button" className="filter__button filter__button--clear">Очистить фильтр</button>
         </div>
         <div className="filter__wrapper">
           <span className='filter__status'>
