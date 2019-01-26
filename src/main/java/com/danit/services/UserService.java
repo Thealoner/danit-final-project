@@ -96,7 +96,6 @@ public class UserService extends AbstractBaseEntityService<User, UserListRequest
     } else {
       throw new UserPasswordsNonEqualsException("old password and new password mismatch");
     }
-
   }
 
 }
