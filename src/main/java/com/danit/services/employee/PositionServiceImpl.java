@@ -18,7 +18,8 @@ public class PositionServiceImpl implements PositionService {
 
   private PositionRepository positionRepository;
 
-  public PositionServiceImpl(PositionRepository positionRepository) {
+  public PositionServiceImpl(ServiceUtils serviceUtils, PositionRepository positionRepository) {
+    this.serviceUtils = serviceUtils;
     this.positionRepository = positionRepository;
   }
 
