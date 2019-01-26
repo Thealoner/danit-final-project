@@ -23,9 +23,10 @@ import javax.persistence.Table;
 @Data
 public class Organization extends Auditable implements BaseEntity {
   @Id
-  @SequenceGenerator(name = "organization_sequence", sequenceName = "organization_sequence",
-      allocationSize = 1, initialValue = 1001)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "organization_sequence")
+  //  @SequenceGenerator(name = "organization_sequence", sequenceName = "organization_sequence",
+  //      allocationSize = 1, initialValue = 1001)
+  //  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "organization_sequence")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   @EqualsAndHashCode.Include
   private Long id;
