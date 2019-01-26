@@ -7,6 +7,7 @@ import {
 } from 'redux-form';
 import { Loader } from 'semantic-ui-react';
 import RenderField from '../RenderField';
+import RenderSearchField from '../RenderSearchField';
 import AuditDetails from '../AuditDetails';
 import validateAllRequired from '../../../../helpers/validateAllRequired';
 import warningTest from '../../../../helpers/warningTest';
@@ -16,6 +17,18 @@ class Contract extends Component {
     let { currentTab, handleDelete, handleCancel, handleSubmit, submitting } = this.props;
     let { data } = currentTab.form;
 
+    this.changeField = (fieldName, value) => {
+      let { handleChange, currentTab } = this.props;
+      let { data } = currentTab.form;
+      
+      handleChange({
+        data: {
+          ...data,
+          [fieldName]: value
+        }
+      });
+    }
+
     if (!data) {
       return <div className="tabs__loader-wrapper"><Loader active inline='centered' size='big'/></div>;
     }
@@ -24,11 +37,10 @@ class Contract extends Component {
       <form onSubmit={handleSubmit} className="record">
         <div className="form-group field field-object">
           <p>{data.id ? 'ID: ' + data.id : ''}</p>
-          <Field name="clientId" component={RenderField} type="text" label="ID клиента" />
+          <Field name="clientId" component={RenderSearchField} type="text" label="ID клиента" changeField={this.changeField}/>
           <Field name="credit" component={RenderField} type="text" label="Кредит" />
           <Field name="packageId" component={RenderField} type="text" label="ID пакета" />
-          {/* <Field name="cards" component={RenderField} type="text" label="Единица измерения" /> */}
-          {data.cards.map(card => card.id)}
+          {/* <Field name="cards" component={RenderField} type="text" label="Карты" /> */}
 
           <button type="submit" className="record__button" disabled={!currentTab.form.edited || submitting}>Сохранить</button>
           <button type="button" className="record__button" onClick={handleDelete} disabled={!data.id}>Удалить</button>
