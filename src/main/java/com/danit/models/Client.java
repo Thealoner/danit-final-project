@@ -51,7 +51,7 @@ public class Client extends Auditable implements BaseEntity {
   private String gender;
 
   @Column(name = "birth_date")
-  @Temporal(TemporalType.DATE)
+  @Temporal(TemporalType.TIMESTAMP)
   private Date birthDate;
 
   @Column(name = "phone_number")
