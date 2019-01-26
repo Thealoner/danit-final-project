@@ -63,10 +63,10 @@ export const cancelEditFormData = () => {
   };
 };
 
-export const changeFilterStatus = (filtered) => {
+export const setFilter = (filter) => {
   return {
-    type: tab.CHANGE_FILTER_STATUS,
-    filtered: filtered
+    type: tab.SET_FILTER,
+    filter: filter
   };
 };
 
@@ -78,10 +78,19 @@ export const storeTabTmpFormData = (payload) => {
 };
 
 // using catch method in thunk action creators is not recommended
-export const getGridData = ({tabKey, page = 1, size = 10, filterString = '', columns, filtered = false} = {}) => {
+export const getGridData = ({
+  tabKey, page = 1, size = 10, columns, filter = {
+    filterString: '',
+    isFiltered: false,
+    field: 'search',
+    value: '',
+    activeFilter: '',
+    isExact: false
+  }
+}) => {
   return (dispatch) => {
     dispatch(loadingGrid());
-    ajaxRequest.get('/' + tabKey + '?page=' + page + '&size=' + size + filterString)
+    ajaxRequest.get('/' + tabKey + '?page=' + page + '&size=' + size + filter.filterString)
       .then(
         response => {
           dispatch(setGridData(tabKey, {
@@ -90,9 +99,9 @@ export const getGridData = ({tabKey, page = 1, size = 10, filterString = '', col
             columns: columns,
             type: 'grid'
           }));
+          dispatch(setFilter(filter));
           dispatch(doneTab());
           dispatch(doneGrid());
-          dispatch(changeFilterStatus(filtered));
         },
         error => {
           toastr.error(error.message);
@@ -148,7 +157,7 @@ export const deleteCurrentEntityItem = (tabKey, formData, columns, page) => {
     dispatch(loadingTab());
     ajaxRequest.delete(
       '/' + tabKey,
-      JSON.stringify([{ id: formData.id }])
+      JSON.stringify([{id: formData.id}])
     )
       .then(() => {
         dispatch(cancelEditFormData());
