@@ -2,8 +2,8 @@ import React, {Component, Fragment} from 'react';
 import { NavLink } from 'react-router-dom';
 import './index.scss';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import ajaxRequest from "../../../helpers/ajaxRequest";
-import {toastr} from "react-redux-toastr";
+import ajaxRequest from '../../../helpers/ajaxRequest';
+import {toastr} from 'react-redux-toastr';
 
 class User extends Component {
   state = {
