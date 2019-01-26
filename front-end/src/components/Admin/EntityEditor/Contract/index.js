@@ -18,15 +18,16 @@ class Contract extends Component {
     let { data } = currentTab.form;
 
     this.changeField = (fieldName, value) => {
-      let { handleChange, currentTab } = this.props;
-      let { data } = currentTab.form;
+      // let { handleChange, currentTab } = this.props;
+      // let { data } = currentTab.form;
       
-      handleChange({
-        data: {
-          ...data,
-          [fieldName]: value
-        }
-      });
+      // handleChange({
+      //   data: {
+      //     ...data,
+      //     [fieldName]: value
+      //   }
+      // });
+      this.props.change(fieldName, value);
     }
 
     if (!data) {
@@ -60,7 +61,6 @@ class Contract extends Component {
 
   componentDidUpdate () {
     let { dirty, handleChange, formValues } = this.props;
-    
     if (dirty) {
       handleChange({
         data: {

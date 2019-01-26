@@ -43,15 +43,18 @@ export default class RenderSearchField extends Component {
     } = this.props;
 
     return (
-      <Search
-        loading={isLoading}
-        onResultSelect={this.handleResultSelect}
-        onSearchChange={this.handleSearchChange}
-        results={results}
-        value={input.value}
-        resultRenderer={SearchFieldResults}
-        // {...this.props}
-      />
+      <>
+        <Search
+          loading={isLoading}
+          onResultSelect={this.handleResultSelect}
+          onSearchChange={this.handleSearchChange}
+          results={results}
+          value={value}
+          resultRenderer={SearchFieldResults}
+          // {...this.props}
+        />
+        <input {...input} type="hidden" />
+      </>
     );
   }
 }
