@@ -69,7 +69,6 @@ class GridFilter extends Component {
 
     getGridData({
       tabKey: currentTab.tabKey,
-      page: 1,
       columns: currentTab.grid.columns,
       filter: {
         ...currentTab.filter,
@@ -122,7 +121,7 @@ class GridFilter extends Component {
         scrollableMonthDropdown
         showYearDropdown
         showMonthDropdown
-        yearDropdownItemNumber={60} onSelect={this.handleInputChangeDate} />;
+        yearDropdownItemNumber={60} onChange={this.handleInputChangeDate} />;
     }
 
     if (filter.activeFilter === 'Дата начала') {
@@ -135,7 +134,7 @@ class GridFilter extends Component {
     }
 
     if (filter.activeFilter === 'Дата окончания') {
-      valueField = <DatePicker defaultValue={filter.date} dateFormat="dd-MM-yyyy"
+      valueField = <DatePicker selected={filter.date} dateFormat="dd-MM-yyyy"
         scrollableYearDropdown
         scrollableMonthDropdown
         showYearDropdown
