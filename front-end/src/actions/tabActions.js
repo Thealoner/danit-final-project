@@ -77,12 +77,10 @@ export const storeTabTmpFormData = (payload) => {
   };
 };
 
-// using catch method in thunk action creators is not recommended
 export const getGridData = ({
   tabKey, page = 1, size = 10, columns, filter = {
-    filterString: '',
     isFiltered: false,
-    field: 'search',
+    field: '',
     value: '',
     activeFilter: '',
     isExact: false
@@ -90,7 +88,7 @@ export const getGridData = ({
 }) => {
   return (dispatch) => {
     dispatch(loadingGrid());
-    ajaxRequest.get('/' + tabKey + '?page=' + page + '&size=' + size + filter.filterString)
+    ajaxRequest.get('/' + tabKey + '?page=' + page + '&size=' + size + '&' + filter.field + '=' + filter.value + '&equal=' + filter.isExact)
       .then(
         response => {
           dispatch(setGridData(tabKey, {

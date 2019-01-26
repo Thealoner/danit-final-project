@@ -12,7 +12,7 @@ class Grid extends Component {
 
     return (
       <div className="grid">
-        <GridFilter applyFilter={this.applyFilter} clearFilter={this.clearFilter} currentTab={currentTab}/>
+        <GridFilter currentTab={currentTab}/>
         {currentTab.gridStatus === 'loading'
           ? <div className="tabs__loader-wrapper"><Loader active inline='centered' size='big'/></div>
           : <GridTable currentTab={currentTab}/>

@@ -3,6 +3,7 @@ import './index.scss';
 import { getGridData, setFilter } from '../../../../actions/tabActions';
 import { connect } from 'react-redux';
 import DatePicker from 'react-datepicker';
+import Checkbox from './checkbox';
 import { formatDateString } from '../../../../helpers/common';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -23,13 +24,21 @@ class GridFilter extends Component {
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
 
-    setFilter({ ...currentTab.filter, [name]: value, isFiltered: false });
+    setFilter({
+      ...currentTab.filter,
+      [name]: value,
+      isFiltered: false
+    });
   };
 
   handleInputChangeDate = (date) => {
     const { setFilter, currentTab } = this.props;
 
-    setFilter({ ...currentTab.filter, value: date });
+    setFilter({
+      ...currentTab.filter,
+      value: date,
+      isFiltered: false
+    });
   }
 
   handleInputChangeFilter = event => {
@@ -41,28 +50,35 @@ class GridFilter extends Component {
     let index = event.nativeEvent.target.selectedIndex;
     let optionName = event.nativeEvent.target[index].text;
 
-    setFilter({ ...currentTab.filter, value: '', [name]: value, activeFilter: optionName });
+    setFilter({
+      ...currentTab.filter,
+      value: '',
+      [name]: value,
+      activeFilter: optionName,
+      isFiltered: false
+    });
   };
 
   handleSubmit = event => {
     const { currentTab, getGridData } = this.props;
     let { field, value, isExact } = currentTab.filter;
-    let filterString;
 
     if (field.toLowerCase().includes('date')) {
       value = formatDateString(value);
     }
 
-    filterString = '&' + field + '=' + value + '&equal=' + isExact;
-
     event.preventDefault();
 
     getGridData({
       tabKey: currentTab.tabKey,
-      page: 0,
-      size: currentTab.grid.meta.totalElements,
       columns: currentTab.grid.columns,
-      filter: { ...currentTab.filter, filterString: filterString }
+      filter: {
+        ...currentTab.filter,
+        field: field,
+        value: value,
+        isExact: isExact,
+        isFiltered: true
+      }
     });
   };
 
@@ -78,10 +94,19 @@ class GridFilter extends Component {
     return fields;
   };
 
+  showFilterStatus = () => {
+    const { filter } = this.props.currentTab;
+
+    if (filter.activeFilter) {
+      return 'Фильтр: ' + filter.activeFilter + (filter.value ? (' = ' + filter.value) : '');
+    } else {
+      return filter.value ? ('Фильтр: ' + filter.value) : null;
+    }
+  }
+
   render () {
     const { currentTab } = this.props;
     const filter = currentTab.filter;
-    console.log(filter)
 
     let valueField = <input name="value" type="text" value={filter.value} onChange={this.handleInputChange} autoComplete="off"/>;
     if (filter.activeFilter === 'Пол') {
@@ -145,7 +170,7 @@ class GridFilter extends Component {
           {valueField}
         </div>
         <div className="filter__wrapper">
-          <input type="checkbox" name="isExact" defaultChecked={currentTab.isExact} className="filter__checkbox" title="Точный поиск" onChange={this.handleInputChange}/>
+          <Checkbox name="isExact" checked={filter.isExact} onChange={this.handleInputChange} className="filter__checkbox" title="Точный поиск" />
           <button name="filter" type="submit" disabled={filter.isFiltered} className="filter__button filter__button--apply">Применить фильтр</button>
         </div>
         <div className="filter__wrapper">
@@ -153,8 +178,7 @@ class GridFilter extends Component {
         </div>
         <div className="filter__wrapper">
           <span className='filter__status'>
-            {filter.activeFilter ? 'Фильтр: ' : null}
-            {filter.activeFilter ? filter.activeFilter : null}
+            {this.showFilterStatus()}
           </span>
         </div>
       </form>
@@ -167,8 +191,8 @@ const mapDispatchToProps = dispatch => {
     getGridData: (options) => {
       dispatch(getGridData(options));
     },
-    setFilter: (isFiltered, filter) => {
-      dispatch(setFilter(isFiltered, filter));
+    setFilter: (filter) => {
+      dispatch(setFilter(filter));
     }
   };
 };
