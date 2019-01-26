@@ -9,7 +9,6 @@ import {faPlus, faSignOutAlt, faAngleRight} from '@fortawesome/free-solid-svg-ic
 import Admin from '../Admin';
 import Manager from '../Manager';
 import {Loader} from 'semantic-ui-react';
-import {connect} from 'react-redux';
 
 library.add(
   faPlus,
