@@ -406,7 +406,7 @@ public class UserControllerTest {
     mockMvc.perform(put(url + "/password/change").headers(testUserheaders)
         .contentType("application/json")
         .content(ow.writeValueAsString(data)))
-        .andExpect(status().isInternalServerError());
+        .andExpect(status().isNotFound());
 
     updatedUser = userRepository.findByUsername("TestUserForPasswordChangeTesting");
     Assert.assertFalse(bcryptPasswordEncoder.matches(data.getNewPassword(), updatedUser.getPassword()));
