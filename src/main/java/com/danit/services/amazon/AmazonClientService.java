@@ -29,8 +29,6 @@ public class AmazonClientService {
 
   private AmazonS3 s3client;
 
-  @Value("${amazon-properties.endpointUrl}")
-  private String endpointUrl;
   @Value("${amazon-properties.bucketName}")
   private String bucketName;
   @Value("${amazon-properties.accessKey}")
@@ -38,20 +36,20 @@ public class AmazonClientService {
   @Value("${amazon-properties.secretKey}")
   private String secretKey;
 
-  public void deleteFileFromS3Bucket(String fileUrl) {
+  public void deleteFileFromS3Bucket(String fileUrl, String folderName) {
     String fileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
-    s3client.deleteObject(new DeleteObjectRequest(bucketName + "/", fileName));
+    s3client.deleteObject(new DeleteObjectRequest(bucketName + "/" + folderName, fileName));
   }
 
-  public InputStream getFile(String fileName) {
-    return s3client.getObject(bucketName, fileName).getObjectContent();
+  public InputStream getFile(String fileName, String folderName) {
+    return s3client.getObject(bucketName + "/" + folderName, fileName).getObjectContent();
   }
 
-  public String uploadFile(MultipartFile multipartFile) {
+  public String uploadFile(MultipartFile multipartFile, String folderName) {
     try {
       File file = convertMultiPartToFile(multipartFile);
       String fileName = generateFileName(multipartFile);
-      uploadFileTos3bucket(fileName, file);
+      uploadFileTos3bucket(fileName, folderName, file);
       file.delete();
       return fileName;
     } catch (Exception e) {
@@ -68,11 +66,12 @@ public class AmazonClientService {
   }
 
   private String generateFileName(MultipartFile multiPart) {
-    return new Date().getTime() + "-" + multiPart.getOriginalFilename().replace(" ", "_");
+    return new Date().getTime() + "-" + multiPart.getOriginalFilename()
+        .replace(" ", "_");
   }
 
-  private void uploadFileTos3bucket(String fileName, File file) {
-    s3client.putObject(new PutObjectRequest(bucketName, fileName, file)
+  private void uploadFileTos3bucket(String fileName, String folderName, File file) {
+    s3client.putObject(new PutObjectRequest(bucketName + "/" + folderName, fileName, file)
         .withCannedAcl(CannedAccessControlList.PublicRead));
   }
 

@@ -4,15 +4,17 @@ import com.danit.exceptions.EntityNotFoundException;
 import com.danit.exceptions.EntityParticularDataException;
 import com.danit.models.employee.Position;
 import com.danit.repositories.employee.PositionRepository;
+import com.danit.utils.ServiceUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 
-import static com.danit.utils.ServiceUtils.updateNonEqualFields;
 
 @Service
 public class PositionServiceImpl implements PositionService {
+
+  private ServiceUtils serviceUtils;
 
   private PositionRepository positionRepository;
 
@@ -43,7 +45,7 @@ public class PositionServiceImpl implements PositionService {
     Long id = position.getId();
     if (Objects.nonNull(id)) {
       Position targetPosition = getPositionById(id);
-      if (updateNonEqualFields(position, targetPosition)) {
+      if (serviceUtils.updateNonEqualFields(position, targetPosition)) {
         savedPosition = positionRepository.save(targetPosition);
       }
     } else {

@@ -7,6 +7,12 @@ server:
   #keyAlias: tomcat
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 1024KB
+      max-request-size: 1024KB
+      enabled: true
+
   mail:
     host: smtp.gmail.com
     port: 587
@@ -62,9 +68,14 @@ websocket:
   deleteEventEndPoint: "/events/delete"
   getEventEndPoint: "/events/get"
 
+#S3 bucket
 amazon-properties:
-  endpointUrl: https://s3.us-east-2.amazonaws.com
-  accessKey: XXXXXXXXXXXXXXXXX
-  secretKey: XXXXXXXXXXXXXXXXXXXXXXXXXX
-  bucketName: your-bucket-name
+  accessKey: AKIAITOEDMNX2SU5XL6A
+  secretKey: aXpUqIESVMWLjncFwRe+nubUR459TnwdyEIFR5LM
+  bucketName: energym.data.bucket
+
+#Avatar image requirements
+avatar-image-properties:
+  width: 140
+  height: 140
 
