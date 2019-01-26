@@ -287,7 +287,8 @@ const gridEntities = [
     recordType: 'simple',
     columns: [
       { title: 'ID', field: 'id' },
-      { title: 'Логин', field: 'username' }
+      { title: 'Логин', field: 'username' },
+      { title: 'Email', field: 'email' }
     ],
     schema: {
       title: 'Редактирование пользователя',
@@ -302,6 +303,10 @@ const gridEntities = [
         },
         username: {
           title: 'Логин',
+          type: 'string'
+        },
+        email: {
+          title: 'Email',
           type: 'string'
         },
         // roles: {
