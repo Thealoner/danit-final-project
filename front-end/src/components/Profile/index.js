@@ -4,6 +4,7 @@ import { Button, Form } from 'semantic-ui-react';
 import { toastr } from 'react-redux-toastr';
 import ajaxRequest from '../../helpers/ajaxRequest';
 import AuthService from '../../helpers/authService';
+import { withRouter } from 'react-router-dom';
 
 class Profile extends Component {
   auth = new AuthService();
@@ -39,6 +40,7 @@ class Profile extends Component {
         .then(() => {
           toastr.success('Пароль успешно изменен!');
           this.auth.logout();
+          this.props.history.push('/login');
         })
         .catch(error => {
           error.response.json().then(data => toastr.error(data.message));
@@ -113,4 +115,4 @@ class Profile extends Component {
   }
 }
 
-export default Profile;
+export default withRouter(Profile);
