@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class Admin extends Component {
   state = {
-    isMenuClosed: true
+    isMenuClosed: false
   }
 
   toggleEntitiesMenu = () => this.setState((prevState) => ({isMenuClosed: !prevState.isMenuClosed}))
