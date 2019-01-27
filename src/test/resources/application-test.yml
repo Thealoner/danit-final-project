@@ -36,6 +36,10 @@ spring:
     console:
       enabled: true
 
+  flyway:
+    enabled: false
+
+
 #Global Date format
 global:
   date:

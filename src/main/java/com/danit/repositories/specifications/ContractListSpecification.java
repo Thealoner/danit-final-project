@@ -4,6 +4,8 @@ import com.danit.dto.service.ContractListRequestDto;
 import com.danit.models.Client;
 import com.danit.models.Contract;
 import com.danit.models.Paket;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +15,7 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 
@@ -20,6 +23,9 @@ import static org.springframework.data.jpa.domain.Specification.where;
 
 @Component
 public class ContractListSpecification extends BaseSpecification<Contract, ContractListRequestDto> {
+
+  @Autowired
+  Environment environment;
 
   public static Specification<Contract> getContractByPaketIdSpec(String paketId) {
     if (Objects.nonNull(paketId)) {
@@ -39,7 +45,6 @@ public class ContractListSpecification extends BaseSpecification<Contract, Contr
 
   public static Specification<Contract> findByClientGenderSpec(String gender) {
     if (Objects.nonNull(gender)) {
-
       return (Specification<Contract>) (root, criteriaQuery, criteriaBuilder) -> {
         final Subquery<Long> clientQuery = criteriaQuery.subquery(Long.class);
         final Root<Client> client = clientQuery.from(Client.class);
@@ -88,10 +93,17 @@ public class ContractListSpecification extends BaseSpecification<Contract, Contr
       return (root, query, cb) -> {
         Path<Tuple> tuple = root.<Tuple>get("startDate");
         if (tuple.getJavaType().isAssignableFrom(Date.class)) {
-          Expression<String> dateStringExpr = cb.function("TO_CHAR", String.class,
-              root.get("startDate"), cb.literal("dd-MM-yyyy"));
-          return equals ? cb.like(cb.lower(dateStringExpr), startDate.toLowerCase())
-              : cb.like(cb.lower(dateStringExpr), containsLowerCase(startDate));
+          if (Arrays.asList(environment.getActiveProfiles()).contains("prod")) {
+            Expression<String> dateStringExpr = cb.function("DATE_FORMAT", String.class,
+                root.get("startDate"), cb.literal("%d-%m-%Y"));
+            return equals ? cb.like(cb.lower(dateStringExpr), startDate.toLowerCase())
+                : cb.like(cb.lower(dateStringExpr), containsLowerCase(startDate));
+          } else {
+            Expression<String> dateStringExpr = cb.function("TO_CHAR", String.class,
+                root.get("startDate"), cb.literal("dd-MM-yyyy"));
+            return equals ? cb.like(cb.lower(dateStringExpr), startDate.toLowerCase())
+                : cb.like(cb.lower(dateStringExpr), containsLowerCase(startDate));
+          }
         } else {
           return null;
         }
@@ -106,10 +118,17 @@ public class ContractListSpecification extends BaseSpecification<Contract, Contr
       return (root, query, cb) -> {
         Path<Tuple> tuple = root.<Tuple>get("endDate");
         if (tuple.getJavaType().isAssignableFrom(Date.class)) {
-          Expression<String> dateStringExpr = cb.function("TO_CHAR", String.class,
-              root.get("endDate"), cb.literal("dd-MM-yyyy"));
-          return equals ? cb.like(cb.lower(dateStringExpr), endDate.toLowerCase())
-              : cb.like(cb.lower(dateStringExpr), containsLowerCase(endDate));
+          if (Arrays.asList(environment.getActiveProfiles()).contains("prod")) {
+            Expression<String> dateStringExpr = cb.function("DATE_FORMAT", String.class,
+                root.get("endDate"), cb.literal("%d-%m-%Y"));
+            return equals ? cb.like(cb.lower(dateStringExpr), endDate.toLowerCase())
+                : cb.like(cb.lower(dateStringExpr), containsLowerCase(endDate));
+          } else {
+            Expression<String> dateStringExpr = cb.function("TO_CHAR", String.class,
+                root.get("endDate"), cb.literal("dd-MM-yyyy"));
+            return equals ? cb.like(cb.lower(dateStringExpr), endDate.toLowerCase())
+                : cb.like(cb.lower(dateStringExpr), containsLowerCase(endDate));
+          }
         } else {
           return null;
         }
