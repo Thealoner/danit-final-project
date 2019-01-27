@@ -1,10 +1,10 @@
 import { user } from './types';
-import ajaxRequest from '../helpers/ajaxRequest';
+import ajaxRequestStorage from '../helpers/ajaxRequestStorage';
 import { toastr } from 'react-redux-toastr';
 
 export const getAvatar = () => {
   return dispatch => {
-    ajaxRequest.get('api/storage/avatar', 'storage')
+    ajaxRequestStorage.get('api/storage/avatar', 'storage')
       .then(
         avatar => {
           dispatch(updateAvatar({ avatar }));
@@ -18,7 +18,7 @@ export const getAvatar = () => {
 
 export const postAvatar = avatar => {
   return dispatch => {
-    ajaxRequest.post('/api/storage/avatar/upload', avatar, 'storage')
+    ajaxRequestStorage.post('/api/storage/avatar/upload', avatar, 'storage')
       .then(
         response => {
           dispatch(getAvatar());
@@ -33,7 +33,7 @@ export const postAvatar = avatar => {
 
 export const deleteAvatar = () => {
   return dispatch => {
-    ajaxRequest.delete('api/storage/avatar/delete')
+    ajaxRequestStorage.delete('api/storage/avatar/delete')
       .then(
         avatar => {
           dispatch(getAvatar());
