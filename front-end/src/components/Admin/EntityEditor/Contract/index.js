@@ -18,15 +18,6 @@ class Contract extends Component {
     let { data } = currentTab.form;
 
     this.changeField = (fieldName, value) => {
-      // let { handleChange, currentTab } = this.props;
-      // let { data } = currentTab.form;
-      
-      // handleChange({
-      //   data: {
-      //     ...data,
-      //     [fieldName]: value
-      //   }
-      // });
       this.props.change(fieldName, value);
     }
 
@@ -38,10 +29,11 @@ class Contract extends Component {
       <form onSubmit={handleSubmit} className="record">
         <div className="form-group field field-object">
           <p>{data.id ? 'ID: ' + data.id : ''}</p>
-          <Field name="clientId" component={RenderSearchField} type="text" label="ID клиента" changeField={this.changeField}/>
+          <Field name="clientId" component={RenderSearchField} type="text" label="Клиент" changeField={this.changeField}
+            parentEntity="contracts" childEntity="clients" parentId={data.id} childId={data.clientId} />
           <Field name="credit" component={RenderField} type="text" label="Кредит" />
-          <Field name="packageId" component={RenderField} type="text" label="ID пакета" />
-          {/* <Field name="cards" component={RenderField} type="text" label="Карты" /> */}
+          <Field name="packageId" component={RenderSearchField} type="text" label="Пакет" changeField={this.changeField}
+            parentEntity="contracts" childEntity="pakets" parentId={data.id} childId={data.packageId} />
 
           <button type="submit" className="record__button" disabled={!currentTab.form.edited || submitting}>Сохранить</button>
           <button type="button" className="record__button" onClick={handleDelete} disabled={!data.id}>Удалить</button>
