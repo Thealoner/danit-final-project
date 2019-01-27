@@ -41,7 +41,7 @@ class RecordEditor extends Component {
     const { currentPage } = currentTab.grid.meta;
 
     const toastrConfirmOptions = {
-      onOk: () => deleteData(currentTab.tabKey, currentTab.form.data, currentTab.grid.columns, currentPage),
+      onOk: () => deleteData(currentTab.tabKey, currentTab.form.data, currentTab.grid.columns, currentPage, currentTab.filter),
       okText: 'Да',
       cancelText: 'Нет'
     };
@@ -63,7 +63,7 @@ class RecordEditor extends Component {
           formData={currentTab.form.data}
           autocomplete='off'
           onChange={this.changeData}
-          onSubmit={(form) => saveData(currentTab.tabKey, form.formData, currentTab.grid.columns, mode, currentPage)}
+          onSubmit={(form) => saveData(currentTab.tabKey, form.formData, currentTab.grid.columns, mode, currentPage, currentTab.filter)}
           onError={() => toastr.error('Пожалуйста, проверьте введеные данные')}>
           <button type='submit' className='record__button'>Сохранить</button>
           <button type='button' className='record__button' onClick={this.deleteEntity}>Удалить</button>
@@ -79,11 +79,11 @@ const mapDispatchToProps = dispatch => {
     storeTmpFormData: (payload) => {
       dispatch(storeTabTmpFormData(payload));
     },
-    saveData: (tabKey, formData, columns, mode, page) => {
-      dispatch(saveFormData(tabKey, formData, columns, mode, page));
+    saveData: (tabKey, formData, columns, mode, page, filter) => {
+      dispatch(saveFormData(tabKey, formData, columns, mode, page, filter));
     },
-    deleteData: (tabKey, formData, columns, page) => {
-      dispatch(deleteCurrentEntityItem(tabKey, formData, columns, page));
+    deleteData: (tabKey, formData, columns, page, filter) => {
+      dispatch(deleteCurrentEntityItem(tabKey, formData, columns, page, filter));
     },
     cancelEditFormData: () => {
       dispatch(cancelEditFormData());

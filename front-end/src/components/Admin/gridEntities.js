@@ -377,7 +377,21 @@ const gridEntities = [
       { title: 'ID', field: 'id' },
       { title: 'Код', field: 'code' },
       { title: 'Активен', field: 'active', formatter: 'tickCross' }
-    ]
+    ],
+    schema: {
+      type: 'object',
+      properties: {
+        code: {
+          title: 'Код',
+          type: 'string'
+        },
+        active: {
+          title: 'Активен',
+          type: 'boolean'
+        }
+      }
+    },
+    uiSchema: {}
   }
 ];
 
