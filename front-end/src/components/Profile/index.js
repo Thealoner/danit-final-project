@@ -5,16 +5,21 @@ import { toastr } from 'react-redux-toastr';
 import AuthService from '../../helpers/authService';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getAvatar, postAvatar } from '../../actions/userActions';
+import { getAvatar, postAvatar, deleteAvatar } from '../../actions/userActions';
+import defaultAvatar from './default-avatar.png';
 
 class Profile extends Component {
-  auth = new AuthService();
-
-  state = {
-    currentPwd: '',
-    newPwd: '',
-    repeatPwd: ''
-  };
+  constructor (props) {
+    super(props);
+    this.uploadInput = React.createRef();
+    this.auth = new AuthService();
+    this.state = {
+      currentPwd: '',
+      newPwd: '',
+      repeatPwd: '',
+      isFileSelected: false
+    };
+  }
 
   handleChg = (event) => {
     this.setState({
@@ -41,8 +46,11 @@ class Profile extends Component {
   handleUploadImage = event => {
     event.preventDefault();
     const data = new FormData();
-    data.append('file', this.uploadInput.files[0]);
+    data.append('file', this.uploadInput.current.files[0]);
     this.props.postAvatar(data);
+    this.setState({
+      isFileSelected: false
+    });
   };
 
   componentDidMount () {
@@ -51,14 +59,32 @@ class Profile extends Component {
 
   render () {
     const { user } = this.props;
+    
     return <div className="profile">
       <div className="user-photo">
-        <img src={`data:image/png;base64,${user.avatar}`} alt="user-avatar" className="user-avatar"/>
+        <img src={user.avatar ? 'data:image/png;base64,' + user.avatar : defaultAvatar} alt="user-avatar" className="user-avatar"/>
         <Form>
           <Form.Field>
-            <input ref={(ref) => { this.uploadInput = ref; }} type='file' className='user-doc'/>
+            <input
+              ref={this.uploadInput}
+              type='file'
+              className='user-doc'
+              onChange={(e) => {
+                const { target } = e;
+                if (target.value.length > 0) {
+                  this.setState({
+                    isFileSelected: true
+                  });
+                } else {
+                  this.setState({
+                    isFileSelected: false
+                  });
+                }
+              }}
+            />
           </Form.Field>
-          <Button onClick={this.handleUploadImage}>Загрузить</Button>
+          <Button onClick={this.handleUploadImage} disabled={!this.state.isFileSelected}>Загрузить</Button>
+          <Button onClick={this.props.deleteAvatar} disabled={!user.avatar}>Удалить</Button>
         </Form>
 
       </div>
@@ -110,6 +136,9 @@ const mapDispatchToProps = dispatch => {
     },
     postAvatar: avatar => {
       dispatch(postAvatar(avatar));
+    },
+    deleteAvatar: () => {
+      dispatch(deleteAvatar());
     }
   };
 };

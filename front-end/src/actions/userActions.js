@@ -5,25 +5,43 @@ import { toastr } from 'react-redux-toastr';
 export const getAvatar = () => {
   return dispatch => {
     ajaxRequest.get('api/storage/avatar', 'storage')
-      .then(avatar => {
-        dispatch(updateAvatar({ avatar }));
-      })
-      .catch(() => {
-        toastr.error('Can\'t get avatar image');
-      });
+      .then(
+        avatar => {
+          dispatch(updateAvatar({ avatar }));
+        },
+        error => {
+          toastr.error(error.response.status + ' ' + error.response.statusText);
+        }
+      );
   };
 };
 
 export const postAvatar = avatar => {
   return dispatch => {
     ajaxRequest.post('/api/storage/avatar/upload', avatar, 'storage')
-      .then(() => {
-        dispatch(getAvatar());
-        toastr.success('Аватар успешно изменен!');
-      })
-      .catch(error => {
-        error.response.json().then(data => toastr.error(data.message));
-      });
+      .then(
+        response => {
+          dispatch(getAvatar());
+          toastr.success('Аватар успешно изменен!');
+        },
+        error => {
+          error.response.json().then(data => toastr.error(data.message));
+        }
+      );
+  };
+};
+
+export const deleteAvatar = () => {
+  return dispatch => {
+    ajaxRequest.delete('api/storage/avatar/delete')
+      .then(
+        avatar => {
+          dispatch(getAvatar());
+        },
+        error => {
+          error.response.json().then(data => toastr.error(data.message));
+        }
+      );
   };
 };
 

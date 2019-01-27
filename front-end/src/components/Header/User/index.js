@@ -4,6 +4,7 @@ import './index.scss';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import { connect } from 'react-redux';
 import { getAvatar } from '../../../actions/userActions';
+import defaultAvatar from '../../Profile/default-avatar.png';
 
 class User extends Component {
   render () {
@@ -12,7 +13,7 @@ class User extends Component {
       <Fragment>
         <NavLink to="/profile">
           <div className="user">
-            <img src={`data:image/png;base64,${user.avatar}`} className="user__avatar" alt="user-avatar"/>
+            <img src={user.avatar ? 'data:image/png;base64,' + user.avatar : defaultAvatar} className="user__avatar" alt="user-avatar"/>
             <div className="user__info">
               <p className="user__name"> {this.props.userName}</p>
               <p className="user__position"> Менеджер продаж</p>
