@@ -27,7 +27,6 @@
     padding-right: 10px;
     color: $victoria;
     font-size: 18px;
-    background-color: transparent;
 
     svg {
       transform: rotateY(180deg);
@@ -41,7 +40,7 @@
     padding: 15px 0 15px 15px;
     color: $blue-bayoux;
     cursor: pointer;
-    transition: padding .5s;
+    transition: padding .3s;
 
     &:hover {
       padding-left: 20px;
@@ -63,29 +62,26 @@
   }
 }
 
-.configurator__menu-hide {
+.closed {
   grid-template-columns: 15px auto;
-  grid-gap: 5px;
 
   .configurator__left {
-    overflow: hidden;
     background-color: $victoria;
   }
 
   .configurator__menu-wrapper {
     width: 15px;
     background-color: $victoria;
-    border-top-right-radius: 10px;
   }
 
   .configurator__close-panel {
     width: 15px;
     padding-right: 3px;
     color: $white;
-  }
 
-  svg {
-    transform: none;
+    svg {
+      transform: none;
+    }
   }
 
   .configurator__menu {
@@ -99,8 +95,7 @@
     position: relative;
 
     &__left {
-      overflow: auto;
-
+      background-color: $victoria;
     }
 
     &__menu-wrapper {
@@ -109,11 +104,14 @@
       width: 15px;
       height: 100%;
       background-color: $victoria;
+      transition: .2s;
     }
 
     &__close-panel {
+      width: 15px;
       padding-right: 3px;
       color: $white;
+      transition: .2s;
 
       svg {
         transform: none;
@@ -122,23 +120,17 @@
 
     &__menu {
       display: none;
+      opacity: 0;
+      transition: .2s;
     }
   }
 
-  .configurator__menu-hide {
-
-    .configurator__left {
-      overflow: scroll;
-      background-color: $victoria;
-    }
-
-    .configurator__menu-wrapper {
-      overflow-y: auto;
-      overflow-x: hidden;
-      width: 200px;
-      background-color: $gallery;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
-    }
+  .opened {
+    width: 200px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: $gallery;
+    box-shadow: 0 0 20px rgba(0, 0, 0, .5);
 
     .configurator__close-panel {
       width: 200px;
@@ -150,9 +142,9 @@
       }
     }
 
-
     .configurator__menu {
       display: initial;
+      opacity: 1;
     }
   }
 }
