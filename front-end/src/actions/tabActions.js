@@ -126,7 +126,7 @@ export const getFormData = (tabKey, id) => {
   };
 };
 
-export const saveFormData = (tabKey, formData, columns, mode, page) => {
+export const saveFormData = (tabKey, formData, columns, mode, page, filter) => {
   return (dispatch) => {
     dispatch(loadingTab());
     ajaxRequest.put(
@@ -138,7 +138,8 @@ export const saveFormData = (tabKey, formData, columns, mode, page) => {
         dispatch(getGridData({
           tabKey: tabKey,
           columns: columns,
-          page: page
+          page: page,
+          filter: filter
         }));
         toastr.success('Данные успешно сохранены');
       },
@@ -150,7 +151,7 @@ export const saveFormData = (tabKey, formData, columns, mode, page) => {
   };
 };
 
-export const deleteCurrentEntityItem = (tabKey, formData, columns, page) => {
+export const deleteCurrentEntityItem = (tabKey, formData, columns, page, filter) => {
   return (dispatch) => {
     dispatch(loadingTab());
     ajaxRequest.delete(
@@ -162,7 +163,8 @@ export const deleteCurrentEntityItem = (tabKey, formData, columns, page) => {
         dispatch(getGridData({
           tabKey: tabKey,
           columns: columns,
-          page: page
+          page: page,
+          filter: filter
         }));
         toastr.success('Данные успешно удалены');
       },
