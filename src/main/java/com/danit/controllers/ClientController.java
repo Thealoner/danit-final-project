@@ -125,7 +125,7 @@ public class ClientController {
 
   //related entities methods--------------------------------------------------------------------------------------------
   @JsonView(Views.Extended.class)
-  @PutMapping("/{clientId}/contract/{contractId}")
+  @PutMapping("/{clientId}/contracts/{contractId}")
   @ResponseStatus(HttpStatus.OK)
   ResponseEntity<Map<String, Object>> assignClientToContract(@PathVariable(name = "clientId") Long clientId,
                                                              Principal principal,

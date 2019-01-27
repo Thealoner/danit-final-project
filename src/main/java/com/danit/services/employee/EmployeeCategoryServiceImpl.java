@@ -4,19 +4,22 @@ import com.danit.exceptions.EntityNotFoundException;
 import com.danit.exceptions.EntityParticularDataException;
 import com.danit.models.employee.EmployeeCategory;
 import com.danit.repositories.employee.EmployeeCategoryRepository;
+import com.danit.utils.ServiceUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 
-import static com.danit.utils.ServiceUtils.updateNonEqualFields;
 
 @Service
 public class EmployeeCategoryServiceImpl implements EmployeeCategoryService {
 
+  private ServiceUtils serviceUtils;
+
   private EmployeeCategoryRepository employeeCategoryRepository;
 
-  public EmployeeCategoryServiceImpl(EmployeeCategoryRepository employeeCategoryRepository) {
+  public EmployeeCategoryServiceImpl(ServiceUtils serviceUtils, EmployeeCategoryRepository employeeCategoryRepository) {
+    this.serviceUtils = serviceUtils;
     this.employeeCategoryRepository = employeeCategoryRepository;
   }
 
@@ -44,7 +47,7 @@ public class EmployeeCategoryServiceImpl implements EmployeeCategoryService {
     if (Objects.nonNull(id)) {
       EmployeeCategory targetEmployeeCategory = employeeCategoryRepository.findById(id).orElseThrow(() ->
           new EntityNotFoundException(String.format("Cant find Employee with id=%d", id)));
-      if (updateNonEqualFields(employeeCategory, targetEmployeeCategory)) {
+      if (serviceUtils.updateNonEqualFields(employeeCategory, targetEmployeeCategory)) {
         savedEmployeeCategory = employeeCategoryRepository.save(targetEmployeeCategory);
       }
     } else {

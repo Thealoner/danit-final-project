@@ -354,7 +354,7 @@ public class CardControllerTest {
         .andExpect(jsonPath("$.meta.totalElements").value(0));
 
     //Assign by id
-    mockMvc.perform(put("/contracts/" + createdContractId + "/card/" + savedCards.get(0).getId()).headers(headers)
+    mockMvc.perform(put("/contracts/" + createdContractId + "/cards/" + savedCards.get(0).getId()).headers(headers)
         .contentType("application/json")
         .content(json))
         .andExpect(status().isOk());
@@ -367,7 +367,7 @@ public class CardControllerTest {
             .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.meta.totalElements").value(1));
 
-    mockMvc.perform(delete("/contracts/" + createdContractId + "/card/" + savedCards.get(0).getId()).headers(headers)
+    mockMvc.perform(delete("/contracts/" + createdContractId + "/cards/" + savedCards.get(0).getId()).headers(headers)
         .contentType("application/json")
         .content(json))
         .andExpect(status().isOk());

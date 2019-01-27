@@ -136,7 +136,7 @@ public class UserController {
 
   //----related entities methods----------------------------------------------------------------------------------------
 
-  @PutMapping("/{userId}/role/{roleId}")
+  @PutMapping("/{userId}/roles/{roleId}")
   @JsonView(Views.Extended.class)
   @ResponseStatus(HttpStatus.OK)
   ResponseEntity<Map<String, Object>> assignRoleToUser(@PathVariable(name = "roleId") Long roleId,
@@ -156,7 +156,7 @@ public class UserController {
     return ResponseEntity.ok(convertDtoToMap(userFacade.getEntityById(userId)));
   }
 
-  @DeleteMapping("/{userId}/role/{roleId}")
+  @DeleteMapping("/{userId}/roles/{roleId}")
   @JsonView(Views.Extended.class)
   @ResponseStatus(HttpStatus.OK)
   void deleteRoleFromUser(@PathVariable(name = "roleId") Long roleId,
@@ -226,7 +226,7 @@ public class UserController {
 
   @PutMapping("/password/change")
   @ResponseStatus(HttpStatus.OK)
-  void changeUserPasswordByOldPasswordValidation(@RequestBody PasswordStoreDto data) {
+  void changeUserPasswordByOldPasswordValidation(@RequestBody PasswordStoreDto data, Principal principal) {
     userService.changeUserPasswordByOldPasswordValidation(data);
   }
 }

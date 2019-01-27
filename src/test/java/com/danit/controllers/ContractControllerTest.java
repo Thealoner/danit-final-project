@@ -84,9 +84,9 @@ public class ContractControllerTest {
     LinkedHashMap object = JsonPath.read(responseJson, "$.data[0]");
     Long id = new Long(String.valueOf(object.get("id")));
 
-    this.mockMvc.perform(put(url + "/" + id + "/client/20").headers(header))
+    this.mockMvc.perform(put(url + "/" + id + "/clients/20").headers(header))
         .andExpect(status().isOk());
-    this.mockMvc.perform(put(url + "/" + id + "/paket/1").headers(header))
+    this.mockMvc.perform(put(url + "/" + id + "/pakets/1").headers(header))
         .andExpect(status().isOk());
 
     Contract createdContract = contractService.getEntityById(id);
@@ -114,9 +114,9 @@ public class ContractControllerTest {
     LinkedHashMap object = JsonPath.read(responseJson, "$.data[0]");
     Long id = new Long(String.valueOf(object.get("id")));
 
-    this.mockMvc.perform(put(url + "/" + id + "/client/2000").headers(header))
+    this.mockMvc.perform(put(url + "/" + id + "/clients/2000").headers(header))
         .andExpect(status().isNotFound());
-    this.mockMvc.perform(put(url + "/" + id + "/paket/2000").headers(header))
+    this.mockMvc.perform(put(url + "/" + id + "/pakets/2000").headers(header))
         .andExpect(status().isNotFound());
   }
 
@@ -201,9 +201,9 @@ public class ContractControllerTest {
     LinkedHashMap object = JsonPath.read(responseJson, "$.data[0]");
     Long id = new Long(String.valueOf(object.get("id")));
 
-    this.mockMvc.perform(put(url + "/" + id + "/client/20").headers(header))
+    this.mockMvc.perform(put(url + "/" + id + "/clients/20").headers(header))
         .andExpect(status().isOk());
-    this.mockMvc.perform(put(url + "/" + id + "/paket/1").headers(header))
+    this.mockMvc.perform(put(url + "/" + id + "/pakets/1").headers(header))
         .andExpect(status().isOk());
 
     ContractDto createdContract = contractFacade.getEntityById(id);
@@ -211,9 +211,9 @@ public class ContractControllerTest {
     assertEquals(new Long(1L), createdContract.getPackageId());
     assertEquals(new Long(20L), createdContract.getClientId());
 
-    this.mockMvc.perform(put(url + "/" + id + "/client/28").headers(header))
+    this.mockMvc.perform(put(url + "/" + id + "/clients/28").headers(header))
         .andExpect(status().isOk());
-    this.mockMvc.perform(put(url + "/" + id + "/paket/3").headers(header))
+    this.mockMvc.perform(put(url + "/" + id + "/pakets/3").headers(header))
         .andExpect(status().isOk());
 
     ContractDto updatedContract = contractFacade.getEntityById(id);

@@ -171,7 +171,7 @@ public class ServiceCategoryController {
   }
 
   @JsonView(Views.Extended.class)
-  @PutMapping("/{serviceCategoryId}/service/{serviceId}")
+  @PutMapping("/{serviceCategoryId}/services/{serviceId}")
   @ResponseStatus(HttpStatus.OK)
   ResponseEntity<Map<String, Object>> assignServiceToServiceCategory(
       @PathVariable(name = "serviceId") Long serviceId,
@@ -191,7 +191,7 @@ public class ServiceCategoryController {
     return ResponseEntity.ok(convertDtoToMap(serviceCategoryFacade.getEntityById(serviceCategoryId)));
   }
 
-  @DeleteMapping("/{serviceCategoryId}/service/{serviceId}")
+  @DeleteMapping("/{serviceCategoryId}/services/{serviceId}")
   @ResponseStatus(HttpStatus.OK)
   void deleteServiceFromServiceCategory(@PathVariable(name = "serviceId") Long serviceId,
                                         @PathVariable(name = "serviceCategoryId") Long serviceCategoryId,
