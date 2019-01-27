@@ -48,9 +48,6 @@ class Profile extends Component {
     const data = new FormData();
     data.append('file', this.uploadInput.current.files[0]);
     this.props.postAvatar(data);
-    this.setState({
-      isFileSelected: false
-    });
   };
 
   componentDidMount () {
