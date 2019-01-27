@@ -14,7 +14,7 @@ const Header = ({handleLogout, userName}) =>
       <SocketComponent />
     </div>
     <div className="header__right-col">
-      <User handleLogout={handleLogout} userName={userName}/>
+      <User handleLogout={handleLogout} userName={userName} />
     </div>
   </div>;
 

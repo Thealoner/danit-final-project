@@ -11,3 +11,7 @@ export const tab = {
   STORE_TMP_FORM_DATA: 'STORE_TMP_FORM_DATA',
   SET_FILTER: 'SET_FILTER'
 };
+
+export const user = {
+  UPDATE_AVATAR: 'UPDATE_AVATAR'
+};

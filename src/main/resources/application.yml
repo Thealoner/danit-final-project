@@ -7,11 +7,17 @@ server:
   #keyAlias: tomcat
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 1024KB
+      max-request-size: 1024KB
+      enabled: true
+
   mail:
     host: smtp.gmail.com
     port: 587
     username: energym.mail.test@gmail.com
-    password: 586985energym*
+    password:
     properties:
       mail.smtp:
         auth: true
@@ -33,8 +39,8 @@ application:
   auth: "/auth"
   authTokenExpTime: 864000000
   authTokenPrefix: "Bearer "
-  authHeaderName: "Authorization"
-  secretKey: "fs4SecretKey"
+  authHeaderName: Authorization
+  secretKey: fs4SecretKey
 
 #Websocket constants
 websocket:
@@ -45,9 +51,14 @@ websocket:
   deleteEventEndPoint: "/events/delete"
   getEventEndPoint: "/events/get"
 
+#Avatar image requirements
+avatar-image-properties:
+  width: 560
+  height: 560
+
+  #S3 bucket
 amazon-properties:
-  endpointUrl: https://s3.us-east-2.amazonaws.com
-  accessKey: XXXXXXXXXXXXXXXXX
-  secretKey: XXXXXXXXXXXXXXXXXXXXXXXXXX
-  bucketName: your-bucket-name
+  accessKey:
+  secretKey:
+  bucketName: energym.data.bucket
 

@@ -148,10 +148,10 @@ public class PaketControllerTest {
     LinkedHashMap object2 = JsonPath.read(responseJson1, "$.data[1]");
     Long id2 = new Long(String.valueOf(object2.get("id")));
 
-    this.mockMvc.perform(put("/contracts/" + id1 + "/paket/" + id).headers(headers))
+    this.mockMvc.perform(put("/contracts/" + id1 + "/pakets/" + id).headers(headers))
         .andExpect(status().isOk());
 
-    this.mockMvc.perform(put("/contracts/" + id2 + "/paket/" + id).headers(headers))
+    this.mockMvc.perform(put("/contracts/" + id2 + "/pakets/" + id).headers(headers))
         .andExpect(status().isOk());
 
     Paket paket1 = paketService.getEntityById(id);
@@ -231,10 +231,10 @@ public class PaketControllerTest {
 
     long id = 4L;
 
-    this.mockMvc.perform(put("/contracts/" + id1 + "/paket/" + id).headers(headers))
+    this.mockMvc.perform(put("/contracts/" + id1 + "/pakets/" + id).headers(headers))
         .andExpect(status().isOk());
 
-    this.mockMvc.perform(put("/contracts/" + id2 + "/paket/" + id).headers(headers))
+    this.mockMvc.perform(put("/contracts/" + id2 + "/pakets/" + id).headers(headers))
         .andExpect(status().isOk());
 
     Paket paket1001 = paketService.getEntityById(4);
@@ -246,7 +246,7 @@ public class PaketControllerTest {
     assertEquals(2, paket1001.getContracts().size());
     assertEquals(id, contract1001.getPaket().getId().longValue());
 
-    this.mockMvc.perform(delete("/contracts/" + id1 + "/paket/" + id).headers(headers))
+    this.mockMvc.perform(delete("/contracts/" + id1 + "/pakets/" + id).headers(headers))
         .andExpect(status().isOk());
 
     Paket paket = paketService.getEntityById(4);
