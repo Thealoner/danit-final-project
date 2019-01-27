@@ -41,7 +41,7 @@ class RecordEditor extends Component {
     const { currentPage } = currentTab.grid.meta;
 
     const toastrConfirmOptions = {
-      onOk: () => deleteData(currentTab.tabKey, currentTab.form.data, currentTab.grid.columns, currentPage),
+      onOk: () => deleteData(currentTab.tabKey, currentTab.form.data, currentTab.grid.columns, currentPage, currentTab.filter),
       okText: 'Да',
       cancelText: 'Нет'
     };
@@ -82,8 +82,8 @@ const mapDispatchToProps = dispatch => {
     saveData: (tabKey, formData, columns, mode, page, filter) => {
       dispatch(saveFormData(tabKey, formData, columns, mode, page, filter));
     },
-    deleteData: (tabKey, formData, columns, page) => {
-      dispatch(deleteCurrentEntityItem(tabKey, formData, columns, page));
+    deleteData: (tabKey, formData, columns, page, filter) => {
+      dispatch(deleteCurrentEntityItem(tabKey, formData, columns, page, filter));
     },
     cancelEditFormData: () => {
       dispatch(cancelEditFormData());
