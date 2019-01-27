@@ -4,19 +4,21 @@ import com.danit.exceptions.EntityNotFoundException;
 import com.danit.exceptions.EntityParticularDataException;
 import com.danit.models.employee.Department;
 import com.danit.repositories.employee.DepartmentRepository;
+import com.danit.utils.ServiceUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 
-import static com.danit.utils.ServiceUtils.updateNonEqualFields;
-
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
 
+  private ServiceUtils serviceUtils;
+
   private DepartmentRepository departmentRepository;
 
-  public DepartmentServiceImpl(DepartmentRepository departmentRepository) {
+  public DepartmentServiceImpl(ServiceUtils serviceUtils, DepartmentRepository departmentRepository) {
+    this.serviceUtils = serviceUtils;
     this.departmentRepository = departmentRepository;
   }
 
@@ -44,7 +46,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     if (Objects.nonNull(id)) {
       Department targetDepartment = departmentRepository.findById(id).orElseThrow(() ->
           new EntityNotFoundException(String.format("Cant find Department with id=%d", id)));
-      if (updateNonEqualFields(department, targetDepartment)) {
+      if (serviceUtils.updateNonEqualFields(department, targetDepartment)) {
         savedDepartment = departmentRepository.save(targetDepartment);
       }
     } else {

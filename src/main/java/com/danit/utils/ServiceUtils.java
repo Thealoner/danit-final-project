@@ -1,19 +1,27 @@
 package com.danit.utils;
 
 import com.danit.exceptions.IllegalAccessReflectionException;
+import com.danit.models.User;
+import com.danit.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.util.Objects;
 
+@Component
 public final class ServiceUtils {
 
-  public static final ServiceUtils SERVICE_UTILS = new ServiceUtils();
+  private UserRepository userRepository;
 
-  private ServiceUtils() {
-
+  @Autowired
+  public ServiceUtils(UserRepository userRepository) {
+    this.userRepository = userRepository;
   }
 
-  public static boolean updateNonEqualFields(Object sourseObj, Object targetObj) {
+  public boolean updateNonEqualFields(Object sourseObj, Object targetObj) {
     boolean updated = false;
     for (Field field : sourseObj.getClass().getDeclaredFields()) {
       field.setAccessible(true);
@@ -28,5 +36,11 @@ public final class ServiceUtils {
       }
     }
     return updated;
+  }
+
+  public User getUserFromAuthContext() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String userName = authentication.getName();
+    return userRepository.findByUsername(userName);
   }
 }

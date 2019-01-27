@@ -29,9 +29,9 @@ INSERT INTO `user_roles` (`created_by`, `creation_date`, `last_modified_by`, `la
 INSERT INTO `user_roles` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`,`id`, `role`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 2, 'USER');
 INSERT INTO `user_roles` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`,`id`, `role`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 3, 'TEST');
 
-INSERT INTO `users` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `username`, `password`, `email`, `image_url`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 1, 'Admin', '$2a$10$Mn3RH2lJJoOPoBLgmOCBe.es79lxr8EH3uY2N5c4akvCsWYyp5AWO', 'garmashs@gmail.com', '');
-INSERT INTO `users` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `username`, `password`, `email`, `image_url`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 2, 'Sarah', '$2a$10$fK5Mdi.z.PhDb1Jdx1HAYODtemdU3OuF5xQ03Jh885MS.3qzrQn8G', 'testuser1@gmail.com', '');
-INSERT INTO `users` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `username`, `password`, `email`, `image_url`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 3, 'Anna', '$2a$10$ShSRNc6kTTRKwemtS1XE6OdXhGMxWLD1IwiP24adcVSDa3Ga7Q9ua', 'testuser2@gmail.com', '');
+INSERT INTO `users` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `username`, `password`, `email`, `avatar_image_name`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 1, 'Admin', '$2a$10$Mn3RH2lJJoOPoBLgmOCBe.es79lxr8EH3uY2N5c4akvCsWYyp5AWO', 'garmashs@gmail.com', '');
+INSERT INTO `users` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `username`, `password`, `email`, `avatar_image_name`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 2, 'Sarah', '$2a$10$fK5Mdi.z.PhDb1Jdx1HAYODtemdU3OuF5xQ03Jh885MS.3qzrQn8G', 'testuser1@gmail.com', '');
+INSERT INTO `users` (`created_by`, `creation_date`, `last_modified_by`, `last_modified_date`, `id`, `username`, `password`, `email`, `avatar_image_name`) VALUES ('SuperUser', CURRENT_TIMESTAMP, 'SuperUser', CURRENT_TIMESTAMP, 3, 'Anna', '$2a$10$ShSRNc6kTTRKwemtS1XE6OdXhGMxWLD1IwiP24adcVSDa3Ga7Q9ua', 'testuser2@gmail.com', '');
 
 INSERT INTO `users_roles` (`users_id`, `roles_id`) VALUES (1, 1);
 INSERT INTO `users_roles` (`users_id`, `roles_id`) VALUES (1, 2);

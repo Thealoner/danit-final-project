@@ -4,21 +4,23 @@ import com.danit.exceptions.EntityNotFoundException;
 import com.danit.exceptions.EntityParticularDataException;
 import com.danit.models.employee.Discount;
 import com.danit.repositories.employee.DiscountRepository;
+import com.danit.utils.ServiceUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 
-import static com.danit.utils.ServiceUtils.updateNonEqualFields;
-
 @Service
 public class DiscountServiceImpl implements DiscountService {
+
+  private ServiceUtils serviceUtils;
 
   private DiscountRepository discountRepository;
 
   @Autowired
-  public DiscountServiceImpl(DiscountRepository discountRepository) {
+  public DiscountServiceImpl(ServiceUtils serviceUtils, DiscountRepository discountRepository) {
+    this.serviceUtils = serviceUtils;
     this.discountRepository = discountRepository;
   }
 
@@ -45,7 +47,7 @@ public class DiscountServiceImpl implements DiscountService {
     if (Objects.nonNull(id)) {
       Discount targetCompany = discountRepository.findById(id).orElseThrow(() ->
           new EntityNotFoundException(String.format("Cant find discount with id=%d", id)));
-      if (updateNonEqualFields(discount, targetCompany)) {
+      if (serviceUtils.updateNonEqualFields(discount, targetCompany)) {
         savedCompany = discountRepository.save(targetCompany);
       }
     } else {

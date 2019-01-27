@@ -4,19 +4,22 @@ import com.danit.exceptions.EntityNotFoundException;
 import com.danit.exceptions.EntityParticularDataException;
 import com.danit.models.employee.Employee;
 import com.danit.repositories.employee.EmployeeRepository;
+import com.danit.utils.ServiceUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 
-import static com.danit.utils.ServiceUtils.updateNonEqualFields;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
+  private ServiceUtils serviceUtils;
+
   private EmployeeRepository employeeRepository;
 
-  EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+  EmployeeServiceImpl(ServiceUtils serviceUtils, EmployeeRepository employeeRepository) {
+    this.serviceUtils = serviceUtils;
     this.employeeRepository = employeeRepository;
   }
 
@@ -49,7 +52,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     if (Objects.nonNull(id)) {
       Employee targetEmployee = employeeRepository.findById(id).orElseThrow(() ->
           new EntityNotFoundException(String.format("Cant find Employee with id=%d", id)));
-      if (updateNonEqualFields(employee, targetEmployee)) {
+      if (serviceUtils.updateNonEqualFields(employee, targetEmployee)) {
         savedEmployee = employeeRepository.save(targetEmployee);
       }
     } else {
