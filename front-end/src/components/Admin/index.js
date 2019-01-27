@@ -6,19 +6,25 @@ import EntitiesMenu from './EntitiesMenu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class Admin extends Component {
-  configurator = React.createRef();
+  state = {
+    isMenuClosed: false
+  }
 
-  hideConfiguratorMenu = () => this.configurator.current.classList.toggle('configurator__menu-hide');
+  toggleEntitiesMenu = () => this.setState((prevState) => ({isMenuClosed: !prevState.isMenuClosed}))
 
   render () {
+    const { isMenuClosed } = this.state;
+
     return (
-      <main className="configurator" ref={this.configurator}>
+      <main className={`configurator ${isMenuClosed ? 'closed' : ''}`}>
         <div className="configurator__left">
-          <div className="configurator__close-panel">
-            <FontAwesomeIcon icon="angle-right" size="1x" onClick={() => this.hideConfiguratorMenu()} />
-          </div>
-          <div className="configurator__menu-wrapper">
-            <EntitiesMenu />
+          <div className={`configurator__menu-wrapper ${isMenuClosed ? '' : 'opened'}`}>
+            <div className="configurator__close-panel">
+              <FontAwesomeIcon icon="angle-right" size="1x" onClick={this.toggleEntitiesMenu} />
+            </div>
+            <div className="configurator__menu">
+              <EntitiesMenu />
+            </div>
           </div>
         </div>
         <div className="configurator__right">
