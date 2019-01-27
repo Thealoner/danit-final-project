@@ -37,6 +37,7 @@ export const deleteAvatar = () => {
       .then(
         avatar => {
           dispatch(getAvatar());
+          toastr.success('Аватар успешно удален!');
         },
         error => {
           error.response.json().then(data => toastr.error(data.message));

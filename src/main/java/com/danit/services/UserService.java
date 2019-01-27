@@ -155,10 +155,12 @@ public class UserService extends AbstractBaseEntityService<User, UserListRequest
     }
   }
 
+  @Transactional
   public void deleteCurrentUserAvatar() {
     String fileName = getCurrentUserAvatarImageName();
     if (fileName.length() > 0) {
       amazonClientService.deleteFileFromS3Bucket(fileName, "avatars");
+      setUserAvatar("");
     }
   }
 

@@ -36,8 +36,7 @@ public class AmazonClientService {
   @Value("${amazon-properties.secretKey}")
   private String secretKey;
 
-  public void deleteFileFromS3Bucket(String fileUrl, String folderName) {
-    String fileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
+  public void deleteFileFromS3Bucket(String fileName, String folderName) {
     s3client.deleteObject(new DeleteObjectRequest(bucketName + "/" + folderName, fileName));
   }
 

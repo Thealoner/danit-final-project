@@ -41,7 +41,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
   @ExceptionHandler(value = Exception.class)
   public final ResponseEntity<ErrorDetails> handleInternalError(Exception ex, WebRequest request) {
     log.error(ex.getMessage(), ex);
-    ErrorDetails errorDetails = new ErrorDetails(new Date(), "internal server error",
+    ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(),
         request.getDescription(false));
     return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
   }
