@@ -111,11 +111,11 @@ public class ClientControllerTest {
     long numberOfEntities = clientService.getNumberOfEntities();
     this.mockMvc.perform(delete(url).headers(headers)
         .contentType("application/json")
-        .content("[{\"id\": 1001},{\"id\": 1002},{\"id\": 1003}]"))
+        .content("[{\"id\": 31},{\"id\": 32},{\"id\": 33}]"))
         .andExpect(status().isOk());
     Assert.assertEquals(clientService.getNumberOfEntities(), numberOfEntities - 3);
 
-    this.mockMvc.perform(delete(url + "/1004").headers(headers))
+    this.mockMvc.perform(delete(url + "/34").headers(headers))
         .andExpect(status().isOk());
 
     Assert.assertEquals(clientService.getNumberOfEntities(), numberOfEntities - 4);
@@ -292,7 +292,7 @@ public class ClientControllerTest {
 
   @Test
   public void getClientByExistingId() throws Exception {
-    String responseJson = mockMvc.perform(get(url + "/" + 1005).headers(headers))
+    String responseJson = mockMvc.perform(get(url + "/" + 1).headers(headers))
         .andExpect(status().isOk())
         .andExpect(content()
             .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -303,7 +303,7 @@ public class ClientControllerTest {
     String pageDataJson = obj.getString("data");
     Client receivedClient = objectMapper.readValue(pageDataJson, Client.class);
 
-    Assert.assertEquals(new Long(1005), receivedClient.getId());
+    Assert.assertEquals(new Long(1), receivedClient.getId());
   }
 
   @Test

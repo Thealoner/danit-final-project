@@ -26,8 +26,9 @@ import java.util.List;
 @Data
 public class User extends Auditable implements BaseEntity {
   @Id
-  @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 1, initialValue = 1001)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
+  //  @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 1, initialValue = 1001)
+  //  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   @EqualsAndHashCode.Include
   private Long id;
