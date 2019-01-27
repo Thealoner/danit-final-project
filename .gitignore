@@ -43,6 +43,6 @@ target/
 .settings
 
 # Credentials
-application_credentials.yml
+/application.properties
 
 
