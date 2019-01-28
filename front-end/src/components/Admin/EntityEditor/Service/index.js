@@ -16,6 +16,7 @@ class Service extends Component {
   render () {
     let { currentTab, handleDelete, handleCancel, handleSubmit, submitting } = this.props;
     let { data } = currentTab.form;
+    const editMode = !!data.id;
 
     if (!data) {
       return <div className="tabs__loader-wrapper"><Loader active inline='centered' size='big'/></div>;
@@ -24,7 +25,7 @@ class Service extends Component {
     return (
       <form onSubmit={handleSubmit} className="record">
         <div className="form-group field field-object">
-          <p>{data.id ? 'ID: ' + data.id : ''}</p>
+          <p>{editMode ? 'ID: ' + data.id : ''}</p>
           <Field name="title" component={RenderField} type="text" label="Название" />
           <Field name="price" component={RenderField} type="text" label="Цена" />
           <Field name="cost" component={RenderField} type="text" label="Себестоимость" />
@@ -33,10 +34,10 @@ class Service extends Component {
           <Field name="active" component={RenderCheckbox} type="checkbox" label="Активен" />
 
           <button type="submit" className="record__button" disabled={!currentTab.form.edited || submitting}>Сохранить</button>
-          <button type="button" className="record__button" onClick={handleDelete} disabled={!data.id}>Удалить</button>
+          <button type="button" className="record__button" onClick={handleDelete} disabled={!editMode}>Удалить</button>
           <button type="button" className="record__button" onClick={handleCancel}>Отмена</button>
 
-          <AuditDetails data={data} />
+          { editMode ? <AuditDetails data={data} /> : '' }
         </div>
       </form>
     );

@@ -16,6 +16,7 @@ class Contract extends Component {
   render () {
     let { currentTab, handleDelete, handleCancel, handleSubmit, submitting } = this.props;
     let { data } = currentTab.form;
+    const editMode = !!data.id;
 
     this.changeField = (fieldName, value) => {
       this.props.change(fieldName, value);
@@ -28,7 +29,7 @@ class Contract extends Component {
     return (
       <form onSubmit={handleSubmit} className="record">
         <div className="form-group field field-object">
-          <p>{data.id ? 'ID: ' + data.id : ''}</p>
+          <p>{editMode ? 'ID: ' + data.id : ''}</p>
           <Field name="clientId" component={RenderSearchField} type="text" label="Клиент" changeField={this.changeField}
             parentEntity="contracts" childEntity="clients" parentId={data.id} childId={data.clientId} />
           <Field name="credit" component={RenderField} type="text" label="Кредит" />
@@ -36,10 +37,10 @@ class Contract extends Component {
             parentEntity="contracts" childEntity="pakets" parentId={data.id} childId={data.packageId} />
 
           <button type="submit" className="record__button" disabled={!currentTab.form.edited || submitting}>Сохранить</button>
-          <button type="button" className="record__button" onClick={handleDelete} disabled={!data.id}>Удалить</button>
+          <button type="button" className="record__button" onClick={handleDelete} disabled={!editMode}>Удалить</button>
           <button type="button" className="record__button" onClick={handleCancel}>Отмена</button>
 
-          <AuditDetails data={data} />
+          { editMode ? <AuditDetails data={data} /> : '' }
         </div>
       </form>
     );
