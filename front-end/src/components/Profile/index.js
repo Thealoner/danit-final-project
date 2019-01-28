@@ -1,52 +1,89 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './profile.scss';
-import photo from './avatar.png';
-import {Form, Button} from 'semantic-ui-react';
-import {toastr} from 'react-redux-toastr';
+import { Button, Form } from 'semantic-ui-react';
+import { toastr } from 'react-redux-toastr';
+import AuthService from '../../helpers/authService';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getAvatar, postAvatar, deleteAvatar } from '../../actions/userActions';
+import defaultAvatar from './default-avatar.png';
 
 class Profile extends Component {
-  state = {
-    currentPwd: '',
-    newPwd: '',
-    repeatPwd: ''
+  constructor (props) {
+    super(props);
+    this.uploadInput = React.createRef();
+    this.auth = new AuthService();
+    this.state = {
+      currentPwd: '',
+      newPwd: '',
+      repeatPwd: '',
+      isFileSelected: false
+    };
   }
 
   handleChg = (event) => {
     this.setState({
       [event.target.name]: event.target.value
     });
-  }
+  };
 
   handleChgPwd = () => {
     if (this.state.newPwd === this.state.repeatPwd) {
-      const data = new FormData();
-      data.append('newPwd', this.state.newPwd);
-      // отправить data на бэк
-      toastr.success('Пароль успешно изменен!');
+      this.auth.requestPasswordChange(this.state.currentPwd, this.state.newPwd)
+        .then(() => {
+          toastr.success('Пароль успешно изменен!');
+          this.auth.logout();
+          this.props.history.push('/login');
+        })
+        .catch(error => {
+          error.response.json().then(data => toastr.error(data.message));
+        });
     } else {
       toastr.error('Введенные пароли не совпадают');
     }
-  }
+  };
 
-  handleUploadImage = (event) => {
+  handleUploadImage = event => {
     event.preventDefault();
     const data = new FormData();
-    data.append('file', this.uploadInput.files[0]);
-    // отправить data на бэк
-    toastr.success('Аватар успешно изменен!');
+    data.append('file', this.uploadInput.current.files[0]);
+    this.props.postAvatar(data);
+  };
+
+  componentDidMount () {
+    this.props.getAvatar();
   }
 
   render () {
+    const { user } = this.props;
+    
     return <div className="profile">
       <div className="user-photo">
-        <img src={photo} alt="user-avatar" className="user-avatar" />
+        <img src={user.avatar ? 'data:image/png;base64,' + user.avatar : defaultAvatar} alt="user-avatar" className="user-avatar"/>
         <Form>
           <Form.Field>
-            <input ref={(ref) => { this.uploadInput = ref; }} type='file' className='user-doc'/>
+            <input
+              ref={this.uploadInput}
+              type='file'
+              className='user-doc'
+              onChange={(e) => {
+                const { target } = e;
+                if (target.value.length > 0) {
+                  this.setState({
+                    isFileSelected: true
+                  });
+                } else {
+                  this.setState({
+                    isFileSelected: false
+                  });
+                }
+              }}
+            />
           </Form.Field>
-          <Button onClick={this.handleUploadImage}>Загрузить</Button>
-
+          <Button onClick={this.handleUploadImage} disabled={!this.state.isFileSelected}>Загрузить</Button>
+          <Button onClick={this.props.deleteAvatar} disabled={!user.avatar}>Удалить</Button>
         </Form>
+
       </div>
 
       <Form onSubmit={this.handleChgPwd} className='profile__form'>
@@ -82,4 +119,25 @@ class Profile extends Component {
     </div>;
   }
 }
-export default Profile;
+
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getAvatar: () => {
+      dispatch(getAvatar());
+    },
+    postAvatar: avatar => {
+      dispatch(postAvatar(avatar));
+    },
+    deleteAvatar: () => {
+      dispatch(deleteAvatar());
+    }
+  };
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Profile));

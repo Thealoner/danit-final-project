@@ -17,7 +17,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.util.List;
 
@@ -32,9 +31,10 @@ public class UserRole extends Auditable implements BaseEntity {
 
   @Id
   @Column(name = "id")
-  @SequenceGenerator(name = "user_role_sequence", sequenceName = "user_role_sequence",
-      allocationSize = 1, initialValue = 1001)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_role_sequence")
+  //  @SequenceGenerator(name = "user_role_sequence", sequenceName = "user_role_sequence",
+  //      allocationSize = 1, initialValue = 1001)
+  //  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_role_sequence")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @EqualsAndHashCode.Include
   private Long id;
 

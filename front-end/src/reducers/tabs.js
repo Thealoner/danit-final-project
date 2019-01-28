@@ -158,9 +158,9 @@ export default function tabsReducer (state = initialState, action) {
       return updateCurrentTabAttributes(state, newTabData);
     }
 
-    case tab.CHANGE_FILTER_STATUS: {
+    case tab.SET_FILTER: {
       const newTabData = {
-        filtered: action.filtered
+        filter: action.filter
       };
 
       return updateCurrentTabAttributes(state, newTabData);

@@ -16,7 +16,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -28,8 +27,9 @@ import javax.persistence.Table;
 public class Card extends Auditable implements BaseEntity {
 
   @Id
-  @SequenceGenerator(name = "card_sequence", sequenceName = "card_sequence", allocationSize = 1, initialValue = 1001)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "card_sequence")
+  //  @SequenceGenerator(name = "card_sequence", sequenceName = "card_sequence", allocationSize = 1, initialValue = 1001)
+  //  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "card_sequence")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   @EqualsAndHashCode.Include
   private Long id;

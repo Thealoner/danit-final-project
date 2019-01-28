@@ -126,11 +126,11 @@ public class UserControllerTest {
     long numberOfEntities = userService.getNumberOfEntities();
     this.mockMvc.perform(delete(url).headers(headers)
         .contentType("application/json")
-        .content("[{\"id\": 1001},{\"id\": 1002},{\"id\": 1003}]"))
+        .content("[{\"id\": 4},{\"id\": 5},{\"id\": 6}]"))
         .andExpect(status().isOk());
     Assert.assertEquals(userService.getNumberOfEntities(), numberOfEntities - 3);
 
-    this.mockMvc.perform(delete(url + "/1004").headers(headers))
+    this.mockMvc.perform(delete(url + "/7").headers(headers))
         .andExpect(status().isOk());
 
     Assert.assertEquals(userService.getNumberOfEntities(), numberOfEntities - 4);
@@ -289,7 +289,7 @@ public class UserControllerTest {
 
   @Test
   public void getUserByExistingId() throws Exception {
-    String responseJson = mockMvc.perform(get(url + "/" + 1005).headers(headers))
+    String responseJson = mockMvc.perform(get(url + "/" + 1).headers(headers))
         .andExpect(status().isOk())
         .andExpect(content()
             .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -300,7 +300,7 @@ public class UserControllerTest {
     String pageDataJson = obj.getString("data");
     User receivedUser = objectMapper.readValue(pageDataJson, User.class);
 
-    Assert.assertEquals(new Long(1005), receivedUser.getId());
+    Assert.assertEquals(new Long(1), receivedUser.getId());
   }
 
   @Test
@@ -323,7 +323,7 @@ public class UserControllerTest {
             .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.meta.totalElements").value(0));
 
-    String responseJson = mockMvc.perform(put(url + "/" + savedUserId + "/role/1").headers(headers))
+    String responseJson = mockMvc.perform(put(url + "/" + savedUserId + "/roles/1").headers(headers))
         .andExpect(status().isOk())
         .andExpect(content()
             .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -338,7 +338,7 @@ public class UserControllerTest {
     Assert.assertEquals(1, receivedUser.getRoles().size());
     Assert.assertEquals("ADMIN", receivedUser.getRoles().get(0).getRole().name());
 
-    responseJson = mockMvc.perform(put(url + "/" + savedUserId + "/role/2").headers(headers))
+    responseJson = mockMvc.perform(put(url + "/" + savedUserId + "/roles/2").headers(headers))
         .andExpect(status().isOk())
         .andExpect(content()
             .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -354,9 +354,9 @@ public class UserControllerTest {
     Assert.assertEquals("ADMIN", receivedUser.getRoles().get(0).getRole().name());
     Assert.assertEquals("USER", receivedUser.getRoles().get(1).getRole().name());
 
-    mockMvc.perform(delete(url + "/" + savedUserId + "/role/1").headers(headers))
+    mockMvc.perform(delete(url + "/" + savedUserId + "/roles/1").headers(headers))
         .andExpect(status().isOk());
-    mockMvc.perform(delete(url + "/" + savedUserId + "/role/2").headers(headers))
+    mockMvc.perform(delete(url + "/" + savedUserId + "/roles/2").headers(headers))
         .andExpect(status().isOk());
 
     mockMvc.perform(get(url + "/" + savedUserId + "/roles").headers(headers))
@@ -406,7 +406,7 @@ public class UserControllerTest {
     mockMvc.perform(put(url + "/password/change").headers(testUserheaders)
         .contentType("application/json")
         .content(ow.writeValueAsString(data)))
-        .andExpect(status().isInternalServerError());
+        .andExpect(status().isNotFound());
 
     updatedUser = userRepository.findByUsername("TestUserForPasswordChangeTesting");
     Assert.assertFalse(bcryptPasswordEncoder.matches(data.getNewPassword(), updatedUser.getPassword()));
