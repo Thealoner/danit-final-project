@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import {
-  HelpBlock,
-  FormGroup,
-  Glyphicon,
-  FormControl,
-  ControlLabel
-} from 'react-bootstrap';
+import { Glyphicon } from 'react-bootstrap';
 import AuthService from '../../helpers/authService';
-import LoaderButton from '../LoaderButton';
 import './index.scss';
+import {Form, Button} from 'semantic-ui-react';
 import {toastr} from 'react-redux-toastr';
 
 export default class ResetPassword extends Component {
@@ -80,72 +74,67 @@ export default class ResetPassword extends Component {
 
   renderRequestCodeForm () {
     return (
-      <form onSubmit={this.handleSendCodeClick}>
-        <FormGroup bsSize="large" controlId="email">
-          <ControlLabel>Email</ControlLabel>
-          <FormControl
-            autoFocus
-            type="email"
-            value={this.state.email}
-            onChange={this.handleChange}
-          />
-        </FormGroup>
-        <LoaderButton
-          block
-          type="submit"
-          bsSize="large"
-          loadingText="Sending…"
-          text="Send Confirmation"
-          isLoading={this.state.isSendingCode}
-          disabled={!this.validateCodeForm()}
-        />
-      </form>
+      <div className='send-email'>
+        <div className='send-email__wrapper'>
+          <Form onSubmit={this.handleSendCodeClick} className='send-email__form '>
+            <Form.Field>
+              <label htmlFor='email'>Email</label>
+              <input type="email"
+                id='email'
+                name="email"
+                value={this.state.email}
+                onChange={this.handleChange}/>
+            </Form.Field>
+            <Button onClick={ this.state.isSendingCode} disabled={!this.validateCodeForm()}>Send Confirmation</Button>
+          </Form>
+        </div>
+      </div>
     );
   }
 
   renderConfirmationForm () {
     return (
-      <form onSubmit={this.handleConfirmClick}>
-        <FormGroup bsSize="large" controlId="code">
-          <ControlLabel>Confirmation Code</ControlLabel>
-          <FormControl
-            autoFocus
-            type="tel"
-            value={this.state.code}
-            onChange={this.handleChange}
-          />
-          <HelpBlock>
-            Please check your email ({this.state.email}) for the confirmation
-            code.
-          </HelpBlock>
-        </FormGroup>
-        <hr />
-        <FormGroup bsSize="large" controlId="password">
-          <ControlLabel>New Password</ControlLabel>
-          <FormControl
-            type="password"
-            value={this.state.password}
-            onChange={this.handleChange}
-          />
-        </FormGroup>
-        <FormGroup bsSize="large" controlId="confirmPassword">
-          <ControlLabel>Confirm Password</ControlLabel>
-          <FormControl
-            type="password"
-            onChange={this.handleChange}
-            value={this.state.confirmPassword}
-          />
-        </FormGroup>
-        <LoaderButton
-          block
-          type="submit"
-          bsSize="large"
-          text="Confirm"
-          loadingText="Confirm…"
-          isLoading={this.state.isConfirming}
-          disabled={!this.validateResetForm()}
-        />
-      </form>
+      <div className="send-email">
+        <div className="send-email__wrapper">
+          <Form onSubmit={this.handleConfirmClick} className='send-email__form '>
+            <Form.Field>
+              <label>Confirmation Code</label>
+              <input
+                type="text"
+                id='code'
+                name="text"
+                value={this.state.code}
+                onChange={this.handleChange}
+              />
+              <label>
+                Please check your email ({this.state.email}) for the confirmation
+                code.
+              </label>
+            </Form.Field>
+            <Form.Field>
+              <label>New Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={this.state.password}
+                onChange={this.handleChange}
+              />
+            </Form.Field>
+            <Form.Field>
+              <label>Confirm Password</label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                value={this.state.confirmPassword}
+                onChange={this.handleChange}
+              />
+            </Form.Field>
+            <Button onClick={this.state.isConfirming} disabled={!this.validateResetForm()}>Confirm</Button>
+          </Form>
+        </div>
+      </div>
     );
   }
 
