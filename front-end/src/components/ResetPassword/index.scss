@@ -1,24 +1,76 @@
-@media all and (min-width: 480px) {
-  .ResetPassword {
-    padding: 60px 0;
+.send-email {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #F5F4F8;
+
+  &__wrapper{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 330px;
+    padding:40px 0;
+    background-color: #ffffff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .3), 0 0 20px rgba(0, 0, 0, .1);
   }
 
-  .ResetPassword form {
-    max-width: 320px;
-    margin: 0 auto;
+  &__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width:90%;
   }
 
-  .ResetPassword .success {
-    max-width: 400px;
+  .field {
+    width: 80%;
+  }
+
+
+  &__forgotPassBtn{
+    position: relative;
+    display: block;
+    margin: 0 auto 0;
+    padding: 5px; // the trick
+    color: #FF659E;
+    font-size: 15px;
+    background: transparent;
+    border: none;
+    outline: none;
+    transition: .3s;
+    &:before{
+      content: '';
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      margin: 0 auto;
+      padding: 0 10px;
+      border-bottom: 1px solid #FF659E;
+      transition: .3s;
+    }
+    &:hover:before{
+      width: 100%;
+      padding: 0; // the other part of the trick
+    }
+  }
+
+
+
+  .button {
+    width: 80%;
+    margin: 10px 0 0 !important;
+    color: #ffffff !important;
+    background-color: #FF659E !important;
+
+    &:active {
+      transform: scale(.99);
+    }
   }
 }
 
-.ResetPassword .success {
-  margin: 0 auto;
-  text-align: center;
-}
-.ResetPassword .success .glyphicon {
-  margin-bottom: 30px;
-  color: grey;
-  font-size: 30px;
-}
