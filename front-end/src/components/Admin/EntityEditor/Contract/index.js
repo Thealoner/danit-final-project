@@ -20,7 +20,7 @@ class Contract extends Component {
 
     this.changeField = (fieldName, value) => {
       this.props.change(fieldName, value);
-    }
+    };
 
     if (!data) {
       return <div className="tabs__loader-wrapper"><Loader active inline='centered' size='big'/></div>;

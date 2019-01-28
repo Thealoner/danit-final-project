@@ -21,19 +21,21 @@ export default class RenderSearchField extends Component {
   loadFieldValue = () => {
     const { childEntity, childId } = this.props;
 
-    ajaxRequest.get('/' + childEntity + '/' + childId)
-      .then(result => {
-        let title = result.data.title;
-        
-        if (childEntity === 'clients') {
-          title = result.data.firstName + ' ' + result.data.lastName;
-        }
+    if (childId) {
+      ajaxRequest.get('/' + childEntity + '/' + childId)
+        .then(result => {
+          let title = result.data.title;
+          
+          if (childEntity === 'clients') {
+            title = result.data.firstName + ' ' + result.data.lastName;
+          }
 
-        this.setState({
-          value: title
-        });
-      })
-      .catch(error => toastr.error(error.message));
+          this.setState({
+            value: title
+          });
+        })
+        .catch(error => toastr.error(error.message));
+    }
   }
 
   saveFieldValue = (e) => {
