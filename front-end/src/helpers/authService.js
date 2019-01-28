@@ -33,15 +33,15 @@ export default class AuthService {
   requestPasswordChange = (oldPassword, newPassword) => {
     return fetch('/users/password/change', {
       method: 'PUT',
-      headers: new Headers({'content-type': 'application/json'}),
+      headers: new Headers({'content-type': 'application/json',
+        'Authorization': this.getToken()}),
       body: JSON.stringify({
         oldPassword,
         newPassword
       })
-    }).then(() => {
-      this.logout();
-      return Promise.resolve();
-    });
+    })
+      .then(this._checkStatus)
+      .then(() => this.logout());
   };
 
   login = (username, password) => {

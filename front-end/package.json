@@ -20,6 +20,7 @@
     "body-parser": "^1.18.3",
     "jsonwebtoken": "^8.3.0",
     "jwt-decode": "^2.2.0",
+    "moment": "^2.24.0",
     "rc-tabs": "^9.4.8",
     "react": "^16.5.2",
     "react-bootstrap": "^0.32.1",

@@ -36,10 +36,15 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
 
   @Autowired
   protected BaseSpecification<E, R> baseSpecification;
+
   @Autowired
   WebSocketUtils webSocketUtils;
+
   @Autowired
   private SimpMessageSendingOperations messagingTemplate;
+
+  @Autowired
+  private ServiceUtils serviceUtils;
 
   @Override
   public E getEntityById(long id) {
@@ -91,7 +96,7 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
           .findFirst();
       if (result.isPresent()) {
         E e = result.get();
-        if (ServiceUtils.updateNonEqualFields(s, e)) {
+        if (serviceUtils.updateNonEqualFields(s, e)) {
           entitiesToSave.add(e);
         } else {
           iterator.remove();

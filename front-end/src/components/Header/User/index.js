@@ -1,24 +1,49 @@
-import React, { Fragment } from 'react';
+import React, {Component, Fragment} from 'react';
 import { NavLink } from 'react-router-dom';
 import './index.scss';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import photo from './user-avatar.png';
+import { connect } from 'react-redux';
+import { getAvatar } from '../../../actions/userActions';
+import defaultAvatar from '../../Profile/default-avatar.png';
 
-const User = ({handleLogout, userName}) =>
+class User extends Component {
+  render () {
+    const { user } = this.props;
+    return (
+      <Fragment>
+        <NavLink to="/profile">
+          <div className="user">
+            <img src={user.avatar ? 'data:image/png;base64,' + user.avatar : defaultAvatar} className="user__avatar" alt="user-avatar"/>
+            <div className="user__info">
+              <p className="user__name"> {this.props.userName}</p>
+              <p className="user__position"> Менеджер продаж</p>
+            </div>
+          </div>
+        </NavLink>
+        <button className="user__btn-logout" onClick={this.props.handleLogout}>
+          <FontAwesomeIcon icon="sign-out-alt" size="1x" title="Выйти"/>
+        </button>
+      </Fragment>
+    );
+  };
 
-  <Fragment>
-    <NavLink to="/profile">
-      <div className="user">
-        <img src={photo} className="user__avatar" alt="user-avatar"/>
-        <div className="user__info">
-          <p className="user__name"> {userName}</p>
-          <p className="user__position"> Менеджер продаж</p>
-        </div>
-      </div>
-    </NavLink>
-    <button className="user__btn-logout" onClick={handleLogout}>
-      <FontAwesomeIcon icon="sign-out-alt" size="1x" title="Выйти"/>
-    </button>
-  </Fragment>;
+  componentDidMount () {
+    this.props.getAvatar();
+  }
+}
 
-export default User;
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getAvatar: () => {
+      dispatch(getAvatar());
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(User);

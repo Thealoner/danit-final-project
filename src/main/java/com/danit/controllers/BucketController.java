@@ -1,52 +1,47 @@
 package com.danit.controllers;
 
-import com.amazonaws.util.IOUtils;
-import com.danit.services.amazon.AmazonClientService;
+import com.danit.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.security.Principal;
 
 @RestController
-@RequestMapping("/storage/")
+@RequestMapping("/api/storage/")
 public class BucketController {
 
-  private AmazonClientService amazonClientService;
+  private UserService userService;
 
   @Autowired
-  BucketController(AmazonClientService amazonClientService) {
-    this.amazonClientService = amazonClientService;
+  BucketController(UserService userService) {
+    this.userService = userService;
   }
 
-  @PostMapping("/uploadFile")
-  public void uploadFile(@RequestPart(value = "file") MultipartFile file) {
-    amazonClientService.uploadFile(file);
+  @PostMapping("/avatar/upload")
+  public void setCurrentUserAvatar(@RequestParam(value = "file") MultipartFile file, Principal principal) {
+    userService.setCurrentUserAvatar(file);
   }
 
-  @DeleteMapping("/deleteFile")
-  public void deleteFile(@RequestPart(value = "url") String fileUrl) {
-    amazonClientService.deleteFileFromS3Bucket(fileUrl);
+  @DeleteMapping("/avatar/delete")
+  public void deleteCurrentUserAvatar(Principal principal) {
+    userService.deleteCurrentUserAvatar();
   }
 
-  @GetMapping("/{fileName}")
-  public ResponseEntity<byte[]> getImageAsResponseEntity(
-      @PathVariable(name = "fileName") String fileName) throws IOException {
+  @GetMapping(value = "/avatar", produces = MediaType.IMAGE_PNG_VALUE)
+  public ResponseEntity<byte[]> getCurrentUserAvatar(Principal principal) {
     HttpHeaders headers = new HttpHeaders();
-    InputStream in = amazonClientService.getFile(fileName);
-    byte[] media = IOUtils.toByteArray(in);
     headers.setCacheControl(CacheControl.noCache().getHeaderValue());
-    return new ResponseEntity<>(media, headers, HttpStatus.OK);
+    return new ResponseEntity<>(userService.getUserAvatarBase64Image(), headers, HttpStatus.OK);
   }
 }

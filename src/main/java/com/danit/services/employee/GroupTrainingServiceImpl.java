@@ -4,19 +4,21 @@ import com.danit.exceptions.EntityNotFoundException;
 import com.danit.exceptions.EntityParticularDataException;
 import com.danit.models.employee.GroupTraining;
 import com.danit.repositories.employee.GroupTrainingRepository;
+import com.danit.utils.ServiceUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 
-import static com.danit.utils.ServiceUtils.updateNonEqualFields;
-
 @Service
 public class GroupTrainingServiceImpl implements GroupTrainingService {
 
+  private ServiceUtils serviceUtils;
+
   private GroupTrainingRepository groupTrainingRepository;
 
-  public GroupTrainingServiceImpl(GroupTrainingRepository groupTrainingRepository) {
+  public GroupTrainingServiceImpl(ServiceUtils serviceUtils, GroupTrainingRepository groupTrainingRepository) {
+    this.serviceUtils = serviceUtils;
     this.groupTrainingRepository = groupTrainingRepository;
   }
 
@@ -43,7 +45,7 @@ public class GroupTrainingServiceImpl implements GroupTrainingService {
     Long id = groupTraining.getId();
     if (Objects.nonNull(id)) {
       GroupTraining targetGroupTraining = getGroupTrainingById(id);
-      if (updateNonEqualFields(groupTraining, targetGroupTraining)) {
+      if (serviceUtils.updateNonEqualFields(groupTraining, targetGroupTraining)) {
         savedGroupTraining = groupTrainingRepository.save(targetGroupTraining);
       }
     } else {

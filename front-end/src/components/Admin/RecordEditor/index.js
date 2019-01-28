@@ -36,8 +36,21 @@ class RecordEditor extends Component {
     }
   }
 
+  deleteEntity = () => {
+    const { currentTab, deleteData } = this.props;
+    const { currentPage } = currentTab.grid.meta;
+
+    const toastrConfirmOptions = {
+      onOk: () => deleteData(currentTab.tabKey, currentTab.form.data, currentTab.grid.columns, currentPage, currentTab.filter),
+      okText: 'Да',
+      cancelText: 'Нет'
+    };
+
+    toastr.confirm(`Удалить ${getEntityByType(currentTab.tabKey).nameForAddBtn}?`, toastrConfirmOptions);
+  }
+
   render () {
-    const { currentTab, saveData, deleteData } = this.props;
+    const { currentTab, saveData } = this.props;
     const {currentPage} = currentTab.grid.meta;
     const entity = getEntityByType(currentTab.tabKey);
     const mode = currentTab.form.mode;
@@ -50,13 +63,11 @@ class RecordEditor extends Component {
           formData={currentTab.form.data}
           autocomplete='off'
           onChange={this.changeData}
-          onSubmit={(form) => saveData(currentTab.tabKey, form.formData, currentTab.grid.columns, mode, currentPage)}
+          onSubmit={(form) => saveData(currentTab.tabKey, form.formData, currentTab.grid.columns, mode, currentPage, currentTab.filter)}
           onError={() => toastr.error('Пожалуйста, проверьте введеные данные')}>
           <button type='submit' className='record__button'>Сохранить</button>
-          <button type='button' className='record__button' onClick={
-            () => deleteData(currentTab.tabKey, currentTab.form.data, currentTab.grid.columns, currentPage)
-          }>Удалить</button>
-          <button type='button' className='record__button' onClick={() => this.cancelDataEditing()}>Отмена</button>
+          <button type='button' className='record__button' onClick={this.deleteEntity}>Удалить</button>
+          <button type='button' className='record__button' onClick={this.cancelDataEditing}>Отмена</button>
         </Form>
       </Fragment>
     );
@@ -68,11 +79,11 @@ const mapDispatchToProps = dispatch => {
     storeTmpFormData: (payload) => {
       dispatch(storeTabTmpFormData(payload));
     },
-    saveData: (tabKey, formData, columns, mode, page) => {
-      dispatch(saveFormData(tabKey, formData, columns, mode, page));
+    saveData: (tabKey, formData, columns, mode, page, filter) => {
+      dispatch(saveFormData(tabKey, formData, columns, mode, page, filter));
     },
-    deleteData: (tabKey, formData, columns, page) => {
-      dispatch(deleteCurrentEntityItem(tabKey, formData, columns, page));
+    deleteData: (tabKey, formData, columns, page, filter) => {
+      dispatch(deleteCurrentEntityItem(tabKey, formData, columns, page, filter));
     },
     cancelEditFormData: () => {
       dispatch(cancelEditFormData());
