@@ -6,9 +6,9 @@ import {
   getFormValues
 } from 'redux-form';
 import { Loader } from 'semantic-ui-react';
-import RenderField from '../RenderField';
-import RenderCheckbox from '../RenderCheckbox';
-import AuditDetails from '../AuditDetails';
+import RenderField from '../Fields/RenderField';
+import RenderCheckbox from '../Fields/RenderCheckbox';
+import AuditDetails from '../Fields/AuditDetails';
 import validateAllRequired from '../../../../helpers/validateAllRequired';
 import warningTest from '../../../../helpers/warningTest';
 

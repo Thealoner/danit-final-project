@@ -1,6 +1,6 @@
 import { Search } from 'semantic-ui-react';
 import React, { Component } from 'react';
-import ajaxRequest from '../../../../helpers/ajaxRequest';
+import ajaxRequest from '../../../../../helpers/ajaxRequest';
 import SearchFieldResults from '../SearchFieldResults';
 import { toastr } from 'react-redux-toastr';
 
