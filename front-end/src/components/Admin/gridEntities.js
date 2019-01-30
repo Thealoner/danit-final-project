@@ -276,7 +276,7 @@ const gridEntities = [
     uiSchema: {
       firstName: {'ui:autofocus': true},
       email: {'ui:widget': 'email'},
-      birthDate: {'ui:widget': 'date'}
+      birthDate: {'ui:widget': 'text'}
     }
   },
   {

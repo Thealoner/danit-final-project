@@ -67,6 +67,10 @@ class GridFilter extends Component {
 
     if (activeFilter === 'Дата Рождения') {
       value = toDate ? (formatDate(fromDate) + '/' + formatDate(toDate)) : formatDate(fromDate);
+
+      if (fromDate === toDate) {
+        value = formatDate(fromDate);
+      }
     }
 
     event.preventDefault();
