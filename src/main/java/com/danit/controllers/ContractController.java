@@ -1,5 +1,6 @@
 package com.danit.controllers;
 
+import com.danit.dto.ContractDto;
 import com.danit.dto.Views;
 import com.danit.dto.service.ContractListRequestDto;
 import com.danit.facades.CardFacade;
@@ -55,7 +56,7 @@ public class ContractController {
 
   @JsonView(Views.Extended.class)
   @PostMapping
-  ResponseEntity<Map<String, Object>> createContracts(@RequestBody List<Contract> contracts, Principal principal) {
+  ResponseEntity<Map<String, Object>> createContracts(@RequestBody List<ContractDto> contracts, Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(contractFacade.saveEntities(contracts)));
   }
 
@@ -103,7 +104,7 @@ public class ContractController {
 
   @JsonView(Views.Extended.class)
   @PutMapping
-  ResponseEntity<Map<String, Object>> updateContracts(@RequestBody List<Contract> contracts, Principal principal) {
+  ResponseEntity<Map<String, Object>> updateContracts(@RequestBody List<ContractDto> contracts, Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(contractFacade.updateEntities(contracts)));
   }
 

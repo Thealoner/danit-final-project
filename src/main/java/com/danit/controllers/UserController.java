@@ -1,5 +1,6 @@
 package com.danit.controllers;
 
+import com.danit.dto.UserDto;
 import com.danit.dto.Views;
 import com.danit.dto.service.PasswordStoreDto;
 import com.danit.dto.service.UserListRequestDto;
@@ -59,7 +60,7 @@ public class UserController {
 
   @JsonView(Views.Extended.class)
   @PostMapping
-  ResponseEntity<Map<String, Object>> createUsers(@RequestBody List<User> users,
+  ResponseEntity<Map<String, Object>> createUsers(@RequestBody List<UserDto> users,
                                                   Principal principal) {
     users.forEach(user -> {
       if (Objects.nonNull(user.getPassword())) {
@@ -113,7 +114,7 @@ public class UserController {
 
   @JsonView(Views.Extended.class)
   @PutMapping
-  ResponseEntity<Map<String, Object>> updateUsersDto(@RequestBody List<User> users, Principal principal) {
+  ResponseEntity<Map<String, Object>> updateUsersDto(@RequestBody List<UserDto> users, Principal principal) {
     users.forEach(user -> {
       if (Objects.nonNull(user.getPassword())) {
         user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));

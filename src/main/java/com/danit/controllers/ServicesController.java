@@ -1,5 +1,6 @@
 package com.danit.controllers;
 
+import com.danit.dto.ServiceDto;
 import com.danit.dto.Views;
 import com.danit.dto.service.ServiceListRequestDto;
 import com.danit.facades.ServiceCategoryFacade;
@@ -45,7 +46,7 @@ public class ServicesController {
 
   @JsonView(Views.Extended.class)
   @PostMapping
-  public ResponseEntity<Map<String, Object>> createServices(@RequestBody List<Service> services, Principal principal) {
+  public ResponseEntity<Map<String, Object>> createServices(@RequestBody List<ServiceDto> services, Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(serviceFacade.saveEntities(services)));
   }
 
@@ -92,7 +93,7 @@ public class ServicesController {
   }
 
   @PutMapping
-  public ResponseEntity<Map<String, Object>> updateServices(@RequestBody List<Service> services, Principal principal) {
+  public ResponseEntity<Map<String, Object>> updateServices(@RequestBody List<ServiceDto> services, Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(serviceFacade.updateEntities(services)));
   }
 
