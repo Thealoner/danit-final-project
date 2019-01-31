@@ -11,14 +11,14 @@ import validateAllRequired from '../../../../helpers/validateAllRequired';
 import warningTest from '../../../../helpers/warningTest';
 
 class Contract extends Component {
+  changeField = (fieldName, value) => {
+    this.props.change(fieldName, value);
+  };
+
   render () {
     let { currentTab, handleDelete, handleCancel, handleSubmit, submitting } = this.props;
     let { data } = currentTab.form;
     const editMode = !!data.id;
-
-    this.changeField = (fieldName, value) => {
-      this.props.change(fieldName, value);
-    };
 
     return (
       <form onSubmit={handleSubmit} className="record">

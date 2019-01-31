@@ -7,12 +7,13 @@ const RenderSelect = ({
   type,
   name,
   options,
+  changeField,
   meta: { touched, error, warning }
 }) => (
   <div className="form-group field field-string">
     <label className="control-label">{label}</label>
     <div>
-      <Dropdown fluid selection options={options} className={error ? 'field_error-input' : null || warning ? 'field_warning-input' : null} />
+      <Dropdown value={input.value} fluid selection options={options} onChange={changeField} className={error ? 'field_error-input' : null || warning ? 'field_warning-input' : null} />
       {touched &&
         ((error && <div className="field_error">{error}</div>) ||
           (warning && <div className="field_warning">{warning}</div>))}

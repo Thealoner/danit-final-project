@@ -23,6 +23,10 @@ const genderOptions = [
 ];
 
 class Client extends Component {
+  changeField = (e, data, fieldName) => {
+    this.props.change(fieldName, data.value);
+  };
+
   render () {
     const { currentTab, handleDelete, handleCancel, handleSubmit, submitting } = this.props;
     const { data } = currentTab.form;
@@ -34,8 +38,7 @@ class Client extends Component {
           <p>{editMode ? 'ID: ' + data.id : ''}</p>
           <Field name="firstName" component={RenderField} type="text" label="Имя" />
           <Field name="lastName" component={RenderField} type="text" label="Фамилия" />
-          {/* TODO: Fix. Saving gender. */}
-          <Field name="gender" component={RenderSelect} type="text" label="Пол" options={genderOptions} />
+          <Field name="gender" component={RenderSelect} type="text" label="Пол" options={genderOptions} changeField={(e, data) => this.changeField(e, data, 'gender')} />
           {/* TODO: Fix. Browser requires date format value as yyyy-mm-dd, we supply mm-dd-yyyy. Presentation is irrelevant. */}
           <Field name="birthDate" component={RenderField} type="date" label="Дата рождения" />
           <Field name="phoneNumber" component={RenderField} type="text" label="Телефон" />
