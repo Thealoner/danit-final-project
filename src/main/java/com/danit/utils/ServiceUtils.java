@@ -28,7 +28,7 @@ public final class ServiceUtils {
       try {
         Object value = field.get(sourseObj);
         if ((Objects.nonNull(value) && !value.equals(field.get(targetObj)))
-        || (Objects.isNull(value) && Objects.nonNull(field.get(targetObj))) ) {
+            || (Objects.isNull(value) && Objects.nonNull(field.get(targetObj)))) {
           updated = true;
           field.set(targetObj, value);
         }

@@ -8,9 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Objects;
-
 @Component
 public class ContractFacade extends AbstractDtoFacade<ContractDto, Contract, ContractListRequestDto> {
 
@@ -27,18 +24,5 @@ public class ContractFacade extends AbstractDtoFacade<ContractDto, Contract, Con
   public Page<ContractDto> findAllContractsDtoForPaketId(Long paketId, Pageable pageable) {
     return convertToDtos(contractService.findAllContractsForClientId(paketId, pageable));
   }
-
- /* @Override
-  public List<ContractDto> updateEntities(List<ContractDto> entities) {
-    entities.forEach(contractDto -> {
-      if (Objects.isNull(contractDto.getPackageId())) {
-        contractService.deAssignPaketFromContract(contractDto.getId(), contractDto.getPackageId());
-      }
-      if (Objects.isNull(contractDto.getClientId())) {
-        contractService.deAssignClientFromContract(contractDto.getId(), contractDto.getClientId());
-      }
-    });
-    return super.updateEntities(entities);
-  }*/
 
 }
