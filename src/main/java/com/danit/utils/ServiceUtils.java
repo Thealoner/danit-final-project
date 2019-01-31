@@ -27,7 +27,8 @@ public final class ServiceUtils {
       field.setAccessible(true);
       try {
         Object value = field.get(sourseObj);
-        if (Objects.nonNull(value) && (value != field.get(targetObj))) {
+        if ((Objects.nonNull(value) && !value.equals(field.get(targetObj)))
+        || (Objects.isNull(value) && Objects.nonNull(field.get(targetObj))) ) {
           updated = true;
           field.set(targetObj, value);
         }
