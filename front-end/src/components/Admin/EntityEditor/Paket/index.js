@@ -5,10 +5,8 @@ import {
   reduxForm,
   getFormValues
 } from 'redux-form';
-import { Loader } from 'semantic-ui-react';
 import RenderField from '../Fields/RenderField';
 import RenderCheckbox from '../Fields/RenderCheckbox';
-import AuditDetails from '../Fields/AuditDetails';
 import validateAllRequired from '../../../../helpers/validateAllRequired';
 import warningTest from '../../../../helpers/warningTest';
 
@@ -17,10 +15,6 @@ class Paket extends Component {
     let { currentTab, handleDelete, handleCancel, handleSubmit, submitting } = this.props;
     let { data } = currentTab.form;
     const editMode = !!data.id;
-
-    if (!data) {
-      return <div className="tabs__loader-wrapper"><Loader active inline='centered' size='big'/></div>;
-    }
 
     return (
       <form onSubmit={handleSubmit} className="record">
@@ -47,8 +41,6 @@ class Paket extends Component {
           <button type="submit" className="record__button" disabled={!currentTab.form.edited || submitting}>Сохранить</button>
           <button type="button" className="record__button" onClick={handleDelete} disabled={!editMode}>Удалить</button>
           <button type="button" className="record__button" onClick={handleCancel}>Отмена</button>
-
-          { editMode ? <AuditDetails data={data} /> : '' }
         </div>
       </form>
     );

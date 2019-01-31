@@ -6,29 +6,23 @@ import {
   getFormValues
 } from 'redux-form';
 import RenderField from '../Fields/RenderField';
-import RenderSearchField from '../Fields/RenderSearchField';
+import RenderCheckbox from '../Fields/RenderCheckbox';
 import validateAllRequired from '../../../../helpers/validateAllRequired';
 import warningTest from '../../../../helpers/warningTest';
 
-class Contract extends Component {
+class Client extends Component {
   render () {
-    let { currentTab, handleDelete, handleCancel, handleSubmit, submitting } = this.props;
-    let { data } = currentTab.form;
+    const { currentTab, handleDelete, handleCancel, handleSubmit, submitting } = this.props;
+    const { data } = currentTab.form;
     const editMode = !!data.id;
-
-    this.changeField = (fieldName, value) => {
-      this.props.change(fieldName, value);
-    };
 
     return (
       <form onSubmit={handleSubmit} className="record">
         <div className="form-group field field-object">
           <p>{editMode ? 'ID: ' + data.id : ''}</p>
-          <Field name="clientId" component={RenderSearchField} type="text" label="Клиент" changeField={this.changeField}
-            parentEntity="contracts" childEntity="clients" parentId={data.id} childId={data.clientId} />
-          <Field name="credit" component={RenderField} type="text" label="Кредит" />
-          <Field name="packageId" component={RenderSearchField} type="text" label="Пакет" changeField={this.changeField}
-            parentEntity="contracts" childEntity="pakets" parentId={data.id} childId={data.packageId} />
+          <Field name="code" component={RenderField} type="text" label="Код" />
+          <Field name="active" component={RenderCheckbox} type="checkbox" label="Активна" />
+          { /* TODO: show {contractId} this card belongs to. */}
 
           <button type="submit" className="record__button" disabled={!currentTab.form.edited || submitting}>Сохранить</button>
           <button type="button" className="record__button" onClick={handleDelete} disabled={!editMode}>Удалить</button>
@@ -39,13 +33,14 @@ class Contract extends Component {
   }
 
   componentDidMount () {
-    let { currentTab, initialize } = this.props;
-    let { data } = currentTab.form;
+    const { currentTab, initialize } = this.props;
+    const { data } = currentTab.form;
     initialize(data);
   }
 
   componentDidUpdate () {
-    let { dirty, handleChange, formValues } = this.props;
+    const { dirty, handleChange, formValues } = this.props;
+    
     if (dirty) {
       handleChange({
         data: {
@@ -56,14 +51,14 @@ class Contract extends Component {
   }
 };
 
-let reduxFormContract = reduxForm({
-  form: 'contract',
+const reduxFormClient = reduxForm({
+  form: 'client',
   validate: validateAllRequired,
   warn: warningTest
-})(Contract);
+})(Client);
 
 const mapStateToProps = state => ({
-  formValues: getFormValues('contract')(state)
+  formValues: getFormValues('client')(state)
 });
 
-export default connect(mapStateToProps, null)(reduxFormContract);
+export default connect(mapStateToProps, null)(reduxFormClient);

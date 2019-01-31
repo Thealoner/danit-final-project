@@ -7,13 +7,21 @@ import {
   deleteCurrentEntityItem,
   storeTabTmpFormData
 } from '../../../actions/tabActions';
+import { Loader } from 'semantic-ui-react';
 import Paket from './Paket';
 import Service from './Service';
+import ServiceCategory from './ServiceCategory';
 import Contract from './Contract';
+import Client from './Client';
+import User from './User';
+import Role from './Role';
+import Card from './Card';
+import AuditDetails from './Fields/AuditDetails';
+import './index.scss';
 
 class EntityEditor extends Component {
   onSubmit = values => {
-    let { currentTab, saveData, addRecord } = this.props;
+    const { currentTab, saveData, addRecord } = this.props;
 
     if (currentTab.form.data && currentTab.form.data.id) {
       saveData(currentTab.tabKey, values, currentTab.grid.columns, 'edit', 1);
@@ -28,18 +36,49 @@ class EntityEditor extends Component {
   }
   
   render () {
-    let { currentTab, storeTmpFormData, cancelData } = this.props;
+    const { currentTab, storeTmpFormData, cancelData } = this.props;
+    const editMode = !!currentTab.form.data.id;
+    let content;
+
+    if (!currentTab.form) {
+      return <div className="tabs__loader-wrapper"><Loader active inline='centered' size='big'/></div>;
+    }
 
     switch (currentTab.tabKey) {
       case 'pakets':
-        return <Paket onSubmit={this.onSubmit} handleChange={storeTmpFormData} handleDelete={this.onDelete} handleCancel={cancelData} currentTab={currentTab}/>;
+        content = <Paket onSubmit={this.onSubmit} handleChange={storeTmpFormData} handleDelete={this.onDelete} handleCancel={cancelData} currentTab={currentTab}/>;
+        break;
       case 'services':
-        return <Service onSubmit={this.onSubmit} handleChange={storeTmpFormData} handleDelete={this.onDelete} handleCancel={cancelData} currentTab={currentTab}/>;
+        content = <Service onSubmit={this.onSubmit} handleChange={storeTmpFormData} handleDelete={this.onDelete} handleCancel={cancelData} currentTab={currentTab}/>;
+        break;
+      case 'service_categories':
+        content = <ServiceCategory onSubmit={this.onSubmit} handleChange={storeTmpFormData} handleDelete={this.onDelete} handleCancel={cancelData} currentTab={currentTab}/>;
+        break;
       case 'contracts':
-        return <Contract onSubmit={this.onSubmit} handleChange={storeTmpFormData} handleDelete={this.onDelete} handleCancel={cancelData} currentTab={currentTab}/>;
+        content = <Contract onSubmit={this.onSubmit} handleChange={storeTmpFormData} handleDelete={this.onDelete} handleCancel={cancelData} currentTab={currentTab}/>;
+        break;
+      case 'clients':
+        content = <Client onSubmit={this.onSubmit} handleChange={storeTmpFormData} handleDelete={this.onDelete} handleCancel={cancelData} currentTab={currentTab}/>;
+        break;
+      case 'users':
+        content = <User onSubmit={this.onSubmit} handleChange={storeTmpFormData} handleDelete={this.onDelete} handleCancel={cancelData} currentTab={currentTab}/>;
+        break;
+      case 'roles':
+        content = <Role onSubmit={this.onSubmit} handleChange={storeTmpFormData} handleDelete={this.onDelete} handleCancel={cancelData} currentTab={currentTab}/>;
+        break;
+      case 'cards':
+        content = <Card onSubmit={this.onSubmit} handleChange={storeTmpFormData} handleDelete={this.onDelete} handleCancel={cancelData} currentTab={currentTab}/>;
+        break;
       default:
-        return <h1>Form component for this entity is not defined.</h1>;
+        content = <h1>Form component for this entity is not defined.</h1>;
     }
+
+    return (
+      <>
+        {content}
+        {editMode ? <AuditDetails data={currentTab.form.data} /> : ''}
+      </>
+    );
   }
 };
 

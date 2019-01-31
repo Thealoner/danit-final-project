@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Grid from '../../Grid';
 import { Loader } from 'semantic-ui-react';
-import RecordEditor from '../../RecordEditor';
 import EntityEditor from '../../EntityEditor';
 
 class TabContent extends Component {
@@ -14,11 +13,7 @@ class TabContent extends Component {
     } else if (currentTab.type === 'grid') {
       content = <Grid currentTab={currentTab} />;
     } else if (currentTab.type === 'form') {
-      if (['pakets', 'services', 'contracts'].includes(currentTab.tabKey)) {
-        content = <EntityEditor currentTab={currentTab} />;
-      } else {
-        content = <RecordEditor currentTab={currentTab} />;
-      }
+      content = <EntityEditor currentTab={currentTab} />;
     }
 
     return (

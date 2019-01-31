@@ -6,29 +6,20 @@ import {
   getFormValues
 } from 'redux-form';
 import RenderField from '../Fields/RenderField';
-import RenderSearchField from '../Fields/RenderSearchField';
 import validateAllRequired from '../../../../helpers/validateAllRequired';
 import warningTest from '../../../../helpers/warningTest';
 
-class Contract extends Component {
+class User extends Component {
   render () {
-    let { currentTab, handleDelete, handleCancel, handleSubmit, submitting } = this.props;
-    let { data } = currentTab.form;
+    const { currentTab, handleDelete, handleCancel, handleSubmit, submitting } = this.props;
+    const { data } = currentTab.form;
     const editMode = !!data.id;
-
-    this.changeField = (fieldName, value) => {
-      this.props.change(fieldName, value);
-    };
 
     return (
       <form onSubmit={handleSubmit} className="record">
         <div className="form-group field field-object">
           <p>{editMode ? 'ID: ' + data.id : ''}</p>
-          <Field name="clientId" component={RenderSearchField} type="text" label="Клиент" changeField={this.changeField}
-            parentEntity="contracts" childEntity="clients" parentId={data.id} childId={data.clientId} />
-          <Field name="credit" component={RenderField} type="text" label="Кредит" />
-          <Field name="packageId" component={RenderSearchField} type="text" label="Пакет" changeField={this.changeField}
-            parentEntity="contracts" childEntity="pakets" parentId={data.id} childId={data.packageId} />
+          <Field name="role" component={RenderField} type="text" label="Роль" />
 
           <button type="submit" className="record__button" disabled={!currentTab.form.edited || submitting}>Сохранить</button>
           <button type="button" className="record__button" onClick={handleDelete} disabled={!editMode}>Удалить</button>
@@ -39,13 +30,14 @@ class Contract extends Component {
   }
 
   componentDidMount () {
-    let { currentTab, initialize } = this.props;
-    let { data } = currentTab.form;
+    const { currentTab, initialize } = this.props;
+    const { data } = currentTab.form;
     initialize(data);
   }
 
   componentDidUpdate () {
-    let { dirty, handleChange, formValues } = this.props;
+    const { dirty, handleChange, formValues } = this.props;
+    
     if (dirty) {
       handleChange({
         data: {
@@ -56,14 +48,14 @@ class Contract extends Component {
   }
 };
 
-let reduxFormContract = reduxForm({
-  form: 'contract',
+const reduxFormUser = reduxForm({
+  form: 'user',
   validate: validateAllRequired,
   warn: warningTest
-})(Contract);
+})(User);
 
 const mapStateToProps = state => ({
-  formValues: getFormValues('contract')(state)
+  formValues: getFormValues('user')(state)
 });
 
-export default connect(mapStateToProps, null)(reduxFormContract);
+export default connect(mapStateToProps, null)(reduxFormUser);
