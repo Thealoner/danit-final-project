@@ -138,7 +138,7 @@ public class ContractController {
   void deleteClientFromContract(@PathVariable(name = "contractId") Long contractId,
                                 Principal principal,
                                 @PathVariable(name = "clientId") Long clientId) {
-    contractService.deleteClientFromContract(contractId, clientId);
+    contractService.deAssignClientFromContract(contractId, clientId);
   }
 
   //Pakets
@@ -157,7 +157,7 @@ public class ContractController {
   void deletePaketFromContract(@PathVariable(name = "paketId") Long paketId,
                                @PathVariable(name = "contractId") Long contractId,
                                Principal principal) {
-    contractService.deletePaketFromContract(contractId, paketId);
+    contractService.deAssignPaketFromContract(contractId, paketId);
   }
 
   //Cards

@@ -8,6 +8,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Consumer;
+
 @Component
 public class ContractFacade extends AbstractDtoFacade<ContractDto, Contract, ContractListRequestDto> {
 
@@ -25,4 +29,31 @@ public class ContractFacade extends AbstractDtoFacade<ContractDto, Contract, Con
     return convertToDtos(contractService.findAllContractsForClientId(paketId, pageable));
   }
 
+  @Override
+  public List<ContractDto> updateEntities(List<ContractDto> entities) {
+    entities.forEach(contractDto -> {
+      if(Objects.nonNull(contractDto.getPackageId())) {
+        contractService.assignPaketToContract(contractDto.getId(), contractDto.getPackageId());
+      } else {
+        contractService.deAssignPaketFromContract(contractDto.getId(), contractDto.getPackageId());
+      }
+      if(Objects.nonNull(contractDto.getClientId())) {
+        contractService.assignClientToContract(contractDto.getId(), contractDto.getClientId());
+      } else {
+        contractService.deAssignClientFromContract(contractDto.getId(), contractDto.getClientId());
+      }
+    });
+    return super.updateEntities(entities);
+  }
+
+  /*@Override
+  public List<ContractDto> saveEntities(List<ContractDto> entities) {
+    List<ContractDto> contractDtos = super.saveEntities(entities);
+    contractDtos.forEach(new Consumer<ContractDto>() {
+      @Override
+      public void accept(ContractDto contractDto) {
+
+      }
+    });
+  }*/
 }
