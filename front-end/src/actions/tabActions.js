@@ -70,6 +70,16 @@ export const setFilter = (filter) => {
   };
 };
 
+export const updateSorting = ({column, direction}) => {
+  return {
+    type: tab.UPDATE_SORTING,
+    payload: {
+      column,
+      direction
+    }
+  };
+};
+
 export const storeTabTmpFormData = (payload) => {
   return {
     type: tab.STORE_TMP_FORM_DATA,

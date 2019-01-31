@@ -49,7 +49,11 @@ export default function tabsReducer (state = initialState, action) {
               pagesTotal: 1,
               elementsPerPage: 1
             },
-            columns: []
+            columns: [],
+            sorting: {
+              column: 'id',
+              direction: 'asc'
+            }
           }
         };
 
@@ -121,7 +125,11 @@ export default function tabsReducer (state = initialState, action) {
         newTabData.grid = {
           data: action.payload.data,
           meta: action.payload.meta,
-          columns: action.payload.columns
+          columns: action.payload.columns,
+          sorting: {
+            column: 'id',
+            direction: 'asc'
+          }
         };
       }
 
@@ -164,6 +172,21 @@ export default function tabsReducer (state = initialState, action) {
       };
 
       return updateCurrentTabAttributes(state, newTabData);
+    }
+
+    case tab.UPDATE_SORTING: {
+      const newTabData = {
+        ...state,
+        grid: {
+          ...state.grid,
+          sorting: {
+            column: action.payload.column,
+            direction: action.payload.direction
+          }
+        }
+      };
+
+      return newTabData;
     }
 
     case tab.STORE_TMP_FORM_DATA: {

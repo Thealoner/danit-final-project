@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getFormData } from '../../../../actions/tabActions';
+import { getFormData, updateSorting } from '../../../../actions/tabActions';
 import Tabulator from 'tabulator-tables';
 import './index.scss';
 
@@ -21,7 +21,7 @@ class GridTable extends Component {
   }
 
   componentDidMount () {
-    const { currentTab } = this.props;
+    const { currentTab, updateSorting } = this.props;
 
     this.tabulator = new Tabulator(this.tabulatorTable, {
       data: currentTab.grid.data,
@@ -29,7 +29,13 @@ class GridTable extends Component {
       rowClick: this.rowClick,
       tooltips: true,
       movableRows: false,
-      layout: 'fitDataFill'
+      layout: 'fitDataFill',
+      columnHeaderSortMulti: false,
+      dataSorting: sorters => {
+        if (sorters.length > 0) {
+          updateSorting(sorters[0].id, sorters[0].dir);
+        }
+      }
     });
   }
 
@@ -40,12 +46,27 @@ class GridTable extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  let currentTab = null;
+
+  if (state.tabs.activeKey && state.tabs.tabsArray.length > 0) {
+    currentTab = state.tabs.tabsArray.filter(t => t.tabKey === state.tabs.activeKey)[0];
+  }
+
+  return {
+    sorting: currentTab.grid.sorting
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     getFormData: (tabKey, id, mode) => {
       dispatch(getFormData(tabKey, id, mode));
+    },
+    updateSorting: (column, direction) => {
+      dispatch(updateSorting({column, direction}));
     }
   };
 };
 
-export default connect(null, mapDispatchToProps)(GridTable);
+export default connect(mapStateToProps, mapDispatchToProps)(GridTable);
