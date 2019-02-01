@@ -76,6 +76,16 @@ export default class RenderSearchField extends Component {
     this.setState({ value: result.title });
   }
 
+  unassignEntity = (fieldName) => {
+    const { changeField } = this.props;
+    changeField(fieldName, -1);
+
+    this.setState({
+      value: '',
+      hiddenValue: ''
+    });
+  }
+
   onFocus = () => {
     if (this.state.value !== '') {
       const hiddenValue = this.state.value;
@@ -124,6 +134,7 @@ export default class RenderSearchField extends Component {
         {touched &&
           ((error && <div className="field_error-ch">{error}</div>) ||
             (warning && <div className="field_warning-ch">{warning}</div>))}
+        <button type="button" className="record__button" onClick={() => this.unassignEntity(input.name)}>Отвязать</button>
       </div>
     );
   }
