@@ -126,7 +126,9 @@ export const getGridData = ({
             data: response.data,
             meta: response.meta,
             columns: columns,
-            type: 'grid'
+            type: 'grid',
+            sortColumn: sortColumn,
+            sortDirection: sortDirection
           }));
           dispatch(setFilter(filter));
           dispatch(doneTab());

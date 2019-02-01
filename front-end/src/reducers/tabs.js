@@ -1,6 +1,10 @@
 import { tab } from '../actions/types';
 import { getEntityByType } from '../components/Admin/gridEntities';
-import { updateCurrentTabAttributes, updateCurrentTabFormData } from '../helpers/reducerHelper';
+import {
+  updateCurrentTabAttributes,
+  updateCurrentTabFormData,
+  updateCurrentTabGridData
+} from '../helpers/reducerHelper';
 
 const initialState = {
   tabsArray: [],
@@ -127,8 +131,8 @@ export default function tabsReducer (state = initialState, action) {
           meta: action.payload.meta,
           columns: action.payload.columns,
           sorting: {
-            column: 'id',
-            direction: 'asc'
+            column: action.payload.sortColumn,
+            direction: action.payload.sortDirection
           }
         };
       }
@@ -175,18 +179,14 @@ export default function tabsReducer (state = initialState, action) {
     }
 
     case tab.UPDATE_SORTING: {
-      const newTabData = {
-        ...state,
-        grid: {
-          ...state.grid,
-          sorting: {
-            column: action.payload.column,
-            direction: action.payload.direction
-          }
+      const gridData = {
+        sorting: {
+          column: action.payload.sortColumn,
+          direction: action.payload.sortDirection
         }
       };
 
-      return newTabData;
+      return updateCurrentTabGridData(state, gridData);
     }
 
     case tab.STORE_TMP_FORM_DATA: {

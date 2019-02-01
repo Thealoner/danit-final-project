@@ -22,6 +22,7 @@ class GridTable extends Component {
 
   componentDidMount () {
     const { currentTab, getSortedData } = this.props;
+    const sorting = currentTab.grid.sorting;
 
     this.tabulator = new Tabulator(this.tabulatorTable, {
       data: currentTab.grid.data,
@@ -32,7 +33,7 @@ class GridTable extends Component {
       layout: 'fitDataFill',
       columnHeaderSortMulti: false,
       dataSorting: sorters => {
-        if (sorters.length > 0) {
+        if (sorters.length > 0 && (sorters[0].field !== sorting.column || sorters[0].dir !== sorting.direction)) {
           getSortedData(
             sorters[0].field,
             sorters[0].dir,
@@ -44,6 +45,8 @@ class GridTable extends Component {
         }
       }
     });
+
+    this.tabulator.setSort(sorting.column, sorting.direction);
   }
 
   componentDidUpdate () {
