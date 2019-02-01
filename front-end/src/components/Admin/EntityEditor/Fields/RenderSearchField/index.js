@@ -19,14 +19,14 @@ export default class RenderSearchField extends Component {
   resetComponent = () => this.setState({ isLoading: false, results: [], value: '' });
 
   loadFieldValue = () => {
-    const { childEntity, childId } = this.props;
+    const { entity, entityId } = this.props;
 
-    if (childId) {
-      ajaxRequest.get('/' + childEntity + '/' + childId)
+    if (entityId) {
+      ajaxRequest.get('/' + entity + '/' + entityId)
         .then(result => {
           let title = result.data.title;
           
-          if (childEntity === 'clients') {
+          if (entity === 'clients') {
             title = result.data.firstName + ' ' + result.data.lastName;
           }
 
@@ -38,16 +38,8 @@ export default class RenderSearchField extends Component {
     }
   }
 
-  saveFieldValue = (e) => {
-    const { parentEntity, parentId, childEntity, childId } = this.props;
-    
-    ajaxRequest.put('/' + parentEntity + '/' + parentId + '/' + childEntity + '/' + childId)
-      .then(result => toastr.success('Данные успешно сохранены'))
-      .catch(error => toastr.error(error.message));
-  }
-
   handleSearchChange = (e, { value }) => {
-    const { childEntity } = this.props;
+    const { entity } = this.props;
 
     this.setState({
       isLoading: true,
@@ -55,12 +47,12 @@ export default class RenderSearchField extends Component {
       hiddenValue: ''
     });
 
-    ajaxRequest.get('/' + childEntity + '/?search=' + value).then(searchResults => {
+    ajaxRequest.get('/' + entity + '/?search=' + value).then(searchResults => {
       if (this.state.value.length < 1) return this.resetComponent();
       const results = searchResults.data.map(result => {
         let title = result.title;
         
-        if (childEntity === 'clients') {
+        if (entity === 'clients') {
           title = result.firstName + ' ' + result.lastName;
         }
 
@@ -78,9 +70,9 @@ export default class RenderSearchField extends Component {
   }
 
   handleResultSelect = (e, { result }) => {
-    const entityId = this.props.input.name;
+    const fieldName = this.props.input.name;
     const { changeField } = this.props;
-    changeField(entityId, result.id);
+    changeField(fieldName, result.id);
     this.setState({ value: result.title });
   }
 
@@ -126,9 +118,12 @@ export default class RenderSearchField extends Component {
           resultRenderer={SearchFieldResults}
           onFocus={() => this.onFocus()}
           onBlur={() => this.onBlur()}
+          className={error ? 'field_error-input' : null || warning ? 'field_warning-input' : null}
         />
         <input {...input} type="hidden" />
-        <button type="button" className="record__button" onClick={(e) => this.saveFieldValue(e)}>Сохранить</button>
+        {touched &&
+          ((error && <div className="field_error-ch">{error}</div>) ||
+            (warning && <div className="field_warning-ch">{warning}</div>))}
       </div>
     );
   }

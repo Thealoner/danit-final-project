@@ -4,7 +4,6 @@ const RenderCheckbox = ({
   input,
   label,
   type,
-  name,
   meta: { touched, error, warning }
 }) => (
   <div className="form-group field field-checkbox">

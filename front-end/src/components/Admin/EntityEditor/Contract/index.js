@@ -25,10 +25,10 @@ class Contract extends Component {
         <div className="form-group field field-object">
           <p>{editMode ? 'ID: ' + data.id : ''}</p>
           <Field name="clientId" component={RenderSearchField} type="text" label="Клиент" changeField={this.changeField}
-            parentEntity="contracts" childEntity="clients" parentId={data.id} childId={data.clientId} />
+            entity="clients" entityId={data.clientId} />
           <Field name="credit" component={RenderField} type="text" label="Кредит" />
           <Field name="packageId" component={RenderSearchField} type="text" label="Пакет" changeField={this.changeField}
-            parentEntity="contracts" childEntity="pakets" parentId={data.id} childId={data.packageId} />
+            entity="pakets" entityId={data.packageId} />
 
           <button type="submit" className="record__button" disabled={!currentTab.form.edited || submitting}>Сохранить</button>
           <button type="button" className="record__button" onClick={handleDelete} disabled={!editMode}>Удалить</button>
