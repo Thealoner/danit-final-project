@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getFormData, updateSorting } from '../../../../actions/tabActions';
+import { getFormData, getSortedData } from '../../../../actions/tabActions';
 import Tabulator from 'tabulator-tables';
 import './index.scss';
 
@@ -21,7 +21,7 @@ class GridTable extends Component {
   }
 
   componentDidMount () {
-    const { currentTab, updateSorting } = this.props;
+    const { currentTab, getSortedData } = this.props;
 
     this.tabulator = new Tabulator(this.tabulatorTable, {
       data: currentTab.grid.data,
@@ -33,7 +33,14 @@ class GridTable extends Component {
       columnHeaderSortMulti: false,
       dataSorting: sorters => {
         if (sorters.length > 0) {
-          updateSorting(sorters[0].id, sorters[0].dir);
+          getSortedData(
+            sorters[0].field,
+            sorters[0].dir,
+            currentTab.tabKey,
+            currentTab.grid.columns,
+            1,
+            currentTab.grid.filter
+          );
         }
       }
     });
@@ -63,8 +70,15 @@ const mapDispatchToProps = dispatch => {
     getFormData: (tabKey, id, mode) => {
       dispatch(getFormData(tabKey, id, mode));
     },
-    updateSorting: (column, direction) => {
-      dispatch(updateSorting({column, direction}));
+    getSortedData: (sortColumn, sortDirection, tabKey, columns, page, filter) => {
+      dispatch(getSortedData({
+        sortColumn,
+        sortDirection,
+        tabKey,
+        columns,
+        page,
+        filter
+      }));
     }
   };
 };
