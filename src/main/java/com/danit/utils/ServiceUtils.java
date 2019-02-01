@@ -1,6 +1,7 @@
 package com.danit.utils;
 
 import com.danit.exceptions.IllegalAccessReflectionException;
+import com.danit.models.BaseEntity;
 import com.danit.models.User;
 import com.danit.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,12 @@ public final class ServiceUtils {
       field.setAccessible(true);
       try {
         Object value = field.get(sourseObj);
-        if ((Objects.nonNull(value) && !value.equals(field.get(targetObj)))
-            || (Objects.isNull(value) && Objects.nonNull(field.get(targetObj)))) {
+        if (Objects.nonNull(value) && !value.equals(field.get(targetObj))) {
           updated = true;
+          if (value instanceof BaseEntity) {
+            Long id = ((BaseEntity) value).getId();
+            value = id.equals(-1L) ? null : id;
+          }
           field.set(targetObj, value);
         }
       } catch (IllegalAccessException e) {
@@ -37,6 +41,22 @@ public final class ServiceUtils {
       }
     }
     return updated;
+  }
+
+  public void reformatBaseEntityFields(Object obj) {
+    for (Field field : obj.getClass().getDeclaredFields()) {
+      field.setAccessible(true);
+      try {
+        Object value = field.get(obj);
+        if (Objects.nonNull(value) && value instanceof BaseEntity) {
+          Long id = ((BaseEntity) value).getId();
+          value = id.equals(-1L) ? null : id;
+          field.set(obj, value);
+        }
+      } catch (IllegalAccessException e) {
+        throw new IllegalAccessReflectionException(e.getMessage());
+      }
+    }
   }
 
   public User getUserFromAuthContext() {
