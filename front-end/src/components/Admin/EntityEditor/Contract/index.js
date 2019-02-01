@@ -7,6 +7,7 @@ import {
 } from 'redux-form';
 import RenderField from '../Fields/RenderField';
 import RenderSearchField from '../Fields/RenderSearchField';
+import RenderCheckbox from '../Fields/RenderCheckbox';
 import validateAllRequired from '../../../../helpers/validateAllRequired';
 import warningTest from '../../../../helpers/warningTest';
 
@@ -26,9 +27,12 @@ class Contract extends Component {
           <p>{editMode ? 'ID: ' + data.id : ''}</p>
           <Field name="clientId" component={RenderSearchField} type="text" label="Клиент" changeField={this.changeField}
             entity="clients" entityId={data.clientId} />
+          <Field name="startDate" component={RenderField} type="date" label="Дата начала" />
+          <Field name="endDate" component={RenderField} type="date" label="Дата окончания" />
           <Field name="credit" component={RenderField} type="text" label="Кредит" />
           <Field name="packageId" component={RenderSearchField} type="text" label="Пакет" changeField={this.changeField}
             entity="pakets" entityId={data.packageId} />
+          <Field name="active" component={RenderCheckbox} type="checkbox" label="Активен" />
 
           <button type="submit" className="record__button" disabled={!currentTab.form.edited || submitting}>Сохранить</button>
           <button type="button" className="record__button" onClick={handleDelete} disabled={!editMode}>Удалить</button>

@@ -39,7 +39,6 @@ class Client extends Component {
           <Field name="firstName" component={RenderField} type="text" label="Имя" />
           <Field name="lastName" component={RenderField} type="text" label="Фамилия" />
           <Field name="gender" component={RenderSelect} type="text" label="Пол" options={genderOptions} changeField={(e, data) => this.changeField(e, data, 'gender')} />
-          {/* TODO: Fix. Browser requires date format value as yyyy-mm-dd, we supply mm-dd-yyyy. Presentation is irrelevant. */}
           <Field name="birthDate" component={RenderField} type="date" label="Дата рождения" />
           <Field name="phoneNumber" component={RenderField} type="text" label="Телефон" />
           <Field name="email" component={RenderField} type="text" label="Email" />
