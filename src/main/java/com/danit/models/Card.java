@@ -27,8 +27,6 @@ import javax.persistence.Table;
 public class Card extends Auditable implements BaseEntity {
 
   @Id
-  //  @SequenceGenerator(name = "card_sequence", sequenceName = "card_sequence", allocationSize = 1, initialValue = 1001)
-  //  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "card_sequence")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   @EqualsAndHashCode.Include
