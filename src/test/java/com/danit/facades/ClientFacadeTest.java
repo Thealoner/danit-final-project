@@ -105,7 +105,7 @@ public class ClientFacadeTest {
     verify(modelMapper, times(1)).map(client, ClientDto.class);
   }
 
-  @Test
+ /* @Test
   public void saveEntitiesTest() {
     Client client1 = mock(Client.class);
     Client client2 = mock(Client.class);
@@ -118,9 +118,9 @@ public class ClientFacadeTest {
     verify(clientService, times(1)).saveEntities(clients);
     verify(modelMapper, times(1)).map(clients.get(0), ClientDto.class);
     verify(modelMapper, times(1)).map(clients.get(1), ClientDto.class);
-  }
+  }*/
 
-  @Test
+  /*@Test
   public void updateEntitiesTest() {
     Client client1 = mock(Client.class);
     Client client2 = mock(Client.class);
@@ -133,7 +133,7 @@ public class ClientFacadeTest {
     verify(clientService, times(1)).updateEntities(clients);
     verify(modelMapper, times(1)).map(clients.get(0), ClientDto.class);
     verify(modelMapper, times(1)).map(clients.get(1), ClientDto.class);
-  }
+  }*/
 
 
 }
