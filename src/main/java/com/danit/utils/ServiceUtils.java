@@ -31,8 +31,8 @@ public final class ServiceUtils {
         if (Objects.nonNull(value) && !value.equals(field.get(targetObj))) {
           updated = true;
           if (value instanceof BaseEntity) {
-            Long id = ((BaseEntity) value).getId();
-            value = id.equals(-1L) ? null : id;
+            BaseEntity entity = (BaseEntity) value;
+            entity.setId(entity.getId().equals(-1L) ? null : entity.getId());
           }
           field.set(targetObj, value);
         }
@@ -49,9 +49,8 @@ public final class ServiceUtils {
       try {
         Object value = field.get(obj);
         if (Objects.nonNull(value) && value instanceof BaseEntity) {
-          Long id = ((BaseEntity) value).getId();
-          value = id.equals(-1L) ? null : id;
-          field.set(obj, value);
+          BaseEntity entity = (BaseEntity) value;
+          entity.setId(entity.getId().equals(-1L) ? null : entity.getId());
         }
       } catch (IllegalAccessException e) {
         throw new IllegalAccessReflectionException(e.getMessage());
