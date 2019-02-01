@@ -42,7 +42,7 @@ public class ContractService extends AbstractBaseEntityService<Contract, Contrac
   }
 
   @Transactional
-  public void deleteClientFromContract(Long contractId, Long clientId) {
+  public void deAssignClientFromContract(Long contractId, Long clientId) {
     getEntityById(contractId)
         .setClient(null);
   }
@@ -54,7 +54,7 @@ public class ContractService extends AbstractBaseEntityService<Contract, Contrac
   }
 
   @Transactional
-  public void deletePaketFromContract(Long contractId, Long paketId) {
+  public void deAssignPaketFromContract(Long contractId, Long paketId) {
     getEntityById(contractId)
         .setPaket(null);
   }

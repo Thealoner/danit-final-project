@@ -1,6 +1,7 @@
 package com.danit.controllers;
 
 
+import com.danit.dto.UserRoleDto;
 import com.danit.dto.Views;
 import com.danit.dto.service.UserRoleListRequestDto;
 import com.danit.facades.UserFacade;
@@ -48,7 +49,7 @@ public class UserRoleController {
 
   @JsonView(Views.Extended.class)
   @PostMapping
-  ResponseEntity<Map<String, Object>> createUserRoles(@RequestBody List<UserRole> roles,
+  ResponseEntity<Map<String, Object>> createUserRoles(@RequestBody List<UserRoleDto> roles,
                                                       Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(userRoleFacade.saveEntities(roles)));
   }
@@ -97,7 +98,7 @@ public class UserRoleController {
 
   @JsonView(Views.Extended.class)
   @PutMapping
-  ResponseEntity<Map<String, Object>> updateUserRolesDto(@RequestBody List<UserRole> roles, Principal principal) {
+  ResponseEntity<Map<String, Object>> updateUserRolesDto(@RequestBody List<UserRoleDto> roles, Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(userRoleFacade.updateEntities(roles)));
   }
 

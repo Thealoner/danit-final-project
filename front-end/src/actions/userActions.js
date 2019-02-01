@@ -10,7 +10,11 @@ export const getAvatar = () => {
           dispatch(updateAvatar({ avatar }));
         },
         error => {
-          error.response.json().then(data => toastr.error(data.message));
+          if (error.response.status !== 406) {
+            error.response.json().then(data => toastr.error(data.message));
+          } else {
+            toastr.error(error.response.status + ' ' + error.response.statusText);
+          }
         }
       );
   };
