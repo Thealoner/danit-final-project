@@ -9,7 +9,7 @@ const AuditDetails = ({data}) => {
       Последнее редактирование пользователем: {data.lastModifiedBy}<br />
       Дата последнего редактирования: {data.lastModifiedDate}
     </div>
-  )
+  );
 };
 
 export default AuditDetails;

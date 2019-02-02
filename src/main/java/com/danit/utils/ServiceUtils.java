@@ -13,7 +13,7 @@ import java.lang.reflect.Field;
 import java.util.Objects;
 
 @Component
-public final class ServiceUtils {
+public class ServiceUtils {
 
   private UserRepository userRepository;
 
