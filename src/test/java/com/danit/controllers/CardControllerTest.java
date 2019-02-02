@@ -112,11 +112,11 @@ public class CardControllerTest {
     long numberOfEntities = cardService.getNumberOfEntities();
     this.mockMvc.perform(delete(url).headers(headers)
         .contentType("application/json")
-        .content("[{\"id\": 1001},{\"id\": 1002},{\"id\": 1003}]"))
+        .content("[{\"id\": 11},{\"id\": 12},{\"id\": 13}]"))
         .andExpect(status().isOk());
     Assert.assertEquals(cardService.getNumberOfEntities(), numberOfEntities - 3);
 
-    this.mockMvc.perform(delete(url + "/1004").headers(headers))
+    this.mockMvc.perform(delete(url + "/14").headers(headers))
         .andExpect(status().isOk());
 
     Assert.assertEquals(cardService.getNumberOfEntities(), numberOfEntities - 4);
@@ -293,7 +293,7 @@ public class CardControllerTest {
 
   @Test
   public void getCardByExistingId() throws Exception {
-    String responseJson = mockMvc.perform(get(url + "/" + 1005).headers(headers))
+    String responseJson = mockMvc.perform(get(url + "/" + 1).headers(headers))
         .andExpect(status().isOk())
         .andExpect(content()
             .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -304,7 +304,7 @@ public class CardControllerTest {
     String pageDataJson = obj.getString("data");
     Card receivedCard = objectMapper.readValue(pageDataJson, Card.class);
 
-    Assert.assertEquals(new Long(1005), receivedCard.getId());
+    Assert.assertEquals(new Long(1), receivedCard.getId());
   }
 
   @Test
@@ -354,7 +354,7 @@ public class CardControllerTest {
         .andExpect(jsonPath("$.meta.totalElements").value(0));
 
     //Assign by id
-    mockMvc.perform(put("/contracts/" + createdContractId + "/card/" + savedCards.get(0).getId()).headers(headers)
+    mockMvc.perform(put("/contracts/" + createdContractId + "/cards/" + savedCards.get(0).getId()).headers(headers)
         .contentType("application/json")
         .content(json))
         .andExpect(status().isOk());
@@ -367,7 +367,7 @@ public class CardControllerTest {
             .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.meta.totalElements").value(1));
 
-    mockMvc.perform(delete("/contracts/" + createdContractId + "/card/" + savedCards.get(0).getId()).headers(headers)
+    mockMvc.perform(delete("/contracts/" + createdContractId + "/cards/" + savedCards.get(0).getId()).headers(headers)
         .contentType("application/json")
         .content(json))
         .andExpect(status().isOk());

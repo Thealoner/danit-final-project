@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getFormData } from '../../../../actions/tabActions';
+import { getFormData, getSortedData } from '../../../../actions/tabActions';
 import Tabulator from 'tabulator-tables';
 import './index.scss';
 
@@ -21,7 +21,8 @@ class GridTable extends Component {
   }
 
   componentDidMount () {
-    const { currentTab } = this.props;
+    const { currentTab, getSortedData } = this.props;
+    const sorting = currentTab.grid.sorting;
 
     this.tabulator = new Tabulator(this.tabulatorTable, {
       data: currentTab.grid.data,
@@ -29,8 +30,23 @@ class GridTable extends Component {
       rowClick: this.rowClick,
       tooltips: true,
       movableRows: false,
-      layout: 'fitDataFill'
+      layout: 'fitDataFill',
+      columnHeaderSortMulti: false,
+      dataSorting: sorters => {
+        if (sorters.length > 0 && (sorters[0].field !== sorting.column || sorters[0].dir !== sorting.direction)) {
+          getSortedData(
+            sorters[0].field,
+            sorters[0].dir,
+            currentTab.tabKey,
+            currentTab.grid.columns,
+            1,
+            currentTab.grid.filter
+          );
+        }
+      }
     });
+
+    this.tabulator.setSort(sorting.column, sorting.direction);
   }
 
   componentDidUpdate () {
@@ -40,12 +56,34 @@ class GridTable extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  let currentTab = null;
+
+  if (state.tabs.activeKey && state.tabs.tabsArray.length > 0) {
+    currentTab = state.tabs.tabsArray.filter(t => t.tabKey === state.tabs.activeKey)[0];
+  }
+
+  return {
+    sorting: currentTab.grid.sorting
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     getFormData: (tabKey, id, mode) => {
       dispatch(getFormData(tabKey, id, mode));
+    },
+    getSortedData: (sortColumn, sortDirection, tabKey, columns, page, filter) => {
+      dispatch(getSortedData({
+        sortColumn,
+        sortDirection,
+        tabKey,
+        columns,
+        page,
+        filter
+      }));
     }
   };
 };
 
-export default connect(null, mapDispatchToProps)(GridTable);
+export default connect(mapStateToProps, mapDispatchToProps)(GridTable);

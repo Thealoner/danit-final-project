@@ -1,12 +1,15 @@
 package com.danit.controllers;
 
+import com.danit.dto.UserDto;
 import com.danit.dto.Views;
+import com.danit.dto.service.PasswordStoreDto;
 import com.danit.dto.service.UserListRequestDto;
 import com.danit.facades.UserFacade;
 import com.danit.facades.UserRoleFacade;
 import com.danit.models.User;
 import com.danit.models.UserRole;
 import com.danit.services.UserRoleService;
+import com.danit.services.UserService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,13 +44,15 @@ import static com.danit.utils.ControllerUtils.convertPageToMap;
 public class UserController {
 
   private UserFacade userFacade;
+  private UserService userService;
   private UserRoleService roleService;
   private UserRoleFacade userRoleFacade;
   private BCryptPasswordEncoder bcryptPasswordEncoder;
 
-  public UserController(UserFacade userFacade, UserRoleService roleService, UserRoleFacade userRoleFacade,
-                        BCryptPasswordEncoder bcryptPasswordEncoder) {
+  public UserController(UserFacade userFacade, UserService userService, UserRoleService roleService,
+                        UserRoleFacade userRoleFacade, BCryptPasswordEncoder bcryptPasswordEncoder) {
     this.userFacade = userFacade;
+    this.userService = userService;
     this.roleService = roleService;
     this.userRoleFacade = userRoleFacade;
     this.bcryptPasswordEncoder = bcryptPasswordEncoder;
@@ -54,7 +60,7 @@ public class UserController {
 
   @JsonView(Views.Extended.class)
   @PostMapping
-  ResponseEntity<Map<String, Object>> createUsers(@RequestBody List<User> users,
+  ResponseEntity<Map<String, Object>> createUsers(@RequestBody List<UserDto> users,
                                                   Principal principal) {
     users.forEach(user -> {
       if (Objects.nonNull(user.getPassword())) {
@@ -108,7 +114,7 @@ public class UserController {
 
   @JsonView(Views.Extended.class)
   @PutMapping
-  ResponseEntity<Map<String, Object>> updateUsersDto(@RequestBody List<User> users, Principal principal) {
+  ResponseEntity<Map<String, Object>> updateUsersDto(@RequestBody List<UserDto> users, Principal principal) {
     users.forEach(user -> {
       if (Objects.nonNull(user.getPassword())) {
         user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
@@ -131,7 +137,7 @@ public class UserController {
 
   //----related entities methods----------------------------------------------------------------------------------------
 
-  @PutMapping("/{userId}/role/{roleId}")
+  @PutMapping("/{userId}/roles/{roleId}")
   @JsonView(Views.Extended.class)
   @ResponseStatus(HttpStatus.OK)
   ResponseEntity<Map<String, Object>> assignRoleToUser(@PathVariable(name = "roleId") Long roleId,
@@ -151,7 +157,7 @@ public class UserController {
     return ResponseEntity.ok(convertDtoToMap(userFacade.getEntityById(userId)));
   }
 
-  @DeleteMapping("/{userId}/role/{roleId}")
+  @DeleteMapping("/{userId}/roles/{roleId}")
   @JsonView(Views.Extended.class)
   @ResponseStatus(HttpStatus.OK)
   void deleteRoleFromUser(@PathVariable(name = "roleId") Long roleId,
@@ -203,5 +209,25 @@ public class UserController {
           @SortDefault(sort = "id", direction = Sort.Direction.ASC)
       }) Pageable pageable) {
     return ResponseEntity.ok(convertPageToMap(userRoleFacade.findAllRolesDtoForUserId(id, pageable)));
+  }
+
+  /*------------------------------------------------*/
+  /*Reset password functionality*/
+  @GetMapping("/password/reset")
+  @ResponseStatus(HttpStatus.OK)
+  void passwordResetConfirmationRequest(@RequestParam(name = "email") String email) {
+    userService.generatePasswordResetConfirmationMail(email);
+  }
+
+  @PutMapping("/password/update")
+  @ResponseStatus(HttpStatus.OK)
+  void updateUserPasswordByJwtTokenValidation(@RequestBody PasswordStoreDto data) {
+    userService.updateUserPasswordByJwtTokenValidation(data);
+  }
+
+  @PutMapping("/password/change")
+  @ResponseStatus(HttpStatus.OK)
+  void changeUserPasswordByOldPasswordValidation(@RequestBody PasswordStoreDto data, Principal principal) {
+    userService.changeUserPasswordByOldPasswordValidation(data);
   }
 }

@@ -36,10 +36,15 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
 
   @Autowired
   protected BaseSpecification<E, R> baseSpecification;
+
   @Autowired
   WebSocketUtils webSocketUtils;
+
   @Autowired
   private SimpMessageSendingOperations messagingTemplate;
+
+  @Autowired
+  private ServiceUtils serviceUtils;
 
   @Override
   public E getEntityById(long id) {
@@ -63,6 +68,7 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
         throw new IllegalEntityFormatException(getEntityName() + LOG_MSG2 + e.getId() +
             " shouldn't contain id to be persisted in DB");
       }
+      serviceUtils.reformatBaseEntityFields(e);
     });
     List<E> savedEntityList = (List<E>) baseEntityRepository.saveAll(entityList);
     notifyChannel(WebSocketEvent.POST, savedEntityList);
@@ -71,6 +77,7 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
 
   @Override
   public E saveEntity(E entity) {
+    serviceUtils.reformatBaseEntityFields(entity);
     E savedEntity = baseEntityRepository.save(entity);
     notifyChannel(WebSocketEvent.POST, savedEntity);
     return savedEntity;
@@ -91,7 +98,7 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
           .findFirst();
       if (result.isPresent()) {
         E e = result.get();
-        if (ServiceUtils.updateNonEqualFields(s, e)) {
+        if (serviceUtils.updateNonEqualFields(s, e)) {
           entitiesToSave.add(e);
         } else {
           iterator.remove();
@@ -107,8 +114,7 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
 
   @Override
   public void deleteEntityById(long id) {
-    E e = baseEntityRepository.findById(id).orElseThrow(() ->
-        new EntityNotFoundException(LOG_MSG1 + getEntityName() + LOG_MSG2 + id));
+    E e = getEntityById(id);
     baseEntityRepository.delete(e);
     notifyChannel(WebSocketEvent.DELETE, e);
   }

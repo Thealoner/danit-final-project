@@ -1,6 +1,10 @@
 import { tab } from '../actions/types';
 import { getEntityByType } from '../components/Admin/gridEntities';
-import { updateCurrentTabAttributes } from '../helpers/reducerHelper';
+import {
+  updateCurrentTabAttributes,
+  updateCurrentTabFormData,
+  updateCurrentTabGridData
+} from '../helpers/reducerHelper';
 
 const initialState = {
   tabsArray: [],
@@ -71,7 +75,11 @@ export default function tabsReducer (state = initialState, action) {
               pagesTotal: 1,
               elementsPerPage: 1
             },
-            columns: []
+            columns: [],
+            sorting: {
+              column: 'id',
+              direction: 'asc'
+            }
           }
         };
 
@@ -154,7 +162,11 @@ export default function tabsReducer (state = initialState, action) {
         newTabData.grid = {
           data: action.payload.data,
           meta: action.payload.meta,
-          columns: action.payload.columns
+          columns: action.payload.columns,
+          sorting: {
+            column: action.payload.sortColumn,
+            direction: action.payload.sortDirection
+          }
         };
       }
 
@@ -191,22 +203,31 @@ export default function tabsReducer (state = initialState, action) {
       return updateCurrentTabAttributes(state, newTabData);
     }
 
-    case tab.CHANGE_FILTER_STATUS: {
+    case tab.SET_FILTER: {
       const newTabData = {
-        filtered: action.filtered
+        filter: action.filter
       };
 
       return updateCurrentTabAttributes(state, newTabData);
     }
 
-    case tab.STORE_TMP_FORM_DATA: {
-      const newTabData = {
-        form: {
-          ...action.payload,
-          edited: true
+    case tab.UPDATE_SORTING: {
+      const gridData = {
+        sorting: {
+          column: action.payload.sortColumn,
+          direction: action.payload.sortDirection
         }
       };
-      return updateCurrentTabAttributes(state, newTabData);
+
+      return updateCurrentTabGridData(state, gridData);
+    }
+
+    case tab.STORE_TMP_FORM_DATA: {
+      const formData = {
+        ...action.payload,
+        edited: true
+      };
+      return updateCurrentTabFormData(state, formData);
     }
 
     default: {

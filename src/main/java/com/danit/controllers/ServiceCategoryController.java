@@ -1,5 +1,6 @@
 package com.danit.controllers;
 
+import com.danit.dto.ServiceCategoryDto;
 import com.danit.dto.Views;
 import com.danit.dto.service.ServiceCategoryListRequestDto;
 import com.danit.facades.ServiceCategoryFacade;
@@ -53,7 +54,7 @@ public class ServiceCategoryController {
 
   @JsonView(Views.Extended.class)
   @PostMapping
-  public ResponseEntity<Map<String, Object>> createServiceCategories(@RequestBody List<ServiceCategory>
+  public ResponseEntity<Map<String, Object>> createServiceCategories(@RequestBody List<ServiceCategoryDto>
                                                                          serviceCategories,
                                                                      Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(serviceCategoryFacade.saveEntities(serviceCategories)));
@@ -108,7 +109,7 @@ public class ServiceCategoryController {
   @JsonView(Views.Extended.class)
   @PutMapping
   public ResponseEntity<Map<String, Object>> updateServiceCategoriesDto(
-      @RequestBody List<ServiceCategory> serviceCategories,
+      @RequestBody List<ServiceCategoryDto> serviceCategories,
       Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(serviceCategoryFacade.updateEntities(serviceCategories)));
   }
@@ -171,7 +172,7 @@ public class ServiceCategoryController {
   }
 
   @JsonView(Views.Extended.class)
-  @PutMapping("/{serviceCategoryId}/service/{serviceId}")
+  @PutMapping("/{serviceCategoryId}/services/{serviceId}")
   @ResponseStatus(HttpStatus.OK)
   ResponseEntity<Map<String, Object>> assignServiceToServiceCategory(
       @PathVariable(name = "serviceId") Long serviceId,
@@ -191,7 +192,7 @@ public class ServiceCategoryController {
     return ResponseEntity.ok(convertDtoToMap(serviceCategoryFacade.getEntityById(serviceCategoryId)));
   }
 
-  @DeleteMapping("/{serviceCategoryId}/service/{serviceId}")
+  @DeleteMapping("/{serviceCategoryId}/services/{serviceId}")
   @ResponseStatus(HttpStatus.OK)
   void deleteServiceFromServiceCategory(@PathVariable(name = "serviceId") Long serviceId,
                                         @PathVariable(name = "serviceCategoryId") Long serviceCategoryId,

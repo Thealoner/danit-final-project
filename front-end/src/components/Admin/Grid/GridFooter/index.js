@@ -20,7 +20,8 @@ class GridFooter extends Component {
       tabKey: currentTab.tabKey,
       page: activePage,
       size: currentTab.grid.meta.elementsPerPage,
-      columns: currentTab.grid.columns
+      columns: currentTab.grid.columns,
+      filter: currentTab.filter
     });
   };
 

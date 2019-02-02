@@ -9,6 +9,41 @@ export default class AuthService {
     setToken.bind(this);
   };
 
+  requestResetToken = (email) => {
+    return fetch('/users/password/reset?email=' + email, {
+      method: 'GET'
+    });
+  };
+
+  requestPasswordUpdate = (token, newPassword) => {
+    return fetch('/users/password/update', {
+      method: 'PUT',
+      headers: new Headers({'content-type': 'application/json'}),
+      body: JSON.stringify({
+        token,
+        newPassword
+      })
+    })
+      .then(this._checkStatus)
+      .then(() => {
+        return Promise.resolve();
+      });
+  };
+
+  requestPasswordChange = (oldPassword, newPassword) => {
+    return fetch('/users/password/change', {
+      method: 'PUT',
+      headers: new Headers({'content-type': 'application/json',
+        'Authorization': this.getToken()}),
+      body: JSON.stringify({
+        oldPassword,
+        newPassword
+      })
+    })
+      .then(this._checkStatus)
+      .then(() => this.logout());
+  };
+
   login = (username, password) => {
     return this.fetchMethod('/auth', {
       method: 'POST',

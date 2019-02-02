@@ -34,8 +34,15 @@ public class BeanConfiguration {
         .addMapping(contract -> contract.getPaket().getId(), ContractDto::setPackageId)
         .addMapping(contract -> contract.getClient().getId(), ContractDto::setClientId);
 
+    modelMapper.createTypeMap(ContractDto.class, Contract.class)
+        .addMapping(ContractDto::getPackageId, (contract, id) -> contract.getPaket().setId((Long) id))
+        .addMapping(ContractDto::getClientId, (contract, id) -> contract.getClient().setId((Long) id));
+
     modelMapper.createTypeMap(Card.class, CardDto.class)
         .addMapping(card -> card.getContract().getId(), CardDto::setContractId);
+
+    modelMapper.createTypeMap(CardDto.class, Card.class)
+        .addMapping(CardDto::getContractId, (card, id) -> card.getContract().setId((Long)id));
 
     return modelMapper;
   }

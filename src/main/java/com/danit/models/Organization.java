@@ -12,7 +12,6 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -23,9 +22,10 @@ import javax.persistence.Table;
 @Data
 public class Organization extends Auditable implements BaseEntity {
   @Id
-  @SequenceGenerator(name = "organization_sequence", sequenceName = "organization_sequence",
-      allocationSize = 1, initialValue = 1001)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "organization_sequence")
+  //  @SequenceGenerator(name = "organization_sequence", sequenceName = "organization_sequence",
+  //      allocationSize = 1, initialValue = 1001)
+  //  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "organization_sequence")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   @EqualsAndHashCode.Include
   private Long id;

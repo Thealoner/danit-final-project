@@ -63,10 +63,35 @@ export const cancelEditFormData = () => {
   };
 };
 
-export const changeFilterStatus = (filtered) => {
+export const setFilter = (filter) => {
   return {
-    type: tab.CHANGE_FILTER_STATUS,
-    filtered: filtered
+    type: tab.SET_FILTER,
+    filter: filter
+  };
+};
+
+export const getSortedData = (payload) => {
+  return (dispatch) => {
+    dispatch(getGridData({
+      tabKey: payload.tabKey,
+      columns: payload.columns,
+      page: payload.page,
+      filter: payload.filter,
+      sortColumn: payload.sortColumn,
+      sortDirection: payload.sortDirection
+    }));
+    dispatch(updateSorting(payload.tabKey, {
+      sortColumn: payload.sortColumn,
+      sortDirection: payload.sortDirection
+    }));
+  };
+};
+
+export const updateSorting = (tabKey, payload) => {
+  return {
+    type: tab.UPDATE_SORTING,
+    tabKey,
+    payload
   };
 };
 
@@ -77,22 +102,37 @@ export const storeTabTmpFormData = (payload) => {
   };
 };
 
-// using catch method in thunk action creators is not recommended
-export const getGridData = ({tabKey, page = 1, size = 10, filterString = '', columns, filtered = false} = {}) => {
+export const getGridData = ({
+  tabKey,
+  page = 1,
+  size = 10,
+  columns,
+  filter = {
+    isFiltered: false,
+    field: '',
+    value: '',
+    activeFilter: '',
+    isExact: false
+  },
+  sortColumn = 'id',
+  sortDirection = 'asc'
+}) => {
   return (dispatch) => {
     dispatch(loadingGrid());
-    ajaxRequest.get('/' + tabKey + '?page=' + page + '&size=' + size + filterString)
+    ajaxRequest.get('/' + tabKey + '?page=' + page + '&size=' + size + '&' + filter.field + '=' + filter.value + '&equal=' + filter.isExact + '&sort=' + sortColumn + ',' + sortDirection)
       .then(
         response => {
           dispatch(setGridData(tabKey, {
             data: response.data,
             meta: response.meta,
             columns: columns,
-            type: 'grid'
+            type: 'grid',
+            sortColumn: sortColumn,
+            sortDirection: sortDirection
           }));
+          dispatch(setFilter(filter));
           dispatch(doneTab());
           dispatch(doneGrid());
-          dispatch(changeFilterStatus(filtered));
         },
         error => {
           toastr.error(error.message);
@@ -119,10 +159,35 @@ export const getFormData = (tabKey, id) => {
   };
 };
 
-export const saveFormData = (tabKey, formData, columns, mode, page) => {
+export const saveFormData = (tabKey, formData, columns, mode, page, filter) => {
   return (dispatch) => {
     dispatch(loadingTab());
     ajaxRequest.put(
+      '/' + tabKey,
+      JSON.stringify([formData])
+    )
+      .then(() => {
+        dispatch(cancelEditFormData());
+        dispatch(getGridData({
+          tabKey: tabKey,
+          columns: columns,
+          page: page,
+          filter: filter
+        }));
+        toastr.success('Данные успешно сохранены');
+      },
+      () => {
+        dispatch(doneTab());
+        toastr.error('Ошибка при сохранении');
+      }
+      );
+  };
+};
+
+export const addRecord = (tabKey, formData, columns, mode, page) => {
+  return (dispatch) => {
+    dispatch(loadingTab());
+    ajaxRequest.post(
       '/' + tabKey,
       JSON.stringify([formData])
     )
@@ -143,19 +208,20 @@ export const saveFormData = (tabKey, formData, columns, mode, page) => {
   };
 };
 
-export const deleteCurrentEntityItem = (tabKey, formData, columns, page) => {
+export const deleteCurrentEntityItem = (tabKey, formData, columns, page, filter) => {
   return (dispatch) => {
     dispatch(loadingTab());
     ajaxRequest.delete(
       '/' + tabKey,
-      JSON.stringify([{ id: formData.id }])
+      JSON.stringify([{id: formData.id}])
     )
       .then(() => {
         dispatch(cancelEditFormData());
         dispatch(getGridData({
           tabKey: tabKey,
           columns: columns,
-          page: page
+          page: page,
+          filter: filter
         }));
         toastr.success('Данные успешно удалены');
       },

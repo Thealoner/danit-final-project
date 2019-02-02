@@ -4,19 +4,22 @@ import com.danit.exceptions.EntityNotFoundException;
 import com.danit.exceptions.EntityParticularDataException;
 import com.danit.models.employee.TrainingType;
 import com.danit.repositories.employee.TrainingTypeRepository;
+import com.danit.utils.ServiceUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 
-import static com.danit.utils.ServiceUtils.updateNonEqualFields;
 
 @Service
 public class TrainingTypeServiceImpl implements TrainingTypeService {
 
+  private ServiceUtils serviceUtils;
+
   private TrainingTypeRepository trainingTypeRepository;
 
-  public TrainingTypeServiceImpl(TrainingTypeRepository trainingTypeRepository) {
+  public TrainingTypeServiceImpl(ServiceUtils serviceUtils, TrainingTypeRepository trainingTypeRepository) {
+    this.serviceUtils = serviceUtils;
     this.trainingTypeRepository = trainingTypeRepository;
   }
 
@@ -42,7 +45,7 @@ public class TrainingTypeServiceImpl implements TrainingTypeService {
     Long id = trainingType.getId();
     if (Objects.nonNull(id)) {
       TrainingType targetTrainingType = getTrainingTypeById(id);
-      if (updateNonEqualFields(trainingType, targetTrainingType)) {
+      if (serviceUtils.updateNonEqualFields(trainingType, targetTrainingType)) {
         savedTrainingType = trainingTypeRepository.save(targetTrainingType);
       }
     } else {

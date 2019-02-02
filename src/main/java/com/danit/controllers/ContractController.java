@@ -1,5 +1,6 @@
 package com.danit.controllers;
 
+import com.danit.dto.ContractDto;
 import com.danit.dto.Views;
 import com.danit.dto.service.ContractListRequestDto;
 import com.danit.facades.CardFacade;
@@ -55,7 +56,7 @@ public class ContractController {
 
   @JsonView(Views.Extended.class)
   @PostMapping
-  ResponseEntity<Map<String, Object>> createContracts(@RequestBody List<Contract> contracts, Principal principal) {
+  ResponseEntity<Map<String, Object>> createContracts(@RequestBody List<ContractDto> contracts, Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(contractFacade.saveEntities(contracts)));
   }
 
@@ -103,7 +104,7 @@ public class ContractController {
 
   @JsonView(Views.Extended.class)
   @PutMapping
-  ResponseEntity<Map<String, Object>> updateContracts(@RequestBody List<Contract> contracts, Principal principal) {
+  ResponseEntity<Map<String, Object>> updateContracts(@RequestBody List<ContractDto> contracts, Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(contractFacade.updateEntities(contracts)));
   }
 
@@ -123,7 +124,7 @@ public class ContractController {
 
   //Clients
   @JsonView(Views.Extended.class)
-  @PutMapping("/{contractId}/client/{clientId}")
+  @PutMapping("/{contractId}/clients/{clientId}")
   @ResponseStatus(HttpStatus.OK)
   ResponseEntity<Map<String, Object>> assignClientToContract(@PathVariable(name = "clientId") Long clientId,
                                                              @PathVariable(name = "contractId") Long contractId,
@@ -132,17 +133,17 @@ public class ContractController {
     return ResponseEntity.ok(convertDtoToMap(contractFacade.getEntityById(contractId)));
   }
 
-  @DeleteMapping("/{contractId}/client/{clientId}")
+  @DeleteMapping("/{contractId}/clients/{clientId}")
   @ResponseStatus(HttpStatus.OK)
   void deleteClientFromContract(@PathVariable(name = "contractId") Long contractId,
                                 Principal principal,
                                 @PathVariable(name = "clientId") Long clientId) {
-    contractService.deleteClientFromContract(contractId, clientId);
+    contractService.deAssignClientFromContract(contractId, clientId);
   }
 
   //Pakets
   @JsonView(Views.Extended.class)
-  @PutMapping("/{contractId}/paket/{paketId}")
+  @PutMapping("/{contractId}/pakets/{paketId}")
   @ResponseStatus(HttpStatus.OK)
   ResponseEntity<Map<String, Object>> assignPaketToContract(@PathVariable(name = "paketId") Long paketId,
                                                             @PathVariable(name = "contractId") Long contractId,
@@ -151,17 +152,17 @@ public class ContractController {
     return ResponseEntity.ok(convertDtoToMap(contractFacade.getEntityById(contractId)));
   }
 
-  @DeleteMapping("/{contractId}/paket/{paketId}")
+  @DeleteMapping("/{contractId}/pakets/{paketId}")
   @ResponseStatus(HttpStatus.OK)
   void deletePaketFromContract(@PathVariable(name = "paketId") Long paketId,
                                @PathVariable(name = "contractId") Long contractId,
                                Principal principal) {
-    contractService.deletePaketFromContract(contractId, paketId);
+    contractService.deAssignPaketFromContract(contractId, paketId);
   }
 
   //Cards
   @JsonView(Views.Extended.class)
-  @PutMapping("/{contractId}/card/{cardId}")
+  @PutMapping("/{contractId}/cards/{cardId}")
   @ResponseStatus(HttpStatus.OK)
   ResponseEntity<Map<String, Object>> assignCardToContract(@PathVariable(name = "cardId") Long cardId,
                                                            @PathVariable(name = "contractId") Long contractId,
@@ -180,7 +181,7 @@ public class ContractController {
     return ResponseEntity.ok(convertDtoToMap(contractFacade.getEntityById(contractId)));
   }
 
-  @DeleteMapping("/{contractId}/card/{cardId}")
+  @DeleteMapping("/{contractId}/cards/{cardId}")
   @ResponseStatus(HttpStatus.OK)
   void deleteCardFromContract(@PathVariable(name = "cardId") Long cardId,
                               @PathVariable(name = "contractId") Long contractId,

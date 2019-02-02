@@ -2,6 +2,7 @@ package com.danit.controllers;
 
 import com.danit.Application;
 import com.danit.TestUtils;
+import com.danit.dto.service.PasswordStoreDto;
 import com.danit.facades.UserFacade;
 import com.danit.models.User;
 import com.danit.models.UserRole;
@@ -27,6 +28,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -74,6 +76,8 @@ public class UserControllerTest {
   private MockMvc mockMvc;
   @Autowired
   private TestRestTemplate template;
+  @Autowired
+  private BCryptPasswordEncoder bcryptPasswordEncoder;
   private HttpHeaders headers;
   private UserRole userRole;
 
@@ -122,11 +126,11 @@ public class UserControllerTest {
     long numberOfEntities = userService.getNumberOfEntities();
     this.mockMvc.perform(delete(url).headers(headers)
         .contentType("application/json")
-        .content("[{\"id\": 1001},{\"id\": 1002},{\"id\": 1003}]"))
+        .content("[{\"id\": 4},{\"id\": 5},{\"id\": 6}]"))
         .andExpect(status().isOk());
     Assert.assertEquals(userService.getNumberOfEntities(), numberOfEntities - 3);
 
-    this.mockMvc.perform(delete(url + "/1004").headers(headers))
+    this.mockMvc.perform(delete(url + "/7").headers(headers))
         .andExpect(status().isOk());
 
     Assert.assertEquals(userService.getNumberOfEntities(), numberOfEntities - 4);
@@ -285,7 +289,7 @@ public class UserControllerTest {
 
   @Test
   public void getUserByExistingId() throws Exception {
-    String responseJson = mockMvc.perform(get(url + "/" + 1005).headers(headers))
+    String responseJson = mockMvc.perform(get(url + "/" + 1).headers(headers))
         .andExpect(status().isOk())
         .andExpect(content()
             .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -296,7 +300,7 @@ public class UserControllerTest {
     String pageDataJson = obj.getString("data");
     User receivedUser = objectMapper.readValue(pageDataJson, User.class);
 
-    Assert.assertEquals(new Long(1005), receivedUser.getId());
+    Assert.assertEquals(new Long(1), receivedUser.getId());
   }
 
   @Test
@@ -319,7 +323,7 @@ public class UserControllerTest {
             .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.meta.totalElements").value(0));
 
-    String responseJson = mockMvc.perform(put(url + "/" + savedUserId + "/role/1").headers(headers))
+    String responseJson = mockMvc.perform(put(url + "/" + savedUserId + "/roles/1").headers(headers))
         .andExpect(status().isOk())
         .andExpect(content()
             .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -334,7 +338,7 @@ public class UserControllerTest {
     Assert.assertEquals(1, receivedUser.getRoles().size());
     Assert.assertEquals("ADMIN", receivedUser.getRoles().get(0).getRole().name());
 
-    responseJson = mockMvc.perform(put(url + "/" + savedUserId + "/role/2").headers(headers))
+    responseJson = mockMvc.perform(put(url + "/" + savedUserId + "/roles/2").headers(headers))
         .andExpect(status().isOk())
         .andExpect(content()
             .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -350,9 +354,9 @@ public class UserControllerTest {
     Assert.assertEquals("ADMIN", receivedUser.getRoles().get(0).getRole().name());
     Assert.assertEquals("USER", receivedUser.getRoles().get(1).getRole().name());
 
-    mockMvc.perform(delete(url + "/" + savedUserId + "/role/1").headers(headers))
+    mockMvc.perform(delete(url + "/" + savedUserId + "/roles/1").headers(headers))
         .andExpect(status().isOk());
-    mockMvc.perform(delete(url + "/" + savedUserId + "/role/2").headers(headers))
+    mockMvc.perform(delete(url + "/" + savedUserId + "/roles/2").headers(headers))
         .andExpect(status().isOk());
 
     mockMvc.perform(get(url + "/" + savedUserId + "/roles").headers(headers))
@@ -360,6 +364,53 @@ public class UserControllerTest {
         .andExpect(content()
             .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.meta.totalElements").value(0));
+
+  }
+
+  @Test
+  public void testPasswordChange() throws Exception {
+
+    User user = new User();
+    user.setUsername("TestUserForPasswordChangeTesting");
+    user.setPassword("123");
+    List<User> users = new ArrayList<>(1);
+    users.add(user);
+
+    ObjectWriter ow = objectMapper.writer();
+
+    mockMvc.perform(post(url).headers(headers)
+        .contentType("application/json")
+        .content(ow.writeValueAsString(users)))
+        .andExpect(status().isOk());
+
+    HttpHeaders testUserheaders = testUtils.getHeader(template, user);
+
+    PasswordStoreDto data = new PasswordStoreDto();
+    data.setNewPassword("5889995");
+    data.setOldPassword(user.getPassword());
+
+    mockMvc.perform(put(url + "/password/change").headers(testUserheaders)
+        .contentType("application/json")
+        .content(ow.writeValueAsString(data)))
+        .andExpect(status().isOk());
+
+    User updatedUser = userRepository.findByUsername("TestUserForPasswordChangeTesting");
+    Assert.assertTrue(bcryptPasswordEncoder.matches(data.getNewPassword(), updatedUser.getPassword()));
+
+    user.setPassword(data.getNewPassword());
+    testUserheaders = testUtils.getHeader(template, user);
+
+    data.setNewPassword("56562223232232");
+    data.setOldPassword("5889996");
+
+    mockMvc.perform(put(url + "/password/change").headers(testUserheaders)
+        .contentType("application/json")
+        .content(ow.writeValueAsString(data)))
+        .andExpect(status().isNotFound());
+
+    updatedUser = userRepository.findByUsername("TestUserForPasswordChangeTesting");
+    Assert.assertFalse(bcryptPasswordEncoder.matches(data.getNewPassword(), updatedUser.getPassword()));
+    Assert.assertTrue(bcryptPasswordEncoder.matches("5889995", updatedUser.getPassword()));
 
   }
 

@@ -56,7 +56,7 @@ public class ClientController {
 
   @JsonView(Views.Extended.class)
   @PostMapping
-  ResponseEntity<Map<String, Object>> createClients(@RequestBody List<Client> clients,
+  ResponseEntity<Map<String, Object>> createClients(@RequestBody List<ClientDto> clients,
                                                     Principal principal) {
     List<ClientDto> clientDtos = clientFacade.saveEntities(clients);
     return ResponseEntity.ok(convertDtoToMap(clientDtos));
@@ -106,7 +106,7 @@ public class ClientController {
 
   @JsonView(Views.Extended.class)
   @PutMapping
-  ResponseEntity<Map<String, Object>> updateClientsDto(@RequestBody List<Client> clients, Principal principal) {
+  ResponseEntity<Map<String, Object>> updateClientsDto(@RequestBody List<ClientDto> clients, Principal principal) {
     List<ClientDto> clientDtos = clientFacade.updateEntities(clients);
     return ResponseEntity.ok(convertDtoToMap(clientDtos));
   }
@@ -125,7 +125,7 @@ public class ClientController {
 
   //related entities methods--------------------------------------------------------------------------------------------
   @JsonView(Views.Extended.class)
-  @PutMapping("/{clientId}/contract/{contractId}")
+  @PutMapping("/{clientId}/contracts/{contractId}")
   @ResponseStatus(HttpStatus.OK)
   ResponseEntity<Map<String, Object>> assignClientToContract(@PathVariable(name = "clientId") Long clientId,
                                                              Principal principal,

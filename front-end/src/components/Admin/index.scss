@@ -12,6 +12,12 @@
     border-top-right-radius: 10px;
   }
 
+  &__menu-wrapper {
+    width: 200px;
+    background-color: $gallery;
+    border-top-right-radius: 10px;
+  }
+
   &__close-panel {
     display: flex;
     justify-content: flex-end;
@@ -21,7 +27,6 @@
     padding-right: 10px;
     color: $victoria;
     font-size: 18px;
-    background-color: transparent;
 
     svg {
       transform: rotateY(180deg);
@@ -34,18 +39,19 @@
     align-items: center;
     padding: 15px 0 15px 15px;
     color: $blue-bayoux;
-    transition: padding .5s;
+    cursor: pointer;
+    transition: padding .3s;
 
     &:hover {
       padding-left: 20px;
       color: $blue-bayoux;
     }
-  }
 
-  &__link--active {
-    padding-left: 20px;
-    color: $white !important;
-    background-color: $victoria;
+    &--active {
+      padding-left: 20px;
+      color: $white !important;
+      background-color: $victoria;
+    }
   }
 
   &__right {
@@ -56,25 +62,90 @@
   }
 }
 
-.configurator__menu-hide {
+.closed {
   grid-template-columns: 15px auto;
-  grid-gap: 5px;
 
   .configurator__left {
-    overflow: hidden;
+    background-color: $victoria;
+  }
+
+  .configurator__menu-wrapper {
+    width: 15px;
     background-color: $victoria;
   }
 
   .configurator__close-panel {
+    width: 15px;
     padding-right: 3px;
     color: $white;
+
+    svg {
+      transform: none;
+    }
   }
 
-  svg {
-    transform: none;
-  }
-
-  .configurator__menu-wrapper {
+  .configurator__menu {
     display: none;
   }
 }
+
+@media only screen and (max-width: 840px) {
+  .configurator {
+    grid-template-columns: 15px auto;
+    position: relative;
+
+    &__left {
+      background-color: $victoria;
+    }
+
+    &__menu-wrapper {
+      position: absolute;
+      z-index: 100;
+      width: 15px;
+      height: 100%;
+      background-color: $victoria;
+      transition: .2s;
+    }
+
+    &__close-panel {
+      width: 15px;
+      padding-right: 3px;
+      color: $white;
+      transition: .2s;
+
+      svg {
+        transform: none;
+      }
+    }
+
+    &__menu {
+      display: none;
+      opacity: 0;
+      transition: .2s;
+    }
+  }
+
+  .opened {
+    width: 200px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: $gallery;
+    box-shadow: 0 0 20px rgba(0, 0, 0, .5);
+
+    .configurator__close-panel {
+      width: 200px;
+      padding-right: 10px;
+      color: $victoria;
+
+      svg {
+        transform: rotateY(180deg);
+      }
+    }
+
+    .configurator__menu {
+      display: initial;
+      opacity: 1;
+    }
+  }
+}
+

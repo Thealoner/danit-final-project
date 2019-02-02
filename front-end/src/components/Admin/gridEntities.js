@@ -66,7 +66,7 @@ const gridEntities = [
           type: 'number'
         },
         limitAdditionalServices: {
-          title: 'Ораничение по количеству доп. услуг',
+          title: 'Ограничение по количеству доп. услуг',
           type: 'boolean'
         },
         limitUsageByPaymentPercentage: {
@@ -119,6 +119,8 @@ const gridEntities = [
     columns: [
       { title: 'ID', field: 'id' },
       { title: 'Название', field: 'title' },
+      // { title: 'Категория', field: 'serviceCategory.title' },
+      // { title: 'service_qty', field: 'service_qty' },
       { title: 'Цена', field: 'price', align: 'left' },
       { title: 'Себестоимость', field: 'cost', align: 'left' },
       { title: 'Единица измерения', field: 'unit', align: 'left' },
@@ -255,7 +257,7 @@ const gridEntities = [
       { title: 'Пол',
         field: 'gender',
         formatter: 'lookup',
-        formatterParams: {'Male': '<i class="fas fa-male"/>', 'Female': '<i class="fas fa-female"/>'} },
+        formatterParams: {'M': '<i class="fas fa-male"/>', 'F': '<i class="fas fa-female"/>'} },
       { title: 'Дата Рождения', field: 'birthDate' },
       { title: 'Телефон', field: 'phoneNumber' },
       { title: 'Email', field: 'email' }
@@ -276,7 +278,7 @@ const gridEntities = [
     uiSchema: {
       firstName: {'ui:autofocus': true},
       email: {'ui:widget': 'email'},
-      birthDate: {'ui:widget': 'date'}
+      birthDate: {'ui:widget': 'text'}
     }
   },
   {
@@ -287,7 +289,8 @@ const gridEntities = [
     recordType: 'simple',
     columns: [
       { title: 'ID', field: 'id' },
-      { title: 'Логин', field: 'username' }
+      { title: 'Логин', field: 'username' },
+      { title: 'Email', field: 'email' }
     ],
     schema: {
       title: 'Редактирование пользователя',
@@ -302,6 +305,10 @@ const gridEntities = [
         },
         username: {
           title: 'Логин',
+          type: 'string'
+        },
+        email: {
+          title: 'Email',
           type: 'string'
         },
         // roles: {
@@ -372,7 +379,21 @@ const gridEntities = [
       { title: 'ID', field: 'id' },
       { title: 'Код', field: 'code' },
       { title: 'Активен', field: 'active', formatter: 'tickCross' }
-    ]
+    ],
+    schema: {
+      type: 'object',
+      properties: {
+        code: {
+          title: 'Код',
+          type: 'string'
+        },
+        active: {
+          title: 'Активен',
+          type: 'boolean'
+        }
+      }
+    },
+    uiSchema: {}
   }
 ];
 
