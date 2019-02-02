@@ -36,7 +36,7 @@ public class WebSocketEventListener {
     StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
     String username = (String) Objects.requireNonNull(headerAccessor.getSessionAttributes()).get("username");
     log.info("User disconnected userName=" + username);
-    tabService.deleteAllUserTabs(username);
+    tabService.deleteAllUserTabs();
     //messagingTemplate.convertAndSend("/events/users", "disconnected user: " + username);
   }
 }

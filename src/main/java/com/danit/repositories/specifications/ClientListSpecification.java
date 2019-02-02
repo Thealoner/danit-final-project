@@ -9,9 +9,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.criteria.Expression;
 import java.text.ParseException;
-import java.util.Arrays;
 import java.util.Objects;
 
 import static org.springframework.data.jpa.domain.Specification.where;

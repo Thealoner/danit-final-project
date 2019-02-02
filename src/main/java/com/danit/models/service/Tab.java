@@ -1,6 +1,5 @@
 package com.danit.models.service;
 
-import com.danit.models.BaseEntity;
 import com.danit.models.User;
 import com.danit.utils.CustomDateTimeDeserializer;
 import com.danit.utils.CustomDateTimeSerializer;
@@ -31,8 +30,7 @@ public class Tab {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   Long id;
 
-  @ManyToOne
-  private User user;
+  private Long userId;
 
   private String baseEntityName;
 

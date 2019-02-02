@@ -6,9 +6,8 @@ import java.text.SimpleDateFormat;
 
 public abstract class BaseSpecification<T, U> {
 
-  SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
-
   private static final String WILDCARD = "%";
+  SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
 
   public abstract Specification<T> getFilter(U request);
 

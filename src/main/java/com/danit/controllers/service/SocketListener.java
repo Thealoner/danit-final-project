@@ -3,9 +3,8 @@ package com.danit.controllers.service;
 import com.danit.models.service.Tab;
 import com.danit.services.tabs.TabService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 
 import java.security.Principal;
@@ -16,15 +15,20 @@ public class SocketListener {
 
   private TabService tabService;
 
-  public SocketListener(TabService tabService) {
+  private SimpMessageSendingOperations messagingTemplate;
+
+  public SocketListener(TabService tabService, SimpMessageSendingOperations messagingTemplate) {
     this.tabService = tabService;
+    this.messagingTemplate = messagingTemplate;
   }
 
   @MessageMapping("/tab/open")
-  @SendTo("/events/{userId}")
-  Tab tabOpened(@DestinationVariable String fleetId, Tab tab, Principal principal) {
+  void tabOpened(Tab tab, Principal principal) {
     log.info("tab opened =" + tab);
-    return tabService.checkIfTabIsUsed(tabService.saveTab(tab));
+    Tab savedTab = tabService.saveTab(tab);
+    Tab tab1 = tabService.checkIfTabIsUsed(savedTab);
+    messagingTemplate.convertAndSend("/events/1",
+        savedTab);
   }
 
   @MessageMapping("/tab/close, Principal principal")

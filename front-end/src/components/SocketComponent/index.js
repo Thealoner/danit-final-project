@@ -63,7 +63,7 @@ class SocketComponent extends Component {
 
     
     this.client.connect(this.headers, (frame) => {
-      this.client.subscribe('/events', (frame) => {
+      this.client.subscribe('/events/1', (frame) => {
         this.handleIncomingEvent(frame);
       }, this.headers);
     });

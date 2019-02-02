@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.NamingConventions;
-import org.modelmapper.spi.MappingContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +22,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @Configuration
@@ -82,7 +80,7 @@ public class BeanConfiguration {
       Long[] rolesIncoming = userDto.getRolesIncoming();
       List<UserRole> userRoles = new ArrayList<>();
 
-      for(Long roleIncoming : rolesIncoming){
+      for (Long roleIncoming : rolesIncoming) {
         UserRole role = new UserRole();
         role.setId(roleIncoming);
         userRoles.add(role);

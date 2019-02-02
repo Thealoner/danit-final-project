@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 @Service
 public class TabService {
@@ -25,19 +24,19 @@ public class TabService {
   }
 
   public Tab saveTab(Tab tab) {
-    tab.setUser(serviceUtils.getUserFromAuthContext());
+    tab.setUserId(serviceUtils.getUserFromAuthContext().getId());
     return tabRepository.save(tab);
   }
 
   public List<Tab> saveTabs(List<Tab> tabs) {
     User user = serviceUtils.getUserFromAuthContext();
-    tabs.forEach(tab -> tab.setUser(user));
+    tabs.forEach(tab -> tab.setId(user.getId()));
     return (List<Tab>) tabRepository.saveAll(tabs);
   }
 
   public void deleteTab(Tab tab) {
-    tabRepository.delete(tabRepository.findByUserAndBaseEntityNameAndBaseEntityId(
-        serviceUtils.getUserFromAuthContext(), tab.getBaseEntityName(), tab.getBaseEntityId()));
+    tabRepository.delete(tabRepository.findByUserIdAndBaseEntityNameAndBaseEntityId(
+        serviceUtils.getUserFromAuthContext().getId(), tab.getBaseEntityName(), tab.getBaseEntityId()));
   }
 
   public void deleteTabs(List<Tab> tabs) {
@@ -45,23 +44,23 @@ public class TabService {
   }
 
   public Tab checkIfTabIsUsed(Tab tab) {
-    return tabRepository.findByUserAndBaseEntityNameAndBaseEntityId(
-        serviceUtils.getUserFromAuthContext(), tab.getBaseEntityName(), tab.getBaseEntityId());
+    return tabRepository.findByUserIdAndBaseEntityNameAndBaseEntityId(
+        serviceUtils.getUserFromAuthContext().getId(), tab.getBaseEntityName(), tab.getBaseEntityId());
   }
 
   public List<Tab> checkIfTabsIsUsed(List<Tab> tabs) {
     List<Tab> openedTabs = new ArrayList<>();
-    tabs.forEach(tab -> openedTabs.add(tabRepository.findByUserAndBaseEntityNameAndBaseEntityId(
-        serviceUtils.getUserFromAuthContext(), tab.getBaseEntityName(), tab.getBaseEntityId())));
+    tabs.forEach(tab -> openedTabs.add(tabRepository.findByUserIdAndBaseEntityNameAndBaseEntityId(
+        serviceUtils.getUserFromAuthContext().getId(), tab.getBaseEntityName(), tab.getBaseEntityId())));
     return openedTabs;
   }
 
-  public void deleteAllUserTabs(String userName) {
-    tabRepository.deleteAllByUser_Username(userName);
+  public void deleteAllUserTabs(Long userId) {
+    tabRepository.deleteAllByUserId(userId);
   }
 
   public void deleteAllUserTabs() {
-    tabRepository.deleteAllByUser_Username(serviceUtils.getUserFromAuthContext().getUsername());
+    tabRepository.deleteAllByUserId(serviceUtils.getUserFromAuthContext().getId());
   }
 
 }
