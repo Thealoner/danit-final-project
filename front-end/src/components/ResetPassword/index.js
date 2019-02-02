@@ -85,7 +85,7 @@ export default class ResetPassword extends Component {
                 value={this.state.email}
                 onChange={this.handleChange}/>
             </Form.Field>
-            <Button onClick={ this.state.isSendingCode} disabled={!this.validateCodeForm()}>Send Confirmation</Button>
+            <Button disabled={!this.validateCodeForm() || this.state.isSendingCode}>Send Confirmation</Button>
           </Form>
         </div>
       </div>
@@ -131,7 +131,7 @@ export default class ResetPassword extends Component {
                 onChange={this.handleChange}
               />
             </Form.Field>
-            <Button onClick={this.state.isConfirming} disabled={!this.validateResetForm()}>Confirm</Button>
+            <Button disabled={!this.validateResetForm() || this.state.isConfirming}>Confirm</Button>
           </Form>
         </div>
       </div>
