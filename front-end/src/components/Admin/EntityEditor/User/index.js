@@ -20,6 +20,11 @@ const rolesOptions = [
     key: 'USER',
     text: 'USER',
     value: '2'
+  },
+  {
+    key: 'TEST',
+    text: 'TEST',
+    value: '3'
   }
 ];
 

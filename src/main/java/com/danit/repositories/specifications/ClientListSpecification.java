@@ -1,21 +1,22 @@
 package com.danit.repositories.specifications;
 
 import com.danit.dto.service.ClientListRequestDto;
+import com.danit.exceptions.IllegalDateConversionException;
 import com.danit.models.Client;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Tuple;
 import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Path;
+import java.text.ParseException;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Objects;
 
 import static org.springframework.data.jpa.domain.Specification.where;
 
+@Slf4j
 @Component
 public class ClientListSpecification extends BaseSpecification<Client, ClientListRequestDto> {
 
@@ -77,17 +78,16 @@ public class ClientListSpecification extends BaseSpecification<Client, ClientLis
     if (Objects.nonNull(birthDate)) {
       //WHERE birth_date BETWEEN PARSEDATETIME('01-01-1970','dd-mm-yyyy') AND PARSEDATETIME( '01-01-1972','dd-mm-yyyy')
       return (root, query, cb) -> {
-        Expression<String> dateStringExpr = Arrays.asList(environment.getActiveProfiles()).contains("prod") ?
-            cb.function("DATE_FORMAT", String.class, root.get("birthDate"), cb.literal("%d-%m-%Y"))
-            : cb.function("TO_CHAR", String.class, root.get("birthDate"), cb.literal("dd-mm-yyyy"));
-        if(birthDate.contains("/")) {
+        if (birthDate.contains("/")) {
           String[] dates = birthDate.split("/");
-          String startDate = dates[0];
-          String endDate = dates[1];
-          return cb.between(cb.lower(dateStringExpr), startDate.toLowerCase(), endDate.toLowerCase());
+          try {
+            return cb.between(root.get("birthDate"), dateFormat.parse(dates[0]), dateFormat.parse(dates[1]));
+          } catch (ParseException e) {
+            throw new IllegalDateConversionException("invalid format date", e);
+          }
         } else {
-          return equals ? cb.equal(cb.lower(dateStringExpr), birthDate.toLowerCase())
-              : cb.like(cb.lower(dateStringExpr), containsLowerCase(birthDate));
+          return equals ? cb.equal(root.get("birthDate"), birthDate)
+              : cb.like(root.get("birthDate").as(String.class), containsLowerCase(birthDate));
         }
       };
     } else {
