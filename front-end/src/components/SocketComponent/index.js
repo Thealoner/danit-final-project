@@ -48,29 +48,26 @@ class SocketComponent extends Component {
 
     if (currentTab && prevCurrentTab && prevCurrentTab.type !== currentTab.type) {
       if (currentTab.type === 'form') {
-        const message = {
+        this.sendMessage('/events/open', {
           baseEntityName: currentTab.tabKey,
           baseEntityId: currentTab.form.data.id
-        }
-        this.sendMessage('/events/open', message);
+        });
       } else if (currentTab.type === 'grid') {
-        const message = {
+        this.sendMessage('/events/close', {
           baseEntityName: prevCurrentTab.tabKey,
           baseEntityId: prevCurrentTab.form.data.id
-        }
-        this.sendMessage('/events/close', message);
+        });
       }
     } else if (!currentTab && prevCurrentTab && prevCurrentTab.type === 'form') {
-      const message = {
+      this.sendMessage('/events/close', {
         baseEntityName: prevCurrentTab.tabKey,
         baseEntityId: prevCurrentTab.form.data.id
-      }
-      this.sendMessage('/events/close', message);
+      });
     }
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = state => {
   let currentTab = null;
 
   if (state.tabs.activeKey && state.tabs.tabsArray.length > 0) {
