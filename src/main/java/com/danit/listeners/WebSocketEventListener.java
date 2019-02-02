@@ -1,9 +1,9 @@
 package com.danit.listeners;
 
+import com.danit.services.UserService;
 import com.danit.services.tabs.TabService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
@@ -15,20 +15,18 @@ import java.util.Objects;
 @Component
 public class WebSocketEventListener {
 
-  private SimpMessageSendingOperations messagingTemplate;
+  private UserService userService;
 
   private TabService tabService;
 
-  public WebSocketEventListener(SimpMessageSendingOperations messagingTemplate,
-                                TabService tabService) {
-    this.messagingTemplate = messagingTemplate;
+  public WebSocketEventListener(UserService userService, TabService tabService) {
+    this.userService = userService;
     this.tabService = tabService;
   }
 
   @EventListener
   public void handleWebSocketConnectListener(SessionConnectedEvent event) {
     log.info("Received a new web socket connection for userName=" + event.getUser().getName());
-    //messagingTemplate.convertAndSend("/events/get", "new user connected...");
   }
 
   @EventListener
@@ -36,7 +34,7 @@ public class WebSocketEventListener {
     StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
     String username = (String) Objects.requireNonNull(headerAccessor.getSessionAttributes()).get("username");
     log.info("User disconnected userName=" + username);
-    tabService.deleteAllUserTabs();
-    //messagingTemplate.convertAndSend("/events/users", "disconnected user: " + username);
+    tabService.deleteAllUserTabs(
+        userService.findUserByUsername(username).getId());
   }
 }
