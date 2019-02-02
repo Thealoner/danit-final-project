@@ -57,13 +57,17 @@ class SocketComponent extends Component {
   };
 
   componentDidMount () {
+    const { user } = this.props;
+
     this.setState({
       loaded: true
     });
 
+    // USER ID
+    const userId = 1;
     
     this.client.connect(this.headers, (frame) => {
-      this.client.subscribe('/events', (frame) => {
+      this.client.subscribe('/events/' + 1, (frame) => {
         this.handleIncomingEvent(frame);
       }, this.headers);
     });
@@ -102,6 +106,7 @@ const mapStateToProps = state => {
   }
 
   return {
+    user: state.user,
     tabs: state.tabs,
     activeKey: state.activeKey,
     currentTab
