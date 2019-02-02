@@ -70,6 +70,31 @@ export const setFilter = (filter) => {
   };
 };
 
+export const getSortedData = (payload) => {
+  return (dispatch) => {
+    dispatch(getGridData({
+      tabKey: payload.tabKey,
+      columns: payload.columns,
+      page: payload.page,
+      filter: payload.filter,
+      sortColumn: payload.sortColumn,
+      sortDirection: payload.sortDirection
+    }));
+    dispatch(updateSorting(payload.tabKey, {
+      sortColumn: payload.sortColumn,
+      sortDirection: payload.sortDirection
+    }));
+  };
+};
+
+export const updateSorting = (tabKey, payload) => {
+  return {
+    type: tab.UPDATE_SORTING,
+    tabKey,
+    payload
+  };
+};
+
 export const storeTabTmpFormData = (payload) => {
   return {
     type: tab.STORE_TMP_FORM_DATA,
@@ -78,24 +103,32 @@ export const storeTabTmpFormData = (payload) => {
 };
 
 export const getGridData = ({
-  tabKey, page = 1, size = 10, columns, filter = {
+  tabKey,
+  page = 1,
+  size = 10,
+  columns,
+  filter = {
     isFiltered: false,
     field: '',
     value: '',
     activeFilter: '',
     isExact: false
-  }
+  },
+  sortColumn = 'id',
+  sortDirection = 'asc'
 }) => {
   return (dispatch) => {
     dispatch(loadingGrid());
-    ajaxRequest.get('/' + tabKey + '?page=' + page + '&size=' + size + '&' + filter.field + '=' + filter.value + '&equal=' + filter.isExact)
+    ajaxRequest.get('/' + tabKey + '?page=' + page + '&size=' + size + '&' + filter.field + '=' + filter.value + '&equal=' + filter.isExact + '&sort=' + sortColumn + ',' + sortDirection)
       .then(
         response => {
           dispatch(setGridData(tabKey, {
             data: response.data,
             meta: response.meta,
             columns: columns,
-            type: 'grid'
+            type: 'grid',
+            sortColumn: sortColumn,
+            sortDirection: sortDirection
           }));
           dispatch(setFilter(filter));
           dispatch(doneTab());
