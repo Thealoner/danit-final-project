@@ -7,6 +7,7 @@ import com.danit.services.UserService;
 import com.danit.utils.ServiceUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,10 +70,12 @@ public class TabService {
     return openedTabs;
   }
 
+  @Transactional
   public void deleteAllUserTabs(Long userId) {
     tabRepository.deleteAllByUserId(userId);
   }
 
+  @Transactional
   public void deleteAllUserTabs() {
     tabRepository.deleteAllByUserId(serviceUtils.getUserFromAuthContext().getId());
   }
