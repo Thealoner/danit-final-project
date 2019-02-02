@@ -30,9 +30,9 @@ spring:
 #Global Date format
 global:
   date:
-    pattern: dd-MM-yyyy
+    pattern: yyyy-MM-dd
   date-time:
-    pattern: dd-MM-yyyy HH-mm-ss
+    pattern: yyyy-MM-dd HH-mm-ss
 
 #Application constants
 application:

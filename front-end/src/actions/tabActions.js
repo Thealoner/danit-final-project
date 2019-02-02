@@ -151,6 +151,30 @@ export const saveFormData = (tabKey, formData, columns, mode, page, filter) => {
   };
 };
 
+export const addRecord = (tabKey, formData, columns, mode, page) => {
+  return (dispatch) => {
+    dispatch(loadingTab());
+    ajaxRequest.post(
+      '/' + tabKey,
+      JSON.stringify([formData])
+    )
+      .then(() => {
+        dispatch(cancelEditFormData());
+        dispatch(getGridData({
+          tabKey: tabKey,
+          columns: columns,
+          page: page
+        }));
+        toastr.success('Данные успешно сохранены');
+      },
+      () => {
+        dispatch(doneTab());
+        toastr.error('Ошибка при сохранении');
+      }
+      );
+  };
+};
+
 export const deleteCurrentEntityItem = (tabKey, formData, columns, page, filter) => {
   return (dispatch) => {
     dispatch(loadingTab());
