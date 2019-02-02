@@ -233,16 +233,20 @@ export const deleteCurrentEntityItem = (tabKey, formData, columns, page, filter)
   };
 };
 
-export const showEditCollision = payload => {
+export const showEditCollision = collisionRecord => {
   return {
     type: tab.SHOW_EDIT_COLLISION,
-    payload
+    payload: {
+      collisionRecord
+    }
   };
-}
+};
 
-export const hideEditCollision = payload => {
+export const hideEditCollision = collisionRecord => {
   return {
     type: tab.HIDE_EDIT_COLLISION,
-    payload
+    payload: {
+      collisionRecord
+    }
   };
-}
+};

@@ -4,7 +4,7 @@ import {
   updateCurrentTabAttributes,
   updateCurrentTabFormData,
   updateCurrentTabGridData,
-  updateAllFormCollisions
+  updateFormCollision
 } from '../helpers/reducerHelper';
 
 const initialState = {
@@ -200,11 +200,12 @@ export default function tabsReducer (state = initialState, action) {
     }
 
     case tab.SHOW_EDIT_COLLISION: {
-      return updateAllFormCollisions(state, action.payload.collisionRecords, true);
+      debugger;
+      return updateFormCollision(state, action.payload.collisionRecord, true);
     }
 
     case tab.HIDE_EDIT_COLLISION: {
-      return updateAllFormCollisions(state, action.payload.collisionRecords, false);
+      return updateFormCollision(state, action.payload.collisionRecord, false);
     }
 
     default: {

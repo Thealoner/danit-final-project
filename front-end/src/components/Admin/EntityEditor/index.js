@@ -38,6 +38,7 @@ class EntityEditor extends Component {
   render () {
     const { currentTab, storeTmpFormData, cancelData } = this.props;
     const editMode = !!currentTab.form.data.id;
+    const { editCollision } = currentTab.form;
     let content;
 
     if (!currentTab.form) {
@@ -75,6 +76,7 @@ class EntityEditor extends Component {
 
     return (
       <>
+        <div>{(editCollision && editCollision.collisionRecord) ? 'Пользователь ' + editCollision.userName + ' редактирует эту запись.' : ''}</div>
         {content}
         {editMode ? <AuditDetails data={currentTab.form.data} /> : ''}
       </>

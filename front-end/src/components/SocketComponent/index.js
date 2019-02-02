@@ -24,25 +24,26 @@ class SocketComponent extends Component {
   }
 
   handleIncomingEvent = frame => {
-    debugger;
-
-    const collisionRecords = [
-      {
-        entity: 'pakets',
-        id: 2
-      },
-      {
-        entity: 'clients',
-        id: 4
+    // frame = {
+    //   "id":1,
+    //   "userId":1,
+    //   "baseEntityName":"services",
+    //   "baseEntityId":1,
+    //   "lastModifiedDate":"2019-02-02 22-28-49",
+    //   "busy":null
+    // }
+    
+    if (frame.command === 'MESSAGE') {
+      try {
+        const collisionRecord = JSON.parse(frame.body);
+        showEditCollision(collisionRecord);
+      } catch (e) {
+        console.log('Error parsing frame.body');
       }
-    ];
 
-    if ('/events/open') {
-      showEditCollision(collisionRecords);
-    }
-
-    if ('/events/close') {
-      hideEditCollision(collisionRecords);
+      // if ('/events/close') {
+      //   hideEditCollision(collisionRecords);
+      // }
     }
   }
 
@@ -63,11 +64,11 @@ class SocketComponent extends Component {
       loaded: true
     });
 
-    // USER ID
+    // TODO: USER ID
     const userId = 1;
 
     this.client.connect(this.headers, (frame) => {
-      this.client.subscribe('/events/1', (frame) => {
+      this.client.subscribe('/events/' + userId, (frame) => {
         this.handleIncomingEvent(frame);
       }, this.headers);
     });
@@ -76,21 +77,27 @@ class SocketComponent extends Component {
   componentDidUpdate (prevProps) {
     const { currentTab, activeKey } = this.props;
     const prevCurrentTab = prevProps.currentTab;
+    
+    // TODO: USER ID
+    const userId = 1;
 
     if (currentTab && prevCurrentTab && prevCurrentTab.type !== currentTab.type) {
       if (currentTab.type === 'form') {
         this.sendMessage('/api/tab/open', {
+          userId: userId,
           baseEntityName: currentTab.tabKey,
           baseEntityId: currentTab.form.data.id
         });
       } else if (currentTab.type === 'grid') {
         this.sendMessage('/api/tab/close', {
+          userId: userId,
           baseEntityName: prevCurrentTab.tabKey,
           baseEntityId: prevCurrentTab.form.data.id
         });
       }
     } else if (!currentTab && prevCurrentTab && prevCurrentTab.type === 'form') {
       this.sendMessage('/api/tab/close', {
+        userId: userId,
         baseEntityName: prevCurrentTab.tabKey,
         baseEntityId: prevCurrentTab.form.data.id
       });
@@ -111,17 +118,17 @@ const mapStateToProps = state => {
     activeKey: state.activeKey,
     currentTab
   };
-}
+};
 
 const mapDispatchToProps = dispatch => {
   return {
-    showEditCollision: (payload) => {
-      dispatch(showEditCollision(payload));
+    showEditCollision: (collisionRecord) => {
+      dispatch(showEditCollision(collisionRecord));
     },
-    hideEditCollision: (payload) => {
-      dispatch(hideEditCollision(payload));
+    hideEditCollision: (collisionRecord) => {
+      dispatch(hideEditCollision(collisionRecord));
     }
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SocketComponent);
