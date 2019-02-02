@@ -3,18 +3,22 @@ package com.danit.repositories.specifications;
 import com.danit.dto.service.ClientListRequestDto;
 import com.danit.exceptions.IllegalDateConversionException;
 import com.danit.models.Client;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.Tuple;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Path;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.Objects;
 
 import static org.springframework.data.jpa.domain.Specification.where;
 
-@Slf4j
 @Component
 public class ClientListSpecification extends BaseSpecification<Client, ClientListRequestDto> {
 
@@ -33,7 +37,7 @@ public class ClientListSpecification extends BaseSpecification<Client, ClientLis
               .or(emailContains(request.search, request.equal))
               .or(phoneNumberContains(request.search, request.equal))
               .or(genderContains(request.search, request.equal))
-              .or(birthDateBetween(request.search, request.equal))
+              .or(dateSearch(request.search, "birthDate", request.equal))
               .or(activeContains(request.search, request.equal))
       )
           .and(idContains(request.id, request.equal))
@@ -42,7 +46,7 @@ public class ClientListSpecification extends BaseSpecification<Client, ClientLis
           .and(genderContains(request.gender, request.equal))
           .and(emailContains(request.email, request.equal))
           .and(phoneNumberContains(request.phoneNumber, request.equal))
-          .and(birthDateBetween(request.birthDate, request.equal))
+          .and(dateSearch(request.birthDate, "birthDate", request.equal))
           .and(activeContains(request.active, request.equal))
           .toPredicate(root, query, cb);
     };
@@ -70,27 +74,6 @@ public class ClientListSpecification extends BaseSpecification<Client, ClientLis
 
   private Specification<Client> phoneNumberContains(String phoneNumber, Boolean equals) {
     return equals ? attributeEquals("phoneNumber", phoneNumber) : attributeContains("phoneNumber", phoneNumber);
-  }
-
-  private Specification<Client> birthDateBetween(String birthDate, Boolean equals) {
-    if (Objects.nonNull(birthDate)) {
-      //WHERE birth_date BETWEEN PARSEDATETIME('01-01-1970','dd-mm-yyyy') AND PARSEDATETIME( '01-01-1972','dd-mm-yyyy')
-      return (root, query, cb) -> {
-        if (birthDate.contains("/")) {
-          String[] dates = birthDate.split("/");
-          try {
-            return cb.between(root.get("birthDate"), dateFormat.parse(dates[0]), dateFormat.parse(dates[1]));
-          } catch (ParseException e) {
-            throw new IllegalDateConversionException("invalid format date", e);
-          }
-        } else {
-          return equals ? cb.equal(root.get("birthDate"), birthDate)
-              : cb.like(root.get("birthDate").as(String.class), containsLowerCase(birthDate));
-        }
-      };
-    } else {
-      return null;
-    }
   }
 
   private Specification<Client> activeContains(String active, Boolean equals) {
