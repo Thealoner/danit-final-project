@@ -15,16 +15,13 @@ import java.util.Objects;
 
 public abstract class BaseSpecification<T, U> {
 
+  private static final String WILDCARD = "%";
   @Value("${global.date.pattern}")
   private String datePattern;
-
   @Autowired
   private SimpleDateFormat simpleDateFormat;
-
   @Autowired
   private Environment environment;
-
-  private static final String WILDCARD = "%";
 
   public abstract Specification<T> getFilter(U request);
 
@@ -37,7 +34,7 @@ public abstract class BaseSpecification<T, U> {
           try {
             Date startDate = simpleDateFormat.parse(dates[0]);
             Date endDate = simpleDateFormat.parse(dates[1]);
-            return cb.between(root.get(columnName),startDate, endDate);
+            return cb.between(root.get(columnName), startDate, endDate);
           } catch (ParseException e) {
             throw new IllegalDateConversionException("invalid date format 1", e);
           }
