@@ -31,13 +31,18 @@ public class TabService {
   }
 
   public Tab saveTab(Tab tab) {
-    tab.setUserId(serviceUtils.getUserFromAuthContext().getId());
+    User user = serviceUtils.getUserFromAuthContext();
+    tab.setUserId(user.getId());
+    tab.setUserName(user.getUsername());
     return tabRepository.save(tab);
   }
 
   public List<Tab> saveTabs(List<Tab> tabs) {
     User user = serviceUtils.getUserFromAuthContext();
-    tabs.forEach(tab -> tab.setId(user.getId()));
+    tabs.forEach(tab -> {
+      tab.setUserName(user.getUsername());
+      tab.setUserId(user.getId());
+    });
     return (List<Tab>) tabRepository.saveAll(tabs);
   }
 
@@ -54,9 +59,10 @@ public class TabService {
     Tab editableTab = tabRepository.findTopByBaseEntityNameAndBaseEntityIdOrderByCreationDateDesc(
         tab.getBaseEntityName(), tab.getBaseEntityId());
     if (Objects.nonNull(editableTab)) {
-      editableTab.setMessage("tab is already opened by user - " +
-          userService.getEntityById(editableTab.getId()).getUsername());
+      String username = userService.getEntityById(editableTab.getId()).getUsername();
+      editableTab.setMessage("tab is already opened by user - " + username);
       editableTab.setBusy(true);
+      editableTab.setUserName(username);
       return editableTab;
     } else {
       tab.setBusy(false);
