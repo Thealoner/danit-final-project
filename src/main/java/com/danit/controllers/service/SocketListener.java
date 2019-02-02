@@ -36,8 +36,8 @@ public class SocketListener {
 
   @MessageMapping("/tab/open")
   void tabOpened(Tab tab, Principal principal) {
-    log.info("tab is opened =" + tab);
     Tab savedTab = tabService.saveTab(tab);
+    log.info("tab is opened =" + savedTab);
     Long userId = userService.findUserByUsername(principal.getName()).getId();
     messagingTemplate.convertAndSend(webSocketUtils.getPrefix() + userId,
         tabService.checkIfTabIsUsed(savedTab));
