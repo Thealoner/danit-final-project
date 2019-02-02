@@ -32,28 +32,6 @@ const initialState = {
 //       gridStatus: 'done' // OR 'loading'
 //     }
 //   ],
-//   lastClosedTab: {
-//     entityId: 3,
-//     entity: 'packets'
-//   },
-//   openedForEdit: {
-//     pakets: [
-//       {
-//         entityId: 1,
-//         userId: 2
-//       },
-//       {
-//         entityId: 2,
-//         userId: 4
-//       }
-//     ],
-//     clients: [
-//       {
-//         id: 5,
-//         userId: 3
-//       }
-//     ]
-//   },
 //   activeKey: 'packets'
 // };
 
@@ -109,16 +87,6 @@ export default function tabsReducer (state = initialState, action) {
         return false;
       });
 
-      const closedTab = state.tabsArray[foundIndex];
-      let lastClosedTab = null;
-      
-      if (closedTab.type === 'form' && closedTab.form && closedTab.form.data && closedTab.form.data.id) {
-        lastClosedTab = {
-          entityId: closedTab.form.data.id,
-          entity: closedTab.tabKey
-        };
-      }
-
       let activeKey = state.activeKey;
       if (activeKey === action.tabKey) {
         if (foundIndex) {
@@ -130,8 +98,7 @@ export default function tabsReducer (state = initialState, action) {
       return {
         ...state,
         tabsArray: after,
-        activeKey: activeKey,
-        lastClosedTab
+        activeKey: activeKey
       };
     }
 
