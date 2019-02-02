@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.domain.Specification;
 
+import javax.persistence.criteria.Expression;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -30,30 +31,27 @@ public abstract class BaseSpecification<T, U> {
   public Specification<T> dateSearch(String searchDate, String columnName, Boolean equals) {
     if (Objects.nonNull(searchDate)) {
       return (root, query, cb) -> {
-        simpleDateFormat.applyPattern(datePattern);
-        if(searchDate.contains("/")) {
+        if (searchDate.contains("/")) {
+          simpleDateFormat.applyPattern(datePattern);
           String[] dates = searchDate.split("/");
           try {
             Date startDate = simpleDateFormat.parse(dates[0]);
             Date endDate = simpleDateFormat.parse(dates[1]);
             return cb.between(root.get(columnName),startDate, endDate);
           } catch (ParseException e) {
-            throw new IllegalDateConversionException("invalid date format", e);
+            throw new IllegalDateConversionException("invalid date format 1", e);
           }
         } else {
-          try {
-            Date searchDateAsDate = simpleDateFormat.parse(searchDate);
-            String formatedDate = simpleDateFormat.format(searchDateAsDate);
-            if (Arrays.asList(environment.getActiveProfiles()).contains("prod")) {
-              return equals ? cb.between(root.get(columnName), searchDateAsDate, searchDateAsDate)
-                  : cb.like(cb.lower(root.get(columnName).as(String.class)), containsLowerCase(formatedDate));
-            } else {
-              return equals ? cb.equal(root.get(columnName), searchDateAsDate)
-                  : cb.like(cb.lower(root.get(columnName).as(String.class)), containsLowerCase(formatedDate));
-            }
-          } catch (ParseException e) {
-            throw new IllegalDateConversionException("invalid date format", e);
+          Expression<String> dateStringExpr;
+          if (Arrays.asList(environment.getActiveProfiles()).contains("prod")) {
+            dateStringExpr = cb.function("DATE_FORMAT", String.class,
+                root.get(columnName), cb.literal("%Y-%m-%d"));
+          } else {
+            dateStringExpr = cb.function("TO_CHAR", String.class,
+                root.get(columnName), cb.literal("yyyy-MM-dd"));
           }
+          return equals ? cb.equal(dateStringExpr, searchDate)
+              : cb.like(cb.lower(dateStringExpr), containsLowerCase(searchDate));
         }
       };
     } else {
