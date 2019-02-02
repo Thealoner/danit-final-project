@@ -20,11 +20,6 @@ const rolesOptions = [
     key: 'USER',
     text: 'USER',
     value: '2'
-  },
-  {
-    key: 'TEST',
-    text: 'TEST',
-    value: '3'
   }
 ];
 
@@ -59,7 +54,7 @@ class User extends Component {
     const { data } = currentTab.form;
     
     if (data.roles[0] && data.roles[0].id) {
-      data.roles = data.roles.map(el => ''+el.id);
+      data.roles = data.roles.map(el => '' + el.id);
     }
 
     initialize(data);

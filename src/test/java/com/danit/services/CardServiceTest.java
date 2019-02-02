@@ -5,7 +5,9 @@ import com.danit.dto.service.CardListRequestDto;
 import com.danit.exceptions.EntityNotFoundException;
 import com.danit.models.Card;
 import com.danit.repositories.CardRepository;
+import com.danit.repositories.UserRepository;
 import com.danit.repositories.specifications.CardListSpecification;
+import com.danit.utils.ServiceUtils;
 import com.danit.utils.WebSocketUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,6 +48,9 @@ public class CardServiceTest {
 
   @Mock
   CardListSpecification cardSpecification;
+
+  @Mock
+  ServiceUtils serviceUtils;
 
   @Mock
   SimpMessageSendingOperations messagingTemplate;

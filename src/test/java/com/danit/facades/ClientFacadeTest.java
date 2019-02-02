@@ -4,6 +4,7 @@ import com.danit.Application;
 import com.danit.dto.ClientDto;
 import com.danit.models.Client;
 import com.danit.services.ClientService;
+import com.danit.utils.ServiceUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +29,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.Silent.class)
 @SpringBootTest(classes = Application.class)
 @ActiveProfiles("test")
 public class ClientFacadeTest {
@@ -41,6 +42,7 @@ public class ClientFacadeTest {
 
   @Mock
   ModelMapper modelMapper;
+
 
   @Before
   public void init() {
@@ -111,11 +113,12 @@ public class ClientFacadeTest {
     Client client2 = mock(Client.class);
     List<Client> clients = Arrays.asList(new Client[]{client1, client2});
 
+    List<ClientDto> clientsDto = clientFacade.convertToDtos(clients);
+
     when(clientService.saveEntities(clients)).thenReturn(clients);
 
-    clientFacade.saveEntities(clients);
+    clientFacade.saveEntities(clientsDto);
 
-    verify(clientService, times(1)).saveEntities(clients);
     verify(modelMapper, times(1)).map(clients.get(0), ClientDto.class);
     verify(modelMapper, times(1)).map(clients.get(1), ClientDto.class);
   }*/
@@ -125,12 +128,12 @@ public class ClientFacadeTest {
     Client client1 = mock(Client.class);
     Client client2 = mock(Client.class);
     List<Client> clients = Arrays.asList(new Client[]{client1, client2});
+    List<ClientDto> clientsDto = clientFacade.convertToDtos(clients);
 
     when(clientService.updateEntities(clients)).thenReturn(clients);
 
-    clientFacade.updateEntities(clients);
+    clientFacade.updateEntities(clientsDto);
 
-    verify(clientService, times(1)).updateEntities(clients);
     verify(modelMapper, times(1)).map(clients.get(0), ClientDto.class);
     verify(modelMapper, times(1)).map(clients.get(1), ClientDto.class);
   }*/

@@ -1,6 +1,10 @@
 import { tab } from '../actions/types';
 import { getEntityByType } from '../components/Admin/gridEntities';
-import { updateCurrentTabAttributes, updateCurrentTabFormData } from '../helpers/reducerHelper';
+import {
+  updateCurrentTabAttributes,
+  updateCurrentTabFormData,
+  updateCurrentTabGridData
+} from '../helpers/reducerHelper';
 
 const initialState = {
   tabsArray: [],
@@ -28,28 +32,6 @@ const initialState = {
 //       gridStatus: 'done' // OR 'loading'
 //     }
 //   ],
-//   lastClosedTab: {
-//     entityId: 3,
-//     entity: 'packets'
-//   },
-//   openedForEdit: {
-//     pakets: [
-//       {
-//         entityId: 1,
-//         userId: 2
-//       },
-//       {
-//         entityId: 2,
-//         userId: 4
-//       }
-//     ],
-//     clients: [
-//       {
-//         id: 5,
-//         userId: 3
-//       }
-//     ]
-//   },
 //   activeKey: 'packets'
 // };
 
@@ -71,7 +53,11 @@ export default function tabsReducer (state = initialState, action) {
               pagesTotal: 1,
               elementsPerPage: 1
             },
-            columns: []
+            columns: [],
+            sorting: {
+              column: 'id',
+              direction: 'asc'
+            }
           }
         };
 
@@ -101,16 +87,6 @@ export default function tabsReducer (state = initialState, action) {
         return false;
       });
 
-      const closedTab = state.tabsArray[foundIndex];
-      let lastClosedTab = null;
-      
-      if (closedTab.type === 'form' && closedTab.form && closedTab.form.data && closedTab.form.data.id) {
-        lastClosedTab = {
-          entityId: closedTab.form.data.id,
-          entity: closedTab.tabKey
-        };
-      }
-
       let activeKey = state.activeKey;
       if (activeKey === action.tabKey) {
         if (foundIndex) {
@@ -122,8 +98,7 @@ export default function tabsReducer (state = initialState, action) {
       return {
         ...state,
         tabsArray: after,
-        activeKey: activeKey,
-        lastClosedTab
+        activeKey: activeKey
       };
     }
 
@@ -154,7 +129,11 @@ export default function tabsReducer (state = initialState, action) {
         newTabData.grid = {
           data: action.payload.data,
           meta: action.payload.meta,
-          columns: action.payload.columns
+          columns: action.payload.columns,
+          sorting: {
+            column: action.payload.sortColumn,
+            direction: action.payload.sortDirection
+          }
         };
       }
 
@@ -197,6 +176,17 @@ export default function tabsReducer (state = initialState, action) {
       };
 
       return updateCurrentTabAttributes(state, newTabData);
+    }
+
+    case tab.UPDATE_SORTING: {
+      const gridData = {
+        sorting: {
+          column: action.payload.sortColumn,
+          direction: action.payload.sortDirection
+        }
+      };
+
+      return updateCurrentTabGridData(state, gridData);
     }
 
     case tab.STORE_TMP_FORM_DATA: {
