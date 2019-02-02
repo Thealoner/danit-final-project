@@ -1,5 +1,6 @@
 package com.danit.controllers;
 
+import com.danit.dto.CardDto;
 import com.danit.dto.Views;
 import com.danit.dto.service.CardListRequestDto;
 import com.danit.facades.CardFacade;
@@ -44,7 +45,7 @@ public class CardController {
 
   @JsonView(Views.Extended.class)
   @PostMapping
-  public ResponseEntity<Map<String, Object>> createCards(@RequestBody List<Card> cards, Principal principal) {
+  public ResponseEntity<Map<String, Object>> createCards(@RequestBody List<CardDto> cards, Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(cardFacade.saveEntities(cards)));
   }
 
@@ -92,7 +93,7 @@ public class CardController {
 
   @JsonView(Views.Extended.class)
   @PutMapping
-  public ResponseEntity<Map<String, Object>> updateCardsDto(@RequestBody List<Card> cards, Principal principal) {
+  public ResponseEntity<Map<String, Object>> updateCardsDto(@RequestBody List<CardDto> cards, Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(cardFacade.updateEntities(cards)));
   }
 

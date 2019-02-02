@@ -17,11 +17,11 @@ public interface DtoFacade<D extends BaseDto, E extends BaseEntity, R> {
 
   Page<D> getAllEntities(R listRequestDto, Pageable pageable);
 
-  List<D> saveEntities(List<E> entities);
+  List<D> saveEntities(List<D> entities);
 
   D getEntityById(Long id);
 
-  List<D> updateEntities(List<E> entities);
+  List<D> updateEntities(List<D> entities);
 
   void deleteEntityById(Long id);
 

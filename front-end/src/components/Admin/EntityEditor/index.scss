@@ -4,9 +4,23 @@
   color: $victoria;
 
   .control-label {
-    min-width: 300px;
+    display: inherit;
+    width: 325px;
+    min-width: 325px;
+    margin-top: 5px;
+    margin-right: 20px;
+  }
+  .control-label-ch{
+    display: inherit;
+    min-width: 325px;
+    margin-top: 5px;
     margin-right: 20px;
 
+    .label-text {
+      width: 325px;
+      min-width: 325px;
+      margin-right: 20px;
+    }
   }
 
   .form-control {
@@ -25,31 +39,71 @@
   }
 
   .field-string,
+  .field-checkbox,
   .field-number {
     display: flex;
-    align-items: center;
     margin-bottom: 10px;
 
     input {
       box-sizing: initial;
-      width: 250px;
-      min-width: 250px;
+      width: 200px;
+      min-width: 200px;
       text-align: left;
     }
   }
 
-  .checkbox label {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
-    padding: 0;
+  .field_error {
+    display: inline-block;
+    margin-left: 10px;
+    color: $error-text;
+  }
+
+  .field_warning {
+    display: inline-block;
+    margin-left: 10px;
+    color: $warning-text;
+  }
+
+  .field_error-ch{
+    display: inline-block;
+    margin-left: 10px;
+    color: $error-text;
+  }
+  .field_warning-ch {
+    display: inline-block;
+    margin-left: 10px;
+    color: $warning-text;
+  }
+  .field_error-input {
+    background-color: $error-bg !important;
+    border-color: $error-border !important;
+  }
+
+  .field_warning-input {
+    background-color: $warning-bg !important;
+    border-color: $warning-border!important;
+  }
+
+  .checkbox {
+    margin-top: 5px;
+    label {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+      margin-bottom: 5px;
+      padding: 0;
+      span {
+        min-width: 345px;
+      }
+    }
   }
 
   input[type='checkbox'] {
     position: static;
     width: 15px;
+    min-width: 15px;
     height: 15px;
-    margin: 1px 10px 0 0;
+    margin: 1px 0 0 0;
   }
 
   &__data-field {

@@ -1,6 +1,6 @@
 import { tab } from '../actions/types';
 import { getEntityByType } from '../components/Admin/gridEntities';
-import { updateCurrentTabAttributes } from '../helpers/reducerHelper';
+import { updateCurrentTabAttributes, updateCurrentTabFormData } from '../helpers/reducerHelper';
 
 const initialState = {
   tabsArray: [],
@@ -167,13 +167,11 @@ export default function tabsReducer (state = initialState, action) {
     }
 
     case tab.STORE_TMP_FORM_DATA: {
-      const newTabData = {
-        form: {
-          ...action.payload,
-          edited: true
-        }
+      const formData = {
+        ...action.payload,
+        edited: true
       };
-      return updateCurrentTabAttributes(state, newTabData);
+      return updateCurrentTabFormData(state, formData);
     }
 
     default: {

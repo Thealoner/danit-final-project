@@ -22,3 +22,25 @@ export const updateTabAttributes = (state, newAttributes, tabKey) => {
 
   return newState;
 };
+
+export const updateCurrentTabFormData = (state, formData) => {
+  const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === state.activeKey);
+
+  const updatedTab = {
+    ...state.tabsArray[tabIndex],
+    form: {
+      ...state.tabsArray[tabIndex].form,
+      ...formData
+    }
+  };
+
+  const newState = {
+    ...state,
+    tabsArray: [
+      ...state.tabsArray.filter(tab => tab.tabKey !== state.activeKey),
+      updatedTab
+    ]
+  };
+
+  return newState;
+};
