@@ -4,19 +4,21 @@ import com.danit.exceptions.EntityNotFoundException;
 import com.danit.exceptions.EntityParticularDataException;
 import com.danit.models.employee.Company;
 import com.danit.repositories.employee.CompanyRepository;
+import com.danit.utils.ServiceUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 
-import static com.danit.utils.ServiceUtils.updateNonEqualFields;
-
 @Service
 public class CompanyServiceImpl implements CompanyService {
 
+  private ServiceUtils serviceUtils;
+
   private CompanyRepository companyRepository;
 
-  public CompanyServiceImpl(CompanyRepository companyRepository) {
+  public CompanyServiceImpl(ServiceUtils serviceUtils, CompanyRepository companyRepository) {
+    this.serviceUtils = serviceUtils;
     this.companyRepository = companyRepository;
   }
 
@@ -43,7 +45,7 @@ public class CompanyServiceImpl implements CompanyService {
     if (Objects.nonNull(id)) {
       Company targetCompany = companyRepository.findById(id).orElseThrow(() ->
           new EntityNotFoundException(String.format("Cant find Department with id=%d", id)));
-      if (updateNonEqualFields(company, targetCompany)) {
+      if (serviceUtils.updateNonEqualFields(company, targetCompany)) {
         savedCompany = companyRepository.save(targetCompany);
       }
     } else {

@@ -1,5 +1,6 @@
 package com.danit.controllers;
 
+import com.danit.dto.PaketDto;
 import com.danit.dto.Views;
 import com.danit.dto.service.PaketListRequestDto;
 import com.danit.facades.PaketFacade;
@@ -42,7 +43,7 @@ public class PaketController {
 
   @JsonView(Views.Extended.class)
   @PostMapping
-  public ResponseEntity<Map<String, Object>> createPakets(@RequestBody List<Paket> pakets, Principal principal) {
+  public ResponseEntity<Map<String, Object>> createPakets(@RequestBody List<PaketDto> pakets, Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(paketFacade.saveEntities(pakets)));
   }
 
@@ -90,7 +91,7 @@ public class PaketController {
 
   @JsonView(Views.Extended.class)
   @PutMapping
-  public ResponseEntity<Map<String, Object>> addPakets(@RequestBody List<Paket> pakets, Principal principal) {
+  public ResponseEntity<Map<String, Object>> addPakets(@RequestBody List<PaketDto> pakets, Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(paketFacade.updateEntities(pakets)));
   }
 

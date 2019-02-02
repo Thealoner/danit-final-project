@@ -19,7 +19,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -36,8 +35,10 @@ import java.util.List;
 @Data
 public class Contract extends Auditable implements BaseEntity {
   @Id
-  @SequenceGenerator(name = "contract_sequence", sequenceName = "contract_sequence", allocationSize = 1, initialValue = 1001)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "contract_sequence")
+  //  @SequenceGenerator(name = "contract_sequence",
+  // sequenceName = "contract_sequence", allocationSize = 1, initialValue = 1001)
+  //  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "contract_sequence")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   @EqualsAndHashCode.Include
   private Long id;

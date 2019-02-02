@@ -4,19 +4,22 @@ import com.danit.exceptions.EntityNotFoundException;
 import com.danit.exceptions.EntityParticularDataException;
 import com.danit.models.employee.Gym;
 import com.danit.repositories.employee.GymRepository;
+import com.danit.utils.ServiceUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 
-import static com.danit.utils.ServiceUtils.updateNonEqualFields;
 
 @Service
 public class GymServiceImpl implements GymService {
 
+  private ServiceUtils serviceUtils;
+
   private GymRepository gymRepository;
 
-  public GymServiceImpl(GymRepository gymRepository) {
+  public GymServiceImpl(ServiceUtils serviceUtils, GymRepository gymRepository) {
+    this.serviceUtils = serviceUtils;
     this.gymRepository = gymRepository;
   }
 
@@ -42,7 +45,7 @@ public class GymServiceImpl implements GymService {
     Long id = gym.getId();
     if (Objects.nonNull(id)) {
       Gym targetGym = getGymById(id);
-      if (updateNonEqualFields(gym, targetGym)) {
+      if (serviceUtils.updateNonEqualFields(gym, targetGym)) {
         savedGym = gymRepository.save(targetGym);
       }
     } else {

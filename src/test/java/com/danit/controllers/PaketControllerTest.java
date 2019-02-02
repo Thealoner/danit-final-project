@@ -148,10 +148,10 @@ public class PaketControllerTest {
     LinkedHashMap object2 = JsonPath.read(responseJson1, "$.data[1]");
     Long id2 = new Long(String.valueOf(object2.get("id")));
 
-    this.mockMvc.perform(put("/contracts/" + id1 + "/paket/" + id).headers(headers))
+    this.mockMvc.perform(put("/contracts/" + id1 + "/pakets/" + id).headers(headers))
         .andExpect(status().isOk());
 
-    this.mockMvc.perform(put("/contracts/" + id2 + "/paket/" + id).headers(headers))
+    this.mockMvc.perform(put("/contracts/" + id2 + "/pakets/" + id).headers(headers))
         .andExpect(status().isOk());
 
     Paket paket1 = paketService.getEntityById(id);
@@ -198,11 +198,11 @@ public class PaketControllerTest {
         .contentType("application/json")
         .content("[" +
             "{" +
-            "  \"id\":  1001," +
+            "  \"id\":  4," +
             "  \"title\": \"Updated title\" " +
             "}," +
             "{" +
-            "  \"id\":  1002," +
+            "  \"id\":  5," +
             "  \"title\": \"Updated title\" " +
             "}]"))
         .andExpect(status().isOk());
@@ -229,16 +229,16 @@ public class PaketControllerTest {
     LinkedHashMap object2 = JsonPath.read(responseJson1, "$.data[1]");
     Long id2 = new Long(String.valueOf(object2.get("id")));
 
-    long id = 1001L;
+    long id = 4L;
 
-    this.mockMvc.perform(put("/contracts/" + id1 + "/paket/" + id).headers(headers))
+    this.mockMvc.perform(put("/contracts/" + id1 + "/pakets/" + id).headers(headers))
         .andExpect(status().isOk());
 
-    this.mockMvc.perform(put("/contracts/" + id2 + "/paket/" + id).headers(headers))
+    this.mockMvc.perform(put("/contracts/" + id2 + "/pakets/" + id).headers(headers))
         .andExpect(status().isOk());
 
-    Paket paket1001 = paketService.getEntityById(1001);
-    Paket paket1002 = paketService.getEntityById(1002);
+    Paket paket1001 = paketService.getEntityById(4);
+    Paket paket1002 = paketService.getEntityById(5);
     Contract contract1001 = contractService.getEntityById(id1);
 
     assertEquals("Updated title", paket1001.getTitle());
@@ -246,10 +246,10 @@ public class PaketControllerTest {
     assertEquals(2, paket1001.getContracts().size());
     assertEquals(id, contract1001.getPaket().getId().longValue());
 
-    this.mockMvc.perform(delete("/contracts/" + id1 + "/paket/" + id).headers(headers))
+    this.mockMvc.perform(delete("/contracts/" + id1 + "/pakets/" + id).headers(headers))
         .andExpect(status().isOk());
 
-    Paket paket = paketService.getEntityById(1001);
+    Paket paket = paketService.getEntityById(4);
 
     assertEquals(1, paket.getContracts().size());
 
@@ -264,17 +264,17 @@ public class PaketControllerTest {
         .contentType("application/json")
         .content("[" +
             "{" +
-            "  \"id\":  1001" +
+            "  \"id\":  4" +
             "}," +
             "{" +
-            "  \"id\":  1002" +
+            "  \"id\":  5" +
             "}]"))
         .andExpect(status().isOk());
 
-    this.mockMvc.perform(delete(url + "/1003").headers(headers))
+    this.mockMvc.perform(delete(url + "/6").headers(headers))
         .andExpect(status().isOk());
 
-    this.mockMvc.perform(get(url + "/1003").headers(headers))
+    this.mockMvc.perform(get(url + "/6").headers(headers))
         .andExpect(status().isNotFound());
 
     assertEquals(count - 3L, paketRepository.count());

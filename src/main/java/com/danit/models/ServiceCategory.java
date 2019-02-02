@@ -16,7 +16,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.util.List;
 
@@ -31,9 +30,7 @@ import java.util.List;
 public class ServiceCategory extends Auditable implements BaseEntity {
   @Id
   @Column(name = "id")
-  @SequenceGenerator(name = "service_category_sequence", sequenceName = "service_category_sequence",
-      allocationSize = 1, initialValue = 1001)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "service_category_sequence")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @EqualsAndHashCode.Include
   private Long id;
 

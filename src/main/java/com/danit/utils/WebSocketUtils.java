@@ -2,7 +2,7 @@ package com.danit.utils;
 
 import com.danit.exceptions.ObjectToJsonProcessingException;
 import com.danit.models.BaseEntity;
-import com.danit.models.WebSocketEventMsg;
+import com.danit.models.service.WebSocketEventMsg;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -10,13 +10,11 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
-@PropertySource("classpath:application.yml")
 public class WebSocketUtils {
 
   @Getter

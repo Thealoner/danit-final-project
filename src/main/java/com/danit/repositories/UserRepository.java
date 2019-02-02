@@ -10,6 +10,8 @@ public interface UserRepository extends BaseEntityRepository<User> {
 
   User findByUsername(String name);
 
+  User findByEmail(String email);
+
   Page<User> findAllByRoles_Id(Long roleId, Pageable pageable);
 
 }

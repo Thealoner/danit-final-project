@@ -252,7 +252,7 @@ public class ServiceCategoryControllerTest {
   public void assignExistingServiceToServiceCategory() throws Exception {
     long scId = 5L;
     long sId = 7L;
-    final String s = url + "/%s/service/%s";
+    final String s = url + "/%s/services/%s";
 
     int size = serviceCategoryService.getEntityById(scId).getServices().size();
 
@@ -278,7 +278,7 @@ public class ServiceCategoryControllerTest {
 
     int size = serviceCategoryService.getEntityById(scId).getServices().size();
 
-    mockMvc.perform(delete(url + "/" + scId + "/service/" + sId).headers(header))
+    mockMvc.perform(delete(url + "/" + scId + "/services/" + sId).headers(header))
         .andExpect(status().isOk());
 
     mockMvc.perform(get(url + "/" + scId + "/services").headers(header))

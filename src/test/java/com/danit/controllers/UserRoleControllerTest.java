@@ -98,11 +98,11 @@ public class UserRoleControllerTest {
     long numberOfEntities = userRoleService.getNumberOfEntities();
     this.mockMvc.perform(delete(url).headers(headers)
         .contentType("application/json")
-        .content("[{\"id\": 1001}]"))
+        .content("[{\"id\": 4}]"))
         .andExpect(status().isOk());
     Assert.assertEquals(userRoleService.getNumberOfEntities(), numberOfEntities - 1);
 
-    this.mockMvc.perform(delete(url + "/1002").headers(headers))
+    this.mockMvc.perform(delete(url + "/5").headers(headers))
         .andExpect(status().isOk());
 
     Assert.assertEquals(userRoleService.getNumberOfEntities(), numberOfEntities - 2);
