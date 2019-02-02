@@ -213,7 +213,7 @@
   &__button {
     display: inline-block;
     width: 100px;
-    margin: 0 0 20px 20px;
+    margin-right:20px;
     padding: 5px 5px;
     color: $white;
     font-size: 14px;
@@ -225,4 +225,22 @@
   fieldset legend {
     margin-bottom: 20px;
   }
+  .ui.search .prompt {
+    border-radius: 3px;
+  }
+  .ui.input>input {
+    padding: 0 0 0 10px;
+  }
+  .ui.icon.input>input{
+    padding-right: 0 !important;
+  }
+  .search {
+    margin-right: 10px;
+  }
+  .ui.fluid.dropdown {
+    min-width: 213px;
+    padding-left: 10px;
+
+  }
 }
+
