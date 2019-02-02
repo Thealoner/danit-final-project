@@ -1,8 +1,8 @@
 package com.danit.dto;
 
 import com.danit.models.BaseEntity;
-import com.danit.utils.CustomDateTimeDeserializer;
-import com.danit.utils.CustomDateTimeSerializer;
+import com.danit.utils.deserializers.CustomDateTimeDeserializer;
+import com.danit.utils.serializers.CustomDateTimeSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;

@@ -1,10 +1,13 @@
 package com.danit.dto;
 
-import com.danit.utils.CustomListBaseEntityDeserializer;
+import com.danit.annotations.TargetClass;
+import com.danit.utils.deserializers.CustomBaseEntityListDeserializer;
+import com.danit.utils.serializers.CustomBaseEntityListSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -28,12 +31,10 @@ public class UserDto extends BaseDto {
   @JsonView(Views.Short.class)
   private String email;
 
-  @JsonDeserialize(using = CustomListBaseEntityDeserializer.class)
-  @JsonProperty(value = "roles", access = JsonProperty.Access.WRITE_ONLY)
-  private Long[] rolesIncoming;
-
+  @JsonDeserialize(using = CustomBaseEntityListDeserializer.class)
+  @JsonSerialize(using = CustomBaseEntityListSerializer.class)
+  @TargetClass(value = UserRoleDto.class, name = "roles")
   @JsonView({Views.Extended.class, Views.Ids.class})
-  @JsonProperty(value = "roles", access = JsonProperty.Access.READ_ONLY)
   private List<UserRoleDto> roles;
 
 }

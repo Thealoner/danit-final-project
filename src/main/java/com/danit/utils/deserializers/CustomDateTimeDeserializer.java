@@ -1,4 +1,4 @@
-package com.danit.utils;
+package com.danit.utils.deserializers;
 
 import com.danit.exceptions.IllegalDateConversionException;
 import com.fasterxml.jackson.core.JsonParser;

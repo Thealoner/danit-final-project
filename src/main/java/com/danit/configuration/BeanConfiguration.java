@@ -2,16 +2,12 @@ package com.danit.configuration;
 
 import com.danit.dto.CardDto;
 import com.danit.dto.ContractDto;
-import com.danit.dto.UserDto;
 import com.danit.models.Card;
 import com.danit.models.Contract;
-import com.danit.models.User;
-import com.danit.models.UserRole;
-import com.danit.utils.CustomDateDeserializer;
-import com.danit.utils.CustomDateSerializer;
+import com.danit.utils.deserializers.CustomDateDeserializer;
+import com.danit.utils.serializers.CustomDateSerializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.NamingConventions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Slf4j
 @Configuration
@@ -53,7 +47,7 @@ public class BeanConfiguration {
     modelMapper.createTypeMap(Card.class, CardDto.class)
         .addMapping(card -> card.getContract().getId(), CardDto::setContractId);
 
-    modelMapper.createTypeMap(UserDto.class, User.class).setConverter(getUserDtoConverter());
+    /*modelMapper.createTypeMap(UserDto.class, User.class).setConverter(getUserDtoConverter());*/
 
     return modelMapper;
   }
@@ -71,7 +65,7 @@ public class BeanConfiguration {
     return new SimpleDateFormat();
   }
 
-  @Bean
+  /*@Bean
   public Converter<UserDto, User> getUserDtoConverter() {
     return context -> {
       UserDto userDto = context.getSource();
@@ -92,6 +86,6 @@ public class BeanConfiguration {
       user.setEmail(userDto.getEmail());
       return user;
     };
-  }
+  }*/
 
 }
