@@ -3,7 +3,8 @@ import { getEntityByType } from '../components/Admin/gridEntities';
 import {
   updateCurrentTabAttributes,
   updateCurrentTabFormData,
-  updateCurrentTabGridData
+  updateCurrentTabGridData,
+  updateAllFormCollisions
 } from '../helpers/reducerHelper';
 
 const initialState = {
@@ -194,7 +195,16 @@ export default function tabsReducer (state = initialState, action) {
         ...action.payload,
         edited: true
       };
+
       return updateCurrentTabFormData(state, formData);
+    }
+
+    case tab.SHOW_EDIT_COLLISION: {
+      return updateAllFormCollisions(state, action.payload.collisionRecords, true);
+    }
+
+    case tab.HIDE_EDIT_COLLISION: {
+      return updateAllFormCollisions(state, action.payload.collisionRecords, false);
     }
 
     default: {

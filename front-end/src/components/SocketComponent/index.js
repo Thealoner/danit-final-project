@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import Stomp from 'stompjs';
 import AuthService from '../../helpers/authService';
 import { connect } from 'react-redux';
+import {
+  showEditCollision,
+  hideEditCollision
+} from '../../actions/tabActions';
 
 class SocketComponent extends Component {
   state = {
@@ -19,6 +23,28 @@ class SocketComponent extends Component {
     this.client.send(channel, this.headers, JSON.stringify(message));
   }
 
+  handleIncomingEvent = frame => {
+    debugger;
+
+    const collisionRecords = [
+      {
+        entity: 'pakets',
+        id: 2
+      },
+      {
+        entity: 'clients',
+        id: 4
+      }
+    ];
+
+    if ('/events/open') {
+      showEditCollision(collisionRecords);
+    }
+
+    if ('/events/close') {
+      hideEditCollision(collisionRecords);
+    }
+  }
 
   render () {
     if (this.state.loaded) {
@@ -38,12 +64,13 @@ class SocketComponent extends Component {
     
     this.client.connect(this.headers, (frame) => {
       this.client.subscribe('/events', (frame) => {
+        this.handleIncomingEvent(frame);
       }, this.headers);
     });
   };
 
   componentDidUpdate (prevProps) {
-    const { currentTab } = this.props;
+    const { currentTab, activeKey } = this.props;
     const prevCurrentTab = prevProps.currentTab;
 
     if (currentTab && prevCurrentTab && prevCurrentTab.type !== currentTab.type) {
@@ -76,8 +103,20 @@ const mapStateToProps = state => {
 
   return {
     tabs: state.tabs,
+    activeKey: state.activeKey,
     currentTab
   };
 }
 
-export default connect(mapStateToProps, null)(SocketComponent);
+const mapDispatchToProps = dispatch => {
+  return {
+    showEditCollision: (payload) => {
+      dispatch(showEditCollision(payload));
+    },
+    hideEditCollision: (payload) => {
+      dispatch(hideEditCollision(payload));
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SocketComponent);

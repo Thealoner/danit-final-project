@@ -232,3 +232,17 @@ export const deleteCurrentEntityItem = (tabKey, formData, columns, page, filter)
       );
   };
 };
+
+export const showEditCollision = payload => {
+  return {
+    type: tab.SHOW_EDIT_COLLISION,
+    payload
+  };
+}
+
+export const hideEditCollision = payload => {
+  return {
+    type: tab.HIDE_EDIT_COLLISION,
+    payload
+  };
+}
