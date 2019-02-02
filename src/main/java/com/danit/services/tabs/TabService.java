@@ -24,15 +24,15 @@ public class TabService {
     this.serviceUtils = serviceUtils;
   }
 
-  public void saveTab(Tab tab) {
+  public Tab saveTab(Tab tab) {
     tab.setUser(serviceUtils.getUserFromAuthContext());
-    tabRepository.save(tab);
+    return tabRepository.save(tab);
   }
 
-  public void saveTabs(List<Tab> tabs) {
+  public List<Tab> saveTabs(List<Tab> tabs) {
     User user = serviceUtils.getUserFromAuthContext();
     tabs.forEach(tab -> tab.setUser(user));
-    tabRepository.saveAll(tabs);
+    return (List<Tab>) tabRepository.saveAll(tabs);
   }
 
   public void deleteTab(Tab tab) {

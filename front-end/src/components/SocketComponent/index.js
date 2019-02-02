@@ -37,7 +37,7 @@ class SocketComponent extends Component {
 
     
     this.client.connect(this.headers, (frame) => {
-      this.client.subscribe('/events', (frame) => {
+      this.client.subscribe(`/events/${userId}`, (frame) => {
       }, this.headers);
     });
   };
@@ -48,18 +48,18 @@ class SocketComponent extends Component {
 
     if (currentTab && prevCurrentTab && prevCurrentTab.type !== currentTab.type) {
       if (currentTab.type === 'form') {
-        this.sendMessage('/events/open', {
+        this.sendMessage('/api/tab/open', {
           baseEntityName: currentTab.tabKey,
           baseEntityId: currentTab.form.data.id
         });
       } else if (currentTab.type === 'grid') {
-        this.sendMessage('/events/close', {
+        this.sendMessage('/api/tab/close', {
           baseEntityName: prevCurrentTab.tabKey,
           baseEntityId: prevCurrentTab.form.data.id
         });
       }
     } else if (!currentTab && prevCurrentTab && prevCurrentTab.type === 'form') {
-      this.sendMessage('/events/close', {
+      this.sendMessage('/api/tab/close', {
         baseEntityName: prevCurrentTab.tabKey,
         baseEntityId: prevCurrentTab.form.data.id
       });
