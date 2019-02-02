@@ -164,6 +164,10 @@ public class UserService extends AbstractBaseEntityService<User, UserListRequest
     }
   }
 
+  public User findUserByUsername(String name) {
+    return userRepository.findByUsername(name);
+  }
+
   private String getCurrentUserAvatarImageName() {
     return serviceUtils.getUserFromAuthContext().getAvatarImageName();
   }

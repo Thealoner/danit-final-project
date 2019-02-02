@@ -3,6 +3,7 @@ package com.danit.models.auditor;
 
 import com.danit.utils.deserializers.CustomDateTimeDeserializer;
 import com.danit.utils.serializers.CustomDateTimeSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
@@ -21,6 +22,8 @@ import static javax.persistence.TemporalType.TIMESTAMP;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties(value = {"creationDate", "lastModifiedBy", "lastModifiedDate", "createdBy"},
+    allowGetters = true)
 @Data
 public abstract class Auditable {
 

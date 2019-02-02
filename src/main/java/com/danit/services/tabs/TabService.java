@@ -3,23 +3,29 @@ package com.danit.services.tabs;
 import com.danit.models.User;
 import com.danit.models.service.Tab;
 import com.danit.repositories.service.TabRepository;
+import com.danit.services.UserService;
 import com.danit.utils.ServiceUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class TabService {
 
   private TabRepository tabRepository;
 
+  private UserService userService;
+
   private ServiceUtils serviceUtils;
 
   @Autowired
-  public TabService(TabRepository tabRepository, ServiceUtils serviceUtils) {
+  public TabService(TabRepository tabRepository, UserService userService,
+                    ServiceUtils serviceUtils) {
     this.tabRepository = tabRepository;
+    this.userService = userService;
     this.serviceUtils = serviceUtils;
   }
 
@@ -44,14 +50,22 @@ public class TabService {
   }
 
   public Tab checkIfTabIsUsed(Tab tab) {
-    return tabRepository.findByUserIdAndBaseEntityNameAndBaseEntityId(
-        serviceUtils.getUserFromAuthContext().getId(), tab.getBaseEntityName(), tab.getBaseEntityId());
+    Tab editableTab = tabRepository.findTopByBaseEntityNameAndBaseEntityIdOrderByCreationDateDesc(
+        tab.getBaseEntityName(), tab.getBaseEntityId());
+    if (Objects.nonNull(editableTab)) {
+      editableTab.setMessage("tab is already opened by user - " +
+          userService.getEntityById(editableTab.getId()).getUsername());
+      editableTab.setBusy(true);
+      return editableTab;
+    } else {
+      tab.setBusy(false);
+      return tab;
+    }
   }
 
   public List<Tab> checkIfTabsIsUsed(List<Tab> tabs) {
     List<Tab> openedTabs = new ArrayList<>();
-    tabs.forEach(tab -> openedTabs.add(tabRepository.findByUserIdAndBaseEntityNameAndBaseEntityId(
-        serviceUtils.getUserFromAuthContext().getId(), tab.getBaseEntityName(), tab.getBaseEntityId())));
+    tabs.forEach(tab -> openedTabs.add(checkIfTabIsUsed(tab)));
     return openedTabs;
   }
 
