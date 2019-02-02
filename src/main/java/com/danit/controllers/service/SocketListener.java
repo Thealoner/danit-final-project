@@ -5,6 +5,7 @@ import com.danit.services.UserService;
 import com.danit.services.tabs.TabService;
 import com.danit.utils.WebSocketUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
@@ -24,10 +25,12 @@ public class SocketListener {
 
   private SimpMessageSendingOperations messagingTemplate;
 
+  @Autowired
   public SocketListener(TabService tabService, UserService userService,
-                        SimpMessageSendingOperations messagingTemplate) {
+                        WebSocketUtils webSocketUtils, SimpMessageSendingOperations messagingTemplate) {
     this.tabService = tabService;
     this.userService = userService;
+    this.webSocketUtils = webSocketUtils;
     this.messagingTemplate = messagingTemplate;
   }
 
