@@ -15,6 +15,10 @@ class SocketComponent extends Component {
     'Authorization': this.authService.getToken()
   };
 
+  sendMessage = (channel = '/events', message) => {
+    this.client.send(channel, this.headers, JSON.stringify(message));
+  }
+
 
   render () {
     if (this.state.loaded) {
@@ -38,23 +42,44 @@ class SocketComponent extends Component {
     });
   };
 
-  componentDidUpdate () {
-    const { lastClosedTab } = this.props;
-    
-    if (lastClosedTab) {
-      this.client.send('/events', this.headers, JSON.stringify(lastClosedTab));
-      // Example:
-      // lastClosedTab: {
-      //     entityId: 3,
-      //     entity: 'packets'
-      //   }
+  componentDidUpdate (prevProps) {
+    const { currentTab } = this.props;
+    const prevCurrentTab = prevProps.currentTab;
+
+    if (currentTab && prevCurrentTab && prevCurrentTab.type !== currentTab.type) {
+      if (currentTab.type === 'form') {
+        const message = {
+          baseEntityName: currentTab.tabKey,
+          baseEntityId: currentTab.form.data.id
+        }
+        this.sendMessage('/events/open', message);
+      } else if (currentTab.type === 'grid') {
+        const message = {
+          baseEntityName: prevCurrentTab.tabKey,
+          baseEntityId: prevCurrentTab.form.data.id
+        }
+        this.sendMessage('/events/close', message);
+      }
+    } else if (!currentTab && prevCurrentTab && prevCurrentTab.type === 'form') {
+      const message = {
+        baseEntityName: prevCurrentTab.tabKey,
+        baseEntityId: prevCurrentTab.form.data.id
+      }
+      this.sendMessage('/events/close', message);
     }
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
+  let currentTab = null;
+
+  if (state.tabs.activeKey && state.tabs.tabsArray.length > 0) {
+    currentTab = state.tabs.tabsArray.filter(t => t.tabKey === state.tabs.activeKey)[0];
+  }
+
   return {
-    lastClosedTab: state.tabs.lastClosedTab
+    tabs: state.tabs,
+    currentTab
   };
 }
 
