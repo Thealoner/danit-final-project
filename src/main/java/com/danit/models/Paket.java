@@ -28,8 +28,6 @@ import java.util.List;
 public class Paket extends Auditable implements BaseEntity {
 
   @Id
-  //  @SequenceGenerator(name = "paket_sequence", sequenceName = "paket_sequence", allocationSize = 1, initialValue = 1001)
-  //  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "paket_sequence")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   @EqualsAndHashCode.Include

@@ -31,9 +31,6 @@ public class UserRole extends Auditable implements BaseEntity {
 
   @Id
   @Column(name = "id")
-  //  @SequenceGenerator(name = "user_role_sequence", sequenceName = "user_role_sequence",
-  //      allocationSize = 1, initialValue = 1001)
-  //  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_role_sequence")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @EqualsAndHashCode.Include
   private Long id;

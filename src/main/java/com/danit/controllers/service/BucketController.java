@@ -1,4 +1,4 @@
-package com.danit.controllers;
+package com.danit.controllers.service;
 
 import com.danit.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

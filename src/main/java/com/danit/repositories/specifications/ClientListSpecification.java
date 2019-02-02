@@ -75,22 +75,19 @@ public class ClientListSpecification extends BaseSpecification<Client, ClientLis
 
   private Specification<Client> birthDateBetween(String birthDate, Boolean equals) {
     if (Objects.nonNull(birthDate)) {
+      //WHERE birth_date BETWEEN PARSEDATETIME('01-01-1970','dd-mm-yyyy') AND PARSEDATETIME( '01-01-1972','dd-mm-yyyy')
       return (root, query, cb) -> {
-        Path<Tuple> tuple = root.<Tuple>get("birthDate");
-        if (tuple.getJavaType().isAssignableFrom(Date.class)) {
-          if (Arrays.asList(environment.getActiveProfiles()).contains("prod")) {
-            Expression<String> dateStringExpr = cb.function("DATE_FORMAT", String.class,
-                root.get("birthDate"), cb.literal("%d-%m-%Y"));
-            return equals ? cb.like(cb.lower(dateStringExpr), birthDate.toLowerCase())
-                : cb.like(cb.lower(dateStringExpr), containsLowerCase(birthDate));
-          } else {
-            Expression<String> dateStringExpr = cb.function("TO_CHAR", String.class,
-                root.get("birthDate"), cb.literal("dd-mm-yyyy"));
-            return equals ? cb.like(cb.lower(dateStringExpr), birthDate.toLowerCase())
-                : cb.like(cb.lower(dateStringExpr), containsLowerCase(birthDate));
-          }
+        Expression<String> dateStringExpr = Arrays.asList(environment.getActiveProfiles()).contains("prod") ?
+            cb.function("DATE_FORMAT", String.class, root.get("birthDate"), cb.literal("%d-%m-%Y"))
+            : cb.function("TO_CHAR", String.class, root.get("birthDate"), cb.literal("dd-mm-yyyy"));
+        if(birthDate.contains("/")) {
+          String[] dates = birthDate.split("/");
+          String startDate = dates[0];
+          String endDate = dates[1];
+          return cb.between(cb.lower(dateStringExpr), startDate.toLowerCase(), endDate.toLowerCase());
         } else {
-          return null;
+          return equals ? cb.equal(cb.lower(dateStringExpr), birthDate.toLowerCase())
+              : cb.like(cb.lower(dateStringExpr), containsLowerCase(birthDate));
         }
       };
     } else {
