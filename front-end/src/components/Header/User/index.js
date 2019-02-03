@@ -38,12 +38,4 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getAvatar: () => {
-      dispatch(getAvatar());
-    }
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(User);
+export default connect(mapStateToProps, { getAvatar })(User);

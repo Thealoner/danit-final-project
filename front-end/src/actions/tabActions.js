@@ -159,7 +159,7 @@ export const getFormData = (tabKey, id) => {
   };
 };
 
-export const saveFormData = (tabKey, formData, columns, mode, page, filter) => {
+export const saveFormData = (tabKey, formData, columns, mode, page, filter, sorting) => {
   return (dispatch) => {
     dispatch(loadingTab());
     ajaxRequest.put(
@@ -172,7 +172,9 @@ export const saveFormData = (tabKey, formData, columns, mode, page, filter) => {
           tabKey: tabKey,
           columns: columns,
           page: page,
-          filter: filter
+          filter: filter,
+          sortColumn: sorting.column,
+          sortDirection: sorting.direction
         }));
         toastr.success('Данные успешно сохранены');
       },
@@ -208,7 +210,7 @@ export const addRecord = (tabKey, formData, columns, mode, page) => {
   };
 };
 
-export const deleteCurrentEntityItem = (tabKey, formData, columns, page, filter) => {
+export const deleteCurrentEntityItem = (tabKey, formData, columns, page, filter, sorting) => {
   return (dispatch) => {
     dispatch(loadingTab());
     ajaxRequest.delete(
@@ -221,7 +223,9 @@ export const deleteCurrentEntityItem = (tabKey, formData, columns, page, filter)
           tabKey: tabKey,
           columns: columns,
           page: page,
-          filter: filter
+          filter: filter,
+          sortColumn: sorting.column,
+          sortDirection: sorting.direction
         }));
         toastr.success('Данные успешно удалены');
       },

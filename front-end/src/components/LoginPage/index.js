@@ -55,7 +55,7 @@ class Login extends Component {
               <input type='text'
                 id='username'
                 name='username'
-                placeholder='введите логин (Admin)'
+                placeholder='Введите логин'
                 value={data.username}
                 onChange={this.handleChange}
                 required/>
@@ -65,7 +65,7 @@ class Login extends Component {
               <input type='password'
                 id='password'
                 name='password'
-                placeholder='введите пароль (1234)'
+                placeholder='Введите пароль'
                 value={data.password}
                 onChange={this.handleChange}
                 required/>
