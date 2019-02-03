@@ -2,7 +2,7 @@ import React from 'react';
 
 const AuditDetails = ({data}) => {
   return (
-    <div>
+    <div className="record__audit-details">
       <p>Информация о записи</p>
       Создана пользователем: {data.createdBy}<br />
       Дата создания: {data.creationDate}<br />

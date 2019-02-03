@@ -49,7 +49,7 @@ class Client extends Component {
       });
     }
   }
-};
+}
 
 const reduxFormClient = reduxForm({
   form: 'client',
