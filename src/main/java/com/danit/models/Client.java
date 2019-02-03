@@ -1,7 +1,12 @@
 package com.danit.models;
 
 
+import com.danit.annotations.TargetClass;
 import com.danit.models.auditor.Auditable;
+import com.danit.utils.deserializers.CustomBaseEntityListDeserializer;
+import com.danit.utils.serializers.CustomBaseEntityListSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -60,6 +65,9 @@ public class Client extends Auditable implements BaseEntity {
   @Column(name = "active")
   private Boolean active;
 
+  @JsonDeserialize(using = CustomBaseEntityListDeserializer.class)
+  @JsonSerialize(using = CustomBaseEntityListSerializer.class)
+  @TargetClass(value = Contract.class, name = "contracts")
   @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
   private List<Contract> contracts;
 

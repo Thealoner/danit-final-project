@@ -1,7 +1,12 @@
 package com.danit.models;
 
+import com.danit.annotations.TargetClass;
 import com.danit.models.auditor.Auditable;
+import com.danit.utils.deserializers.CustomBaseEntityListDeserializer;
+import com.danit.utils.serializers.CustomBaseEntityListSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -39,6 +44,9 @@ public class UserRole extends Auditable implements BaseEntity {
   @Column(name = "role", unique = true)
   private UserRolesEnum role;
 
+  @JsonDeserialize(using = CustomBaseEntityListDeserializer.class)
+  @JsonSerialize(using = CustomBaseEntityListSerializer.class)
+  @TargetClass(value = User.class, name = "users")
   @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
   @JsonIgnore
   private List<User> users;
