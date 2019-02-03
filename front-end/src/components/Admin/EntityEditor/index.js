@@ -26,7 +26,15 @@ class EntityEditor extends Component {
     const { currentTab, saveFormData, addRecord } = this.props;
 
     if (currentTab.form.data && currentTab.form.data.id) {
-      saveFormData(currentTab.tabKey, values, currentTab.grid.columns, 'edit', 1);
+      saveFormData(
+        currentTab.tabKey,
+        values,
+        currentTab.grid.columns,
+        'edit',
+        1,
+        currentTab.filter,
+        currentTab.grid.sorting
+      );
     } else {
       addRecord(currentTab.tabKey, values, currentTab.grid.columns, 'edit', 1);
     }
@@ -36,7 +44,14 @@ class EntityEditor extends Component {
     const { deleteCurrentEntityItem, currentTab } = this.props;
 
     const toastrConfirmOptions = {
-      onOk: () => deleteCurrentEntityItem(currentTab.tabKey, currentTab.form.data, currentTab.grid.columns, 1),
+      onOk: () => deleteCurrentEntityItem(
+        currentTab.tabKey,
+        currentTab.form.data,
+        currentTab.grid.columns,
+        1,
+        currentTab.filter,
+        currentTab.grid.sorting
+      ),
       okText: 'Да',
       cancelText: 'Нет'
     };

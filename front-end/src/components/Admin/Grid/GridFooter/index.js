@@ -21,7 +21,9 @@ class GridFooter extends Component {
       page: activePage,
       size: currentTab.grid.meta.elementsPerPage,
       columns: currentTab.grid.columns,
-      filter: currentTab.filter
+      filter: currentTab.filter,
+      sortColumn: currentTab.grid.sorting.column,
+      sortDirection: currentTab.grid.sorting.direction
     });
   };
 
