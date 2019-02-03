@@ -117,4 +117,15 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { showEditCollision, hideEditCollision })(SocketComponent);
+const mapDispatchToProps = dispatch => {
+  return {
+    showEditCollision: (collisionRecord) => {
+      dispatch(showEditCollision(collisionRecord));
+    },
+    hideEditCollision: (collisionRecord) => {
+      dispatch(hideEditCollision(collisionRecord));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SocketComponent);
