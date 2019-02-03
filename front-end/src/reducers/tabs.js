@@ -199,12 +199,11 @@ export default function tabsReducer (state = initialState, action) {
       return updateCurrentTabFormData(state, formData);
     }
 
-    case tab.SHOW_EDIT_COLLISION: {
-      debugger;
+    case tab.SHOW_COLLISION: {
       return updateFormCollision(state, action.payload.collisionRecord, true);
     }
 
-    case tab.HIDE_EDIT_COLLISION: {
+    case tab.HIDE_COLLISION: {
       return updateFormCollision(state, action.payload.collisionRecord, false);
     }
 

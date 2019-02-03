@@ -239,7 +239,7 @@ export const deleteCurrentEntityItem = (tabKey, formData, columns, page, filter,
 
 export const showEditCollision = collisionRecord => {
   return {
-    type: tab.SHOW_EDIT_COLLISION,
+    type: tab.SHOW_COLLISION,
     payload: {
       collisionRecord
     }
@@ -248,7 +248,7 @@ export const showEditCollision = collisionRecord => {
 
 export const hideEditCollision = collisionRecord => {
   return {
-    type: tab.HIDE_EDIT_COLLISION,
+    type: tab.HIDE_COLLISION,
     payload: {
       collisionRecord
     }

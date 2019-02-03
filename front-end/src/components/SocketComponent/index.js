@@ -24,26 +24,29 @@ class SocketComponent extends Component {
   }
 
   handleIncomingEvent = frame => {
-    // frame = {
-    //   "id":1,
-    //   "userId":1,
-    //   "baseEntityName":"services",
+    // {
+    //   "creationDate":"2019-02-03 22-07-11",
+    //   "id":9,
+    //   "userId":2,
+    //   "baseEntityName":"users",
     //   "baseEntityId":1,
-    //   "lastModifiedDate":"2019-02-02 22-28-49",
-    //   "busy":null
+    //   "tabOwnerName":"Sarah",
+    //   "busy":true,
+    //   "message":"tab is already opened by user - Sarah"
     // }
     
     if (frame.command === 'MESSAGE') {
       try {
         const collisionRecord = JSON.parse(frame.body);
-        showEditCollision(collisionRecord);
+
+        if (collisionRecord.busy) {
+          showEditCollision(collisionRecord);
+        } else {
+          hideEditCollision(collisionRecord);
+        }
       } catch (e) {
         console.log('Error parsing frame.body');
       }
-
-      // if ('/events/close') {
-      //   hideEditCollision(collisionRecords);
-      // }
     }
   }
 
@@ -58,14 +61,11 @@ class SocketComponent extends Component {
   };
 
   componentDidMount () {
-    const { user } = this.props;
+    const { userId } = this.props;
 
     this.setState({
       loaded: true
     });
-
-    // TODO: USER ID
-    const userId = 1;
 
     this.client.connect(this.headers, (frame) => {
       this.client.subscribe('/events/' + userId, (frame) => {
@@ -75,12 +75,9 @@ class SocketComponent extends Component {
   };
 
   componentDidUpdate (prevProps) {
-    const { currentTab, activeKey } = this.props;
+    const { currentTab, userId } = this.props;
     const prevCurrentTab = prevProps.currentTab;
     
-    // TODO: USER ID
-    const userId = 1;
-
     if (currentTab && prevCurrentTab && prevCurrentTab.type !== currentTab.type) {
       if (currentTab.type === 'form') {
         this.sendMessage('/api/tab/open', {
@@ -113,22 +110,11 @@ const mapStateToProps = state => {
   }
 
   return {
-    user: state.user,
+    userId: state.user.profile.data.id,
     tabs: state.tabs,
     activeKey: state.activeKey,
     currentTab
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    showEditCollision: (collisionRecord) => {
-      dispatch(showEditCollision(collisionRecord));
-    },
-    hideEditCollision: (collisionRecord) => {
-      dispatch(hideEditCollision(collisionRecord));
-    }
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SocketComponent);
+export default connect(mapStateToProps, { showEditCollision, hideEditCollision })(SocketComponent);
