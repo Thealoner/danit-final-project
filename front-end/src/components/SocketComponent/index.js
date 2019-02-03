@@ -34,6 +34,8 @@ class SocketComponent extends Component {
     //   "busy":true,
     //   "message":"tab is already opened by user - Sarah"
     // }
+
+    const { showEditCollision, hideEditCollision } = this.props;
     
     if (frame.command === 'MESSAGE') {
       try {
@@ -117,15 +119,4 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    showEditCollision: (collisionRecord) => {
-      dispatch(showEditCollision(collisionRecord));
-    },
-    hideEditCollision: (collisionRecord) => {
-      dispatch(hideEditCollision(collisionRecord));
-    }
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SocketComponent);
+export default connect(mapStateToProps, { showEditCollision, hideEditCollision })(SocketComponent);
