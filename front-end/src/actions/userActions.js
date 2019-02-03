@@ -10,10 +10,12 @@ export const getAvatar = () => {
           dispatch(updateAvatar({ avatar }));
         },
         error => {
-          if (error.response.status !== 406) {
-            error.response.json().then(data => toastr.error(data.message));
-          } else {
+          if (error.response.status === 500) {
+            toastr.error('Сервер недоступен');
+          } else if (error.response.status === 406) {
             toastr.error(error.response.status + ' ' + error.response.statusText);
+          } else {
+            error.response.json().then(data => toastr.error(data.message));
           }
         }
       );
