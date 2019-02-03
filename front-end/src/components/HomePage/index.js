@@ -36,7 +36,8 @@ class HomePage extends Component {
         <div className='home'>
           <Header handleLogout={this.handleLogout} userName={user.sub} />
           <Route exact path="/profile" component={Profile} />
-          <Route exact path='/' component={user.sub === 'Admin' ? Admin : Manager} />
+          {/* <Route exact path='/' component={user.sub === 'Admin' ? Admin : Manager} /> */}
+          <Route exact path='/' component={Admin} />
         </div>
       );
     } else {
