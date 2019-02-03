@@ -4,6 +4,9 @@ import ajaxRequest from '../../../../../helpers/ajaxRequest';
 import SearchFieldResults from '../SearchFieldResults';
 import { toastr } from 'react-redux-toastr';
 
+const WAIT_INTERVAL = 1000;
+const ENTER_KEY = 13;
+
 export default class RenderSearchField extends Component {
   state = {
     isLoading: false,
@@ -14,6 +17,7 @@ export default class RenderSearchField extends Component {
 
   componentWillMount () {
     this.resetComponent();
+    this.timer = null;
   }
 
   resetComponent = () => this.setState({ isLoading: false, results: [], value: '' });
@@ -39,7 +43,21 @@ export default class RenderSearchField extends Component {
   }
 
   handleSearchChange = (e, { value }) => {
+    clearTimeout(this.timer);
+    this.setState({ value });
+    this.timer = setTimeout(this.triggerChange, WAIT_INTERVAL);
+  }
+
+  handleKeyDown = (e) => {
+    if (e.keyCode === ENTER_KEY) {
+      clearTimeout(this.timer);
+      this.triggerChange();
+    }
+  }
+
+  triggerChange = () => {
     const { entity } = this.props;
+    const { value } = this.state;
 
     this.setState({
       isLoading: true,
@@ -123,6 +141,7 @@ export default class RenderSearchField extends Component {
           loading={isLoading}
           onResultSelect={this.handleResultSelect}
           onSearchChange={this.handleSearchChange}
+          onKeyDown={this.handleKeyDown}
           results={results}
           value={value}
           resultRenderer={SearchFieldResults}
