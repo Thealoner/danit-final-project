@@ -22,3 +22,47 @@ export const updateTabAttributes = (state, newAttributes, tabKey) => {
 
   return newState;
 };
+
+export const updateCurrentTabFormData = (state, formData) => {
+  const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === state.activeKey);
+
+  const updatedTab = {
+    ...state.tabsArray[tabIndex],
+    form: {
+      ...state.tabsArray[tabIndex].form,
+      ...formData
+    }
+  };
+
+  const newState = {
+    ...state,
+    tabsArray: [
+      ...state.tabsArray.filter(tab => tab.tabKey !== state.activeKey),
+      updatedTab
+    ]
+  };
+
+  return newState;
+};
+
+export const updateCurrentTabGridData = (state, gridData) => {
+  const tabIndex = state.tabsArray.findIndex(tab => tab.tabKey === state.activeKey);
+
+  const updatedTab = {
+    ...state.tabsArray[tabIndex],
+    grid: {
+      ...state.tabsArray[tabIndex].grid,
+      ...gridData
+    }
+  };
+
+  const newState = {
+    ...state,
+    tabsArray: [
+      ...state.tabsArray.filter(tab => tab.tabKey !== state.activeKey),
+      updatedTab
+    ]
+  };
+
+  return newState;
+};

@@ -68,6 +68,7 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
         throw new IllegalEntityFormatException(getEntityName() + LOG_MSG2 + e.getId() +
             " shouldn't contain id to be persisted in DB");
       }
+      serviceUtils.reformatBaseEntityFields(e);
     });
     List<E> savedEntityList = (List<E>) baseEntityRepository.saveAll(entityList);
     notifyChannel(WebSocketEvent.POST, savedEntityList);
@@ -76,6 +77,7 @@ public abstract class AbstractBaseEntityService<E extends BaseEntity, R> impleme
 
   @Override
   public E saveEntity(E entity) {
+    serviceUtils.reformatBaseEntityFields(entity);
     E savedEntity = baseEntityRepository.save(entity);
     notifyChannel(WebSocketEvent.POST, savedEntity);
     return savedEntity;

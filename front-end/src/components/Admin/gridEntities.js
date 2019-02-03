@@ -66,7 +66,7 @@ const gridEntities = [
           type: 'number'
         },
         limitAdditionalServices: {
-          title: 'Ораничение по количеству доп. услуг',
+          title: 'Ограничение по количеству доп. услуг',
           type: 'boolean'
         },
         limitUsageByPaymentPercentage: {
@@ -119,6 +119,8 @@ const gridEntities = [
     columns: [
       { title: 'ID', field: 'id' },
       { title: 'Название', field: 'title' },
+      // { title: 'Категория', field: 'serviceCategory.title' },
+      // { title: 'service_qty', field: 'service_qty' },
       { title: 'Цена', field: 'price', align: 'left' },
       { title: 'Себестоимость', field: 'cost', align: 'left' },
       { title: 'Единица измерения', field: 'unit', align: 'left' },
@@ -276,7 +278,7 @@ const gridEntities = [
     uiSchema: {
       firstName: {'ui:autofocus': true},
       email: {'ui:widget': 'email'},
-      birthDate: {'ui:widget': 'date'}
+      birthDate: {'ui:widget': 'text'}
     }
   },
   {

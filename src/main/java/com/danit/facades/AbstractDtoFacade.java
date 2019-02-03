@@ -62,8 +62,9 @@ public abstract class AbstractDtoFacade<D extends BaseDto, E extends BaseEntity,
   }
 
   @Override
-  public List<D> saveEntities(List<E> entities) {
-    return convertToDtos(entityService.saveEntities(entities));
+  public List<D> saveEntities(List<D> entities) {
+    return convertToDtos(entityService
+        .saveEntities(convertDtosToEntities(entities)));
   }
 
   @Override
@@ -72,8 +73,9 @@ public abstract class AbstractDtoFacade<D extends BaseDto, E extends BaseEntity,
   }
 
   @Override
-  public List<D> updateEntities(List<E> entities) {
-    return convertToDtos(entityService.updateEntities(entities));
+  public List<D> updateEntities(List<D> entities) {
+    return convertToDtos(entityService
+        .updateEntities(convertDtosToEntities(entities)));
   }
 
   @Override
