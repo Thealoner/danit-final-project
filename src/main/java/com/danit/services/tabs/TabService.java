@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class TabService {
@@ -47,7 +46,7 @@ public class TabService {
   }
 
   public List<Tab> getAllTabOwnersByTab(Tab tab) {
-    List<Tab> tabs = tabRepository.findByBaseEntityNameAndBaseEntityIdOrderByCreationDateDesc(tab.getBaseEntityName(), tab.getBaseEntityId());
+    List<Tab> tabs = tabRepository.findByBaseEntityNameAndBaseEntityIdOrderByCreationDateAsc(tab.getBaseEntityName(), tab.getBaseEntityId());
     if (!tabs.isEmpty()) {
       User user = userService.getEntityById(tabs.get(0).getUserId());
       for (int i = 0; i < tabs.size(); i++) {
@@ -71,21 +70,17 @@ public class TabService {
   }
 
   public Tab checkIfTabIsUsed(Tab tab) {
-    Tab editableTab = tabRepository.findTopByBaseEntityNameAndBaseEntityIdOrderByCreationDateDesc(
+    Tab editableTab = tabRepository.findTopByBaseEntityNameAndBaseEntityIdOrderByCreationDateAsc(
         tab.getBaseEntityName(), tab.getBaseEntityId());
-    String username = userService.getEntityById(
-        (Objects.nonNull(editableTab) ? editableTab : tab).getId()).getUsername();
-    if (Objects.nonNull(editableTab)) {
-      editableTab.setTabOwnerName(username);
+    String username = userService.getEntityById(editableTab.getUserId()).getUsername();
+    editableTab.setTabOwnerName(username);
+    if (!tab.equals(editableTab)) {
       editableTab.setMessage("tab is already opened by user - " + username);
       editableTab.setBusy(true);
-      editableTab.setTabOwnerName(username);
-      return editableTab;
     } else {
-      tab.setTabOwnerName(username);
-      tab.setBusy(false);
-      return tab;
+      editableTab.setBusy(false);
     }
+    return editableTab;
   }
 
   public List<Tab> checkIfTabsIsUsed(List<Tab> tabs) {

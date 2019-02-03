@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -24,6 +25,7 @@ import static javax.persistence.TemporalType.TIMESTAMP;
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = "creationDate",
     allowGetters = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
 public class Tab {
 
@@ -31,13 +33,18 @@ public class Tab {
   @Temporal(TIMESTAMP)
   @JsonSerialize(using = CustomDateTimeSerializer.class)
   @JsonDeserialize(using = CustomDateTimeDeserializer.class)
+
   protected Date creationDate;
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @EqualsAndHashCode.Include
   Long id;
   private Long userId;
+
   private String baseEntityName;
+
   private Long baseEntityId;
+
   @Transient
   private String tabOwnerName;
 

@@ -14,8 +14,8 @@ public interface TabRepository extends CrudRepository<Tab, Long> {
 
   void deleteAllByUserId(Long userId);
 
-  Tab findTopByBaseEntityNameAndBaseEntityIdOrderByCreationDateDesc(String entityName, Long entityId);
+  Tab findTopByBaseEntityNameAndBaseEntityIdOrderByCreationDateAsc(String entityName, Long entityId);
 
-  List<Tab> findByBaseEntityNameAndBaseEntityIdOrderByCreationDateDesc(String entityName, Long entityId);
+  List<Tab> findByBaseEntityNameAndBaseEntityIdOrderByCreationDateAsc(String entityName, Long entityId);
 
 }
