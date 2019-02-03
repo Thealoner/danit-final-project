@@ -53,10 +53,6 @@ class User extends Component {
     const { currentTab, initialize } = this.props;
     const { data } = currentTab.form;
     
-    if (data.roles[0] && data.roles[0].id) {
-      data.roles = data.roles.map(el => '' + el.id);
-    }
-
     initialize(data);
   }
 
