@@ -226,3 +226,10 @@
     margin-bottom: 20px;
   }
 }
+
+.message {
+  &--alert {
+    color: darkred;
+    background-color: $warning-bg;
+  }
+}

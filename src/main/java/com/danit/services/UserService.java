@@ -139,7 +139,7 @@ public class UserService extends AbstractBaseEntityService<User, UserListRequest
   public void setCurrentUserAvatar(MultipartFile file) {
     try {
       BufferedImage image = ImageIO.read(file.getInputStream());
-      if (!file.getOriginalFilename().toLowerCase().endsWith(".png")) {
+      if (!file.getOriginalFilename().toLowerCase().matches(".*(png|jpg)$")) {
         throw new ImageFormatException("only .png format is acceptable");
       }
       if (image.getWidth() > imageWidth || image.getHeight() > imageHeight) {
@@ -162,6 +162,10 @@ public class UserService extends AbstractBaseEntityService<User, UserListRequest
       amazonClientService.deleteFileFromS3Bucket(fileName, "avatars");
       setUserAvatar("");
     }
+  }
+
+  public User findUserByUsername(String name) {
+    return userRepository.findByUsername(name);
   }
 
   private String getCurrentUserAvatarImageName() {

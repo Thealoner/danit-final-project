@@ -1,6 +1,6 @@
 package com.danit.exceptions.handlers;
 
-import com.danit.utils.CustomDateTimeSerializer;
+import com.danit.utils.serializers.CustomDateTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;

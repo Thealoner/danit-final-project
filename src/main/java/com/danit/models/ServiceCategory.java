@@ -1,7 +1,12 @@
 package com.danit.models;
 
 
+import com.danit.annotations.TargetClass;
 import com.danit.models.auditor.Auditable;
+import com.danit.utils.deserializers.CustomBaseEntityListDeserializer;
+import com.danit.utils.serializers.CustomBaseEntityListSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -30,9 +35,6 @@ import java.util.List;
 public class ServiceCategory extends Auditable implements BaseEntity {
   @Id
   @Column(name = "id")
-  //  @SequenceGenerator(name = "service_category_sequence", sequenceName = "service_category_sequence",
-  //      allocationSize = 1, initialValue = 1001)
-  //  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "service_category_sequence")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @EqualsAndHashCode.Include
   private Long id;
@@ -43,6 +45,9 @@ public class ServiceCategory extends Auditable implements BaseEntity {
   @Column(name = "active")
   private Boolean active;
 
+  @JsonDeserialize(using = CustomBaseEntityListDeserializer.class)
+  @JsonSerialize(using = CustomBaseEntityListSerializer.class)
+  @TargetClass(value = Service.class, name = "services")
   @ManyToMany(fetch = FetchType.EAGER, mappedBy = "serviceCategories")
   private List<Service> services;
 

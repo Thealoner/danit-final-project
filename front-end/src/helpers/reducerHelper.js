@@ -66,3 +66,37 @@ export const updateCurrentTabGridData = (state, gridData) => {
 
   return newState;
 };
+
+export const updateFormCollision = (state, collisionRecord, collisionStatus) => {
+  const tabIndex = state.tabsArray.findIndex(tab => {
+    return (
+      tab.tabKey === collisionRecord.baseEntityName &&
+      tab.type === 'form' &&
+      tab.form &&
+      tab.form.data &&
+      tab.form.data.id &&
+      tab.form.data.id === collisionRecord.baseEntityId
+    );
+  });
+
+  const updatedTab = {
+    ...state.tabsArray[tabIndex],
+    form: {
+      ...state.tabsArray[tabIndex].form,
+      editCollision: {
+        ...collisionRecord,
+        collisionStatus
+      }
+    }
+  };
+
+  const newState = {
+    ...state,
+    tabsArray: [
+      ...state.tabsArray.filter(tab => tab.tabKey !== state.activeKey),
+      updatedTab
+    ]
+  };
+
+  return newState;
+};

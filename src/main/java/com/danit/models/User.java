@@ -1,6 +1,11 @@
 package com.danit.models;
 
+import com.danit.annotations.TargetClass;
 import com.danit.models.auditor.Auditable;
+import com.danit.utils.deserializers.CustomBaseEntityListDeserializer;
+import com.danit.utils.serializers.CustomBaseEntityListSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -25,8 +30,6 @@ import java.util.List;
 @Data
 public class User extends Auditable implements BaseEntity {
   @Id
-  //  @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 1, initialValue = 1001)
-  //  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   @EqualsAndHashCode.Include
@@ -44,6 +47,9 @@ public class User extends Auditable implements BaseEntity {
   @Column(name = "avatar_image_name")
   private String avatarImageName;
 
+  @JsonDeserialize(using = CustomBaseEntityListDeserializer.class)
+  @JsonSerialize(using = CustomBaseEntityListSerializer.class)
+  @TargetClass(value = UserRole.class, name = "roles")
   @ManyToMany(fetch = FetchType.EAGER)
   private List<UserRole> roles;
 

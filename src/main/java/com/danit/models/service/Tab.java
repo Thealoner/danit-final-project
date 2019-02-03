@@ -1,5 +1,4 @@
-package com.danit.models.auditor;
-
+package com.danit.models.service;
 
 import com.danit.utils.deserializers.CustomDateTimeDeserializer;
 import com.danit.utils.serializers.CustomDateTimeSerializer;
@@ -7,42 +6,52 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
-import org.springframework.data.annotation.CreatedBy;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import java.util.Date;
 
 import static javax.persistence.TemporalType.TIMESTAMP;
 
-@MappedSuperclass
+@Entity
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = {"creationDate", "lastModifiedBy", "lastModifiedDate", "createdBy"},
+@JsonIgnoreProperties(value = "creationDate",
     allowGetters = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
-public abstract class Auditable {
-
-  @CreatedBy
-  protected String createdBy;
+public class Tab {
 
   @CreatedDate
   @Temporal(TIMESTAMP)
   @JsonSerialize(using = CustomDateTimeSerializer.class)
   @JsonDeserialize(using = CustomDateTimeDeserializer.class)
+
   protected Date creationDate;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @EqualsAndHashCode.Include
+  Long id;
+  private Long userId;
 
-  @LastModifiedBy
-  protected String lastModifiedBy;
+  private String baseEntityName;
 
-  @LastModifiedDate
-  @Temporal(TIMESTAMP)
-  @JsonSerialize(using = CustomDateTimeSerializer.class)
-  @JsonDeserialize(using = CustomDateTimeDeserializer.class)
-  protected Date lastModifiedDate;
+  private Long baseEntityId;
+
+  @Transient
+  private String tabOwnerName;
+
+  @Transient
+  private Boolean busy;
+
+  @Transient
+  private String message;
 
 }
