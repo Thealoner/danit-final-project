@@ -58,3 +58,8 @@ export const updateAvatar = payload => {
     payload
   };
 };
+
+export const setProfile = payload => ({
+  type: user.SET_PROFILE,
+  payload
+});
