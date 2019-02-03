@@ -126,18 +126,4 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getAvatar: () => {
-      dispatch(getAvatar());
-    },
-    postAvatar: avatar => {
-      dispatch(postAvatar(avatar));
-    },
-    deleteAvatar: () => {
-      dispatch(deleteAvatar());
-    }
-  };
-};
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Profile));
+export default withRouter(connect(mapStateToProps, { getAvatar, postAvatar, deleteAvatar })(Profile));

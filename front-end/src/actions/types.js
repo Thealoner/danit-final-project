@@ -17,5 +17,6 @@ export const tab = {
 };
 
 export const user = {
-  UPDATE_AVATAR: 'UPDATE_AVATAR'
+  UPDATE_AVATAR: 'UPDATE_AVATAR',
+  SET_PROFILE: 'SET_PROFILE'
 };
