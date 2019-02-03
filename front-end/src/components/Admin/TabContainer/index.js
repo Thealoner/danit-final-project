@@ -36,10 +36,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  openTab: tabKey => {
-    dispatch(openTab(tabKey));
-  }
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(TabContainer);
+export default connect(mapStateToProps, { openTab })(TabContainer);

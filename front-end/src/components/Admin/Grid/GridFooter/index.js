@@ -59,15 +59,4 @@ class GridFooter extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getGridData: (options) => {
-      dispatch(getGridData(options));
-    },
-    setFormData: (tabKey, payload) => {
-      dispatch(setFormData(tabKey, payload));
-    }
-  };
-};
-
-export default connect(null, mapDispatchToProps)(GridFooter);
+export default connect(null, { getGridData, setFormData })(GridFooter);
