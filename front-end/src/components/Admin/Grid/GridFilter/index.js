@@ -202,15 +202,4 @@ class GridFilter extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getGridData: (options) => {
-      dispatch(getGridData(options));
-    },
-    setFilter: (filter) => {
-      dispatch(setFilter(filter));
-    }
-  };
-};
-
-export default connect(null, mapDispatchToProps)(GridFilter);
+export default connect(null, { getGridData, setFilter })(GridFilter);
