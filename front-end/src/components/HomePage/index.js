@@ -62,8 +62,7 @@ class HomePage extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user,
-  state: state
+  user: state.user
 });
 
 export default connect(mapStateToProps, { setProfile })(HomePage);
