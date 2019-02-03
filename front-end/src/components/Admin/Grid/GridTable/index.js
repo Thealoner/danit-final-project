@@ -34,14 +34,14 @@ class GridTable extends Component {
       columnHeaderSortMulti: false,
       dataSorting: sorters => {
         if (sorters.length > 0 && (sorters[0].field !== sorting.column || sorters[0].dir !== sorting.direction)) {
-          getSortedData(
-            sorters[0].field,
-            sorters[0].dir,
-            currentTab.tabKey,
-            currentTab.grid.columns,
-            1,
-            currentTab.grid.filter
-          );
+          getSortedData({
+            sortColumn: sorters[0].field,
+            sortDirection: sorters[0].dir,
+            tabKey: currentTab.tabKey,
+            columns: currentTab.grid.columns,
+            page: 1,
+            filter: currentTab.grid.filter
+          });
         }
       }
     });
@@ -68,22 +68,4 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getFormData: (tabKey, id, mode) => {
-      dispatch(getFormData(tabKey, id, mode));
-    },
-    getSortedData: (sortColumn, sortDirection, tabKey, columns, page, filter) => {
-      dispatch(getSortedData({
-        sortColumn,
-        sortDirection,
-        tabKey,
-        columns,
-        page,
-        filter
-      }));
-    }
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(GridTable);
+export default connect(mapStateToProps, { getFormData, getSortedData })(GridTable);
