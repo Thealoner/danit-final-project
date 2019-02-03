@@ -1,5 +1,6 @@
-package com.danit.dto;
+package com.danit.dto.service;
 
+import com.danit.dto.Views;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Data;
