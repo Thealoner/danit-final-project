@@ -31,7 +31,7 @@ class EntityEditor extends Component {
         values,
         currentTab.grid.columns,
         'edit',
-        1,
+        currentTab.grid.meta.currentPage,
         currentTab.filter,
         currentTab.grid.sorting
       );
@@ -48,7 +48,7 @@ class EntityEditor extends Component {
         currentTab.tabKey,
         currentTab.form.data,
         currentTab.grid.columns,
-        1,
+        currentTab.grid.meta.currentPage,
         currentTab.filter,
         currentTab.grid.sorting
       ),

@@ -9,7 +9,7 @@ const RenderField = ({
   <div className="form-group field field-string">
     <label className="control-label">{label}</label>
     <div>
-      <input {...input} type={type} className={error ? 'field_error-input' : null || warning ? 'field_warning-input' : null} />
+      <input {...input} type={type} className={error ? 'field_error-input' : null || warning ? 'field_warning-input' : null} required />
       {touched &&
         ((error && <div className="field_error">{error}</div>) ||
           (warning && <div className="field_warning">{warning}</div>))}
