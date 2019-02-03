@@ -27,7 +27,7 @@ const _ajaxRequest = (url, method, body) => {
       .then(authService._checkStatus)
       .then(response => { return method !== 'DELETE' ? response.json() : Promise.resolve(); });
   } else {
-    return Promise.reject({ message: 'Истекло время сессии' });
+    return Promise.reject(new Error('Истекло время сессии'));
   }
 };
 
