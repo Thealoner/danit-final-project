@@ -46,7 +46,10 @@ public class TabService {
   }
 
   public List<Tab> getAllTabOwnersByTab(Tab tab) {
-    List<Tab> tabs = tabRepository.findByBaseEntityNameAndBaseEntityIdOrderByCreationDateAsc(tab.getBaseEntityName(), tab.getBaseEntityId());
+    List<Tab> tabs = tabRepository.findByBaseEntityNameAndBaseEntityIdOrderByCreationDateAsc(
+        tab.getBaseEntityName(),
+        tab.getBaseEntityId()
+    );
     if (!tabs.isEmpty()) {
       User user = userService.getEntityById(tabs.get(0).getUserId());
       for (int i = 0; i < tabs.size(); i++) {
