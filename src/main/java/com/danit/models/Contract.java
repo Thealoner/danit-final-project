@@ -2,7 +2,6 @@ package com.danit.models;
 
 
 import com.danit.annotations.TargetClass;
-import com.danit.dto.CardDto;
 import com.danit.models.auditor.Auditable;
 import com.danit.utils.deserializers.CustomBaseEntityListDeserializer;
 import com.danit.utils.serializers.CustomBaseEntityListSerializer;
