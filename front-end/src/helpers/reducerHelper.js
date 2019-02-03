@@ -99,4 +99,4 @@ export const updateFormCollision = (state, collisionRecord, collisionStatus) => 
   };
 
   return newState;
-}
+};
