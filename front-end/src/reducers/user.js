@@ -1,7 +1,7 @@
 import { user } from '../actions/types';
 
 const initialState = {
-  user: null,
+  profile: null,
   avatar: ''
 };
 
@@ -11,6 +11,13 @@ export default function userReducer (state = initialState, action) {
       return {
         ...state,
         avatar: action.payload.avatar
+      };
+    }
+
+    case user.SET_PROFILE: {
+      return {
+        ...state,
+        profile: action.payload
       };
     }
 
