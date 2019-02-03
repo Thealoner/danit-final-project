@@ -33,17 +33,32 @@ public class TabService {
   public Tab saveTab(Tab tab) {
     User user = serviceUtils.getUserFromAuthContext();
     tab.setUserId(user.getId());
-    tab.setUserName(user.getUsername());
+    tab.setTabOwnerName(user.getUsername());
     return tabRepository.save(tab);
   }
 
   public List<Tab> saveTabs(List<Tab> tabs) {
     User user = serviceUtils.getUserFromAuthContext();
     tabs.forEach(tab -> {
-      tab.setUserName(user.getUsername());
+      tab.setTabOwnerName(user.getUsername());
       tab.setUserId(user.getId());
     });
     return (List<Tab>) tabRepository.saveAll(tabs);
+  }
+
+  public List<Tab> getAllTabOwnersByTab(Tab tab) {
+    List<Tab> tabs = tabRepository.findByBaseEntityNameAndBaseEntityIdOrderByCreationDateDesc(tab.getBaseEntityName(), tab.getBaseEntityId());
+    if (!tabs.isEmpty()) {
+      User user = userService.getEntityById(tabs.get(0).getUserId());
+      for (int i = 0; i < tabs.size(); i++) {
+        tabs.get(i).setTabOwnerName(user.getUsername());
+        if (i > 0) {
+          tabs.get(i).setBusy(true);
+          tabs.get(i).setMessage("tab is already opened by user - " + user.getUsername());
+        }
+      }
+    }
+    return tabs;
   }
 
   public void deleteTab(Tab tab) {
@@ -58,13 +73,16 @@ public class TabService {
   public Tab checkIfTabIsUsed(Tab tab) {
     Tab editableTab = tabRepository.findTopByBaseEntityNameAndBaseEntityIdOrderByCreationDateDesc(
         tab.getBaseEntityName(), tab.getBaseEntityId());
+    String username = userService.getEntityById(
+        (Objects.nonNull(editableTab) ? editableTab : tab).getId()).getUsername();
     if (Objects.nonNull(editableTab)) {
-      String username = userService.getEntityById(editableTab.getId()).getUsername();
+      editableTab.setTabOwnerName(username);
       editableTab.setMessage("tab is already opened by user - " + username);
       editableTab.setBusy(true);
-      editableTab.setUserName(username);
+      editableTab.setTabOwnerName(username);
       return editableTab;
     } else {
+      tab.setTabOwnerName(username);
       tab.setBusy(false);
       return tab;
     }

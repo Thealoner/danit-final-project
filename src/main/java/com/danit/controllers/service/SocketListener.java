@@ -47,6 +47,8 @@ public class SocketListener {
   void tabClosed(Tab tab, Principal principal) {
     log.info("tab is closed =" + tab);
     tabService.deleteTab(tab);
+    tabService.getAllTabOwnersByTab(tab)
+        .forEach(tab1 -> messagingTemplate.convertAndSend(webSocketUtils.getPrefix() + tab1.getUserId(), tab1));
   }
 
   @MessageMapping("/tab/check")

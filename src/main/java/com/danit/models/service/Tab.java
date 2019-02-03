@@ -39,7 +39,7 @@ public class Tab {
   private String baseEntityName;
   private Long baseEntityId;
   @Transient
-  private String userName;
+  private String tabOwnerName;
 
   @Transient
   private Boolean busy;
