@@ -4,7 +4,6 @@ import com.danit.Application;
 import com.danit.dto.ClientDto;
 import com.danit.models.Client;
 import com.danit.services.ClientService;
-import com.danit.utils.ServiceUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

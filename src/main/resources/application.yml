@@ -45,7 +45,7 @@ application:
 #Websocket constants
 websocket:
   stompEndpoint: "/socket"
-  prefix: "/events"
+  prefix: "/events/"
   postEventEndPoint: "/events/post"
   putEventEndPoint: "/events/put"
   deleteEventEndPoint: "/events/delete"

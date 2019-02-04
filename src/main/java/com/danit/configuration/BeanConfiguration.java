@@ -4,10 +4,12 @@ import com.danit.dto.CardDto;
 import com.danit.dto.ContractDto;
 import com.danit.models.Card;
 import com.danit.models.Contract;
-import com.danit.utils.CustomDateDeserializer;
-import com.danit.utils.CustomDateSerializer;
+import com.danit.utils.deserializers.CustomDateDeserializer;
+import com.danit.utils.serializers.CustomDateSerializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.NamingConventions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +17,7 @@ import org.springframework.context.annotation.Configuration;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Slf4j
 @Configuration
 public class BeanConfiguration {
 
@@ -28,7 +31,10 @@ public class BeanConfiguration {
   public ModelMapper modelMapper() {
     ModelMapper modelMapper = new ModelMapper();
     modelMapper.getConfiguration()
-        .setAmbiguityIgnored(true);
+        .setAmbiguityIgnored(true)
+        .setFieldMatchingEnabled(true)
+        .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE)
+        .setSourceNamingConvention(NamingConventions.JAVABEANS_MUTATOR);
 
     modelMapper.createTypeMap(Contract.class, ContractDto.class)
         .addMapping(contract -> contract.getPaket().getId(), ContractDto::setPackageId)
@@ -41,8 +47,7 @@ public class BeanConfiguration {
     modelMapper.createTypeMap(Card.class, CardDto.class)
         .addMapping(card -> card.getContract().getId(), CardDto::setContractId);
 
-    modelMapper.createTypeMap(CardDto.class, Card.class)
-        .addMapping(CardDto::getContractId, (card, id) -> card.getContract().setId((Long)id));
+    /*modelMapper.createTypeMap(UserDto.class, User.class).setConverter(getUserDtoConverter());*/
 
     return modelMapper;
   }
@@ -59,5 +64,28 @@ public class BeanConfiguration {
   public SimpleDateFormat simpleDateFormat() {
     return new SimpleDateFormat();
   }
+
+  /*@Bean
+  public Converter<UserDto, User> getUserDtoConverter() {
+    return context -> {
+      UserDto userDto = context.getSource();
+      User user = new User();
+
+      Long[] rolesIncoming = userDto.getRolesIncoming();
+      List<UserRole> userRoles = new ArrayList<>();
+
+      for (Long roleIncoming : rolesIncoming) {
+        UserRole role = new UserRole();
+        role.setId(roleIncoming);
+        userRoles.add(role);
+      }
+      user.setRoles(userRoles);
+      user.setPassword(userDto.getPassword());
+      user.setUsername(userDto.getUsername());
+      user.setId(userDto.getId());
+      user.setEmail(userDto.getEmail());
+      return user;
+    };
+  }*/
 
 }

@@ -2,7 +2,7 @@ package com.danit.utils;
 
 import com.danit.exceptions.ObjectToJsonProcessingException;
 import com.danit.models.BaseEntity;
-import com.danit.models.WebSocketEventMsg;
+import com.danit.models.service.WebSocketEventMsg;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;

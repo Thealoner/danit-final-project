@@ -1,6 +1,7 @@
 import { user } from './types';
 import ajaxRequestStorage from '../helpers/ajaxRequestStorage';
 import { toastr } from 'react-redux-toastr';
+import ajaxRequest from '../helpers/ajaxRequest';
 
 export const getAvatar = () => {
   return dispatch => {
@@ -63,3 +64,20 @@ export const setProfile = payload => ({
   type: user.SET_PROFILE,
   payload
 });
+
+export const getCurrentUserProfile = payload => {
+  return dispatch => {
+    ajaxRequest.get('/users?page=1&size=1&username=' + payload.sub + '&equal=true&sort=id,asc')
+      .then(
+        response => {
+          dispatch(setProfile({
+            ...payload,
+            data: response.data[0]
+          }));
+        },
+        error => {
+          error.response.json().then(data => toastr.error(data.message));
+        }
+      );
+  };
+};
