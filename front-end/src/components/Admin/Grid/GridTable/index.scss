@@ -45,16 +45,9 @@
       background-color: #d9d5e4 !important;
     }
 
-    &[aria-sort="asc"]{
-      .tabulator-arrow {
-        border-bottom: 6px solid $rowBorderColor !important;
-      }
-    }
-
     &[aria-sort="desc"] {
      .tabulator-arrow {
        margin-top: 1px;
-       border-top: 6px solid $rowBorderColor !important;
      }
    }
 
@@ -93,6 +86,10 @@
     &:hover {
       background-color: $gallery !important;
     }
+  }
+
+  &-header .tabulator-col:hover {
+    background-color: #e9e7f1 !important;
   }
 }
 
