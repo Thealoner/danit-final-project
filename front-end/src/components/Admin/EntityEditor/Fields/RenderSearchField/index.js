@@ -20,7 +20,7 @@ export default class RenderSearchField extends Component {
     this.timer = null;
   }
 
-  resetComponent = () => this.setState({ isLoading: false, results: [], value: '' });
+  resetComponent = () => this.setState({ isLoading: false, results: [], value: '', hiddenValue: '' });
 
   loadFieldValue = () => {
     const { entity, entityId } = this.props;
