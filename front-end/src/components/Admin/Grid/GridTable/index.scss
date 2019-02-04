@@ -39,9 +39,18 @@
     align-items: center;
     height: 100%;
 
+
+
     &:not([aria-sort='none']) {
       background-color: #d9d5e4 !important;
     }
+
+    &[aria-sort="desc"] {
+     .tabulator-arrow {
+       margin-top: 1px;
+     }
+   }
+
   }
 
   &-cell {
@@ -77,6 +86,10 @@
     &:hover {
       background-color: $gallery !important;
     }
+  }
+
+  &-header .tabulator-col:hover {
+    background-color: #e9e7f1 !important;
   }
 }
 
