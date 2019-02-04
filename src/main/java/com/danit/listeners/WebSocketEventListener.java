@@ -1,38 +1,40 @@
 package com.danit.listeners;
 
+import com.danit.services.UserService;
+import com.danit.services.tabs.TabService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
-import java.util.Objects;
+import java.security.Principal;
 
 @Slf4j
 @Component
 public class WebSocketEventListener {
 
-  private SimpMessageSendingOperations messagingTemplate;
+  private UserService userService;
 
-  public WebSocketEventListener(SimpMessageSendingOperations messagingTemplate) {
-    this.messagingTemplate = messagingTemplate;
+  private TabService tabService;
+
+  public WebSocketEventListener(UserService userService, TabService tabService) {
+    this.userService = userService;
+    this.tabService = tabService;
   }
 
   @EventListener
   public void handleWebSocketConnectListener(SessionConnectedEvent event) {
-    log.info("Received a new web socket connection");
-    messagingTemplate.convertAndSend("/events/get", "new user connected...");
+    log.info("Received a new web socket connection for userName=" + event.getUser().getName());
   }
 
   @EventListener
   public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
     StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-    String username = (String) Objects.requireNonNull(headerAccessor.getSessionAttributes()).get("username");
-    if (username != null) {
-      log.info("User Disconnected : " + username);
-      messagingTemplate.convertAndSend("/events/users", "disconnected user: " + username);
-    }
+    String username = ((Principal) headerAccessor.getHeader("simpUser")).getName();
+    log.info("User disconnected userName=" + username);
+    tabService.deleteAllUserTabs(
+        userService.findUserByUsername(username).getId());
   }
 }

@@ -1,6 +1,7 @@
 import { user } from './types';
 import ajaxRequestStorage from '../helpers/ajaxRequestStorage';
 import { toastr } from 'react-redux-toastr';
+import ajaxRequest from '../helpers/ajaxRequest';
 
 export const getAvatar = () => {
   return dispatch => {
@@ -10,10 +11,12 @@ export const getAvatar = () => {
           dispatch(updateAvatar({ avatar }));
         },
         error => {
-          if (error.response.status !== 406) {
-            error.response.json().then(data => toastr.error(data.message));
-          } else {
+          if (error.response.status === 500) {
+            toastr.error('Сервер недоступен');
+          } else if (error.response.status === 406) {
             toastr.error(error.response.status + ' ' + error.response.statusText);
+          } else {
+            error.response.json().then(data => toastr.error(data.message));
           }
         }
       );
@@ -54,5 +57,27 @@ export const updateAvatar = payload => {
   return {
     type: user.UPDATE_AVATAR,
     payload
+  };
+};
+
+export const setProfile = payload => ({
+  type: user.SET_PROFILE,
+  payload
+});
+
+export const getCurrentUserProfile = payload => {
+  return dispatch => {
+    ajaxRequest.get('/users?page=1&size=1&username=' + payload.sub + '&equal=true&sort=id,asc')
+      .then(
+        response => {
+          dispatch(setProfile({
+            ...payload,
+            data: response.data[0]
+          }));
+        },
+        error => {
+          error.response.json().then(data => toastr.error(data.message));
+        }
+      );
   };
 };

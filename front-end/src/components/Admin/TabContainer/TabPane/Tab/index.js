@@ -4,7 +4,7 @@ import { closeTab } from '../../../../../actions/tabActions';
 import { toastr } from 'react-redux-toastr';
 
 class Tab extends Component {
-  closeTabHandler = (e, tabKey) => {
+  closeCurrentTab = (e, tabKey) => {
     const {edited, closeTab} = this.props;
 
     e.preventDefault();
@@ -33,17 +33,11 @@ class Tab extends Component {
           {title}
         </span>
         <span className="tabs__btn-wrapper">
-          <button className="tabs__close-btn" onClick={(e) => this.closeTabHandler(e, tabKey)}/>
+          <button className="tabs__close-btn" onClick={(e) => this.closeCurrentTab(e, tabKey)}/>
         </span>
       </span>
     );
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  closeTab: tabKey => {
-    dispatch(closeTab(tabKey));
-  }
-});
-
-export default connect(null, mapDispatchToProps)(Tab);
+export default connect(null, { closeTab })(Tab);

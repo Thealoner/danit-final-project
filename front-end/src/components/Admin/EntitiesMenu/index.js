@@ -45,18 +45,4 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    openTab: (tabKey, payload) => {
-      dispatch(openTab(tabKey, payload));
-    },
-    getGridData: (options) => {
-      dispatch(getGridData(options));
-    },
-    loadingTab: () => {
-      dispatch(loadingTab());
-    }
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(EntitiesMenu);
+export default connect(mapStateToProps, { openTab, getGridData, loadingTab })(EntitiesMenu);

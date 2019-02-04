@@ -1,7 +1,12 @@
 package com.danit.dto;
 
+import com.danit.annotations.TargetClass;
+import com.danit.utils.deserializers.CustomBaseEntityListDeserializer;
+import com.danit.utils.serializers.CustomBaseEntityListSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -65,6 +70,9 @@ public class PaketDto extends BaseDto {
   @JsonView(Views.Extended.class)
   private Boolean purchasable;
 
+  @JsonDeserialize(using = CustomBaseEntityListDeserializer.class)
+  @JsonSerialize(using = CustomBaseEntityListSerializer.class)
+  @TargetClass(value = ContractDto.class, name = "contracts")
   @JsonView(Views.Extended.class)
   private List<ContractDto> contracts;
 }

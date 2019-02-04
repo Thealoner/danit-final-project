@@ -9,14 +9,9 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Tuple;
-import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.Objects;
 
 import static org.springframework.data.jpa.domain.Specification.where;
@@ -66,14 +61,14 @@ public class ContractListSpecification extends BaseSpecification<Contract, Contr
     return (root, query, cb) -> {
       query.distinct(true);
       return where(
-          where(startDateContains(request.search, request.equal))
-              .or(endDateContains(request.search, request.equal))
+          where(dateSearch(request.search, "startDate", request.equal))
+              .or(dateSearch(request.search, "endDate", request.equal))
               .or(idContains(request.search, request.equal))
               .or(creditContains(request.search, request.equal))
               .or(activeContains(request.search, request.equal))
       )
-          .and(startDateContains(request.startDate, request.equal))
-          .and(endDateContains(request.endDate, request.equal))
+          .and(dateSearch(request.startDate, "startDate", request.equal))
+          .and(dateSearch(request.endDate, "endDate", request.equal))
           .and(idContains(request.id, request.equal))
           .and(creditContains(request.credit, request.equal))
           .and(activeContains(request.getActive(), request.equal))
@@ -86,56 +81,6 @@ public class ContractListSpecification extends BaseSpecification<Contract, Contr
 
   private Specification<Contract> idContains(String id, Boolean equals) {
     return equals ? attributeEquals("id", id) : attributeContains("id", id);
-  }
-
-  private Specification<Contract> startDateContains(String startDate, Boolean equals) {
-    if (Objects.nonNull(startDate)) {
-      return (root, query, cb) -> {
-        Path<Tuple> tuple = root.<Tuple>get("startDate");
-        if (tuple.getJavaType().isAssignableFrom(Date.class)) {
-          if (Arrays.asList(environment.getActiveProfiles()).contains("prod")) {
-            Expression<String> dateStringExpr = cb.function("DATE_FORMAT", String.class,
-                root.get("startDate"), cb.literal("%d-%m-%Y"));
-            return equals ? cb.like(cb.lower(dateStringExpr), startDate.toLowerCase())
-                : cb.like(cb.lower(dateStringExpr), containsLowerCase(startDate));
-          } else {
-            Expression<String> dateStringExpr = cb.function("TO_CHAR", String.class,
-                root.get("startDate"), cb.literal("dd-MM-yyyy"));
-            return equals ? cb.like(cb.lower(dateStringExpr), startDate.toLowerCase())
-                : cb.like(cb.lower(dateStringExpr), containsLowerCase(startDate));
-          }
-        } else {
-          return null;
-        }
-      };
-    } else {
-      return null;
-    }
-  }
-
-  private Specification<Contract> endDateContains(String endDate, Boolean equals) {
-    if (Objects.nonNull(endDate)) {
-      return (root, query, cb) -> {
-        Path<Tuple> tuple = root.<Tuple>get("endDate");
-        if (tuple.getJavaType().isAssignableFrom(Date.class)) {
-          if (Arrays.asList(environment.getActiveProfiles()).contains("prod")) {
-            Expression<String> dateStringExpr = cb.function("DATE_FORMAT", String.class,
-                root.get("endDate"), cb.literal("%d-%m-%Y"));
-            return equals ? cb.like(cb.lower(dateStringExpr), endDate.toLowerCase())
-                : cb.like(cb.lower(dateStringExpr), containsLowerCase(endDate));
-          } else {
-            Expression<String> dateStringExpr = cb.function("TO_CHAR", String.class,
-                root.get("endDate"), cb.literal("dd-MM-yyyy"));
-            return equals ? cb.like(cb.lower(dateStringExpr), endDate.toLowerCase())
-                : cb.like(cb.lower(dateStringExpr), containsLowerCase(endDate));
-          }
-        } else {
-          return null;
-        }
-      };
-    } else {
-      return null;
-    }
   }
 
   private Specification<Contract> creditContains(String credit, Boolean equals) {

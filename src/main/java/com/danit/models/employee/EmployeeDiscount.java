@@ -1,8 +1,8 @@
 package com.danit.models.employee;
 
 
-import com.danit.utils.CustomDateDeserializer;
-import com.danit.utils.CustomDateSerializer;
+import com.danit.utils.deserializers.CustomDateDeserializer;
+import com.danit.utils.serializers.CustomDateSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;

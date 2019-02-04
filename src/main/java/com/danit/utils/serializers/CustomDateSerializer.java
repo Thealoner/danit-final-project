@@ -1,4 +1,4 @@
-package com.danit.utils;
+package com.danit.utils.serializers;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;

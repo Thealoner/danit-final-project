@@ -336,7 +336,7 @@ public class UserControllerTest {
 
     Assert.assertTrue(Objects.nonNull(receivedUser.getRoles()));
     Assert.assertEquals(1, receivedUser.getRoles().size());
-    Assert.assertEquals("ADMIN", receivedUser.getRoles().get(0).getRole().name());
+    Assert.assertEquals(new Long(1L), receivedUser.getRoles().get(0).getId());
 
     responseJson = mockMvc.perform(put(url + "/" + savedUserId + "/roles/2").headers(headers))
         .andExpect(status().isOk())
@@ -351,8 +351,8 @@ public class UserControllerTest {
 
     Assert.assertTrue(Objects.nonNull(receivedUser.getRoles()));
     Assert.assertEquals(2, receivedUser.getRoles().size());
-    Assert.assertEquals("ADMIN", receivedUser.getRoles().get(0).getRole().name());
-    Assert.assertEquals("USER", receivedUser.getRoles().get(1).getRole().name());
+    Assert.assertEquals(new Long(1L), receivedUser.getRoles().get(0).getId());
+    Assert.assertEquals(new Long(2L), receivedUser.getRoles().get(1).getId());
 
     mockMvc.perform(delete(url + "/" + savedUserId + "/roles/1").headers(headers))
         .andExpect(status().isOk());

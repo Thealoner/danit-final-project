@@ -7,11 +7,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Tuple;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Path;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.Objects;
 
 import static org.springframework.data.jpa.domain.Specification.where;
@@ -34,7 +29,7 @@ public class ClientListSpecification extends BaseSpecification<Client, ClientLis
               .or(emailContains(request.search, request.equal))
               .or(phoneNumberContains(request.search, request.equal))
               .or(genderContains(request.search, request.equal))
-              .or(birthDateBetween(request.search, request.equal))
+              .or(dateSearch(request.search, "birthDate", request.equal))
               .or(activeContains(request.search, request.equal))
       )
           .and(idContains(request.id, request.equal))
@@ -43,7 +38,7 @@ public class ClientListSpecification extends BaseSpecification<Client, ClientLis
           .and(genderContains(request.gender, request.equal))
           .and(emailContains(request.email, request.equal))
           .and(phoneNumberContains(request.phoneNumber, request.equal))
-          .and(birthDateBetween(request.birthDate, request.equal))
+          .and(dateSearch(request.birthDate, "birthDate", request.equal))
           .and(activeContains(request.active, request.equal))
           .toPredicate(root, query, cb);
     };
@@ -71,31 +66,6 @@ public class ClientListSpecification extends BaseSpecification<Client, ClientLis
 
   private Specification<Client> phoneNumberContains(String phoneNumber, Boolean equals) {
     return equals ? attributeEquals("phoneNumber", phoneNumber) : attributeContains("phoneNumber", phoneNumber);
-  }
-
-  private Specification<Client> birthDateBetween(String birthDate, Boolean equals) {
-    if (Objects.nonNull(birthDate)) {
-      return (root, query, cb) -> {
-        Path<Tuple> tuple = root.<Tuple>get("birthDate");
-        if (tuple.getJavaType().isAssignableFrom(Date.class)) {
-          if (Arrays.asList(environment.getActiveProfiles()).contains("prod")) {
-            Expression<String> dateStringExpr = cb.function("DATE_FORMAT", String.class,
-                root.get("birthDate"), cb.literal("%d-%m-%Y"));
-            return equals ? cb.like(cb.lower(dateStringExpr), birthDate.toLowerCase())
-                : cb.like(cb.lower(dateStringExpr), containsLowerCase(birthDate));
-          } else {
-            Expression<String> dateStringExpr = cb.function("TO_CHAR", String.class,
-                root.get("birthDate"), cb.literal("dd-mm-yyyy"));
-            return equals ? cb.like(cb.lower(dateStringExpr), birthDate.toLowerCase())
-                : cb.like(cb.lower(dateStringExpr), containsLowerCase(birthDate));
-          }
-        } else {
-          return null;
-        }
-      };
-    } else {
-      return null;
-    }
   }
 
   private Specification<Client> activeContains(String active, Boolean equals) {

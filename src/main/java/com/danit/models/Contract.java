@@ -1,8 +1,13 @@
 package com.danit.models;
 
 
+import com.danit.annotations.TargetClass;
 import com.danit.models.auditor.Auditable;
+import com.danit.utils.deserializers.CustomBaseEntityListDeserializer;
+import com.danit.utils.serializers.CustomBaseEntityListSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -35,9 +40,6 @@ import java.util.List;
 @Data
 public class Contract extends Auditable implements BaseEntity {
   @Id
-  //  @SequenceGenerator(name = "contract_sequence",
-  // sequenceName = "contract_sequence", allocationSize = 1, initialValue = 1001)
-  //  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "contract_sequence")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   @EqualsAndHashCode.Include
@@ -65,6 +67,9 @@ public class Contract extends Auditable implements BaseEntity {
   @JoinColumn(name = "package_id")
   private Paket paket;
 
+  @JsonDeserialize(using = CustomBaseEntityListDeserializer.class)
+  @JsonSerialize(using = CustomBaseEntityListSerializer.class)
+  @TargetClass(value = Card.class, name = "cards")
   @OneToMany(mappedBy = "contract", fetch = FetchType.EAGER)
   private List<Card> cards;
 

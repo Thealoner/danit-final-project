@@ -59,7 +59,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
   @Override
   public void configureMessageBroker(MessageBrokerRegistry registry) {
     registry.enableSimpleBroker(webSocketUtils.getPrefix());
-    registry.setApplicationDestinationPrefixes("/app");
+    registry.setApplicationDestinationPrefixes("/api");
   }
 
   @Override
@@ -88,7 +88,6 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
             String user = decodedJwt.getSubject();
             UserDetails userDetails = userDetailsService.loadUserByUsername(user);
             Principal principal = new UsernamePasswordAuthenticationToken(user, null, userDetails.getAuthorities());
-            log.info("successful websocket authorization for principal: " + principal.getName());
             accessor.setUser(principal);
             accessor.setLeaveMutable(true);
           }

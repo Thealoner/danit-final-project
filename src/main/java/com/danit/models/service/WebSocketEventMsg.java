@@ -1,4 +1,4 @@
-package com.danit.models;
+package com.danit.models.service;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

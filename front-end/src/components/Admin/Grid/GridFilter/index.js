@@ -3,7 +3,6 @@ import './index.scss';
 import { getGridData, setFilter } from '../../../../actions/tabActions';
 import { connect } from 'react-redux';
 import Checkbox from './checkbox';
-import { formatDate } from '../../../../helpers/common';
 
 class GridFilter extends Component {
   clearFilter = () => {
@@ -26,7 +25,7 @@ class GridFilter extends Component {
       setFilter({
         ...filter,
         [name]: value,
-        value: formatDate(value),
+        value: value,
         isFiltered: false,
         filterStatus: null
       });
@@ -66,10 +65,10 @@ class GridFilter extends Component {
     let { field, value, isExact, fromDate, toDate, activeFilter } = currentTab.filter;
 
     if (activeFilter === 'Дата Рождения') {
-      value = toDate ? (formatDate(fromDate) + '/' + formatDate(toDate)) : formatDate(fromDate);
+      value = toDate ? (fromDate + '/' + toDate) : fromDate;
 
       if (fromDate === toDate) {
-        value = formatDate(fromDate);
+        value = fromDate;
       }
     }
 
@@ -202,15 +201,4 @@ class GridFilter extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getGridData: (options) => {
-      dispatch(getGridData(options));
-    },
-    setFilter: (filter) => {
-      dispatch(setFilter(filter));
-    }
-  };
-};
-
-export default connect(null, mapDispatchToProps)(GridFilter);
+export default connect(null, { getGridData, setFilter })(GridFilter);

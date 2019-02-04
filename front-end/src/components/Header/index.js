@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import './index.scss';
 import User from './User';
 import logo from './EG-logo.svg';
-import SocketComponent from '../Stomp';
+import SocketComponent from '../SocketComponent';
 
 const Header = ({handleLogout, userName}) =>
   <div className="header">
