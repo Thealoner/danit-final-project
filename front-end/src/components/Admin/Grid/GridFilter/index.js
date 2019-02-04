@@ -162,7 +162,7 @@ class GridFilter extends Component {
       </select>;
     }
 
-    if (filter.activeFilter === 'Mожно купить?') {
+    if (filter.activeFilter === 'Можно купить?') {
       valueField = <select name="value" value={filter.value} onChange={this.handleInputChange}>
         <option value='' defaultValue="selected">Все</option>
         <option value='true'>Да</option>

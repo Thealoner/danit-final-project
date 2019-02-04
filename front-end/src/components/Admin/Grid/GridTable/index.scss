@@ -39,9 +39,25 @@
     align-items: center;
     height: 100%;
 
+
+
     &:not([aria-sort='none']) {
       background-color: #d9d5e4 !important;
     }
+
+    &[aria-sort="asc"]{
+      .tabulator-arrow {
+        border-bottom: 6px solid $rowBorderColor !important;
+      }
+    }
+
+    &[aria-sort="desc"] {
+     .tabulator-arrow {
+       margin-top: 1px;
+       border-top: 6px solid $rowBorderColor !important;
+     }
+   }
+
   }
 
   &-cell {

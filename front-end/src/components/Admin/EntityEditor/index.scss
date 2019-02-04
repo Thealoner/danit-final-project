@@ -251,5 +251,29 @@
     background-color: transparent;
     box-shadow: none;
   }
+  .ui.search>.results>.message.empty .header {
+    height: 25px;
+  }
+  .ui.search>.results {
+    width: 15.2em;
+  }
+  .ui.multiple.dropdown {
+    min-height: 29px;
+    padding: .1em 2.1em .1em .35714286em;
+  }
+  .ui.selection.dropdown {
+    box-sizing: border-box;
+    min-height: 29px;
+    padding: 0 0 0 10px;
+    line-height: 27px;
+  }
+  .ui.selection.dropdown>.dropdown.icon {
+    top: .41em;
+  }
+  .ui.multiple.dropdown>.label {
+    margin-top: .32em;
+    font-size: .8em;
+  }
+
 }
 
