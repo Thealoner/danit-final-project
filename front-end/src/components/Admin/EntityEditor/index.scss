@@ -274,6 +274,52 @@
     margin-top: .32em;
     font-size: .8em;
   }
-
 }
 
+.data {
+  padding: 0 20px 20px 20px;
+ 
+   .data-header{
+     display: flex;
+     color: $victoria;
+     cursor: pointer;
+   }
+ 
+   .arrow {
+     margin-top: 2px;
+     margin-left: 20px;
+     color: $victoria;
+     font-size: 18px;
+   }
+ }
+
+.closedData {
+
+  .arrow {
+    transform: rotateZ(90deg);
+  }
+
+  .data__details {
+    display: none;
+  }
+}
+ 
+.openedData {
+
+  .data__details {
+  display: inline-block ;
+  }
+
+  .arrow {
+    transform: rotateZ(270deg);
+  }
+}
+
+.message {
+  &--alert {
+    margin: 20px 20px 0 20px;
+    padding: 10px 20px;
+    color: black;
+    background-color: #ffd7d7;
+  }
+}
