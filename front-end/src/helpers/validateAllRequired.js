@@ -1,5 +1,8 @@
 import moment from 'moment';
-import { isNumeric } from './common';
+
+const isNumeric = (value) => {
+  return !isNaN(parseFloat(value)) && isFinite(value);
+};
 
 const validateAllRequired = values => {
   let errors = {};
