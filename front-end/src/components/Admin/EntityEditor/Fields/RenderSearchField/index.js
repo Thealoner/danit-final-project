@@ -66,7 +66,10 @@ export default class RenderSearchField extends Component {
     });
 
     ajaxRequest.get('/' + entity + '/?search=' + value).then(searchResults => {
-      if (this.state.value.length < 1) return this.resetComponent();
+      if (this.state.value.length < 1) {
+        return this.resetComponent();
+      }
+      
       const results = searchResults.data.map(result => {
         let title = result.title;
         
