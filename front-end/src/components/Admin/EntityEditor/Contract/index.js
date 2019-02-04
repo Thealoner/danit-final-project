@@ -26,12 +26,12 @@ class Contract extends Component {
         <div className="form-group field field-object">
           <p>{editMode ? 'ID: ' + data.id : ''}</p>
           <Field name="clientId" component={RenderSearchField} type="text" label="Клиент" changeField={this.changeField}
-            entity="clients" entityId={data.clientId} />
+            entity="clients" entityId={data.clientId} className='search'/>
           <Field name="startDate" component={RenderField} type="date" label="Дата начала" />
           <Field name="endDate" component={RenderField} type="date" label="Дата окончания" />
           <Field name="credit" component={RenderField} type="text" label="Кредит" />
           <Field name="packageId" component={RenderSearchField} type="text" label="Пакет" changeField={this.changeField}
-            entity="pakets" entityId={data.packageId} />
+            entity="pakets" entityId={data.packageId} className='search'/>
           <Field name="active" component={RenderCheckbox} type="checkbox" label="Активен" />
 
           <button type="submit" className="record__button" disabled={!currentTab.form.edited || submitting}>Сохранить</button>
@@ -58,7 +58,7 @@ class Contract extends Component {
       });
     }
   }
-};
+}
 
 let reduxFormContract = reduxForm({
   form: 'contract',
