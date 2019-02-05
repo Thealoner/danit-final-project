@@ -12,7 +12,7 @@ class SocketComponent extends Component {
     loaded: false
   }
 
-  client = Stomp.client('ws://localhost:9000/socket');
+  client = null;
   authService = new AuthService();
 
   headers = {
@@ -52,6 +52,26 @@ class SocketComponent extends Component {
     }
   }
 
+  connect = () => {
+    const { userId } = this.props;
+    this.client = Stomp.client('ws://localhost:9000/socket');
+
+    this.client.connect(
+      this.headers,
+      () => {
+        this.client.subscribe('/events/' + userId, (frame) => {
+          this.handleIncomingEvent(frame);
+        }, this.headers);
+      },
+      error => {
+        console.log('===ERROR===', error);
+        setTimeout(
+          () => this.connect(),
+          5000
+        );
+      });
+  }
+
   render () {
     if (this.state.loaded) {
       return <div></div>;
@@ -63,17 +83,11 @@ class SocketComponent extends Component {
   };
 
   componentDidMount () {
-    const { userId } = this.props;
-
     this.setState({
       loaded: true
     });
 
-    this.client.connect(this.headers, (frame) => {
-      this.client.subscribe('/events/' + userId, (frame) => {
-        this.handleIncomingEvent(frame);
-      }, this.headers);
-    });
+    this.connect();
   };
 
   componentDidUpdate (prevProps) {
