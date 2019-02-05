@@ -115,7 +115,7 @@ class EntityEditor extends Component {
 
     return (
       <>
-        {(editCollision && editCollision.collisionStatus) ? <div class="message--alert">{'Пользователь ' + editCollision.tabOwnerName + ' редактирует эту запись.'}</div> : ''}
+        {(editCollision && editCollision.collisionStatus) ? <div className="message--alert">{'Пользователь ' + editCollision.tabOwnerName + ' редактирует эту запись.'}</div> : ''}
         {content}
         {editMode ? <AuditDetails data={currentTab.form.data} /> : ''}
       </>
