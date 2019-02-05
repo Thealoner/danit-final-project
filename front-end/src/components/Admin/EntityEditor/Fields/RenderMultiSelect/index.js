@@ -8,6 +8,7 @@ const RenderMultiSelect = ({
   name,
   options,
   changeField,
+  required,
   meta: { touched, error, warning }
 }) => {
   // debugger;
@@ -15,7 +16,7 @@ const RenderMultiSelect = ({
 
   return (
     <div className="form-group field field-string">
-      <label className="control-label">{label}</label>
+      <label className="control-label">{label} <span className="field_required">{required ? '*' : ''}</span></label>
       <div>
         <Dropdown value={input.value} fluid multiple selection options={options} onChange={changeField} className={error ? 'field_error-input' : null || warning ? 'field_warning-input' : null} />
         {touched &&

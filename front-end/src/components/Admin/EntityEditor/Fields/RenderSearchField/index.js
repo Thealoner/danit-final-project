@@ -134,12 +134,13 @@ export default class RenderSearchField extends Component {
     let {
       input,
       label,
+      required,
       meta: { touched, error, warning }
     } = this.props;
 
     return (
       <div className="form-group field field-string">
-        <label className="control-label">{label}</label>
+        <label className="control-label">{label} <span className="field_required">{required ? '*' : ''}</span></label>
         <Search
           loading={isLoading}
           onResultSelect={this.handleResultSelect}

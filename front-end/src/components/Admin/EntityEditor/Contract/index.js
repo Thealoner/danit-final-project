@@ -8,7 +8,7 @@ import {
 import RenderField from '../Fields/RenderField';
 import RenderSearchField from '../Fields/RenderSearchField';
 import RenderCheckbox from '../Fields/RenderCheckbox';
-import validateAllRequired from '../../../../helpers/validateAllRequired';
+import validate from './validate';
 import warningTest from '../../../../helpers/warningTest';
 
 class Contract extends Component {
@@ -62,7 +62,7 @@ class Contract extends Component {
 
 let reduxFormContract = reduxForm({
   form: 'contract',
-  validate: validateAllRequired,
+  validate: validate,
   warn: warningTest
 })(Contract);
 
