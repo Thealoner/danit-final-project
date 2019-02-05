@@ -1,5 +1,5 @@
 server:
-  port: 9000
+  port: 5000
   #ssl:
   #key-store: classpath:keystore.p12
   #key-store-password: danit123456
@@ -24,7 +24,7 @@ spring:
         starttls.enable: true
 
   profiles:
-    active: dev
+    active: prod
 
 
 #Global Date format
