@@ -5,6 +5,7 @@ import com.danit.models.service.Tab;
 import com.danit.repositories.service.TabRepository;
 import com.danit.services.UserService;
 import com.danit.utils.ServiceUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 public class TabService {
 
@@ -64,7 +66,7 @@ public class TabService {
   }
 
   public void deleteTab(Tab tab) {
-    tabRepository.delete(tabRepository.findByUserIdAndBaseEntityNameAndBaseEntityId(
+    tabRepository.delete(tabRepository.findTopByUserIdAndBaseEntityNameAndBaseEntityId(
         serviceUtils.getUserFromAuthContext().getId(), tab.getBaseEntityName(), tab.getBaseEntityId()));
   }
 
