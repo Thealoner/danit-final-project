@@ -140,14 +140,18 @@ export default class ResetPassword extends Component {
 
   renderSuccessMessage () {
     return (
-      <div className="success">
-        <Glyphicon glyph="ok" />
-        <p>Your password has been reset.</p>
-        <p>
-          <Link to="/login">
-            Click here to login with your new credentials.
-          </Link>
-        </p>
+      <div className="send-email">
+        <div className="send-email__wrapper">
+          <div className="success">
+            <Glyphicon glyph="ok" />
+            <p>Your password has been reset.</p>
+            <p>
+              <Link to="/login">
+                Click here to login with your new credentials.
+              </Link>
+            </p>
+          </div>
+        </div>
       </div>
     );
   }
