@@ -7,7 +7,7 @@ import {
 } from 'redux-form';
 import RenderField from '../Fields/RenderField';
 import RenderCheckbox from '../Fields/RenderCheckbox';
-import validate from './validate';
+import validate from '../../../../helpers/validate';
 
 const numericFields = [
   'credit',
@@ -41,7 +41,7 @@ const requiredFields = [
 class Paket extends Component {
   isRequired = fieldName => {
     return requiredFields.includes(fieldName);
-  }
+  };
   
   render () {
     let { currentTab, handleDelete, handleCancel, handleSubmit, submitting } = this.props;

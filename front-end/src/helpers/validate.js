@@ -1,4 +1,31 @@
-export const isNumeric = (value) => {
+// import moment from 'moment';
+
+const validate = (values, {
+  requiredFields,
+  numericFields
+}) => {
+  let errors = {};
+
+  if (requiredFields) {
+    requiredFields.forEach(field => {
+      if (!values[field]) {
+        errors[field] = 'Обязательное поле';
+      }
+    });
+  }
+
+  if (numericFields) {
+    numericFields.forEach((numericValue) => {
+      if (values[numericValue] && !isNumeric(values[numericValue])) {
+        errors[numericValue] = 'Некорректное значение';
+      }
+    });
+  }
+
+  return errors;
+};
+
+const isNumeric = (value) => {
   return !isNaN(parseFloat(value)) && isFinite(value);
 };
 
@@ -17,3 +44,5 @@ export const isNumeric = (value) => {
 // if (values.code && !/^\d{12}$/.test(values.code)) {
 //   errors.code = 'Некорректный номер карты';
 // }
+
+export default validate;
