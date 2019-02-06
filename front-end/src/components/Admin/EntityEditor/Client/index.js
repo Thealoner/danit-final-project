@@ -21,19 +21,20 @@ const genderOptions = [
   }
 ];
 
-const dateValues = [
-  'birthDate'
-];
-
+const dateFields = ['birthDate'];
+const emailFields = ['email'];
 const requiredFields = [
   'firstName',
   'lastName'
 ];
 
-
 class Client extends Component {
   changeField = (e, data, fieldName) => {
     this.props.change(fieldName, data.value);
+  };
+
+  isRequired = fieldName => {
+    return requiredFields.includes(fieldName);
   };
 
   render () {
@@ -85,7 +86,8 @@ const reduxFormClient = reduxForm({
   form: 'client',
   validate: (fields) => validate(fields, {
     requiredFields,
-    dateValues
+    dateFields,
+    emailFields
   })
 })(Client);
 

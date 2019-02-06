@@ -76,7 +76,7 @@ let reduxFormContract = reduxForm({
   form: 'contract',
   validate: (fields) => validate(fields, {
     requiredFields,
-    dateFields: dateFields
+    dateFields
   })
 })(Contract);
 

@@ -4,7 +4,8 @@ const validate = (values, {
   requiredFields,
   numericFields,
   dateFields,
-  emailFields
+  emailFields,
+  passwordFields
 }) => {
   let errors = {};
 
@@ -25,30 +26,46 @@ const validate = (values, {
   }
 
   if (dateFields) {
-    
+    dateFields.forEach(date => {
+      if (values[date] && !isDate(values[date])) {
+        errors[date] = 'Некорректная дата';
+      }
+    });
+  }
+
+  if (emailFields) {
+    emailFields.forEach(email => {
+      if (values[email] && !isEmail(values[email])) {
+        errors[email] = 'Некорректный email';
+      }
+    });
+  }
+
+  if (passwordFields) {
+    passwordFields.forEach(password => {
+      if (values[password] && !isPassword(values[password])) {
+        errors[password] = 'Пароль должен быть не менее 6 символов';
+      }
+    });
   }
 
   return errors;
 };
 
-const isNumeric = (value) => {
+const isNumeric = value => {
   return !isNaN(parseFloat(value)) && isFinite(value);
 };
 
-// if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-//   errors.email = 'Некорректный email адрес';
-// }
+const isDate = value => {
+  return true;
+};
 
-// if (values.birthDate && (parseInt(moment(values.birthDate).fromNow()) > 110 || isNaN(parseInt(moment(values.birthDate).fromNow())))) {
-//   errors.birthDate = 'Некорректный возраст';
-// }
+const isEmail = value => {
+  return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value);
+};
 
-// if (values.phoneNumber && !/^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?$/.test(values.phoneNumber)) {
-//   errors.phoneNumber = 'Некорректный номер телефона';
-// }
-
-// if (values.code && !/^\d{12}$/.test(values.code)) {
-//   errors.code = 'Некорректный номер карты';
-// }
+const isPassword = value => {
+  return value.length >= 6; 
+}
 
 export default validate;
