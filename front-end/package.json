@@ -43,7 +43,8 @@
     "stomp-client": "^0.9.0",
     "stompjs": "^2.3.3",
     "tabulator-tables": "^4.1.1",
-    "webstomp-client": "^1.2.6"
+    "webstomp-client": "^1.2.6",
+    "moment": "latest"
   },
   "devDependencies": {
     "@types/react": "^16.4.18",

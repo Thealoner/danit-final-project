@@ -84,6 +84,10 @@
     border-color: $warning-border!important;
   }
 
+  .field_required {
+    color: #dd0000;
+  }
+
   .checkbox {
     margin-top: 5px;
     label {

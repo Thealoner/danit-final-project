@@ -8,12 +8,24 @@ import {
 import RenderField from '../Fields/RenderField';
 import RenderSearchField from '../Fields/RenderSearchField';
 import RenderCheckbox from '../Fields/RenderCheckbox';
-import validateAllRequired from '../../../../helpers/validateAllRequired';
-import warningTest from '../../../../helpers/warningTest';
+import validate from '../../../../helpers/validate';
 
+const dateFields = [
+  'startDate',
+  'endDate'
+];
+const requiredFields = [
+  'startDate',
+  'endDate',
+  'credit'
+];
 class Contract extends Component {
   changeField = (fieldName, value) => {
     this.props.change(fieldName, value);
+  };
+
+  isRequired = fieldName => {
+    return requiredFields.includes(fieldName);
   };
 
   render () {
@@ -26,13 +38,13 @@ class Contract extends Component {
         <div className="form-group field field-object">
           <p>{editMode ? 'ID: ' + data.id : ''}</p>
           <Field name="clientId" component={RenderSearchField} type="text" label="Клиент" changeField={this.changeField}
-            entity="clients" entityId={data.clientId} className='search'/>
-          <Field name="startDate" component={RenderField} type="date" label="Дата начала" />
-          <Field name="endDate" component={RenderField} type="date" label="Дата окончания" />
-          <Field name="credit" component={RenderField} type="text" label="Кредит" />
+            entity="clients" entityId={data.clientId} className='search' isRequired={this.isRequired} />
+          <Field name="startDate" component={RenderField} type="date" label="Дата начала" isRequired={this.isRequired} />
+          <Field name="endDate" component={RenderField} type="date" label="Дата окончания" isRequired={this.isRequired} />
+          <Field name="credit" component={RenderField} type="text" label="Кредит" isRequired={this.isRequired} />
           <Field name="packageId" component={RenderSearchField} type="text" label="Пакет" changeField={this.changeField}
-            entity="pakets" entityId={data.packageId} className='search'/>
-          <Field name="active" component={RenderCheckbox} type="checkbox" label="Активен" />
+            entity="pakets" entityId={data.packageId} className='search' isRequired={this.isRequired} />
+          <Field name="active" component={RenderCheckbox} type="checkbox" label="Активен" isRequired={this.isRequired} />
 
           <button type="submit" className="record__button" disabled={!currentTab.form.edited || submitting}>Сохранить</button>
           <button type="button" className="record__button" onClick={handleDelete} disabled={!editMode}>Удалить</button>
@@ -62,8 +74,10 @@ class Contract extends Component {
 
 let reduxFormContract = reduxForm({
   form: 'contract',
-  validate: validateAllRequired,
-  warn: warningTest
+  validate: (fields) => validate(fields, {
+    requiredFields,
+    dateFields
+  })
 })(Contract);
 
 const mapStateToProps = state => ({

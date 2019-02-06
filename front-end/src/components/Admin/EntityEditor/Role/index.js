@@ -6,10 +6,17 @@ import {
   getFormValues
 } from 'redux-form';
 import RenderField from '../Fields/RenderField';
-import validateAllRequired from '../../../../helpers/validateAllRequired';
-import warningTest from '../../../../helpers/warningTest';
+import validate from '../../../../helpers/validate';
+
+const requiredFields = [
+  'role'
+];
 
 class User extends Component {
+  isRequired = fieldName => {
+    return requiredFields.includes(fieldName);
+  };
+
   render () {
     const { currentTab, handleDelete, handleCancel, handleSubmit, submitting } = this.props;
     const { data } = currentTab.form;
@@ -19,7 +26,7 @@ class User extends Component {
       <form onSubmit={handleSubmit} className="record">
         <div className="form-group field field-object">
           <p>{editMode ? 'ID: ' + data.id : ''}</p>
-          <Field name="role" component={RenderField} type="text" label="Роль" />
+          <Field name="role" component={RenderField} type="text" label="Роль" isRequired={this.isRequired} />
 
           <button type="submit" className="record__button" disabled={!currentTab.form.edited || submitting}>Сохранить</button>
           <button type="button" className="record__button" onClick={handleDelete} disabled={!editMode}>Удалить</button>
@@ -50,8 +57,7 @@ class User extends Component {
 
 const reduxFormUser = reduxForm({
   form: 'user',
-  validate: validateAllRequired,
-  warn: warningTest
+  validate
 })(User);
 
 const mapStateToProps = state => ({
