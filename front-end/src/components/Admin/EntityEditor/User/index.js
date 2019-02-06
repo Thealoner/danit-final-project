@@ -69,7 +69,7 @@ class User extends Component {
         <div className="form-group field field-object">
           <p>{editMode ? 'ID: ' + data.id : ''}</p>
           <Field name="username" component={RenderField} type="text" label="Логин" isRequired={this.isRequired} />
-          <Field name="password" component={RenderField} type="text" label="Пароль" isRequired={this.isRequired} />
+          <Field name="password" component={RenderField} type="password" label="Пароль" isRequired={this.isRequired} />
           <Field name="roles" component={RenderMultiSelect} type="text" label="Роль" options={this.state.rolesOptions} changeField={(e, data) => this.changeField(e, data, 'roles')} isRequired={this.isRequired} />
           <Field name="email" component={RenderField} type="text" label="Email" isRequired={this.isRequired} />
 
