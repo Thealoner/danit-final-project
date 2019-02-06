@@ -19,7 +19,7 @@ public class ServiceFacade extends AbstractDtoFacade<ServiceDto, Service, Servic
     this.servicesService = servicesService;
   }
 
-  public Page<ServiceDto> findAllServicesDtoForServiceCategoryId(long id, Pageable pageable) {
+  public Page<ServiceDto> findAllServicesDtoForServiceCategoryId(Long id, Pageable pageable) {
     return convertToDtos(servicesService.findAllServicesForServiceCategoryId(id, pageable));
   }
 }

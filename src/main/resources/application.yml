@@ -24,7 +24,7 @@ spring:
         starttls.enable: true
 
   profiles:
-    active: prod
+    active: dev
 
 
 #Global Date format

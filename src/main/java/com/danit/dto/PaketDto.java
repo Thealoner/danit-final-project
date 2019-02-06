@@ -23,40 +23,40 @@ public class PaketDto extends BaseDto {
   private String title;
 
   @JsonView(Views.Short.class)
-  private int term;
+  private Integer term;
 
   @JsonView(Views.Extended.class)
   private Float price;
 
   @JsonView(Views.Extended.class)
-  private int freezeTimes;
+  private Integer freezeTimes;
 
   @JsonView(Views.Extended.class)
-  private int freezeDays;
+  private Integer freezeDays;
 
   @JsonView(Views.Extended.class)
-  private int freezeMinTerm;
+  private Integer freezeMinTerm;
 
   @JsonView(Views.Extended.class)
-  private int accessWithoutCardTimesLimit;
+  private Integer accessWithoutCardTimesLimit;
 
   @JsonView(Views.Extended.class)
-  private int autoActivateAfterDays;
+  private Integer autoActivateAfterDays;
 
   @JsonView(Views.Extended.class)
-  private int guestVisits;
+  private Integer guestVisits;
 
   @JsonView(Views.Extended.class)
   private Boolean openDateAllowed;
 
   @JsonView(Views.Extended.class)
-  private int usersMin;
+  private Integer usersMin;
 
   @JsonView(Views.Extended.class)
   private Boolean limitVisitTime;
 
   @JsonView(Views.Extended.class)
-  private int visitTime;
+  private Integer visitTime;
 
   @JsonView(Views.Extended.class)
   private Boolean limitAdditionalServices;
