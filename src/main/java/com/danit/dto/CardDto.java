@@ -14,7 +14,7 @@ public class CardDto extends BaseDto {
   private String code;
 
   @JsonView(Views.Short.class)
-  private boolean active;
+  private Boolean active;
 
   @JsonView(Views.Short.class)
   private Long contractId;

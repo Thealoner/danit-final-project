@@ -45,7 +45,7 @@ public class Service extends Auditable implements BaseEntity {
   private String unit;
 
   @Column(name = "units_number")
-  private int unitsNumber;
+  private Integer unitsNumber;
 
   @ManyToMany
   @JsonIgnore

@@ -52,7 +52,7 @@ public class ServicesController {
 
   @JsonView(Views.Extended.class)
   @GetMapping("/{id}")
-  public ResponseEntity<Map<String, Object>> getServiceByIdDto(@PathVariable(name = "id") long id, Principal principal) {
+  public ResponseEntity<Map<String, Object>> getServiceByIdDto(@PathVariable(name = "id") Long id, Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(serviceFacade.getEntityById(id)));
   }
 

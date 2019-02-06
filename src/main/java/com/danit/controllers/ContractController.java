@@ -98,7 +98,7 @@ public class ContractController {
 
   @JsonView(Views.Extended.class)
   @GetMapping("/{id}")
-  ResponseEntity<Map<String, Object>> getContractById(@PathVariable(name = "id") long id, Principal principal) {
+  ResponseEntity<Map<String, Object>> getContractById(@PathVariable(name = "id") Long id, Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(contractFacade.getEntityById(id)));
   }
 
@@ -110,7 +110,7 @@ public class ContractController {
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  void deleteContractById(@PathVariable(name = "id") long id, Principal principal) {
+  void deleteContractById(@PathVariable(name = "id") Long id, Principal principal) {
     contractFacade.deleteEntityById(id);
   }
 
