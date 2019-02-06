@@ -4,11 +4,11 @@ const RenderField = ({
   input,
   label,
   type,
-  required,
+  isRequired,
   meta: { touched, error, warning }
 }) => (
   <div className="form-group field field-string">
-    <label className="control-label">{label} <span className="field_required">{required ? '*' : ''}</span></label>
+    <label className="control-label">{label} <span className="field_required">{isRequired(input.name) ? '*' : ''}</span></label>
     <div>
       <input {...input} type={type} className={(touched && error) ? 'field_error-input' : null || warning ? 'field_warning-input' : null} required />
       { touched &&

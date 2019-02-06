@@ -47,7 +47,7 @@ class SocketComponent extends Component {
           hideEditCollision(collisionRecord);
         }
       } catch (e) {
-        console.log('Error parsing frame.body');
+        console.log('Error parsing frame.body', e, frame.body);
       }
     }
   }

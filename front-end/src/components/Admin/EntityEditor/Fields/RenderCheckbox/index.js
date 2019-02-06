@@ -4,11 +4,11 @@ const RenderCheckbox = ({
   input,
   label,
   type,
-  required,
+  isRequired,
   meta: { touched, error, warning }
 }) => (
   <div className="form-group field field-checkbox">
-    <label className="control-label-ch"><p className='label-text'>{label} <span className="field_required">{required ? '*' : ''}</span></p>
+    <label className="control-label-ch"><p className='label-text'>{label} <span className="field_required">{isRequired(input.name) ? '*' : ''}</span></p>
       <div className="checkbox">
         <input {...input} type={type} />
         {touched &&

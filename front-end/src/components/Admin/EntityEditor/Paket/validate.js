@@ -7,10 +7,7 @@ const validate = (values, {
   requiredFields,
   numericFields
 }) => {
-  debugger;
   let errors = {};
-  
-
   requiredFields.forEach(field => {
     if (!values[field]) {
       errors[field] = 'Обязательное поле';
