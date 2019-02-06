@@ -54,7 +54,7 @@ class SocketComponent extends Component {
 
   connect = () => {
     const { userId } = this.props;
-    this.client = Stomp.client('ws://' + window.location.hostname + ':9000/socket');
+    this.client = Stomp.client('wss://' + window.location.hostname + ':9000/socket');
 
     this.client.connect(
       this.headers,

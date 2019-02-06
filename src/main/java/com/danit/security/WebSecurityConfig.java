@@ -57,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers(webSocketUtils.getStompEndpoint() + "/**").permitAll()
         .antMatchers("/h2-console/**").permitAll()
         .antMatchers("/index.html", "/", "/static/**", "/home",
-            "/favicon.ico","/*.js","/*.js.map", "/*.json", "/*.png").permitAll()
+            "/favicon.ico", "/*.js", "/*.js.map", "/*.json", "/*.png").permitAll()
         .antMatchers("/users/password/update").permitAll()
         .antMatchers("/users/password/reset").permitAll()
         .antMatchers("/users/password/change").authenticated()
