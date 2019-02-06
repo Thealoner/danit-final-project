@@ -28,7 +28,7 @@ class Profile extends Component {
   };
 
   handleChgPwd = () => {
-    if (this.state.newPwd === this.state.repeatPwd) {
+    if (this.state.newPwd !== '' && this.state.newPwd === this.state.repeatPwd) {
       this.auth.requestPasswordChange(this.state.currentPwd, this.state.newPwd)
         .then(() => {
           toastr.success('Пароль успешно изменен!');

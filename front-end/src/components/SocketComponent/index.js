@@ -47,14 +47,14 @@ class SocketComponent extends Component {
           hideEditCollision(collisionRecord);
         }
       } catch (e) {
-        console.log('Error parsing frame.body');
+        console.log('Error parsing frame.body', e, frame.body);
       }
     }
   }
 
   connect = () => {
     const { userId } = this.props;
-    this.client = Stomp.client('ws://localhost:9000/socket');
+    this.client = Stomp.client('ws://' + window.location.hostname + ':9000/socket');
 
     this.client.connect(
       this.headers,

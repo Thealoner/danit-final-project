@@ -7,10 +7,16 @@ import {
 } from 'redux-form';
 import RenderField from '../Fields/RenderField';
 import RenderCheckbox from '../Fields/RenderCheckbox';
-import validateAllRequired from '../../../../helpers/validateAllRequired';
-import warningTest from '../../../../helpers/warningTest';
+import validate from '../../../../helpers/validate';
 
+const requiredFields = [
+  'title'
+];
 class ServiceCategory extends Component {
+  isRequired = fieldName => {
+    return requiredFields.includes(fieldName);
+  };
+
   render () {
     const { currentTab, handleDelete, handleCancel, handleSubmit, submitting } = this.props;
     const { data } = currentTab.form;
@@ -20,8 +26,8 @@ class ServiceCategory extends Component {
       <form onSubmit={handleSubmit} className="record">
         <div className="form-group field field-object">
           <p>{editMode ? 'ID: ' + data.id : ''}</p>
-          <Field name="title" component={RenderField} type="text" label="Название" />
-          <Field name="active" component={RenderCheckbox} type="checkbox" label="Активен" />
+          <Field name="title" component={RenderField} type="text" label="Название" isRequired={this.isRequired} />
+          <Field name="active" component={RenderCheckbox} type="checkbox" label="Активен" isRequired={this.isRequired} />
 
           <button type="submit" className="record__button" disabled={!currentTab.form.edited || submitting}>Сохранить</button>
           <button type="button" className="record__button" onClick={handleDelete} disabled={!editMode}>Удалить</button>
@@ -52,8 +58,9 @@ class ServiceCategory extends Component {
 
 const reduxFormServiceCategory = reduxForm({
   form: 'service_category',
-  validate: validateAllRequired,
-  warn: warningTest
+  validate: (fields) => validate(fields, {
+    requiredFields
+  })
 })(ServiceCategory);
 
 const mapStateToProps = state => ({
