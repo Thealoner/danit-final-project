@@ -20,7 +20,7 @@ const validate = (values, {
   if (numericFields) {
     numericFields.forEach((numericValue) => {
       if (values[numericValue] && !isNumeric(values[numericValue])) {
-        errors[numericValue] = 'Некорректное значение';
+        errors[numericValue] = 'Введите число';
       }
     });
   }

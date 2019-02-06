@@ -372,7 +372,7 @@ const gridEntities = [
   {
     id: 'cards',
     name: 'Карточки',
-    nameForAddBtn: 'роль пользователя',
+    nameForAddBtn: 'карточку',
     apiUrl: '/cards',
     recordType: 'simple',
     columns: [
