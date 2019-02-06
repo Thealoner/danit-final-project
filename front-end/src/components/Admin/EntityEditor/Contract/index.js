@@ -10,13 +10,14 @@ import RenderSearchField from '../Fields/RenderSearchField';
 import RenderCheckbox from '../Fields/RenderCheckbox';
 import validate from '../../../../helpers/validate';
 
-let dateValues = [
+const dateFields = [
   'startDate',
   'endDate'
 ];
 const requiredFields = [
   'startDate',
-  'endDate'
+  'endDate',
+  'credit'
 ];
 class Contract extends Component {
   changeField = (fieldName, value) => {
@@ -75,7 +76,7 @@ let reduxFormContract = reduxForm({
   form: 'contract',
   validate: (fields) => validate(fields, {
     requiredFields,
-    dateValues
+    dateFields: dateFields
   })
 })(Contract);
 

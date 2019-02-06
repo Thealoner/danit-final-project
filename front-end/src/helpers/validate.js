@@ -2,7 +2,9 @@
 
 const validate = (values, {
   requiredFields,
-  numericFields
+  numericFields,
+  dateFields,
+  emailFields
 }) => {
   let errors = {};
 
@@ -20,6 +22,10 @@ const validate = (values, {
         errors[numericValue] = 'Некорректное значение';
       }
     });
+  }
+
+  if (dateFields) {
+    
   }
 
   return errors;

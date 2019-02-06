@@ -8,8 +8,7 @@ import {
 import RenderField from '../Fields/RenderField';
 import RenderSelect from '../Fields/RenderSelect';
 import RenderCheckbox from '../Fields/RenderCheckbox';
-import validateAllRequired from '../../../../helpers/validateAllRequired';
-import warningTest from '../../../../helpers/warningTest';
+import validate from '../../../../helpers/validate';
 
 const genderOptions = [
   {
@@ -21,6 +20,16 @@ const genderOptions = [
     value: 'F'
   }
 ];
+
+const dateValues = [
+  'birthDate'
+];
+
+const requiredFields = [
+  'firstName',
+  'lastName'
+];
+
 
 class Client extends Component {
   changeField = (e, data, fieldName) => {
@@ -36,13 +45,13 @@ class Client extends Component {
       <form onSubmit={handleSubmit} className="record">
         <div className="form-group field field-object">
           <p>{editMode ? 'ID: ' + data.id : ''}</p>
-          <Field name="firstName" component={RenderField} type="text" label="Имя" />
-          <Field name="lastName" component={RenderField} type="text" label="Фамилия" />
-          <Field name="gender" component={RenderSelect} type="text" label="Пол" options={genderOptions} changeField={(e, data) => this.changeField(e, data, 'gender')} />
-          <Field name="birthDate" component={RenderField} type="date" label="Дата рождения" />
-          <Field name="phoneNumber" component={RenderField} type="text" label="Телефон" />
-          <Field name="email" component={RenderField} type="text" label="Email" />
-          <Field name="active" component={RenderCheckbox} type="checkbox" label="Активен" />
+          <Field name="firstName" component={RenderField} type="text" label="Имя" isRequired={this.isRequired} />
+          <Field name="lastName" component={RenderField} type="text" label="Фамилия" isRequired={this.isRequired} />
+          <Field name="gender" component={RenderSelect} type="text" label="Пол" options={genderOptions} changeField={(e, data) => this.changeField(e, data, 'gender')} isRequired={this.isRequired} />
+          <Field name="birthDate" component={RenderField} type="date" label="Дата рождения" isRequired={this.isRequired} />
+          <Field name="phoneNumber" component={RenderField} type="text" label="Телефон" isRequired={this.isRequired} />
+          <Field name="email" component={RenderField} type="text" label="Email" isRequired={this.isRequired} />
+          <Field name="active" component={RenderCheckbox} type="checkbox" label="Активен" isRequired={this.isRequired} />
           {/* TODO: Show list of {contracts}, allow assign and unassign */}
 
           <button type="submit" className="record__button" disabled={!currentTab.form.edited || submitting}>Сохранить</button>
@@ -74,8 +83,10 @@ class Client extends Component {
 
 const reduxFormClient = reduxForm({
   form: 'client',
-  validate: validateAllRequired,
-  warn: warningTest
+  validate: (fields) => validate(fields, {
+    requiredFields,
+    dateValues
+  })
 })(Client);
 
 const mapStateToProps = state => ({
