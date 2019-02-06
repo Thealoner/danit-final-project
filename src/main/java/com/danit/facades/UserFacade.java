@@ -17,7 +17,7 @@ public class UserFacade extends AbstractDtoFacade<UserDto, User, UserListRequest
     this.userService = userService;
   }
 
-  public Page<UserDto> findUsersWithRoleId(long id, Pageable pageable) {
+  public Page<UserDto> findUsersWithRoleId(Long id, Pageable pageable) {
     return convertToDtos(userService.findAllUsersWithRoleId(id, pageable));
   }
 

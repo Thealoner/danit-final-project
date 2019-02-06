@@ -11,9 +11,11 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
+@ActiveProfiles("test")
 @Configuration
 public class TestUtils {
 

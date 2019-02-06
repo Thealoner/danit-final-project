@@ -108,7 +108,7 @@ public class UserController {
 
   @JsonView(Views.Extended.class)
   @GetMapping("/{id}")
-  ResponseEntity<Map<String, Object>> getUserByIdDto(@PathVariable(name = "id") long id, Principal principal) {
+  ResponseEntity<Map<String, Object>> getUserByIdDto(@PathVariable(name = "id") Long id, Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(userFacade.getEntityById(id)));
   }
 
