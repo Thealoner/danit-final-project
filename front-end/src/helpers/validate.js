@@ -1,5 +1,3 @@
-// import moment from 'moment';
-
 const validate = (values, {
   requiredFields,
   numericFields,
@@ -65,7 +63,7 @@ const isEmail = value => {
 };
 
 const isPassword = value => {
-  return value.length >= 6; 
-}
+  return value.length >= 6;
+};
 
 export default validate;
