@@ -343,36 +343,36 @@ const gridEntities = [
     //    }
     // }
   },
-  {
-    id: 'roles',
-    name: 'Роли пользователей',
-    nameForAddBtn: 'роль пользователя',
-    apiUrl: '/roles',
-    recordType: 'simple',
-    columns: [
-      { title: 'ID', field: 'id' },
-      { title: 'Роль', field: 'role' }
-    ],
-    schema: {
-      type: 'object',
-      properties: {
-        role: {
-          title: 'Роль пользователя:',
-          enum: ['ADMIN', 'USER'],
-          enumNames: ['Администратор', 'Пользователь']
-        }
-      }
-    },
-    uiSchema: {
-      role: {
-        'ui:widget': 'radio'
-      }
-    }
-  },
+  // {
+  //   id: 'roles',
+  //   name: 'Роли пользователей',
+  //   nameForAddBtn: 'роль пользователя',
+  //   apiUrl: '/roles',
+  //   recordType: 'simple',
+  //   columns: [
+  //     { title: 'ID', field: 'id' },
+  //     { title: 'Роль', field: 'role' }
+  //   ],
+  //   schema: {
+  //     type: 'object',
+  //     properties: {
+  //       role: {
+  //         title: 'Роль пользователя:',
+  //         enum: ['ADMIN', 'USER'],
+  //         enumNames: ['Администратор', 'Пользователь']
+  //       }
+  //     }
+  //   },
+  //   uiSchema: {
+  //     role: {
+  //       'ui:widget': 'radio'
+  //     }
+  //   }
+  // },
   {
     id: 'cards',
     name: 'Карточки',
-    nameForAddBtn: 'роль пользователя',
+    nameForAddBtn: 'карточку',
     apiUrl: '/cards',
     recordType: 'simple',
     columns: [

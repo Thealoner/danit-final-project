@@ -7,11 +7,20 @@ import {
 } from 'redux-form';
 import RenderField from '../Fields/RenderField';
 import RenderMultiSelect from '../Fields/RenderMultiSelect';
-import validateAllRequired from '../../../../helpers/validateAllRequired';
-import warningTest from '../../../../helpers/warningTest';
+import validate from '../../../../helpers/validate';
 import ajaxRequest from '../../../../helpers/ajaxRequest';
 import { toastr } from 'react-redux-toastr';
 import { Loader } from 'semantic-ui-react';
+
+const requiredFields = [
+  'username',
+  'password',
+  'email'
+];
+
+const passwordFields = [
+  'passwordFields'
+];
 
 class User extends Component {
   state = {
@@ -21,6 +30,10 @@ class User extends Component {
   
   changeField = (e, data, fieldName) => {
     this.props.change(fieldName, data.value);
+  };
+
+  isRequired = fieldName => {
+    return requiredFields.includes(fieldName);
   };
 
   initRoles = () => {
@@ -48,16 +61,17 @@ class User extends Component {
     const editMode = !!data.id;
 
     if (!this.state.rolesLoaded) {
-      return <div className="tabs__loader-wrapper"><Loader active inline='centered' size='big'/></div>;
+      return <div className="tabs__loader-wrapper"><Loader active inline='centered' size='big'isRequired={this.isRequired} /></div>;
     }
 
     return (
       <form onSubmit={handleSubmit} className="record">
         <div className="form-group field field-object">
           <p>{editMode ? 'ID: ' + data.id : ''}</p>
-          <Field name="username" component={RenderField} type="text" label="Логин" />
-          <Field name="roles" component={RenderMultiSelect} type="text" label="Роль" options={this.state.rolesOptions} changeField={(e, data) => this.changeField(e, data, 'roles')} />
-          <Field name="email" component={RenderField} type="text" label="Email" />
+          <Field name="username" component={RenderField} type="text" label="Логин" isRequired={this.isRequired} />
+          <Field name="password" component={RenderField} type="text" label="Пароль" isRequired={this.isRequired} />
+          <Field name="roles" component={RenderMultiSelect} type="text" label="Роль" options={this.state.rolesOptions} changeField={(e, data) => this.changeField(e, data, 'roles')} isRequired={this.isRequired} />
+          <Field name="email" component={RenderField} type="text" label="Email" isRequired={this.isRequired} />
 
           <button type="submit" className="record__button" disabled={!currentTab.form.edited || submitting}>Сохранить</button>
           <button type="button" className="record__button" onClick={handleDelete} disabled={!editMode}>Удалить</button>
@@ -91,8 +105,10 @@ class User extends Component {
 
 const reduxFormUser = reduxForm({
   form: 'user',
-  validate: validateAllRequired,
-  warn: warningTest
+  validate: (fields) => validate(fields, {
+    requiredFields,
+    passwordFields
+  })
 })(User);
 
 const mapStateToProps = state => ({
