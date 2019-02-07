@@ -19,7 +19,7 @@ spring:
   profiles:
     active: test
   datasource:
-    url: jdbc:h2:mem:energymdb
+    url: jdbc:h2:mem:testdb
     driverClassName: org.h2.Driver
     username: sa
     password:
@@ -42,7 +42,7 @@ global:
 
 #Application constants
 application:
-  auth: "/auth"
+  auth: /auth
   authTokenExpTime: 864000000
   authTokenPrefix: "Bearer "
   authHeaderName: Authorization
@@ -50,12 +50,12 @@ application:
 
 #Websocket constants
 websocket:
-  stompEndpoint: "/socket"
-  prefix: "/events/"
-  postEventEndPoint: "/events/post"
-  putEventEndPoint: "/events/put"
-  deleteEventEndPoint: "/events/delete"
-  getEventEndPoint: "/events/get"
+  stompEndpoint: /socket
+  prefix: /events/
+  postEventEndPoint: /events/post
+  putEventEndPoint: /events/put
+  deleteEventEndPoint: /events/delete
+  getEventEndPoint: /events/get
 
 #Avatar image requirements
 avatar-image-properties:
