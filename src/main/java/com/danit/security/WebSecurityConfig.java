@@ -46,6 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .frameOptions().disable()
         .and()
         .authorizeRequests()
+        .antMatchers("/index.html", "/", "/static/**", "/home",
+            "/favicon.ico", "/*.js", "/*.js.map", "/*.json", "/*.png").permitAll()
         .antMatchers(webSocketUtils.getStompEndpoint() + "/**").permitAll()
         .antMatchers("/h2-console/**").permitAll()
         .antMatchers("/users/password/update").permitAll()

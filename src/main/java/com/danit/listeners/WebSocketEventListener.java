@@ -10,6 +10,7 @@ import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 import java.security.Principal;
+import java.util.Objects;
 
 @Slf4j
 @Component
@@ -26,15 +27,20 @@ public class WebSocketEventListener {
 
   @EventListener
   public void handleWebSocketConnectListener(SessionConnectedEvent event) {
-    log.info("Received a new web socket connection for userName=" + event.getUser().getName());
+    if (Objects.nonNull(event.getUser())) {
+      log.info("Received a new web socket connection for userName=" + (event.getUser()).getName());
+    }
   }
 
   @EventListener
   public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
     StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-    String username = ((Principal) headerAccessor.getHeader("simpUser")).getName();
-    log.info("User disconnected userName=" + username);
-    tabService.deleteAllUserTabs(
-        userService.findUserByUsername(username).getId());
+    Object user = headerAccessor.getHeader("simpUser");
+    if (Objects.nonNull(user)) {
+      String username = ((Principal) user).getName();
+      log.info("User disconnected userName=" + username);
+      tabService.deleteAllUserTabs(
+          userService.findUserByUsername(username).getId());
+    }
   }
 }

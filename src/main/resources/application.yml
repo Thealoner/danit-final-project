@@ -1,10 +1,5 @@
 server:
   port: 9000
-  #ssl:
-  #key-store: classpath:keystore.p12
-  #key-store-password: danit123456
-  #keyStoreType: PKCS12
-  #keyAlias: tomcat
 
 spring:
   servlet:
@@ -12,7 +7,6 @@ spring:
       max-file-size: 1024KB
       max-request-size: 1024KB
       enabled: true
-
   mail:
     host: smtp.gmail.com
     port: 587
@@ -22,10 +16,8 @@ spring:
       mail.smtp:
         auth: true
         starttls.enable: true
-
   profiles:
     active: dev
-
 
 #Global Date format
 global:
@@ -36,7 +28,7 @@ global:
 
 #Application constants
 application:
-  auth: "/auth"
+  auth: /auth
   authTokenExpTime: 864000000
   authTokenPrefix: "Bearer "
   authHeaderName: Authorization
@@ -44,12 +36,12 @@ application:
 
 #Websocket constants
 websocket:
-  stompEndpoint: "/socket"
-  prefix: "/events/"
-  postEventEndPoint: "/events/post"
-  putEventEndPoint: "/events/put"
-  deleteEventEndPoint: "/events/delete"
-  getEventEndPoint: "/events/get"
+  stompEndpoint: /socket
+  prefix: /events/
+  postEventEndPoint: /events/post
+  putEventEndPoint: /events/put
+  deleteEventEndPoint: /events/delete
+  getEventEndPoint: /events/get
 
 #Avatar image requirements
 avatar-image-properties:

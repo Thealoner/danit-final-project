@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface TabRepository extends CrudRepository<Tab, Long> {
 
-  Tab findByUserIdAndBaseEntityNameAndBaseEntityId(Long userId, String entityName, Long entityId);
+  Tab findTopByUserIdAndBaseEntityNameAndBaseEntityId(Long userId, String entityName, Long entityId);
 
   void deleteAllByUserId(Long userId);
 
