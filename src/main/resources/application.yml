@@ -3,7 +3,7 @@ server:
     #ssl:
     #key-store: classpath:keystore.p12
     #key-store-password: danit123456
-    #keyStoreType: PKCS12
+  #keyStoreType: PKCS12
   #keyAlias: tomcat
 
 spring:

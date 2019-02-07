@@ -27,7 +27,7 @@ public class WebSocketEventListener {
 
   @EventListener
   public void handleWebSocketConnectListener(SessionConnectedEvent event) {
-    if(Objects.nonNull(event.getUser())) {
+    if (Objects.nonNull(event.getUser())) {
       log.info("Received a new web socket connection for userName=" + (event.getUser()).getName());
     }
   }
@@ -35,9 +35,12 @@ public class WebSocketEventListener {
   @EventListener
   public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
     StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-    String username = ((Principal) Objects.requireNonNull(headerAccessor.getHeader("simpUser"))).getName();
-    log.info("User disconnected userName=" + username);
-    tabService.deleteAllUserTabs(
-        userService.findUserByUsername(username).getId());
+    Object user = headerAccessor.getHeader("simpUser");
+    if (Objects.nonNull(user)) {
+      String username = ((Principal) user).getName();
+      log.info("User disconnected userName=" + username);
+      tabService.deleteAllUserTabs(
+          userService.findUserByUsername(username).getId());
+    }
   }
 }
