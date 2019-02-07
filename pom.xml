@@ -158,7 +158,7 @@
 
 
     <build>
-        <resources>
+        <!--<resources>
             <resource>
                 <directory>${project.sources}</directory>
                 <filtering>true</filtering>
@@ -176,7 +176,7 @@
                     <include>**/*.ttf</include>
                 </includes>
             </resource>
-        </resources>
+        </resources>-->
 
         <plugins>
             <plugin>
