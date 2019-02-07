@@ -1,65 +1,70 @@
 server:
   port: 9000
-    #ssl:
-  #key-store: classpath:keystore.p12
-    #key-store-password: danit123456
-    #keyStoreType: PKCS12
-    #keyAlias: tomcat
-
-## Hibernate Properties
-# Enabling H2 Console
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 1024KB
+      max-request-size: 1024KB
+      enabled: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: energym.mail.test@gmail.com
+    password:
+    properties:
+      mail.smtp:
+        auth: true
+        starttls.enable: true
   profiles:
     active: test
-
   datasource:
-    url: jdbc:h2:mem:testdb
-    #url: jdbc:h2:tcp://localhost/~/energymdb
+    url: jdbc:h2:mem:energymdb
     driverClassName: org.h2.Driver
     username: sa
     password:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
-    #show-sql: true
-    #properties:
-    #format_sql: true
-    #use_sql_comments: true
   data:
     web.pageable.one-indexed-parameters: true
-    #mvc:
-    #locale: ru_RU
-    #locale-resolver: fixed
-
-  #http://localhost:9000/h2-console
   h2:
     console:
-      enabled: true
-
+      enabled: false
   flyway:
     enabled: false
-
 
 #Global Date format
 global:
   date:
-    pattern: dd-MM-yyyy
+    pattern: yyyy-MM-dd
   date-time:
-    pattern: dd-MM-yyyy HH-mm-ss
+    pattern: yyyy-MM-dd HH-mm-ss
 
 #Application constants
 application:
   auth: "/auth"
   authTokenExpTime: 864000000
   authTokenPrefix: "Bearer "
-  authHeaderName: "Authorization"
-  secretKey: "fs4SecretKey"
+  authHeaderName: Authorization
+  secretKey: fs4SecretKey
 
 #Websocket constants
 websocket:
   stompEndpoint: "/socket"
-  prefix: "/events"
+  prefix: "/events/"
   postEventEndPoint: "/events/post"
   putEventEndPoint: "/events/put"
   deleteEventEndPoint: "/events/delete"
   getEventEndPoint: "/events/get"
+
+#Avatar image requirements
+avatar-image-properties:
+  width: 560
+  height: 560
+
+#S3 bucket
+amazon-properties:
+  accessKey:
+  secretKey:
+  bucketName: energym.data.bucket
+
