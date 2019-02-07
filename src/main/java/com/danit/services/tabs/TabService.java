@@ -64,7 +64,7 @@ public class TabService {
   }
 
   public void deleteTab(Tab tab) {
-    tabRepository.delete(tabRepository.findByUserIdAndBaseEntityNameAndBaseEntityId(
+    tabRepository.delete(tabRepository.findTopByUserIdAndBaseEntityNameAndBaseEntityId(
         serviceUtils.getUserFromAuthContext().getId(), tab.getBaseEntityName(), tab.getBaseEntityId()));
   }
 

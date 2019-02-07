@@ -11,22 +11,18 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
-@ActiveProfiles("test")
 @Configuration
 public class TestUtils {
 
   @Autowired
   ObjectMapper objectMapper;
 
-  private String adminAuthJson = "{\"username\": \"Admin\", \"password\": \"1234\"}";
-
-  private String notAdminAuthJson = "{\"username\": \"Sarah\", \"password\": \"1234\"}";
-
   public HttpHeaders getHeader(TestRestTemplate testRestTemplate, UserRolesEnum userRole) {
+    String adminAuthJson = "{\"username\": \"Admin\", \"password\": \"1234\"}";
+    String notAdminAuthJson = "{\"username\": \"Sarah\", \"password\": \"1234\"}";
     String jsonAuth = userRole.name().equals("ADMIN") ? adminAuthJson : notAdminAuthJson;
     return performAuth(testRestTemplate, jsonAuth);
   }
