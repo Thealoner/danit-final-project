@@ -158,9 +158,9 @@
 
 
     <build>
-        <!--<resources>
+        <resources>
             <resource>
-                <directory>${project.sources}</directory>
+                <directory>src/main/resources</directory>
                 <filtering>true</filtering>
                 <excludes>
                     <exclude>**/*.woff</exclude>
@@ -169,14 +169,14 @@
             </resource>
 
             <resource>
-                <directory>${project.sources}</directory>
+                <directory>src/main/resources</directory>
                 <filtering>false</filtering>
                 <includes>
                     <include>**/*.woff</include>
                     <include>**/*.ttf</include>
                 </includes>
             </resource>
-        </resources>-->
+        </resources>
 
         <plugins>
             <plugin>
