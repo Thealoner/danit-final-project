@@ -54,7 +54,7 @@ class SocketComponent extends Component {
 
   connect = () => {
     const { userId } = this.props;
-    this.client = Stomp.client('wss://' + window.location.hostname + ':9000/socket');
+    this.client = Stomp.client('wss://' + window.location.hostname + ':9000/socket'); // use 'wss' protocol on production and 'ws' on dev
 
     this.client.connect(
       this.headers,
@@ -91,10 +91,15 @@ class SocketComponent extends Component {
   };
 
   componentDidUpdate (prevProps) {
-    const { currentTab, userId } = this.props;
+    const { currentTab, userId, tabs } = this.props;
     const prevCurrentTab = prevProps.currentTab;
+    let isPrevTabClosed = false;
     
-    if (currentTab && prevCurrentTab && prevCurrentTab.type !== currentTab.type) {
+    if (prevCurrentTab) {
+      isPrevTabClosed = !tabs.tabsArray.some(t => t.tabKey === prevCurrentTab.tabKey);
+    }
+
+    if (currentTab && prevCurrentTab && prevCurrentTab.tabKey === currentTab.tabKey && prevCurrentTab.type !== currentTab.type) {
       if (currentTab.type === 'form') {
         this.sendMessage('/api/tab/open', {
           userId: userId,
@@ -108,7 +113,7 @@ class SocketComponent extends Component {
           baseEntityId: prevCurrentTab.form.data.id
         });
       }
-    } else if (!currentTab && prevCurrentTab && prevCurrentTab.type === 'form') {
+    } else if (((!currentTab && prevCurrentTab) || isPrevTabClosed) && prevCurrentTab.type === 'form') {
       this.sendMessage('/api/tab/close', {
         userId: userId,
         baseEntityName: prevCurrentTab.tabKey,
