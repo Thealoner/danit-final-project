@@ -1,7 +1,6 @@
 package com.danit.controllers;
 
 
-import com.danit.dto.UserRoleDto;
 import com.danit.dto.Views;
 import com.danit.dto.service.UserRoleListRequestDto;
 import com.danit.facades.UserFacade;
@@ -18,8 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -47,12 +44,12 @@ public class UserRoleController {
     this.userFacade = userFacade;
   }
 
-  @JsonView(Views.Extended.class)
+  /*@JsonView(Views.Extended.class)
   @PostMapping
   ResponseEntity<Map<String, Object>> createUserRoles(@RequestBody List<UserRoleDto> roles,
                                                       Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(userRoleFacade.saveEntities(roles)));
-  }
+  }*/
 
   @JsonView(Views.Ids.class)
   @GetMapping(path = "/ids")
@@ -96,11 +93,11 @@ public class UserRoleController {
     return ResponseEntity.ok(convertDtoToMap(userRoleFacade.getEntityById(id)));
   }
 
-  @JsonView(Views.Extended.class)
+  /*@JsonView(Views.Extended.class)
   @PutMapping
   ResponseEntity<Map<String, Object>> updateUserRolesDto(@RequestBody List<UserRoleDto> roles, Principal principal) {
     return ResponseEntity.ok(convertDtoToMap(userRoleFacade.updateEntities(roles)));
-  }
+  }*/
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)

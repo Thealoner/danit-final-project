@@ -75,7 +75,7 @@ public class UserRoleControllerTest {
     List<UserRole> userRoles = new ArrayList<>();
 
     for (UserRolesEnum role : UserRolesEnum.values()) {
-      if (role.equals(ADMIN) || role.equals(USER) || role.equals(TEST)) {
+      if (role.equals(ADMIN) || role.equals(USER)) {
         continue;
       }
       UserRole userRole = new UserRole();
@@ -90,7 +90,7 @@ public class UserRoleControllerTest {
         .contentType("application/json")
         .content(json))
         .andExpect(status().isOk());
-    Assert.assertEquals(numberOfEntities + UserRolesEnum.values().length - 3, userRoleService.getNumberOfEntities());
+    Assert.assertEquals(2, userRoleService.getNumberOfEntities());
   }
 
   @Test
@@ -98,11 +98,11 @@ public class UserRoleControllerTest {
     long numberOfEntities = userRoleService.getNumberOfEntities();
     this.mockMvc.perform(delete(url).headers(headers)
         .contentType("application/json")
-        .content("[{\"id\": 4}]"))
+        .content("[{\"id\": 3}]"))
         .andExpect(status().isOk());
     Assert.assertEquals(userRoleService.getNumberOfEntities(), numberOfEntities - 1);
 
-    this.mockMvc.perform(delete(url + "/5").headers(headers))
+    this.mockMvc.perform(delete(url + "/4").headers(headers))
         .andExpect(status().isOk());
 
     Assert.assertEquals(userRoleService.getNumberOfEntities(), numberOfEntities - 2);
